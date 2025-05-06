@@ -10,3 +10,6 @@ Individual rules are in [rules](./rules).
 
 A "ruleset" is a directory full of symlinks to rules. Rulesets group logical, well, sets of rules.
 
+## Big Thanks
+
+https://www.adithyan.io/blog/writing-cursor-rules-with-a-cursor-rule
