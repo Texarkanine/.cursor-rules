@@ -3,9 +3,7 @@ description:
 globs: 
 alwaysApply: false
 ---
----
-
-Based on the persistent user query detailed above the `---` separator, a previous attempt likely failed to resolve the issue. **Discard previous assumptions about the root cause.** We must now perform a **systematic re-diagnosis** by following these steps, adhering strictly to your core operating principles ([core.mdc](./core.mdc)):
+Based on the persistent user query detailed below the `---` separator, a previous attempt likely failed to resolve the issue. **Discard previous assumptions about the root cause.** We must now perform a **systematic re-diagnosis** by following these steps, adhering strictly to your core operating principles ([niko-core.mdc](mdc:.cursor/rules/shared/niko-core.mdc)):
 
 1.  **Step Back & Re-Scope:** Forget the specifics of the last failed attempt. Broaden your focus. Identify the *core functionality* or *system component(s)* involved in the user's reported problem (e.g., authentication flow, data processing pipeline, specific UI component interaction, infrastructure resource provisioning).
 2.  **Map the Relevant System Structure:** Use tools (`list_dir`, `file_search`, `codebase_search`, `read_file` on config/entry points) to **map out the high-level structure and key interaction points** of the identified component(s). Understand how data flows, where configurations are loaded, and what dependencies exist (internal and external). Gain a "pyramid view" – see the overall architecture first.
@@ -22,3 +20,5 @@ Based on the persistent user query detailed above the `---` separator, a previou
 9.  **Report Outcome:** Succinctly report the identified root cause, the fix applied, and the results of your comprehensive verification, confirming the issue is resolved.
 
 **Proceed methodically through these diagnostic steps.** Do not jump to proposing a fix until the root cause is confidently identified through investigation.
+
+---
