@@ -38,7 +38,7 @@ alwaysApply: false # Optional: Set to true to always include this rule
 * **`description`**: A concise, semantic description. Start with phrases like "Guidelines for..." or "Instructions on..." This likely helps Cursor automatically select the most relevant rule when multiple match.
 * **`globs`**: File pattern(s) that trigger this rule's automatic activation. Be specific.
     Examples:
-    * `src/components/**/_.tsx,src/components/**/_.jsx,` (React components)
+    * `src/components/**/_.tsx,src/components/**/_.jsx` (React components)
     * `src/server/api/**/_.ts` (Server API routes)
     * `_.json,_.yaml,_.yml` (Configuration files)
     * `src/utils/!(test).ts` (Utility files, excluding tests)
