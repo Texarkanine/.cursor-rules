@@ -3,7 +3,7 @@ description:
 globs: 
 alwaysApply: false
 ---
-Based on the user request detailed above the `---` separator, proceed with the implementation. You MUST rigorously follow your core operating principles ([niko-core.mdc](mdc:.cursor/rules/shared/niko-core.mdc)), paying specific attention to the following for **this particular request**:
+Based on the user request detailed below the `---` separator, proceed with the implementation. You MUST rigorously follow your core operating principles ([niko-core.mdc](mdc:.cursor/rules/shared/niko-core.mdc)), paying specific attention to the following for **this particular request**:
 
 1.  **Deep Analysis & Research:** Fully grasp the user's intent and desired outcome. Accurately locate *all* relevant system components (code, config, infrastructure, documentation) using tools. Thoroughly investigate the existing state, patterns, and context at these locations *before* planning changes.
 2.  **Impact, Dependency & Reuse Assessment:** Proactively analyze dependencies and potential ripple effects across the entire system. Use tools to confirm impacts. Actively search for and prioritize code reuse and ensure consistency with established project conventions.
