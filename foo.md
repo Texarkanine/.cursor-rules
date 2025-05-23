@@ -1,8 +1,3 @@
----
-description: Template for creating a new Cursor rule
-globs: 
-alwaysApply: false
----
 # Creating Effective Cursor Project Rules
 
 This meta-rule provides comprehensive guidance on creating effective Cursor Project Rules. These are `.mdc` files stored in your project's `.cursor/rules` directory that help the AI understand your specific codebase, conventions, and preferences. Following these guidelines will help you create rules that are easily understood by both humans and the AI, leading to more consistent and helpful AI interactions.
@@ -38,7 +33,7 @@ alwaysApply: false # Optional: Set to true to always include this rule
 * **`description`**: A concise, semantic description. Start with phrases like "Guidelines for..." or "Instructions on..." This likely helps Cursor automatically select the most relevant rule when multiple match.
 * **`globs`**: File pattern(s) that trigger this rule's automatic activation. Be specific.
     Examples:
-    * `src/components/**/_.tsx,src/components/**/_.jsx,` (React components)
+    * `src/components/**/_.tsx,src/components/**/_.jsx` (React components)
     * `src/server/api/**/_.ts` (Server API routes)
     * `_.json,_.yaml,_.yml` (Configuration files)
     * `src/utils/!(test).ts` (Utility files, excluding tests)

@@ -8,8 +8,8 @@ The custom mode should have basically all tools and options enabled, so that it 
 
 Use the regular "Niko" mode for planning and development. If it gets stuck, switch to "Niko Refresh" and ask it to reconsider. Then switch back to "Niko" for follow-ups.
 
-You *can* directly reference the refresh mode in a prompt, e.g. 
+You *can* directly reference the Request or Refresh prompts as rules in a prompt, e.g. 
 
-    Please follow the instructions in @niko-refresh.mdc to troubleshoot the issue.
+> Please follow the instructions in `@niko-refresh.mdc` to troubleshoot the issue.
 
 but it's probably easiser to put it in a mode.
