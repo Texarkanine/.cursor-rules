@@ -1,6 +1,6 @@
 ---
-description: 
-globs: **/*.sh,**/*.bash
+description: Required style guidelines for writing shell scripts where POSIX-compliance is not an explicit requirement
+globs: 
 alwaysApply: false
 ---
 # Bash Script Style Guide

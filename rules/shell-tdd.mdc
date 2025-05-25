@@ -1,6 +1,6 @@
 ---
-description: 
-globs: *.sh,*.bash
+description: Required test-driven development practice for writing shell scripts (any file that starts with a shebang)
+globs: 
 alwaysApply: false
 ---
 # AI-Based Test-Driven Development for Shell Scripts
