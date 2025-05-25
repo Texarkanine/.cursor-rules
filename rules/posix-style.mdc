@@ -1,0 +1,938 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# POSIX Shell Script Style Guide
+
+## IMPORTANT: POSIX Compliance Requirement
+
+**This rule applies when POSIX-compatibility IS a requirement.** These guidelines are specifically for shell scripts that must work across different UNIX-like systems using only POSIX-compliant features. This ensures maximum portability and compatibility across different shells and operating systems.
+
+## Introduction
+
+This rule enforces POSIX shell scripting standards for maximum portability and compatibility. It ensures scripts work reliably across different UNIX-like systems, shells, and environments by adhering to the POSIX standard. These guidelines prioritize portability and reliability over advanced features.
+
+## When to Use POSIX Shell
+
+POSIX shell should be used when portability across different systems is critical:
+
+- **Use POSIX shell when**: You need scripts to work on various UNIX-like systems, embedded environments, or when bash availability is uncertain
+- **Don't use POSIX shell when**: You can guarantee bash availability and need advanced features like arrays or associative arrays
+- **Consider alternatives**: For complex scripts (>100 lines), consider using a more structured language like Python or Go
+
+The complexity threshold remains about maintainability, but POSIX shell has additional constraints that may push this threshold lower.
+
+## Core Requirements
+
+### 1. Shebang and Shell Selection
+
+**Always use POSIX sh for executable scripts:**
+
+```sh
+#!/bin/sh
+# Use only POSIX-compliant features
+```
+
+**Use 'set' for POSIX shell options:**
+
+```sh
+#!/bin/sh
+set -eu  # Exit on error, undefined variables (pipefail not available in POSIX)
+```
+
+### 2. File Extensions
+
+- **Executables**: Use `.sh` extension OR no extension
+  - Use `.sh` if build rules will rename the file
+  - Use no extension if script goes directly into user's PATH
+- **Libraries**: Must have `.sh` extension and should NOT be executable
+
+### 3. File Header Comments
+
+Every file must start with a description:
+
+```sh
+#!/bin/sh
+#
+# Backup utility for PostgreSQL databases
+# Performs incremental backups and uploads to S3
+#
+# Usage: backup_postgres.sh [database_name]
+# 
+# Copyright 2024 Company Name
+# Author: developer@company.com
+```
+
+## Formatting Standards
+
+### 1. Indentation
+
+**Use tabs for initial indentation:**
+
+```sh
+if [ "${1}" = "start" ]; then
+	echo "Starting service..."
+	if systemctl start myservice; then
+		echo "Service started successfully"
+	else
+		echo "Failed to start service" >&2
+		return 1
+	fi
+fi
+```
+
+**Use spaces for subsequent indentation:**
+
+```sh
+if [ "${1}" = "start" ]; then
+	echo "Starting service..."
+	if systemctl start myservice; then       # Ideal case
+		echo "Service started successfully"
+	else                                     # We'll make do I guess
+		echo "Failed to start service" >&2
+		return 1
+	fi
+fi
+```
+
+**ALWAYS use spaces for indentation within multi-line commands:**
+
+```sh
+# Function with proper documentation and structure
+# Processes a log file and extracts error messages
+# 
+# Arguments:
+#   $1 - Path to log file (required)
+#   $2 - Output format: 'json' or 'text' (optional, defaults to 'text')
+# 
+# Returns:
+#   0 on success
+#   1 on file not found
+#   2 on invalid format
+process_log_file() {
+	...
+}
+```
+
+### 2. Line Length
+
+- Keep lines under 80 characters when possible
+- For long strings, use here documents or line continuation:
+
+```sh
+# Long command with line continuation
+command \
+	--option1 value1 \
+	--option2 value2 \
+	--option3 value3
+
+# Long string with here document
+cat <<EOF
+This is a long message that would exceed
+the 80 character limit if written on one line.
+EOF
+```
+
+### 3. Pipelines
+
+Put pipelines on separate lines when they become long:
+
+```sh
+# Short pipeline - single line is fine
+ps aux | grep nginx
+
+# Long pipeline - break it up
+command1 \
+	| command2 \
+	| command3 \
+	| command4
+```
+
+### 4. Control Flow
+
+**Use proper spacing and alignment:**
+
+```sh
+# if statements
+if [ "${condition}" ]; then
+	# code
+elif [ "${other_condition}" ]; then
+	# code
+else
+	# code
+fi
+
+# for loops
+for file in "${@}"; do
+	process_file "${file}"
+done
+
+# while loops  
+while read -r line; do
+	echo "Processing: ${line}"
+done < "${input_file}"
+```
+
+### 5. Case Statements
+
+**Align and indent consistently:**
+
+```sh
+case "${1}" in
+	start)
+		start_service
+		;;
+	stop)
+		stop_service
+		;;
+	restart)
+		stop_service
+		start_service
+		;;
+	*)
+		echo "Usage: ${0} {start|stop|restart}" >&2
+		exit 1
+		;;
+esac
+```
+
+## Variable and Quoting Rules
+
+### 1. Variable Expansion
+
+**Always use braces for variable expansion:**
+
+```sh
+# Good
+echo "Hello ${name}!"
+echo "File: ${file}.backup"
+
+# Avoid
+echo "Hello $name!"
+echo "File: $file.backup"
+```
+
+### 2. Quoting
+
+**Quote variables to prevent word splitting:**
+
+```sh
+# Good
+if [ -f "${config_file}" ]; then
+	cp "${config_file}" "${backup_dir}/"
+fi
+
+# Bad - can break with spaces in filenames
+if [ -f $config_file ]; then
+	cp $config_file $backup_dir/
+fi
+```
+
+**Quote all strings except in specific contexts:**
+
+```sh
+# Good
+echo "Starting process: ${process_name}"
+grep "pattern" "${file}"
+
+# Arithmetic context using expr
+count=$(expr ${count} + 1)
+if [ "${count}" -gt 10 ]; then
+	echo "Count exceeded limit"
+fi
+```
+
+## Function Standards
+
+### 1. Function Names
+
+**Use lowercase with underscores:**
+
+```sh
+# Single function
+process_file() {
+	file="${1}"
+	# implementation
+}
+
+# Package/library functions (use colon separator)
+mypackage_parse_config() {
+	config_file="${1}"
+	# implementation
+}
+```
+
+### 2. Function Structure and Documentation
+
+**Use consistent formatting with comprehensive documentation:**
+
+```sh
+# Function with proper documentation and structure
+# Processes a log file and extracts error messages
+# 
+# Arguments:
+#   $1 - Path to log file (required)
+#   $2 - Output format: 'json' or 'text' (optional, defaults to 'text')
+# 
+# Returns:
+#   0 on success
+#   1 on file not found
+#   2 on invalid format
+# 
+# Outputs:
+#   Error messages to stdout
+#   Error details to stderr
+# 
+# Examples:
+#   process_log_file "/var/log/app.log"
+#   process_log_file "/var/log/app.log" "json"
+process_log_file() {
+	log_file="${1}"
+	format="${2:-text}"
+	
+	# Validate input
+	if [ ! -f "${log_file}" ]; then
+		echo "Error: Log file '${log_file}' not found" >&2
+		return 1
+	fi
+	
+	if [ "${format}" != "text" ] && [ "${format}" != "json" ]; then
+		echo "Error: Invalid format '${format}'. Use 'text' or 'json'" >&2
+		return 2
+	fi
+	
+	# Process the file
+	case "${format}" in
+		json)
+			grep "ERROR" "${log_file}" \
+				| sed 's/^.*ERROR: //' \
+				| sort -u \
+				| awk '{print "{\"error\": \"" $0 "\"}"}'
+			;;
+		text)
+			grep "ERROR" "${log_file}" \
+				| sed 's/^.*ERROR: //' \
+				| sort -u
+			;;
+	esac
+	
+	return 0
+}
+```
+
+### 3. Variable Scope
+
+**Use function-specific variable prefixes (no `local` in POSIX):**
+
+Since POSIX shell doesn't have `local`, all function variables are global. Use consistent prefixes to avoid conflicts.
+
+```sh
+process_data() {
+	# Use function name prefix to avoid conflicts (pd_ = process_data)
+	pd_input_file="${1}"
+	pd_output_file="${2}"
+	pd_temp_file
+	pd_status
+	
+	# Separate declaration and assignment for command substitution
+	pd_temp_file=$(mktemp)
+	
+	# Process data
+	sort "${pd_input_file}" > "${pd_temp_file}"
+	pd_status=$?
+	
+	if [ ${pd_status} -eq 0 ]; then
+		mv "${pd_temp_file}" "${pd_output_file}"
+	else
+		rm -f "${pd_temp_file}"
+		return 1
+	fi
+}
+
+# Alternative naming schemes:
+validate_input() {
+	vi_input="${1}"          # vi_ = validate_input
+	vi_format="${2:-text}"
+	# ... function logic
+}
+
+my_package_parse_config() {
+	mppc_config_file="${1}"  # mppc_ = my_package_parse_config  
+	mppc_section="${2}"
+	# ... function logic
+}
+```
+
+## Naming Conventions
+
+### 1. Variables
+
+**Use lowercase with underscores:**
+
+```sh
+user_name="john_doe"
+config_file="/etc/myapp/config.conf"
+temp_directory="/tmp/myapp_$$"
+```
+
+### 2. Constants and Environment Variables
+
+**Use uppercase with underscores:**
+
+```sh
+readonly CONFIG_DIR="/etc/myapp"
+readonly MAX_RETRIES=3
+export LOG_LEVEL="INFO"
+```
+
+### 3. Loop Variables
+
+**Name descriptively:**
+
+```sh
+# Using positional parameters as array substitute
+set -- zone1 zone2 zone3
+for zone in "$@"; do
+	deploy_to_zone "${zone}"
+done
+
+# Traditional approach
+for user_id in user1 user2 user3; do
+	process_user "${user_id}"
+done
+```
+
+## Error Handling and Return Values
+
+### 1. Check Return Values
+
+**Always check command return values:**
+
+```sh
+# Using if statement
+if ! mv "${source_file}" "${dest_dir}/"; then
+	echo "Error: Unable to move ${source_file} to ${dest_dir}" >&2
+	exit 1
+fi
+
+# Using $? variable
+cp "${file}" "${backup_location}"
+if [ $? -ne 0 ]; then
+	echo "Error: Failed to backup ${file}" >&2
+	exit 1
+fi
+```
+
+### 2. Pipeline Error Handling
+
+**Use intermediate variables/files for reliable pipelines when needed:**
+
+The verbose approach should only be used when pipeline reliability is critical. For simple cases, normal pipes are acceptable.
+
+**Use variables for safe content (no special shell characters):**
+
+```sh
+# Safe content: numbers, simple text, known formats
+file_list=$(find "${dir}" -name "*.txt")
+if [ $? -ne 0 ]; then
+	echo "Error: find command failed" >&2
+	exit 1
+fi
+
+echo "${file_list}" | while read -r file; do
+	process_file "${file}"
+done
+```
+
+**Use temporary files for unsafe content (quotes, backticks, dollar signs, etc):**
+
+```sh
+# Unsafe content: user input, arbitrary text, complex data
+temp_file=$(mktemp)
+if grep "complex pattern with $variables" "${input_file}" > "${temp_file}"; then
+	# Process the temp file
+	while read -r line; do
+		echo "Found: ${line}"
+	done < "${temp_file}"
+	rm -f "${temp_file}"
+else
+	echo "Error: grep command failed" >&2
+	rm -f "${temp_file}"
+	exit 1
+fi
+```
+
+**Simple pipelines can remain simple when reliability isn't critical:**
+
+```sh
+# Simple case - let it fail if it fails
+ps aux | grep nginx | awk '{print $2}'
+
+# Only add complexity when you need the reliability
+find /var/log -name "*.log" | head -10
+```
+
+### 3. Error Reporting
+
+**Send errors to STDERR with timestamps:**
+
+```sh
+# Error reporting function
+err() {
+	echo "[$(date '+%Y-%m-%dT%H:%M:%S%z')]: $*" >&2
+}
+
+# Usage
+if ! create_backup "${database}"; then
+	err "Failed to create backup for database: ${database}"
+	exit 1
+fi
+```
+
+## Feature Usage Guidelines
+
+### 1. Command Substitution
+
+**Use $(...) instead of backticks:**
+
+```sh
+# Good
+current_date=$(date '+%Y-%m-%d')
+file_count=$(find "${dir}" -type f | wc -l)
+
+# Avoid
+current_date=`date '+%Y-%m-%d'`
+file_count=`find "${dir}" -type f | wc -l`
+```
+
+### 2. Test Constructs
+
+**Use [ ] or test for POSIX compatibility:**
+
+```sh
+# Use [ ] for POSIX compatibility
+if [ "${file}" != "${file%.txt}" ]; then
+	echo "Text file detected"
+fi
+
+if [ -n "${variable}" ] && [ "${variable}" != "default" ]; then
+	process_variable "${variable}"
+fi
+
+# String testing examples
+if [ -z "${string}" ]; then          # Empty string
+	echo "String is empty"
+fi
+
+if [ "${string1}" = "${string2}" ]; then  # String equality (use = not ==)
+	echo "Strings are equal"
+fi
+
+# File testing
+if [ -f "${file}" ]; then            # File exists and is regular file
+	echo "File exists"
+fi
+
+if [ -d "${directory}" ]; then       # Directory exists
+	echo "Directory exists"
+fi
+```
+
+### 3. Arithmetic
+
+**Use `expr` for calculations and `test` for comparisons:**
+
+**Calculations with `expr` (POSIX-compliant):**
+
+```sh
+# Basic arithmetic with expr
+total=$(expr ${count} \* ${price})    # Note: asterisk must be escaped
+i=$(expr ${i} + 1)
+difference=$(expr ${end} - ${start})
+remainder=$(expr ${number} % 10)
+
+# Complex expressions require escaped parentheses
+result=$(expr \( ${a} + ${b} \) \* ${c})
+
+# String operations with expr
+length=$(expr length "${string}")
+substring=$(expr substr "${string}" 2 3)  # from position 2, length 3
+```
+
+**Comparisons with `test` (using `[`):**
+
+```sh
+# Numeric comparisons
+if [ "${count}" -gt "${threshold}" ]; then     # greater than
+	echo "Threshold exceeded"
+fi
+
+if [ "${result}" -eq 0 ]; then               # equal
+	echo "Success"
+elif [ "${result}" -lt 0 ]; then             # less than
+	echo "Negative result"
+else
+	echo "Positive result"
+fi
+
+# Available comparison operators:
+# -eq (equal), -ne (not equal)
+# -gt (greater than), -ge (greater than or equal) 
+# -lt (less than), -le (less than or equal)
+```
+
+**Alternative: `$(())` arithmetic expansion (widely supported but not strictly POSIX):**
+
+```sh
+# More readable but not strictly POSIX
+total=$((count * price))        # No escaping needed
+i=$((i + 1))
+result=$(((a + b) * c))
+
+# Variables don't need $ inside
+count=5
+next=$((count + 1))
+
+# Note: This works on most modern systems but may fail on minimal/embedded shells
+```
+
+### 4. Lists and Collections
+
+**Avoid arrays entirely - use alternative approaches:**
+
+POSIX shell has no arrays. Use these alternatives sparingly and only when necessary.
+
+**Positional parameters (limited use):**
+
+```sh
+# Store list in positional parameters (overwrites script arguments!)
+save_original_args="$*"  # Save original arguments if needed
+set -- "/path/one" "/path/two" "/path/three"
+
+# Iterate over the list
+for file in "$@"; do
+	echo "Processing: ${file}"
+done
+
+# Get count
+echo "Total files: $#"
+
+# Access specific items (limited)
+first_file="$1"
+shift  # Remove first item, $@ now has remaining items
+
+# Restore original arguments if needed
+set -- ${save_original_args}
+```
+
+**Space-separated strings (when safe):**
+
+```sh
+# Only use when you're certain values contain no spaces/special chars
+file_list="file1.txt file2.txt file3.txt"
+
+for file in ${file_list}; do  # Note: no quotes - intentional word splitting
+	echo "Processing: ${file}"
+done
+```
+
+**Newline-separated processing:**
+
+```sh
+# Process items one by one from command output
+find /path -name "*.txt" | while read -r file; do
+	echo "Processing: ${file}"
+done
+
+# Or with here document
+{
+	echo "item1"
+	echo "item2" 
+	echo "item3"
+} | while read -r item; do
+	echo "Processing: ${item}"
+done
+```
+
+## Main Function Pattern
+
+**Use main function for scripts with multiple functions:**
+
+```sh
+#!/bin/sh
+
+# Function definitions
+setup_environment() {
+	# Setup code
+}
+
+process_arguments() {
+	# Argument processing
+}
+
+cleanup() {
+	# Cleanup code
+}
+
+# Main function
+main() {
+	setup_environment
+	process_arguments "$@"
+
+	# Main script logic here
+
+	cleanup
+}
+
+# Only run main if script is executed directly
+# Note: BASH_SOURCE is not available in POSIX shell
+case "$0" in
+	*/*) main "$@" ;;  # Script called with path
+	*)   main "$@" ;;  # Script called directly
+esac
+```
+
+## Security Considerations
+
+### 1. Avoid SUID/SGID
+
+**Never use SUID/SGID on shell scripts:**
+
+```sh
+# Use sudo for elevated access instead
+if ! sudo systemctl restart nginx; then
+	echo "Error: Failed to restart nginx" >&2
+	exit 1
+fi
+```
+
+### 2. Validate Inputs
+
+**Always validate and sanitize inputs:**
+
+```sh
+validate_input() {
+	input="${1}"
+
+	# Check if input is provided
+	if [ -z "${input}" ]; then
+		echo "Error: Input required" >&2
+		return 1
+	fi
+
+	# Validate format using case statement (POSIX-compliant pattern)
+	case "${input}" in
+		*[!a-zA-Z0-9_]*)
+			echo "Error: Invalid input format" >&2
+			return 1
+			;;
+	esac
+
+	return 0
+}
+```
+
+## Built-in Preferences
+
+**Prefer POSIX built-ins over external commands:**
+
+```sh
+# Good - using POSIX parameter expansion
+string_length=${#variable}
+# Note: POSIX has limited parameter expansion compared to bash
+
+# Use external commands when necessary
+result=$(expr "${x}" + "${y}")
+
+# Use case for pattern matching instead of regex
+case "${string}" in
+	*pattern*)
+		echo "Pattern found"
+		;;
+esac
+```
+
+## Advanced Features
+
+### 1. Wildcard Expansion
+
+**Be careful with filename expansion:**
+
+```sh
+# Good - explicit globbing with safeguards
+for file in /path/to/files/*.txt; do
+	[ -f "${file}" ] || continue  # Skip if no matches
+	process_file "${file}"
+done
+
+# Good - disable globbing when not needed
+set -f  # Disable globbing
+echo "This * will not expand"
+set +f  # Re-enable globbing
+```
+
+### 2. Working with Lists
+
+**Avoid list-like operations when possible:**
+
+```sh
+# Process items directly from command output (preferred)
+process_files() {
+	find "${1}" -name "*.txt" | while read -r file; do
+		echo "Processing: ${file}"
+		# Note: variables set in while loops persist within the loop
+		# but may not persist outside due to subshell behavior
+	done
+}
+
+# If you must store multiple items, use functions for each operation
+process_predefined_items() {
+	ppi_counter=0  # Function prefix: ppi_ = process_predefined_items
+	
+	# Process each item individually  
+	process_item "item1"
+	ppi_counter=$(expr ${ppi_counter} + 1)
+	
+	process_item "item2" 
+	ppi_counter=$(expr ${ppi_counter} + 1)
+	
+	process_item "item3"
+	ppi_counter=$(expr ${ppi_counter} + 1)
+	
+	echo "Processed ${ppi_counter} items"
+}
+```
+
+### 3. Here Documents
+
+**Use here documents for multi-line strings:**
+
+```sh
+# Here document
+cat <<EOF
+This is a multi-line
+string that can contain
+variable substitutions: ${variable}
+EOF
+
+# Here document with no substitution
+cat <<'EOF'
+This text is literal:
+${variable} will not be expanded
+EOF
+```
+
+## Common Pitfalls to Avoid
+
+1. **Don't use bash-specific features** - Stick to POSIX
+2. **Avoid complex parameter expansion** - Use external tools when needed
+3. **Don't ignore return values** - Always check command success
+4. **Avoid complex pipelines** - Use intermediate files/variables
+5. **Don't use arrays** - Use positional parameters or space-separated lists
+
+```sh
+# Bad: bash-specific array
+files=( file1.txt file2.txt file3.txt )
+
+# Good: POSIX-compatible list
+set -- file1.txt file2.txt file3.txt
+for file in "$@"; do
+	[ -f "${file}" ] || continue  # Skip if no matches
+	process_file "${file}"
+done
+```
+
+## Real-World Examples
+
+Look at these examples in the codebase for reference:
+* @deployment/scripts/posix-backup.sh - Example of POSIX error handling
+* @tools/posix-build.sh - Example of main function pattern
+* @scripts/posix-utils.sh - Example of reusable function library
+
+## Testing and Validation
+
+**Write testable POSIX shell scripts:**
+
+```sh
+#!/bin/sh
+# calculator.sh - Example of testable POSIX shell script
+
+add() {
+	expr $1 + $2
+}
+
+subtract() {
+	expr $1 - $2
+}
+
+main() {
+	case "${1}" in
+		add) add "${2}" "${3}" ;;
+		sub) subtract "${2}" "${3}" ;;
+		*)   echo "Usage: ${0} {add|sub} num1 num2" >&2; exit 1 ;;
+	esac
+}
+
+# Only run main if executed directly
+case "$0" in
+	*/calculator.sh|calculator.sh) main "$@" ;;
+esac
+```
+
+**Test with different shells:**
+
+```sh
+# Test with dash (POSIX-compliant)
+dash myscript.sh
+
+# Test with various POSIX shells
+sh myscript.sh
+ksh myscript.sh
+```
+
+## ShellCheck Integration
+
+**Use ShellCheck with POSIX checking:**
+
+```sh
+# Check for POSIX compliance
+shellcheck --shell=sh myscript.sh
+
+# Common POSIX-related ShellCheck fixes:
+# SC2039: In POSIX sh, 'local' is undefined
+# SC2039: In POSIX sh, arrays are undefined
+# SC2039: In POSIX sh, [[ ]] is undefined
+```
+
+**Common POSIX compliance fixes:**
+
+```sh
+# SC2039: Use of 'local'
+# POSIX alternative: use function-specific variable naming
+my_func() {
+	# Instead of: local my_var="value"
+	mf_my_var="value"  # Use function prefix
+}
+
+# SC2039: Use of arrays
+# POSIX alternative: use positional parameters
+# Instead of: arr=( one two three )
+set -- one two three
+```
+
+## Enforcement Tools
+
+- **ShellCheck**: Mandatory static analysis with `--shell=sh` flag
+- **Manual Review**: Code review should verify POSIX compliance
+- **CI Integration**: Integrate POSIX checking into CI pipeline
+- **Cross-shell Testing**: Test with dash, ash, and other POSIX shells
+
+## Summary
+
+These guidelines prioritize portability and standards compliance over convenience features. POSIX shell scripts are more verbose than bash but work reliably across different systems. When in doubt, choose the more portable approach and test with multiple shells. Remember that POSIX shell should be kept even simpler than bash - if your script becomes complex, consider rewriting it in a more structured language like Python or Go.
+
+The key trade-offs in POSIX compliance are:
+- **Lost**: Advanced features like arrays, regex matching, pipefail
+- **Gained**: Universal compatibility, faster execution on some systems, standards compliance
+- **Maintained**: Core shell scripting capabilities, function organization, error handling patterns
