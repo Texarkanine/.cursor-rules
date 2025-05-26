@@ -3,12 +3,6 @@ description: Guidelines for creating detailed conversation transcripts between h
 globs: 
 alwaysApply: false
 ---
----
-description: Guidelines for creating detailed conversation transcripts between humans and AI assistants, preserving full context and tool call outputs for future reference
-globs: *transcript.md,*conversation.md
-alwaysApply: false
----
-
 # Conversation Transcript Creation
 
 This rule defines how to create comprehensive conversation transcripts that capture not just the dialogue, but also the full context of tool usage, decision-making processes, and implementation details.
