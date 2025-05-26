@@ -102,8 +102,8 @@ fi
 
 - Keep lines under 80 characters when possible
 	- DO NOT compromise readability or maintainability just to stay under 80, especially where subshells come into play
-    - PREFER to break sentences at sentence ends or logical subjects, rather than just at 80 characters
-    - PREFER to let a line go a little bit above 80 rather than having a stupid-short 2nd line
+	- PREFER to break sentences at sentence ends or logical subjects, rather than just at 80 characters
+	- PREFER to let a line go a little bit above 80 rather than having a stupid-short 2nd line
 
 **Break lines logically, not arbitrarily at 80 characters:**
 
