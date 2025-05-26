@@ -1,0 +1,328 @@
+---
+description: Guidelines for creating detailed conversation transcripts between humans and AI assistants, preserving full context and tool call outputs for future reference
+globs: 
+alwaysApply: false
+---
+---
+description: Guidelines for creating detailed conversation transcripts between humans and AI assistants, preserving full context and tool call outputs for future reference
+globs: *transcript.md,*conversation.md
+alwaysApply: false
+---
+
+# Conversation Transcript Creation
+
+This rule defines how to create comprehensive conversation transcripts that capture not just the dialogue, but also the full context of tool usage, decision-making processes, and implementation details.
+
+## Pattern Description
+
+### File Naming Convention
+
+Use descriptive names that indicate both the project and the nature of the conversation:
+- `[project-name]-transcript.md`
+- `[feature-name]-conversation.md` 
+- `[task-name]-development-log.md`
+
+### Document Structure
+
+```markdown
+# [Project/Task Name] Transcript
+
+---
+
+## 🧑‍💻 Human
+
+[Full text of human message exactly as written]
+
+---
+
+## 🤖 [AI Assistant Name]
+
+**Context provided:**
+- **Inline references**: `@file1.tsx`, `@component-guide.md`
+- **Attached files**: `package.json`, `tsconfig.json`  
+- **Manual selections**: Lines 15-20 from `Button.tsx`, terminal output showing build error
+
+[Full text of AI response exactly as written]
+
+[Tool call invocations and outputs - see format below]
+
+---
+
+## 🧑‍💻 Human
+
+[Next human message...]
+
+---
+
+[Continue pattern...]
+```
+
+### Participant Identification
+
+- **Human**: Use 🧑‍💻 icon with "Human" (or specific name if requested)
+- **AI Assistant**: Use 🤖 icon with the specific assistant name (e.g., "Claude", "GPT-4", "Gemini")
+  - **Why specific names matter**: Different AI assistants have different capabilities, reasoning patterns, and knowledge cutoffs. Attribution helps readers understand the context and capabilities involved.
+
+### Explicit Context Documentation
+
+For each AI response, document the **intentional context** the human provided:
+
+#### Inline References
+Files or rules explicitly mentioned in the message using `@` syntax:
+- `@README.md` - Referenced inline for background information
+- `@style-guide.mdc` - Referenced for coding standards
+
+#### Attached Files  
+Files added as context but not mentioned in the message text:
+- `package.json` - Project dependencies context
+- `LICENSE` - Legal context for the project
+
+#### Manual Selections
+Specific text/lines the human deliberately selected and included:
+- Lines 15-20 from `Button.tsx` - Selected code showing the problem
+- Terminal output showing fortune error - Selected error message
+- Lines 646-648 from `posix-style-transcript.md` - Selected for comparison
+- Lines 646-648 from `posix-style-transcript.md` - Selected for comparison
+
+### Tool Call Output Handling
+
+Different types of tool calls require different treatment:
+
+#### Shell Command Tool Calls
+**Include COMPLETE output** with tab indentation for safety:
+
+```markdown
+`run_terminal_cmd("git status")`
+
+	On branch main
+	Your branch is up to date with 'origin/main'.
+	
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	        modified:   src/components/Button.tsx
+```
+
+#### File Reading/Search Tool Calls  
+**Include output but truncate** to essential information:
+
+```markdown
+`read_file("src/config.ts", lines 1-50)`
+
+[First few lines of actual content...]
+[... content truncated for brevity ...]
+[Last few relevant lines...]
+```
+
+#### Other Tool Calls
+**Report invocation only**, exclude output:
+
+```markdown
+`edit_file("src/components/Button.tsx")`
+
+`search_replace("package.json")`
+
+`web_search("React best practices 2024")`
+```
+
+### Content Preservation Rules
+
+1. **Exact Text**: Include the FULL text of all human and AI messages exactly as written
+2. **No Summarization**: Don't summarize or paraphrase any dialogue
+3. **Include Mistakes**: Preserve errors, corrections, and iterative refinements
+4. **Preserve Formatting**: Maintain original markdown, code blocks, and formatting
+5. **Tool Context**: Always include tool call invocations even when outputs are excluded
+6. **Context Documentation**: Always document what explicit context was provided
+
+### Tab Indentation for Command Outputs
+
+Use tab indentation (not spaces) for command outputs to ensure markdown safety:
+
+````markdown
+`run_terminal_cmd("command")`
+
+	output line 1
+	output line 2
+	code block within output stays safe:
+	```
+	nested code
+	```
+	more output
+````
+
+This prevents markdown parsing issues when command outputs contain code fences or other markdown syntax.
+
+## Implementation Steps
+
+1. **Start the transcript** with a clear title and first separator (`---`)
+2. **Copy messages verbatim** - don't edit or improve the original text
+3. **Document explicit context** for each AI response:
+   - Inline references (files mentioned with `@`)
+   - Attached files (provided but not mentioned)
+   - Manual selections (deliberately chosen text/lines)
+4. **Handle tool calls appropriately**:
+   - Shell commands: Full output with tab indentation
+   - File operations: Truncated output showing key content
+   - Other tools: Invocation only
+5. **Maintain consistent formatting** with icons and separators
+6. **Use specific AI assistant names** rather than generic "Assistant"
+7. **End with proper separator** after the final exchange
+
+## Real-World Examples
+
+* `@posix-style-transcript.md` - Complete example of a complex development process
+* Shows proper tool call handling, decision-making preservation, and iterative development
+
+## Common Pitfalls
+
+* **Generic naming**: Using "Assistant" instead of specific AI name loses important context
+* **Summarizing content**: Condensing messages loses valuable detail and reasoning
+* **Missing context documentation**: Not recording what explicit context was provided
+* **Inconsistent tool output handling**: Mixing full and truncated outputs inappropriately  
+* **Missing separators**: Forgetting `---` dividers between exchanges
+* **Space vs tab indentation**: Using spaces for command output can break markdown parsing
+* **Incomplete tool context**: Not showing tool invocations when outputs are excluded
+* **Editing original content**: "Improving" messages destroys the authentic record
+
+## Advanced Considerations
+
+### Large Conversations
+For very long conversations, consider:
+- Breaking into multiple files by logical phases
+- Adding navigation comments for key decision points
+- Including a summary section at the top (separate from the transcript itself)
+
+### Sensitive Information
+- Redact credentials, API keys, or personal information before saving
+- Use placeholder text like `[REDACTED-API-KEY]` to maintain context
+- Consider if the transcript should be committed to version control
+
+### Collaborative Projects
+- Include all participants in multi-person conversations
+- Use distinctive icons/names for different team members
+- Preserve the collaborative decision-making process
+
+### Tool Evolution
+As new tools are introduced, establish patterns for their output handling:
+- High-value outputs (compilation results, test outputs): Include fully
+- Routine operations (file creation, simple searches): Invocation only
+- Debug/diagnostic outputs: Include selectively based on relevance
+
+## Example Transcript
+
+Here's a minimal example showing all key formatting features:
+
+````markdown
+# Button Component Fix Transcript
+
+---
+
+## 🧑‍💻 Human
+
+Can you help me fix the styling issue in our Button component? I've been looking at `@style-guide.mdc` for reference. The padding seems wrong.
+
+---
+
+## 🤖 Claude
+
+**Context provided:**
+- **Inline references**: `@style-guide.mdc`
+- **Attached files**: `package.json`, `tailwind.config.js`
+- **Manual selections**: None
+
+I'll help you fix the Button component styling. Let me first examine the current implementation.
+
+`read_file("src/components/Button.tsx", lines 1-50)`
+
+```tsx
+import React from 'react';
+import { cn } from '@/lib/utils';
+
+interface ButtonProps {
+  variant?: 'primary' | 'secondary';
+  size?: 'sm' | 'md' | 'lg';
+  // ... more props
+}
+
+function Button({ variant = 'primary', size = 'md', className, children, ...props }: ButtonProps) {
+  return (
+    <button 
+      className={cn(
+        'px-2 py-1', // This looks like the padding issue
+        variant === 'primary' && 'bg-blue-500',
+        // ... more classes
+      )}
+    >
+      {children}
+    </button>
+  );
+}
+```
+[... content truncated for brevity ...]
+
+I can see the issue - the padding values `px-2 py-1` are too small. Let me fix this:
+
+`edit_file("src/components/Button.tsx")`
+
+Now let's test the fix:
+
+`run_terminal_cmd("npm run test -- Button.test.tsx")`
+
+	> my-app@1.0.0 test
+	> jest Button.test.tsx
+	
+	 PASS  src/components/Button.test.tsx
+	  Button Component
+	    ✓ renders with correct padding (23ms)
+	    ✓ applies size variants correctly (15ms)
+	
+	Test Suites: 1 passed, 1 total
+	Tests:       2 passed, 2 total
+
+Perfect! The tests are passing. The padding has been updated to use more appropriate values.
+
+---
+
+## 🧑‍💻 Human
+
+Great! Can you also check if this change affects any other components that might be using similar patterns?
+
+---
+
+## 🤖 Claude
+
+**Context provided:**
+- **Inline references**: None
+- **Attached files**: None
+- **Manual selections**: None
+
+Good thinking! Let me search for similar padding patterns across the codebase:
+
+`grep_search("px-2 py-1", include_pattern="src/components/**/*.tsx")`
+
+`search_replace("src/components/Card.tsx")`
+
+`run_terminal_cmd("npm run build")`
+
+	> my-app@1.0.0 build
+	> next build
+	
+	✓ Creating an optimized production build
+	✓ Compiled successfully
+	✓ Linting and checking validity of types
+	✓ Collecting page and component data
+	
+	Build completed successfully!
+
+All components have been updated and the build is successful. The padding fix has been applied consistently across the component library.
+
+---
+````
+
+This example demonstrates:
+- **Context documentation**: Shows what explicit context was provided for each response
+- **Truncated tool calls**: `read_file()` and `grep_search()` with truncated output
+- **Full shell command output**: Complete `npm run test` and `npm run build` results with tab indentation
+- **No-content tool calls**: `edit_file()` and `search_replace()` showing invocation only
+- **Back-and-forth conversation**: Natural dialogue flow between Human and the Assistant
+- **Proper formatting**: Icons, separators, and consistent structure
+
