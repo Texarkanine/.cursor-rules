@@ -101,19 +101,77 @@ fi
 ### 2. Line Length
 
 - Keep lines under 80 characters when possible
-- For long strings, use here documents or line continuation:
+	- DO NOT compromise readability or maintainability just to stay under 80, especially where subshells come into play
+    - PREFER to break sentences at sentence ends or logical subjects, rather than just at 80 characters
+    - PREFER to let a line go a little bit above 80 rather than having a stupid-short 2nd line
+
+**Break lines logically, not arbitrarily at 80 characters:**
 
 ```sh
-# Long command with line continuation
+# Good - break at logical points
+if [ "${enable_logging}" = "true" ] && [ -w "${log_directory}" ]; then
+	echo "Logging enabled to ${log_directory}"
+fi
+
+# Bad - breaking in the middle of a logical condition
+if [ "${enable_logging}" = "true" ] && [ -w "${log_directory}" \
+]; then
+	echo "Logging enabled to ${log_directory}"
+fi
+```
+
+**Prefer slightly longer lines over awkwardly short continuation lines:**
+
+```sh
+# Good - let it go a bit over 80 rather than create a short second line
+echo "Processing configuration file: ${config_file} with options: ${options}"
+
+# Bad - creates an awkwardly short second line
+echo "Processing configuration file: ${config_file} with options: \
+${options}"
+```
+
+**For long commands, use line continuation with proper indentation:**
+
+```sh
+# Good - logical breaks with consistent indentation
 command \
 	--option1 value1 \
 	--option2 value2 \
 	--option3 value3
 
-# Long string with here document
+# Bad - breaks at arbitrary character limits
+command --option1 value1 --option2 value2 \
+--option3 value3
+```
+
+**For long strings, use here documents:**
+
+```sh
+# Good - here document for multi-line content
 cat <<EOF
-This is a long message that would exceed
-the 80 character limit if written on one line.
+This is a long message that would exceed the 80 character limit 
+if written on one line.
+EOF
+
+# Bad - awkward line continuation for strings
+echo "This is a long message that would exceed \
+the 80 character limit if written on one line."
+```
+
+**Break sentences at natural boundaries:**
+
+```sh
+# Good - break at sentence boundaries using heredoc
+cat <<EOF
+Starting backup process for database ${db_name}.
+This may take several minutes depending on database size.
+EOF
+
+# Bad - break mid-sentence at character limit
+cat <<EOF
+Starting backup process for database ${db_name}. This may take
+several minutes depending on database size.
 EOF
 ```
 
