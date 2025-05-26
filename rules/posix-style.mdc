@@ -96,24 +96,7 @@ if [ "${1}" = "start" ]; then
 fi
 ```
 
-**ALWAYS use spaces for indentation within multi-line commands:**
-
-```sh
-# Function with proper documentation and structure
-# Processes a log file and extracts error messages
-# 
-# Arguments:
-#   $1 - Path to log file (required)
-#   $2 - Output format: 'json' or 'text' (optional, defaults to 'text')
-# 
-# Returns:
-#   0 on success
-#   1 on file not found
-#   2 on invalid format
-process_log_file() {
-	...
-}
-```
+**ALWAYS use spaces for indentation within multi-line comments!**
 
 ### 2. Line Length
 
@@ -267,26 +250,32 @@ mypackage_parse_config() {
 
 **Use consistent formatting with comprehensive documentation:**
 
+Any function that is not both obvious and short must have a function header comment. Any function in a library must have a function header comment regardless of length or complexity.
+
+All function header comments must describe the intended API behavior using these required sections (always present, even if not applicable):
+
+- **Description**: What the function does
+- **Globals**: List of global variables used and modified  
+- **Arguments**: Arguments taken
+- **Outputs**: Output to STDOUT or STDERR
+- **Returns**: Returned values other than the default exit status
+
 ```sh
-# Function with proper documentation and structure
 # Processes a log file and extracts error messages
-# 
+#
+# Globals:
+#   LOG_LEVEL - Used to determine verbosity (read-only)
+#   ERROR_COUNT - Modified to track total errors found
 # Arguments:
 #   $1 - Path to log file (required)
 #   $2 - Output format: 'json' or 'text' (optional, defaults to 'text')
-# 
+# Outputs:
+#   Error messages to STDOUT
+#   Error details and warnings to STDERR
 # Returns:
 #   0 on success
 #   1 on file not found
 #   2 on invalid format
-# 
-# Outputs:
-#   Error messages to stdout
-#   Error details to stderr
-# 
-# Examples:
-#   process_log_file "/var/log/app.log"
-#   process_log_file "/var/log/app.log" "json"
 process_log_file() {
 	log_file="${1}"
 	format="${2:-text}"
@@ -318,6 +307,21 @@ process_log_file() {
 	esac
 	
 	return 0
+}
+
+# Simple utility function demonstrating all required sections
+#
+# Globals:
+#   None
+# Arguments:
+#   $1 - Message to display (required)
+# Outputs:
+#   Formatted message to STDOUT
+# Returns:
+#   Always returns 0 (default exit status)
+display_message() {
+	dm_message="${1}"  # dm_ = display_message prefix
+	echo "INFO: ${dm_message}"
 }
 ```
 
