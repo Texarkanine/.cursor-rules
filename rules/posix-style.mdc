@@ -1,5 +1,5 @@
 ---
-description: 
+description: Required style guidelines for writing shell scripts where POSIX-compliance is REQUIRED
 globs: 
 alwaysApply: false
 ---
