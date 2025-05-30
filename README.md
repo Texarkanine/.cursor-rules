@@ -2,7 +2,7 @@
 
 A collection of cursor rules that I use.
 
-You could use them, or your own, with the [ai-rizz](https://github.com/texarkanine/ai-rizz) tool.
+You could use them on your own, or with the [ai-rizz](https://github.com/texarkanine/ai-rizz) tool. You might also enjoy being able to [see them rendered as Markdown on GitHub](https://github.com/Texarkanine/client-side-mdc-render).
 
 ## Structure
 
