@@ -5,7 +5,7 @@ alwaysApply: false
 ---
 # Conversation Transcript Creation
 
-This rule defines how to create comprehensive conversation transcripts that capture not just the dialogue, but also the full context of tool usage, decision-making processes, and implementation details.
+This rule defines how to create comprehensive conversation transcripts between humans and AI assistants that capture not just the dialogue, but also the full context of tool usage, decision-making processes, and implementation details.
 
 ## Pattern Description
 
@@ -18,23 +18,25 @@ Use descriptive names that indicate both the project and the nature of the conve
 
 ### Document Structure
 
+The transcript must strictly adhere to the following format: Just a back-and-forth conversation. Do not add any global summaries or outlines: this is a pure transcript.
+
 ```markdown
 # [Project/Task Name] Transcript
 
----
-
 ## 🧑‍💻 Human
-
-[Full text of human message exactly as written]
-
----
-
-## 🤖 [AI Assistant Name]
 
 **Context provided:**
 - **Inline references**: `@file1.tsx`, `@component-guide.md`
 - **Attached files**: `package.json`, `tsconfig.json`  
 - **Manual selections**: Lines 15-20 from `Button.tsx`, terminal output showing build error
+
+[Full text of human message *typed by the user*]
+
+---
+
+## 🤖 [AI Assistant Name]
+
+[Quote any system-attached context or metadata here in a details section, e.g., "Your previous responses may not have had access to tools..."]
 
 [Full text of AI response exactly as written]
 
@@ -53,30 +55,60 @@ Use descriptive names that indicate both the project and the nature of the conve
 
 ### Participant Identification
 
-- **Human**: Use 🧑‍💻 icon with "Human" (or specific name if requested)
+- **Human**: Use 🧑‍💻 icon with "Human" (or specific icon and/or name if requested)
 - **AI Assistant**: Use 🤖 icon with the specific assistant name (e.g., "Claude", "GPT-4", "Gemini")
   - **Why specific names matter**: Different AI assistants have different capabilities, reasoning patterns, and knowledge cutoffs. Attribution helps readers understand the context and capabilities involved.
 
 ### Explicit Context Documentation
 
-For each AI response, document the **intentional context** the human provided:
+#### Human
 
-#### Inline References
+For human prompt, document the **intentional context** the human provided. Omit context line-items if there was no context of that type attached.
+
+##### Inline References
 Files or rules explicitly mentioned in the message using `@` syntax:
 - `@README.md` - Referenced inline for background information
 - `@style-guide.mdc` - Referenced for coding standards
 
-#### Attached Files  
+##### Attached Files  
 Files added as context but not mentioned in the message text:
 - `package.json` - Project dependencies context
 - `LICENSE` - Legal context for the project
 
-#### Manual Selections
+##### Manual Selections
 Specific text/lines the human deliberately selected and included:
 - Lines 15-20 from `Button.tsx` - Selected code showing the problem
 - Terminal output showing fortune error - Selected error message
 - Lines 646-648 from `posix-style-transcript.md` - Selected for comparison
 - Lines 646-648 from `posix-style-transcript.md` - Selected for comparison
+
+#### AI Assistant
+
+##### System-Attached Context
+
+Sometimes the system attaches context or instructions around the user's typed prompt. Use markdown block quoting for system-provided context, and use `<details><summary></summary></details>` to collapse it:
+
+```markdown
+## 🤖 [AI Assistant Name]
+
+<details>
+<summary>System-attached context</summary>
+
+> This begins a very long context that was attached to the AI assistant.
+> ...
+> You could imagine it went on for 50 lines or more
+
+</details><br>
+
+[Full text of AI response exactly as written]
+
+[Tool call invocations and outputs - see format below]
+
+```
+
+**IMPORTANT:** Collapsible block formatting
+1. Always use a `<br>` after `</details>`
+2. Always include a newline before and after the content
 
 ### Tool Call Output Handling
 
@@ -120,7 +152,7 @@ Different types of tool calls require different treatment:
 
 ### Content Preservation Rules
 
-1. **Exact Text**: Include the FULL text of all human and AI messages exactly as written
+1. **Exact Text**: Include the FULL text of all human and AI messages exactly as written. For human messages, this specifically refers to the text *typed by the user*, excluding system-attached context.
 2. **No Summarization**: Don't summarize or paraphrase any dialogue
 3. **Include Mistakes**: Preserve errors, corrections, and iterative refinements
 4. **Preserve Formatting**: Maintain original markdown, code blocks, and formatting
@@ -161,14 +193,9 @@ This prevents markdown parsing issues when command outputs contain code fences o
 6. **Use specific AI assistant names** rather than generic "Assistant"
 7. **End with proper separator** after the final exchange
 
-## Real-World Examples
-
-* `@posix-style-transcript.md` - Complete example of a complex development process
-* Shows proper tool call handling, decision-making preservation, and iterative development
-
 ## Common Pitfalls
 
-* **Generic naming**: Using "Assistant" instead of specific AI name loses important context
+* **Generic naming**: Using "Assistant" instead of YOUR specific AI name loses important context
 * **Summarizing content**: Condensing messages loses valuable detail and reasoning
 * **Missing context documentation**: Not recording what explicit context was provided
 * **Inconsistent tool output handling**: Mixing full and truncated outputs inappropriately  
@@ -188,18 +215,6 @@ For very long conversations, consider:
 ### Sensitive Information
 - Redact credentials, API keys, or personal information before saving
 - Use placeholder text like `[REDACTED-API-KEY]` to maintain context
-- Consider if the transcript should be committed to version control
-
-### Collaborative Projects
-- Include all participants in multi-person conversations
-- Use distinctive icons/names for different team members
-- Preserve the collaborative decision-making process
-
-### Tool Evolution
-As new tools are introduced, establish patterns for their output handling:
-- High-value outputs (compilation results, test outputs): Include fully
-- Routine operations (file creation, simple searches): Invocation only
-- Debug/diagnostic outputs: Include selectively based on relevance
 
 ## Example Transcript
 
@@ -212,16 +227,22 @@ Here's a minimal example showing all key formatting features:
 
 ## 🧑‍💻 Human
 
+**Context provided:**
+- **Inline references**: `@style-guide.mdc`
+- **Attached files**: `package.json`, `tailwind.config.js`
+
 Can you help me fix the styling issue in our Button component? I've been looking at `@style-guide.mdc` for reference. The padding seems wrong.
 
 ---
 
 ## 🤖 Claude
 
-**Context provided:**
-- **Inline references**: `@style-guide.mdc`
-- **Attached files**: `package.json`, `tailwind.config.js`
-- **Manual selections**: None
+<details>
+<summary>System-attached context</summary>
+
+> Your previous responses may not have had access to tools but now you do. Please call tools as appropriate.
+
+</details><br>
 
 I'll help you fix the Button component styling. Let me first examine the current implementation.
 
@@ -284,11 +305,6 @@ Great! Can you also check if this change affects any other components that might
 
 ## 🤖 Claude
 
-**Context provided:**
-- **Inline references**: None
-- **Attached files**: None
-- **Manual selections**: None
-
 Good thinking! Let me search for similar padding patterns across the codebase:
 
 `grep_search("px-2 py-1", include_pattern="src/components/**/*.tsx")`
@@ -313,7 +329,7 @@ All components have been updated and the build is successful. The padding fix ha
 ````
 
 This example demonstrates:
-- **Context documentation**: Shows what explicit context was provided for each response
+- **Context documentation**: Shows what explicit context was provided in each human prompt
 - **Truncated tool calls**: `read_file()` and `grep_search()` with truncated output
 - **Full shell command output**: Complete `npm run test` and `npm run build` results with tab indentation
 - **No-content tool calls**: `edit_file()` and `search_replace()` showing invocation only
