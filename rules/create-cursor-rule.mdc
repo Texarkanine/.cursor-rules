@@ -1,5 +1,5 @@
 ---
-description: Template for creating a new Cursor rule
+description: Template for creating a new Cursor rule - a rule to guide the behavior of AI assistants
 globs: 
 alwaysApply: false
 ---
@@ -30,7 +30,7 @@ While flexible, a well-structured rule file improves clarity for both humans and
 ```yaml
 ---
 description: Guidelines for [what this rule covers and its purpose, e.g., structuring functional React components]
-globs: pattern/to/match/files/**/*.{ext} # See examples below
+globs: pattern/to/match/files/**/*.ext # See examples below
 alwaysApply: false # Optional: Set to true to always include this rule
 ---
 ```
@@ -70,9 +70,13 @@ Organize the rule's content logically. Using markdown headings (`##`, `###`) is 
 
 #### Real-World Examples (Highly Recommended)
 
+If the rule is clearly specific to just the current repository, reference instances of correct adherence to the rule:
+
 * Link to _actual code_ in the current repository using relative paths: `@Example Button`.
 * Briefly explain *why* the linked code is a good example of the rule.
 * Keep examples focused on the rule being described.
+
+If the rule is a generic rule that can or will apply to many repositories, inline a single comprehensive example.
 
 #### Common Pitfalls / Anti-Patterns
 
@@ -86,7 +90,7 @@ Organize the rule's content logically. Using markdown headings (`##`, `###`) is 
 
 ### File References (`@file`)
 
-Include critical context files directly within your rule using the `@file` directive. Place these *after* the frontmatter but ideally *before* the main content.
+If the rule is clearly specific to just the current repository, include critical context files directly within your rule using the `@file` directive. Place these *after* the frontmatter but ideally *before* the main content.
 
 ```markdown
 @file ../tsconfig.json
@@ -100,7 +104,7 @@ Include critical context files directly within your rule using the `@file` direc
 
 ### Code Blocks
 
-Always use fenced code blocks with language specifiers for correct rendering and potential syntax highlighting by the AI:
+Always use fenced code blocks with language specifiers for correct rendering and syntax highlighting:
 
 ````markdown
 ```typescript
@@ -119,10 +123,10 @@ function greet(name: string): string {
 
 Choose your rule's matcher type based on its purpose and scope. The choice affects both when the rule activates and how much context it consumes:
 
-* Global Rules: Always apply to every request
-* Autoamtic Rules: Always apply to every request involving files that match the globs
-* Agent-Requested Rules: The Agent may choose to read a rule, based on the rule's decription and task at hand
-* Manual Rules: Only ever read when a human introduces them to a request's context
+* **Global Rules:** Always apply to every request
+* **Automatic Rules:** Always apply to every request involving files that match the globs
+* **Agent-Requested Rules:** The Agent may choose to read a rule, based on the rule's decription and task at hand
+* **Manual Rules:** Only ever read when a human introduces them to a request's context
 
 ### Global Rules
 * **Use for:** Critical, universal rules that must always be considered
@@ -134,7 +138,7 @@ Choose your rule's matcher type based on its purpose and scope. The choice affec
 
 ```yaml
 ---
-description: <description>
+description:
 globs: 
 alwaysApply: true
 ---
@@ -151,7 +155,7 @@ alwaysApply: true
 
 ```yaml
 ---
-description: <description>
+description:
 globs: **/*.js,**/*.ts
 alwaysApply: false
 ---
@@ -198,10 +202,10 @@ alwaysApply: false
 * **Keep Rules Updated:** Regularly review rules. Update them when conventions change or code evolves. *Delete* rules that become obsolete or if the AI consistently follows the pattern without the rule.
 * **Trust the LLM (to an extent):** While rules provide guidance, allow the LLM some flexibility. It can often infer patterns from the existing codebase, especially as it grows.
 * **Troubleshooting:** If rules aren't activating as expected, double-check:
- * The YAML frontmatter is the _absolute first_ content in the file.
- _ The `globs` pattern correctly matches the intended files.
- _ File paths in `@file` directives are correct.
- _ The `.mdc` file encoding is standard (UTF-8). 
+    * The YAML frontmatter is the _absolute first_ content in the file.
+    * The `globs` pattern correctly matches the intended files.
+    * File paths in `@file` directives are correct.
+    * The `.mdc` file encoding is standard (UTF-8). 
 
 ## Team Collaboration
 
@@ -213,10 +217,10 @@ alwaysApply: false
 
 ## Full Rule Example
 
-```markdown
+````markdown
 ---
 description: Guidelines for structuring functional React components using TypeScript, including prop definitions, state management, and hook usage.
-globs: src/components/**/_.tsx
+globs:
 alwaysApply: false
 ---
 
@@ -332,7 +336,7 @@ export { Button, buttonVariants }; // Prefer named exports
 * Overly complex components; consider breaking them down.
 * Not using TypeScript for props or state.
 
-```
+````
 
 ## Minimal Rule Template
 
