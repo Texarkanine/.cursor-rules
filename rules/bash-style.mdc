@@ -5,14 +5,6 @@ alwaysApply: false
 ---
 # Bash Script Style Guide
 
-## IMPORTANT: Non-POSIX Requirement
-
-**This rule only applies when POSIX-compatibility is NOT a requirement.** These guidelines are specifically for bash-based shell scripts that can leverage bash-specific features and "bashisms" as per Google's shell style guide.
-
-## Introduction
-
-This rule enforces Google's Shell Style Guide standards for shell scripting. It ensures consistency, readability, and maintainability across bash scripts by following proven practices from Google's engineering teams. These guidelines prioritize bash-specific features over POSIX compatibility for improved functionality and developer experience.
-
 ## When to Use Shell
 
 Shell should only be used for small utilities or simple wrapper scripts:
@@ -22,6 +14,8 @@ Shell should only be used for small utilities or simple wrapper scripts:
 - **Consider rewriting**: Scripts with non-straightforward control flow logic should be rewritten in a more structured language
 
 The complexity threshold is about maintainability by people other than the author.
+
+**IMPORTANT - LACK OF POSIX COMPLIANCE:** *This rule only applies when POSIX-compatibility is NOT a requirement.* These guidelines are specifically for bash-based shell scripts that can leverage bash-specific features and "bashisms."
 
 ## Core Requirements
 
@@ -43,10 +37,10 @@ set -euo pipefail  # Exit on error, undefined variables, pipe failures
 
 ### 2. File Extensions
 
-- **Executables**: Use `.sh` extension OR no extension
-  - Use `.sh` if build rules will rename the file
+- **Executables**: Use `.bash` extension OR no extension
+  - Use `.bash` if build rules will rename the file
   - Use no extension if script goes directly into user's PATH
-- **Libraries**: Must have `.sh` extension and should NOT be executable
+- **Libraries**: Must have `.bash` extension and should NOT be executable
 
 ### 3. File Header Comments
 
@@ -89,9 +83,12 @@ This is rare; usually only used for visual alignment.
 ```bash
 if [[ "${1}" == "start" ]]; then
 	echo "Starting service..."
-	if systemctl start myservice; then       # Ideal case
-		echo "Service started successfully"
-	else                                     # We'll make do I guess
+	if systemctl start myservice; then
+		# the following lines align function inputs w/ spaces
+		report_start    "myservice"
+		log             "myservice started"
+		monitor_service "myservice"
+	else
 		echo "Failed to start service" >&2
 		return 1
 	fi
@@ -100,10 +97,28 @@ fi
 
 **ALWAYS use spaces for indentation within multi-line comments!**
 
+```bash
+if [[ "${1}" == "start" ]]; then
+	echo "Starting service..."
+	if systemctl start myservice; then
+		echo "Service started successfully"
+	else
+		echo "Failed to start service" >&2
+		# we aren't sure why it failed b/c the service
+		# doesn't integrate w/ systemctl properly. Could be
+		#   - bad config
+		#   - network error
+		#   - intermittent i/o
+		return 1
+	fi
+fi
+```
+
 
 ### 2. Line Length
 
-- Keep lines under 80 characters when possible
+Keep lines under 80 characters **when possible:**
+
 	- DO NOT compromise readability or maintainability just to stay under 80, especially where subshells come into play
 	- PREFER to break sentences at sentence ends or logical subjects, rather than just at 80 characters
 	- PREFER to let a line go a little bit above 80 rather than having a stupid-short 2nd line
@@ -252,7 +267,7 @@ esac
 echo "Hello ${name}!"
 echo "File: ${file}.backup"
 
-# Avoid
+# Bad
 echo "Hello $name!"
 echo "File: $file.backup"
 ```
@@ -291,18 +306,12 @@ fi
 
 ### 1. Function Names
 
-**Use lowercase with underscores:**
+**Use lowercase with underscores (snake_case):**
 
 ```bash
 # Single function
 process_file() {
 	local file="${1}"
-	# implementation
-}
-
-# Package/library functions
-mypackage::parse_config() {
-	local config_file="${1}"
 	# implementation
 }
 ```
@@ -311,7 +320,7 @@ mypackage::parse_config() {
 
 **Use consistent formatting with comprehensive documentation:**
 
-Any function that is not both obvious and short must have a function header comment. Any function in a library must have a function header comment regardless of length or complexity.
+Any function that is not both obvious and short must have a function header comment. All functions in libraries must have a function header comment regardless of length or complexity.
 
 All function header comments must describe the intended API behavior using these required sections (always present, even if not applicable):
 
@@ -409,7 +418,7 @@ process_data() {
 
 ### 1. Variables
 
-**Use lowercase with underscores:**
+**Use lowercase with underscores (snake_case):**
 
 ```bash
 user_name="john_doe"
@@ -432,12 +441,14 @@ declare -xr LOG_LEVEL="INFO"
 **Name descriptively:**
 
 ```bash
+# Good
 for zone in "${availability_zones[@]}"; do
 	deploy_to_zone "${zone}"
 done
 
-for user_id in "${user_ids[@]}"; do
-	process_user "${user_id}"
+# Bad
+for i in "${availability_zones[@]}"; do
+	deploy_to_zone "${i}"
 done
 ```
 
@@ -500,6 +511,73 @@ if ! create_backup "${database}"; then
 fi
 ```
 
+### 4. Returning Values
+
+**When returning status from a function, use numerical return codes:**
+
+```bash
+# Good - status uses exit codes
+is_even() {
+  # Checks if the input number is even
+  if (( $1 % 2 == 0 )); then
+	return 0 # it's even
+  else
+	return 1 # it's not even
+  fi
+}
+
+# Bad - unnecessary string use for status
+file_exists() {
+  # Checks if the given file exists
+  if [[ -f "$1" ]]; then
+	echo "true" # it exists
+  else
+	echo "false" # it doesn't exist
+  fi
+}
+```
+
+**When returning strings from a function with stdout, ensure that the function only ever returns the proper string:**
+
+```bash
+# Good - redirect useful output from stdout to stderr
+mentions_cursor() {
+	git fetch --all >&2
+	if grep -q -lr "cursor"; then
+		echo "true"
+	else
+		echo "false"
+	fi
+}
+
+# Good - redirect unneeded stdout to /dev/null
+mentions_cursor() {
+	if grep -lr "cursor" . >/dev/null; then
+		echo "true"
+	else
+		echo "false"
+	fi
+}
+
+# Bad - silence output with a flag (cannot guarantee ALL stdout is silenced)
+mentions_cursor() {
+	if grep -q -lr "cursor"; then
+		echo "true"
+	else
+		echo "false"
+	fi
+}
+
+# Bad - output will contain extraneous content, not just the function's intended return value
+mentions_cursor() {
+	if grep -lr "cursor"; then
+		echo "true"
+	else
+		echo "false"
+	fi
+}
+```
+
 ## Feature Usage Guidelines
 
 ### 1. Command Substitution
@@ -511,14 +589,14 @@ fi
 current_date="$(date '+%Y-%m-%d')"
 file_count="$(find "${dir}" -type f | wc -l)"
 
-# Avoid
+# Bad
 current_date=`date '+%Y-%m-%d'`
 file_count=`find "${dir}" -type f | wc -l`
 ```
 
 ### 2. Test Constructs
 
-**Prefer [[ ]] over [ ] for bash scripts:**
+**Prefer [[ ]] over [ ]:**
 
 ```bash
 # Use [[ ]] for bash-specific features
@@ -565,7 +643,7 @@ fi
 
 # Avoid external tools for simple arithmetic
 # Good: (( result = 10 * 5 ))
-# Avoid: result="$(expr 10 \* 5)"
+# Bad: result="$(expr 10 \* 5)"
 ```
 
 ### 4. Arrays
@@ -595,7 +673,7 @@ echo "Total files: ${#files[@]}"
 
 ## Main Function Pattern
 
-**Use main function for scripts with multiple functions:**
+**Use main function for excecutable scripts with multiple functions:**
 
 ```bash
 #!/bin/bash
@@ -623,7 +701,7 @@ main() {
 	cleanup
 }
 
-# Only run main if script is executed directly
+# IMPORTANT - Only run main if script is executed directly
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 	main "$@"
 fi
@@ -679,10 +757,10 @@ replacement="${variable/pattern/replacement}"
 
 # Avoid external commands when built-ins work
 # Good: (( result = x + y ))
-# Avoid: result="$(expr "${x}" + "${y}")"
+# Bad: result="$(expr "${x}" + "${y}")"
 
 # Good: if [[ "${string}" =~ pattern ]]; then
-# Avoid: if echo "${string}" | grep -q pattern; then
+# Bad: if echo "${string}" | grep -q pattern; then
 ```
 
 ## Advanced Features
@@ -703,7 +781,7 @@ set -f  # Disable globbing
 echo "This * will not expand"
 set +f  # Re-enable globbing
 
-# Avoid - unquoted expansion in dangerous contexts
+# Avoid unquoted expansion in dangerous contexts
 # Bad: rm ${files}  # Could expand unexpectedly
 # Good: rm "${files[@]}"  # Array expansion
 ```
@@ -753,27 +831,20 @@ grep "pattern" <<<"${string_to_search}"
 2. **Avoid eval** - Find alternative approaches
 3. **Don't ignore return values** - Always check command success
 4. **Avoid pipes to while loops** - Use process substitution or arrays
+5. **Extraneous stdout in functions that return strings** - redirect or discard all output except the return value
 5. **Don't use ls for file operations** - Use globs or find instead
+	```bash
+	# Bad: using ls
+	for file in $(ls *.txt); do
+		process_file "${file}"
+	done
 
-```bash
-# Bad: using ls
-for file in $(ls *.txt); do
-	process_file "${file}"
-done
-
-# Good: using globs
-for file in *.txt; do
-	[[ -f "${file}" ]] || continue  # Skip if no matches
-	process_file "${file}"
-done
-```
-
-## Real-World Examples
-
-Look at these examples in the codebase for reference:
-* @deployment/scripts/backup.sh - Example of proper error handling
-* @tools/build.sh - Example of main function pattern
-* @scripts/utils.sh - Example of reusable function library
+	# Good: using globs
+	for file in *.txt; do
+		[[ -f "${file}" ]] || continue  # Skip if no matches
+		process_file "${file}"
+	done
+	```
 
 ## Testing and Validation
 
@@ -864,15 +935,3 @@ local var="$(command_that_might_fail)"
 local var
 var="$(command_that_might_fail)"
 ```
-
-## Enforcement Tools
-
-- **ShellCheck**: Mandatory static analysis for all shell scripts
-- **Manual Review**: Code review should verify adherence to these standards
-- **CI Integration**: Integrate ShellCheck into CI pipeline with zero-tolerance policy
-- **Editor Integration**: Configure your editor to run ShellCheck on save
-- **Pre-commit Hooks**: Use git pre-commit hooks to prevent committing non-compliant code
-
-## Summary
-
-These guidelines prioritize consistency and maintainability over brevity. When in doubt, choose the more explicit and readable approach. Remember that shell scripts should be kept simple - if your script grows beyond 100 lines or becomes complex, consider rewriting it in a more structured language like Python or Go.
