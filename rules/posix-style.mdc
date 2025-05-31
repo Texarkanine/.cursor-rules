@@ -806,10 +806,9 @@ main() {
 
 # Only run main if script is executed directly
 # Note: BASH_SOURCE is not available in POSIX shell
-case "$0" in
-	*/*) main "$@" ;;  # Script called with path
-	*)   main "$@" ;;  # Script called directly
-esac
+if [ "${0##*/}" = "script_name.sh" ]; then
+	main "$@" # Call a main function with all arguments
+fi
 ```
 
 ## Security Considerations

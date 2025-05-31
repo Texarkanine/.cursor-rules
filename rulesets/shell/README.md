@@ -6,7 +6,7 @@ This ruleset provides a collection of rules for shell script development.
 - **Purpose**: Bash script formatting and style guidelines based on [Google's Shell Style Guide](https://google.github.io/styleguide/shellguide.html)
 - **Scope**: Non-POSIX compliant bash scripts
 
-## 🐚 [posix-style.mdc](./posix-style.mdc)
+## 📋 [posix-style.mdc](./posix-style.mdc)
 - **Purpose**: POSIX-compliant shell script formatting and style guidelines for maximum portability
 - **Scope**: Scripts that must work across different UNIX-like systems, embedded environments, and constrained systems
 
