@@ -148,7 +148,7 @@ If your content contains four backticks, use five backticks for the outer fence,
 
 When backtick counting gets too complex or confusing, use **indented code blocks** instead:
 
-Indent with 4 spaces (or 1 tab) to create code blocks without any backticks:
+Indent with whitespace (4 spaces or 1 tab) to create code blocks without any backticks:
 
     This is a code block created with indentation
     ````markdown
@@ -157,6 +157,8 @@ Indent with 4 spaces (or 1 tab) to create code blocks without any backticks:
     echo "works perfectly"
     ```
     ````
+
+Choose spaces or tabs based on the existing pattern in the rest of the document. If you are creating a new document or there is no existing pattern of indentation, use tabs.
 
 The content of the indented block itself must still abide by the "outer fences have one more backtick" rule.
 
@@ -173,4 +175,4 @@ Before writing your outer fence:
 1. Scan your content for the highest number of consecutive backticks
 2. Add one more backtick to that number for your outer fence
 3. Use the same number at both the opening and closing of your fence
-4. **Or**, if it's getting complex, just indent with 4 spaces instead
+4. **Or**, if it's getting complex, just indent with whitespace instead
