@@ -519,7 +519,7 @@ fi
 # Good - status uses exit codes
 is_even() {
   # Checks if the input number is even
-  if (( $1 % 2 == 0 )); then
+  if (( ${1} % 2 == 0 )); then
 	return 0 # it's even
   else
 	return 1 # it's not even
@@ -529,7 +529,7 @@ is_even() {
 # Bad - unnecessary string use for status
 file_exists() {
   # Checks if the given file exists
-  if [[ -f "$1" ]]; then
+  if [[ -f "${1}" ]]; then
 	echo "true" # it exists
   else
 	echo "false" # it doesn't exist
@@ -832,7 +832,7 @@ grep "pattern" <<<"${string_to_search}"
 3. **Don't ignore return values** - Always check command success
 4. **Avoid pipes to while loops** - Use process substitution or arrays
 5. **Extraneous stdout in functions that return strings** - redirect or discard all output except the return value
-5. **Don't use ls for file operations** - Use globs or find instead
+6. **Don't use ls for file operations** - Use globs or find instead
 	```bash
 	# Bad: using ls
 	for file in $(ls *.txt); do
