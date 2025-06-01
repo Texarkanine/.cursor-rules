@@ -17,7 +17,7 @@ This rule guides you through the process of opening a pull request.
 1. Extract ticket or issue ID if present:
 	- Parse current branch name for ticket/issue patterns (e.g., `feature/ABC-123`, `fix/issue-456`).
 	- If the branch is ahead of default, check the new commits' messages for ticket/issue references: `git log --oneline --no-pager main..HEAD`
-2. Check for a pull request template at `.github/PULL_REQUEST_TEMPLATE.md`. If no template exists, use this default:
+2. Check for a pull request template at `.github/PULL_REQUEST_TEMPLATE.md` (capitalization may vary). If no template exists, use this default:
 	```markdown
 	# Description
 	[Describe the changes made in this pull request]
@@ -76,7 +76,7 @@ This rule guides you through the process of opening a pull request.
 		```bash
 		gh pr create --draft --title "feat(auth): implement OAuth2 authentication" --body-file $TEMPFILE
 		```
-3. Report the result to the user:
+3. Report the result to the user with ONLY and EXACTLY the following message:
 	Example:
 	```markdown
 	PR Opened: [feat(auth): implement OAuth2 authentication](https://github.com/username/repo/pull/123)
