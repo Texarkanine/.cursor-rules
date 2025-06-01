@@ -32,7 +32,7 @@ The [ai-rizz](https://github.com/texarkanine/ai-rizz) tool can help you manage t
 
 #### Only I use AI Agents
 
-If **none** of the repositories that you work with be worked on by AI agents outside your Cursor, you may wish to make Niko part of your [Cursor User Rules](https://docs.cursor.com/context/rules#user-rules). This will make Niko's core operating principles always available with no per-repository setup required on your part.
+If **none** of the repositories that you work with be worked on by AI agents outside your Cursor, you may wish to make Niko's core operating principles part of your [Cursor User Rules](https://docs.cursor.com/context/rules#user-rules). This will make Niko's core operating principles always available with no per-repository setup required on your part.
 
 Just paste the contents of `niko-core.mdc` into your User Rules.
 
