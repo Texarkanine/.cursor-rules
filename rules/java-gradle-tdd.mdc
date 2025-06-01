@@ -5,11 +5,11 @@ alwaysApply: false
 ---
 # Java Unit Testing Best Practices
 
-This guide covers both the process of creating unit tests and the specific coding practices to follow when implementing them.
+A guide to the test-driven development (TDD) process for Java with Gradle, covering both unit test creation and best coding practices for implementation.
 
-## Part 1: Unit Test Implementation Process
+**Test-Driven Development Principle:** For any new functionality, the corresponding test suite must be designed and implemented first, before any production code is written. Only after the tests are in place (and failing) does implementation of the actual logic begin. This ensures code is always guided by clear, testable requirements.
 
-### Introduction
+## Test-Driven Design Process
 
 Effective unit testing starts with a structured approach. This section outlines the recommended workflow for implementing unit tests, focusing on the process rather than specific coding details.
 
@@ -61,6 +61,8 @@ Implement the test following the plan:
    - What functionality is being verified
    - Parameter descriptions
    - References to test data providers (`@see` tags)
+4. **Run the test and confirm it fails**: Ensure the test fails, as the functionality is not yet implemented. This validates that the test is meaningful and that the code under test does not yet satisfy the requirements.
+5. **Only after the test is in place and failing, begin implementing the actual code logic to satisfy the test.**
 
 ### Validation Phase
 
@@ -97,7 +99,7 @@ Optimize the test code:
 3. **Add navigation aids**: Use `@see` tags to reference providers and related tests
 4. **Review and simplify**: Eliminate redundancy and improve clarity
 
-## Part 2: Test Structure and Implementation Details
+## Test Structure
 
 This section covers specific coding techniques and practices for writing effective Java unit tests.
 
@@ -121,7 +123,7 @@ void testFeature() {
 
 ### Exception Handling
 
-Let exceptions propagate naturally in tests. Use JUnit's built-in mechanisms for expected exceptions.
+Let exceptions propagate naturally in tests. Use test frameworks' built-in mechanisms for expected exceptions.
 
 ```java
 @Test
@@ -189,8 +191,8 @@ if (!VALID_SIZES.contains(size)) {
 
 ### Addressing Failing Tests
 
-When a test fails, fix the implementation code to match the intended behavior, not vice versa. Never add special-casing to make tests pass.
-If the test expectations appear to actually be wrong, stop and ask for confirmation before changing the test expectations.
+When a test fails, fix the implementation code to match the expected behavior. Never add special-casing to make tests pass.
+If the test expectations appear to actually be wrong, **stop and ask for confirmation before changing the test expectations.**
 
 ```java
 // BAD: Adding special case just to pass tests
@@ -250,10 +252,3 @@ static Stream<Arguments> validInputProvider() {
 * **Brittle Tests**: Writing tests that break with minor implementation changes
 * **Unexecuted Tests**: Always run tests after implementing them - unverified tests provide false confidence and hide bugs
 * **Testing Non-existent Abstractions**: Writing tests for concepts or abstractions that don't actually exist in the codebase being tested.
-
-## Real-World Examples
-
-* @Example BIP47 tests in MorePaymentCodeTest.java show well-structured tests with clear separation of setup, action, and verification phases
-* @Example testSpecialCharactersInPassphrase demonstrates parameterized testing with clear data providers
-* @Example testLongPassphrase shows use of helper methods placed at the end of the class
-

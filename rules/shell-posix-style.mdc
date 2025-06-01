@@ -5,23 +5,14 @@ alwaysApply: false
 ---
 # POSIX Shell Script Style Guide
 
-## IMPORTANT: POSIX Compliance Requirement
-
-**This rule applies when POSIX-compatibility IS a requirement.** These guidelines are specifically for shell scripts that must work across different UNIX-like systems using only POSIX-compliant features. This ensures maximum portability and compatibility across different shells and operating systems.
-
-## Introduction
-
-This rule enforces POSIX shell scripting standards for maximum portability and compatibility. It ensures scripts work reliably across different UNIX-like systems, shells, and environments by adhering to the POSIX standard. These guidelines prioritize portability and reliability over advanced features.
-
 ## When to Use POSIX Shell
 
-POSIX shell should be used when portability across different systems is critical:
+**IMPORTANT - REQUIRED POSIX COMPLIANCE:** *This rule applies when POSIX-compatibility IS a requirement.* These guidelines are specifically for shell scripts that must work across different UNIX-like systems using only POSIX-compliant features:
 
 - **Use POSIX shell when**: You need scripts to work on various UNIX-like systems, embedded environments, or when bash availability is uncertain
 - **Don't use POSIX shell when**: You can guarantee bash availability and need advanced features like arrays or associative arrays
 - **Consider alternatives**: For complex scripts (>100 lines), consider using a more structured language like Python or Go
-
-The complexity threshold remains about maintainability, but POSIX shell has additional constraints that may push this threshold lower.
+	- The complexity threshold is about maintainability by people other than the author.
 
 ## Core Requirements
 
@@ -44,8 +35,8 @@ set -eu  # Exit on error, undefined variables (pipefail not available in POSIX)
 ### 2. File Extensions
 
 - **Executables**: Use `.sh` extension OR no extension
-  - Use `.sh` if build rules will rename the file
-  - Use no extension if script goes directly into user's PATH
+	- Use `.sh` if build rules will rename the file
+	- Use no extension if script goes directly into user's PATH
 - **Libraries**: Must have `.sh` extension and should NOT be executable
 
 ### 3. File Header Comments
@@ -85,25 +76,46 @@ fi
 **Use spaces for subsequent indentation:**
 
 ```sh
-if [ "${1}" = "start" ]; then
+if [ "${1}" == "start" ]; then
 	echo "Starting service..."
-	if systemctl start myservice; then       # Ideal case
-		echo "Service started successfully"
-	else                                     # We'll make do I guess
+	if systemctl start myservice; then
+		# the following lines align function inputs w/ spaces
+		report_start    "myservice"
+		log             "myservice started"
+		monitor_service "myservice"
+	else
 		echo "Failed to start service" >&2
 		return 1
 	fi
 fi
 ```
 
-**ALWAYS use spaces for indentation within multi-line comments!**
+**ALWAYS use spaces for indentation within multi-line comments:**
+
+```sh
+if [ "${1}" == "start" ]; then
+	echo "Starting service..."
+	if systemctl start myservice; then
+		echo "Service started successfully"
+	else
+		echo "Failed to start service" >&2
+		# we aren't sure why it failed b/c the service
+		# doesn't integrate w/ systemctl properly. Could be
+		#   - bad config
+		#   - network error
+		#   - intermittent i/o
+		return 1
+	fi
+fi
+```
 
 ### 2. Line Length
 
-- Keep lines under 80 characters when possible
-	- DO NOT compromise readability or maintainability just to stay under 80, especially where subshells come into play
-	- PREFER to break sentences at sentence ends or logical subjects, rather than just at 80 characters
-	- PREFER to let a line go a little bit above 80 rather than having a stupid-short 2nd line
+**Keep lines under 80 characters when possible:**
+
+- DO NOT compromise readability or maintainability just to stay under 80, especially where subshells come into play
+- PREFER to break sentences at sentence ends or logical subjects, rather than just at 80 characters
+- PREFER to let a line go a little bit above 80 rather than having a stupid-short 2nd line
 
 **Break lines logically, not arbitrarily at 80 characters:**
 
@@ -249,7 +261,7 @@ esac
 echo "Hello ${name}!"
 echo "File: ${file}.backup"
 
-# Avoid
+# Bad
 echo "Hello $name!"
 echo "File: $file.backup"
 ```
@@ -288,18 +300,12 @@ fi
 
 ### 1. Function Names
 
-**Use lowercase with underscores:**
+**Use lowercase with underscores (snake_case):**
 
 ```sh
 # Single function
 process_file() {
 	file="${1}"
-	# implementation
-}
-
-# Package/library functions (use colon separator)
-mypackage_parse_config() {
-	config_file="${1}"
 	# implementation
 }
 ```
@@ -308,7 +314,7 @@ mypackage_parse_config() {
 
 **Use consistent formatting with comprehensive documentation:**
 
-Any function that is not both obvious and short must have a function header comment. Any function in a library must have a function header comment regardless of length or complexity.
+Any function that is not both obvious and short must have a function header comment. All functions in libraries must have a function header comment regardless of length or complexity.
 
 All function header comments must describe the intended API behavior using these required sections (always present, even if not applicable):
 
@@ -387,15 +393,15 @@ display_message() {
 
 **Use function-specific variable prefixes (no `local` in POSIX):**
 
-Since POSIX shell doesn't have `local`, all function variables are global. Use consistent prefixes to avoid conflicts.
+Since POSIX shell doesn't have `local`, all function variables are global. Use consistent prefixes to avoid conflicts. Initialize function variables to sane defaults.
 
 ```sh
 process_data() {
 	# Use function name prefix to avoid conflicts (pd_ = process_data)
 	pd_input_file="${1}"
 	pd_output_file="${2}"
-	pd_temp_file
-	pd_status
+	pd_temp_file=""
+	pd_status=-1
 	
 	# Separate declaration and assignment for command substitution
 	pd_temp_file=$(mktemp)
@@ -430,7 +436,7 @@ my_package_parse_config() {
 
 ### 1. Variables
 
-**Use lowercase with underscores:**
+**Use lowercase with underscores (snake_case):**
 
 ```sh
 user_name="john_doe"
@@ -453,15 +459,14 @@ export LOG_LEVEL="INFO"
 **Name descriptively:**
 
 ```sh
-# Using positional parameters as array substitute
-set -- zone1 zone2 zone3
-for zone in "$@"; do
-	deploy_to_zone "${zone}"
-done
-
-# Traditional approach
+# Good
 for user_id in user1 user2 user3; do
 	process_user "${user_id}"
+done
+
+# Bad
+for i in user1 user2 user3; do
+	process_user "${i}"
 done
 ```
 
@@ -552,6 +557,73 @@ if ! create_backup "${database}"; then
 fi
 ```
 
+### 4. Returning Values
+
+**When returning status from a function, use numerical return codes:**
+
+```sh
+# Good - status uses exit codes
+is_even() {
+  # Checks if the input number is even
+  if [ $(expr ${1} % 2) -eq 0 ]; then
+	return 0 # it's even
+  else
+	return 1 # it's not even
+  fi
+}
+
+# Bad - unnecessary string use for status
+file_exists() {
+  # Checks if the given file exists
+  if [ -f "${1}" ]; then
+	echo "true" # it exists
+  else
+	echo "false" # it doesn't exist
+  fi
+}
+```
+
+**When returning strings from a function with stdout, ensure that the function only ever returns the proper string:**
+
+```sh
+# Good - redirect useful output from stdout to stderr
+mentions_cursor() {
+	git fetch --all >&2
+	if grep -q -lr "cursor"; then
+		echo "true"
+	else
+		echo "false"
+	fi
+}
+
+# Good - redirect unneeded stdout to /dev/null
+mentions_cursor() {
+	if grep -lr "cursor" . >/dev/null; then
+		echo "true"
+	else
+		echo "false"
+	fi
+}
+
+# Bad - silence output with a flag (cannot guarantee ALL stdout is silenced)
+mentions_cursor() {
+	if grep -q -lr "cursor"; then
+		echo "true"
+	else
+		echo "false"
+	fi
+}
+
+# Bad - output will contain extraneous content, not just the function's intended return value
+mentions_cursor() {
+	if grep -lr "cursor"; then
+		echo "true"
+	else
+		echo "false"
+	fi
+}
+```
+
 ## Feature Usage Guidelines
 
 ### 1. Command Substitution
@@ -563,7 +635,7 @@ fi
 current_date=$(date '+%Y-%m-%d')
 file_count=$(find "${dir}" -type f | wc -l)
 
-# Avoid
+# Bad
 current_date=`date '+%Y-%m-%d'`
 file_count=`find "${dir}" -type f | wc -l`
 ```
@@ -644,21 +716,6 @@ fi
 # -lt (less than), -le (less than or equal)
 ```
 
-**Alternative: `$(())` arithmetic expansion (widely supported but not strictly POSIX):**
-
-```sh
-# More readable but not strictly POSIX
-total=$((count * price))        # No escaping needed
-i=$((i + 1))
-result=$(((a + b) * c))
-
-# Variables don't need $ inside
-count=5
-next=$((count + 1))
-
-# Note: This works on most modern systems but may fail on minimal/embedded shells
-```
-
 ### 4. Lists and Collections
 
 **Avoid arrays entirely - use alternative approaches:**
@@ -719,7 +776,7 @@ done
 
 ## Main Function Pattern
 
-**Use main function for scripts with multiple functions:**
+**Use main function for executable scripts with multiple functions:**
 
 ```sh
 #!/bin/sh
@@ -749,10 +806,9 @@ main() {
 
 # Only run main if script is executed directly
 # Note: BASH_SOURCE is not available in POSIX shell
-case "$0" in
-	*/*) main "$@" ;;  # Script called with path
-	*)   main "$@" ;;  # Script called directly
-esac
+if [ "${0##*/}" = "script_name.sh" ]; then
+	main "$@" # Call a main function with all arguments
+fi
 ```
 
 ## Security Considerations
@@ -891,26 +947,19 @@ EOF
 2. **Avoid complex parameter expansion** - Use external tools when needed
 3. **Don't ignore return values** - Always check command success
 4. **Avoid complex pipelines** - Use intermediate files/variables
-5. **Don't use arrays** - Use positional parameters or space-separated lists
+5. **Extraneous stdout in functions that return strings** - redirect or discard all output except the return value
+6. **Don't use arrays** - Use positional parameters or space-separated lists
+	```sh
+	# Bad: bash-specific array
+	files=( file1.txt file2.txt file3.txt )
 
-```sh
-# Bad: bash-specific array
-files=( file1.txt file2.txt file3.txt )
-
-# Good: POSIX-compatible list
-set -- file1.txt file2.txt file3.txt
-for file in "$@"; do
-	[ -f "${file}" ] || continue  # Skip if no matches
-	process_file "${file}"
-done
-```
-
-## Real-World Examples
-
-Look at these examples in the codebase for reference:
-* @deployment/scripts/posix-backup.sh - Example of POSIX error handling
-* @tools/posix-build.sh - Example of main function pattern
-* @scripts/posix-utils.sh - Example of reusable function library
+	# Good: POSIX-compatible list
+	set -- file1.txt file2.txt file3.txt
+	for file in "$@"; do
+		[ -f "${file}" ] || continue  # Skip if no matches
+		process_file "${file}"
+	done
+	```
 
 ## Testing and Validation
 
@@ -982,19 +1031,3 @@ my_func() {
 # Instead of: arr=( one two three )
 set -- one two three
 ```
-
-## Enforcement Tools
-
-- **ShellCheck**: Mandatory static analysis with `--shell=sh` flag
-- **Manual Review**: Code review should verify POSIX compliance
-- **CI Integration**: Integrate POSIX checking into CI pipeline
-- **Cross-shell Testing**: Test with dash, ash, and other POSIX shells
-
-## Summary
-
-These guidelines prioritize portability and standards compliance over convenience features. POSIX shell scripts are more verbose than bash but work reliably across different systems. When in doubt, choose the more portable approach and test with multiple shells. Remember that POSIX shell should be kept even simpler than bash - if your script becomes complex, consider rewriting it in a more structured language like Python or Go.
-
-The key trade-offs in POSIX compliance are:
-- **Lost**: Advanced features like arrays, regex matching, pipefail
-- **Gained**: Universal compatibility, faster execution on some systems, standards compliance
-- **Maintained**: Core shell scripting capabilities, function organization, error handling patterns
