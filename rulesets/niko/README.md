@@ -21,6 +21,8 @@ If **all** repositories that you work with will *also* be worked on by AI agents
 
 If you have remote or headless AI agents, you may  also wish to add `niko-request` as a prompt wrapper around user requests they receive.
 
+The [ai-rizz](https://github.com/texarkanine/ai-rizz) tool can help you manage this (but is not required).
+
 #### Some Repos use AI Agents
 
 If **some** repositories that you work with will *also* be worked on by AI agents outside your Cursor, but some repositories will not, you probably want to:
@@ -29,12 +31,6 @@ If **some** repositories that you work with will *also* be worked on by AI agent
 2. commit `niko-core.mdc` to `.cursor/rules` for the repositories that will use other AI agents
 
 The [ai-rizz](https://github.com/texarkanine/ai-rizz) tool can help you manage this (but is not required).
-
-#### Only I use AI Agents
-
-If **none** of the repositories that you work with be worked on by AI agents outside your Cursor, you may wish to make Niko's core operating principles part of your [Cursor User Rules](https://docs.cursor.com/context/rules#user-rules). This will make Niko's core operating principles always available with no per-repository setup required on your part.
-
-Just paste the contents of `niko-core.mdc` into your User Rules.
 
 ### Step 2: Niko Custom Cursor Modes
 
@@ -51,22 +47,13 @@ In all cases, `request` and `refresh` should be set up as [Custom Modes](https:/
 
 1. Create a new Custom Mode in Cursor named `Niko Refresh`
 2. Set the "Custom Instructions" to the contents of the `niko-refresh` rule (exclude the `yaml` header).
+    - **⚠️ IMPORTANT:** Adjust the link to the `task-list-management.mdc` rule to point to the `task-list-management.mdc` rule's expected location.
 3. Turn every switch on
 4. Pin to a good agentic model
-
-#### Ad-Hoc Usage
-
-If you don't create any Custom Modes, you can still use Niko's Request and Refresh by directly referencing the Rules in your prompts:
-
-**Initial Prompt**
-
-> Please follow the instructions in `@niko-refresh.mdc` to troubleshoot the issue.
-
-but it's probably easiser to put it in a mode.
 
 ## Workflow
 
 1. Activate the `Niko` custom mode (with the `niko-request` instructions) and write your initial prompt.
 2. If the agent gets stuck, activate the `Niko Refresh` custom mode (with the `niko-refresh` instructions) and ask it to troubleshoot the issue:
-    > Please follow the instructions in `@niko-refresh.mdc` to troubleshoot the issue with `[issue description]`
+    > Please troubleshoot the issue with `[issue description]`
 3. Switch back to the `Niko` custom mode and continue working.
