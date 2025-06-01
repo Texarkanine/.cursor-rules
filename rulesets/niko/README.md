@@ -17,7 +17,7 @@ Depending on how AI agents will interact with the codebases you work on, the opt
 
 #### All Repos Use AI Agents
 
-If **all** repositories that you work with will *also* be worked on by AI agents outside your Cursor, you probably want to commit `niko-core.mdc` to the repositories as Cursor rule.
+If **all** repositories that you work with will *also* be worked on by AI agents outside your Cursor, you probably want to commit the Niko rules to the repositories as Cursor Rules.
 
 If you have remote or headless AI agents, you may  also wish to add `niko-request` as a prompt wrapper around user requests they receive.
 
@@ -27,8 +27,8 @@ The [ai-rizz](https://github.com/texarkanine/ai-rizz) tool can help you manage t
 
 If **some** repositories that you work with will *also* be worked on by AI agents outside your Cursor, but some repositories will not, you probably want to:
 
-1. store `niko-core.mdc` in `.cursor/rules` without committing it for repos that won't use other AI agents
-2. commit `niko-core.mdc` to `.cursor/rules` for the repositories that will use other AI agents
+1. store the Niko rules in `.cursor/rules` without committing them, in repos that won't use other AI agents
+2. commit the Niko rules to `.cursor/rules` in the repositories that will use other AI agents
 
 The [ai-rizz](https://github.com/texarkanine/ai-rizz) tool can help you manage this (but is not required).
 
