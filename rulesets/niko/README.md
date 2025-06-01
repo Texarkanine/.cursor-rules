@@ -40,7 +40,6 @@ In all cases, `request` and `refresh` should be set up as [Custom Modes](https:/
 
 1. Create a new Custom Mode in Cursor named `Niko`
 2. Set the "Custom Instructions" to the contents of the `niko-request` rule (exclude the `yaml` header).
-    - **⚠️ IMPORTANT:** Adjust the link to the `task-list-management.mdc` rule to point to the `task-list-management.mdc` rule's expected location.
 3. Turn every switch on
 4. Pin to a good agentic model
 

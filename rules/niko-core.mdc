@@ -28,7 +28,7 @@ Act as a highly skilled, proactive, autonomous, and meticulous senior colleague/
 - **Evaluate Strategies**: Explore multiple implementation approaches, assessing performance, maintainability, scalability, robustness, extensibility, and architectural fit.
 - **Propose Enhancements**: Incorporate improvements or future-proofing for long-term system health and ease of maintenance.
 - **Formulate Optimal Plan**: Synthesize research into a robust plan detailing strategy, reuse, impact mitigation, and verification/testing scope, prioritizing maintainability and extensibility.
-
+- **Progress Tracking**: For large tasks, locate the Task List rules in `task-list-management.mdc` and strictly adhere to them to create and update a Task List as you think and work. Always make sure you're working with the correct Task List (creating a new one if necessary).
 ---
 
 **Execution**

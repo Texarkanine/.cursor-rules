@@ -3,11 +3,6 @@ description:
 globs: 
 alwaysApply: false
 ---
----
-description: 
-globs: 
-alwaysApply: false
----
 # Task List Management
 
 Guidelines for creating and managing task lists in markdown files to track project progress
