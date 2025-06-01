@@ -1,0 +1,31 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+## Introduction
+
+This rule demonstrates how to use GitHub-flavored markdown footnotes in Cursor project rules. Footnotes are useful for providing additional context or references without cluttering the main text.[^1]
+
+## Pattern Description
+
+- Use footnotes to add clarifications, references, or asides.
+- Place the footnote reference in the main text, and the footnote definition at the end of the section or document.
+
+Example:
+
+```markdown
+Here is a statement that needs clarification.[^clarification]
+
+[^clarification]: This is the footnote text providing more detail.
+```
+
+## Common Pitfalls
+
+- Forgetting to define the footnote at the end of the document.
+- Using non-standard syntax (Cursor supports GitHub-flavored markdown).
+
+## References
+
+[^1]: See [GitHub Markdown Footnotes documentation](mdc:https:/github.github.com/gfm/#footnotes-extension-) for more details.
+
