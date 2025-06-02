@@ -22,10 +22,14 @@ This rule guides you through the process of opening a pull request.
 2. Check for a pull request template at `.github/PULL_REQUEST_TEMPLATE.md` (capitalization may vary). If no template exists, use this default:
 	```markdown
 	# Summary
-	[Summarize the important changes made in this pull request]
+	[Summarize the important changes made in this pull request: A short numbered list sorted from "most impactful" to "least impactful"]
+
+    # Description
+
+    [Briefly explain any of the more-complex changes listed in the summary section]
 
 	# Related Issue(s)
-	[Reference any related issues using #issue-number; omit this section entirely if none]
+	[Reference any related issues using #issue-number; remove the "Related Issues" section entirely if no issues]
 
 	# Testing
 	[Describe how these changes were tested]
