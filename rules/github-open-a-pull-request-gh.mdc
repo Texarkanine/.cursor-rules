@@ -14,9 +14,11 @@ This rule guides you through the process of opening a pull request.
 
 ## Information Gathering
 
+**IMPORTANT:** when running git commands in this process, always use `git --no-pager`!
+
 1. Extract ticket or issue ID if present:
 	- Parse current branch name for ticket/issue patterns (e.g., `feature/ABC-123`, `fix/issue-456`).
-	- If the branch is ahead of default, check the new commits' messages for ticket/issue references: `git log --oneline --no-pager main..HEAD`
+	- If the branch is ahead of default, check the new commits' messages for ticket/issue references: `git --no-pager log --oneline main..HEAD`
 2. Check for a pull request template at `.github/PULL_REQUEST_TEMPLATE.md` (capitalization may vary). If no template exists, use this default:
 	```markdown
 	# Summary
