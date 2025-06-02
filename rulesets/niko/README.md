@@ -2,39 +2,37 @@
 
 _Based on the blog post at https://medium.com/@aashari/getting-better-results-from-cursor-ai-with-simple-rules-cbc87346ad88_
 
-`niko` introduces a set of "core operating principles" that transforms your AI code assistant into a seasonsed senior dev (Niko).
+`niko` introduces a set of rules that transform your AI code assistant into a seasonsed senior dev (Niko) that can "oneshot" complex coding tasks.
 
-There are two supplementary prompt wrappers that underscore Niko's core operating principles:
+This specific configuration of `niko` is designed to be used in Cursor, installed as _local_ rules with the [ai-rizz](https://github.com/texarkanine/ai-rizz) tool. **You will need to make manual changes** if you want to use `niko` in other environments.
 
-* `niko-request` - for starting a coding task
-* `niko-refresh` - when an AI agent gets stuck on a coding task
+## Niko
 
-Depending on how AI agents will interact with the codebases you work on, the optimal Niko setup will vary.
+Niko's core operating principles are defined in the [niko-core](../../rules/niko-core.mdc) rule.
+
+There are two supplementary prompt wrappers that support Niko's core operating principles:
+
+* [niko-request](../../rules/niko-request.mdc) - for starting a coding task
+* [niko-refresh](../../rules/niko-refresh.mdc) - when an AI agent gets stuck on a coding task
+
+## Supplementary Rules
+
+The Niko ruleset includes other supplementary rules to give Niko the capabilities it needs:
+
+* [task-list-management](../../rules/task-list-management.mdc) - for managing task lists during long-running projects
 
 ## Setup
 
 ### Step 1: Niko Core
 
-#### All Repos Use AI Agents
+Install the `niko` ruleset to `.cursor/rules/local/niko-*.mdc`. The [ai-rizz](https://github.com/texarkanine/ai-rizz) tool can help you do this.
 
-If **all** repositories that you work with will *also* be worked on by AI agents outside your Cursor, you probably want to commit the Niko rules to the repositories as Cursor Rules.
-
-If you have remote or headless AI agents, you may  also wish to add `niko-request` as a prompt wrapper around user requests they receive.
-
-The [ai-rizz](https://github.com/texarkanine/ai-rizz) tool can help you manage this (but is not required).
-
-#### Some Repos use AI Agents
-
-If **some** repositories that you work with will *also* be worked on by AI agents outside your Cursor, but some repositories will not, you probably want to:
-
-1. store the Niko rules in `.cursor/rules` without committing them, in repos that won't use other AI agents
-2. commit the Niko rules to `.cursor/rules` in the repositories that will use other AI agents
-
-The [ai-rizz](https://github.com/texarkanine/ai-rizz) tool can help you manage this (but is not required).
+    ai-rizz init https://github.com/texarkanine/.cursor-rules.git --local
+    ai-rizz add ruleset niko
 
 ### Step 2: Niko Custom Cursor Modes
 
-In all cases, `request` and `refresh` should be set up as [Custom Modes](https://docs.cursor.com/chat/custom-modes) in Cursor:
+`niko-request` and `niko-refresh` should be set up as [Custom Modes](https://docs.cursor.com/chat/custom-modes) in Cursor:
 
 **niko-request**
 
@@ -47,13 +45,23 @@ In all cases, `request` and `refresh` should be set up as [Custom Modes](https:/
 
 1. Create a new Custom Mode in Cursor named `Niko Refresh`
 2. Set the "Custom Instructions" to the contents of the `niko-refresh` rule (exclude the `yaml` header).
-    - **⚠️ IMPORTANT:** Adjust the link to the `task-list-management.mdc` rule to point to the `task-list-management.mdc` rule's expected location.
 3. Turn every switch on
 4. Pin to a good agentic model
 
-## Workflow
+## Usage
 
 1. Activate the `Niko` custom mode (with the `niko-request` instructions) and write your initial prompt.
 2. If the agent gets stuck, activate the `Niko Refresh` custom mode (with the `niko-refresh` instructions) and ask it to troubleshoot the issue:
     > Please troubleshoot the issue with `[issue description]`
 3. Switch back to the `Niko` custom mode and continue working.
+
+### Context Refreshing
+
+Niko *should* find and use [task-list-management](../../rules/task-list-management.mdc) to manage task lists during long-running projects.
+If you find that your AI agent is going off-task or forgetting things, you may have filled its context window.
+Start a new chat and refer back to the Task list to get back on track without having forgotten the *important* things.
+If you do this, you may wish to ask the original chat to update the Task List before you abandon it.
+
+## Other Environments
+
+There are `mdc:` links in the `niko-core` and `niko-refresh` rules that point to other rules in this repository. You will need to make manual changes to these links if you want to use `niko` in other environments.
