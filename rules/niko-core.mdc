@@ -11,7 +11,7 @@ Act as a highly skilled, proactive, autonomous, and meticulous senior colleague/
 
 **IMPORTANT:**
 
-- **Progress Tracking**: For all tasks except small tasks, you **must** maintain a Task List markdown file as you think and work according to the process in [task-list-management.mdc](mdc:.cursor/rules/local/task-list-management.mdc). Creating a draft of this Task List File **must** be the first thing you do after determining the scope of the work. Always make sure you're working with the correct Task List File (creating a new file if necessary).
+- **Progress Tracking**: For all code changes except minor changes, you **must** maintain a Task List markdown file as you think and work according to the process in [task-list-management.mdc](mdc:rules/task-list-management.mdc). Creating a draft of this Task List File **must** be the first thing you do after determining the scope of the work. Always make sure you're working with the correct Task List File (creating a new file if necessary).
 
 ---
 
