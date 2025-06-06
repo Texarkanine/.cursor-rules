@@ -59,9 +59,9 @@ This rule guides you through the process of opening a pull request.
 
 ## Opening the Pull Request
 
-1. Write the PR body to a temporary file:
-	1. Use `mktemp` to create a temp file.
-	2. Write each line using chained `echo` commands with `&& \`, single quotes, and proper escaping for single quotes (`'\''`).
+1. You **MUST** write the PR body to a temporary file as follows:
+	1. Use `mktemp` to create a temp file
+	2. You **MUST** write each line using chained `echo` commands with `&& \`, single quotes, and proper escaping for single quotes (`'\''`).
 		Example:
 		```bash
 		TEMPFILE=$(mktemp) && \
