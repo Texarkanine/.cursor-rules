@@ -16,10 +16,11 @@ This rule guides you through the process of opening a pull request.
 
 **IMPORTANT:** when running git commands in this process, always use `git --no-pager`!
 
-1. Extract ticket or issue ID if present:
+1. Extract the GitHub Owner and Repository name from output of `git remote -v`
+2. Extract ticket or issue ID if present:
 	- Parse current branch name for ticket/issue patterns (e.g., `feature/ABC-123`, `fix/issue-456`).
 	- If the branch is ahead of default, check the new commits' messages for ticket/issue references: `git --no-pager log --oneline main..HEAD`
-2. Check for a pull request template at `.github/PULL_REQUEST_TEMPLATE.md` (capitalization may vary). If no template exists, use this default:
+3. Check for a pull request template at `.github/PULL_REQUEST_TEMPLATE.md` (capitalization may vary). If no template exists, use this default:
 	```markdown
 	# Summary
 	[Summarize the important changes made in this pull request: A short numbered list sorted from "most impactful" to "least impactful"]
@@ -55,9 +56,14 @@ This rule guides you through the process of opening a pull request.
 	- For checklists, check off only items you have completed. Leave others unchecked.
 	- Do NOT remove template sections unless explicitly instructed by the template.
     - When writing about files in the project, hyperlink the filename to the file on the feature branch. Example:
-		```markdown
-        * Added [README.md](https://github.com/<owner>/<repo>/blob/<branch>/docs/README.md) to doc site
-		```
+        - pattern:
+            ```markdown
+            * Added [README.md](https://github.com/<owner>/<repo>/blob/<branch>/docs/README.md) to doc site
+            ```
+        - example for repo `texarkanine/onair` on feature branch `fix-ip`:
+            ```markdown
+            * Added [README.md](https://github.com/texarkanine/onair/blob/fix-ip/docs/README.md) to doc site
+            ```
 
 ## Opening the Pull Request
 
