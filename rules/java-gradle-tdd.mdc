@@ -110,14 +110,14 @@ Tests should follow a clear setup-action-verification structure and remain focus
 ```java
 @Test
 void testFeature() {
-    // Setup
-    TestObject object = createTestObject();
-    
-    // Action
-    Result result = object.performOperation();
-    
-    // Verification
-    assertEquals(expectedValue, result.getValue());
+	// Setup
+	TestObject object = createTestObject();
+	
+	// Action
+	Result result = object.performOperation();
+	
+	// Verification
+	assertEquals(expectedValue, result.getValue());
 }
 ```
 
@@ -128,13 +128,13 @@ Let exceptions propagate naturally in tests. Use test frameworks' built-in mecha
 ```java
 @Test
 void testExceptionHandling() {
-    // Basic assertion that an exception is thrown
-    assertThrows(ValidationException.class, () -> service.process(invalidData));
-    
-    // Capturing the exception to verify details
-    Exception e = assertThrows(ValidationException.class, 
-        () -> service.process(invalidData));
-    assertTrue(e.getMessage().contains("expected error text"));
+	// Basic assertion that an exception is thrown
+	assertThrows(ValidationException.class, () -> service.process(invalidData));
+	
+	// Capturing the exception to verify details
+	Exception e = assertThrows(ValidationException.class, 
+		() -> service.process(invalidData));
+	assertTrue(e.getMessage().contains("expected error text"));
 }
 ```
 
@@ -152,16 +152,16 @@ Extract common logic into well-documented helper methods, but only when they sig
  * @throws IllegalArgumentException If inputs are invalid
  */
 private Wallet createTestWallet(String passphrase, ScriptType scriptType) {
-    if (!isValidPassphrase(passphrase)) {
-        throw new IllegalArgumentException("Invalid passphrase");
-    }
-    return new Wallet(passphrase, scriptType);
+	if (!isValidPassphrase(passphrase)) {
+		throw new IllegalArgumentException("Invalid passphrase");
+	}
+	return new Wallet(passphrase, scriptType);
 }
 
 @Test
 void testWalletCreation() {
-    Wallet wallet = createTestWallet("test", ScriptType.P2PKH);
-    // Test specific assertions here
+	Wallet wallet = createTestWallet("test", ScriptType.P2PKH);
+	// Test specific assertions here
 }
 ```
 
@@ -178,14 +178,14 @@ Validate inputs early in helper methods and document expected exceptions clearly
 ```java
 // Mathematical validation pattern
 if (value < MIN_VALUE || value > MAX_VALUE || value % 4 != 0) {
-    throw new IllegalArgumentException("Value must be between " + 
-        MIN_VALUE + " and " + MAX_VALUE + " and divisible by 4");
+	throw new IllegalArgumentException("Value must be between " + 
+		MIN_VALUE + " and " + MAX_VALUE + " and divisible by 4");
 }
 
 // For discrete valid values
 private static final Set<Integer> VALID_SIZES = Set.of(16, 20, 24, 28, 32);
 if (!VALID_SIZES.contains(size)) {
-    throw new IllegalArgumentException("Size must be one of: " + VALID_SIZES);
+	throw new IllegalArgumentException("Size must be one of: " + VALID_SIZES);
 }
 ```
 
@@ -197,15 +197,15 @@ If the test expectations appear to actually be wrong, **stop and ask for confirm
 ```java
 // BAD: Adding special case just to pass tests
 public int calculate(int input) {
-    if (input == 42) { // Hard-coded just to pass a test
-        return 84;
-    }
-    return input * 2;
+	if (input == 42) { // Hard-coded just to pass a test
+		return 84;
+	}
+	return input * 2;
 }
 
 // GOOD: Fixing the actual bug in the general logic
 public int calculate(int input) {
-    return input * 2; // Implements intended behavior for all cases
+	return input * 2; // Implements intended behavior for all cases
 }
 ```
 
@@ -229,14 +229,14 @@ Use parameterized tests for multiple similar test cases.
 @ParameterizedTest
 @MethodSource("validInputProvider")
 void testMultipleScenarios(String input, int expected) {
-    assertEquals(expected, processor.process(input));
+	assertEquals(expected, processor.process(input));
 }
 
 static Stream<Arguments> validInputProvider() {
-    return Stream.of(
-        Arguments.of("input1", 10), 
-        Arguments.of("input2", 20)
-    );
+	return Stream.of(
+		Arguments.of("input1", 10), 
+		Arguments.of("input2", 20)
+	);
 }
 ```
 

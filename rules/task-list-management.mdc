@@ -1,11 +1,13 @@
 ---
-description: 
+description: Guidelines for creating and managing task lists in markdown files to track project progress
 globs: 
 alwaysApply: false
 ---
 # Task List Management
 
-Guidelines for creating and managing task lists in markdown files to track project progress
+Guidelines for creating and managing task lists in markdown files to track project progress.
+
+**IMPORTANT:** You **must** write these lists to files using tools. **DO NOT** include the lists in your responses!
 
 ## Task List Creation
 

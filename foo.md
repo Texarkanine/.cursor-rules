@@ -1,8 +1,3 @@
----
-description: The one and only correct way to open a GitHub Pull Request with the `gh` command-line tool
-globs: 
-alwaysApply: false
----
 # Opening a Pull Request
 
 This rule guides you through the process of opening a pull request.
@@ -16,18 +11,17 @@ This rule guides you through the process of opening a pull request.
 
 **IMPORTANT:** when running git commands in this process, always use `git --no-pager`!
 
-1. Extract the GitHub Owner and Repository name from output of `git remote -v`
-2. Extract ticket or issue ID if present:
+1. Extract ticket or issue ID if present:
 	- Parse current branch name for ticket/issue patterns (e.g., `feature/ABC-123`, `fix/issue-456`).
 	- If the branch is ahead of default, check the new commits' messages for ticket/issue references: `git --no-pager log --oneline main..HEAD`
-3. Check for a pull request template at `.github/PULL_REQUEST_TEMPLATE.md` (capitalization may vary). If no template exists, use this default:
+2. Check for a pull request template at `.github/PULL_REQUEST_TEMPLATE.md` (capitalization may vary). If no template exists, use this default:
 	```markdown
 	# Summary
 	[Summarize the important changes made in this pull request: A short numbered list sorted from "most impactful" to "least impactful"]
 
-	# Description
+    # Description
 
-	[Briefly explain any of the more-complex changes listed in the summary section]
+    [Briefly explain any of the more-complex changes listed in the summary section]
 
 	# Related Issue(s)
 	[Reference any related issues using #issue-number; remove the "Related Issues" section entirely if no issues]
@@ -45,34 +39,41 @@ This rule guides you through the process of opening a pull request.
 ## Preparation
 
 1. Commit all uncommitted changes if needed:
-	- Use a [Conventional Commit](mdc:https:/www.conventionalcommits.org/en/v1.0.0) message.
+	- Use a @Conventional Commit message.
 		- Prefer `feat` or `fix` types.
 		- If a ticket/issue ID exists, include it in square brackets at the end of the message (e.g., `feat(scope): description... [ABC-123]`).
 		- Use existing scopes from commit history if possible; otherwise, omit scope.
 2. Push the changes up to the feature branch.
-	- **HARD ERROR:** If this push fails, STOP. Output an error and instruct the USER to investigate. DO NOT continue with the rest of the process.
+    - **HARD ERROR:** If this push fails, STOP. Output an error and instruct the USER to investigate. DO NOT continue with the rest of the process.
 3. Complete the PR template:
 	- Fill all sections with appropriate info.
 	- For checklists, check off only items you have completed. Leave others unchecked.
 	- Do NOT remove template sections unless explicitly instructed by the template.
-	- When writing about files in the project, hyperlink the filename to the file on the feature branch. Example:
-		- pattern:
-			```markdown
-			* Added [README.md](https:/github.com/<owner>/<repo>/blob/<branch>/docs/README.md) to doc site
-			```
-		- example for repo `texarkanine/onair` on feature branch `fix-ip`:
-			```markdown
-			* Added [README.md](https:/github.com/texarkanine/onair/blob/fix-ip/docs/README.md) to doc site
-			```
+    - When writing about files in the project, hyperlink the filename to the file on the feature branch. Example:
+		```markdown
+        * Added [README.md](https://github.com/<owner>/<repo>/blob/<branch>/docs/README.md) to doc site
+		```
+    - When mentioning shell or terminal commands, surround them with single backticks:
+		```markdown
+        You can run `bash -c` to ...
+		```
 
 ## Opening the Pull Request
 
 1. You **MUST** write the PR body to a temporary file as follows:
 	1. Use `mktemp` to create a temp file
-	2. You **MUST** write each line using chained `echo` commands with `&&`, single quotes, and proper escaping for single quotes (`'\''`).
+	2. You **MUST** write each line using chained `echo` commands with `&& \`, single quotes, and proper escaping for single quotes (`'\''`).
 		Example:
 		```bash
-		TEMPFILE=$(mktemp) && echo '# Feature: New User Authentication' > "${TEMPFILE}" && echo '' >> "${TEMPFILE}" && echo 'Implements new user authentication as specified in ABC-123.' >> "${TEMPFILE}" && echo '' >> "${TEMPFILE}" && echo '## Changes' >> "${TEMPFILE}" && echo '- Added OAuth2 integration' >> "${TEMPFILE}" && echo '- Created user session management' >> "${TEMPFILE}" && echo 'This doesn'\''t affect existing users.' >> "${TEMPFILE}"
+		TEMPFILE=$(mktemp) && \
+		echo '# Feature: New User Authentication' > "${TEMPFILE}" && \
+		echo '' >> "${TEMPFILE}" && \
+		echo 'Implements new user authentication as specified in ABC-123.' >> "${TEMPFILE}" && \
+		echo '' >> "${TEMPFILE}" && \
+		echo '## Changes' >> "${TEMPFILE}" && \
+		echo '- Added OAuth2 integration' >> "${TEMPFILE}" && \
+		echo '- Created user session management' >> "${TEMPFILE}" && \
+		echo 'This doesn'\''t affect existing users.' >> "${TEMPFILE}"
 		```
 2. Open a draft pull request using the `gh` CLI:
 	- Use `--body-file "${TEMPFILE}"` for the body.
@@ -84,8 +85,8 @@ This rule guides you through the process of opening a pull request.
 		```bash
 		gh pr create --draft --title "feat(auth): implement OAuth2 authentication" --body-file $TEMPFILE
 		```
-3. Report the result to the user with ONLY and EXACTLY the following message (filling in the `<information>` appropriately):
+3. Report the result to the user with ONLY and EXACTLY the following message:
 	Example:
 	```markdown
-	PR Opened: [feat(auth): implement OAuth2 authentication](https://github.com/<owner>/<repo>/pulls/<pr_number>)
+	PR Opened: @feat(auth): implement OAuth2 authentication
 	```

@@ -37,12 +37,12 @@ alwaysApply: false # Optional: Set to true to always include this rule
 
 * **`description`**: A concise, semantic description. Start with phrases like "Guidelines for..." or "Instructions on..." This likely helps Cursor automatically select the most relevant rule when multiple match.
 * **`globs`**: File pattern(s) that trigger this rule's automatic activation. Be specific.
-    Examples:
-    * `src/components/**/_.tsx,src/components/**/_.jsx` (React components)
-    * `src/server/api/**/_.ts` (Server API routes)
-    * `_.json,_.yaml,_.yml` (Configuration files)
-    * `src/utils/!(test).ts` (Utility files, excluding tests)
-    * `package.json,pnpm-lock.yaml` (Specific root files)
+	Examples:
+	* `src/components/**/_.tsx,src/components/**/_.jsx` (React components)
+	* `src/server/api/**/_.ts` (Server API routes)
+	* `_.json,_.yaml,_.yml` (Configuration files)
+	* `src/utils/!(test).ts` (Utility files, excluding tests)
+	* `package.json,pnpm-lock.yaml` (Specific root files)
 * **`alwaysApply`** (Optional, defaults to `false`): If `true`, the rule is included in context regardless of the files being referenced.
 
 ### 2. Content Sections (Recommended Structure)
@@ -182,9 +182,9 @@ alwaysApply: false
 * **Use for:** Guidance requiring explicit human activation/oversight; highly situational instructions; verbose procedures or knowledge dumps not suitable for automatic inclusion.
 * **Context impact:** Only consumes context when explicitly invoked by a user. Never automatically included.
 * **Best practices:**
-    * Can be highly verbose and detailed.
-    * Ensure `alwaysApply: false`.
-    * `globs` are not used for activation.
+	* Can be highly verbose and detailed.
+	* Ensure `alwaysApply: false`.
+	* `globs` are not used for activation.
 
 ```yaml
 ---
@@ -202,10 +202,10 @@ alwaysApply: false
 * **Keep Rules Updated:** Regularly review rules. Update them when conventions change or code evolves. *Delete* rules that become obsolete or if the AI consistently follows the pattern without the rule.
 * **Trust the LLM (to an extent):** While rules provide guidance, allow the LLM some flexibility. It can often infer patterns from the existing codebase, especially as it grows.
 * **Troubleshooting:** If rules aren't activating as expected, double-check:
-    * The YAML frontmatter is the _absolute first_ content in the file.
-    * The `globs` pattern correctly matches the intended files.
-    * File paths in `@file` directives are correct.
-    * The `.mdc` file encoding is standard (UTF-8). 
+	* The YAML frontmatter is the _absolute first_ content in the file.
+	* The `globs` pattern correctly matches the intended files.
+	* File paths in `@file` directives are correct.
+	* The `.mdc` file encoding is standard (UTF-8). 
 
 ## Team Collaboration
 

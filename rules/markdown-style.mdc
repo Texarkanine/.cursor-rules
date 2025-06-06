@@ -20,85 +20,85 @@ Do not **over-use** sections by having "leaf" section headings where a *list* or
 
 **Wrong** (underuses sections):
 
-    ## Quick Start
+	## Quick Start
 
-    Prerequisites:
-    - git
-    - POSIX-compatible shell (bash, dash, zsh, etc.)
-    - Core Unix utilities (find, grep, cat, mktemp, etc.)
-    - tree (for displaying directory structures)
+	Prerequisites:
+	- git
+	- POSIX-compatible shell (bash, dash, zsh, etc.)
+	- Core Unix utilities (find, grep, cat, mktemp, etc.)
+	- tree (for displaying directory structures)
 
-    Installation:
-    ```
-    git clone https://github.com/yourusername/ai-rizz.git
-    cd ai-rizz
-    make install
-    ```
+	Installation:
+	```
+	git clone https://github.com/yourusername/ai-rizz.git
+	cd ai-rizz
+	make install
+	```
 
-    ### Common recipes
+	### Common recipes
 
-    **Personal rules only (git-ignored):**
-    ```bash
-    ai-rizz init https://github.com/example/rules.git --local
-    ai-rizz add rule my-personal-rule.mdc
-    ai-rizz list
-    ```
+	**Personal rules only (git-ignored):**
+	```bash
+	ai-rizz init https://github.com/example/rules.git --local
+	ai-rizz add rule my-personal-rule.mdc
+	ai-rizz list
+	```
 
-    **Team rules (committed to repo):**
-    ```bash
-    ai-rizz init https://github.com/example/rules.git --commit
-    ai-rizz add rule team-shared-rule.mdc
-    ai-rizz list
-    ```
+	**Team rules (committed to repo):**
+	```bash
+	ai-rizz init https://github.com/example/rules.git --commit
+	ai-rizz add rule team-shared-rule.mdc
+	ai-rizz list
+	```
 
-    **Mix of both:**
-    ```bash
-    ai-rizz init https://github.com/example/rules.git --local
-    ai-rizz add rule personal-rule.mdc          # goes to local
-    ai-rizz add rule shared-rule.mdc --commit   # creates commit mode
-    ai-rizz list                                # shows: ○ ◐ ●
-    ```
+	**Mix of both:**
+	```bash
+	ai-rizz init https://github.com/example/rules.git --local
+	ai-rizz add rule personal-rule.mdc      	# goes to local
+	ai-rizz add rule shared-rule.mdc --commit   # creates commit mode
+	ai-rizz list                            	# shows: ○ ◐ ●
+	```
 
 **Correct** (fully leverages sections):
 
-    ## Quick Start
+	## Quick Start
 
-    ### Prerequisites
-    - git
-    - POSIX-compatible shell (bash, dash, zsh, etc.)
-    - Core Unix utilities (find, grep, cat, mktemp, etc.)
-    - tree (for displaying directory structures)
+	### Prerequisites
+	- git
+	- POSIX-compatible shell (bash, dash, zsh, etc.)
+	- Core Unix utilities (find, grep, cat, mktemp, etc.)
+	- tree (for displaying directory structures)
 
-    ### Installation
-    ```
-    git clone https://github.com/yourusername/ai-rizz.git
-    cd ai-rizz
-    make install
-    ```
+	### Installation
+	```
+	git clone https://github.com/yourusername/ai-rizz.git
+	cd ai-rizz
+	make install
+	```
 
-    ### Common recipes
+	### Common recipes
 
-    **Personal rules only (git-ignored):**
-    ```bash
-    ai-rizz init https://github.com/example/rules.git --local
-    ai-rizz add rule my-personal-rule.mdc
-    ai-rizz list
-    ```
+	**Personal rules only (git-ignored):**
+	```bash
+	ai-rizz init https://github.com/example/rules.git --local
+	ai-rizz add rule my-personal-rule.mdc
+	ai-rizz list
+	```
 
-    **Team rules (committed to repo):**
-    ```bash
-    ai-rizz init https://github.com/example/rules.git --commit
-    ai-rizz add rule team-shared-rule.mdc
-    ai-rizz list
-    ```
+	**Team rules (committed to repo):**
+	```bash
+	ai-rizz init https://github.com/example/rules.git --commit
+	ai-rizz add rule team-shared-rule.mdc
+	ai-rizz list
+	```
 
-    **Mix of both:**
-    ```bash
-    ai-rizz init https://github.com/example/rules.git --local
-    ai-rizz add rule personal-rule.mdc          # goes to local
-    ai-rizz add rule shared-rule.mdc --commit   # creates commit mode
-    ai-rizz list                                # shows: ○ ◐ ●
-    ```
+	**Mix of both:**
+	```bash
+	ai-rizz init https://github.com/example/rules.git --local
+	ai-rizz add rule personal-rule.mdc      	# goes to local
+	ai-rizz add rule shared-rule.mdc --commit   # creates commit mode
+	ai-rizz list                            	# shows: ○ ◐ ●
+	```
 
 ## Markdown Code Fence Nesting
 
@@ -117,32 +117,32 @@ If your content contains four backticks, use five backticks for the outer fence,
 
 **Wrong** (breaks rendering):
 
-    ```markdown
-    # Example
-    ```bash
-    echo "hello"
-    ```
-    ```
+	```markdown
+	# Example
+	```bash
+	echo "hello"
+	```
+	```
 
 **Correct** (renders properly):
 
-    ````markdown
-    # Example
-    ```bash
-    echo "hello"
-    ```
-    ````
+	````markdown
+	# Example
+	```bash
+	echo "hello"
+	```
+	````
 
 **For content with four backticks, use five**:
 
-    `````markdown
-    ````markdown
-    # Nested example
-    ```bash
-    echo "hello"
-    ```
-    ````
-    `````
+	`````markdown
+	````markdown
+	# Nested example
+	```bash
+	echo "hello"
+	```
+	````
+	`````
 
 ### Fallback Technique: Indented Code Blocks
 
@@ -150,13 +150,13 @@ When backtick counting gets too complex or confusing, use **indented code blocks
 
 Indent with whitespace (4 spaces or 1 tab) to create code blocks without any backticks:
 
-    This is a code block created with indentation
-    ````markdown
-    # No conflicts here!
-    ```bash
-    echo "works perfectly"
-    ```
-    ````
+	This is a code block created with indentation
+	````markdown
+	# No conflicts here!
+	```bash
+	echo "works perfectly"
+	```
+	````
 
 Choose spaces or tabs based on the existing pattern in the rest of the document. If you are creating a new document or there is no existing pattern of indentation, use tabs.
 
