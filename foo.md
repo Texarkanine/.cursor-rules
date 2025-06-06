@@ -1,8 +1,3 @@
----
-description: The one and only correct way to open a GitHub Pull Request with the `gh` command-line tool
-globs: 
-alwaysApply: false
----
 # Opening a Pull Request
 
 This rule guides you through the process of opening a pull request.
@@ -44,7 +39,7 @@ This rule guides you through the process of opening a pull request.
 ## Preparation
 
 1. Commit all uncommitted changes if needed:
-	- Use a [Conventional Commit](mdc:https:/www.conventionalcommits.org/en/v1.0.0) message.
+	- Use a @Conventional Commit message.
 		- Prefer `feat` or `fix` types.
 		- If a ticket/issue ID exists, include it in square brackets at the end of the message (e.g., `feat(scope): description... [ABC-123]`).
 		- Use existing scopes from commit history if possible; otherwise, omit scope.
@@ -57,6 +52,10 @@ This rule guides you through the process of opening a pull request.
     - When writing about files in the project, hyperlink the filename to the file on the feature branch. Example:
 		```markdown
         * Added [README.md](https://github.com/<owner>/<repo>/blob/<branch>/docs/README.md) to doc site
+		```
+    - When mentioning shell or terminal commands, surround them with single backticks:
+		```markdown
+        You can run `bash -c` to ...
 		```
 
 ## Opening the Pull Request
@@ -86,5 +85,8 @@ This rule guides you through the process of opening a pull request.
 		```bash
 		gh pr create --draft --title "feat(auth): implement OAuth2 authentication" --body-file $TEMPFILE
 		```
-3. Report the result to the user with ONLY and EXACTLY the followid: @feat(auth): implement OAuth2 authentication
+3. Report the result to the user with ONLY and EXACTLY the following message:
+	Example:
+	```markdown
+	PR Opened: @feat(auth): implement OAuth2 authentication
 	```
