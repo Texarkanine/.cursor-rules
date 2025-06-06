@@ -86,5 +86,8 @@ This rule guides you through the process of opening a pull request.
 		```bash
 		gh pr create --draft --title "feat(auth): implement OAuth2 authentication" --body-file $TEMPFILE
 		```
-3. Report the result to the user with ONLY and EXACTLY the followid: @feat(auth): implement OAuth2 authentication
+3. Report the result to the user with ONLY and EXACTLY the following message:
+	Example:
+	```markdown
+	PR Opened: @feat(auth): implement OAuth2 authentication
 	```
