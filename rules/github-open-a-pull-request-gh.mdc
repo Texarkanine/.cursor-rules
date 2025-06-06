@@ -58,11 +58,11 @@ This rule guides you through the process of opening a pull request.
 	- When writing about files in the project, hyperlink the filename to the file on the feature branch. Example:
 		- pattern:
 			```markdown
-			* Added [README.md](mdc:https:/github.com/<owner>/<repo>/blob/<branch>/docs/README.md) to doc site
+			* Added [README.md](https:/github.com/<owner>/<repo>/blob/<branch>/docs/README.md) to doc site
 			```
 		- example for repo `texarkanine/onair` on feature branch `fix-ip`:
 			```markdown
-			* Added [README.md](mdc:https:/github.com/texarkanine/onair/blob/fix-ip/docs/README.md) to doc site
+			* Added [README.md](https:/github.com/texarkanine/onair/blob/fix-ip/docs/README.md) to doc site
 			```
 
 ## Opening the Pull Request
@@ -84,8 +84,8 @@ This rule guides you through the process of opening a pull request.
 		```bash
 		gh pr create --draft --title "feat(auth): implement OAuth2 authentication" --body-file $TEMPFILE
 		```
-3. Report the result to the user with ONLY and EXACTLY the following message:
+3. Report the result to the user with ONLY and EXACTLY the following message (filling in the `<information>` appropriately):
 	Example:
 	```markdown
-	PR Opened: @feat(auth): implement OAuth2 authentication
+	PR Opened: [feat(auth): implement OAuth2 authentication](https://github.com/<owner>/<repo>/pulls/<pr_number>)
 	```
