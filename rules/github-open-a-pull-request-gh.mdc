@@ -7,14 +7,14 @@ alwaysApply: false
 
 This rule guides you through the process of opening a pull request.
 
+**IMPORTANT:** when running `git` commands in this process, **always** use `git --no-pager`! The terminal will get STUCK if you do not use `git --no-pager`!
+
 ## Pre-flight Checks
 
 1. Ensure you are on a non-default branch (not `main` or `master`).
 	- **HARD ERROR:** If on a default branch, STOP. Output an error and instruct the USER to switch to a feature branch. Do NOT create a branch yourself.
 
 ## Information Gathering
-
-**IMPORTANT:** when running git commands in this process, always use `git --no-pager`!
 
 1. Extract the GitHub Owner and Repository name from output of `git remote -v`
 2. Extract ticket or issue ID if present:
@@ -58,11 +58,11 @@ This rule guides you through the process of opening a pull request.
 	- When writing about files in the project, hyperlink the filename to the file on the feature branch. Example:
 		- pattern:
 			```markdown
-			* Added [README.md](https:/github.com/<owner>/<repo>/blob/<branch>/docs/README.md) to doc site
+			* Added [README.md](mdc:https:/github.com/<owner>/<repo>/blob/<branch>/docs/README.md) to doc site
 			```
 		- example for repo `texarkanine/onair` on feature branch `fix-ip`:
 			```markdown
-			* Added [README.md](https:/github.com/texarkanine/onair/blob/fix-ip/docs/README.md) to doc site
+			* Added [README.md](mdc:https:/github.com/texarkanine/onair/blob/fix-ip/docs/README.md) to doc site
 			```
 
 ## Opening the Pull Request
@@ -87,5 +87,5 @@ This rule guides you through the process of opening a pull request.
 3. Report the result to the user with ONLY and EXACTLY the following message (filling in the `<information>` appropriately):
 	Example:
 	```markdown
-	PR Opened: [feat(auth): implement OAuth2 authentication](https://github.com/<owner>/<repo>/pulls/<pr_number>)
+	PR Opened: [feat(auth): implement OAuth2 authentication](mdc:https:/github.com/<owner>/<repo>/pulls/<pr_number>)
 	```
