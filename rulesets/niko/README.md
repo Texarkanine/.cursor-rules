@@ -20,6 +20,7 @@ There are two supplementary prompt wrappers that support Niko's core operating p
 The Niko ruleset includes other supplementary rules to give Niko the capabilities it needs:
 
 * [always-tdd](../../rules/always-tdd.mdc) - forces test-driven development (TDD) for all code changes
+* [test-running-practices](../../rules/test-running-practices.mdc) - best-practices for using tests to guide development
 * [task-list-management](../../rules/task-list-management.mdc) - for managing task lists during long-running projects
 
 ## Setup
