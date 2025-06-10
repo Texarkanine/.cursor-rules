@@ -12,7 +12,7 @@ This rule guides you through the process of opening a pull request.
 ## Pre-flight Checks
 
 1. Ensure you are on a non-default branch (not `main` or `master`).
-	- **HARD ERROR:** If on a default branch, STOP. Output an error and instruct the USER to switch to a feature branch. Do NOT create a branch yourself.
+	- **HARD ERROR:** If on a default branch, STOP. Do NOT create a branch yourself. Output an error and instruct the USER to switch to a feature branch.
 
 ## Information Gathering
 
