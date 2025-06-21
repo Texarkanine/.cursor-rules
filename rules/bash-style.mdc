@@ -518,22 +518,22 @@ fi
 ```bash
 # Good - status uses exit codes
 is_even() {
-  # Checks if the input number is even
-  if (( ${1} % 2 == 0 )); then
-	return 0 # it's even
-  else
-	return 1 # it's not even
-  fi
+	# Checks if the input number is even
+	if (( ${1} % 2 == 0 )); then
+		return 0 # it's even
+	else
+		return 1 # it's not even
+	fi
 }
 
 # Bad - unnecessary string use for status
 file_exists() {
-  # Checks if the given file exists
-  if [[ -f "${1}" ]]; then
-	echo "true" # it exists
-  else
-	echo "false" # it doesn't exist
-  fi
+	# Checks if the given file exists
+	if [[ -f "${1}" ]]; then
+		echo "true" # it exists
+	else
+		echo "false" # it doesn't exist
+	fi
 }
 ```
 
