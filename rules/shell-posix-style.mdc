@@ -76,7 +76,7 @@ fi
 **Use spaces for subsequent indentation:**
 
 ```sh
-if [ "${1}" == "start" ]; then
+if [ "${1}"  "start" ]; then
 	echo "Starting service..."
 	if systemctl start myservice; then
 		# the following lines align function inputs w/ spaces
@@ -93,7 +93,7 @@ fi
 **ALWAYS use spaces for indentation within multi-line comments:**
 
 ```sh
-if [ "${1}" == "start" ]; then
+if [ "${1}" = "start" ]; then
 	echo "Starting service..."
 	if systemctl start myservice; then
 		echo "Service started successfully"
