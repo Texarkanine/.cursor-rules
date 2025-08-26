@@ -22,7 +22,7 @@ description: Comprehensive visual planning for complex multi-component implement
 - **Success criteria**: Clear indicators of completion
 
 ### Visual conventions:
-- Use `graph TD` (top-down) layout for most diagrams
+- Use `graph TD` (top-down) for architecture diagrams; use `graph LR` (left-right) for user flow sequences
 - Include emojis for visual scanning (🎯 for goals, ✅ for completed, 🔧 for technical, etc.)
 - Color-code different types of nodes with `style` statements
 - Group related items logically

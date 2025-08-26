@@ -69,6 +69,8 @@ style UserFacingNode fill:#e8eaf6,stroke:#3f51b5
 style RiskNode fill:#ffebee,stroke:#c62828
 ```
 
+*Note: Replace the example node IDs (GoalNode, CompletedNode, etc.) with your actual node IDs (A, B, UserDashboard, etc.) when applying styles to your diagram.*
+
 ## Phase 2: Task List Creation
 
 ### From Visual Diagram to Structured Tasks
