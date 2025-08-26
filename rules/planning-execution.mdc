@@ -49,6 +49,7 @@ Create visual diagrams using Mermaid syntax (in fenced code blocks marked with `
 
 Use re-usable classes for consistent styling:
 ```mermaid
+graph TD
 %% Define style classes once
 classDef goal fill:#e1f5fe,stroke:#01579b;
 classDef done fill:#e8f5e8,stroke:#2e7d32;
@@ -60,7 +61,6 @@ classDef dataflow fill:#f1f8e9,stroke:#558b2f;
 classDef integration fill:#fce4ec,stroke:#ad1457;
 
 %% Use classes on nodes
-graph TD
 	A[🎯 Main Goal]:::goal --> B[🔧 Tech Component]:::tech
 	B --> C[🎨 User Interface]:::ux
 	C --> D[✅ Completed]:::done
@@ -68,12 +68,6 @@ graph TD
 	F[🌐 API Integration]:::integration --> B
 	G[⚠️ Risk Area]:::risk
 	H[🔄 Recurring Process]:::iterative
-```
-
-*Alternative: Per-node styling (use for exceptional adjustments only)*
-```mermaid
-style GoalNode fill:#e1f5fe,stroke:#01579b
-style CompletedNode fill:#e8f5e8,stroke:#2e7d32
 ```
 
 ## Phase 2: Task List Creation
