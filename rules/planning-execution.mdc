@@ -1,0 +1,132 @@
+---
+description: Comprehensive visual planning and structured execution tracking for complex multi-component implementations, system architecture changes, user flow designs, API integrations, and feature development requiring coordinated task management
+globs: 
+alwaysApply: false
+---
+
+# Planning and Execution Management
+
+For complex implementations, follow this three-phase methodology: visual planning, task breakdown, and execution tracking.
+
+## When to Apply
+
+Apply this methodology when requests include:
+
+- **Planning language:** "make a plan", "create a plan", "design the architecture", "map this out", "break this down", "structure this approach"
+- **Complexity indicators:** multi-component features (3+ parts), system architecture changes, user flow implementations, cross-service functionality, API integrations, complex refactoring
+- **Project scope language:** "comprehensive implementation", "full feature development", "end-to-end solution", "complete system", "coordinated effort", "systematic approach"
+
+## Phase 1: Visual Planning
+
+### Required Before Any Implementation
+Create visual diagrams using Mermaid syntax (in fenced code blocks marked with `mermaid`) covering the relevant aspects:
+
+- **Architecture:** component relationships, data flow, integration points
+- **User experience:** journey flow, interaction points, decision branches
+- **Implementation:** sequence, key files, testing approach
+
+### Visual Conventions
+
+#### Layout Standards
+- Use `graph TD` (top-down) for most architectural diagrams
+- Use `graph LR` (left-right) for user flow sequences
+- Group related components using `subgraph` containers
+- Maintain consistent visual hierarchy and spacing
+
+### Visual Elements for Rapid Scanning
+```
+🎯 Main goals and objectives
+✅ Completed components  
+🔧 Technical implementation details
+🎨 User-facing features and interfaces
+⚠️ Risk areas, blockers, or dependencies
+🔄 Iterative or recurring processes
+📊 Data flow or state management
+🌐 External integrations or APIs
+```
+
+**Color Coding with Style Statements**
+
+Use re-usable classes for consistent styling:
+```mermaid
+graph TD
+%% Define style classes once
+classDef goal fill:#e1f5fe,stroke:#01579b;
+classDef done fill:#e8f5e8,stroke:#2e7d32;
+classDef tech fill:#f3e5f5,stroke:#7b1fa2;
+classDef ux fill:#e8eaf6,stroke:#3f51b5;
+classDef risk fill:#ffebee,stroke:#c62828;
+classDef iterative fill:#fff3e0,stroke:#ef6c00;
+classDef dataflow fill:#f1f8e9,stroke:#558b2f;
+classDef integration fill:#fce4ec,stroke:#ad1457;
+
+%% Use classes on nodes
+	A[🎯 Main Goal]:::goal --> B[🔧 Tech Component]:::tech
+	B --> C[🎨 User Interface]:::ux
+	C --> D[✅ Completed]:::done
+	E[📊 Data Processing]:::dataflow --> B
+	F[🌐 API Integration]:::integration --> B
+	G[⚠️ Risk Area]:::risk
+	H[🔄 Recurring Process]:::iterative
+```
+
+## Phase 2: Task List Creation
+
+### From Visual Diagram to Structured Tasks
+
+Create comprehensive task list file using descriptive naming. Common patterns include:
+- `FEATURE_IMPLEMENTATION.md` for new features
+- `ARCHITECTURE_REFACTOR.md` for system changes  
+- `INTEGRATION_PROJECT.md` for API/service work
+- `USER_FLOW_DEVELOPMENT.md` for UX implementations
+
+### Task List Structure
+
+Create task list with these core sections:
+
+```markdown
+# [Project Name] Implementation
+
+[Brief description from visual diagram]
+
+## Completed Tasks
+- [x] [Component/feature from diagram]
+
+## In Progress Tasks  
+- [ ] [Component/feature from diagram]
+- [ ] [Component/feature from diagram]
+
+## Future Tasks
+- [ ] [Integration tasks from diagram]
+- [ ] [Testing and validation tasks]
+
+## Implementation Notes
+[Key architectural decisions and file references as needed]
+```
+
+### Task Breakdown Guidelines
+
+- Break diagram components into specific, actionable tasks
+- Maintain clear connections between visual design and task descriptions  
+- Include both implementation and testing tasks for each component
+
+## Phase 3: Execution with Progress Tracking
+
+- **Progress management**
+	- **Task updates:**
+		- Mark completed tasks with `[x]` and move them between sections as needed
+		- Add any newly discovered tasks right away
+		- Update both the diagram and the task list when architecture changes
+	- **Synchronization:**
+		- Keep diagram nodes and task descriptions aligned
+		- Update the visual diagram first, then modify the task list to match
+		- Do not make implementation changes until both artifacts are updated
+- **Task completion**
+	- **Validation:**
+		- Make sure all diagram components are implemented
+		- Check that the task list shows all items completed
+		- Test integration points and user flows from the original plan
+	- **If blocked:**
+		- Update the task list with the current status and the specific blocking issue
+		- Reference the original diagram to identify alternative approaches
+		- If unable to resolve autonomously, clearly document the problem and request guidance
