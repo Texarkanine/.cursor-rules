@@ -32,6 +32,7 @@ Create visual diagrams using Mermaid syntax (in fenced code blocks marked with `
 - Use `graph LR` (left-right) for user flow sequences
 - Group related components using `subgraph` containers
 - Maintain consistent visual hierarchy and spacing
+- **Always quote node labels** with double quotes: `A["Node Label"]`. If labels must contain double quotes, use HTML entity `#quot;` but avoid this if possible.
 
 ### Visual Elements for Rapid Scanning
 ```
@@ -50,24 +51,24 @@ Create visual diagrams using Mermaid syntax (in fenced code blocks marked with `
 Use re-usable classes for consistent styling:
 ```mermaid
 graph TD
-%% Define style classes once
-classDef goal fill:#e1f5fe,stroke:#01579b;
-classDef done fill:#e8f5e8,stroke:#2e7d32;
-classDef tech fill:#f3e5f5,stroke:#7b1fa2;
-classDef ux fill:#e8eaf6,stroke:#3f51b5;
-classDef risk fill:#ffebee,stroke:#c62828;
-classDef iterative fill:#fff3e0,stroke:#ef6c00;
-classDef dataflow fill:#f1f8e9,stroke:#558b2f;
-classDef integration fill:#fce4ec,stroke:#ad1457;
+    %% Define style classes once
+    classDef goal fill:#e1f5fe,stroke:#01579b;
+    classDef done fill:#e8f5e8,stroke:#2e7d32;
+    classDef tech fill:#f3e5f5,stroke:#7b1fa2;
+    classDef ux fill:#e8eaf6,stroke:#3f51b5;
+    classDef risk fill:#ffebee,stroke:#c62828;
+    classDef iterative fill:#fff3e0,stroke:#ef6c00;
+    classDef dataflow fill:#f1f8e9,stroke:#558b2f;
+    classDef integration fill:#fce4ec,stroke:#ad1457;
 
-%% Use classes on nodes
-	A[🎯 Main Goal]:::goal --> B[🔧 Tech Component]:::tech
-	B --> C[🎨 User Interface]:::ux
-	C --> D[✅ Completed]:::done
-	E[📊 Data Processing]:::dataflow --> B
-	F[🌐 API Integration]:::integration --> B
-	G[⚠️ Risk Area]:::risk
-	H[🔄 Recurring Process]:::iterative
+    %% Use classes on nodes
+    A["🎯 User Dashboard (v2.0)"]:::goal --> B["🔧 Backend API"]:::tech
+    B --> C["🎨 Frontend Components"]:::ux
+    B --> D["✅ Authentication [OAuth]"]:::done
+    C --> E["📊 Data Processing (real-time)"]:::dataflow
+    C --> F["🌐 Third-party API (Stripe)"]:::integration
+    G["⚠️ Database Migration [PostgreSQL → MongoDB]"]:::risk
+    H["🔄 Auto-refresh (30s intervals)"]:::iterative
 ```
 
 ## Phase 2: Task List Creation
