@@ -1,0 +1,41 @@
+---
+alwaysApply: false
+description: Comprehensive visual planning for complex multi-component implementations, system architecture changes, user flow designs, API integrations, and feature development requiring detailed coordination
+---
+## Visual Planning for Complex Tasks
+
+**When planning or implementing complex technical tasks (3+ components or multi-step processes), always create a visual diagram using the create_diagram tool with Mermaid syntax before beginning implementation.**
+
+### Required for:
+- Multi-component features
+- User flow implementations 
+- System architecture changes
+- Complex refactoring tasks
+- Cross-page functionality
+- API integrations
+
+### Diagram should include:
+- **Planning phase**: Break down the task into logical components
+- **Dependencies**: Show relationships between components 
+- **User flow**: How users will interact with the feature
+- **Technical structure**: Key files, components, or systems involved
+- **Success criteria**: Clear indicators of completion
+
+### Visual conventions:
+- Use `graph TD` (top-down) layout for most diagrams
+- Include emojis for visual scanning (🎯 for goals, ✅ for completed, 🔧 for technical, etc.)
+- Color-code different types of nodes with `style` statements
+- Group related items logically
+- Show both technical implementation and user-facing benefits
+
+### Example pattern:
+```mermaid
+graph TD
+ A["🎯 Main Goal"] --> B["Planning Phase"]
+ B --> C["✅ Component 1"]
+ B --> D["✅ Component 2"] 
+ C --> E["🎨 User Experience"]
+ D --> E
+```
+
+**This visual-first approach helps ensure clear communication, proper planning, and comprehensive implementation of complex features.**
