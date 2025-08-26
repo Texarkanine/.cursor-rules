@@ -4,7 +4,7 @@ description: Comprehensive visual planning for complex multi-component implement
 ---
 ## Visual Planning for Complex Tasks
 
-**When planning or implementing complex technical tasks (3+ components or multi-step processes), always create a visual diagram using the create_diagram tool with Mermaid syntax before beginning implementation.**
+**When planning or implementing complex technical tasks (3+ components or multi-step processes), always create a visual diagram using Mermaid syntax before beginning implementation.**
 
 ### Required for:
 - Multi-component features
