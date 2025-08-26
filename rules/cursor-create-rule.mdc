@@ -198,6 +198,7 @@ alwaysApply: false
 
 * **Start Simple, Iterate:** Don't aim for perfection immediately. Start with basic rules for core conventions and add/refine them over time as you observe the AI's behavior and identify gaps.
 * **Be Specific but Flexible:** Provide clear, actionable guidance with concrete examples. Use recommending language ("prefer", "consider", "typically") rather than overly rigid commands ("must", "always") unless a strict convention is required. Explain the *why* behind rules.
+* **Format Lists for AI Comprehension:** Choose list formatting based on AI usage patterns. Use **flattened lists** (comma-separated items) for pattern matching, reference lists, and categorical guidance where AI needs to scan quickly. Use **discrete bullet points** for procedural steps, systematic workflows, and any content where AI needs to track completion of individual actions. Example: "Triggers: planning, architecture, multi-component" (flattened) vs step-by-step implementation procedures (bulleted).
 * **Focus on Patterns:** Rules should define repeatable patterns, conventions, or project knowledge, not fix one-off bugs.
 * **Keep Rules Updated:** Regularly review rules. Update them when conventions change or code evolves. *Delete* rules that become obsolete or if the AI consistently follows the pattern without the rule.
 * **Trust the LLM (to an extent):** While rules provide guidance, allow the LLM some flexibility. It can often infer patterns from the existing codebase, especially as it grows.

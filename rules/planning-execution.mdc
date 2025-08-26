@@ -10,30 +10,16 @@ For complex implementations, follow this three-phase methodology: visual plannin
 
 ## When to Apply
 
-Apply this comprehensive methodology when requests involve:
+Apply this methodology when requests include:
 
-**Planning Language:**
-- "make a plan" / "create a plan" / "plan this out"
-- "design the architecture" / "map this out"
-- "break this down" / "structure this approach"
-
-**Complexity Indicators:**
-- Multi-component features (3+ interconnected parts)
-- System architecture changes or redesigns
-- User flow implementations or experience design
-- Cross-service or cross-page functionality
-- API integrations with multiple endpoints
-- Complex refactoring involving multiple files/systems
-
-**Project Scope Language:**
-- "comprehensive implementation" / "full feature development"
-- "end-to-end solution" / "complete system"
-- "coordinated effort" / "systematic approach"
+- **Planning language:** "make a plan", "create a plan", "design the architecture", "map this out", "break this down", "structure this approach"
+- **Complexity indicators:** multi-component features (3+ parts), system architecture changes, user flow implementations, cross-service functionality, API integrations, complex refactoring
+- **Project scope language:** "comprehensive implementation", "full feature development", "end-to-end solution", "complete system", "coordinated effort", "systematic approach"
 
 ## Phase 1: Visual Planning
 
 ### Required Before Any Implementation
-Create visual diagrams using Mermaid syntax covering the relevant aspects:
+Create visual diagrams using Mermaid syntax (in fenced code blocks marked with `mermaid`) covering the relevant aspects:
 
 - **Architecture:** component relationships, data flow, integration points
 - **User experience:** journey flow, interaction points, decision branches
@@ -41,13 +27,13 @@ Create visual diagrams using Mermaid syntax covering the relevant aspects:
 
 ### Visual Conventions
 
-**Layout Standards**
+#### Layout Standards
 - Use `graph TD` (top-down) for most architectural diagrams
 - Use `graph LR` (left-right) for user flow sequences
 - Group related components using `subgraph` containers
 - Maintain consistent visual hierarchy and spacing
 
-**Visual Elements for Rapid Scanning**
+### Visual Elements for Rapid Scanning
 ```
 🎯 Main goals and objectives
 ✅ Completed components  
@@ -60,16 +46,35 @@ Create visual diagrams using Mermaid syntax covering the relevant aspects:
 ```
 
 **Color Coding with Style Statements**
+
+Use re-usable classes for consistent styling:
 ```mermaid
-style GoalNode fill:#e1f5fe,stroke:#01579b
-style CompletedNode fill:#e8f5e8,stroke:#2e7d32  
-style ProgressNode fill:#fff3e0,stroke:#ef6c00
-style TechnicalNode fill:#f3e5f5,stroke:#7b1fa2
-style UserFacingNode fill:#e8eaf6,stroke:#3f51b5
-style RiskNode fill:#ffebee,stroke:#c62828
+%% Define style classes once
+classDef goal fill:#e1f5fe,stroke:#01579b;
+classDef done fill:#e8f5e8,stroke:#2e7d32;
+classDef tech fill:#f3e5f5,stroke:#7b1fa2;
+classDef ux fill:#e8eaf6,stroke:#3f51b5;
+classDef risk fill:#ffebee,stroke:#c62828;
+classDef iterative fill:#fff3e0,stroke:#ef6c00;
+classDef dataflow fill:#f1f8e9,stroke:#558b2f;
+classDef integration fill:#fce4ec,stroke:#ad1457;
+
+%% Use classes on nodes
+graph TD
+	A[🎯 Main Goal]:::goal --> B[🔧 Tech Component]:::tech
+	B --> C[🎨 User Interface]:::ux
+	C --> D[✅ Completed]:::done
+	E[📊 Data Processing]:::dataflow --> B
+	F[🌐 API Integration]:::integration --> B
+	G[⚠️ Risk Area]:::risk
+	H[🔄 Recurring Process]:::iterative
 ```
 
-*Note: Replace the example node IDs (GoalNode, CompletedNode, etc.) with your actual node IDs (A, B, UserDashboard, etc.) when applying styles to your diagram.*
+*Alternative: Per-node styling (use for exceptional adjustments only)*
+```mermaid
+style GoalNode fill:#e1f5fe,stroke:#01579b
+style CompletedNode fill:#e8f5e8,stroke:#2e7d32
+```
 
 ## Phase 2: Task List Creation
 
@@ -113,25 +118,21 @@ Create task list with these core sections:
 
 ## Phase 3: Execution with Progress Tracking
 
-### Progress Management
-
-**Task Updates**
-- Mark completed tasks with `[x]` and move between sections as needed
-- Add newly discovered tasks immediately
-- Update both diagram and task list when architecture changes
-
-**Synchronization**  
-- Keep diagram nodes and task descriptions aligned
-- Update visual diagram before modifying task structure
-
-### Task Completion
-
-**Validation**
-- Verify all diagram components are implemented
-- Check task list shows all items completed
-- Test integration points and user flows from original plan
-
-**If Blocked**
-- Update task list with current status and specific blocking issue
-- Reference original diagram to identify alternative approaches  
-- If unable to resolve autonomously, clearly document the problem and request guidance
+- **Progress management**
+	- **Task updates:**
+		- Mark completed tasks with `[x]` and move them between sections as needed
+		- Add any newly discovered tasks right away
+		- Update both the diagram and the task list when architecture changes
+	- **Synchronization:**
+		- Keep diagram nodes and task descriptions aligned
+		- Update the visual diagram first, then modify the task list to match
+		- Do not make implementation changes until both artifacts are updated
+- **Task completion**
+	- **Validation:**
+		- Make sure all diagram components are implemented
+		- Check that the task list shows all items completed
+		- Test integration points and user flows from the original plan
+	- **If blocked:**
+		- Update the task list with the current status and the specific blocking issue
+		- Reference the original diagram to identify alternative approaches
+		- If unable to resolve autonomously, clearly document the problem and request guidance
