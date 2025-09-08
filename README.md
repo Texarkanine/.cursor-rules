@@ -12,4 +12,6 @@ A "ruleset" is a directory full of symlinks to rules. Rulesets group logical, we
 
 ## Big Thanks
 
-https://www.adithyan.io/blog/writing-cursor-rules-with-a-cursor-rule
+* [Writing Cursor Rules with a Cursor Rule](https://www.adithyan.io/blog/writing-cursor-rules-with-a-cursor-rule)
+* [Getting Better Results from Cursor AI with Simple Rules](https://medium.com/@aashari/getting-better-results-from-cursor-ai-with-simple-rules-cbc87346ad88)
+* [I just experienced an incredible breakthrough in my vibe coding with Cursor!](https://www.linkedin.com/posts/aaronkettl_i-just-experienced-an-incredible-breakthrough-activity-7362145339681751040-C3YF)
