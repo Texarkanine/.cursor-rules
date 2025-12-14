@@ -70,12 +70,12 @@ graph TD
     CheckProgress --> CheckTasks["Check tasks.md<br>for task status"]
     
     CheckTasks --> PhaseResult{"Determine<br>Current Phase"}
-    PhaseResult -->|"VAN"| VAN["NIKO Phase<br>Initialization"]
+    PhaseResult -->|"NIKO"| VAN["NIKO Phase<br>Initialization"]
     PhaseResult -->|"PLAN"| PLAN["PLAN Phase<br>Task Planning"]
     PhaseResult -->|"CREATIVE"| CREATIVE["CREATIVE Phase<br>Design Decisions"]
     PhaseResult -->|"BUILD"| BUILD["BUILD Phase<br>Implementation"]
     
-    NIKO & PLAN & CREATIVE & BUILD --> LoadChecks["Load Phase-Specific<br>Validation Checks"]
+    VAN & PLAN & CREATIVE & BUILD --> LoadChecks["Load Phase-Specific<br>Validation Checks"]
     
     style PD fill:#4da6ff,stroke:#0066cc,color:white
     style PhaseResult fill:#f6546a,stroke:#c30052,color:white

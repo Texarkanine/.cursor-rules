@@ -70,12 +70,11 @@ function verifyMemoryBank() {
     return verifyMemoryBankCreation();
   }
   
-  // Check required subdirectories
+  // Check required subdirectories (for organized content)
   const requiredDirs = [
-    "memory-bank/active-context",
-    "memory-bank/system-patterns",
-    "memory-bank/creative-phase",
-    "memory-bank/implementation"
+    "memory-bank/archive",
+    "memory-bank/creative",
+    "memory-bank/reflection"
   ];
   
   const missingDirs = requiredDirs.filter(dir => !checkDirectoryExists(dir));
@@ -87,8 +86,9 @@ function verifyMemoryBank() {
   
   // Check critical files
   const criticalFiles = [
-    "memory-bank/active-context/activeContext.md",
-    "memory-bank/system-patterns/systemPatterns.md"
+    "memory-bank/activeContext.md",
+    "memory-bank/systemPatterns.md",
+    "memory-bank/tasks.md"
   ];
   
   const missingFiles = criticalFiles.filter(file => !checkFileExists(file));
@@ -139,7 +139,7 @@ graph TD
 #### Windows (PowerShell)
 ```powershell
 # Create all directories in one command
-mkdir memory-bank, memory-bank\archive, memory-bank\archive\bug-fixes, memory-bank\archive\enhancements, memory-bank\archive\features, memory-bank\archive\systems, memory-bank\archive\documentation -ErrorAction SilentlyContinue
+mkdir memory-bank, memory-bank\archive, memory-bank\archive\bug-fixes, memory-bank\archive\enhancements, memory-bank\archive\features, memory-bank\archive\systems, memory-bank\archive\documentation, memory-bank\creative, memory-bank\reflection -ErrorAction SilentlyContinue
 
 # Create all required files
 $files = @("tasks.md", 
@@ -160,7 +160,7 @@ foreach ($file in $files) {
 #### Mac/Linux (Bash)
 ```bash
 # Create all directories in one command
-mkdir -p memory-bank memory-bank/archive/bug-fixes memory-bank/archive/enhancements memory-bank/archive/features memory-bank/archive/systems memory-bank/archive/documentation
+mkdir -p memory-bank memory-bank/archive/bug-fixes memory-bank/archive/enhancements memory-bank/archive/features memory-bank/archive/systems memory-bank/archive/documentation memory-bank/creative memory-bank/reflection
 
 # Create all required files
 touch tasks.md \
@@ -178,7 +178,7 @@ Instead of checking each component separately, perform batch verification:
 
 ```powershell
 # Windows - PowerShell
-$requiredDirs = @("memory-bank", "memory-bank\archive", "memory-bank\archive\bug-fixes", "memory-bank\archive\enhancements", "memory-bank\archive\features", "memory-bank\archive\systems", "memory-bank\archive\documentation")
+$requiredDirs = @("memory-bank", "memory-bank\archive", "memory-bank\archive\bug-fixes", "memory-bank\archive\enhancements", "memory-bank\archive\features", "memory-bank\archive\systems", "memory-bank\archive\documentation", "memory-bank\creative", "memory-bank\reflection")
 $requiredFiles = @("tasks.md")
 $mbFiles = @("projectbrief.md", "productContext.md", "systemPatterns.md", 
              "techContext.md", "activeContext.md", "progress.md")

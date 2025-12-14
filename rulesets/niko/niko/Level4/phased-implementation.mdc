@@ -558,7 +558,12 @@ Update the following Memory Bank files during phased implementation:
    - Document technical constraints encountered
    - Record technical decisions made
 
-5. **progress.md**
+5. **productContext.md**
+   - Update with product-level context relevant to implementation
+   - Document product requirements that impact implementation decisions
+   - Record product constraints or considerations
+
+6. **progress.md**
    - Update implementation progress by phase
    - Document completed components
    - Track overall implementation status
