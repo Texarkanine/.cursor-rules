@@ -2,71 +2,99 @@
 
 Based on:
 * [vanzan01/cursor-memory-bank](https://github.com/vanzan01/cursor-memory-bank)
-* [Getting Better Results from Cursor AI with Simple Rules](https://medium.com/@aashari/getting-better-results-from-cursor-ai-with-simple-rules-cbc87346ad88)_ and
+* [Getting Better Results from Cursor AI with Simple Rules](https://medium.com/@aashari/getting-better-results-from-cursor-ai-with-simple-rules-cbc87346ad88)
 
 `niko` introduces a set of commands and rules that transform your AI code assistant into a seasonsed senior dev (Niko) that can "oneshot" complex coding tasks.
 
 This specific configuration of `niko` is designed to be used in Cursor, installed as *committed* rules with the [ai-rizz](https://github.com/texarkanine/ai-rizz) tool.
-**You will need to make manual changes** if you want to use `niko` in other environments. If you want to do that, I recommend just starting with the `vanzan01/cursor-memory-bank` and using that as-is.
+**You will need to make manual changes** if you want to use `niko` in other environments. If you want to do that, I recommend just starting with the `vanzan01/cursor-memory-bank` and using that as-is. Or, if you use Claude Code, check out [vanzan01/claude-code-sub-agent-collective](https://github.com/vanzan01/claude-code-sub-agent-collective).
+
 
 ## Niko
 
-Niko's core operating principles are defined in the [niko-core](../../rules/niko-core.mdc) rule.
+Niko's core *development procedure* are based on [vanzan01/cursor-memory-bank](https://github.com/vanzan01/cursor-memory-bank). Please go read about it!
 
-There are two supplementary prompt wrappers that support Niko's core operating principles:
+Niko's core problem-solving toolkit is defined in [niko-core](../../rules/niko-core.mdc).
 
-* [niko-request](../../rules/niko-request.mdc) - for starting a coding task
-* [niko-refresh](../../rules/niko-refresh.mdc) - when an AI agent gets stuck on a coding task
+Niko will create **many** files in your repo. This is cool and good: Niko is storing memory on disk instead of in an LLM's context window.
 
 ## Supplementary Rules
 
 The Niko ruleset includes other supplementary rules to give Niko the capabilities it needs:
 
 * [always-tdd](../../rules/always-tdd.mdc) - forces test-driven development (TDD) for all code changes
-* [planning-execution](../../rules/planning-execution.mdc) - Task list management with Mermaid diagrams for long, complex tasks
+* [visual-planning](../../rules/visual-planning.mdc) - Encourages use of `mermaid` diagrams when planning complex tasks.
 * [test-running-practices](../../rules/test-running-practices.mdc) - best-practices for using tests to guide development
 
 ## Setup
 
 ### Step 1: Niko Core
 
-Install the `niko` ruleset to `.cursor/rules/local/niko-*.mdc`. The [ai-rizz](https://github.com/texarkanine/ai-rizz) tool can help you do this.
+Install the `niko` ruleset with [ai-rizz](https://github.com/texarkanine/ai-rizz).
 
-    ai-rizz init https://github.com/texarkanine/.cursor-rules.git --local
-    ai-rizz add ruleset niko
-
-### Step 2: Niko Custom Cursor Modes
-
-`niko-request` and `niko-refresh` should be set up as [Custom Modes](https://docs.cursor.com/chat/custom-modes) in Cursor:
-
-**niko-request**
-
-1. Create a new Custom Mode in Cursor named `Niko`
-2. Set the "Custom Instructions" to the contents of the `niko-request` rule (exclude the `yaml` header).
-3. Turn every switch on
-4. Pin to a good agentic model
-
-**niko-refresh**
-
-1. Create a new Custom Mode in Cursor named `Niko Refresh`
-2. Set the "Custom Instructions" to the contents of the `niko-refresh` rule (exclude the `yaml` header).
-3. Turn every switch on
-4. Pin to a good agentic model
+	ai-rizz init https://github.com/texarkanine/.cursor-rules.git --commit
+	ai-rizz add ruleset niko
 
 ## Usage
 
-1. Activate the `Niko` custom mode (with the `niko-request` instructions) and write your initial prompt.
-2. If the agent gets stuck, activate the `Niko Refresh` custom mode (with the `niko-refresh` instructions) and ask it to troubleshoot the issue:
-    > Please troubleshoot the issue with `[issue description]`
-3. Switch back to the `Niko` custom mode and continue working.
+Use the `/niko` command to get started:
+
+	/niko let's build this idea I had, it's like this...
+
+Niko will start working on your request and will prompt you to use other commands **if necessary** to get the work done.
+
+The full range of typical Niko workflows are:
+
+```mermaid
+flowchart LR
+
+	%% Nodes
+	Niko("🧑‍💻 /niko")
+	NikoPlan["🐱 plans"]
+	NikoBuild["🐱 builds"]
+
+	Creative("🧑‍💻 /creative")
+
+	ManBuild("🧑‍💻 /build")
+	
+	Reflect("🧑‍💻 /reflect")
+	Archive("🧑‍💻 /archive")
+
+	%% Paths
+	subgraph Planning
+	
+	Niko -- "Level 2 & 3" --> NikoPlan
+
+	NikoPlan -- "Level 3 (Feature)" --> Creative
+	end
+
+	subgraph Execution
+	Niko -- "Level 1 (Fix)" --> NikoBuild
+	NikoPlan -- "Level 2 (Enhance)" --> NikoBuild
+	Creative --> ManBuild
+	end
+	
+	subgraph Learning
+	NikoBuild --> Reflect
+	ManBuild --> Reflect
+
+	Reflect --> Archive
+	end
+
+	%% --- STYLING ---
+	classDef humanNode fill:#f3e5f5,stroke:#4a148c,stroke-width:2px;
+	classDef aiNode fill:#fff3e0,stroke:#e65100,stroke-width:2px;
+
+	class Niko,Creative,ManBuild,Reflect,Archive humanNode;
+	class NikoPlan,NikoBuild aiNode;
+```
 
 ### Context Refreshing
 
-Niko *should* find and use [task-list-management](../../rules/task-list-management.mdc) to manage task lists during long-running projects.
-If you find that your AI agent is going off-task or forgetting things, you may have filled its context window.
-Start a new chat and refer back to the Task list to get back on track without having forgotten the *important* things.
-If you do this, you may wish to ask the original chat to update the Task List before you abandon it.
+Niko stores progress on disk in the `memory-bank` directory. When your context window is getting full, let Niko finish the current task, then... start a new conversation! If Niko was building, you can just start a new chat with `/build` and nothing else and Niko will resume the work!
 
-## Other Environments
+### Advanced Troubleshooting
 
-There are `mdc:` links in the `niko-core` and `niko-refresh` rules that point to other rules in this repository. You will need to make manual changes to these links if you want to use `niko` in other environments.
+If you (or Niko!) get stuck on a problem, use the `/niko/refresh` command to have Niko rigorously investigate the problem and give you a solution *or* places to investigate next.
+
+**Note:** `/niko/creative` is for exploring solution spaces and creating new things. `/niko/refresh` is for troubleshooting an existing defect.
