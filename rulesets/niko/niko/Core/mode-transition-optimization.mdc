@@ -352,7 +352,7 @@ When transitioning from CREATIVE to BUILD mode:
 
 This optimization provides:
 
-1. Reduced token usage during mode transitions (~40% reduction)
+1. Reduced token usage during mode transitions
 2. Better context preservation between modes
 3. Improved efficiency through rule caching
 4. Targeted loading of only necessary rules
