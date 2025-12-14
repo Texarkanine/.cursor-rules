@@ -477,7 +477,7 @@ The enhanced QA mode can be activated at any time in the development process:
 
 ```mermaid
 graph TD
-    Start["User Types: QA"] --> DetectContext["Detect Current Context"]
+    Start["User Types: /niko/qa"] --> DetectContext["Detect Current Context"]
     DetectContext --> RunQA["Run QA with Context-Aware Checks"]
     RunQA --> GenerateReport["Generate Appropriate QA Report"]
     GenerateReport --> UserResponse["Present Report to User"]

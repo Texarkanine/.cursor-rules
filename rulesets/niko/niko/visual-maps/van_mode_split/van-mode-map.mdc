@@ -224,11 +224,11 @@ You MUST switch to PLAN mode for proper documentation and planning
 Type 'PLAN' to switch to planning mode
 ```
 
-### CREATIVE to NIKO QA Transition
+### CREATIVE to QA Transition
 After completing the CREATIVE mode:
 ```
-⏭️ NEXT MODE: NIKO QA
-To validate technical requirements before implementation, please type 'NIKO QA'
+⏭️ NEXT MODE: /niko/qa
+To validate technical requirements before implementation, please type '/niko/qa'
 ```
 
 ### NIKO QA to BUILD Transition
@@ -250,7 +250,7 @@ graph TD
     CheckQA -->|"Yes and Passed"| AllowBuild["Allow BUILD Mode"]
     CheckQA -->|"No or Failed"| BlockBuild["BLOCK BUILD MODE"]
     BlockBuild --> Message["Display:<br>⚠️ QA VALIDATION REQUIRED"]
-    Message --> ReturnToVANQA["Prompt: Type NIKO QA"]
+    Message --> ReturnToVANQA["Prompt: Type /niko/qa"]
     
     style CheckQA fill:#f6546a,stroke:#c30052,color:white
     style BlockBuild fill:#ff0000,stroke:#990000,color:white,stroke-width:3px
@@ -264,7 +264,7 @@ QA validation can be called at any point in the process flow, and takes immediat
 
 ```mermaid
 graph TD
-    UserQA["User Types: QA"] --> HighPriority["⚠️ HIGH PRIORITY COMMAND"]
+    UserQA["User Types: /niko/qa"] --> HighPriority["⚠️ HIGH PRIORITY COMMAND"]
     HighPriority --> CurrentTask["Pause Current Task/Process"]
     CurrentTask --> LoadQA["Load QA Mode Map"]
     LoadQA --> RunQA["Execute QA Validation Process"]
@@ -284,7 +284,7 @@ graph TD
 
 ### QA Interruption Rules
 
-When a user types **QA** at any point:
+When a user types **/niko/qa** at any point:
 
 1. **The QA command MUST take immediate precedence** over any current operation, including the "FORCE MODE SWITCH" triggered by complexity assessment.
 2. The system MUST:
@@ -794,7 +794,7 @@ The following issues must be resolved before proceeding to BUILD mode:
 - [Recommended fix]
 
 ⚠️ BUILD MODE IS BLOCKED until these issues are resolved.
-Type 'NIKO QA' after fixing the issues to re-validate.
+Type '/niko/qa' after fixing the issues to re-validate.
 ```
 
 ## 🔄 INTEGRATION WITH DESIGN DECISIONS
@@ -867,7 +867,7 @@ function Check-QAValidationStatus {
     Write-Output "⛔️ BUILD MODE BLOCKED: QA VALIDATION REQUIRED"
     Write-Output "⛔️ You must complete QA validation before proceeding to BUILD mode"
     Write-Output "`n"
-    Write-Output "Type 'NIKO QA' to perform technical validation"
+    Write-Output "Type '/niko/qa' to perform technical validation"
     Write-Output "`n"
     Write-Output "🚫 NO IMPLEMENTATION CAN PROCEED WITHOUT VALIDATION 🚫"
     Write-Output "🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫"

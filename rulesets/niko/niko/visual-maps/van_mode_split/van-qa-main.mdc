@@ -19,11 +19,11 @@ To access any QA validation rule or component, use the `fetch_rules` tool with e
 
 ## 🚀 NIKO QA MODE ACTIVATION
 
-After completing CREATIVE mode, when the user types "NIKO QA", respond:
+After completing CREATIVE mode, when the user types "/niko/qa", respond:
 
 ```mermaid
 graph TD
-    UserQA["User Types: QA"] --> HighPriority["⚠️ HIGH PRIORITY COMMAND"]
+    UserQA["User Types: /niko/qa"] --> HighPriority["⚠️ HIGH PRIORITY COMMAND"]
     HighPriority --> CurrentTask["Pause Current Task/Process"]
     CurrentTask --> LoadQA["Load QA Main Map (This File)"]
     LoadQA --> RunQA["Execute QA Validation Process"]
@@ -82,7 +82,7 @@ graph TD
     Load: van-qa-utils/mode-transitions.mdc"]
     FailureReport --> FixIssues["Fix Technical Issues
     Load: van-qa-utils/common-fixes.mdc"]
-    FixIssues --> ReValidate["Re-validate (Re-run NIKO QA)"]
+    FixIssues --> ReValidate["Re-validate (Re-run /niko/qa)"]
     ReValidate --> FourChecks
     
     style VANQA fill:#4da6ff,stroke:#0066cc,color:white
@@ -135,8 +135,8 @@ The QA validation process follows this selective loading sequence:
 - Minimal Build Test Passed? [YES/NO]
 
 → If all YES: Ready for BUILD mode transition.
-→ If any NO: Fix identified issues and re-run NIKO QA.
+→ If any NO: Fix identified issues and re-run /niko/qa.
 ```
 
 **Next Step (on PASS):** Trigger BUILD mode (load `van-qa-utils/mode-transitions.mdc`).
-**Next Step (on FAIL):** Address issues (load `van-qa-utils/common-fixes.mdc`) and re-run `NIKO QA`. 
+**Next Step (on FAIL):** Address issues (load `van-qa-utils/common-fixes.mdc`) and re-run `/niko/qa`. 

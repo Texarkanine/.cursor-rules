@@ -54,38 +54,42 @@ flowchart LR
 	NikoBuild["🐱 builds"]
 
 	Creative("🧑‍💻 /creative")
+	QA("🧑‍💻 /qa")
 
-	ManBuild("🧑‍💻 /build")
-	
-	Reflect("🧑‍💻 /reflect")
 	Archive("🧑‍💻 /archive")
 
 	%% Paths
 	subgraph Planning
-	
-	Niko -- "Level 2 & 3" --> NikoPlan
+        Niko -- "Level 2 & 3" --> NikoPlan
 
-	NikoPlan -- "Level 3 (Feature)" --> Creative
+        NikoPlan -- "Level 3 (Feature)" --> Creative
+
+        Creative --> QA
 	end
+
+    QA --> ManBuild
 
 	subgraph Execution
-	Niko -- "Level 1 (Fix)" --> NikoBuild
-	NikoPlan -- "Level 2 (Enhance)" --> NikoBuild
-	Creative --> ManBuild
+        ManBuild("🧑‍💻 /build")
+        Niko -- "Level 1 (Fix)" --> NikoBuild
+        NikoPlan -- "Level 2 (Enhance)" --> NikoBuild
 	end
+
+    ManBuild --> Reflect
 	
 	subgraph Learning
-	NikoBuild --> Reflect
-	ManBuild --> Reflect
+        Reflect("🧑‍💻 /reflect")
+        NikoBuild --> Reflect
+        
 
-	Reflect --> Archive
+        Reflect --> Archive
 	end
 
 	%% --- STYLING ---
 	classDef humanNode fill:#f3e5f5,stroke:#4a148c,stroke-width:2px;
 	classDef aiNode fill:#fff3e0,stroke:#e65100,stroke-width:2px;
 
-	class Niko,Creative,ManBuild,Reflect,Archive humanNode;
+	class Niko,Creative,QA,ManBuild,Reflect,Archive humanNode;
 	class NikoPlan,NikoBuild aiNode;
 ```
 

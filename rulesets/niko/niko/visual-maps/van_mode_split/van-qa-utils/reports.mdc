@@ -81,7 +81,7 @@ The following issues must be resolved before proceeding to BUILD mode:
 - [Recommended fix]
 
 ⚠️ BUILD MODE IS BLOCKED until these issues are resolved.
-Type 'NIKO QA' after fixing the issues to re-validate.
+Type '/niko/qa' after fixing the issues to re-validate.
 ```
 
 ### Failure Report Generation Example:
@@ -135,7 +135,7 @@ $(($BuildIssues | ForEach-Object { "- $_" }) -join "`n")
     
     $report += @"
 ⚠️ BUILD MODE IS BLOCKED until these issues are resolved.
-Type 'NIKO QA' after fixing the issues to re-validate.
+Type '/niko/qa' after fixing the issues to re-validate.
 "@
     
     # Save validation status (used by BUILD mode prevention mechanism)

@@ -17,7 +17,7 @@ graph TD
     CheckQA -->|"Yes and Passed"| AllowBuild["Allow BUILD Mode"]
     CheckQA -->|"No or Failed"| BlockBuild["BLOCK BUILD MODE"]
     BlockBuild --> Message["Display:<br>⚠️ QA VALIDATION REQUIRED"]
-    Message --> ReturnToVANQA["Prompt: Type NIKO QA"]
+    Message --> ReturnToVANQA["Prompt: Type /niko/qa"]
     
     style CheckQA fill:#f6546a,stroke:#c30052,color:white
     style BlockBuild fill:#ff0000,stroke:#990000,color:white,stroke-width:3px
@@ -44,7 +44,7 @@ function Check-QAValidationStatus {
     Write-Output "⛔️ BUILD MODE BLOCKED: QA VALIDATION REQUIRED"
     Write-Output "⛔️ You must complete QA validation before proceeding to BUILD mode"
     Write-Output "`n"
-    Write-Output "Type 'NIKO QA' to perform technical validation"
+    Write-Output "Type '/niko/qa' to perform technical validation"
     Write-Output "`n"
     Write-Output "🚫 NO IMPLEMENTATION CAN PROCEED WITHOUT VALIDATION 🚫"
     Write-Output "🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫"
@@ -59,8 +59,8 @@ function Check-QAValidationStatus {
 After completing the CREATIVE phase, trigger this message to prompt QA validation:
 
 ```
-⏭️ NEXT MODE: NIKO QA
-To validate technical requirements before implementation, please type 'NIKO QA'
+⏭️ NEXT MODE: /niko/qa
+To validate technical requirements before implementation, please type '/niko/qa'
 ```
 
 ### NIKO QA to BUILD Transition (On Success):

@@ -87,5 +87,5 @@ Type `/niko/creative` to start creative design work for components flagged in th
 
 ## Next Steps
 
-After all creative phases complete, proceed to `/niko/build` command for implementation.
+After all creative phases complete, proceed to `/niko/qa` command for technical validation, then `/niko/build` command for implementation.
 
