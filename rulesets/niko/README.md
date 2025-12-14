@@ -95,7 +95,7 @@ flowchart LR
 
 ### Context Refreshing
 
-Niko stores progress on disk in the `memory-bank` directory. When your context window is getting full, let Niko finish the current task, then... start a new conversation! If Niko was building, you can just start a new chat with `/build` and nothing else and Niko will resume the work!
+Niko stores progress on disk in the `memory-bank` directory. When your context window is getting full, let Niko finish the current task, then... start a new conversation! If Niko was building, you can just start a new chat with `/niko/build` and nothing else and Niko will resume the work!
 
 ### Advanced Troubleshooting
 
