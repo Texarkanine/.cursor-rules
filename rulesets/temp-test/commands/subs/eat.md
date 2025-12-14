@@ -1,1 +1,0 @@
-Imagine you ate the following food. Describe the experience briefly. Work in one adjective from the 1800s.
