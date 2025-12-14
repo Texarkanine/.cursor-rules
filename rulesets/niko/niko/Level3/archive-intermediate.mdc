@@ -35,40 +35,43 @@ graph TD
 
     style StartArchive fill:#90a4ae,stroke:#607d8b
     style ArchiveDone fill:#b0bec5,stroke:#90a4ae
-````
+```
 
 ## 📝 Structure for `memory-bank/archive/features/<YYYYMMDD>-<feature-id>.md`
 
-  * **Feature Title:** (e.g., "Archive: User Profile Feature - Avatar Upload Enhancement")
-  * **Feature ID (from `tasks.md`):**
-  * **Date Archived:** YYYY-MM-DD
-  * **Status:** COMPLETED & ARCHIVED
-  * **1. Feature Overview:**
-      * Brief description of the feature and its purpose (can be extracted from `tasks.md` or `projectbrief.md`).
-      * Link to the original task entry/plan in `tasks.md` (if `tasks.md` is versioned or kept historically).
-  * **2. Key Requirements Met:**
-      * List the main functional and non-functional requirements this feature addressed.
-  * **3. Design Decisions & Creative Outputs:**
-      * Summary of key design choices.
-      * Direct links to all relevant `memory-bank/creative/creative-[aspect_name].md` documents.
-      * Link to `memory-bank/style-guide.md` version used (if applicable).
-  * **4. Implementation Summary:**
-      * High-level overview of how the feature was implemented.
-      * List of primary new components/modules created.
-      * Key technologies or libraries utilized specifically for this feature.
-      * Link to the main feature branch merge commit or primary code location/pull request.
-  * **5. Testing Overview:**
-      * Brief summary of the testing strategy employed for this feature (unit, integration, E2E).
-      * Outcome of the testing.
-  * **6. Reflection & Lessons Learned:**
-      * Direct link to `memory-bank/reflection/reflection-[feature_id].md`.
-      * Optionally, copy 1-2 most critical lessons directly into the archive summary.
-  * **7. Known Issues or Future Considerations (Optional, if any remaining from reflection):**
-      * Any minor known issues deferred.
-      * Potential future enhancements related to this feature.
+```markdown
+* **Feature Title:** (e.g., "Archive: User Profile Feature - Avatar Upload Enhancement")
+* **Feature ID (from `tasks.md`):**
+* **Date Archived:** YYYY-MM-DD
+* **Status:** COMPLETED & ARCHIVED
+* **1. Feature Overview:**
+    * Brief description of the feature and its purpose (can be extracted from `tasks.md` or `projectbrief.md`).
+    * Link to the original task entry/plan in `tasks.md` (if `tasks.md` is versioned or kept historically).
+* **2. Key Requirements Met:**
+    * List the main functional and non-functional requirements this feature addressed.
+* **3. Design Decisions & Creative Outputs:**
+    * Summary of key design choices.
+    * Direct links to all relevant `memory-bank/creative/creative-[aspect_name].md` documents.
+    * Link to `memory-bank/style-guide.md` version used (if applicable).
+* **4. Implementation Summary:**
+    * High-level overview of how the feature was implemented.
+    * List of primary new components/modules created.
+    * Key technologies or libraries utilized specifically for this feature.
+    * Link to the main feature branch merge commit or primary code location/pull request.
+* **5. Testing Overview:**
+    * Brief summary of the testing strategy employed for this feature (unit, integration, E2E).
+    * Outcome of the testing.
+* **6. Reflection & Lessons Learned:**
+    * Direct link to `memory-bank/reflection/reflection-[feature_id].md`.
+    * Optionally, copy 1-2 most critical lessons directly into the archive summary.
+* **7. Known Issues or Future Considerations (Optional, if any remaining from reflection):**
+    * Any minor known issues deferred.
+    * Potential future enhancements related to this feature.
 
 ### Key Files and Components Affected (from tasks.md)
 [Summary or direct copy of file/component checklists from the original tasks.md for this project. This provides a quick reference to the scope of changes at a component/file level.]
+
+```
 
 ## 📌 What to Emphasize in L3 Archiving
 

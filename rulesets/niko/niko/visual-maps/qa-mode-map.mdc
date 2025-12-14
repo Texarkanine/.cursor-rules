@@ -166,10 +166,10 @@ graph TD
     VANConsistency -->|"Yes"| PassVAN["✅ NIKO Phase<br>Validation Passed"]
     VANConsistency -->|"No"| FailVAN["❌ NIKO Phase<br>Issues Found"]
     
-    style NIKO fill:#4da6ff,stroke:#0066cc,color:white
+    style VAN fill:#4da6ff,stroke:#0066cc,color:white
     style VANConsistency fill:#f6546a,stroke:#c30052,color:white
-    style PassNIKO fill:#10b981,stroke:#059669,color:white
-    style FailNIKO fill:#ff5555,stroke:#dd3333,color:white
+    style PassVAN fill:#10b981,stroke:#059669,color:white
+    style FailVAN fill:#ff5555,stroke:#dd3333,color:white
 ```
 
 ### PLAN Phase Validation

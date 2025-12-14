@@ -4,7 +4,7 @@ Based on:
 * [vanzan01/cursor-memory-bank](https://github.com/vanzan01/cursor-memory-bank)
 * [Getting Better Results from Cursor AI with Simple Rules](https://medium.com/@aashari/getting-better-results-from-cursor-ai-with-simple-rules-cbc87346ad88)
 
-`niko` introduces a set of commands and rules that transform your AI code assistant into a seasonsed senior dev (Niko) that can "oneshot" complex coding tasks.
+`niko` introduces a set of commands and rules that transform your AI code assistant into a seasoned senior dev (Niko) that can "oneshot" complex coding tasks.
 
 This specific configuration of `niko` is designed to be used in Cursor, installed as *committed* rules with the [ai-rizz](https://github.com/texarkanine/ai-rizz) tool.
 **You will need to make manual changes** if you want to use `niko` in other environments. If you want to do that, I recommend just starting with the `vanzan01/cursor-memory-bank` and using that as-is. Or, if you use Claude Code, check out [vanzan01/claude-code-sub-agent-collective](https://github.com/vanzan01/claude-code-sub-agent-collective).

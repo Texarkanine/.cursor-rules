@@ -1,6 +1,6 @@
 ---
 description: Phased Implementation for Level 4 Complex System tasks
-globs: "**/level4/**", "**/implementation/**"
+globs: "**/Level4/**", "**/implementation/**"
 alwaysApply: false
 ---
 
