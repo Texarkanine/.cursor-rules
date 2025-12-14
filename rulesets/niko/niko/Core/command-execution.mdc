@@ -143,17 +143,6 @@ Examples of efficient command usage:
 | `mkdir dir1`<br>`mkdir dir2`<br>`mkdir dir3` | `mkdir dir1 dir2 dir3` | Uses command's built-in multiple argument capability |
 | `npm install pkg1`<br>`npm install pkg2` | `npm install pkg1 pkg2` | Installs multiple packages in one command |
 
-## 📋 REACT PROJECT INITIALIZATION STANDARDS
-
-Always use these standard approaches for React project creation:
-
-| Approach | Command | Benefits | Avoids |
-|----------|---------|----------|--------|
-| **Create React App** | `npx create-react-app my-app` | Preconfigured webpack & babel | Manual configuration errors |
-| **Create React App w/TypeScript** | `npx create-react-app my-app --template typescript` | Type safety + preconfigured | Inconsistent module systems |
-| **Vite** | `npm create vite@latest my-app -- --template react` | Faster build times | Complex webpack setups |
-| **Next.js** | `npx create-next-app@latest my-app` | SSR support | Module system conflicts |
-
 ## ⚠️ ERROR HANDLING WORKFLOW
 
 ```mermaid
