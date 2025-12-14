@@ -1,6 +1,6 @@
 ---
 description: Basic task tracking for Level 2 Simple Enhancement tasks
-globs: "**/level2/**", "**/tracking/**", "**/task/**"
+globs: "**/Level2/**", "**/tracking/**", "**/task/**"
 alwaysApply: false
 ---
 

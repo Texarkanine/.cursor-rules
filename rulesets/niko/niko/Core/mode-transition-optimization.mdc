@@ -199,7 +199,7 @@ function updateMemoryBankFile(filePath, newContent) {
 
 Special handling for the critical Creative → Build transition:
 
-```markdown
+~~~markdown
 ## CREATIVE → BUILD BRIDGE
 
 ### Design Decision Summary
@@ -230,7 +230,7 @@ Automatically generated summary of all creative phase decisions:
     }
   ]
 }
-```
+~~~
 
 ### Implementation Verification Checklist
 Automatically generated verification checklist:

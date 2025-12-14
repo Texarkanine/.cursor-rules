@@ -95,7 +95,7 @@ Effective command chaining patterns include:
 
 ## 📋 COMMAND DOCUMENTATION TEMPLATE
 
-```
+~~~markdown
 ## Command Execution: [Purpose]
 
 ### Command
@@ -113,7 +113,7 @@ Effective command chaining patterns include:
 
 ### Next Steps
 [What needs to be done next]
-```
+~~~
 
 ## 🔍 PLATFORM-SPECIFIC CONSIDERATIONS
 
