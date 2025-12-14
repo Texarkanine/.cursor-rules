@@ -336,6 +336,26 @@ test_add_numbers() {
 	}
 	```
 
+5. **Test function exit codes**: In shunit2 test functions, the exit code of the last command becomes the function's return value
+
+	```sh
+	# AVOID THIS - grep failure becomes test failure
+	test_something() {
+		# ... test code ...
+		grep -q "pattern" "$file" && fail "Pattern should not exist"
+		# If grep doesn't find pattern, it returns 1, which shunit2 interprets as test failure
+	}
+
+	# BETTER - explicitly return success
+	test_something() {
+		# ... test code ...
+		grep -q "pattern" "$file" && fail "Pattern should not exist"
+		return 0  # Explicitly return success to prevent false failures
+	}
+	```
+
+	**Key point**: Always end test functions with `return 0` & rely on explicit invocations of `fail` to surface test failures.
+
 ## Implementation Checklist
 
 When implementing shell scripts, always:
