@@ -12,7 +12,7 @@ This specific configuration of `niko` is designed to be used in Cursor, installe
 
 ## Niko
 
-Niko's core *development procedure* are based on [vanzan01/cursor-memory-bank](https://github.com/vanzan01/cursor-memory-bank). Please go read about it!
+Niko's core *development procedures* are based on [vanzan01/cursor-memory-bank](https://github.com/vanzan01/cursor-memory-bank). Please go read about it!
 
 Niko's core problem-solving toolkit is defined in [niko-core](../../rules/niko-core.mdc).
 
