@@ -38,7 +38,7 @@ graph TD
 mkdir memory-bank, memory-bank\archive, memory-bank\archive\bug-fixes, memory-bank\archive\enhancements, memory-bank\archive\features, memory-bank\archive\systems, memory-bank\archive\documentation -ErrorAction SilentlyContinue
 
 # Create all required files
-$files = @(".cursorrules", "tasks.md", 
+$files = @("tasks.md", 
            "memory-bank\projectbrief.md", 
            "memory-bank\productContext.md",
            "memory-bank\systemPatterns.md",
@@ -59,7 +59,7 @@ foreach ($file in $files) {
 mkdir -p memory-bank memory-bank/archive/bug-fixes memory-bank/archive/enhancements memory-bank/archive/features memory-bank/archive/systems memory-bank/archive/documentation
 
 # Create all required files
-touch .cursorrules tasks.md \
+touch tasks.md \
       memory-bank/projectbrief.md \
       memory-bank/productContext.md \
       memory-bank/systemPatterns.md \
@@ -75,7 +75,7 @@ Instead of checking each component separately, perform batch verification:
 ```powershell
 # Windows - PowerShell
 $requiredDirs = @("memory-bank", "memory-bank\archive", "memory-bank\archive\bug-fixes", "memory-bank\archive\enhancements", "memory-bank\archive\features", "memory-bank\archive\systems", "memory-bank\archive\documentation")
-$requiredFiles = @(".cursorrules", "tasks.md")
+$requiredFiles = @("tasks.md")
 $mbFiles = @("projectbrief.md", "productContext.md", "systemPatterns.md", 
              "techContext.md", "activeContext.md", "progress.md")
 
@@ -182,7 +182,7 @@ foreach ($file in $templates.Keys) {
 
 5. **One-Pass Verification**: Verify directory structure in a single pass
    ```
-   $requiredPaths = @("memory-bank", "memory-bank\archive", "memory-bank\archive\bug-fixes", "memory-bank\archive\enhancements", "memory-bank\archive\features", "memory-bank\archive\systems", "memory-bank\archive\documentation", ".cursorrules", "tasks.md")
+   $requiredPaths = @("memory-bank", "memory-bank\archive", "memory-bank\archive\bug-fixes", "memory-bank\archive\enhancements", "memory-bank\archive\features", "memory-bank\archive\systems", "memory-bank\archive\documentation", "tasks.md")
    $missingPaths = $requiredPaths | Where-Object { -not (Test-Path $_) }
    ```
 
