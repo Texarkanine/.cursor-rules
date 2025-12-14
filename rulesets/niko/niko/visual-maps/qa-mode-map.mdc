@@ -15,7 +15,7 @@ graph TD
     
     %% Phase detection decision path
     DetectPhase --> PhaseDetermination{"Current Phase?"}
-    PhaseDetermination -->|"VAN"| VANChecks["NIKO Phase Validation"]
+    PhaseDetermination -->|"NIKO"| NIKOChecks["NIKO Phase Validation"]
     PhaseDetermination -->|"PLAN"| PLANChecks["PLAN Phase Validation"]
     PhaseDetermination -->|"CREATIVE"| CREATIVEChecks["CREATIVE Phase Validation"] 
     PhaseDetermination -->|"BUILD"| BUILDChecks["BUILD Phase Validation"]
@@ -27,7 +27,7 @@ graph TD
     TaskTrackingCheck --> ReferenceCheck["3️⃣ REFERENCE VALIDATION<br>Verify cross-references between docs"]
     
     %% Phase-specific validations feed into comprehensive report
-    VANChecks & PLANChecks & CREATIVEChecks & BUILDChecks --> PhaseSpecificResults["Phase-Specific Results"]
+    NIKOChecks & PLANChecks & CREATIVEChecks & BUILDChecks --> PhaseSpecificResults["Phase-Specific Results"]
     ReferenceCheck & PhaseSpecificResults --> ValidationResults{"✅ All Checks<br>Passed?"}
     
     %% Results Processing
@@ -70,12 +70,12 @@ graph TD
     CheckProgress --> CheckTasks["Check tasks.md<br>for task status"]
     
     CheckTasks --> PhaseResult{"Determine<br>Current Phase"}
-    PhaseResult -->|"NIKO"| VAN["NIKO Phase<br>Initialization"]
+    PhaseResult -->|"NIKO"| NIKO["NIKO Phase<br>Initialization"]
     PhaseResult -->|"PLAN"| PLAN["PLAN Phase<br>Task Planning"]
     PhaseResult -->|"CREATIVE"| CREATIVE["CREATIVE Phase<br>Design Decisions"]
     PhaseResult -->|"BUILD"| BUILD["BUILD Phase<br>Implementation"]
     
-    VAN & PLAN & CREATIVE & BUILD --> LoadChecks["Load Phase-Specific<br>Validation Checks"]
+    NIKO & PLAN & CREATIVE & BUILD --> LoadChecks["Load Phase-Specific<br>Validation Checks"]
     
     style PD fill:#4da6ff,stroke:#0066cc,color:white
     style PhaseResult fill:#f6546a,stroke:#c30052,color:white
@@ -158,18 +158,18 @@ graph TD
 
 ```mermaid
 graph TD
-    VAN["NIKO Phase<br>Validation"] --> InitCheck["Check Initialization<br>Completeness"]
+    NIKO["NIKO Phase<br>Validation"] --> InitCheck["Check Initialization<br>Completeness"]
     InitCheck --> PlatformCheck["Verify Platform<br>Detection"]
     PlatformCheck --> ComplexityCheck["Validate Complexity<br>Determination"]
     
-    ComplexityCheck --> VANConsistency{"NIKO Phase<br>Complete?"}
-    VANConsistency -->|"Yes"| PassVAN["✅ NIKO Phase<br>Validation Passed"]
-    VANConsistency -->|"No"| FailVAN["❌ NIKO Phase<br>Issues Found"]
+    ComplexityCheck --> NIKOConsistency{"NIKO Phase<br>Complete?"}
+    NIKOConsistency -->|"Yes"| PassNIKO["✅ NIKO Phase<br>Validation Passed"]
+    NIKOConsistency -->|"No"| FailNIKO["❌ NIKO Phase<br>Issues Found"]
     
-    style VAN fill:#4da6ff,stroke:#0066cc,color:white
-    style VANConsistency fill:#f6546a,stroke:#c30052,color:white
-    style PassVAN fill:#10b981,stroke:#059669,color:white
-    style FailVAN fill:#ff5555,stroke:#dd3333,color:white
+    style NIKO fill:#4da6ff,stroke:#0066cc,color:white
+    style NIKOConsistency fill:#f6546a,stroke:#c30052,color:white
+    style PassNIKO fill:#10b981,stroke:#059669,color:white
+    style FailNIKO fill:#ff5555,stroke:#dd3333,color:white
 ```
 
 ### PLAN Phase Validation
@@ -266,10 +266,10 @@ grep -i "in progress\|started" tasks.md
 
 ```bash
 # Find cross-references between files
-grep -r "see\|refer\|reference" --include="*.md" .
+grep -rE "see|refer|reference" --include="*.md" .
 
 # Check for broken references
-for file in $(grep -l "see\|refer\|reference" --include="*.md" .); do
+for file in $(grep -lE "see|refer|reference" --include="*.md" .); do
   for ref in $(grep -o '[a-zA-Z0-9_-]*\.md' $file); do
     test -f $ref || echo "❌ Broken reference: $ref in $file"
   done
@@ -418,7 +418,7 @@ grep -i "script.*src=" index.html
 │                                                                               │
 │ ━━━━━━━━━━━━━━━━━━━━━━━ PHASE-SPECIFIC VALIDATION ━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
 │                                                                               │
-│ [VAN/PLAN/CREATIVE/BUILD] PHASE VALIDATION                                    │
+│ [NIKO/PLAN/CREATIVE/BUILD] PHASE VALIDATION                                    │
 │    ✓ [Phase-specific check 1]: [Status]                                       │
 │    ✓ [Phase-specific check 2]: [Status]                                       │
 │    ✓ [Phase-specific check 3]: [Status]                                       │

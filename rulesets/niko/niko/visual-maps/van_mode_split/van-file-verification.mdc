@@ -73,6 +73,11 @@ function verifyMemoryBank() {
   // Check required subdirectories (for organized content)
   const requiredDirs = [
     "memory-bank/archive",
+    "memory-bank/archive/bug-fixes",
+    "memory-bank/archive/enhancements",
+    "memory-bank/archive/features",
+    "memory-bank/archive/systems",
+    "memory-bank/archive/documentation",
     "memory-bank/creative",
     "memory-bank/reflection"
   ];
