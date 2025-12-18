@@ -2,6 +2,8 @@
 
 This command initializes the Memory Bank system, performs platform detection, determines task complexity, and routes to appropriate workflows.
 
+**Note:** Memory Bank is a one-time project setup. Once initialized, it persists across all `/niko` commands. The verification step below is a quick check that only creates the structure if it doesn't already exist.
+
 ## Memory Bank Integration
 
 **CRITICAL:** All Memory Bank files are located in `memory-bank/` directory:
@@ -39,14 +41,14 @@ After determining complexity level, load:
    - Adapt commands for platform
    - Set path separators
 
-2. **Memory Bank Verification**
-   - Check if `memory-bank/` directory exists
-   - If not, create Memory Bank structure
-   - Verify essential files exist
+2. **Memory Bank Verification (Quick Check)**
+   - **Execute:** Check if `memory-bank/` directory exists: `test -d memory-bank` (Mac/Linux) or `Test-Path memory-bank` (Windows)
+   - **If missing:** Create Memory Bank structure using the platform-specific commands from the loaded `file-verification.mdc` rule (see "Platform-Specific Commands" section in that rule)
+   - **Note:** This is typically a no-op after first run. Memory Bank persists across all `/niko` commands.
 
 3. **Task Analysis**
    - Read `memory-bank/tasks.md` if exists
-   - Analyze task requirements
+   - Analyze task requirements (from user prompt if provided, otherwise from `tasks.md`)
    - Determine complexity level (1-4)
 
 4. **Route Based on Complexity**
@@ -61,9 +63,11 @@ After determining complexity level, load:
 
 Type `/niko` followed by your task description or initialization request.
 
-Example:
+Examples:
 ```
+/niko
 /niko Initialize project for adding user authentication feature
+/niko Fix the login bug
 ```
 
 ## Next Steps
