@@ -44,7 +44,6 @@ After determining complexity level, load:
 2. **Memory Bank Verification (Quick Check)**
    - **Execute:** Check if `memory-bank/` directory exists: `test -d memory-bank` (Mac/Linux) or `Test-Path memory-bank` (Windows)
    - **If missing:** Create Memory Bank structure using the platform-specific commands from the loaded `file-verification.mdc` rule (see "Platform-Specific Commands" section in that rule)
-   - **Note:** This is typically a no-op after first run. Memory Bank persists across all `/niko` commands.
 
 3. **Task Analysis**
    - Read `memory-bank/tasks.md` if exists
