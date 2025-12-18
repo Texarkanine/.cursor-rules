@@ -10,6 +10,8 @@ Reads from:
 - `memory-bank/tasks.md` - Implementation plan and checklists
 - `memory-bank/creative/creative-*.md` - Design decisions (Level 3-4)
 - `memory-bank/activeContext.md` - Current project context
+- `memory-bank/progress.md` - Implementation status (if exists)
+- `memory-bank/projectbrief.md` - Project foundation (if exists)
 
 Updates:
 - `memory-bank/tasks.md` - Implementation progress, test results, and status

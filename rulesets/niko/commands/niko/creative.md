@@ -7,6 +7,8 @@ This command performs structured design exploration for components flagged durin
 Reads from:
 - `memory-bank/tasks.md` - Components requiring creative phases
 - `memory-bank/activeContext.md` - Current project context
+- `memory-bank/progress.md` - Implementation status (if exists)
+- `memory-bank/projectbrief.md` - Project foundation (if exists)
 
 Creates:
 - `memory-bank/creative/creative-[feature_name].md` - Design decision documents

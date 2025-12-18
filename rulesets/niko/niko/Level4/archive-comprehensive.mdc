@@ -687,7 +687,7 @@ For situations requiring a more compact archiving approach:
 
 After completing archiving for all tasks, use `/archive clear` to remove task-specific files from the Memory Bank:
 
-- **Clears:** `creative/`, `reflection/`, `tasks.md`, `progress.md`, `activeContext.md`
+- **Clears:** `creative/`, `reflection/`, `tasks.md`, `progress.md`, `activeContext.md`, `.qa_validation_status`
 - **Preserves:** Repository knowledge files (`projectbrief.md`, `productContext.md`, `systemPatterns.md`, `techContext.md`, `style-guide.md`) and all archive documents
 - **Git Commit:** All changes are automatically committed, making the operation revertable via `git revert HEAD`
 

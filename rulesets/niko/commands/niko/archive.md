@@ -139,6 +139,7 @@ The `/archive clear` command removes all local-machine and task-specific files f
 - `memory-bank/tasks.md` - Task tracking (ephemeral, task-specific)
 - `memory-bank/progress.md` - Implementation status (task-specific)
 - `memory-bank/activeContext.md` - Current focus (task-specific)
+- `memory-bank/.qa_validation_status` - QA validation status (task-specific)
 
 ### What Gets Preserved
 
@@ -162,6 +163,7 @@ The `/archive clear` command removes all local-machine and task-specific files f
    - Clear content from `memory-bank/tasks.md` (reset to initial state)
    - Clear content from `memory-bank/progress.md` (reset to initial state)
    - Clear content from `memory-bank/activeContext.md` (reset to initial state)
+   - Remove `memory-bank/.qa_validation_status` if it exists
 
 3. **Preserve Repository Knowledge**
    - Keep all repository-specific context files
