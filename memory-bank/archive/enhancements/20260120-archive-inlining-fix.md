@@ -26,13 +26,14 @@ Updated the References section template from:
 - [Link to reflection document]
 - [Link to creative phase documents]
 ```
-To:
+To (now marked optional):
 ```
-- [Link to code commits/PRs at specific git refs]
-- [Link to external documentation or specs]
-- [Other persistent references - NOT ephemeral memory-bank files]
+## References (Optional - omit if none)
+- [Link to external issue/ticket that prompted this work]
+- [Link to external specs or documentation]
+- [Link to related PR in another repository]
 
-> **IMPORTANT:** Do NOT link to ephemeral files. Inline relevant content instead.
+> **NOTE:** This section is OPTIONAL. Omit it entirely if there are no useful external references.
 ```
 
 ### Changes to `archive-intermediate.mdc` (Level 3)
@@ -52,4 +53,5 @@ To:
 1. **Check for sync tools first** - This repo uses ai-rizz for syncing `rulesets/` to `.cursor/rules/shared/`. Edit source files only.
 2. **Distinguish internal vs. user-facing** - Internal file names like `van-*.mdc` shouldn't appear in user documentation
 3. **Archive = Self-Contained** - Archives must be standalone documents that work after ephemeral files are cleaned up
+4. **Optional sections should be omitted, not filled with placeholders** - If a template section has no useful content, omit it entirely rather than adding placeholder or vague text
 
