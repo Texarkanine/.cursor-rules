@@ -1,6 +1,6 @@
 ---
 description: Advanced task tracking for Level 4 Complex System tasks
-globs: "**/level4/**", "**/task-tracking/**"
+globs: **/Level4/**,**/task-tracking/**
 alwaysApply: false
 ---
 
