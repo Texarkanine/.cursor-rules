@@ -349,7 +349,6 @@ graph TD
         ClearTasks["tasks.md"]
         ClearProgress["progress.md"]
         ClearActive["activeContext.md"]
-        ClearQA[".qa_validation_status"]
     end
     
     subgraph "Files PRESERVED (Repository-Specific)"
@@ -361,7 +360,7 @@ graph TD
         KeepArchive["archive/<br>directory"]
     end
     
-    ClearCreative & ClearReflection & ClearTasks & ClearProgress & ClearActive & ClearQA --> Cleared["CLEARED"]
+    ClearCreative & ClearReflection & ClearTasks & ClearProgress & ClearActive --> Cleared["CLEARED"]
     KeepProject & KeepProduct & KeepSystem & KeepTech & KeepStyle & KeepArchive --> Preserved["PRESERVED"]
     
     style Cleared fill:#ef5350,stroke:#c62828,color:#fff
@@ -378,7 +377,6 @@ graph TD
 - tasks.md cleared (reset to initial state)? [YES/NO]
 - progress.md cleared (reset to initial state)? [YES/NO]
 - activeContext.md cleared (reset to initial state)? [YES/NO]
-- .qa_validation_status removed? [YES/NO]
 - projectbrief.md preserved? [YES/NO]
 - productContext.md preserved? [YES/NO]
 - systemPatterns.md preserved? [YES/NO]
