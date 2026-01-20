@@ -190,15 +190,14 @@ graph TD
 - [Future enhancement 1]
 - [Future enhancement 2]
 
-## References
-- [Link to code commits/PRs at specific git refs]
-- [Link to external documentation or specs]
-- [Other persistent references - NOT ephemeral memory-bank files]
+## References (Optional - omit if none)
+- [Link to external issue/ticket that prompted this work]
+- [Link to external specs or documentation]
+- [Link to related PR in another repository]
 
-> **IMPORTANT:** Do NOT link to `memory-bank/reflection/` or `memory-bank/creative/` files here.
-> These are ephemeral and will be deleted by `/archive clear`.
-> Instead, inline relevant content from those files in the appropriate sections above
-> (design decisions in Implementation, lessons in Lessons Learned, etc.).
+> **NOTE:** This section is OPTIONAL. Omit it entirely if there are no useful external references.
+> Do NOT include: placeholders, vague descriptions, or links to ephemeral memory-bank files.
+> The archive is in git; commits are discoverable via `git log`.
 ```
 
 ## 📋 ARCHIVE LOCATION AND NAMING

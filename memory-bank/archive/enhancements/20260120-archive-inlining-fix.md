@@ -53,7 +53,3 @@ To:
 2. **Distinguish internal vs. user-facing** - Internal file names like `van-*.mdc` shouldn't appear in user documentation
 3. **Archive = Self-Contained** - Archives must be standalone documents that work after ephemeral files are cleaned up
 
-## REFERENCES
-
-- Commit: (to be added after push)
-- Related: Original Niko Memory Bank system design
