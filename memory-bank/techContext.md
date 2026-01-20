@@ -14,7 +14,6 @@
 Syncing between source (`rulesets/`) and active (`.cursor/rules/`) is handled by **ai-rizz** tool.
 See `ai-rizz.skbd` for configuration. Do not manually sync files.
 
-## Git Workflow
-- Branch: `clean-ephemeral` (current)
+## Git Conventions
 - Commits: Use conventional commit prefixes (feat, fix, chore, docs)
 - No GPG signing required

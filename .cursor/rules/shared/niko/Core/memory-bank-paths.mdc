@@ -14,7 +14,7 @@ alwaysApply: true
 * **Project Brief File:** `memory-bank/projectbrief.md`
 * **Product Context File:** `memory-bank/productContext.md`
 * **System Patterns File:** `memory-bank/systemPatterns.md`
-* **Tech Context File:** `memory-bank/techContext.md`
+* **Tech Context File:** `memory-bank/techContext.md` - Repository-specific technical context: languages, frameworks, build tools, file conventions, dependencies. Do NOT include session-specific info (current branch, current task) - that belongs in ephemeral files or is discoverable via git.
 * **Style Guide File:** `memory-bank/style-guide.md`
 * **Creative Phase Docs:** `memory-bank/creative/creative-[feature_name].md`
 * **Reflection Docs:** `memory-bank/reflection/reflection-<task-id>.md`
