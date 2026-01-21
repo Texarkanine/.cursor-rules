@@ -221,4 +221,4 @@ graph TD
     W3 --> S3["Prefer built-in<br>command capabilities"]
     W4 --> S4["Show confirmation<br>before destructive actions"]
     W5 --> S5["Verify directory before<br>npm/build commands"]
-``` 
+```
