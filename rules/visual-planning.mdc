@@ -28,7 +28,7 @@ description: REQUIRED comprehensive visual planning guidelines that must be foll
 - Use `graph LR` (left-right) for user flow sequences
 - Group related components using `subgraph` containers
 - Maintain consistent visual hierarchy and spacing
-- **Always quote node labels** with double quotes: `A["Node Label"]`. If labels must contain double quotes, use HTML entity `&quot;` but avoid this if possible.
+- **Always quote node labels** with double quotes: `A["Node Label"]`. If labels must contain double quotes, use HTML entity `#quot;` but avoid this if possible.
 
 #### Visual Elements for Rapid Scanning
 ```

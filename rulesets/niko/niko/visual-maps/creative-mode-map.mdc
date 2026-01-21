@@ -1,6 +1,6 @@
 ---
 description: Visual process map for CREATIVE mode (Design Decisions)
-globs: "**/creative*/**", "**/design*/**", "**/decision*/**"
+globs: **/creative*/**, **/design*/**, **/decision*/**
 alwaysApply: false
 ---
 
@@ -24,9 +24,9 @@ graph TD
     SelectPhase --> PhaseType{"Creative<br>Phase Type?"}
     
     %% Creative Phase Types
-    PhaseType -->|"UI/UX<br>Design"| UIPhase["UI/UX CREATIVE PHASE<br>Core/creative-phase-uiux.md"]
-    PhaseType -->|"Architecture<br>Design"| ArchPhase["ARCHITECTURE CREATIVE PHASE<br>Core/creative-phase-architecture.md"]
-    PhaseType -->|"Data Model/Algorithm<br>or General Design"| GenericPhase["GENERIC CREATIVE PHASE<br>Phases/optimized-creative-template.md"]
+    PhaseType -->|"UI/UX<br>Design"| UIPhase["UI/UX CREATIVE PHASE<br>Phases/CreativePhase/creative-phase-uiux.mdc"]
+    PhaseType -->|"Architecture<br>Design"| ArchPhase["ARCHITECTURE CREATIVE PHASE<br>Phases/CreativePhase/creative-phase-architecture.mdc"]
+    PhaseType -->|"Data Model/Algorithm<br>or General Design"| GenericPhase["GENERIC CREATIVE PHASE<br>Phases/CreativePhase/optimized-creative-template.mdc"]
     
     %% UI/UX Creative Phase
     UIPhase --> UI_Problem["Define UI/UX<br>Problem"]

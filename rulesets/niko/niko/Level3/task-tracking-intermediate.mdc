@@ -126,8 +126,8 @@ sequenceDiagram
 
 ```mermaid
 graph TD
-    Current["Current Documents"] --> Active["Active:<br>- task-tracking-intermediate.md<br>- planning-comprehensive.md"]
-    Current --> Required["Required Next:<br>- creative-phase-enforcement.md<br>- implementation-phase-reference.md"]
+    Current["Current Documents"] --> Active["Active:<br>- task-tracking-intermediate.mdc<br>- planning-comprehensive.mdc"]
+    Current --> Required["Required Next:<br>- creative-phase-enforcement.mdc<br>- implementation-intermediate.mdc"]
     
     style Current fill:#4da6ff,stroke:#0066cc,color:white
     style Active fill:#4dbb5f,stroke:#36873f,color:white
