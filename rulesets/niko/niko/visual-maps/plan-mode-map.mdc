@@ -6,7 +6,7 @@ alwaysApply: false
 
 # PLAN MODE: TASK PLANNING PROCESS MAP
 
-> **TL;DR:** This visual map guides the PLAN mode process, focusing on creating detailed implementation plans based on the complexity level determined during initialization, with mandatory technology validation before implementation.
+> **TL;DR:** This visual map guides the PLAN mode process, focusing on creating detailed implementation plans based on the complexity level determined during initialization. **Test Planning (TDD)** is mandatory at all levels to identify behaviors to test and test locations BEFORE planning implementation, with technology validation before implementation.
 
 ## 🧭 PLAN MODE PROCESS FLOW
 
@@ -16,9 +16,19 @@ graph TD
     
     %% Complexity Level Determination
     ReadTasks --> CheckLevel{"Determine<br>Complexity Level"}
-    CheckLevel -->|"Level 2"| Level2["LEVEL 2 PLANNING<br>Level2/enhancement-planning.md"]
-    CheckLevel -->|"Level 3"| Level3["LEVEL 3 PLANNING<br>Level3/feature-planning.md"]
-    CheckLevel -->|"Level 4"| Level4["LEVEL 4 PLANNING<br>Level4/system-planning.md"]
+    
+    %% TEST PLANNING (TDD - All Levels)
+    CheckLevel -->|"Level 2"| L2TestPlan["⛔ TEST PLANNING (TDD)<br>Identify behaviors to test"]
+    CheckLevel -->|"Level 3"| L3TestPlan["⛔ TEST PLANNING (TDD)<br>Identify behaviors to test"]
+    CheckLevel -->|"Level 4"| L4TestPlan["⛔ TEST PLANNING (TDD)<br>Identify behaviors to test"]
+    
+    L2TestPlan --> L2TestLoc["Locate Test<br>Infrastructure"]
+    L3TestPlan --> L3TestLoc["Locate Test<br>Infrastructure"]
+    L4TestPlan --> L4TestLoc["Locate Test<br>Infrastructure"]
+    
+    L2TestLoc --> Level2["LEVEL 2 PLANNING<br>Level2/enhancement-planning.md"]
+    L3TestLoc --> Level3["LEVEL 3 PLANNING<br>Level3/feature-planning.md"]
+    L4TestLoc --> Level4["LEVEL 4 PLANNING<br>Level4/system-planning.md"]
     
     %% Level 2 Planning
     Level2 --> L2Review["Review Code<br>Structure"]
@@ -76,6 +86,14 @@ graph TD
     style TechDependencies fill:#4da6ff,stroke:#0066cc,color:white
     style TechConfig fill:#4da6ff,stroke:#0066cc,color:white
     style TechBuild fill:#4da6ff,stroke:#0066cc,color:white
+    
+    %% Style for TDD Test Planning Gate
+    style L2TestPlan fill:#ff5555,stroke:#dd3333,color:white,stroke-width:3px
+    style L3TestPlan fill:#ff5555,stroke:#dd3333,color:white,stroke-width:3px
+    style L4TestPlan fill:#ff5555,stroke:#dd3333,color:white,stroke-width:3px
+    style L2TestLoc fill:#4da6ff,stroke:#0066cc,color:white
+    style L3TestLoc fill:#4da6ff,stroke:#0066cc,color:white
+    style L4TestLoc fill:#4da6ff,stroke:#0066cc,color:white
 ```
 
 ## 📋 LEVEL-SPECIFIC PLANNING APPROACHES
@@ -164,6 +182,17 @@ During planning, update tasks.md with this structure:
 Level: [2/3/4]
 Type: [Enhancement/Feature/Complex System]
 
+## Test Planning (TDD)
+### Behaviors to Test
+- [Behavior 1]: [Expected outcome]
+- [Behavior 2]: [Expected outcome]
+- [Edge case 1]: [Expected outcome]
+
+### Test Infrastructure
+- Test framework: [Framework name]
+- Test location: [Path to test files]
+- New test files needed: [List of new test files]
+
 ## Technology Stack
 - Framework: [Selected framework]
 - Build Tool: [Selected build tool]
@@ -179,6 +208,7 @@ Type: [Enhancement/Feature/Complex System]
 
 ## Status
 - [x] Initialization complete
+- [x] Test planning complete (TDD)
 - [x] Planning complete
 - [ ] Technology validation complete
 - [ ] [Implementation steps]
@@ -245,7 +275,10 @@ graph TD
 ## 📊 PLAN VERIFICATION CHECKLIST
 
 ```
-✓ PLAN VERIFICATION CHECKLIST
+✓ PLAN VERIFICATION CHECKLIST (TDD)
+- Behaviors to test identified? [YES/NO]
+- Test infrastructure located? [YES/NO]
+- Test locations determined? [YES/NO]
 - Requirements clearly documented? [YES/NO]
 - Technology stack validated? [YES/NO]
 - Affected components identified? [YES/NO]
@@ -266,6 +299,9 @@ When planning is complete, notify user with:
 ```
 ## PLANNING COMPLETE
 
+✅ Behaviors to test identified
+✅ Test infrastructure located
+✅ Test locations determined
 ✅ Implementation plan created
 ✅ Technology stack validated
 ✅ tasks.md updated with plan
