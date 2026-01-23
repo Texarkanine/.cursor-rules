@@ -9,6 +9,6 @@ The `ai-rizz` tool is used to install Cursor rules and commands into the `.curso
 
 This repository contains many of those rules and commands' canonical definitions - in the `rulesets/` and `rules/` directories.
 
-If you are making changes to a rule that is presentr in both `.cursor/**` and a `rules/` or `rulesets/` directory, **ALWAYS** edit the canonical source in the `rulesets/` and `rules/` directory. **NEVER** edit such a file in the `.cursor/` directory.
+If you are making changes to a rule that is present in both `.cursor/**` and a `rules/` or `rulesets/` directory, **ALWAYS** edit the canonical source in the `rulesets/` and `rules/` directory. **NEVER** edit such a file in the `.cursor/` directory.
 
 Some files in `.cursor/` do NOT exist elsewhere in this repository. Those are rules and/or commands that were authored specifically *for* this repository, and it is OK to edit them where they are.
