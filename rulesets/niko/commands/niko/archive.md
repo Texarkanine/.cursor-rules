@@ -1,6 +1,6 @@
-# ARCHIVE Command - Task Archiving
+# ARCHIVE Command - Task Archiving & Cleanup
 
-This command creates comprehensive archive documentation and updates the Memory Bank for future reference.
+This command creates comprehensive archive documentation, clears task-specific files from the Memory Bank, and commits all changes in a single git commit.
 
 ## Memory Bank Integration
 
@@ -20,10 +20,21 @@ Creates:
 - `systems/` - Complex system changes and architecture (Level 4)
 - `documentation/` - Documentation updates and improvements
 
-Updates:
-- `memory-bank/tasks.md` - Mark task as COMPLETE
-- `memory-bank/progress.md` - Add archive reference
-- `memory-bank/activeContext.md` - Reset for next task
+Clears (task-specific, ephemeral):
+- `memory-bank/tasks.md` - Reset to initial state
+- `memory-bank/progress.md` - Reset to initial state
+- `memory-bank/activeContext.md` - Reset to initial state
+- `memory-bank/creative/` - Remove all files
+- `memory-bank/reflection/` - Remove all files
+- `memory-bank/.qa_validation_status` - Remove if exists
+
+Preserves (repository-specific, persistent):
+- `memory-bank/projectbrief.md` - Project foundation
+- `memory-bank/productContext.md` - Product context
+- `memory-bank/systemPatterns.md` - System patterns
+- `memory-bank/techContext.md` - Tech context
+- `memory-bank/style-guide.md` - Style guide
+- `memory-bank/archive/` - All archive documents (including newly created)
 
 ## Progressive Rule Loading
 
@@ -63,138 +74,103 @@ Load: .cursor/rules/shared/niko/Level4/archive-comprehensive.mdc
 
 ## Workflow
 
-1. **Verify Reflection Complete**
-   - Check that `memory-bank/reflection/reflection-<task-id>.md` exists
-   - Verify reflection is complete
-   - If not complete, return to `/niko/reflect` command
+### 1. Verify Reflection Complete
+- Check that `memory-bank/reflection/reflection-<task-id>.md` exists
+- Verify reflection is complete
+- If not complete, return to `/niko/reflect` command
 
-2. **Create Archive Document**
+### 2. Create Archive Document
 
-   **Level 1:**
-   - Create quick summary
-   - Update `memory-bank/tasks.md` marking task complete
+**Level 1:**
+- Create quick summary in archive
 
-   **Level 2:**
-   - Create basic archive document
-   - Document changes made
-   - Update `memory-bank/tasks.md` and `memory-bank/progress.md`
+**Level 2:**
+- Create basic archive document
+- Document changes made
 
-   **Level 3-4:**
-   - Create comprehensive archive document
-   - Include: Metadata, Summary, Requirements, Implementation details, Testing, Lessons Learned, References
-   - Archive creative phase documents
-   - Document code changes
-   - Document testing approach
-   - Summarize lessons learned
-   - Update all Memory Bank files
+**Level 3-4:**
+- Create comprehensive archive document
+- Include: Metadata, Summary, Requirements, Implementation details, Testing, Lessons Learned, References
+- Document code changes
+- Document testing approach
+- Summarize lessons learned
 
-3. **Archive Document Structure**
-   ```
-   # TASK ARCHIVE: [Task Name]
-   
-   ## METADATA
-   - Task ID, dates, complexity level
-   
-   ## SUMMARY
-   Brief overview of the task
-   
-   ## REQUIREMENTS
-   What the task needed to accomplish
-   
-   ## IMPLEMENTATION
-   How the task was implemented
-   
-   ## TESTING
-   How the solution was verified
-   
-   ## LESSONS LEARNED
-   Key takeaways from the task
-   
-   ## REFERENCES
-   Links to related documents (reflection, creative phases, etc.)
-   ```
+**Archive Document Structure:**
+```
+# TASK ARCHIVE: [Task Name]
 
-4. **Update Memory Bank**
-   - Create `memory-bank/archive/<kind>/<YYYYMMDD>-<task-id>.md` (where `<kind>` is one of: bug-fixes, enhancements, features, systems, documentation)
-   - Mark task as COMPLETE in `memory-bank/tasks.md`
-   - Update `memory-bank/progress.md` with archive reference
-   - Reset `memory-bank/activeContext.md` for next task
-   - Clear completed task details from `memory-bank/tasks.md` (keep structure)
+## METADATA
+- Task ID, dates, complexity level
+
+## SUMMARY
+Brief overview of the task
+
+## REQUIREMENTS
+What the task needed to accomplish
+
+## IMPLEMENTATION
+How the task was implemented
+
+## TESTING
+How the solution was verified
+
+## LESSONS LEARNED
+Key takeaways from the task
+
+## REFERENCES
+Links to related documents (reflection, creative phases, etc.)
+```
+
+### 3. Clear Task-Specific Files
+
+After creating the archive document, clear all task-specific files:
+
+**Remove files in directories:**
+- Delete all files in `memory-bank/creative/` directory
+- Delete all files in `memory-bank/reflection/` directory
+
+**Remove files:**
+- Delete `memory-bank/.qa_validation_status` if it exists
+
+**Reset files to initial state:**
+- `memory-bank/tasks.md` - Clear content, reset to empty template
+- `memory-bank/progress.md` - Clear content, reset to empty template
+- `memory-bank/activeContext.md` - Clear content, reset to empty template
+
+### 4. Git Commit (REQUIRED)
+
+**CRITICAL:** Always make a git commit at the end. This step is mandatory and must not be skipped.
+
+```bash
+git add memory-bank/
+git commit --no-gpg-sign -m "chore: archive <task-id> and clear memory bank"
+```
+
+The commit message should include the task ID being archived. Examples:
+- `chore: archive auth-feature and clear memory bank`
+- `chore: archive bugfix-login and clear memory bank`
+
+This makes the entire operation revertable via `git revert HEAD`.
+
+### 5. Verification
+
+After committing, verify:
+- Archive document exists in `memory-bank/archive/<kind>/`
+- Task-specific files are cleared/reset
+- Repository-specific files remain untouched
+- Git commit was successful (check exit code)
 
 ## Usage
 
 Type `/niko/archive` to archive the completed task after reflection is done.
 
-## `/archive clear` - Clean Memory Bank
-
-The `/archive clear` command removes all local-machine and task-specific files from the memory bank, leaving only repository-specific information and past task archives.
-
-### What Gets Cleared
-
-**Directories:**
-- `memory-bank/creative/` - All creative phase documents (task-specific)
-- `memory-bank/reflection/` - All reflection documents (task-specific)
-
-**Files:**
-- `memory-bank/tasks.md` - Task tracking (ephemeral, task-specific)
-- `memory-bank/progress.md` - Implementation status (task-specific)
-- `memory-bank/activeContext.md` - Current focus (task-specific)
-- `memory-bank/.qa_validation_status` - QA validation status (task-specific)
-
-### What Gets Preserved
-
-**Repository-Specific Files (Kept):**
-- `memory-bank/projectbrief.md` - Project foundation
-- `memory-bank/productContext.md` - Product context
-- `memory-bank/systemPatterns.md` - System patterns
-- `memory-bank/techContext.md` - Tech context
-- `memory-bank/style-guide.md` - Style guide
-- `memory-bank/archive/` - All archive documents (past tasks)
-
-### Workflow
-
-1. **Verify All Tasks Archived**
-   - Ensure all completed tasks have been archived
-   - Check that `memory-bank/archive/` contains all expected archive documents
-
-2. **Clear Task-Specific Files**
-   - Remove all files in `memory-bank/creative/` directory
-   - Remove all files in `memory-bank/reflection/` directory
-   - Clear content from `memory-bank/tasks.md` (reset to initial state)
-   - Clear content from `memory-bank/progress.md` (reset to initial state)
-   - Clear content from `memory-bank/activeContext.md` (reset to initial state)
-   - Remove `memory-bank/.qa_validation_status` if it exists
-
-3. **Preserve Repository Knowledge**
-   - Keep all repository-specific context files
-   - Keep all archive documents
-   - Ensure Memory Bank structure remains intact
-
-4. **Git Commit**
-   - Stage all cleared files
-   - Commit changes with message: `chore: clear task-specific memory bank files`
-   - This makes the operation revertable via `git revert HEAD`
-
-5. **Verification**
-   - Verify only task-specific files were removed
-   - Verify repository-specific files remain
-   - Verify archive documents remain
-   - Verify Memory Bank structure is intact
-   - Verify git commit was successful
-
-### When to Use
-
-Use `/archive clear` when:
-- Preparing the repository for sharing or handoff
-- Starting fresh after completing multiple tasks
-- Removing local-machine specific information
-- Ensuring only repository knowledge remains in Memory Bank
-
-**Note:** All changes are automatically committed to git, making this operation revertable if needed.
+This command will:
+1. Create the archive document
+2. Clear all task-specific memory bank files
+3. Commit everything in a single `chore:` commit
 
 ## Next Steps
 
 After archiving complete, use `/niko` command to start the next task.
 
-After clearing, the Memory Bank will be ready for new tasks with only repository-specific knowledge preserved.
-
+The Memory Bank will be ready for new tasks with only repository-specific knowledge preserved.

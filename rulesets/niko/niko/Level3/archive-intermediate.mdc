@@ -51,7 +51,7 @@ graph TD
     * List the main functional and non-functional requirements this feature addressed.
 * **3. Design Decisions & Creative Outputs:**
     * Summary of key design choices.
-    * **Inline** the key decisions, rationale, and alternatives considered from `memory-bank/creative/creative-[aspect_name].md` documents (these files are ephemeral and will be deleted by `/archive clear`).
+    * **Inline** the key decisions, rationale, and alternatives considered from `memory-bank/creative/creative-[aspect_name].md` documents (these files are ephemeral and will be deleted by `/archive`).
     * Reference `memory-bank/style-guide.md` patterns used (style-guide is persistent).
 * **4. Implementation Summary:**
     * High-level overview of how the feature was implemented.
@@ -62,7 +62,7 @@ graph TD
     * Brief summary of the testing strategy employed for this feature (unit, integration, E2E).
     * Outcome of the testing.
 * **6. Reflection & Lessons Learned:**
-    * **Inline** the key lessons, challenges, and outcomes from `memory-bank/reflection/reflection-[feature_id].md` (this file is ephemeral and will be deleted by `/archive clear`).
+    * **Inline** the key lessons, challenges, and outcomes from `memory-bank/reflection/reflection-[feature_id].md` (this file is ephemeral and will be deleted by `/archive`).
     * Include: what worked well, what didn't, key insights for future work.
 * **7. Known Issues or Future Considerations (Optional, if any remaining from reflection):**
     * Any minor known issues deferred.
@@ -80,12 +80,12 @@ graph TD
   * **Maintainability Focus:** Information that would help a future developer understand, maintain, or build upon this specific feature.
   * **Not a Full System Archive:** Unlike Level 4, this is not about archiving the entire application state, but rather the lifecycle of one significant feature.
 
-## 🧹 `/archive clear` - Memory Bank Cleanup
+## 🧹 Automatic Memory Bank Cleanup
 
-After completing archiving for all tasks, use `/archive clear` to remove task-specific files from the Memory Bank:
+The `/archive` command automatically clears task-specific files after creating the archive document:
 
 - **Clears:** `creative/`, `reflection/`, `tasks.md`, `progress.md`, `activeContext.md`, `.qa_validation_status`
 - **Preserves:** Repository knowledge files (`projectbrief.md`, `productContext.md`, `systemPatterns.md`, `techContext.md`, `style-guide.md`) and all archive documents
-- **Git Commit:** All changes are automatically committed, making the operation revertable via `git revert HEAD`
+- **Git Commit:** All changes are committed with `chore: archive <task-id> and clear memory bank`
 
 This prepares the Memory Bank for fresh tasks while preserving repository knowledge and past task archives.
