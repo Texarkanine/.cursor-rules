@@ -307,7 +307,7 @@ When archiving is complete, notify user with:
 ## TASK ARCHIVED
 
 ✅ Archive document created in memory-bank/archive/<kind>/
-✅ Task-specific files cleared (creative/, reflection/, tasks.md, progress.md, activeContext.md)
+✅ Task-specific files cleared (creative/, reflection/, tasks.md, progress.md, activeContext.md, .qa_validation_status)
 ✅ Repository knowledge preserved
 ✅ Git commit: "chore: archive <task-id> and clear memory bank"
 
