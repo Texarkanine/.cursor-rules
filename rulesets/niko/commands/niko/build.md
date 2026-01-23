@@ -72,11 +72,6 @@ Load: .cursor/rules/shared/niko/Level4/phased-implementation.mdc
 
 3. **Execute Implementation**
 
-   Follow the TDD process for each unit of work:
-   - **Level 1**: Apply TDD for the bug fix
-   - **Level 2**: Apply TDD for each subtask
-   - **Level 3-4**: Apply TDD for each implementation phase (do NOT proceed to next phase until all tests pass)
-
    **Level 1 (Quick Bug Fix):**
    - Review bug report and examine relevant code
    - Follow the TDD process to fix the bug
