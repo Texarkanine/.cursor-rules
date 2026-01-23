@@ -134,10 +134,10 @@ graph TD
 ```
 
 **Steps:**
-1. Implement first subtask
-2. Update status in tasks.md
-3. Implement remaining subtasks
-4. Regular status updates after each subtask
+1. Write failing tests for the first subtask (TDD)
+2. Implement first subtask so that the new failing tests pass
+3. Update status in tasks.md
+4. Repeat steps 1-3 for each remaining subtask
 5. Verify complete implementation
 
 **Milestone Checkpoint:**

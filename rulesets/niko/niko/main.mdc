@@ -180,7 +180,7 @@ Documentation requirements scale based on complexity level:
 | Problem Definition | Brief | Standard | Detailed | Comprehensive |
 | Options Analysis | Optional | Basic | Multiple Options | Extensive |
 | Implementation Plan | Simple | Standard | Detailed | Phased |
-| Testing Requirements | Basic | Standard | Comprehensive | Rigorous |
+| Testing Requirements (TDD) | Basic | Standard | Comprehensive | Rigorous |
 | Documentation | Minimal | Standard | Detailed | Extensive |
 
 ## 📑 OPTIMIZED TEMPLATES BY LEVEL

@@ -64,8 +64,8 @@ graph TD
 
 **Steps:**
 1. Locate the source of the issue
-2. Develop a targeted fix
-3. Test the solution thoroughly
+2. Write a failing test that reproduces the issue (TDD)
+3. Develop a targeted fix
 4. Verify that the issue is resolved
 
 **Milestone Checkpoint:**
