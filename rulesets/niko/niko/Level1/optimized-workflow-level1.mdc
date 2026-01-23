@@ -6,19 +6,21 @@ alwaysApply: false
 
 # OPTIMIZED LEVEL 1 WORKFLOW
 
-> **TL;DR:** This streamlined workflow for Level 1 tasks (quick bug fixes) optimizes for speed and token efficiency while maintaining quality.
+> **TL;DR:** This streamlined workflow for Level 1 tasks (quick bug fixes) optimizes for speed and token efficiency while maintaining quality. Follows TDD: write a failing test first, then fix.
 
 ## 🔧 LEVEL 1 PROCESS FLOW
 
 ```mermaid
 graph TD
     Start["START LEVEL 1<br>QUICK FIX"] --> Analyze["1️⃣ ANALYZE<br>Understand issue"]
-    Analyze --> Build["2️⃣ BUILD<br>Fix the issue"]
-    Build --> Verify["3️⃣ VERIFY<br>Test the fix"]
-    Verify --> Document["4️⃣ DOCUMENT<br>Record solution"]
+    Analyze --> Test["2️⃣ TEST<br>Write failing test"]
+    Test --> Build["3️⃣ BUILD<br>Fix to pass test"]
+    Build --> Verify["4️⃣ VERIFY<br>All tests pass"]
+    Verify --> Document["5️⃣ DOCUMENT<br>Record solution"]
     
     style Start fill:#4da6ff,stroke:#0066cc,color:white
     style Analyze fill:#ffa64d,stroke:#cc7a30,color:white
+    style Test fill:#ff5555,stroke:#dd3333,color:white
     style Build fill:#4dbb5f,stroke:#36873f,color:white
     style Verify fill:#d94dbb,stroke:#a3378a,color:white
     style Document fill:#4dbbbb,stroke:#368787,color:white
