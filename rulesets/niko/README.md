@@ -93,6 +93,83 @@ flowchart LR
 	class NikoPlan,NikoBuild aiNode;
 ```
 
+Depending on the complexity of the task, you'll end up with 1 of 4 recommended workflows:
+
+<details>
+<summary>Level 1: Quick Fix</summary>
+
+```mermaid
+graph LR
+    Niko["🧑‍💻 /niko"] --> NikoBuild["🐱 builds"]
+    NikoBuild --> Reflect["🧑‍💻 /reflect"]
+    Reflect --> PullRequest("Pull Request")
+	PullRequest --"PR Feedback"-->Niko
+	PullRequest --"Ready"--> Archive["🧑‍💻 /archive"]
+    Archive --"Merge PR"--> Done["✅ Done"]
+    %% Style
+    classDef humanNode fill:#f3e5f5,stroke:#4a148c,stroke-width:2px;
+    classDef aiNode fill:#fff3e0,stroke:#e65100,stroke-width:2px;
+    class Niko,Reflect,Archive humanNode;
+    class NikoBuild aiNode;
+```
+</details>
+
+<details>
+<summary>Level 2: Enhancement</summary>
+
+```mermaid
+graph LR
+    Niko["🧑‍💻 /niko"] --> NikoPlan["🐱 plans"]
+    NikoPlan --> NikoBuild["🐱 builds"]
+	NikoBuild --"Iterate"-->Niko
+    NikoBuild --> Reflect["🧑‍💻 /reflect"]
+    Reflect --> PullRequest("Pull Request")
+	PullRequest --"PR Feedback"-->Niko
+	PullRequest --"Ready"--> Archive["🧑‍💻 /archive"]
+    Archive --"Merge PR"--> Done["✅ Done"]
+
+	%% --- STYLING ---
+	classDef humanNode fill:#f3e5f5,stroke:#4a148c,stroke-width:2px;
+	classDef aiNode fill:#fff3e0,stroke:#e65100,stroke-width:2px;
+
+	class Niko,Creative,QA,ManBuild,Reflect,Archive humanNode;
+	class NikoPlan,NikoBuild aiNode;
+```
+
+</details>
+
+<details>
+<summary>Level 3-4: Feature / System</summary>
+
+```mermaid
+graph LR
+    Niko["🧑‍💻 /niko"] --> NikoPlan["🐱 plans"]
+    NikoPlan --> Creative["🧑‍💻 /creative"]
+	Creative --> QA["🧑‍💻 /qa"]
+    QA --> ManBuild["🧑‍💻 /build"]
+    ManBuild --> Reflect["🧑‍💻 /reflect"]
+	ManBuild --"Iterate"-->Niko
+    Reflect --> PullRequest("Pull Request")
+    PullRequest --"PR Feedback"--> Niko
+    PullRequest --"Ready"--> Archive["🧑‍💻 /archive"]
+    Archive --"Merge PR"--> Done["✅ Done"]
+
+	%% --- STYLING ---
+	classDef humanNode fill:#f3e5f5,stroke:#4a148c,stroke-width:2px;
+	classDef aiNode fill:#fff3e0,stroke:#e65100,stroke-width:2px;
+
+	class Niko,Creative,QA,ManBuild,Reflect,Archive humanNode;
+	class NikoPlan,NikoBuild aiNode;
+```
+
+</details>
+
+<br>
+Key insights: 
+
+1. `/reflect` whenever a milestone is reached. `/archive` at the very end before merge. You want your PR reviewers to see your reflections to answer things like "why didn't you..." or "why did you..." etc.
+2. When iterating, return to `/niko` and it may route your refinements to a different level - e.g. if you finished a Level 4 feature but want a minor change, that iteration might be routed to the Level 1 flow.
+
 ### Context Refreshing
 
 Niko stores progress on disk in the `memory-bank` directory. When your context window is getting full, let Niko finish the current task, then... start a new conversation! If Niko was building, you can just start a new chat with `/niko/build` and nothing else and Niko will resume the work!
