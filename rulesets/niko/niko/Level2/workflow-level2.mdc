@@ -120,33 +120,38 @@ graph TD
 → If any NO: Complete planning steps
 ```
 
-### Phase 4: IMPLEMENTATION
+### Phase 4: IMPLEMENTATION (TDD)
 
 ```mermaid
 graph TD
-    Start["Begin<br>Implementation"] --> SubTask1["Complete<br>Subtask 1"]
+    Start["Begin<br>Implementation"] --> WriteTests1["Write Failing<br>Tests (TDD)"]
+    WriteTests1 --> SubTask1["Implement Subtask 1<br>to Pass Tests"]
     SubTask1 --> UpdateStatus1["Update Status<br>in tasks.md"]
-    UpdateStatus1 --> SubTask2["Complete<br>Subtask 2"]
+    UpdateStatus1 --> WriteTests2["Write Failing<br>Tests (TDD)"]
+    WriteTests2 --> SubTask2["Implement Subtask 2<br>to Pass Tests"]
     SubTask2 --> UpdateStatus2["Update Status<br>in tasks.md"]
-    UpdateStatus2 --> FinalSubTask["Complete<br>Final Subtask"]
-    FinalSubTask --> Verification["Perform<br>Verification"]
+    UpdateStatus2 --> FinalTests["Write Remaining<br>Tests (TDD)"]
+    FinalTests --> FinalSubTask["Implement Final<br>Subtask"]
+    FinalSubTask --> Verification["Verify All<br>Tests Pass"]
     Verification --> ImplComplete["Implementation<br>Complete"]
 ```
 
 **Steps:**
-1. Implement first subtask
-2. Update status in tasks.md
-3. Implement remaining subtasks
-4. Regular status updates after each subtask
-5. Verify complete implementation
+1. Write failing tests for the first subtask (TDD)
+2. Implement first subtask so that the new failing tests pass
+3. Update status in tasks.md
+4. Repeat steps 1-3 for each remaining subtask
+5. Verify all tests pass
 
 **Milestone Checkpoint:**
 ```
 ✓ IMPLEMENTATION CHECKPOINT
-- All subtasks completed? [YES/NO]
+- Tests written BEFORE implementation for each subtask? [YES/NO]
+- Tests initially failed (proving they test something)? [YES/NO]
+- All subtasks completed to pass tests? [YES/NO]
 - Status updates maintained? [YES/NO]
 - Enhancement fully implemented? [YES/NO]
-- Basic verification performed? [YES/NO]
+- All tests now passing? [YES/NO]
 - tasks.md fully updated? [YES/NO]
 
 → If all YES: Proceed to Reflection
@@ -223,6 +228,8 @@ graph TD
 ✓ FINAL WORKFLOW VERIFICATION
 - All phases completed? [YES/NO]
 - All milestone checkpoints passed? [YES/NO]
+- TDD process followed (tests first)? [YES/NO]
+- All tests passing? [YES/NO]
 - tasks.md fully updated? [YES/NO]
 - Reflection document created? [YES/NO]
 - Archive document created? [YES/NO]

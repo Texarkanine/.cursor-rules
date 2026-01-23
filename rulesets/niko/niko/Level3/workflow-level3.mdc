@@ -196,39 +196,47 @@ graph TD
     → If any NO: Complete creative phase work.
     ```
 
-### Phase 5: IMPLEMENTATION (BUILD Mode)
+### Phase 5: IMPLEMENTATION (BUILD Mode - TDD)
 
 Guided by `visual-maps/build-mode-map.mdc` and `Level3/implementation-L3.mdc`.
 
 ```mermaid
 graph TD
-    StartImpl["Begin L3 Feature<br>Implementation"] --> ReviewPlanDesign["Review Plan (`tasks.md`)<br>& Creative Docs (`creative-*.md`)"]
+    StartImpl["Begin L3 Feature<br>Implementation (TDD)"] --> ReviewPlanDesign["Review Plan (`tasks.md`)<br>& Creative Docs (`creative-*.md`)"]
     ReviewPlanDesign --> SetupDevEnv["Setup Dev Environment<br>(Branch, Dependencies, Tools)"]
-    SetupDevEnv --> BuildModules["Implement Feature Modules/Components<br>Iteratively or Sequentially"]
-    BuildModules --> UnitIntegrationTests["Conduct Unit & Integration Tests<br>for Each Module/Feature Part"]
-    UnitIntegrationTests --> StyleAdherence["Ensure Adherence to<br>`memory-bank/style-guide.md`"]
+    SetupDevEnv --> WriteTests["Write Failing Tests<br>for Module (TDD)"]
+    WriteTests --> BuildModules["Implement Module<br>to Pass Tests"]
+    BuildModules --> VerifyTests["Verify Tests Pass"]
+    VerifyTests --> MoreModules{"More<br>Modules?"}
+    MoreModules -->|"Yes"| WriteTests
+    MoreModules -->|"No"| StyleAdherence["Ensure Adherence to<br>`memory-bank/style-guide.md`"]
     StyleAdherence --> UpdateProgressDocs["Regularly Update `tasks.md` (sub-tasks)<br>& `progress.md` (milestones)"]
     UpdateProgressDocs --> E2EFeatureTest["End-to-End Feature Testing<br>Against Requirements"]
     E2EFeatureTest --> ImplComplete["L3 Feature Implementation<br>Complete"]
 
     style StartImpl fill:#ffcdd2,stroke:#ef9a9a
+    style WriteTests fill:#ff5555,stroke:#dd3333,color:white
     style ImplComplete fill:#ef9a9a,stroke:#e57373
 ```
 
   * **Steps:**
     1.  Thoroughly review the feature plan in `memory-bank/tasks.md` and all relevant `memory-bank/creative-*.md` decision documents.
     2.  Set up the development environment (new branch, install any new dependencies, configure tools).
-    3.  Implement the feature, building out modules/components as planned. Prioritize clean code and adherence to design specifications.
-    4.  Perform unit tests for new logic and integration tests as components are assembled.
-    5.  Ensure all UI elements strictly follow `memory-bank/style-guide.md`.
-    6.  Update `memory-bank/tasks.md` with progress on sub-tasks, and `memory-bank/progress.md` with details of implemented parts, commands used, and any significant findings.
-    7.  Conduct end-to-end testing of the completed feature against its requirements.
+    3.  **For each module/component:** Follow TDD process:
+        a. Write failing tests for the module/component
+        b. Implement the module/component to pass tests
+        c. Verify all tests pass before proceeding to next module
+    4.  Ensure all UI elements strictly follow `memory-bank/style-guide.md`.
+    5.  Update `memory-bank/tasks.md` with progress on sub-tasks, and `memory-bank/progress.md` with details of implemented parts, commands used, and any significant findings.
+    6.  Conduct end-to-end testing of the completed feature against its requirements.
   * **Milestone Checkpoint:**
     ```
     ✓ L3 IMPLEMENTATION CHECKPOINT
+    - Tests written BEFORE implementation for each module? [YES/NO]
+    - Tests initially failed (proving they test something)? [YES/NO]
     - Feature fully implemented as per plan and creative designs? [YES/NO]
     - All UI elements adhere to `memory-bank/style-guide.md`? [YES/NO]
-    - Unit and integration tests performed and passing? [YES/NO]
+    - All unit and integration tests passing? [YES/NO]
     - End-to-end feature testing successful? [YES/NO]
     - `tasks.md` and `progress.md` updated with implementation status? [YES/NO]
 

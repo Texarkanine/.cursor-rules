@@ -219,33 +219,40 @@ graph TD
 → If any NO: Complete creative phases
 ```
 
-### Phase 5: PHASED IMPLEMENTATION
+### Phase 5: PHASED IMPLEMENTATION (TDD)
 
 ```mermaid
 graph TD
-    Start["Begin Phased<br>Implementation"] --> PrepEnv["Prepare Comprehensive<br>Implementation Environment"]
+    Start["Begin Phased<br>Implementation (TDD)"] --> PrepEnv["Prepare Comprehensive<br>Implementation Environment"]
     PrepEnv --> Framework["Establish Implementation<br>Framework"]
     Framework --> RoadmapDefine["Define Implementation<br>Roadmap"]
-    RoadmapDefine --> PhaseImplementation["Implement<br>Sequential Phases"]
-    PhaseImplementation --> PhaseVerification["Verify Each<br>Phase"]
-    PhaseVerification --> Integration["Perform Integration<br>Testing"]
+    RoadmapDefine --> WritePhaseTests["Write Phase Tests<br>(TDD - Should Fail)"]
+    WritePhaseTests --> PhaseImplementation["Implement Phase<br>to Pass Tests"]
+    PhaseImplementation --> PhaseVerification["Verify Phase<br>Tests Pass"]
+    PhaseVerification --> MorePhases{"More<br>Phases?"}
+    MorePhases -->|"Yes"| WritePhaseTests
+    MorePhases -->|"No"| Integration["Perform Integration<br>Testing"]
     Integration --> SystemTest["Conduct System<br>Testing"]
     SystemTest --> UAT["User Acceptance<br>Testing"]
     UAT --> Stabilization["System<br>Stabilization"]
     Stabilization --> ImplComplete["Implementation<br>Complete"]
+    
+    style WritePhaseTests fill:#ff5555,stroke:#dd3333,color:white
 ```
 
 **Steps:**
 1. Prepare comprehensive implementation environment with all tools
 2. Establish implementation framework with standards and processes
 3. Define detailed implementation roadmap with phases and dependencies
-4. Implement sequential phases with milestone verification
-5. Verify each phase against requirements and design
-6. Perform comprehensive integration testing across phases
-7. Conduct thorough system testing of the complete solution
-8. Execute formal user acceptance testing with stakeholders
-9. Perform system stabilization and performance tuning
-10. Document all implementation details and deployment procedures
+4. **For each phase, following TDD:**
+    a. Write tests for the phase success criteria (tests should fail)
+    b. Implement the phase so that the new failing tests pass
+    c. Verify all phase tests pass before proceeding to next phase
+5. Perform comprehensive integration testing across phases
+6. Conduct thorough system testing of the complete solution
+7. Execute formal user acceptance testing with stakeholders
+8. Perform system stabilization and performance tuning
+9. Document all implementation details and deployment procedures
 
 **Milestone Checkpoint:**
 ```
@@ -253,7 +260,9 @@ graph TD
 - Implementation environment fully prepared? [YES/NO]
 - Implementation framework established? [YES/NO]
 - Detailed roadmap defined with phases? [YES/NO]
-- All phases sequentially implemented? [YES/NO]
+- Tests written BEFORE implementation for each phase (TDD)? [YES/NO]
+- Tests initially failed (proving they test something)? [YES/NO]
+- All phases implemented to pass tests? [YES/NO]
 - Each phase verified against requirements? [YES/NO]
 - Comprehensive integration testing performed? [YES/NO]
 - Thorough system testing conducted? [YES/NO]
@@ -364,6 +373,8 @@ graph TD
 ✓ FINAL WORKFLOW VERIFICATION
 - All 7 phases completed? [YES/NO]
 - All milestone checkpoints passed? [YES/NO]
+- TDD process followed (tests first for each phase)? [YES/NO]
+- All tests passing? [YES/NO]
 - Architectural planning properly executed? [YES/NO]
 - All required creative phases completed? [YES/NO]
 - Implementation performed in proper phases? [YES/NO]

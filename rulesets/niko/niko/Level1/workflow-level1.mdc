@@ -51,30 +51,31 @@ graph TD
 → If any NO: Complete initialization steps
 ```
 
-### Phase 2: IMPLEMENTATION
+### Phase 2: IMPLEMENTATION (TDD)
 
 ```mermaid
 graph TD
     Start["Begin<br>Implementation"] --> Locate["Locate<br>Issue Source"]
-    Locate --> Develop["Develop<br>Fix"]
-    Develop --> Test["Test<br>Solution"]
-    Test --> Verify["Verify<br>Resolution"]
+    Locate --> WriteTest["Write Failing<br>Test (TDD)"]
+    WriteTest --> Develop["Develop Fix<br>to Pass Test"]
+    Develop --> Verify["Verify All<br>Tests Pass"]
     Verify --> ImplComplete["Implementation<br>Complete"]
 ```
 
 **Steps:**
 1. Locate the source of the issue
-2. Develop a targeted fix
-3. Test the solution thoroughly
-4. Verify that the issue is resolved
+2. Write a failing test that reproduces the issue (TDD)
+3. Develop a targeted fix to make the test pass
+4. Verify all tests pass
 
 **Milestone Checkpoint:**
 ```
 ✓ IMPLEMENTATION CHECKPOINT
 - Issue source located? [YES/NO]
-- Fix developed? [YES/NO]
-- Solution tested? [YES/NO]
-- Resolution verified? [YES/NO]
+- Failing test written FIRST? [YES/NO]
+- Test initially failed (proving it tests the issue)? [YES/NO]
+- Fix developed to pass test? [YES/NO]
+- All tests now passing? [YES/NO]
 
 → If all YES: Proceed to Documentation
 → If any NO: Complete implementation steps
@@ -137,7 +138,9 @@ For Level 1 tasks, make minimal Memory Bank updates:
 ```
 ✓ FINAL WORKFLOW VERIFICATION
 - Issue identified and understood? [YES/NO]
-- Fix implemented and verified? [YES/NO]
+- Failing test written FIRST (TDD)? [YES/NO]
+- Fix implemented to pass test? [YES/NO]
+- All tests passing? [YES/NO]
 - tasks.md updated? [YES/NO]
 - Solution documented? [YES/NO]
 - Memory Bank minimally updated? [YES/NO]

@@ -5,7 +5,7 @@ alwaysApply: false
 ---
 # LEVEL 3 IMPLEMENTATION: BUILDING INTERMEDIATE FEATURES
 
-> **TL;DR:** This guide focuses on the systematic implementation of a planned and designed Level 3 feature. It emphasizes modular development, strict adherence to creative decisions and the style guide, integration with existing systems, and thorough feature-specific testing.
+> **TL;DR:** This guide focuses on the systematic implementation of a planned and designed Level 3 feature using **Test-Driven Development (TDD)**. It emphasizes writing tests FIRST, then implementing modules to pass those tests, strict adherence to creative decisions and the style guide, integration with existing systems, and thorough feature-specific testing.
 
 ## 🛠️ Level 3 Feature Implementation Workflow
 
@@ -13,17 +13,18 @@ This workflow outlines the typical steps for building an intermediate feature.
 
 ```mermaid
 graph TD
-    StartImpl["Start L3 Implementation"] -->
+    StartImpl["Start L3 Implementation<br>(TDD)"] -->
     ReviewDocs["1. Review All Relevant Docs<br>(Tasks, Creative Docs, Style Guide)"] -->
     SetupEnv["2. Setup/Verify Dev Environment<br>(Branch, Tools, Dependencies)"] -->
     ModuleBreakdown["3. Break Down Feature into Modules/Major Components<br>(Based on plan in `tasks.md`)"] -->
-    BuildIterate["4. Implement Modules/Components Iteratively"]
+    BuildIterate["4. Implement Modules/Components (TDD)"]
 
     BuildIterate --> ImplementModule["4a. Select Next Module/Component"]
-    ImplementModule --> CodeModule["4b. Code Module<br>(Adhere to design, style guide, coding standards)"]
-    CodeModule --> UnitTests["4c. Write & Pass Unit Tests"]
-    UnitTests --> SelfReview["4d. Self-Review/Code Linting"]
-    SelfReview --> MoreModules{"4e. More Modules<br>for this Feature?"}
+    ImplementModule --> WriteTests["4b. Write Failing Tests<br>(TDD - Tests First!)"]
+    WriteTests --> CodeModule["4c. Code Module to Pass Tests<br>(Adhere to design, style guide, coding standards)"]
+    CodeModule --> VerifyTests["4d. Verify All Tests Pass"]
+    VerifyTests --> SelfReview["4e. Self-Review/Code Linting"]
+    SelfReview --> MoreModules{"4f. More Modules<br>for this Feature?"}
     MoreModules -- Yes --> ImplementModule
 
     MoreModules -- No --> IntegrateModules["5. Integrate All Feature Modules/Components"]
@@ -37,6 +38,7 @@ graph TD
 
     style StartImpl fill:#e57373,stroke:#f44336
     style BuildIterate fill:#ffcdd2,stroke:#ef9a9a
+    style WriteTests fill:#ff5555,stroke:#dd3333,color:white
     style ImplementationDone fill:#ef9a9a,stroke:#e57373
 ````
 
@@ -52,11 +54,13 @@ graph TD
   * **Performance:** Be mindful of performance implications. Avoid common pitfalls like N+1 database queries, inefficient algorithms, or large asset loading without optimization, especially if identified as a concern in the PLAN or CREATIVE phase.
   * **Security:** Implement with security best practices in mind, particularly for features handling user input, authentication, or sensitive data. Refer to any security design decisions from CREATIVE mode.
 
-## 🧪 Testing Focus for Level 3 Features
+## 🧪 Testing Focus for Level 3 Features (TDD)
 
-  * **Unit Tests:** Each new function, method, or logical unit within the feature's components should have corresponding unit tests. Aim for good coverage of core logic and edge cases.
-  * **Component Tests (for UI features):** Test UI components in isolation, verifying rendering, props handling, and event emissions.
-  * **Integration Tests:** Crucial for L3. Test how the different modules/components of the new feature work together. Also, test how the completed feature integrates with existing parts of the application it interacts with.
+**CRITICAL: Tests are written BEFORE implementation (TDD)**
+
+  * **Unit Tests (TDD):** For each new function, method, or logical unit, write the unit tests FIRST, then implement the code to pass those tests. Tests should initially fail. Aim for good coverage of core logic and edge cases.
+  * **Component Tests (for UI features - TDD):** Write tests for UI components FIRST, then implement the components. Test rendering, props handling, and event emissions.
+  * **Integration Tests (TDD):** Crucial for L3. Write integration tests FIRST for how modules/components will work together, then implement to pass those tests. Also test how the feature integrates with existing parts of the application.
   * **User Scenario / Acceptance Tests (Feature-Specific):** Validate that the feature fulfills its defined requirements and user stories from the user's perspective. This can be manual or automated.
 
 ## 📝 Documentation During Implementation

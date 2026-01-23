@@ -6,7 +6,7 @@ alwaysApply: false
 
 # BUILD MODE: CODE EXECUTION PROCESS MAP
 
-> **TL;DR:** This visual map guides the BUILD mode process, focusing on efficient code implementation based on the planning and creative phases, with proper command execution and progress tracking.
+> **TL;DR:** This visual map guides the BUILD mode process using **Test-Driven Development (TDD)**: tests are written FIRST, then code is implemented to make tests pass. Implementation is based on planning and creative phases, with proper command execution and progress tracking.
 
 ## 🧭 BUILD MODE PROCESS FLOW
 
@@ -17,23 +17,23 @@ graph TD
     %% Initialization
     ReadDocs --> CheckLevel{"Determine<br>Complexity Level<br>from tasks.md"}
     
-    %% Level 1 Implementation
+    %% Level 1 Implementation (TDD)
     CheckLevel -->|"Level 1<br>Quick Bug Fix"| L1Process["LEVEL 1 PROCESS<br>Level1/quick-bug-workflow.md"]
     L1Process --> L1Review["Review Bug<br>Report"]
     L1Review --> L1Examine["Examine<br>Relevant Code"]
-    L1Examine --> L1Fix["Implement<br>Targeted Fix"]
-    L1Fix --> L1Test["Test<br>Fix"]
-    L1Test --> L1Update["Update<br>tasks.md"]
+    L1Examine --> L1Test["Write Failing<br>Test (TDD)"]
+    L1Test --> L1Fix["Implement<br>Fix to Pass Test"]
+    L1Fix --> L1Update["Update<br>tasks.md"]
     
-    %% Level 2 Implementation
+    %% Level 2 Implementation (TDD)
     CheckLevel -->|"Level 2<br>Simple Enhancement"| L2Process["LEVEL 2 PROCESS<br>Level2/enhancement-workflow.md"]
     L2Process --> L2Review["Review Build<br>Plan"]
     L2Review --> L2Examine["Examine Relevant<br>Code Areas"]
-    L2Examine --> L2Implement["Implement Changes<br>Sequentially"]
-    L2Implement --> L2Test["Test<br>Changes"]
-    L2Test --> L2Update["Update<br>tasks.md"]
+    L2Examine --> L2Test["Write Failing<br>Tests (TDD)"]
+    L2Test --> L2Implement["Implement Changes<br>to Pass Tests"]
+    L2Implement --> L2Update["Update<br>tasks.md"]
     
-    %% Level 3-4 Implementation
+    %% Level 3-4 Implementation (TDD)
     CheckLevel -->|"Level 3-4<br>Feature/System"| L34Process["LEVEL 3-4 PROCESS<br>Level3/feature-workflow.md<br>Level4/system-workflow.md"]
     L34Process --> L34Review["Review Plan &<br>Creative Decisions"]
     L34Review --> L34Phase{"Creative Phase<br>Documents<br>Complete?"}
@@ -41,13 +41,13 @@ graph TD
     L34Phase -->|"No"| L34Error["ERROR:<br>Return to CREATIVE Mode"]
     L34Phase -->|"Yes"| L34DirSetup["Create Directory<br>Structure"]
     L34DirSetup --> L34VerifyDirs["VERIFY Directories<br>Created Successfully"]
-    L34VerifyDirs --> L34Implementation["Build<br>Phase"]
+    L34VerifyDirs --> L34Implementation["TDD Build<br>Phase"]
     
-    %% Implementation Phases
-    L34Implementation --> L34Phase1["Phase 1<br>Build"]
+    %% Implementation Phases (TDD)
+    L34Implementation --> L34Test1["Write Failing<br>Tests (TDD)"]
+    L34Test1 --> L34Phase1["Implement Phase 1<br>to Pass Tests"]
     L34Phase1 --> L34VerifyFiles["VERIFY Files<br>Created Successfully"]
-    L34VerifyFiles --> L34Test1["Test<br>Phase 1"]
-    L34Test1 --> L34Document1["Document<br>Phase 1"]
+    L34VerifyFiles --> L34Document1["Document<br>Phase 1"]
     L34Document1 --> L34Next1{"Next<br>Phase?"}
     L34Next1 -->|"Yes"| L34Implementation
     
@@ -56,7 +56,7 @@ graph TD
     L34Document --> L34Update["Update<br>tasks.md"]
     
     %% Command Execution
-    L1Fix & L2Implement & L34Phase1 --> CommandExec["COMMAND EXECUTION<br>Core/command-execution.md"]
+    L1Fix & L2Implement & L34Phase1 --> CommandExec["COMMAND EXECUTION<br>Core/command-execution.md (TDD)"]
     CommandExec --> DocCommands["Document Commands<br>& Results"]
     
     %% Completion & Transition
@@ -165,23 +165,23 @@ graph TD
 graph TD
     subgraph "Level 1: Quick Bug Fix"
         L1A["Targeted Code<br>Examination"]
-        L1B["Minimal<br>Change Scope"]
-        L1C["Direct<br>Fix"]
-        L1D["Verify<br>Fix"]
+        L1B["Write Failing<br>Test"]
+        L1C["Implement<br>Fix"]
+        L1D["Verify Tests<br>Pass"]
     end
     
     subgraph "Level 2: Enhancement"
-        L2A["Sequential<br>Build"]
-        L2B["Contained<br>Changes"]
-        L2C["Standard<br>Testing"]
-        L2D["Component<br>Documentation"]
+        L2A["Plan<br>Changes"]
+        L2B["Write Failing<br>Tests"]
+        L2C["Implement<br>Changes"]
+        L2D["Verify Tests<br>Pass"]
     end
     
     subgraph "Level 3-4: Feature/System"
         L3A["Directory<br>Structure First"]
-        L3B["Verify Dirs<br>Before Files"]
-        L3C["Phased<br>Build"]
-        L3D["Verify Files<br>After Creation"]
+        L3B["Write Phase<br>Tests (TDD)"]
+        L3C["Implement<br>Phase"]
+        L3D["Verify Tests<br>Pass"]
         L3E["Integration<br>Testing"]
         L3F["Detailed<br>Documentation"]
     end
@@ -287,12 +287,14 @@ Update progress.md with:
 ## 📊 BUILD VERIFICATION CHECKLIST
 
 ```
-✓ BUILD VERIFICATION
+✓ BUILD VERIFICATION (TDD)
+- Tests written BEFORE implementation? [YES/NO]
+- Tests initially failed (proving they test something)? [YES/NO]
 - Directory structure created correctly? [YES/NO]
 - All files created in correct locations? [YES/NO]
 - All file paths verified with absolute paths? [YES/NO]
 - All planned changes implemented? [YES/NO]
-- Testing performed for all changes? [YES/NO]
+- All tests now passing? [YES/NO]
 - Code follows project standards? [YES/NO]
 - Edge cases handled appropriately? [YES/NO]
 - Build documented with absolute paths? [YES/NO]
@@ -310,10 +312,12 @@ When the build is complete, notify user with:
 ```
 ## BUILD COMPLETE
 
+✅ Tests written BEFORE implementation
+✅ Tests initially failed (validating test coverage)
 ✅ Directory structure verified
 ✅ All files created in correct locations
 ✅ All planned changes implemented
-✅ Testing performed successfully
+✅ All tests now passing
 ✅ tasks.md updated with status
 ✅ progress.md updated with details
 

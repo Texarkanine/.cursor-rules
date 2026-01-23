@@ -24,12 +24,6 @@ Updates:
 Load: .cursor/rules/shared/always-tdd.mdc
 ```
 
-**TDD Process Overview:**
-1. **Determine Scope**: Identify code changes and behaviors to test
-2. **Preparation (Stubbing)**: Create empty test implementations and stub interfaces
-3. **Write Tests**: Implement tests (they should fail initially)
-4. **Write Code**: Implement code to make tests pass
-
 ### Step 2: Load Core Rules
 ```
 Load: .cursor/rules/shared/niko/main.mdc
@@ -76,59 +70,34 @@ Load: .cursor/rules/shared/niko/Level4/phased-implementation.mdc
    - Read complexity level from `memory-bank/tasks.md`
    - Load appropriate workflow rules
 
-3. **Execute Implementation (Following TDD)**
-
-   **IMPORTANT**: For ALL levels, follow the TDD process (see Step 1 above):
-   1. Determine scope and behaviors to test
-   2. Stub tests and interfaces (empty implementations)
-   3. Implement tests (they should fail)
-   4. Implement code to make tests pass
+3. **Execute Implementation**
 
    **Level 1 (Quick Bug Fix):**
    - Review bug report and examine relevant code
-   - **TDD Step 1-2**: Determine what to test, stub test cases
-   - **TDD Step 3**: Write test(s) that will validate the fix (tests should fail)
-   - **TDD Step 4**: Implement targeted fix to make tests pass
-   - Run tests and ensure they pass
+   - Follow the TDD process to fix the bug
    - Update `memory-bank/tasks.md`
 
    **Level 2 (Simple Enhancement):**
    - Review build plan and examine relevant code areas
-   - **TDD Step 1-2**: Identify behaviors to test, stub test cases and interfaces
-   - **TDD Step 3**: Write tests for each success criterion (tests should fail)
-   - **TDD Step 4**: Implement changes sequentially to make tests pass
-   - Run all tests and ensure they pass
+   - Follow the TDD process for each subtask
    - Update `memory-bank/tasks.md`
 
    **Level 3-4 (Feature/System):**
    - Review plan and creative decisions
    - Create directory structure
-   - Build in planned phases
-   - **For each phase:**
-     - **TDD Step 1-2**: Determine scope, stub tests and interfaces for phase
-     - **TDD Step 3**: Write tests for all phase success criteria (tests should fail)
-     - **TDD Step 4**: Implement phase to make tests pass
-     - Run tests and ensure they pass
-     - Do NOT proceed to next phase until all tests pass
-   - Integration testing (following TDD)
+   - Build in planned phases:
+     - Follow the TDD process for each phase
+     - **Gate:** Do NOT proceed to next phase until all tests pass
+   - Integration testing (after all phases complete)
    - Document implementation
    - Update `memory-bank/tasks.md` and `memory-bank/progress.md`
 
-4. **Test-Driven Phase Completion**
-   - Extract success criteria from current phase in `memory-bank/tasks.md`
-   - Following TDD methodology, write test cases BEFORE implementation
-   - Execute all tests (they should fail initially)
-   - Implement code to make tests pass
-   - **Gate:** All tests MUST pass before phase completion
-   - Document test results in `memory-bank/tasks.md`
-   - If tests fail: fix implementation, re-run tests, repeat until all pass
-
-5. **Command Execution**
+4. **Command Execution**
    - Document all commands executed
    - Document results and observations
    - Follow platform-specific command guidelines
 
-6. **Verification**
+5. **Verification**
    - Verify all build steps completed
    - Verify all success criteria tests pass
    - Verify changes meet requirements
