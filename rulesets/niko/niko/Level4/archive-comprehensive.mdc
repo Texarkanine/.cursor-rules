@@ -683,12 +683,12 @@ For situations requiring a more compact archiving approach:
 └─────────────────────────────────────────────────────┘
 ```
 
-## 🧹 `/archive clear` - Memory Bank Cleanup
+## 🧹 Automatic Memory Bank Cleanup
 
-After completing archiving for all tasks, use `/archive clear` to remove task-specific files from the Memory Bank:
+The `/archive` command automatically clears task-specific files after creating the archive document:
 
 - **Clears:** `creative/`, `reflection/`, `tasks.md`, `progress.md`, `activeContext.md`, `.qa_validation_status`
 - **Preserves:** Repository knowledge files (`projectbrief.md`, `productContext.md`, `systemPatterns.md`, `techContext.md`, `style-guide.md`) and all archive documents
-- **Git Commit:** All changes are automatically committed, making the operation revertable via `git revert HEAD`
+- **Git Commit:** All changes are committed with `chore: archive <task-id> and clear memory bank`
 
 This prepares the Memory Bank for fresh tasks while preserving repository knowledge and past task archives.
