@@ -51,7 +51,7 @@ graph TD
     
     %% Completion - Archive, Clear, and Commit
     L1Complete & L2Complete & L34Complete --> CreateArchive["Create Archive<br>Document in<br>memory-bank/archive/<kind>/"]
-    CreateArchive --> ClearFiles["Clear Task-Specific<br>Files (creative/, reflection/,<br>tasks.md, progress.md,<br>activeContext.md)"]
+    CreateArchive --> ClearFiles["Clear Task-Specific<br>Files (creative/, reflection/,<br>tasks.md, progress.md,<br>activeContext.md, .qa_validation_status)"]
     ClearFiles --> GitCommit["Git Commit<br>chore: archive task-id<br>and clear memory bank"]
     GitCommit --> Ready["Memory Bank Ready<br>for Next Task"]
     
