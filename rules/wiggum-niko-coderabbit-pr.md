@@ -1,4 +1,4 @@
-# CodeRabbit PR Wiggum (Niko-Integrated)
+# CodeRabbit PR Wiggum Loop for Niko
 
 ## ⚠️ HEADLESS AUTOMATION - READ THIS FIRST ⚠️
 
