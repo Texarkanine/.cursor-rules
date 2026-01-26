@@ -172,10 +172,10 @@ Key insights:
 
 ### Context Refreshing
 
-Niko stores progress on disk in the `memory-bank` directory. When your context window is getting full, let Niko finish the current task, then... start a new conversation! If Niko was building, you can just start a new chat with `/niko/build` and nothing else and Niko will resume the work!
+Niko stores progress on disk in the `memory-bank` directory. When your context window is getting full, let Niko finish the current task, then... start a new conversation! If Niko was building, you can just start a new chat with `/build` and nothing else and Niko will resume the work!
 
 ### Advanced Troubleshooting
 
-If you (or Niko!) get stuck on a problem, use the `/niko/refresh` command to have Niko rigorously investigate the problem and give you a solution *or* places to investigate next.
+If you (or Niko!) get stuck on a problem, use the `/refresh` command to have Niko rigorously investigate the problem and give you a solution *or* places to investigate next.
 
-**Note:** `/niko/creative` is for exploring solution spaces and creating new things. `/niko/refresh` is for troubleshooting an existing defect.
+**Note:** `/creative` is for exploring solution spaces and creating new things. `/refresh` is for troubleshooting an existing defect.

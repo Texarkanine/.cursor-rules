@@ -55,7 +55,7 @@ Load: .cursor/rules/shared/niko/Level4/reflection-comprehensive.mdc
 
 1. **Verify Implementation Complete**
    - Check `memory-bank/tasks.md` for implementation completion
-   - If not complete, return to `/niko/build` command
+   - If not complete, return to `/build` command
 
 2. **Review Implementation**
    - Compare implementation against original plan
@@ -93,9 +93,9 @@ Load: .cursor/rules/shared/niko/Level4/reflection-comprehensive.mdc
 
 ## Usage
 
-Type `/niko/reflect` to start reflection on the completed task.
+Type `/reflect` to start reflection on the completed task.
 
 ## Next Steps
 
-After reflection complete, proceed to `/niko/archive` command to finalize task documentation.
+After reflection complete, proceed to `/archive` command to finalize task documentation.
 

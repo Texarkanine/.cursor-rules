@@ -209,7 +209,7 @@ For complexity levels 2-4:
 Implementation in NIKO mode is BLOCKED
 This task REQUIRES PLAN mode
 You MUST switch to PLAN mode for proper documentation and planning
-Type `/niko/plan` to switch to planning mode
+Type `/plan` to switch to planning mode
 ```
 
 ### CREATIVE to NIKO QA Transition
@@ -225,7 +225,7 @@ After successful validation:
 ✅ TECHNICAL VALIDATION COMPLETE
 All prerequisites verified successfully
 You may now proceed to BUILD mode
-Type `/niko/build` to begin implementation
+Type `/build` to begin implementation
 ```
 
 ## 🔒 BUILD MODE PREVENTION MECHANISM

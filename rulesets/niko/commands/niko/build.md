@@ -105,9 +105,9 @@ Load: .cursor/rules/shared/niko/Level4/phased-implementation.mdc
 
 ## Usage
 
-Type `/niko/build` to start implementation based on the plan in `memory-bank/tasks.md`.
+Type `/build` to start implementation based on the plan in `memory-bank/tasks.md`.
 
 ## Next Steps
 
-After implementation complete, proceed to `/niko/reflect` command for task review.
+After implementation complete, proceed to `/reflect` command for task review.
 

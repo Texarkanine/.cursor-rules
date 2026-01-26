@@ -77,7 +77,7 @@ Load: .cursor/rules/shared/niko/Level4/archive-comprehensive.mdc
 ### 1. Verify Reflection Complete
 - Check that `memory-bank/reflection/reflection-<task-id>.md` exists
 - Verify reflection is complete
-- If not complete, return to `/niko/reflect` command
+- If not complete, return to `/reflect` command
 
 ### 2. Create Archive Document
 
@@ -162,7 +162,7 @@ After committing, verify:
 
 ## Usage
 
-Type `/niko/archive` to archive the completed task after reflection is done.
+Type `/archive` to archive the completed task after reflection is done.
 
 This command will:
 1. Create the archive document

@@ -148,11 +148,11 @@ Update `memory-bank/tasks.md` and `memory-bank/progress.md` with the resolution.
 
 ## Usage
 
-Type `/niko/refresh` when stuck or after a failed attempt to resolve an issue, followed by a description of the problem:
+Type `/refresh` when stuck or after a failed attempt to resolve an issue, followed by a description of the problem:
 
 Example:
 ```
-/niko/refresh The build is failing with "Module not found" error, but the module is installed
+/refresh The build is failing with "Module not found" error, but the module is installed
 ```
 
 ## Progressive Rule Loading
@@ -194,8 +194,8 @@ Load: .cursor/rules/shared/niko/Core/file-verification.mdc
 After successfully diagnosing and fixing the issue:
 - Update the parent task's task list with the resolution
 - Return to the appropriate mode for the task:
-  - If in BUILD phase: Continue with `/niko/build`
-  - If in PLAN phase: Return to `/niko/plan`
+  - If in BUILD phase: Continue with `/build`
+  - If in PLAN phase: Return to `/plan`
   - If testing issues: Verify with appropriate test commands
 - Archive the troubleshooting session document for future reference
 
