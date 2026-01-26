@@ -1,6 +1,40 @@
 # Tasks
 
-## Current Task: Wiggum-Niko CodeRabbit PR Integration
+## Current Task: Fix Niko Command Paths
+
+**Status:** Reflection Complete
+**Complexity:** Level 1 (Bulk Find/Replace)
+**Task ID:** niko-command-paths
+
+### Description
+Update `/niko/X` command invocations to `/X` after ai-rizz removed the niko namespace from command paths.
+
+### Files to Update
+- [x] `rulesets/niko/niko/visual-maps/van-mode-map.mdc`
+- [x] `rulesets/niko/niko/visual-maps/qa-mode-map.mdc`
+- [x] `rulesets/niko/niko/visual-maps/van_mode_split/van-mode-map.mdc`
+- [x] `rulesets/niko/niko/visual-maps/van_mode_split/van-qa-main.mdc`
+- [x] `rulesets/niko/niko/visual-maps/van_mode_split/van-qa-utils/mode-transitions.mdc`
+- [x] `rulesets/niko/niko/visual-maps/van_mode_split/van-qa-utils/reports.mdc`
+- [x] `rulesets/niko/niko/visual-maps/van_mode_split/van-qa-utils/rule-calling-guide.mdc`
+- [x] `rulesets/niko/niko/Core/memory-bank-paths.mdc`
+- [x] `rules/wiggum-niko-coderabbit-pr.md`
+
+### Status
+- [x] Planning complete
+- [x] Implementation complete
+- [x] Verification complete
+
+### Results
+- 9 files updated via single `sed` command
+- 0 remaining `/niko/X` command references in target scope
+
+### Reflection
+See `memory-bank/reflection/reflection-niko-command-paths.md`
+
+---
+
+## Previous Task: Wiggum-Niko CodeRabbit PR Integration
 
 **Status:** Reflection Complete
 **Complexity:** Level 1 (Quick Task)

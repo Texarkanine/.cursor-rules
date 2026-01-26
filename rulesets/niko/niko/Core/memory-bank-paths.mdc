@@ -19,6 +19,6 @@ alwaysApply: true
 * **Creative Phase Docs:** `memory-bank/creative/creative-[feature_name].md`
 * **Reflection Docs:** `memory-bank/reflection/reflection-<task-id>.md`
 * **Archive Directory:** `memory-bank/archive/<kind>/YYYYMMDD-<task-id>.md`
-* **QA Validation Status:** `memory-bank/.qa_validation_status` - Task-specific QA validation status file (created by `/niko/qa`, cleared by `/archive`)
+* **QA Validation Status:** `memory-bank/.qa_validation_status` - Task-specific QA validation status file (created by `/qa`, cleared by `/archive`)
 
 **Verification Mandate:** Before any `create_file` or `edit_file` operation on these core files, verify the path starts with `memory-bank/`. If attempting to create a new core file (e.g., `tasks.md` at the start of a project), ensure it is created at `memory-bank/tasks.md`.
