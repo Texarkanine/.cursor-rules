@@ -1,5 +1,7 @@
 # ARCHIVE Command - Task Archiving & Cleanup
 
+**⛔ COMPLETION GATE:** This command ends with a git commit. Do not report completion until `git log -1` shows `chore: archive <task-id>`.
+
 This command creates comprehensive archive documentation, clears task-specific files from the Memory Bank, and commits all changes in a single git commit.
 
 ## Memory Bank Integration
@@ -168,6 +170,19 @@ This command will:
 1. Create the archive document
 2. Clear all task-specific memory bank files
 3. Commit everything in a single `chore:` commit
+
+## Verification (REQUIRED before responding)
+
+Before reporting completion, run:
+```bash
+git log -1 --oneline && git status --short memory-bank/
+```
+
+**Expected output:**
+- First line: `<hash> chore: archive <task-id> and clear memory bank`
+- No unstaged changes in memory-bank/
+
+If verification fails, complete the missing steps before responding.
 
 ## Next Steps
 
