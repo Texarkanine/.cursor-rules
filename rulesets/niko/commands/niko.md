@@ -52,7 +52,7 @@ After determining complexity level, load:
 
 4. **Route Based on Complexity**
    - **Level 1:** Continue in Niko mode, proceed to implementation
-   - **Level 2-4:** Transition to `/niko/plan` command
+   - **Level 2-4:** Transition to `/plan` command
 
 5. **Update Memory Bank**
    - Update `memory-bank/tasks.md` with complexity determination
@@ -71,6 +71,6 @@ Examples:
 
 ## Next Steps
 
-- **Level 1 tasks:** Proceed directly to `/niko/build` command
-- **Level 2-4 tasks:** Use `/niko/plan` command for detailed planning
+- **Level 1 tasks:** Proceed directly to `/build` command
+- **Level 2-4 tasks:** Use `/plan` command for detailed planning
 

@@ -1,5 +1,7 @@
 # ARCHIVE Command - Task Archiving & Cleanup
 
+**⛔ COMPLETION GATE:** This command ends with a git commit. Do not report completion until `git log -1` shows `chore: archive <task-id>`.
+
 This command creates comprehensive archive documentation, clears task-specific files from the Memory Bank, and commits all changes in a single git commit.
 
 ## Memory Bank Integration
@@ -77,7 +79,7 @@ Load: .cursor/rules/shared/niko/Level4/archive-comprehensive.mdc
 ### 1. Verify Reflection Complete
 - Check that `memory-bank/reflection/reflection-<task-id>.md` exists
 - Verify reflection is complete
-- If not complete, return to `/niko/reflect` command
+- If not complete, return to `/reflect` command
 
 ### 2. Create Archive Document
 
@@ -162,12 +164,25 @@ After committing, verify:
 
 ## Usage
 
-Type `/niko/archive` to archive the completed task after reflection is done.
+Type `/archive` to archive the completed task after reflection is done.
 
 This command will:
 1. Create the archive document
 2. Clear all task-specific memory bank files
 3. Commit everything in a single `chore:` commit
+
+## Verification (REQUIRED before responding)
+
+Before reporting completion, run:
+```bash
+git log -1 --oneline && git status --short memory-bank/
+```
+
+**Expected output:**
+- First line: `<hash> chore: archive <task-id> and clear memory bank`
+- No unstaged changes in memory-bank/
+
+If verification fails, complete the missing steps before responding.
 
 ## Next Steps
 

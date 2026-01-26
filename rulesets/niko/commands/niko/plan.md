@@ -80,10 +80,10 @@ Load: .cursor/rules/shared/niko/Level4/workflow-level4.mdc
 
 ## Usage
 
-Type `/niko/plan` to start planning based on the task in `memory-bank/tasks.md`.
+Type `/plan` to start planning based on the task in `memory-bank/tasks.md`.
 
 ## Next Steps
 
-- **If creative phases identified:** Use `/niko/creative` command
-- **If no creative phases:** Proceed to `/niko/build` command
+- **If creative phases identified:** Use `/creative` command
+- **If no creative phases:** Proceed to `/build` command
 

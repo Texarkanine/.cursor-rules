@@ -16,7 +16,7 @@ Remember these key principles:
 
 ## 📋 MAIN QA ENTRY POINT
 
-When user types "/niko/qa", load the main entry point:
+When user types "/qa", load the main entry point:
 
 ```
 fetch_rules with "shared/niko/visual-maps/van-qa-main"
@@ -46,7 +46,7 @@ Load these when needed based on validation results:
 ## ⚠️ CRITICAL REMINDERS
 
 Remember to call these rules at these specific points:
-- ALWAYS load the main QA entry point when "/niko/qa" is typed
+- ALWAYS load the main QA entry point when "/qa" is typed
 - ALWAYS load dependency-check before starting validation
 - ALWAYS load reports after completing validation
 - ALWAYS load mode-transitions after successful validation
@@ -65,4 +65,4 @@ Complete sequence for a QA validation process:
 7. If pass, load: `shared/niko/visual-maps/van-qa-utils/mode-transitions` 
 8. If fail, load: `shared/niko/visual-maps/van-qa-utils/common-fixes`
 
-**Note:** After fixing issues, user should re-run `/niko/qa` to re-validate.
+**Note:** After fixing issues, user should re-run `/qa` to re-validate.

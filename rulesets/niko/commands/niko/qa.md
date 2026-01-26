@@ -152,17 +152,17 @@ Load: .cursor/rules/shared/niko/visual-maps/van_mode_split/van-qa-utils/common-f
 
 ## Usage
 
-Type `/niko/qa` to perform technical validation before implementation.
+Type `/q` to perform technical validation before implementation.
 
 **Typical Workflow:**
 ```
-/niko/plan → /niko/creative → /niko/qa → /niko/build
+/plan → /creative → /q → /build
 ```
 
 ## Next Steps
 
-- **On Success**: Proceed to `/niko/build` command for implementation
-- **On Failure**: Fix identified issues and re-run `/niko/qa` until validation passes
+- **On Success**: Proceed to `/build` command for implementation
+- **On Failure**: Fix identified issues and re-run `/q` until validation passes
 
 **Note**: BUILD mode will be blocked until QA validation passes. The system checks `memory-bank/.qa_validation_status` before allowing BUILD mode access.
 

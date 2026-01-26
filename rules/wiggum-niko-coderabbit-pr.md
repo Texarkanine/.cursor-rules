@@ -7,7 +7,7 @@
 - **NEVER** ask for permission, confirmation, or input
 - **NEVER** say "Would you like me to..." or "Should I..."
 - **NEVER** just report status - always TAKE ACTION then exit
-- **IF** you fixed something and tests pass → **RUN /niko/reflect** → **COMMIT AND PUSH IMMEDIATELY**
+- **IF** you fixed something and tests pass → **RUN /reflect** → **COMMIT AND PUSH IMMEDIATELY**
 - **IF** all feedback is resolved → **DELETE SEMAPHORE** (`rm wiggum.semaphore`)
 - **IF** something needs human decision → Write to `memory-bank/tasks.md`, then exit
 - **IF** you ask a question or just report without acting → You failed.
@@ -40,13 +40,13 @@ flowchart TD
     DeleteSem --> Complete([Exit - COMPLETE])
     CheckComplete -->|No| ExitWait([Exit - waiting])
     
-    HasWork -->|Yes| NikoBuild["/niko/build<br/>(fix each item)"]
+    HasWork -->|Yes| NikoBuild["/build<br/>(fix each item)"]
     NikoBuild --> Test{Tests pass?}
     
     Test -->|No| Revert[Revert + record NEEDS_HUMAN]
     Revert --> ExitFail([Exit])
     
-    Test -->|Yes| NikoReflect["/niko/reflect<br/>(document what was fixed)"]
+    Test -->|Yes| NikoReflect["/reflect<br/>(document what was fixed)"]
     NikoReflect --> CommitPush["git add + commit + push"]
     CommitPush --> ExitDone([Exit - await CR response])
     
@@ -64,8 +64,8 @@ flowchart TD
 | Phase | Niko Command | Purpose |
 |-------|--------------|---------|
 | Track issues | Update `memory-bank/tasks.md` | Add CodeRabbit items as checklist |
-| Fix issues | `/niko/build` | Implement fixes using TDD |
-| Document fixes | `/niko/reflect` | Record what was learned |
+| Fix issues | `/build` | Implement fixes using TDD |
+| Document fixes | `/reflect` | Record what was learned |
 
 ### Task File Format
 
@@ -93,7 +93,7 @@ Add CodeRabbit items to `memory-bank/tasks.md`:
 
 | Category | Examples | Action |
 |----------|----------|--------|
-| **ACTIONABLE** | Code style, error handling, types, docs, imports | `/niko/build` to fix |
+| **ACTIONABLE** | Code style, error handling, types, docs, imports | `/build` to fix |
 | **NEEDS_HUMAN** | Architecture, API design, breaking changes, security | Record in tasks.md |
 | **IGNORE** | False positives, already fixed, conflicts with standards | Skip |
 
@@ -106,7 +106,7 @@ gh pr checks <number> --json name,state --jq '.[] | select(.name | test("coderab
 # Trigger review after rate limit
 gh pr comment <number> --body "@coderabbitai review"
 
-# After /niko/reflect completes - commit and push
+# After /reflect completes - commit and push
 git add -A && git commit --no-gpg-sign -m "fix: address CodeRabbit feedback
 
 <bullet points from reflection>
@@ -129,7 +129,7 @@ rm wiggum.semaphore
 ## Reminder
 
 **You are a robot using Niko's brain. Act like one.**
-- Issues → `/niko/build` → tests → `/niko/reflect` → push
+- Issues → `/build` → tests → `/reflect` → push
 - Done → delete semaphore
 - Blocked → record in `memory-bank/tasks.md`
 - EXIT
