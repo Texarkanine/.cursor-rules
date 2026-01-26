@@ -64,7 +64,7 @@ Load: .cursor/rules/shared/niko/Level4/phased-implementation.mdc
    - For Level 3-4: Verify creative phase documents exist
    - Review implementation plan
    
-   **Note**: BUILD mode is blocked until QA validation passes. If QA validation has not been completed, the system will prompt you to run `/q` first.
+   **Note**: BUILD mode is blocked until QA validation passes. If QA validation has not been completed, the system will prompt you to run `/qa` first.
 
 2. **Determine Complexity Level**
    - Read complexity level from `memory-bank/tasks.md`
