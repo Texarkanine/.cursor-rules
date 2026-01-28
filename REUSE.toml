@@ -1,0 +1,26 @@
+version = 1
+SPDX-PackageName = ".cursor-rules"
+SPDX-PackageSupplier = "Texarkanine <texarkanine@protonmail.com>"
+
+[[annotations]]
+path = ["**/*"]
+SPDX-FileCopyrightText = "Texarkanine"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = [
+    ".cursor/rules/**",
+    ".cursorrules",
+    "**/*.mdc",
+    "CLAUDE.md",
+    ".claude/**"
+]
+precedence = "override"
+SPDX-FileCopyrightText = "Texarkanine"
+SPDX-License-Identifier = "LicenseRef-PPL-S"
+
+[[annotations]]
+path = [".cursor/rules/shared/**", ".cursor/commands/shared/**"]
+precedence = "override"
+SPDX-FileCopyrightText = "NOASSERTION"
+SPDX-License-Identifier = "LicenseRef-NOASSERTION"
