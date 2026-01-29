@@ -28,6 +28,7 @@ SPDX-License-Identifier = "LicenseRef-PPL-S"
 path = [
     "rulesets/**/README.md"
 ]
+precedence = "override"
 SPDX-FileCopyrightText = "Texarkanine"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
