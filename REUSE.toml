@@ -2,21 +2,34 @@ version = 1
 SPDX-PackageName = ".cursor-rules"
 SPDX-PackageSupplier = "Texarkanine <texarkanine@protonmail.com>"
 
+# Everything defaults to AGPL-3.0-or-later
 [[annotations]]
 path = ["**/*"]
 SPDX-FileCopyrightText = "Texarkanine"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
+# Rules & commands are prompts and get PPL-S
 [[annotations]]
 path = [
     ".cursor/rules/**",
-    "**/*.mdc",
+    "rules/**/*.mdc",
+    "rulesets/**/*.mdc",
+    "rules/**/*.md",
+    "rulesets/**/*.md",
     "CLAUDE.md",
     ".claude/**"
 ]
 precedence = "override"
 SPDX-FileCopyrightText = "Texarkanine"
 SPDX-License-Identifier = "LicenseRef-PPL-S"
+
+# READMEs in rulesets are not prompts
+[[annotations]]
+path = [
+    "rulesets/**/README.md"
+]
+SPDX-FileCopyrightText = "Texarkanine"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 # .cursor/rules/shared/** files are vendored from .cursor-rules upstream
 # with unknown or mixed licensing. We make no claims here about the 
