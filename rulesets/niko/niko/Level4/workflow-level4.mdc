@@ -5,7 +5,7 @@ alwaysApply: false
 ---
 # COMPREHENSIVE WORKFLOW FOR LEVEL 4 TASKS
 
-> **TL;DR:** This document outlines a comprehensive workflow for Level 4 (Complex System) tasks, including 7 key phases with rigorous planning, mandatory creative phases, architectural design, phased implementation, and extensive documentation.
+> **TL;DR:** This document outlines a comprehensive workflow for Level 4 (Complex System) tasks, including 9 key phases with rigorous planning, mandatory creative phases, preflight validation, architectural design, phased implementation, post-build QA review, and extensive documentation.
 
 ## 🔍 LEVEL 4 WORKFLOW OVERVIEW
 
@@ -14,16 +14,20 @@ graph LR
     Init["1. INITIALIZATION"] --> Doc["2. DOCUMENTATION<br>SETUP"]
     Doc --> Plan["3. ARCHITECTURAL<br>PLANNING"]
     Plan --> Create["4. CREATIVE<br>PHASES"]
-    Create --> Impl["5. PHASED<br>IMPLEMENTATION"]
-    Impl --> Reflect["6. REFLECTION"]
-    Reflect --> Archive["7. ARCHIVING"]
-    
+    Create --> Preflight["5. PREFLIGHT<br>VALIDATION"]
+    Preflight --> Impl["6. PHASED<br>IMPLEMENTATION"]
+    Impl --> QA["7. QA<br>REVIEW"]
+    QA --> Reflect["8. REFLECTION"]
+    Reflect --> Archive["9. ARCHIVING"]
+
     %% Document connections for each phase
     Init -.-> InitDocs["INITIALIZATION"]
     Doc -.-> DocDocs["DOCUMENTATION"]
     Plan -.-> PlanDocs["ARCHITECTURAL PLANNING"]
     Create -.-> CreateDocs["CREATIVE PHASES"]
+    Preflight -.-> PreflightDocs["PLAN VALIDATION"]
     Impl -.-> ImplDocs["PHASED IMPLEMENTATION"]
+    QA -.-> QADocs["SEMANTIC REVIEW"]
     Reflect -.-> ReflectDocs["REFLECTION"]
     Archive -.-> ArchiveDocs["ARCHIVING"]
 ```
@@ -215,11 +219,49 @@ graph TD
 - Comprehensive design documentation created? [YES/NO]
 - Formal design review conducted? [YES/NO]
 
-→ If all YES: Proceed to Phased Implementation
+→ If all YES: Proceed to Preflight Validation
 → If any NO: Complete creative phases
 ```
 
-### Phase 5: PHASED IMPLEMENTATION (TDD)
+### Phase 5: PREFLIGHT VALIDATION
+
+```mermaid
+graph TD
+    StartPreflight["Begin L4 Preflight<br>Validation"] --> ReadPlan["Read Architectural Plan<br>& All Creative Docs"]
+    ReadPlan --> ConventionCheck["Convention Compliance<br>(systemPatterns.md, style-guide.md)"]
+    ConventionCheck --> DependencyImpact["Dependency Impact<br>Analysis (System-Wide)"]
+    DependencyImpact --> ConflictDetect["Conflict Detection<br>(Existing Code vs Plan)"]
+    ConflictDetect --> CompletenessCheck["Completeness Precheck<br>(All Requirements Mapped)"]
+    CompletenessCheck --> IntegrationElegance["Integration Elegance<br>(Advisory Only)"]
+    IntegrationElegance --> WriteStatus["Write .preflight_status<br>& Update tasks.md"]
+    WriteStatus --> PreflightComplete["L4 Preflight<br>Complete"]
+```
+
+**Steps:**
+1. Read the architectural plan and all creative phase documents
+2. Verify convention compliance against `systemPatterns.md` and `style-guide.md`
+3. Trace system-wide dependency impacts through the architecture
+4. Detect conflicts with existing implementations across all subsystems
+5. Verify completeness — all requirements have concrete implementation paths
+6. Assess integration elegance (advisory, not blocking)
+7. Write validation status to `memory-bank/.preflight_status`
+
+**Milestone Checkpoint:**
+```
+✓ PREFLIGHT VALIDATION CHECKPOINT
+- Architectural plan and creative docs reviewed? [YES/NO]
+- Convention compliance verified across all subsystems? [YES/NO]
+- System-wide dependency impact analysis complete? [YES/NO]
+- Conflict detection complete (no blocking conflicts)? [YES/NO]
+- Completeness precheck passed for all phases? [YES/NO]
+- .preflight_status written? [YES/NO]
+
+→ If PASS: Proceed to Phased Implementation
+→ If FAIL (rearchitect): Return to /plan with findings
+→ If FAIL (fixable): Address findings and re-run /preflight
+```
+
+### Phase 6: PHASED IMPLEMENTATION (TDD)
 
 ```mermaid
 graph TD
@@ -270,11 +312,48 @@ graph TD
 - System stabilization completed? [YES/NO]
 - Implementation details documented? [YES/NO]
 
-→ If all YES: Proceed to Reflection
+→ If all YES: Proceed to QA Review
 → If any NO: Complete implementation steps
 ```
 
-### Phase 6: REFLECTION
+### Phase 7: QA REVIEW
+
+```mermaid
+graph TD
+    StartQA["Begin L4 QA<br>Review"] --> ReadPlan["Read Original Plan<br>& All Creative/Arch Docs"]
+    ReadPlan --> SemanticReview["Apply Semantic Constraints<br>(KISS/DRY/YAGNI/Completeness/<br>Regression/Integrity)"]
+    SemanticReview --> ApplyFixes["Apply Fixes<br>Across All Phases"]
+    ApplyFixes --> IntegrationInsight["Integration Insight<br>(Advisory Only)"]
+    IntegrationInsight --> WriteStatus["Write .qa_validation_status<br>& Update tasks.md"]
+    WriteStatus --> QAComplete["L4 QA Review<br>Complete"]
+```
+
+**Steps:**
+1. Read original architectural plan and all creative phase documents
+2. Review all implemented code against plan using semantic constraints: KISS, DRY, YAGNI, Completeness, Regression, Integrity
+3. Apply fixes directly for each finding across all implementation phases
+4. Re-run integration and system tests after fixes
+5. Assess integration insight (advisory — surface for operator)
+6. Write validation status to `memory-bank/.qa_validation_status`
+7. Update `memory-bank/tasks.md` with QA results
+
+**Milestone Checkpoint:**
+```
+✓ QA REVIEW CHECKPOINT
+- Original plan and all creative docs reviewed? [YES/NO]
+- KISS/DRY/YAGNI checks applied across all phases? [YES/NO]
+- Completeness verified (no TODOs/stubs)? [YES/NO]
+- Regression check passed across all subsystems? [YES/NO]
+- Integrity verified (no debug artifacts)? [YES/NO]
+- All fixes applied and tests passing? [YES/NO]
+- .qa_validation_status written? [YES/NO]
+
+→ If PASS: Proceed to Reflection
+→ If FAIL (iterate): Return to /build, then re-run /qa
+→ If FAIL (replan): Return to /plan for fundamental issues
+```
+
+### Phase 8: REFLECTION
 
 ```mermaid
 graph TD
@@ -320,7 +399,7 @@ graph TD
 → If any NO: Complete reflection steps
 ```
 
-### Phase 7: ARCHIVING
+### Phase 9: ARCHIVING
 
 ```mermaid
 graph TD
@@ -371,13 +450,15 @@ graph TD
 
 ```
 ✓ FINAL WORKFLOW VERIFICATION
-- All 7 phases completed? [YES/NO]
+- All 9 phases completed? [YES/NO]
 - All milestone checkpoints passed? [YES/NO]
 - TDD process followed (tests first for each phase)? [YES/NO]
 - All tests passing? [YES/NO]
 - Architectural planning properly executed? [YES/NO]
 - All required creative phases completed? [YES/NO]
+- Preflight validation passed? [YES/NO]
 - Implementation performed in proper phases? [YES/NO]
+- QA semantic review passed? [YES/NO]
 - Comprehensive reflection conducted? [YES/NO]
 - Complete system documentation archived? [YES/NO]
 - Memory Bank fully updated? [YES/NO]
@@ -396,9 +477,11 @@ For minimal mode, use this streamlined workflow while retaining key elements:
 2. DOCS: Update all Memory Bank documents, document standards and architecture
 3. PLAN: Define architecture with principles, alternatives, evaluation, selection
 4. CREATE: Execute all required creative phases with documentation
-5. IMPL: Implement in phases with verification, integration, testing
-6. REFLECT: Document successes, challenges, insights, and strategic actions
-7. ARCHIVE: Create comprehensive documentation and knowledge transfer
+5. PREFLIGHT: Validate plan against codebase reality (conventions, dependencies, conflicts)
+6. IMPL: Implement in phases with verification, integration, testing
+7. QA: Semantic review against plan (KISS/DRY/YAGNI/Completeness/Regression/Integrity)
+8. REFLECT: Document successes, challenges, insights, and strategic actions
+9. ARCHIVE: Create comprehensive documentation and knowledge transfer
 ```
 
 ## 🔄 INTEGRATION WITH MEMORY BANK

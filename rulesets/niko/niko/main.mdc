@@ -26,20 +26,24 @@ graph TD
         NIKO["NIKO<br>Initialization"]
         PLAN["PLAN<br>Planning"]
         CREATIVE["CREATIVE<br>Design"]
+        PREFLIGHT["PREFLIGHT<br>Plan Validation"]
         BUILD["BUILD<br>Building"]
+        QA["QA<br>Semantic Review"]
         REFLECT["REFLECT<br>Review"]
         ARCHIVE["ARCHIVE<br>Documentation"]
     end
-    
-    Context --> NIKO & PLAN & CREATIVE & BUILD & REFLECT & ARCHIVE
-    Rules --> NIKO & PLAN & CREATIVE & BUILD & REFLECT & ARCHIVE
-    FileIO --> NIKO & PLAN & CREATIVE & BUILD & REFLECT & ARCHIVE
-    Transition --> NIKO & PLAN & CREATIVE & BUILD & REFLECT & ARCHIVE
-    
+
+    Context --> NIKO & PLAN & CREATIVE & PREFLIGHT & BUILD & QA & REFLECT & ARCHIVE
+    Rules --> NIKO & PLAN & CREATIVE & PREFLIGHT & BUILD & QA & REFLECT & ARCHIVE
+    FileIO --> NIKO & PLAN & CREATIVE & PREFLIGHT & BUILD & QA & REFLECT & ARCHIVE
+    Transition --> NIKO & PLAN & CREATIVE & PREFLIGHT & BUILD & QA & REFLECT & ARCHIVE
+
     NIKO --> PLAN
     PLAN --> CREATIVE
-    CREATIVE --> BUILD
-    BUILD --> REFLECT
+    CREATIVE --> PREFLIGHT
+    PREFLIGHT --> BUILD
+    BUILD --> QA
+    QA --> REFLECT
     REFLECT --> ARCHIVE
     
     style Context fill:#4da6ff,stroke:#0066cc,color:white
@@ -55,14 +59,14 @@ graph TD
     Task["Task Creation"] --> Complexity{"Complexity<br>Level?"}
     
     Complexity -->|"Level 1<br>Quick Fix"| L1["3-Phase<br>Streamlined Process"]
-    Complexity -->|"Level 2<br>Enhancement"| L2["4-Phase<br>Balanced Process"]
-    Complexity -->|"Level 3<br>Feature"| L3["5-Phase<br>Comprehensive Process"]
-    Complexity -->|"Level 4<br>Enterprise"| L4["6-Phase<br>Governance Process"]
-    
+    Complexity -->|"Level 2<br>Enhancement"| L2["5-Phase<br>Balanced Process"]
+    Complexity -->|"Level 3<br>Feature"| L3["7-Phase<br>Comprehensive Process"]
+    Complexity -->|"Level 4<br>Enterprise"| L4["8-Phase<br>Governance Process"]
+
     L1 --> L1_Process["NIKO → BUILD → REFLECT"]
-    L2 --> L2_Process["NIKO → PLAN → BUILD → REFLECT"]
-    L3 --> L3_Process["NIKO → PLAN → CREATIVE → BUILD → REFLECT"]
-    L4 --> L4_Process["NIKO → PLAN → CREATIVE → BUILD → REFLECT → ARCHIVE"]
+    L2 --> L2_Process["NIKO → PLAN → BUILD → QA → REFLECT"]
+    L3 --> L3_Process["NIKO → PLAN → CREATIVE → PREFLIGHT → BUILD → QA → REFLECT"]
+    L4 --> L4_Process["NIKO → PLAN → CREATIVE → PREFLIGHT → BUILD → QA → REFLECT → ARCHIVE"]
     
     style Complexity fill:#d94dbb,stroke:#a3378a,color:white
     style L1 fill:#4dbb5f,stroke:#36873f,color:white
@@ -212,7 +216,9 @@ Each command's visual process map is optimized for token efficiency:
 - @NIKO Command Map (Optimized)
 - @PLAN Mode Map (Optimized)
 - @CREATIVE Mode Map (Optimized)
+- @PREFLIGHT Command Map (Optimized)
 - @BUILD Mode Map (Optimized)
+- @QA Command Map (Optimized)
 - @REFLECT Mode Map (Optimized)
 - @ARCHIVE Mode Map (Optimized)
 

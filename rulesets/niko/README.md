@@ -64,10 +64,10 @@ flowchart LR
 
         NikoPlan -- "Level 3 (Feature)" --> Creative
 
-        Creative --> QA
+        Creative --> Preflight("🧑‍💻 /preflight")
 	end
 
-    QA --> ManBuild
+    Preflight --> ManBuild
 
 	subgraph Execution
         ManBuild("🧑‍💻 /build")
@@ -75,8 +75,9 @@ flowchart LR
         NikoPlan -- "Level 2 (Enhance)" --> NikoBuild
 	end
 
-    ManBuild --> Reflect
-	
+    ManBuild --> QA
+	QA("🧑‍💻 /qa") --> Reflect
+
 	subgraph Learning
         Reflect("🧑‍💻 /reflect")
         NikoBuild --> Reflect
@@ -89,7 +90,7 @@ flowchart LR
 	classDef humanNode fill:#f3e5f5,stroke:#4a148c,stroke-width:2px;
 	classDef aiNode fill:#fff3e0,stroke:#e65100,stroke-width:2px;
 
-	class Niko,Creative,QA,ManBuild,Reflect,Archive humanNode;
+	class Niko,Creative,Preflight,QA,ManBuild,Reflect,Archive humanNode;
 	class NikoPlan,NikoBuild aiNode;
 ```
 
@@ -122,7 +123,8 @@ graph LR
     Niko["🧑‍💻 /niko"] --> NikoPlan["🐱 plans"]
     NikoPlan --> NikoBuild["🐱 builds"]
 	NikoBuild --"Iterate"-->Niko
-    NikoBuild --> Reflect["🧑‍💻 /reflect"]
+    NikoBuild --> QA["🧑‍💻 /qa"]
+    QA --> Reflect["🧑‍💻 /reflect"]
     Reflect --> PullRequest("Pull Request")
 	PullRequest --"PR Feedback"-->Niko
 	PullRequest --"Ready"--> Archive["🧑‍💻 /archive"]
@@ -132,7 +134,7 @@ graph LR
 	classDef humanNode fill:#f3e5f5,stroke:#4a148c,stroke-width:2px;
 	classDef aiNode fill:#fff3e0,stroke:#e65100,stroke-width:2px;
 
-	class Niko,Creative,QA,ManBuild,Reflect,Archive humanNode;
+	class Niko,Creative,Preflight,QA,ManBuild,Reflect,Archive humanNode;
 	class NikoPlan,NikoBuild aiNode;
 ```
 
@@ -145,9 +147,10 @@ graph LR
 graph LR
     Niko["🧑‍💻 /niko"] --> NikoPlan["🐱 plans"]
     NikoPlan --> Creative["🧑‍💻 /creative"]
-	Creative --> QA["🧑‍💻 /qa"]
-    QA --> ManBuild["🧑‍💻 /build"]
-    ManBuild --> Reflect["🧑‍💻 /reflect"]
+	Creative --> Preflight["🧑‍💻 /preflight"]
+    Preflight --> ManBuild["🧑‍💻 /build"]
+    ManBuild --> QA["🧑‍💻 /qa"]
+    QA --> Reflect["🧑‍💻 /reflect"]
 	ManBuild --"Iterate"-->Niko
     Reflect --> PullRequest("Pull Request")
     PullRequest --"PR Feedback"--> Niko
@@ -158,7 +161,7 @@ graph LR
 	classDef humanNode fill:#f3e5f5,stroke:#4a148c,stroke-width:2px;
 	classDef aiNode fill:#fff3e0,stroke:#e65100,stroke-width:2px;
 
-	class Niko,Creative,QA,ManBuild,Reflect,Archive humanNode;
+	class Niko,Creative,Preflight,QA,ManBuild,Reflect,Archive humanNode;
 	class NikoPlan,NikoBuild aiNode;
 ```
 

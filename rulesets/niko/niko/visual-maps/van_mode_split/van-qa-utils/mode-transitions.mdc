@@ -1,101 +1,99 @@
 ---
-description: Utility for NIKO QA mode transitions
+description: Utility for mode transitions involving preflight and QA validation
 globs: van-qa-utils/mode-transitions.mdc
 alwaysApply: false
 ---
-# NIKO QA: MODE TRANSITIONS
+# MODE TRANSITIONS: PREFLIGHT & QA GATES
 
-> **TL;DR:** This component handles transitions between modes, particularly the QA validation to BUILD mode transition, and prevents BUILD mode access without successful QA validation.
+> **TL;DR:** This component handles mode transition gates. Preflight validation gates BUILD mode for L3+ tasks. QA semantic review gates REFLECT mode for L2+ tasks.
 
-## 🔒 BUILD MODE PREVENTION MECHANISM
+## 🔒 BUILD MODE PREVENTION MECHANISM (L3+)
 
-The system prevents moving to BUILD mode without passing QA validation:
+For Level 3+ tasks, the system prevents moving to BUILD mode without passing preflight validation:
 
 ```mermaid
 graph TD
-    Start["User Types: BUILD"] --> CheckQA{"QA Validation<br>Completed?"}
-    CheckQA -->|"Yes and Passed"| AllowBuild["Allow BUILD Mode"]
-    CheckQA -->|"No or Failed"| BlockBuild["BLOCK BUILD MODE"]
-    BlockBuild --> Message["Display:<br>⚠️ QA VALIDATION REQUIRED"]
-    Message --> ReturnToVANQA["Prompt: Type /qa"]
-    
-    style CheckQA fill:#f6546a,stroke:#c30052,color:white
+    Start["User Types: /build"] --> CheckLevel{"Complexity<br>Level?"}
+    CheckLevel -->|"Level 1-2"| AllowBuild["Allow BUILD Mode"]
+    CheckLevel -->|"Level 3-4"| CheckPreflight{"Preflight<br>Validation Passed?"}
+    CheckPreflight -->|"Yes (PASS/ADVISORY)"| AllowBuild
+    CheckPreflight -->|"No or Not Run"| BlockBuild["BLOCK BUILD MODE"]
+    BlockBuild --> Message["Display:<br>⚠️ PREFLIGHT VALIDATION REQUIRED"]
+    Message --> ReturnToPreflight["Prompt: Type /preflight"]
+
+    style CheckLevel fill:#f6546a,stroke:#c30052,color:white
+    style CheckPreflight fill:#f6546a,stroke:#c30052,color:white
     style BlockBuild fill:#ff0000,stroke:#990000,color:white,stroke-width:3px
     style Message fill:#ff5555,stroke:#dd3333,color:white
-    style ReturnToVANQA fill:#4da6ff,stroke:#0066cc,color:white
+    style ReturnToPreflight fill:#4da6ff,stroke:#0066cc,color:white
 ```
 
-### Implementation Example (PowerShell):
-```powershell
-# Check QA status before allowing BUILD mode
-function Check-QAValidationStatus {
-    $qaStatusFile = "memory-bank\.qa_validation_status" # Assumes status is written by reports.mdc
-    
-    if (Test-Path $qaStatusFile) {
-        $status = Get-Content $qaStatusFile -Raw
-        if ($status -match "PASS") {
-            return $true
-        }
-    }
-    
-    # Display block message
-    Write-Output "`n`n"
-    Write-Output "🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫"
-    Write-Output "⛔️ BUILD MODE BLOCKED: QA VALIDATION REQUIRED"
-    Write-Output "⛔️ You must complete QA validation before proceeding to BUILD mode"
-    Write-Output "`n"
-    Write-Output "Type '/qa' to perform technical validation"
-    Write-Output "`n"
-    Write-Output "🚫 NO IMPLEMENTATION CAN PROCEED WITHOUT VALIDATION 🚫"
-    Write-Output "🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫🚫"
-    
-    return $false
-}
+### Preflight Status Check
+The system checks `memory-bank/.preflight_status` before allowing BUILD mode for L3+ tasks:
+- **PASS** or **ADVISORY**: Allow transition to BUILD mode
+- **FAIL** or missing: Block BUILD mode, prompt `/preflight`
+
+## 🔒 REFLECT MODE PREVENTION MECHANISM (L2+)
+
+For Level 2+ tasks, the system prevents moving to REFLECT mode without passing QA review:
+
+```mermaid
+graph TD
+    Start["User Types: /reflect"] --> CheckLevel{"Complexity<br>Level?"}
+    CheckLevel -->|"Level 1"| AllowReflect["Allow REFLECT Mode"]
+    CheckLevel -->|"Level 2-4"| CheckQA{"QA Validation<br>Passed?"}
+    CheckQA -->|"Yes"| AllowReflect
+    CheckQA -->|"No or Not Run"| BlockReflect["BLOCK REFLECT MODE"]
+    BlockReflect --> Message["Display:<br>⚠️ QA REVIEW REQUIRED"]
+    Message --> ReturnToQA["Prompt: Type /qa"]
+
+    style CheckLevel fill:#f6546a,stroke:#c30052,color:white
+    style CheckQA fill:#f6546a,stroke:#c30052,color:white
+    style BlockReflect fill:#ff0000,stroke:#990000,color:white,stroke-width:3px
+    style Message fill:#ff5555,stroke:#dd3333,color:white
+    style ReturnToQA fill:#4da6ff,stroke:#0066cc,color:white
 ```
+
+### QA Status Check
+The system checks `memory-bank/.qa_validation_status` before allowing REFLECT mode for L2+ tasks:
+- **PASS**: Allow transition to REFLECT mode
+- **FAIL** or missing: Block REFLECT mode, prompt `/qa`
 
 ## 🚨 MODE TRANSITION TRIGGERS
 
-### CREATIVE to NIKO QA Transition:
-After completing the CREATIVE phase, trigger this message to prompt QA validation:
+### CREATIVE to PREFLIGHT Transition (L3+):
+After completing the CREATIVE phase:
+```
+⏭️ NEXT MODE: /preflight
+To validate the implementation plan before building, please type '/preflight'
+```
 
+### PREFLIGHT to BUILD Transition (On Success):
+After successful preflight validation:
+```
+✅ PREFLIGHT VALIDATION COMPLETE
+Plan validated against codebase reality
+You may now proceed to BUILD mode
+Type '/build' to begin implementation
+```
+
+### BUILD to QA Transition (L2+):
+After completing implementation:
 ```
 ⏭️ NEXT MODE: /qa
-To validate technical requirements before implementation, please type '/qa'
+To perform post-build semantic review, please type '/qa'
 ```
 
-### NIKO QA to BUILD Transition (On Success):
-After successful QA validation, trigger this message to allow BUILD mode:
-
+### QA to REFLECT Transition (On Success):
+After successful QA review:
 ```
-✅ TECHNICAL VALIDATION COMPLETE
-All prerequisites verified successfully
-You may now proceed to BUILD mode
-Type 'BUILD' to begin implementation
-```
-
-### Manual BUILD Mode Access (When QA Already Passed):
-When the user manually types 'BUILD', check the QA status before allowing access:
-
-```powershell
-# Handle BUILD mode request
-function Handle-BuildModeRequest {
-    if (Check-QAValidationStatus) {
-        # Allow transition to BUILD mode
-        Write-Output "`n"
-        Write-Output "✅ QA VALIDATION CHECK: PASSED"
-        Write-Output "Loading BUILD mode..."
-        Write-Output "`n"
-        
-        # Here you would load the BUILD mode map
-        # [Code to load BUILD mode map]
-        
-        return $true
-    }
-    
-    # QA validation failed or not completed, BUILD mode blocked
-    return $false
-}
+✅ QA REVIEW COMPLETE
+All semantic checks passed
+You may now proceed to REFLECT mode
+Type '/reflect' to begin reflection
 ```
 
-**Next Step (on QA SUCCESS):** Continue to BUILD mode.
-**Next Step (on QA FAILURE):** Return to QA validation process. 
+**Next Step (on PREFLIGHT PASS):** Continue to BUILD mode.
+**Next Step (on PREFLIGHT FAIL):** Return to `/plan` or fix and re-run `/preflight`.
+**Next Step (on QA PASS):** Continue to REFLECT mode.
+**Next Step (on QA FAIL):** Return to `/build` or `/plan` depending on severity.

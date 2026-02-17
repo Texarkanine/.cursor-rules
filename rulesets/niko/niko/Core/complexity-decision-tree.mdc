@@ -157,12 +157,12 @@ If approved, switch to the appropriate higher-level process map.
 
 After determining complexity, load the appropriate process map:
 
-| Level | Description | Workflow |
-|-------|-------------|----------|
-| 1 | Quick Bug Fix | [Level 1 Workflow](mdc:.cursor/rules/shared/niko/Level1/workflow-level1.mdc) |
-| 2 | Simple Enhancement | [Level 2 Workflow](mdc:.cursor/rules/shared/niko/Level2/workflow-level2.mdc) |
-| 3 | Intermediate Feature | [Level 3 Workflow](mdc:.cursor/rules/shared/niko/Level3/workflow-level3.mdc) |
-| 4 | Complex System | [Level 4 Workflow](mdc:.cursor/rules/shared/niko/Level4/workflow-level4.mdc) |
+| Level | Description | Phases | Workflow |
+|-------|-------------|--------|----------|
+| 1 | Quick Bug Fix | 3-phase | NIKO → BUILD → REFLECT |
+| 2 | Simple Enhancement | 5-phase | NIKO → PLAN → BUILD → QA → REFLECT |
+| 3 | Intermediate Feature | 7-phase | NIKO → PLAN → CREATIVE → PREFLIGHT → BUILD → QA → REFLECT |
+| 4 | Complex System | 8-phase | NIKO → PLAN → CREATIVE → PREFLIGHT → BUILD → QA → REFLECT → ARCHIVE |
 
 ## 📝 COMPLEXITY DETERMINATION TEMPLATE
 

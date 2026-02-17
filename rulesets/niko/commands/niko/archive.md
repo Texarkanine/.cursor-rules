@@ -29,6 +29,7 @@ Clears (task-specific, ephemeral):
 - `memory-bank/creative/` - Remove all files
 - `memory-bank/reflection/` - Remove all files
 - `memory-bank/.qa_validation_status` - Remove if exists
+- `memory-bank/.preflight_status` - Remove if exists
 
 Preserves (repository-specific, persistent):
 - `memory-bank/projectbrief.md` - Project foundation
@@ -133,6 +134,7 @@ After creating the archive document, clear all task-specific files:
 
 **Remove files:**
 - Delete `memory-bank/.qa_validation_status` if it exists
+- Delete `memory-bank/.preflight_status` if it exists
 
 **Reset files to initial state:**
 - `memory-bank/tasks.md` - Clear content, reset to empty template

@@ -85,5 +85,6 @@ Type `/plan` to start planning based on the task in `memory-bank/tasks.md`.
 ## Next Steps
 
 - **If creative phases identified:** Use `/creative` command
-- **If no creative phases:** Proceed to `/build` command
+- **If no creative phases and Level 3+:** Proceed to `/preflight` command
+- **If no creative phases and Level 2:** Proceed to `/build` command
 

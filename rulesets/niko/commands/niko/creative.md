@@ -89,5 +89,5 @@ Type `/creative` to start creative design work for components flagged in the pla
 
 ## Next Steps
 
-After all creative phases complete, proceed to `/qa` command for technical validation, then `/build` command for implementation.
+After all creative phases complete, proceed to `/preflight` command for pre-build plan validation (Level 3+ tasks), then `/build` command for implementation.
 
