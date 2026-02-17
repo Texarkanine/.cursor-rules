@@ -1,11 +1,11 @@
 ---
-description: Comprehensive guide for calling NIKO QA rules
+description: Comprehensive guide for calling QA rules
 globs: van-qa-utils/rule-calling-guide.mdc
 alwaysApply: false
 ---
-# NIKO QA: COMPREHENSIVE RULE CALLING GUIDE
+# QA: COMPREHENSIVE RULE CALLING GUIDE
 
-> **TL;DR:** This reference guide shows how to properly call all NIKO QA rules at the right time during the validation process.
+> **TL;DR:** This reference guide shows how to properly call all QA rules at the right time during the post-build semantic review process.
 
 ## 🔍 RULE CALLING BASICS
 
@@ -22,20 +22,9 @@ When user types "/qa", load the main entry point:
 fetch_rules with "shared/niko/visual-maps/van-qa-main"
 ```
 
-## 📋 VALIDATION CHECKS
-
-Load these components sequentially during validation:
-
-```
-1. fetch_rules with "shared/niko/visual-maps/van-qa-checks/dependency-check"
-2. fetch_rules with "shared/niko/visual-maps/van-qa-checks/config-check"
-3. fetch_rules with "shared/niko/visual-maps/van-qa-checks/environment-check"
-4. fetch_rules with "shared/niko/visual-maps/van-qa-checks/build-test"
-```
-
 ## 📋 UTILITY COMPONENTS
 
-Load these when needed based on validation results:
+Load these when needed based on review results:
 
 ```
 - For reports: fetch_rules with "shared/niko/visual-maps/van-qa-utils/reports"
@@ -47,22 +36,19 @@ Load these when needed based on validation results:
 
 Remember to call these rules at these specific points:
 - ALWAYS load the main QA entry point when "/qa" is typed
-- ALWAYS load dependency-check before starting validation
-- ALWAYS load reports after completing validation
-- ALWAYS load mode-transitions after successful validation
-- ALWAYS load common-fixes after failed validation
+- ALWAYS load reports after completing the semantic review
+- ALWAYS load mode-transitions after successful review (QA gates REFLECT for L2+)
+- ALWAYS load common-fixes after failed review
 
-## 🔄 FULL VALIDATION SEQUENCE
+## 🔄 FULL REVIEW SEQUENCE
 
-Complete sequence for a QA validation process:
+Complete sequence for a QA semantic review process:
 
 1. Load main entry: `shared/niko/visual-maps/van-qa-main`
-2. Load first check: `shared/niko/visual-maps/van-qa-checks/dependency-check`
-3. Load second check: `shared/niko/visual-maps/van-qa-checks/config-check`
-4. Load third check: `shared/niko/visual-maps/van-qa-checks/environment-check`
-5. Load fourth check: `shared/niko/visual-maps/van-qa-checks/build-test`
-6. If pass, load: `shared/niko/visual-maps/van-qa-utils/reports`
-7. If pass, load: `shared/niko/visual-maps/van-qa-utils/mode-transitions` 
-8. If fail, load: `shared/niko/visual-maps/van-qa-utils/common-fixes`
+2. Perform semantic review (KISS/DRY/YAGNI/Completeness/Regression/Integrity/Integration Insight)
+3. Apply fixes directly during review
+4. If pass, load: `shared/niko/visual-maps/van-qa-utils/reports`
+5. If pass, load: `shared/niko/visual-maps/van-qa-utils/mode-transitions`
+6. If fail, load: `shared/niko/visual-maps/van-qa-utils/common-fixes`
 
 **Note:** After fixing issues, user should re-run `/qa` to re-validate.

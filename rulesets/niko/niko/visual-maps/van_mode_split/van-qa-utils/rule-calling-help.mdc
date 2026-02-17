@@ -1,11 +1,11 @@
 ---
-description: Utility for remembering how to call NIKO QA rules
+description: Utility for remembering how to call QA rules
 globs: van-qa-utils/rule-calling-help.mdc
 alwaysApply: false
 ---
-# NIKO QA: HOW TO CALL RULES
+# QA: HOW TO CALL RULES
 
-> **TL;DR:** This file provides examples and reminders on how to properly call NIKO QA rules using the fetch_rules tool.
+> **TL;DR:** This file provides examples and reminders on how to properly call QA rules using the fetch_rules tool.
 
 ## 🚨 RULE CALLING SYNTAX
 

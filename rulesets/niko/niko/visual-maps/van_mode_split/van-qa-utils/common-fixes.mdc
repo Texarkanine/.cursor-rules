@@ -1,11 +1,11 @@
 ---
-description: Utility for NIKO QA common validation fixes
+description: Utility for common validation fixes
 globs: van-qa-utils/common-fixes.mdc
 alwaysApply: false
 ---
-# NIKO QA: COMMON VALIDATION FIXES
+# QA: COMMON VALIDATION FIXES
 
-> **TL;DR:** This component provides common fixes for issues that may arise during the QA validation process.
+> **TL;DR:** This component provides common fixes for issues that may arise during build or QA review.
 
 ## 🧪 COMMON QA VALIDATION FIXES BY CATEGORY
 

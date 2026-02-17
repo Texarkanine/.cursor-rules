@@ -5,7 +5,7 @@ alwaysApply: false
 ---
 # NIKO MODE: INITIALIZATION PROCESS MAP
 
-> **TL;DR:** This visual map defines the NIKO mode process for project initialization, task analysis, and technical validation. It guides users through platform detection, file verification, complexity determination, and technical validation to ensure proper setup before implementation.
+> **TL;DR:** This visual map defines the NIKO mode process for project initialization and task analysis. It guides users through platform detection, file verification, and complexity determination to ensure proper setup before implementation.
 
 ## 🧭 NIKO MODE PROCESS FLOW
 
@@ -37,14 +37,12 @@ graph TD
     ComplexityCP --> InitSystem["INITIALIZE MEMORY BANK"]
     InitSystem --> Complete1["LEVEL 1 INITIALIZATION COMPLETE"]
 
-    %% For Level 2+ tasks after PLAN and CREATIVE modes
-    ForceExit -.-> OtherModes["PLAN → CREATIVE modes"]
-    OtherModes -.-> VANQA["NIKO QA MODE"]
-    VANQA --> QAProcess["Technical Validation Process"]
-    QAProcess --> QACheck{"All Checks Pass?"}
-    QACheck -->|"Yes"| BUILD["To BUILD MODE"]
-    QACheck -->|"No"| FixIssues["Fix Technical Issues"]
-    FixIssues --> QAProcess
+    %% For Level 2+ tasks after PLAN mode
+    ForceExit -.-> OtherModes["PLAN mode"]
+    OtherModes -.-> Creative["CREATIVE mode (L3+)"]
+    Creative -.-> Preflight["PREFLIGHT mode (L3+)"]
+    Preflight -.-> BUILD["To BUILD MODE"]
+    OtherModes -.-> BUILD
 
     %% Style nodes
     style PlatformCP fill:#f55,stroke:#d44,color:white
@@ -52,10 +50,8 @@ graph TD
     style ComplexityCP fill:#f55,stroke:#d44,color:white
     style CRITICALGATE fill:#ff0000,stroke:#990000,color:white,stroke-width:3px
     style ForceExit fill:#ff0000,stroke:#990000,color:white,stroke-width:2px
-    style VANQA fill:#4da6ff,stroke:#0066cc,color:white,stroke-width:3px
-    style QAProcess fill:#4da6ff,stroke:#0066cc,color:white
-    style QACheck fill:#4da6ff,stroke:#0066cc,color:white
-    style FixIssues fill:#ff5555,stroke:#dd3333,color:white
+    style Creative fill:#4da6ff,stroke:#0066cc,color:white
+    style Preflight fill:#4da6ff,stroke:#0066cc,color:white
 ```
 
 ## 🌐 PLATFORM DETECTION PROCESS
