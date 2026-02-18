@@ -10,8 +10,10 @@ graph TD
     Step1b --> Done
     Step1a --"Initialization Request"--> Step1b
     Step1a --"Yes"--> Step2["Determine Complexity Level"]
-    Step2 --> Step3["Load Complexity-Specific Rules"]
-    Step3 --> Workflow["Follow level-specific workflow instructions"]
+    subgraph Complexity Analysis
+        Step2 -.-> Step3["Load Complexity-Specific Rules"]
+        Step3 -.-> Workflow["Follow level-specific workflow instructions"]
+    end
 
     Done("Done")
 ```
@@ -35,16 +37,4 @@ Load: .cursor/rules/shared/niko/core/complexity-analysis.mdc
 
 Follow the instructions to determine the complexity level of the task.
 
-Complexity analysis will populate the memory bank's ephemeral files.
-
-
-## Step 3: Load Complexity-Specific Rules
-
-After determining the complexity level, load the appropriate complexity-specific rules:
-
-* Level 1: `.cursor/rules/shared/niko/level1/level1-workflow.mdc`
-* Level 2: `.cursor/rules/shared/niko/level2/level2-workflow.mdc`
-* Level 3: `.cursor/rules/shared/niko/level3/level3-workflow.mdc`
-* Level 4: `.cursor/rules/shared/niko/level4/level4-workflow.mdc`
-
-These will include instructions for the next steps.
+Complexity analysis will populate the memory bank's ephemeral files & guide you to the next step.

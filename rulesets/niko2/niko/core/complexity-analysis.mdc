@@ -99,7 +99,14 @@ Include a brief summary of the work to be done as described in the project brief
 
 ## Load Workflow
 
-After writing the determination, load the level-specific workflow:
+After writing the determination inform the user:
+
+```markdown
+✅ **Complexity Analysis Complete** - Level N determined.
+Loading Level N workflow...
+```
+
+Then, load the level-specific workflow and follow the instructions you fi nd.
 
 | Level | Workflow |
 |-------|----------|
