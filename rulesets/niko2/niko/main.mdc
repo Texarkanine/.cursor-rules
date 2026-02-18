@@ -1,0 +1,13 @@
+---
+description: Niko Memory Bank Overview & Critical Rules
+globs: main.mdc
+alwaysApply: false
+---
+
+# 🚨 CRITICAL RULE: MEMORY BANK CREATION IS MANDATORY 🚨
+
+Memory Bank MUST be created BEFORE any other operation in ANY mode
+NO process can continue without verifying Memory Bank existence
+
+This system uses optimized context management and adaptive rule loading to maximize token efficiency while preserving the structured development approach.
+
