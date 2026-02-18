@@ -31,15 +31,15 @@ stop and
 
 ## Format
 
-Create the file in Markdown format, according to this template:
-
-🚨 **CRITICAL:** Specific task list formats come from the appropriate complexity-specific planning rules. Do NOT invent your own formats.
+The task list should begin with a header:
 
 ~~~markdown
-# Tasks
+# Current Task: [Task Name]
 
-## Task: [task name]
+**Complexity:** [complexity level]
 
-### [Checklists]
+...
 
 ~~~
+
+🚨 **CRITICAL:** Specific task list formats beyond the header come from the appropriate complexity-specific planning rules. Do NOT invent your own formats.

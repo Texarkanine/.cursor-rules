@@ -1,4 +1,4 @@
-# Niko Command - Initialization & Entry Point
+# Niko Phase - Initialization & Entry Point
 
 This command determines task complexity, and routes to appropriate workflows based on the complexity level.
 

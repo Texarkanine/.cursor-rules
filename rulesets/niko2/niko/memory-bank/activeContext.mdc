@@ -29,7 +29,7 @@ Create the file in Markdown format, according to this template:
 ~~~markdown
 # Active Context
 
-## Current Task: [task name]
+## Current Task: [Task Name]
 **Phase:** [phase name] - [status (READY / IN-PROGRESS / COMPLETE)]
 
 ## What Was Done
