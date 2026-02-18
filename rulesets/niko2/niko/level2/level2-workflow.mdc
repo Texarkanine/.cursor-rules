@@ -1,3 +1,56 @@
 ---
-alwaysApply: true
+alwaysApply: false
 ---
+
+# Level 2 Workflow: Simple Enhancement
+
+Level 2 tasks are simple enhancements that require a structured approach with moderate planning and documentation.
+
+## Workflow Phases
+
+```mermaid
+graph LR
+    Start(("Complexity Analysis")) --> NikoPlan["🐱 plan"]
+    NikoPlan --> NikoPreflight{"🐱 preflight"}
+    NikoPreflight -->|"PASS"| NikoBuild["🐱 build"]
+    NikoPreflight -->|"FAIL"| ManPlan[/"🧑‍💻 /plan"/]
+
+    NikoBuild --> NikoQA{"🐱 qa"}
+    NikoQA -.->|"PASS"| ManReflect[/"🧑‍💻 /reflect"/]
+    ManReflect -.-> ManArchive[/"🧑‍💻 /archive"/]
+    NikoQA -->|"FAIL (fixable)"| NikoBuild
+    NikoQA -->|"FAIL (rearchitect)"| ManPlan
+
+    ManPlan -.-> NikoPlan
+```
+
+> Legend:
+> - 🐱 = Phase executed autonomously
+> - 🧑‍💻 = Phase initiated by operator with explicit command
+> - Solid edge = Transition does not require operator input
+> - Dashed edge = Transition requires operator input
+
+
+## Plan Phase
+
+Load `.cursor/rules/shared/niko/level2/level2-plan.mdc` and follow the instructions.
+
+## Preflight Phase
+
+Load `.cursor/commands/shared/niko/preflight.md` and follow the instructions.
+
+## Build Phase
+
+Load `.cursor/rules/shared/niko/level2/level2-build.mdc` and follow the instructions.
+
+## QA Phase
+
+Load `.cursor/commands/shared/niko/qa.md` and follow the instructions.
+
+## Reflect Phase
+
+Load `.cursor/rules/shared/niko/reflect.md` and follow the instructions.
+
+## Archive Phase
+
+Load `.cursor/rules/shared/niko/archive.md` and follow the instructions.

@@ -54,9 +54,9 @@ Read:
    - Update `memory-bank/tasks.md` with QA results
 
 5. **Handle Results**
-   - **On PASS (clean or all issues fixed)**: Allow transition to `/reflect`
-   - **On FAIL (issues requiring build changes)**: Return to `/build` to address findings, then re-run `/qa`
-   - **On FAIL (fundamental plan issue discovered)**: Route back to `/plan` for replanning
+   - **On PASS (clean or all issues fixed)**: Good job!
+   - **On FAIL (issues requiring build changes)**: Operator input required.
+   - **On FAIL (fundamental plan issue discovered)**: Return to the Plan phase to revise the plan.
 
 ## Output to Operator
 
@@ -93,3 +93,7 @@ When QA review is complete, print:
 
 (the next command, if any, based on the current complexity-level's workflow & QA result)
 ~~~
+
+If operator input is required, stop and wait for them.
+
+If operator input is not required, proceed to the next Phase as specified by the current complexity-level's workflow.

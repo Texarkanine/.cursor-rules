@@ -57,10 +57,10 @@ Read:
    - Update `memory-bank/tasks.md` with any plan amendments or findings
 
 8. **Handle Results**
-   - **On PASS**: good job :)
+   - **On PASS**: Good job!
    - **On PASS with ADVISORY**: Allow transition to `/build`, but document advisory findings for the operator's consideration
-   - **On FAIL (rearchitect needed)**: Route back to `/plan` with specific findings that require plan revision
-   - **On FAIL (conflict/convention)**: Provide specific fix instructions, block `/build`
+   - **On FAIL (rearchitect needed)**: Operator decision required.
+   - **On FAIL (conflict/convention)**: Provide specific fix instructions, block `/build`; Operator decision required.
 
 ## Output to Operator
 
@@ -100,3 +100,7 @@ Run `/build` to implement the plan.
 - **On FAIL (rearchitect)**: Run `/plan` when ready to revise the approach.
 - **On FAIL (fixable)**: Address the findings and re-run `/preflight`.
 ~~~
+
+If operator input is required, stop and wait for them.
+
+If operator input is not required, proceed to the next Phase as specified by the current complexity-level's workflow.
