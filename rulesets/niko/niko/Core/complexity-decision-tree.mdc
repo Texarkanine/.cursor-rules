@@ -159,9 +159,9 @@ After determining complexity, load the appropriate process map:
 
 | Level | Description | Phases | Workflow |
 |-------|-------------|--------|----------|
-| 1 | Quick Bug Fix | 3-phase | NIKO → BUILD → REFLECT |
-| 2 | Simple Enhancement | 5-phase | NIKO → PLAN → BUILD → QA → REFLECT |
-| 3 | Intermediate Feature | 7-phase | NIKO → PLAN → CREATIVE → PREFLIGHT → BUILD → QA → REFLECT |
+| 1 | Quick Bug Fix | 2-phase | NIKO → BUILD |
+| 2 | Simple Enhancement | 6-phase | NIKO → PLAN → BUILD → QA → REFLECT → ARCHIVE |
+| 3 | Intermediate Feature | 8-phase | NIKO → PLAN → CREATIVE → PREFLIGHT → BUILD → QA → REFLECT → ARCHIVE |
 | 4 | Complex System | 8-phase | NIKO → PLAN → CREATIVE → PREFLIGHT → BUILD → QA → REFLECT → ARCHIVE |
 
 ## 📝 COMPLEXITY DETERMINATION TEMPLATE

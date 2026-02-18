@@ -6,202 +6,509 @@ alwaysApply: false
 
 # QA MODE: POST-BUILD SEMANTIC REVIEW
 
-> **TL;DR:** The `/qa` command performs a structured semantic review of code implemented during BUILD mode against the original plan. It catches over-engineering, incomplete implementations, pattern violations, and implementation debris that mechanical checks cannot detect. Required for L2+ tasks; gates `/reflect`.
+> **TL;DR:** The `/qa` command performs a structured semantic review of code implemented during BUILD mode against the original plan. It runs *after* BUILD (not before), catches over-engineering, incomplete implementations, pattern violations, and implementation debris. Required for L2+ tasks; gates `/reflect`. It also performs universal validation (Memory Bank consistency, task tracking, reference checks) as part of its review.
 
-## 🔍 QA SEMANTIC REVIEW PROCESS FLOW
+## 🔍 ENHANCED QA MODE PROCESS FLOW
 
 ```mermaid
 graph TD
-    Start["🚀 START QA MODE"] --> CheckBuild{"Build Phase<br>Complete?"}
-    CheckBuild -->|"No"| PromptBuild["Prompt: Complete /build first"]
-    CheckBuild -->|"Yes"| ReadBaseline["📖 READ BASELINE<br>Original plan from tasks.md"]
-
-    ReadBaseline --> ReadCreative["📖 Read Creative Docs<br>(L3-4 only)"]
-    ReadCreative --> ReviewCode["🔍 REVIEW CODE<br>Against Original Plan"]
-
-    ReviewCode --> KISS["1️⃣ KISS<br>Simplify over-engineering"]
-    ReviewCode --> DRY["2️⃣ DRY<br>Consolidate duplicates"]
-    ReviewCode --> YAGNI["3️⃣ YAGNI<br>Prune speculative code"]
-    ReviewCode --> Completeness["4️⃣ COMPLETENESS<br>Verify all requirements met"]
-    ReviewCode --> Regression["5️⃣ REGRESSION<br>Check patterns preserved"]
-    ReviewCode --> Integrity["6️⃣ INTEGRITY<br>Remove debug artifacts"]
-
-    KISS & DRY & YAGNI & Completeness & Regression & Integrity --> ApplyFixes["🛠️ APPLY FIXES DIRECTLY"]
-    ApplyFixes --> ReTest["🧪 Re-run Tests"]
-    ReTest --> IntegrationInsight["7️⃣ INTEGRATION INSIGHT<br>(Advisory Only)"]
-    IntegrationInsight --> WriteStatus["📝 Write .qa_validation_status"]
-    WriteStatus --> QAResults{"QA Results"}
-
-    QAResults -->|"PASS"| AllowReflect["✅ Allow /reflect"]
-    QAResults -->|"FAIL (iterate)"| ReturnBuild["↩️ Return to /build"]
-    QAResults -->|"FAIL (replan)"| ReturnPlan["↩️ Return to /plan"]
-
+    Start["🚀 START QA MODE"] --> DetectPhase["🧭 PHASE DETECTION<br>Determine current project phase"]
+    
+    %% Phase detection decision path
+    DetectPhase --> PhaseDetermination{"Current Phase?"}
+    PhaseDetermination -->|"NIKO"| NIKOChecks["NIKO Phase Validation"]
+    PhaseDetermination -->|"PLAN"| PLANChecks["PLAN Phase Validation"]
+    PhaseDetermination -->|"CREATIVE"| CREATIVEChecks["CREATIVE Phase Validation"] 
+    PhaseDetermination -->|"BUILD"| BUILDChecks["BUILD Phase Validation"]
+    
+    %% Universal checks that apply to all phases
+    DetectPhase --> UniversalChecks["🔍 UNIVERSAL VALIDATION"]
+    UniversalChecks --> MemoryBankCheck["1️⃣ MEMORY BANK VERIFICATION<br>Check consistency & updates"]
+    MemoryBankCheck --> TaskTrackingCheck["2️⃣ TASK TRACKING VERIFICATION<br>Validate tasks.md as source of truth"]
+    TaskTrackingCheck --> ReferenceCheck["3️⃣ REFERENCE VALIDATION<br>Verify cross-references between docs"]
+    
+    %% Phase-specific validations feed into comprehensive report
+    NIKOChecks & PLANChecks & CREATIVEChecks & BUILDChecks --> PhaseSpecificResults["Phase-Specific Results"]
+    ReferenceCheck & PhaseSpecificResults --> ValidationResults{"✅ All Checks<br>Passed?"}
+    
+    %% Results Processing
+    ValidationResults -->|"Yes"| SuccessReport["📝 GENERATE SUCCESS REPORT<br>All validations passed"]
+    ValidationResults -->|"No"| FailureReport["⚠️ GENERATE FAILURE REPORT<br>With specific fix instructions"]
+    
+    %% Success Path
+    SuccessReport --> UpdateMB["📚 Update Memory Bank<br>Record successful validation"]
+    UpdateMB --> ContinueProcess["🚦 CONTINUE: Phase processes<br>can proceed"]
+    
+    %% Failure Path
+    FailureReport --> IdentifyFixes["🔧 IDENTIFY REQUIRED FIXES"]
+    IdentifyFixes --> ApplyFixes["🛠️ APPLY FIXES"]
+    ApplyFixes --> Revalidate["🔄 Re-run validation"]
+    Revalidate --> ValidationResults
+    
+    %% Style nodes for clarity
     style Start fill:#4da6ff,stroke:#0066cc,color:white
-    style CheckBuild fill:#f6546a,stroke:#c30052,color:white
-    style ReviewCode fill:#f6546a,stroke:#c30052,color:white
-    style ApplyFixes fill:#ffa64d,stroke:#cc7a30,color:white
-    style WriteStatus fill:#10b981,stroke:#059669,color:white
-    style QAResults fill:#f6546a,stroke:#c30052,color:white
+    style DetectPhase fill:#f6ad55,stroke:#c27022,color:white
+    style UniversalChecks fill:#f6546a,stroke:#c30052,color:white
+    style MemoryBankCheck fill:#10b981,stroke:#059669,color:white
+    style TaskTrackingCheck fill:#10b981,stroke:#059669,color:white
+    style ReferenceCheck fill:#10b981,stroke:#059669,color:white
+    style ValidationResults fill:#f6546a,stroke:#c30052,color:white
+    style SuccessReport fill:#10b981,stroke:#059669,color:white
+    style FailureReport fill:#f6ad55,stroke:#c27022,color:white
+    style ContinueProcess fill:#10b981,stroke:#059669,color:white,stroke-width:2px
+    style IdentifyFixes fill:#f6ad55,stroke:#c27022,color:white
+```
+
+## 🧭 PHASE DETECTION PROCESS
+
+The enhanced QA mode first determines which phase the project is currently in:
+
+```mermaid
+graph TD
+    PD["Phase Detection"] --> CheckMB["Analyze Memory Bank Files"]
+    CheckMB --> CheckActive["Check activeContext.md<br>for current phase"]
+    CheckActive --> CheckProgress["Check progress.md<br>for recent activities"]
+    CheckProgress --> CheckTasks["Check tasks.md<br>for task status"]
+    
+    CheckTasks --> PhaseResult{"Determine<br>Current Phase"}
+    PhaseResult -->|"NIKO"| NIKO["NIKO Phase<br>Initialization"]
+    PhaseResult -->|"PLAN"| PLAN["PLAN Phase<br>Task Planning"]
+    PhaseResult -->|"CREATIVE"| CREATIVE["CREATIVE Phase<br>Design Decisions"]
+    PhaseResult -->|"BUILD"| BUILD["BUILD Phase<br>Implementation"]
+    
+    NIKO & PLAN & CREATIVE & BUILD --> LoadChecks["Load Phase-Specific<br>Validation Checks"]
+    
+    style PD fill:#4da6ff,stroke:#0066cc,color:white
+    style PhaseResult fill:#f6546a,stroke:#c30052,color:white
+    style LoadChecks fill:#10b981,stroke:#059669,color:white
+```
+
+## 📝 UNIVERSAL MEMORY BANK VERIFICATION
+
+This process ensures Memory Bank files are consistent and up-to-date regardless of phase:
+
+```mermaid
+graph TD
+    MBVS["Memory Bank<br>Verification"] --> CoreCheck["Check Core Files Exist"]
+    CoreCheck --> CoreFiles["Verify Required Files:<br>projectbrief.md<br>activeContext.md<br>tasks.md<br>progress.md"]
+    
+    CoreFiles --> ContentCheck["Verify Content<br>Consistency"]
+    ContentCheck --> LastModified["Check Last Modified<br>Timestamps"]
+    LastModified --> CrossRef["Validate Cross-<br>References"]
+    
+    CrossRef --> ConsistencyCheck{"All Files<br>Consistent?"}
+    ConsistencyCheck -->|"Yes"| PassMB["✅ Memory Bank<br>Verification Passed"]
+    ConsistencyCheck -->|"No"| FailMB["❌ Memory Bank<br>Inconsistencies Found"]
+    
+    FailMB --> FixSuggestions["Generate Fix<br>Suggestions"]
+    
+    style MBVS fill:#4da6ff,stroke:#0066cc,color:white
+    style ConsistencyCheck fill:#f6546a,stroke:#c30052,color:white
+    style PassMB fill:#10b981,stroke:#059669,color:white
+    style FailMB fill:#ff5555,stroke:#dd3333,color:white
+```
+
+## 📋 TASK TRACKING VERIFICATION
+
+This process validates tasks.md as the single source of truth:
+
+```mermaid
+graph TD
+    TTV["Task Tracking<br>Verification"] --> CheckTasksFile["Check tasks.md<br>Existence & Format"]
+    CheckTasksFile --> VerifyReferences["Verify Task References<br>in Other Documents"]
+    VerifyReferences --> ProgressCheck["Check Consistency with<br>progress.md"]
+    ProgressCheck --> StatusCheck["Verify Task Status<br>Accuracy"]
+    
+    StatusCheck --> TaskConsistency{"Tasks Properly<br>Tracked?"}
+    TaskConsistency -->|"Yes"| PassTasks["✅ Task Tracking<br>Verification Passed"]
+    TaskConsistency -->|"No"| FailTasks["❌ Task Tracking<br>Issues Found"]
+    
+    FailTasks --> TaskFixSuggestions["Generate Task Tracking<br>Fix Suggestions"]
+    
+    style TTV fill:#4da6ff,stroke:#0066cc,color:white
+    style TaskConsistency fill:#f6546a,stroke:#c30052,color:white
+    style PassTasks fill:#10b981,stroke:#059669,color:white
+    style FailTasks fill:#ff5555,stroke:#dd3333,color:white
+```
+
+## 🔄 REFERENCE VALIDATION PROCESS
+
+This process ensures proper cross-referencing between documents:
+
+```mermaid
+graph TD
+    RV["Reference<br>Validation"] --> FindRefs["Find Cross-References<br>in Documents"]
+    FindRefs --> VerifyRefs["Verify Reference<br>Accuracy"]
+    VerifyRefs --> CheckBackRefs["Check Bidirectional<br>References"]
+    
+    CheckBackRefs --> RefConsistency{"References<br>Consistent?"}
+    RefConsistency -->|"Yes"| PassRefs["✅ Reference Validation<br>Passed"]
+    RefConsistency -->|"No"| FailRefs["❌ Reference<br>Issues Found"]
+    
+    FailRefs --> RefFixSuggestions["Generate Reference<br>Fix Suggestions"]
+    
+    style RV fill:#4da6ff,stroke:#0066cc,color:white
+    style RefConsistency fill:#f6546a,stroke:#c30052,color:white
+    style PassRefs fill:#10b981,stroke:#059669,color:white
+    style FailRefs fill:#ff5555,stroke:#dd3333,color:white
+```
+
+## 🚨 PHASE-SPECIFIC VALIDATION PROCESSES
+
+### NIKO Phase Validation
+
+```mermaid
+graph TD
+    NIKO["NIKO Phase<br>Validation"] --> InitCheck["Check Initialization<br>Completeness"]
+    InitCheck --> PlatformCheck["Verify Platform<br>Detection"]
+    PlatformCheck --> ComplexityCheck["Validate Complexity<br>Determination"]
+    
+    ComplexityCheck --> NIKOConsistency{"NIKO Phase<br>Complete?"}
+    NIKOConsistency -->|"Yes"| PassNIKO["✅ NIKO Phase<br>Validation Passed"]
+    NIKOConsistency -->|"No"| FailNIKO["❌ NIKO Phase<br>Issues Found"]
+    
+    style NIKO fill:#4da6ff,stroke:#0066cc,color:white
+    style NIKOConsistency fill:#f6546a,stroke:#c30052,color:white
+    style PassNIKO fill:#10b981,stroke:#059669,color:white
+    style FailNIKO fill:#ff5555,stroke:#dd3333,color:white
+```
+
+### PLAN Phase Validation
+
+```mermaid
+graph TD
+    PLAN["PLAN Phase<br>Validation"] --> PlanCheck["Check Planning<br>Documentation"]
+    PlanCheck --> TaskBreakdown["Verify Task<br>Breakdown"]
+    TaskBreakdown --> ScopeCheck["Validate Scope<br>Definition"]
+    
+    ScopeCheck --> PLANConsistency{"PLAN Phase<br>Complete?"}
+    PLANConsistency -->|"Yes"| PassPLAN["✅ PLAN Phase<br>Validation Passed"]
+    PLANConsistency -->|"No"| FailPLAN["❌ PLAN Phase<br>Issues Found"]
+    
+    style PLAN fill:#4da6ff,stroke:#0066cc,color:white
+    style PLANConsistency fill:#f6546a,stroke:#c30052,color:white
+    style PassPLAN fill:#10b981,stroke:#059669,color:white
+    style FailPLAN fill:#ff5555,stroke:#dd3333,color:white
+```
+
+### CREATIVE Phase Validation
+
+```mermaid
+graph TD
+    CREATIVE["CREATIVE Phase<br>Validation"] --> DesignCheck["Check Design<br>Documents"]
+    DesignCheck --> ArchCheck["Verify Architectural<br>Decisions"]
+    ArchCheck --> PatternCheck["Validate Design<br>Patterns"]
+    
+    PatternCheck --> CREATIVEConsistency{"CREATIVE Phase<br>Complete?"}
+    CREATIVEConsistency -->|"Yes"| PassCREATIVE["✅ CREATIVE Phase<br>Validation Passed"]
+    CREATIVEConsistency -->|"No"| FailCREATIVE["❌ CREATIVE Phase<br>Issues Found"]
+    
+    style CREATIVE fill:#4da6ff,stroke:#0066cc,color:white
+    style CREATIVEConsistency fill:#f6546a,stroke:#c30052,color:white
+    style PassCREATIVE fill:#10b981,stroke:#059669,color:white
+    style FailCREATIVE fill:#ff5555,stroke:#dd3333,color:white
+```
+
+### POST-BUILD Semantic Review (Primary QA Mode)
+
+QA now runs *after* BUILD mode as a semantic code review against the original plan:
+
+```mermaid
+graph TD
+    POSTBUILD["POST-BUILD<br>Semantic Review"] --> ReadPlan["Read Original Plan<br>from tasks.md"]
+    ReadPlan --> SevenChecks["Seven-Point Semantic<br>Review"]
+
+    SevenChecks --> KISS["1️⃣ KISS<br>Simplify over-engineering"]
+    SevenChecks --> DRY["2️⃣ DRY<br>Consolidate duplicates"]
+    SevenChecks --> YAGNI["3️⃣ YAGNI<br>Prune speculative code"]
+    SevenChecks --> Complete["4️⃣ COMPLETENESS<br>All requirements met?"]
+    SevenChecks --> Regression["5️⃣ REGRESSION<br>Patterns preserved?"]
+    SevenChecks --> Integrity["6️⃣ INTEGRITY<br>Debug artifacts removed?"]
+    SevenChecks --> Integration["7️⃣ INTEGRATION INSIGHT<br>(Advisory only)"]
+
+    KISS & DRY & YAGNI & Complete & Regression & Integrity --> ApplyFixes["Apply Fixes Directly"]
+    ApplyFixes --> ReTest["Re-run Tests"]
+    Integration --> Advisory["Flag for Operator"]
+    ReTest --> WriteStatus["Write .qa_validation_status"]
+
+    WriteStatus --> QAResult{"QA Result"}
+    QAResult -->|"PASS"| AllowReflect["Allow /reflect"]
+    QAResult -->|"FAIL"| ReturnBuild["Return to /build"]
+
+    style POSTBUILD fill:#4da6ff,stroke:#0066cc,color:white
+    style SevenChecks fill:#f6546a,stroke:#c30052,color:white
+    style QAResult fill:#f6546a,stroke:#c30052,color:white
     style AllowReflect fill:#10b981,stroke:#059669,color:white
     style ReturnBuild fill:#ff5555,stroke:#dd3333,color:white
-    style ReturnPlan fill:#ff5555,stroke:#dd3333,color:white
 ```
 
-## 🧭 SEMANTIC CONSTRAINTS DETAIL
+#### Semantic Constraint Details
 
-### 1️⃣ KISS — Keep It Simple
-Simplify over-engineered logic; flatten unnecessary abstractions or indirection layers introduced during the build. If a simpler construct achieves the same outcome, prefer it.
+1. **KISS** — Simplify over-engineered logic; flatten unnecessary abstractions introduced during build.
+2. **DRY** — Consolidate duplicate code and boilerplate from iterative development.
+3. **YAGNI** — Prune speculative code, unused parameters, and features not in the plan.
+4. **COMPLETENESS** — Verify every requirement was actually implemented, not stubbed or TODO'd.
+5. **REGRESSION** — Confirm no existing patterns were broken (naming, error handling, imports, structure).
+6. **INTEGRITY** — Remove debug artifacts, magic numbers, placeholder strings, hardcoded shortcuts.
+7. **INTEGRATION INSIGHT** *(advisory, does not block)* — Flag broader architectural simplifications visible only after implementation. Do not action; report to operator.
 
-### 2️⃣ DRY — Don't Repeat Yourself
-Consolidate duplicate code, boilerplate, or redundant patterns introduced during iterative development. Cross-reference new code against existing utilities and helpers.
+## 📋 UNIVERSAL VALIDATION COMMAND EXECUTION
 
-### 3️⃣ YAGNI — You Aren't Gonna Need It
-Prune speculative code, "just-in-case" variables, unused parameters, and features not explicitly required by the plan. If it wasn't asked for, it doesn't ship.
+### Memory Bank Verification Commands:
 
-### 4️⃣ COMPLETENESS
-Verify every requirement from the original plan was **actually implemented** — not stubbed, TODO'd, commented-as-pseudocode, or hand-waved. Treat any `// TODO` or placeholder introduced during this session as a blocking deficiency.
+```bash
+# Check Memory Bank file existence and recency
+ls -la memory-bank/
+find memory-bank/ -type f -mtime -7 | sort
 
-### 5️⃣ REGRESSION
-Confirm no existing architectural patterns were broken — naming conventions, casing, error handling strategies, import styles, file structure, and established abstractions must remain consistent.
+# Check for consistency between files
+grep -r "task" memory-bank/
+grep -r "requirement" memory-bank/
+```
 
-### 6️⃣ INTEGRITY
-Replace any hardcoded shortcuts, magic numbers, placeholder strings, or debug artifacts (`console.log`, `print("HERE")`) introduced as temporary scaffolding.
+### Task Tracking Verification Commands:
 
-### 7️⃣ INTEGRATION INSIGHT *(advisory — does not block)*
-Now that the change is implemented, examine whether it reveals a broader architectural simplification that wasn't visible from the plan alone. Flag it for the operator as a concrete recommendation for future work. **Do not action this.**
+```bash
+# Verify tasks.md as source of truth
+test -f tasks.md && echo "✅ tasks.md exists" || echo "❌ tasks.md missing"
 
-## 🔄 QA REVIEW WORKFLOW
+# Check references to tasks in other files
+grep -r "Task" --include="*.md" .
+grep -r "task" --include="*.md" . | grep -v "tasks.md" | wc -l
+
+# Verify task status consistency
+grep -i "completed\|done\|finished" tasks.md
+grep -i "in progress\|started" tasks.md
+```
+
+### Reference Validation Commands:
+
+```bash
+# Find cross-references between files
+grep -rE "see|refer|reference" --include="*.md" .
+
+# Check for broken references
+for file in $(grep -lE "see|refer|reference" --include="*.md" .); do
+  for ref in $(grep -o '[a-zA-Z0-9_-]*\.md' $file); do
+    test -f $ref || echo "❌ Broken reference: $ref in $file"
+  done
+done
+```
+
+## 📋 1️⃣ DEPENDENCY VERIFICATION PROCESS (Original)
+
+This validation point ensures all required packages are correctly installed.
+
+### Command Execution:
+
+```bash
+# Check if packages are installed
+npm list react react-dom tailwindcss postcss autoprefixer
+
+# Verify package versions match requirements
+npm list | grep -E "react|tailwind|postcss"
+
+# Check for peer dependency warnings
+npm ls --depth=0
+```
+
+### Validation Criteria:
+- All required packages must be installed
+- Versions must be compatible with requirements
+- No critical peer dependency warnings
+- Required dev dependencies must be present
+
+### Common Fixes:
+- `npm install [missing-package]` - Install missing packages
+- `npm install [package]@[version]` - Fix version mismatches
+- `npm install --save-dev [dev-dependency]` - Add development dependencies
+
+## 📝 2️⃣ CONFIGURATION VALIDATION PROCESS (Original)
+
+This validation point ensures configuration files are in the correct format for the project.
+
+### Command Execution:
+
+```bash
+# Check package.json for module type
+grep "\"type\":" package.json
+
+# Verify configuration file extensions match module type
+find . -name "*.config.*" | grep -E "\.(js|cjs|mjs)$"
+
+# Test configuration syntax
+node -c *.config.js || node -c *.config.cjs || node -c *.config.mjs
+```
+
+### Validation Criteria:
+- Configuration file extensions must match module type in package.json
+- File syntax must be valid
+- Configuration must reference installed packages
+
+### Common Fixes:
+- Rename `.js` to `.cjs` for CommonJS in ES module projects
+- Fix syntax errors in configuration files
+- Adjust configuration to reference installed packages
+
+## 🌐 3️⃣ ENVIRONMENT VALIDATION PROCESS (Original)
+
+This validation point ensures the development environment is correctly set up.
+
+### Command Execution:
+
+```bash
+# Check build tools 
+npm run --help
+
+# Verify node version compatibility
+node -v
+
+# Check for environment variables
+printenv | grep -E "NODE_|PATH|HOME"
+
+# Verify access permissions
+ls -la .
+```
+
+### Validation Criteria:
+- Node.js version must be compatible with requirements
+- Build commands must be defined in package.json
+- Environment must have necessary access permissions
+- Required environment variables must be set
+
+### Common Fixes:
+- Update Node.js version
+- Add missing scripts to package.json
+- Fix file permissions with chmod/icacls
+- Set required environment variables
+
+## 🔥 4️⃣ MINIMAL BUILD TEST PROCESS (Original)
+
+This validation point tests a minimal build to ensure basic functionality works.
+
+### Command Execution:
+
+```bash
+# Run a minimal build
+npm run build -- --dry-run || npm run dev -- --dry-run
+
+# Test entry point file existence
+find src -name "main.*" -o -name "index.*"
+
+# Validate HTML entry point
+grep -i "script.*src=" index.html
+```
+
+### Validation Criteria:
+- Build process must complete without errors
+- Entry point files must exist and be correctly referenced
+- HTML must reference the correct JavaScript entry point
+- Basic rendering must work in a test environment
+
+### Common Fixes:
+- Fix entry point references in HTML
+- Correct import paths in JavaScript
+- Fix build configuration errors
+- Update incorrect paths or references
+
+## 📊 ENHANCED COMPREHENSIVE QA REPORT FORMAT
+
+```
+╔═════════════════════════ 🔍 ENHANCED QA VALIDATION REPORT ═════════════════════╗
+│                                                                               │
+│ Project: [Project Name]               Date: [Current Date]                    │
+│ Platform: [OS Platform]               Detected Phase: [Current Phase]         │
+│                                                                               │
+│ ━━━━━━━━━━━━━━━━━━━━━━━━ UNIVERSAL VALIDATION RESULTS ━━━━━━━━━━━━━━━━━━━━━━━ │
+│                                                                               │
+│ 1️⃣ MEMORY BANK VERIFICATION                                                   │
+│    ✓ Core Files: [Status]                                                     │
+│    ✓ Content Consistency: [Status]                                            │
+│    ✓ Last Modified: [Status]                                                  │
+│                                                                               │
+│ 2️⃣ TASK TRACKING VERIFICATION                                                 │
+│    ✓ tasks.md Status: [Status]                                                │
+│    ✓ Task References: [Status]                                                │
+│    ✓ Status Consistency: [Status]                                             │
+│                                                                               │
+│ 3️⃣ REFERENCE VALIDATION                                                       │
+│    ✓ Cross-References: [Status]                                               │
+│    ✓ Reference Accuracy: [Status]                                             │
+│                                                                               │
+│ ━━━━━━━━━━━━━━━━━━━━━━━ PHASE-SPECIFIC VALIDATION ━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
+│                                                                               │
+│ [NIKO/PLAN/CREATIVE/BUILD] PHASE VALIDATION                                    │
+│    ✓ [Phase-specific check 1]: [Status]                                       │
+│    ✓ [Phase-specific check 2]: [Status]                                       │
+│    ✓ [Phase-specific check 3]: [Status]                                       │
+│                                                                               │
+│ [Technical validation section shown only for BUILD phase]                      │
+│                                                                               │
+│ ━━━━━━━━━━━━━━━━━━━━━━━━━━━ OVERALL STATUS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
+│                                                                               │
+│ ✅ VALIDATION PASSED - Project quality verified for current phase              │
+│                                                                               │
+╚═══════════════════════════════════════════════════════════════════════════════╝
+```
+
+## 🚫 ENHANCED FAILURE REPORT FORMAT
+
+If validation fails, a detailed failure report is generated:
+
+```
+╔═════════════════════════ ⚠️ QA VALIDATION FAILURES ═════════════════════════════╗
+│                                                                                 │
+│ Project: [Project Name]               Date: [Current Date]                      │
+│ Platform: [OS Platform]               Detected Phase: [Current Phase]           │
+│                                                                                 │
+│ ━━━━━━━━━━━━━━━━━━━━━━━━━━ FAILED CHECKS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
+│                                                                                 │
+│ ❌ MEMORY BANK ISSUES                                                           │
+│    • [Specific issue details]                                                   │
+│    • [Specific issue details]                                                   │
+│                                                                                 │
+│ ❌ TASK TRACKING ISSUES                                                         │
+│    • [Specific issue details]                                                   │
+│    • [Specific issue details]                                                   │
+│                                                                                 │
+│ ❌ REFERENCE ISSUES                                                             │
+│    • [Specific issue details]                                                   │
+│    • [Specific issue details]                                                   │
+│                                                                                 │
+│ ❌ [PHASE]-SPECIFIC ISSUES                                                      │
+│    • [Specific issue details]                                                   │
+│    • [Specific issue details]                                                   │
+│                                                                                 │
+│ ━━━━━━━━━━━━━━━━━━━━━━━━━━━ REQUIRED FIXES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
+│                                                                                 │
+│ 1. [Specific fix instruction with command]                                      │
+│ 2. [Specific fix instruction with command]                                      │
+│ 3. [Specific fix instruction with command]                                      │
+│                                                                                 │
+│ ⚠️ VALIDATION FAILED - Please resolve issues before proceeding                  │
+│                                                                                 │
+╚═════════════════════════════════════════════════════════════════════════════════╝
+```
+
+## 🔄 QA-ANYTIME ACTIVATION PROTOCOL
+
+The enhanced QA mode can be activated at any time in the development process:
 
 ```mermaid
 graph TD
-    Step1["1. Verify Prerequisites"] --> Step2["2. Read Original Plan<br>as Baseline"]
-    Step2 --> Step3["3. Read Creative Docs<br>(L3-4 only)"]
-    Step3 --> Step4["4. Review Implemented Code<br>Apply 7 Semantic Constraints"]
-    Step4 --> Step5["5. Apply Fixes Directly"]
-    Step5 --> Step6["6. Re-run Mechanical<br>Verification"]
-    Step6 --> Step7["7. Generate QA Report"]
-    Step7 --> Step8["8. Write .qa_validation_status"]
-
-    style Step1 fill:#4da6ff,stroke:#0066cc,color:white
-    style Step4 fill:#f6546a,stroke:#c30052,color:white
-    style Step5 fill:#ffa64d,stroke:#cc7a30,color:white
-    style Step8 fill:#10b981,stroke:#059669,color:white
+    Start["User Types: /qa"] --> DetectContext["Detect Current Context"]
+    DetectContext --> RunQA["Run QA with Context-Aware Checks"]
+    RunQA --> GenerateReport["Generate Appropriate QA Report"]
+    GenerateReport --> UserResponse["Present Report to User"]
+    
+    UserResponse --> FixNeeded{"Fixes<br>Needed?"}
+    FixNeeded -->|"Yes"| SuggestFixes["Display Fix Instructions"]
+    FixNeeded -->|"No"| ContinueWork["Continue Current Phase Work"]
+    
+    style Start fill:#4da6ff,stroke:#0066cc,color:white
+    style FixNeeded fill:#f6546a,stroke:#c30052,color:white
+    style SuggestFixes fill:#ff5555,stroke:#dd3333,color:white
+    style ContinueWork fill:#10b981,stroke:#059669,color:white
 ```
 
-## 📋 QA VALIDATION CHECKPOINT
-
-```
-✓ SECTION CHECKPOINT: QA SEMANTIC REVIEW
-- Original plan read as baseline? [YES/NO]
-- KISS/DRY/YAGNI checks applied? [YES/NO]
-- Completeness verified (no TODOs/stubs)? [YES/NO]
-- Regression check passed? [YES/NO]
-- Integrity verified (no debug artifacts)? [YES/NO]
-- All fixes applied and tests passing? [YES/NO]
-- .qa_validation_status written? [YES/NO]
-
-→ If all YES: Ready for REFLECT mode transition.
-→ If any NO: Fix identified issues and re-run /qa.
-```
-
-## 📊 QA REPORT FORMAT
-
-### Pass Report
-```
-╔═════════════════════ 🔍 QA SEMANTIC REVIEW REPORT ══════════════════╗
-│ PROJECT: [Project Name] | TIMESTAMP: [Current Date/Time]             │
-├──────────────────────────────────────────────────────────────────────┤
-│ 1️⃣ KISS: ✓ No over-engineering detected                              │
-│ 2️⃣ DRY: ✓ No duplicate code or redundant patterns                    │
-│ 3️⃣ YAGNI: ✓ No speculative code found                                │
-│ 4️⃣ COMPLETENESS: ✓ All plan requirements implemented                 │
-│ 5️⃣ REGRESSION: ✓ Existing patterns preserved                         │
-│ 6️⃣ INTEGRITY: ✓ No debug artifacts or placeholders                   │
-│ 7️⃣ INTEGRATION INSIGHT: [Advisory notes, if any]                     │
-├──────────────────────────────────────────────────────────────────────┤
-│ Corrections Applied: [N] findings fixed during review                │
-├──────────────────────────────────────────────────────────────────────┤
-│ 🚨 FINAL VERDICT: PASS                                               │
-│ ➡️ Clear to proceed to REFLECT mode                                  │
-╚══════════════════════════════════════════════════════════════════════╝
-```
-
-### Fail Report
-```
-⚠️⚠️⚠️ QA SEMANTIC REVIEW FAILED ⚠️⚠️⚠️
-
-The following issues require attention:
-
-1️⃣ KISS VIOLATIONS:
-- [Over-engineered logic or unnecessary abstractions]
-
-2️⃣ DRY VIOLATIONS:
-- [Duplicate code or redundant patterns]
-
-3️⃣ YAGNI VIOLATIONS:
-- [Speculative code or unused features]
-
-4️⃣ COMPLETENESS GAPS:
-- [Requirements not fully implemented, TODOs/stubs remaining]
-
-5️⃣ REGRESSION ISSUES:
-- [Broken patterns, naming inconsistencies]
-
-6️⃣ INTEGRITY ISSUES:
-- [Debug artifacts, magic numbers, placeholder strings]
-
-⚠️ REFLECT MODE IS BLOCKED until these issues are resolved.
-- For iterative fixes: Return to /build, then re-run /qa
-- For fundamental issues: Return to /plan for replanning
-```
-
-## 🚨 MODE TRANSITION
-
-### QA to REFLECT Transition (On Success)
-```
-✅ QA REVIEW COMPLETE
-All semantic checks passed
-You may now proceed to REFLECT mode
-Type '/reflect' to begin reflection
-```
-
-### QA to BUILD Transition (On Iterative Failure)
-```
-⚠️ QA SEMANTIC REVIEW FAILED
-Issues found that require implementation changes
-Return to BUILD mode to address findings
-Type '/build' to fix issues, then re-run '/qa'
-```
-
-### QA to PLAN Transition (On Fundamental Failure)
-```
-⚠️ QA SEMANTIC REVIEW FAILED — FUNDAMENTAL ISSUES
-The implementation reveals plan-level problems
-Return to PLAN mode for replanning
-Type '/plan' to revise the approach
-```
-
-## 🔒 REFLECT MODE GATE
-
-For Level 2+ tasks, the system prevents moving to REFLECT mode without passing QA review:
-
-```mermaid
-graph TD
-    Start["User Types: /reflect"] --> CheckLevel{"Complexity<br>Level?"}
-    CheckLevel -->|"Level 1"| AllowReflect["Allow REFLECT Mode"]
-    CheckLevel -->|"Level 2-4"| CheckQA{"QA Validation<br>Passed?"}
-    CheckQA -->|"Yes"| AllowReflect
-    CheckQA -->|"No or Not Run"| BlockReflect["BLOCK REFLECT MODE"]
-    BlockReflect --> Message["Display:<br>⚠️ QA REVIEW REQUIRED"]
-    Message --> ReturnToQA["Prompt: Type /qa"]
-
-    style CheckLevel fill:#f6546a,stroke:#c30052,color:white
-    style CheckQA fill:#f6546a,stroke:#c30052,color:white
-    style BlockReflect fill:#ff0000,stroke:#990000,color:white,stroke-width:3px
-    style Message fill:#ff5555,stroke:#dd3333,color:white
-    style ReturnToQA fill:#4da6ff,stroke:#0066cc,color:white
-```
-
-**Next Step (on PASS):** Proceed to `/reflect` command.
-**Next Step (on FAIL - iterate):** Return to `/build` to fix issues, then re-run `/qa`.
-**Next Step (on FAIL - replan):** Return to `/plan` for fundamental issues.
+This enhanced QA mode serves as a "quality guardian" throughout the development process, ensuring documentation is consistently maintained and all phase requirements are met before proceeding to the next phase. 

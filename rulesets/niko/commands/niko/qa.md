@@ -25,8 +25,8 @@ Updates:
 
 ### Step 1: Load Core Rules
 ```
-Load: rulesets/niko/niko/main.mdc
-Load: rulesets/niko/niko/Core/memory-bank-paths.mdc
+Load: .cursor/rules/shared/niko/main.mdc
+Load: .cursor/rules/shared/niko/Core/memory-bank-paths.mdc
 ```
 
 ### Step 2: Load Complexity-Specific Rules
@@ -34,12 +34,12 @@ Based on complexity level from `memory-bank/tasks.md`:
 
 **Level 2:**
 ```
-Load: rulesets/niko/niko/Level2/workflow-level2.mdc
+Load: .cursor/rules/shared/niko/Level2/workflow-level2.mdc
 ```
 
 **Level 3-4:**
 ```
-Load: rulesets/niko/niko/Level3/workflow-level3.mdc
+Load: .cursor/rules/shared/niko/Level3/workflow-level3.mdc
 ```
 
 ## Workflow
@@ -89,10 +89,18 @@ Type `/qa` after implementation to review the build against the original plan.
 /build → /qa → /reflect
 ```
 
+## Output to Operator
+
+When QA review is complete, print:
+1. **QA result** — PASS or FAIL (with reason category: iterate or replan)
+2. **Findings** — bulleted list of each semantic finding and the fix applied (or why it blocks)
+3. **Integration Insight** (if any) — advisory recommendations surfaced during review
+4. **Next command** — `/reflect`, re-run `/qa`, or return to `/build` or `/plan`
+
 ## Next Steps
 
 - **On PASS**: Proceed to `/reflect` command for task review
 - **On FAIL (iterate)**: Return to `/build` to fix issues, then re-run `/qa`
 - **On FAIL (replan)**: Return to `/plan` if fundamental issues discovered
 
-**Note**: REFLECT mode is blocked for Level 2+ tasks until QA validation passes. The system checks `memory-bank/.qa_validation_status` before allowing REFLECT mode access.
+Workflow routing is governed by the loaded level-specific workflow rules.

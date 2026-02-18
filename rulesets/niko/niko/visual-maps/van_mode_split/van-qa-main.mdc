@@ -1,91 +1,107 @@
 ---
-description: Visual process map for QA mode (Post-Build Semantic Review Entry Point)
+description: Visual process map for NIKO QA mode (Technical Validation Entry Point)
 globs: van-qa-main.mdc
 alwaysApply: false
 ---
-# QA MODE: POST-BUILD SEMANTIC REVIEW (Main Entry)
+# NIKO MODE: QA TECHNICAL VALIDATION (Main Entry)
 
-> **TL;DR:** This is the entry point for the QA semantic review process that executes *after* BUILD mode and *before* REFLECT mode. It ensures the implementation matches the original plan, follows best practices, and contains no implementation debris.
+> **TL;DR:** This is the entry point for the QA semantic review process that executes *after* BUILD mode. It performs a structured review of implemented code against the original plan, catching over-engineering, incomplete implementations, and pattern violations. Required for L2+ tasks; gates `/reflect`.
 
 ## 🚀 QA MODE ACTIVATION
 
-After completing BUILD mode (L2+), when the user types "/qa", respond:
+After completing BUILD mode, when the user types "/qa", respond:
 
 ```mermaid
 graph TD
-    UserQA["User Types: /qa"] --> CheckBuild{"Build Phase<br>Complete?"}
-    CheckBuild -->|"Yes"| LoadQA["Load QA Semantic Review"]
-    CheckBuild -->|"No"| PromptBuild["Prompt: Complete /build first"]
-    LoadQA --> ReadBaseline["Read Original Plan<br>& Creative Docs"]
-    ReadBaseline --> RunReview["Execute Semantic Review"]
-    RunReview --> QAResults{"QA Results"}
-
-    QAResults -->|"PASS"| AllowReflect["Allow /reflect transition"]
-    QAResults -->|"FAIL (iterate)"| ReturnBuild["Return to /build"]
-    QAResults -->|"FAIL (replan)"| ReturnPlan["Return to /plan"]
-
+    UserQA["User Types: /qa"] --> HighPriority["⚠️ HIGH PRIORITY COMMAND"]
+    HighPriority --> CurrentTask["Pause Current Task/Process"]
+    CurrentTask --> LoadQA["Load QA Main Map (This File)"]
+    LoadQA --> RunQA["Execute QA Validation Process"]
+    RunQA --> QAResults{"QA Results"}
+    
+    QAResults -->|"PASS"| ResumeFlow["Resume Prior Process Flow"]
+    QAResults -->|"FAIL"| FixIssues["Fix Identified Issues"]
+    FixIssues --> ReRunQA["Re-run QA Validation"]
+    ReRunQA --> QAResults
+    
     style UserQA fill:#f8d486,stroke:#e8b84d,color:black
-    style CheckBuild fill:#f6546a,stroke:#c30052,color:white
+    style HighPriority fill:#ff0000,stroke:#cc0000,color:white,stroke-width:3px
     style LoadQA fill:#4da6ff,stroke:#0066cc,color:white
-    style RunReview fill:#4da6ff,stroke:#0066cc,color:white
+    style RunQA fill:#4da6ff,stroke:#0066cc,color:white
     style QAResults fill:#f6546a,stroke:#c30052,color:white
-    style AllowReflect fill:#10b981,stroke:#059669,color:white
 ```
 
-## 🔍 SEMANTIC REVIEW PROCESS
+### QA Interruption Rules
 
-The QA review applies seven semantic constraints to the implemented code:
+1. **Immediate Precedence:** `QA` command interrupts everything.
+2. **Load & Execute:** Load this map (`van-qa-main.mdc`) and its components (see below).
+3. **Remediation Priority:** Fixes take priority over pending mode switches.
+4. **Resume:** On PASS, resume the previous flow.
+
+```
+⚠️ QA OVERRIDE ACTIVATED
+All other processes paused
+QA validation checks now running...
+Any issues found MUST be remediated before continuing with normal process flow
+```
+
+## 🔍 SEMANTIC REVIEW OVERVIEW
+
+Seven-point semantic review process:
 
 ```mermaid
 graph TD
-    Start["Begin QA<br>Semantic Review"] --> ReadPlan["1. Read Original Plan<br>from tasks.md"]
-    ReadPlan --> ReadCreative["2. Read Creative Docs<br>(L3-4 only)"]
-    ReadCreative --> ReviewCode["3. Review Implemented Code<br>Against Plan"]
+    QA["QA MODE"] --> ReadPlan["Read Original Plan<br>from tasks.md"]
+    ReadPlan --> SevenChecks["SEVEN-POINT SEMANTIC REVIEW"]
 
-    ReviewCode --> KISS["KISS: Simplify<br>over-engineering"]
-    ReviewCode --> DRY["DRY: Consolidate<br>duplicates"]
-    ReviewCode --> YAGNI["YAGNI: Prune<br>speculative code"]
-    ReviewCode --> Completeness["Completeness: Verify<br>all requirements met"]
-    ReviewCode --> Regression["Regression: Check<br>patterns preserved"]
-    ReviewCode --> Integrity["Integrity: Remove<br>debug artifacts"]
+    SevenChecks --> KISS["1️⃣ KISS: Simplify over-engineering"]
+    SevenChecks --> DRY["2️⃣ DRY: Consolidate duplicates"]
+    SevenChecks --> YAGNI["3️⃣ YAGNI: Prune speculative code"]
+    SevenChecks --> Complete["4️⃣ COMPLETENESS: All requirements met?"]
+    SevenChecks --> Regression["5️⃣ REGRESSION: Patterns preserved?"]
+    SevenChecks --> Integrity["6️⃣ INTEGRITY: Debug artifacts removed?"]
+    SevenChecks --> Integration["7️⃣ INTEGRATION INSIGHT (Advisory)"]
 
-    KISS & DRY & YAGNI & Completeness & Regression & Integrity --> ApplyFixes["4. Apply Fixes Directly"]
-    ApplyFixes --> ReTest["5. Re-run Tests"]
-    ReTest --> IntegrationInsight["6. Integration Insight<br>(Advisory Only)"]
-    IntegrationInsight --> WriteStatus["7. Write .qa_validation_status"]
+    KISS & DRY & YAGNI & Complete & Regression & Integrity --> ApplyFixes["Apply Fixes Directly"]
+    ApplyFixes --> ReTest["Re-run Tests"]
+    Integration --> Advisory["Flag for Operator"]
+    ReTest --> WriteStatus["Write .qa_validation_status"]
 
-    style Start fill:#4da6ff,stroke:#0066cc,color:white
-    style ReviewCode fill:#f6546a,stroke:#c30052,color:white
-    style ApplyFixes fill:#ffa64d,stroke:#cc7a30,color:white
-    style WriteStatus fill:#10b981,stroke:#059669,color:white
+    WriteStatus --> QAResult{"QA Result"}
+    QAResult -->|"PASS"| AllowReflect["Allow /reflect"]
+    QAResult -->|"FAIL"| ReturnBuild["Return to /build"]
+
+    style QA fill:#4da6ff,stroke:#0066cc,color:white
+    style SevenChecks fill:#f6546a,stroke:#c30052,color:white
+    style QAResult fill:#f6546a,stroke:#c30052,color:white
+    style AllowReflect fill:#10b981,stroke:#059669,color:white
+    style ReturnBuild fill:#ff5555,stroke:#dd3333,color:white
 ```
 
-### Semantic Constraints Detail
+## 📋 COMPONENT LOADING SEQUENCE
 
-1. **KISS**: Simplify over-engineered logic; flatten unnecessary abstractions or indirection layers introduced during the build.
-2. **DRY**: Consolidate duplicate code, boilerplate, or redundant patterns. Cross-reference against existing utilities.
-3. **YAGNI**: Prune speculative code, "just-in-case" variables, unused parameters, and features not in the plan.
-4. **Completeness**: Verify every requirement was **actually implemented** — not stubbed, TODO'd, or hand-waved.
-5. **Regression**: Confirm no existing patterns were broken — naming, casing, error handling, imports, file structure.
-6. **Integrity**: Replace hardcoded shortcuts, magic numbers, placeholder strings, and debug artifacts.
-7. **Integration Insight** *(advisory — does not block)*: Flag broader architectural simplifications revealed by the implementation.
+The QA process uses these utilities as needed:
 
-## 📋 QA VALIDATION CHECKPOINT
+1. **Main Entry (This File)**: `van-qa-main.mdc`
+2. **Utilities (As Needed)**:
+   - `van-qa-utils/reports.mdc` — Report generation
+   - `van-qa-utils/common-fixes.mdc` — Common fix patterns
+   - `van-qa-utils/mode-transitions.mdc` — Mode transition logic
+
+## 📋 FINAL QA CHECKPOINT
 
 ```
 ✓ SECTION CHECKPOINT: QA SEMANTIC REVIEW
-- Original plan read as baseline? [YES/NO]
-- KISS/DRY/YAGNI checks applied? [YES/NO]
-- Completeness verified (no TODOs/stubs)? [YES/NO]
-- Regression check passed? [YES/NO]
-- Integrity verified (no debug artifacts)? [YES/NO]
-- All fixes applied and tests passing? [YES/NO]
-- .qa_validation_status written? [YES/NO]
+- KISS: Over-engineering addressed? [YES/NO]
+- DRY: Duplicates consolidated? [YES/NO]
+- YAGNI: Speculative code pruned? [YES/NO]
+- COMPLETENESS: All requirements met? [YES/NO]
+- REGRESSION: Patterns preserved? [YES/NO]
+- INTEGRITY: Debug artifacts removed? [YES/NO]
 
-→ If all YES: Ready for REFLECT mode transition.
-→ If any NO: Fix identified issues and re-run /qa.
+→ If all YES: Write PASS to .qa_validation_status, proceed to /reflect.
+→ If any NO: Fix issues and re-run /qa.
 ```
 
-**Next Step (on PASS):** Proceed to `/reflect` command.
-**Next Step (on FAIL - iterate):** Return to `/build` to fix issues, then re-run `/qa`.
-**Next Step (on FAIL - replan):** Return to `/plan` for fundamental issues.
+**Next Step (on PASS):** Proceed to `/reflect` (load `van-qa-utils/mode-transitions.mdc`).
+**Next Step (on FAIL):** Address issues (load `van-qa-utils/common-fixes.mdc`) and re-run `/qa`. 

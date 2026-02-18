@@ -237,14 +237,7 @@ graph TD
     WriteStatus --> PreflightComplete["L4 Preflight<br>Complete"]
 ```
 
-**Steps:**
-1. Read the architectural plan and all creative phase documents
-2. Verify convention compliance against `systemPatterns.md` and `style-guide.md`
-3. Trace system-wide dependency impacts through the architecture
-4. Detect conflicts with existing implementations across all subsystems
-5. Verify completeness — all requirements have concrete implementation paths
-6. Assess integration elegance (advisory, not blocking)
-7. Write validation status to `memory-bank/.preflight_status`
+**Execution:** Run `/preflight` — see the preflight command for detailed procedure.
 
 **Milestone Checkpoint:**
 ```
@@ -328,14 +321,7 @@ graph TD
     WriteStatus --> QAComplete["L4 QA Review<br>Complete"]
 ```
 
-**Steps:**
-1. Read original architectural plan and all creative phase documents
-2. Review all implemented code against plan using semantic constraints: KISS, DRY, YAGNI, Completeness, Regression, Integrity
-3. Apply fixes directly for each finding across all implementation phases
-4. Re-run integration and system tests after fixes
-5. Assess integration insight (advisory — surface for operator)
-6. Write validation status to `memory-bank/.qa_validation_status`
-7. Update `memory-bank/tasks.md` with QA results
+**Execution:** Run `/qa` — see the QA command for detailed procedure.
 
 **Milestone Checkpoint:**
 ```

@@ -1,0 +1,11 @@
+PASS
+
+QA Semantic Review — 2026-02-18
+Task: niko-preflight-qa (rework)
+
+Findings:
+1. [FIXED] Path convention inconsistency in preflight.md and qa.md — used `rulesets/niko/niko/...` instead of `.cursor/rules/shared/niko/...`. Corrected to match convention used by plan.md, build.md, reflect.md, archive.md.
+
+Advisory (not blocking):
+2. [ADVISORY] Both van-mode-map.mdc files retain ~580 lines of old pre-build QA content (four-point validation, PowerShell/Bash implementations, old report formats) below the surgical edits. This is inherited from main and was intentionally preserved per P0 to keep diffs reviewable. A future PR should either migrate this content to a preflight visual map or remove it entirely.
+3. [ADVISORY] .cursor/rules/shared/ copies need syncing from rulesets/ source. This is a mechanical step, not a semantic issue.

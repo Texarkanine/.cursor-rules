@@ -99,6 +99,14 @@ Load: .cursor/rules/shared/niko/Level4/reflection-comprehensive.mdc
 
 Type `/reflect` to start reflection on the completed task.
 
+## Output to Operator
+
+When reflection is complete, print:
+1. **Reflection summary** — what went well, key challenges, and lessons learned (one line each)
+2. **Process improvements** (if any) — concrete suggestions for future tasks
+3. **Reflection document location** — path to the created reflection file
+4. **Next command** — `/archive`
+
 ## Next Steps
 
 After reflection complete, proceed to `/archive` command to finalize task documentation.

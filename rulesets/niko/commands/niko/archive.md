@@ -128,18 +128,7 @@ Links to related documents (reflection, creative phases, etc.)
 
 After creating the archive document, clear all task-specific files:
 
-**Remove files in directories:**
-- Delete all files in `memory-bank/creative/` directory
-- Delete all files in `memory-bank/reflection/` directory
-
-**Remove files:**
-- Delete `memory-bank/.qa_validation_status` if it exists
-- Delete `memory-bank/.preflight_status` if it exists
-
-**Reset files to initial state:**
-- `memory-bank/tasks.md` - Clear content, reset to empty template
-- `memory-bank/progress.md` - Clear content, reset to empty template
-- `memory-bank/activeContext.md` - Clear content, reset to empty template
+Clear all ephemeral files listed in the "Clears" section above: remove directory contents, delete dotfiles, and reset template files to empty state.
 
 ### 4. Git Commit (REQUIRED)
 
@@ -185,6 +174,14 @@ git log -1 --oneline && git status --short memory-bank/
 - No unstaged changes in memory-bank/
 
 If verification fails, complete the missing steps before responding.
+
+## Output to Operator
+
+When archiving is complete, print:
+1. **Archive location** — full path to the created archive document
+2. **Git commit** — the commit hash and message from `git log -1 --oneline`
+3. **Cleared files** — confirmation that all ephemeral files were reset
+4. **Next command** — `/niko` to start a new task
 
 ## Next Steps
 

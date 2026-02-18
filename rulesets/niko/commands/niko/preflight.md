@@ -24,9 +24,9 @@ Updates:
 
 ### Step 1: Load Core Rules
 ```
-Load: rulesets/niko/niko/main.mdc
-Load: rulesets/niko/niko/Core/memory-bank-paths.mdc
-Load: rulesets/niko/niko/Core/command-execution.mdc
+Load: .cursor/rules/shared/niko/main.mdc
+Load: .cursor/rules/shared/niko/Core/memory-bank-paths.mdc
+Load: .cursor/rules/shared/niko/Core/command-execution.mdc
 ```
 
 ### Step 2: Load Complexity-Specific Rules
@@ -34,12 +34,12 @@ Based on complexity level from `memory-bank/tasks.md`:
 
 **Level 3:**
 ```
-Load: rulesets/niko/niko/Level3/planning-comprehensive.mdc
+Load: .cursor/rules/shared/niko/Level3/planning-comprehensive.mdc
 ```
 
 **Level 4:**
 ```
-Load: rulesets/niko/niko/Level4/architectural-planning.mdc
+Load: .cursor/rules/shared/niko/Level4/architectural-planning.mdc
 ```
 
 ## Workflow
@@ -94,6 +94,14 @@ Type `/preflight` to validate the implementation plan before building. Required 
 /plan → /creative → /preflight → /build
 ```
 
+## Output to Operator
+
+When preflight validation is complete, print:
+1. **Validation result** — PASS, PASS with ADVISORY, or FAIL (with reason category)
+2. **Findings summary** — bulleted list of each finding with severity
+3. **Advisory items** (if any) — concrete recommendations the operator can evaluate
+4. **Next command** — the specific next command to run (`/build`, re-run `/preflight`, or return to `/plan`)
+
 ## Next Steps
 
 - **On PASS**: Proceed to `/build` command for implementation
@@ -101,4 +109,4 @@ Type `/preflight` to validate the implementation plan before building. Required 
 - **On FAIL (rearchitect)**: Return to `/plan` to revise the approach
 - **On FAIL (fixable)**: Address findings and re-run `/preflight`
 
-**Note**: BUILD mode is blocked for Level 3+ tasks until preflight validation passes. The system checks `memory-bank/.preflight_status` before allowing BUILD mode access for these tasks.
+Workflow routing is governed by the loaded level-specific workflow rules.

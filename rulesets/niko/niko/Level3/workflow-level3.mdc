@@ -222,14 +222,7 @@ graph TD
     style PreflightComplete fill:#fff176,stroke:#fdd835
 ```
 
-  * **Steps:**
-    1.  Read the implementation plan from `tasks.md` and all creative decision documents.
-    2.  **Convention Compliance**: Verify proposed file locations, naming, and patterns match `systemPatterns.md` and `style-guide.md`.
-    3.  **Dependency Impact**: Trace touchpoints through the dependency graph, identify unaccounted downstream impacts.
-    4.  **Conflict Detection**: Search for overlapping implementations or duplication-in-waiting.
-    5.  **Completeness Precheck**: Verify all requirements have concrete implementation paths and planned test coverage.
-    6.  **Integration Elegance** (advisory): Flag opportunities for cleaner integration if the requirement were foundational.
-    7.  Write validation status to `memory-bank/.preflight_status` and update `tasks.md`.
+  * **Execution:** Run `/preflight` — see the preflight command for detailed procedure.
   * **Milestone Checkpoint:**
     ```
     ✓ L3 PREFLIGHT VALIDATION CHECKPOINT
@@ -310,12 +303,7 @@ graph TD
     style QAComplete fill:#ffb74d,stroke:#ff9800
 ```
 
-  * **Steps:**
-    1.  Read original plan and creative docs to establish review baseline.
-    2.  Review all implemented code against plan using semantic constraints: KISS, DRY, YAGNI, Completeness, Regression, Integrity.
-    3.  Apply fixes directly for each finding; re-run tests after each fix.
-    4.  **Integration Insight** (advisory): Flag any broader architectural simplifications revealed by implementation.
-    5.  Write validation status to `memory-bank/.qa_validation_status` and update `tasks.md`.
+  * **Execution:** Run `/qa` — see the QA command for detailed procedure.
   * **Milestone Checkpoint:**
     ```
     ✓ L3 QA REVIEW CHECKPOINT
