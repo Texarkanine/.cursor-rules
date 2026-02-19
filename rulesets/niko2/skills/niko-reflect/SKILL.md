@@ -46,7 +46,9 @@ Ask the operator for clarification, and wait for their instructions. You're done
 
 3. **Extract Actionable Insights**
 
-    Every reflection must produce at least ONE concrete, actionable improvement. Not "we should plan better" - but "next time a task touches the auth module, check the session middleware first because it has implicit coupling to the route guards." If nothing went wrong, the insight might be "this is a case-study of how to do this kind of task successfully!"
+    Search hard for genuine insights - but do not reach. A forced insight pollutes the archive; an honest "nothing notable" is better than a manufactured lesson. The bar is: would this observation change how you approach a future task? If yes, write it down. If you're stretching to find something, leave the section empty.
+
+    When insights do surface, they can be raw observations ("the auth module's session middleware has implicit coupling to route guards - this bit us") or concrete recommendations ("next time, check session middleware first"). Both are valuable. Patterns may only become actionable after several reflections reveal the same friction point.
 
     Categorize insights as:
     - **Technical**: patterns discovered, gotchas in the codebase, library behaviors, architectural observations
