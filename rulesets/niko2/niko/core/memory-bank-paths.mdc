@@ -27,3 +27,12 @@ These files contain relatively stable information and persist across tasks to gu
 * **QA Validation Status:** `memory-bank/.qa-validation-status` - Task-specific QA validation status file (created by `/qa`, gates `/reflect` for L2+ tasks)
 
 **Verification Mandate:** Before any `create_file` or `edit_file` operation on these core files, verify the path starts with `memory-bank/`. If attempting to create a new core file (e.g., `tasks.md` at the start of a project), ensure it is created at `memory-bank/tasks.md`.
+
+## Level-Specific Niko Workflows
+
+Tasks are categorized into different levels of complexity. Each level has a specific workflow that guides the task through the different phases, and specific implementations of those phases. Phase execution and mappings must always be done as specified by the workflow that applies to the current task's complexity level.
+
+- Level 1: `.cursor/rules/shared/niko/level1/level1-workflow.mdc`
+- Level 2: `.cursor/rules/shared/niko/level2/level2-workflow.mdc`
+- Level 3: `.cursor/rules/shared/niko/level3/level3-workflow.mdc`
+- Level 4: `.cursor/rules/shared/niko/level4/level4-workflow.mdc`

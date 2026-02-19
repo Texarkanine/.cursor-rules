@@ -97,33 +97,18 @@ Create a stub file with the task name. Do **not** populate checklists yet — th
 
 Include a brief summary of the work to be done as described in the project brief - you've just *completed* complexity analysis!
 
-## Load Workflow
+## Next Steps
 
-After writing the determination inform the user:
+After writing the determination, inform the user:
 
 ```markdown
 ✅ **Complexity Analysis Complete** - Level N determined.
 Loading Level N workflow...
 ```
 
-Then, load the level-specific workflow and follow the instructions you fi nd.
+Then, load the level-specific workflow and proceed to the next phase as specified by that document.
 
-| Level | Workflow |
-|-------|----------|
-| 1 | `.cursor/rules/shared/niko/level1/level1-workflow.mdc` |
-| 2 | `.cursor/rules/shared/niko/level2/level2-workflow.mdc` |
-| 3 | `.cursor/rules/shared/niko/level3/level3-workflow.mdc` |
-| 4 | `.cursor/rules/shared/niko/level4/level4-workflow.mdc` |
-
-## Complexity Escalation
-
-If during a task you discover it's more complex than initially determined:
-
-```
-⚠️ TASK ESCALATION NEEDED
-Current Level: Level [X]
-Recommended Level: Level [Y]
-Reason: [Brief explanation]
-```
-
-Ask the user before escalating. If approved, reload the appropriate workflow.
+- Level 1: `.cursor/rules/shared/niko/level1/level1-workflow.mdc`
+- Level 2: `.cursor/rules/shared/niko/level2/level2-workflow.mdc`
+- Level 3: `.cursor/rules/shared/niko/level3/level3-workflow.mdc`
+- Level 4: `.cursor/rules/shared/niko/level4/level4-workflow.mdc`

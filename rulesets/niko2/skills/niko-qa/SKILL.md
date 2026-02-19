@@ -1,14 +1,11 @@
+---
+name: niko-qa
+description: Niko Memory Bank System - QA Phase - Post-Implementation Semantic Review
+---
+
 # QA Phase - Post-Implementation Semantic Review
 
 This command performs a structured semantic review of the code just implemented against the original plan. It catches over-engineering, incomplete implementations, pattern violations, and implementation debris that mechanical checks (lint/build/test) cannot detect.
-
-## Memory Bank Integration
-
-Will Create:
-- `memory-bank/.qa_validation_status` - Validation status file (PASS/FAIL)
-
-Will Update:
-- `memory-bank/progress.md` - QA outcomes
 
 ## Step 1: Load Memory Bank Files
 
@@ -96,4 +93,4 @@ When QA review is complete, print:
 
 If operator input is required, stop and wait for them.
 
-If operator input is not required, proceed to the next Phase as specified by the current complexity-level's workflow.
+If operator input is not required, load the appropriate complexity level-specific Niko workflkow file and proceed to the next Phase as specified by that document.

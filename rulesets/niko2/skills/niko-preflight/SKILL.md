@@ -1,14 +1,11 @@
+---
+name: niko-preflight
+description: Niko Memory Bank System - Preflight Phase - Pre-Build Plan Validation
+---
+
 # Preflight Phase - Pre-Build Plan Validation
 
 This command validates the implementation plan against codebase reality before any code is written. It catches design oversights, convention conflicts, and integration issues that would otherwise surface during or after the build.
-
-## Memory Bank Integration
-
-Will Create:
-- `memory-bank/.preflight_status` - Validation status file (PASS/FAIL/ADVISORY)
-
-Will Update:
-- `memory-bank/tasks.md` - Records preflight findings and any plan amendments
 
 ## Step 1: Load Memory Bank Files
 
@@ -103,4 +100,4 @@ Run `/build` to implement the plan.
 
 If operator input is required, stop and wait for them.
 
-If operator input is not required, proceed to the next Phase as specified by the current complexity-level's workflow.
+If operator input is not required, load the appropriate complexity level-specific Niko workflkow file then proceed to the next Phase as specified by that document.

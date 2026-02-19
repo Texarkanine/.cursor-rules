@@ -16,8 +16,8 @@ graph LR
     NikoPreflight -->|"FAIL"| ManPlan[/"🧑‍💻 /plan"/]
 
     NikoBuild --> NikoQA{"🐱 qa"}
-    NikoQA -.->|"PASS"| ManReflect[/"🧑‍💻 /reflect"/]
-    ManReflect -.-> ManArchive[/"🧑‍💻 /archive"/]
+    NikoQA -->|"PASS"| NikoReflect["🐱 reflect"]
+    NikoReflect -.-> ManArchive[/"🧑‍💻 /archive"/]
     NikoQA -->|"FAIL (fixable)"| NikoBuild
     NikoQA -->|"FAIL (rearchitect)"| ManPlan
 
@@ -30,27 +30,26 @@ graph LR
 > - Solid edge = Transition does not require operator input
 > - Dashed edge = Transition requires operator input
 
+The following phase transitions require operator input; if you have arrived at one of these transitions, STOP and wait! You're done for now.
 
-## Plan Phase
+- Reflect -> Archive
+- Preflight FAIL -> Plan
+- QA FAIL (rearchitect) -> Plan
 
-Load `.cursor/rules/shared/niko/level2/level2-plan.mdc` and follow the instructions.
+## Change Tracking
 
-## Preflight Phase
+🚨 **CRITICAL:** Before entering a new phase, you MUST update `memory-bank/progress.md` and commit all changes to source control:
 
-Load `.cursor/commands/shared/niko/preflight.md` and follow the instructions.
+1. Update `memory-bank/progress.md` to indicate completion of the phase you are leaving.
+2. Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: saving work before [phase] phase`.
 
-## Build Phase
+## Phase Mappings
 
-Load `.cursor/rules/shared/niko/level2/level2-build.mdc` and follow the instructions.
+To execute a phase for a level 2 task, read and follow the instructions in the appropriate location:
 
-## QA Phase
-
-Load `.cursor/commands/shared/niko/qa.md` and follow the instructions.
-
-## Reflect Phase
-
-Load `.cursor/rules/shared/niko/reflect.md` and follow the instructions.
-
-## Archive Phase
-
-Load `.cursor/rules/shared/niko/archive.md` and follow the instructions.
+- **Plan Phase**: Load `.cursor/rules/shared/niko/level2/level2-plan.mdc`
+- **Preflight Phase**: Invoke the `niko-preflight` skill
+- **Build Phase**: Load `.cursor/rules/shared/niko/level2/level2-build.mdc`
+- **QA Phase**: Invoke the `niko-qa` skill
+- **Reflect Phase**: Invoke the `niko-reflect` skill
+- **Archive Phase**: Invoke the `niko-archive` skill

@@ -1,3 +1,104 @@
 ---
-alwaysApply: true
+alwaysApply: false
 ---
+
+# Build Phase - Level 2: Simple Enhancement
+
+This document executes the implementation plan produced by the Level 2 Plan phase. It follows the plan step-by-step, applying TDD for each implementation step, and tracks progress in the memory bank.
+
+## Step 1: Load Memory Bank Files
+
+Read:
+- `memory-bank/tasks.md`
+- `memory-bank/activeContext.md`
+- `memory-bank/projectbrief.md`
+- `memory-bank/systemPatterns.md`
+- `memory-bank/progress.md`
+
+## Step 2: Verify Prerequisites
+
+- Confirm `memory-bank/.preflight_status` exists and contains `PASS` or `PASS WITH ADVISORY`
+- Confirm `memory-bank/tasks.md` contains a complete implementation plan (produced by the Plan phase)
+- Confirm the task's test plan is present: behaviors to verify, test infrastructure, and test file mapping
+
+🚨 If preflight has not passed: STOP - invoke the `niko-preflight` skill and proceed as instructed there.
+🚨 If the implementation plan is missing or incomplete: STOP - invoke the `niko-plan` skill and proceed as instructed there.
+
+## Step 3: Execute Implementation
+
+Work through the implementation plan in `memory-bank/tasks.md` **in order**. For each step:
+
+1. Follow the defined TDD process: stub tests → stub interface → write tests → run tests (expect red) → write code → run tests (expect green)
+2. After each step passes, update `memory-bank/tasks.md` to check off the completed step
+3. If a step fails in a way the plan did not anticipate, stop and assess:
+   - **Recoverable** (typo, minor misunderstanding of API): fix and continue
+   - **Plan deficiency** (wrong approach, missing dependency, broken assumption): FAIL - the plan needs revision
+
+Do not skip steps. Do not reorder steps. The plan was validated by preflight; trust the sequence.
+
+## Step 4: Verify Completion
+
+When all implementation steps are checked off:
+
+1. Run the full test suite (not just new tests) to confirm no regressions
+2. Run lint and build to confirm mechanical correctness
+3. Verify every behavior from the test plan has a passing test
+
+## Step 5: Update Memory Bank
+
+1. Update `memory-bank/tasks.md`: mark Build phase complete in the Status section
+2. Update `memory-bank/activeContext.md` with:
+   - Files created or modified (absolute paths)
+   - Key implementation decisions made during build
+   - Any deviations from the plan and why
+
+## Output to Operator
+
+When build is complete, print:
+
+### PASS
+
+~~~markdown
+# Build Result
+
+✅ PASS - Level 2
+
+## Summary
+
+- **Implementation steps completed**: [X/X]
+- **Tests passing**: [count] (including [count] new)
+- **Files modified**: [list]
+
+## Deviations from Plan
+
+[Any deviations and rationale, or "None - built to plan"]
+
+## Next Steps
+
+QA review will now run automatically.
+~~~
+
+### FAIL
+
+~~~markdown
+# Build Result
+
+❌ FAIL
+
+## Reason
+
+[What failed and why]
+
+## Step That Failed
+
+[Which implementation step, what was attempted, what went wrong]
+
+## Next Steps
+
+- **Plan deficiency**: Return to `/plan` to revise the implementation approach.
+- **External blocker**: Operator input required - [describe what's needed].
+~~~
+
+If operator input is required, stop and wait for them.
+
+If operator input is not required, load the appropriate complexity level-specific Niko workflow file and proceed to the next phase as specified by that document.
