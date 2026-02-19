@@ -41,7 +41,7 @@ Once the memory bank has been partially initialized with the persistent files an
 
 1. `memory-bank/projectbrief.md`
     * The "Project Brief File" is the current session deliverable: user story & requirements.
-    * Load: `.cursor/rules/shared/niko/memory-bank/projectBrief.mdc` and create the file by following the instructions in the rule.
+    * Load: `.cursor/rules/shared/niko/memory-bank/projectbrief.mdc` and create the file by following the instructions in the rule.
 2. `memory-bank/activeContext.md`
     * The "Active Context File" is the current session focus: what's being worked on now, recent decisions, immediate next steps.
     * Load: `.cursor/rules/shared/niko/memory-bank/activeContext.mdc` and create the file by following the instructions in the rule.
