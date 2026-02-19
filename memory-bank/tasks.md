@@ -1,82 +1,93 @@
-# Tasks
+# Task: niko2-l3-reflect-archive-creative
 
-## niko-preflight-qa: Add /preflight command and reposition /qa
+* Task ID: niko2-l3-reflect-archive-creative
+* Complexity: Level 3 (meta — this is a niko2 ruleset authoring task)
+* Type: Feature implementation (filling in niko2 stubs)
 
-**Complexity:** Level 3
-**Status:** BUILD COMPLETE (rework from PR review feedback)
+Implement the Reflect skill, Archive skill, Creative skill + phase content, and full Level 3 workflow/plan/build for the niko2 rewrite. Each file is delivered one at a time for operator review.
 
-### Original Plan
-- Create `/preflight` command (pre-build plan validation, L3+, gates `/build`)
-- Rewrite `/qa` from pre-build mechanical validation to post-build semantic review (L2+, gates `/reflect`)
-- Update all routing: commands, core rules, workflow levels, visual maps, archive cleanup
+## Design Decisions
 
-### Implementation (first pass)
-- 34 files modified across commands, core rules, workflow levels, visual maps, archive files, and README
-- Net -1,221 lines (removed old PowerShell/Bash mechanical validation, replaced with semantic review)
+### Creative Phase Orchestration
+- Plan identifies "mega-unknowns" — aspects where the implementation approach is genuinely ambiguous or requires design exploration
+- `/creative` is invoked once per mega-unknown, routing to the best-fit creative impl (architecture, algorithm, uiux, or generic template)
+- Creative either resolves it autonomously (proceeds) or surfaces findings to operator and waits (deus ex humana)
+- The determination of WHEN to go creative is the critical L3/L4 plan responsibility
 
-### PR Review Feedback — Rework Plan
+### Reflect & Archive are Level-Dependent
+- L1: skips both
+- L2+: reflect runs, archive runs
+- The skills themselves route to the level-specific workflow for depth/format guidance
+- But the niko2 archive template (`archives.mdc`) and reflection template (`reflections.mdc`) already define a universal format with "complexity-level specific sections" — so the skill just needs to scale depth, not switch templates
 
-PR #38 received 23 inline review comments from the repo owner. The core concern: **diffs are too large and too noisy for human review**, especially in the visual-maps files. Several files were rewritten when they should have been surgically edited. Secondary concerns: duplication across commands, missing ARCHIVE in workflows, obsolete files not cleaned up, and commands lacking operator-facing output instructions.
+### Tightening Calibration
+- niko2 L2 plan is ~170 lines (vs original L2 planning at ~190 lines of mostly mermaid diagrams)
+- niko2 skills (preflight, QA) are ~100 lines of dense, actionable prose — no mermaid, no emoji headers, no checklists-as-verification
+- niko2 workflows (L1, L2) are ~55 lines: mermaid graph + legend + operator-stop list + change tracking + phase mappings table
+- Target: same density for L3 equivalents. More content than L2 (creative phases add real complexity), but NO bloat
 
-#### P0 — Revert and apply surgical edits
+## Implementation Plan — One File at a Time
 
-These files had sweeping rewrites that make the diff unreadable. Revert each to `main`, then re-apply only the semantic changes needed for preflight/qa repositioning.
+Each file below is a discrete deliverable. Operator reviews and approves before proceeding to the next.
 
-1. **Revert `rulesets/niko/niko/visual-maps/van_mode_split/van-mode-map.mdc`**
-   - `git checkout main -- <file>`
-   - Re-apply: (a) remove old NIKO QA validation section from flowchart, (b) add preflight to workflow overview for L3+ only, (c) update workflow paths to show correct level-dependent routing
-   - Fix: preflight must NOT appear for L2 (was inconsistent)
+### File 1: `skills/niko-reflect/SKILL.md` — Reflect Skill
+- Pattern: follows QA/preflight skill structure
+- Load memory bank → verify prerequisites (QA must have passed) → review implementation against plan → document findings → write reflection file → update memory bank → route to workflow
+- Level-scaling: L2 gets a focused reflection (what worked, what didn't, one actionable improvement). L3 adds creative phase effectiveness review and cross-phase analysis. L4 adds strategic insights and enterprise-wide process improvements.
+- Output: structured operator-facing summary
 
-2. **Revert `rulesets/niko/niko/visual-maps/van-mode-map.mdc`**
-   - Same approach as above — identical issues (whitespace noise + L2 preflight inconsistency)
+### File 2: `skills/niko-archive/SKILL.md` — Archive Skill
+- Pattern: follows QA/preflight skill structure
+- Load memory bank → verify prerequisites (reflection must exist) → create archive document (INLINE all ephemeral content) → clear ephemeral files → git commit → route done
+- Level-scaling: L2 archive is concise. L3 inlines creative phase decisions and reflection. L4 adds architectural documentation and deployment notes.
+- Critical: archive format already defined in `niko/memory-bank/archives.mdc` — skill references that, doesn't duplicate it
+- Critical: ephemeral cleanup list already defined in `niko/core/memory-bank-paths.mdc`
 
-3. **Revert `rulesets/niko/niko/visual-maps/qa-mode-map.mdc`**
-   - `git checkout main -- <file>`
-   - Re-apply targeted edits: (a) update TL;DR to mention post-build semantic review, (b) add new semantic constraints section (KISS/DRY/YAGNI/Completeness/Regression/Integrity/Integration Insight), (c) update main flowchart to show post-build flow and `.qa_validation_status` output, (d) KEEP existing universal checks / memory bank verification sections — they still apply
+### File 3: `niko/phases/creative/creative-phase-algorithm.mdc` — Algorithm Creative Phase
+- Port from original niko's algorithm creative phase, tightened to niko2 style
+- Focus: problem definition, option comparison, complexity analysis, KISS/DRY/YAGNI evaluation
+- Output: decision documented in `memory-bank/creative/creative-[feature_name].md`
 
-4. **Revert `rulesets/niko/niko/visual-maps/van_mode_split/van-qa-main.mdc`**
-   - `git checkout main -- <file>`
-   - Re-apply only: (a) update timing references from pre-build to post-build, (b) update focus from mechanical checks to semantic review, (c) do NOT duplicate content from `/qa` command
+### File 4: `niko/phases/creative/creative-phase-template.mdc` — Generic Creative Phase Template
+- The catch-all for creative explorations that don't fit architecture, algorithm, or uiux
+- Provides the universal structure: Problem → Options → Analysis → Decision → Implementation Notes
+- Designed to be extensible — new creative phase types can be added by following this template's pattern
 
-#### P1 — Workflow completeness (always archive)
+### File 5: `skills/niko-creative/creative.md` — Creative Skill (Orchestration)
+- The routing skill: receives a flagged mega-unknown from the plan
+- Analyzes the nature of the unknown → selects best-fit creative phase impl (architecture, algorithm, uiux, or generic template)
+- Executes the creative phase → evaluates outcome
+- On RESOLVED: documents decision, returns to workflow
+- On UNRESOLVED: presents findings to operator, waits for input (deus ex humana)
+- Does NOT loop — one invocation per mega-unknown. The workflow (or plan) handles iteration across multiple unknowns.
 
-5. **`memory-bank/systemPatterns.md`** — Apply reviewer's suggestion:
-   - L1: NIKO → BUILD
-   - L2: NIKO → PLAN → BUILD → QA → REFLECT → ARCHIVE
-   - L3: NIKO → PLAN → CREATIVE → PREFLIGHT → BUILD → QA → REFLECT → ARCHIVE
-   - L4: NIKO → PLAN → CREATIVE → PREFLIGHT → BUILD → QA → REFLECT → ARCHIVE
+### File 6: `niko/level3/level3-workflow.mdc` — Level 3 Workflow
+- Pattern: follows L1/L2 workflow structure (mermaid + legend + stop-list + change tracking + phase mappings)
+- Phase sequence: Plan → Creative (per mega-unknown, may loop) → Preflight → Build → QA → Reflect → Archive
+- Key additions vs L2: creative phase loop, preflight gate before build
+- Operator-initiated transitions: Plan (on preflight/QA fail), Archive (after reflect)
 
-6. **`rulesets/niko/niko/Core/complexity-decision-tree.mdc`** — Apply reviewer's suggestion: update workflow table to show ARCHIVE for L2+, confirm L1 skips it
+### File 7: `niko/level3/level3-plan.mdc` — Level 3 Plan Phase
+- Pattern: follows L2 plan structure but adds creative phase flagging
+- Critical addition: "Mega-Unknown Identification" step — for each aspect of the plan where the implementation approach is genuinely ambiguous, flag it for creative exploration with a brief problem statement
+- The flagging criteria: "If you cannot confidently describe HOW to implement this without exploring multiple approaches, it's a mega-unknown"
+- Includes component analysis, cross-module dependency mapping, risk assessment
+- TDD test planning still present but at feature/module granularity
 
-7. **Fix L2 vs L3+ preflight inconsistency** — Addressed as part of P0 items 1-2; ensure all workflow diagrams only show preflight for L3+
+### File 8: `niko/level3/level3-build.mdc` — Level 3 Build Phase
+- Pattern: follows L2 build structure but adds creative doc review
+- Step 1: Review plan AND all creative phase decisions before building
+- Module-by-module TDD iteration (vs L2's step-by-step)
+- Integration testing across modules after individual module tests pass
+- Progress tracking at module granularity in tasks.md
 
-#### P2 — Reduce duplication
+## Status
 
-8. **Remove/shrink "Next Steps" in commands** — In `build.md`, `plan.md`, `preflight.md`, `qa.md`, `reflect.md`: replace verbose workflow-navigation sections with a single line deferring to loaded level workflow rules. Gate conditions ("X blocks Y until PASS") stay; procedural "how to run the next command" goes.
-
-9. **Consolidate duplicate dotfile-deletion refs in `archive.md`** — Find the two references to deleting `.qa_validation_status` / `.preflight_status` and merge into one list
-
-10. **Trim QA/Preflight duplication in level workflows** — In `workflow-level3.mdc` and `workflow-level4.mdc`: keep gate logic ("run `/preflight` — blocks `/build` until PASS or ADVISORY"), remove detailed procedural steps that duplicate command content
-
-11. **Nest prerequisites by level in `build.md`** — Convert flat list with inline "For Level 3-4:" to properly nested list grouped by level
-
-#### P3 — Operator output and cleanup
-
-12. **Add "Output to Operator" section to each command** — Each command (`build`, `plan`, `preflight`, `qa`, `reflect`, `archive`) gets a short section specifying what to print for the human when the command completes (summary, result, next step)
-
-13. **Delete `rulesets/niko/niko/visual-maps/van_mode_split/van-qa-utils/rule-calling-help.mdc`** — Nothing references it except its own frontmatter glob
-
-14. **Delete `rulesets/niko/niko/visual-maps/van_mode_split/van-qa-utils/rule-calling-guide.mdc`** — Flagged as obsolete in reflection doc; no active consumers
-
-15. **Update `rulesets/niko/niko/visual-maps/van_mode_split/van-qa-utils/common-fixes.mdc`** — Its main consumers (the deleted van-qa-checks files) are gone. Update to align with semantic QA process since `/qa` command and `van-qa-main` still reference it
-
-### Design Decisions
-
-- **Commands stay as procedural text, NOT flowcharts.** Flowcharts belong in visual-maps. Commands are agent instructions.
-- **Gate conditions are duplicated intentionally** in both the command and the workflow level file — this is load-bearing enforcement that needs to be present in both contexts.
-- **Detailed "how to run" procedures live ONLY in the command file** — workflow files reference the command, not reproduce it.
-- **L1 skips ARCHIVE** — the commit speaks for itself on trivial bug fixes.
-- **`.qa_validation_status` still exists** — it was NOT removed by this PR. It's written by post-build `/qa` and gates `/reflect`. The reviewer's question was about whether it was orphaned; it is not.
-
-### Reflection (first pass)
-- Complete — see `memory-bank/reflection/reflection-niko-preflight-qa.md`
+- [x] File 1: Reflect skill
+- [ ] File 2: Archive skill
+- [ ] File 3: Creative phase — algorithm
+- [ ] File 4: Creative phase — generic template
+- [ ] File 5: Creative skill (orchestration)
+- [ ] File 6: L3 workflow
+- [ ] File 7: L3 plan
+- [ ] File 8: L3 build
