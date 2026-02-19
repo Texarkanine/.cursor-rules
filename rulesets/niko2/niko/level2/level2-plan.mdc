@@ -146,7 +146,7 @@ When planning is complete, print:
 
 ## Next Steps
 
-Run `/preflight` to validate plan against codebase reality before building.
+Preflight validation will now run automatically.
 ~~~
 
 ### FAIL
