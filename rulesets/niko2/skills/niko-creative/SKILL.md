@@ -5,24 +5,28 @@ description: Niko Memory Bank System - Creative Phase - Design Exploration
 
 # Creative Phase - Design Exploration
 
-This command explores a single open question flagged during planning - an aspect of the implementation where the approach is genuinely ambiguous and requires evaluating multiple options before committing. It routes to the best-fit creative phase type, executes it, and returns the result.
+This command explores a single open question - an aspect of design or implementation where the approach is genuinely ambiguous and requires evaluating multiple options before committing. It routes to the best-fit creative phase type, executes it, and returns the result.
 
-Creative is invoked by the plan phase, once per open question. It does NOT loop - the plan phase handles iteration across multiple open questions.
+## Modes of Operation
 
-## Step 1: Load Memory Bank Files
+**Within a Niko workflow**: Creative is invoked by the plan phase, once per open question. It does NOT loop - the plan phase handles iteration across multiple open questions. Context comes from the memory bank.
 
-Read:
-- `memory-bank/tasks.md` (for the open question being explored and its context)
-- `memory-bank/activeContext.md`
-- `memory-bank/projectbrief.md`
-- `memory-bank/systemPatterns.md`
+**Standalone**: The operator can invoke `/creative` directly with a question, without a full memory bank workflow in progress. In this mode, the question comes from operator input rather than `memory-bank/tasks.md`. If a memory bank exists, read it for context; if not, work with what the operator provides.
+
+## Step 1: Determine Context
+
+If no `memory-bank/` directory exists, invoke the `niko` skill to initialize it first.
+
+Read all available memory-bank files (persistent and ephemeral) for context.
 
 ## Step 2: Identify the Open Question
 
-The plan phase should have flagged this open question in `memory-bank/tasks.md` with:
+**Within a workflow**: The plan phase should have flagged this open question in `memory-bank/tasks.md` with:
 - A brief problem statement describing what needs to be decided
 - Why it's ambiguous (what makes multiple approaches viable)
 - Any constraints or requirements the decision must satisfy
+
+**Standalone**: The operator provides the question directly. If it's unclear, ask for clarification.
 
 If the open question is not clearly stated: 🛑 STOP! Ask the operator to clarify what needs to be explored. You're done for now.
 
@@ -49,9 +53,9 @@ After the creative phase type completes its exploration:
 
 ## Step 5: Document the Decision
 
-Create `memory-bank/creative/creative-[question-name].md`. The format is defined by the specific creative phase type that was loaded in Step 3 - follow its documentation instructions.
+**Within a workflow**: Create `memory-bank/creative/creative-[question-name].md`. The format is defined by the specific creative phase type that was loaded in Step 3 - follow its documentation instructions. Update `memory-bank/tasks.md`: mark this open question as explored, note the decision (or note that it's unresolved), and link to the creative document.
 
-Update `memory-bank/tasks.md`: mark this open question as explored, note the decision (or note that it's unresolved), and link to the creative document.
+**Standalone**: Present the exploration results directly to the operator in the output below. If a memory bank exists, also write the creative document to `memory-bank/creative/` for future reference.
 
 ## Output to Operator
 
@@ -91,6 +95,11 @@ Documented in `memory-bank/creative/creative-[question-name].md`
 
 ## Next Steps
 
-If the open question was successfully resolved, load the appropriate complexity level-specific Niko workflow file, then follow its instructions to proceed to the Plan phase.
+**Within a Niko Workflow:**
 
-If the open question could not be successfully resolved, wait for operator input. You're done for now.
+- If the open question was successfully resolved, load the appropriate complexity level-specific Niko workflow file, then follow its instructions to proceed to the Plan phase.
+- If the open question could not be successfully resolved, wait for operator input. You're done for now.
+
+**Standalone Mode:**
+
+You're done after presenting the results. Wait for operator input.
