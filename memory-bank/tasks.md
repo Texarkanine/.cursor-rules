@@ -77,7 +77,7 @@ Each file below is a discrete deliverable. Operator reviews and approves before 
 ### File 6: `niko/phases/creative/creative-phase-uiux.mdc` — UI/UX Creative Phase
 - Port from original niko, tightened to niko2 style (currently a stub in niko2)
 - Focus: style guide integration, user needs, IA, interaction design, visual design, accessibility
-- Critical: must check for `memory-bank/style-guide.md` first
+- Critical: checks `memory-bank/techContext.md` Design System section for visual style authorities
 
 ### File 7: `niko/phases/creative/creative-phase-generic.mdc` — Generic Creative Phase
 - Fallback for open questions that don't fit architecture, algorithm, or uiux
@@ -109,7 +109,7 @@ Each file below is a discrete deliverable. Operator reviews and approves before 
 - [x] File 3: Creative skill (orchestration) — framework first
 - [x] File 4: Creative phase — algorithm
 - [x] File 5: Creative phase — architecture
-- [ ] File 6: Creative phase — uiux
+- [x] File 6: Creative phase — uiux
 - [ ] File 7: Creative phase — generic
 - [ ] File 8: Creative phase — authoring template (meta)
 - [ ] File 9: L3 plan
