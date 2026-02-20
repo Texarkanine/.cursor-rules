@@ -9,11 +9,11 @@ Level 2 tasks are simple enhancements that require a structured approach with mo
 ## Workflow Phases
 
 ```mermaid
-graph LR
+graph TD
     Start(("Complexity Analysis")) --> NikoPlan["🐱 plan"]
     NikoPlan --> NikoPreflight{"🐱 preflight"}
     NikoPreflight -->|"PASS"| NikoBuild["🐱 build"]
-    NikoPreflight -->|"FAIL"| ManPlan[/"🧑‍💻 /plan"/]
+    NikoPreflight -.->|"FAIL"| ManPlan[/"🧑‍💻 /plan"/]
 
     NikoBuild --> NikoQA{"🐱 qa"}
     NikoQA -->|"PASS"| NikoReflect["🐱 reflect"]
@@ -47,9 +47,9 @@ The following phase transitions require operator input; if you have arrived at o
 
 To execute a phase for a level 2 task, read and follow the instructions in the appropriate location:
 
-- **Plan Phase**: Load `.cursor/rules/shared/niko/level2/level2-plan.mdc`
-- **Preflight Phase**: Invoke the `niko-preflight` skill
-- **Build Phase**: Load `.cursor/rules/shared/niko/level2/level2-build.mdc`
-- **QA Phase**: Invoke the `niko-qa` skill
-- **Reflect Phase**: Load `.cursor/rules/shared/niko/level2/level2-reflect.mdc`
-- **Archive Phase**: Load `.cursor/rules/shared/niko/level2/level2-archive.mdc`
+- **Level 2 Plan Phase**: Load `.cursor/rules/shared/niko/level2/level2-plan.mdc`
+- **Level 2 Preflight Phase**: Invoke the `niko-preflight` skill
+- **Level 2 Build Phase**: Load `.cursor/rules/shared/niko/level2/level2-build.mdc`
+- **Level 2 QA Phase**: Invoke the `niko-qa` skill
+- **Level 2 Reflect Phase**: Load `.cursor/rules/shared/niko/level2/level2-reflect.mdc`
+- **Level 2 Archive Phase**: Load `.cursor/rules/shared/niko/level2/level2-archive.mdc`
