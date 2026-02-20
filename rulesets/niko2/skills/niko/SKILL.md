@@ -23,14 +23,14 @@ graph TD
     Done("Done")
 ```
 
-## Step 1: Load & Ensure Memory Bank
+## Step 1: Load & Ensure Memory Bank Persistent Files
 
 ```
 Load: .cursor/rules/shared/niko/core/memory-bank-paths.mdc
 Load: .cursor/rules/shared/niko/core/memory-bank-init.mdc
 ```
 
-Follow the instructions to ensure that the memory bank's persistent files are created.
+**CRITICAL:** If *at least one* of the memory-bank's persistent files does not exist, initialize the memory bank's persistent files *immediately* according to the defined process.
 
 If there was no user input, or the only user input was to initialize the memory bank, you are done! Exit and do nothing else.
 
