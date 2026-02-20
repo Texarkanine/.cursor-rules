@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: niko2-l3-reflect-archive-creative
-**Phase:** BUILD — Files 1-4 complete, building File 5
+**Phase:** BUILD — Files 1-5 complete, building File 6
 
 ## What Was Done
 - Reflect & archive skills: thin routers (matching niko-plan pattern)
@@ -12,7 +12,8 @@
 - Terminology: "open question" replaces "mega-unknown"
 - Future work captured: L4 impl, mermaid enforcement, pinned info, batch ops rule
 - Creative skill (SKILL.md): dual-mode (workflow + standalone), routes to 4 phase types, confidence evaluation
-- Algorithm creative phase: 4-step (Problem → Options → Analysis → Decision), ~85 lines, operator-tested with haiku subagents (high/low confidence paths both verified)
+- Algorithm creative phase: 4-step (Problem → Options → Analysis → Decision), operator-tested with haiku subagents
+- Architecture creative phase: 5-step (Requirements → Components → Options → Evaluate → Decide), quality attribute ranking, risk/reversibility criteria
 
 ## Next Step
-- Build File 5: Architecture creative phase (`niko/phases/creative/creative-phase-architecture.mdc`)
+- Build File 6: UI/UX creative phase (`niko/phases/creative/creative-phase-uiux.mdc`)

@@ -12,7 +12,8 @@ The "Tech Context" summarizes how to work with the technology stack(s) in use in
 
 ## How to Create
 
-Scan the codebase for significant technologies (nonstandard or high-criticality) and document them.
+Scan the codebase for significant technologies (nonstandard or high-criticality) and document them. Look for design system authorities too - if the project has UI components, check for Figma links, Storybook configs, design token files, component library references, or brand guidelines.
+
 This is largely a free-form document designed to capture and surface information that would otherwise require time and effort to discover.
 
 Prefer to name things that are likely to remain static, and link out to configuration for those technologies, so that the document doesn't go stale.
@@ -46,6 +47,12 @@ Short punchlist of the build tool(s) in the project, with links to each tool's c
 ## Testing Process
 
 Short punchlist of the tools and commands used to test and validate the project, with links to each tool's canonical configuration.
+
+## Design System
+
+(Include only if the project has user-facing UI.)
+
+Pointers to the canonical visual style authorities: design token files, Figma/Sketch URLs, Storybook instance, component library, brand guidelines. These are references, not definitions - the design system itself lives wherever the project keeps it.
 
 ~~~
 

@@ -12,7 +12,7 @@ These files contain relatively stable information and persist across tasks to gu
 
 * **Product Context File:** `memory-bank/productContext.md` - Business context: target users, use cases, success criteria, constraints.
 * **System Patterns File:** `memory-bank/systemPatterns.md` - Architectural patterns: code organization, naming conventions, design patterns in use.
-* **Tech Context File:** `memory-bank/techContext.md` - Technical stack: languages, frameworks, build tools, file conventions, dependencies. Do NOT include session-specific info (current branch, current task).
+* **Tech Context File:** `memory-bank/techContext.md` - Technical stack: languages, frameworks, build tools, file conventions, dependencies, design system references. Do NOT include session-specific info (current branch, current task).
 * **Archive Directory:** `memory-bank/archive/<kind>/YYYYMMDD-<task-id>.md`
 
 ## Ephemeral Files

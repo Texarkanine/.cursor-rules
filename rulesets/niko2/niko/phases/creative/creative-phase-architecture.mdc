@@ -74,7 +74,7 @@ Select the winning option. State:
 
 If no clear winner emerges, this is a **low-confidence result**, which is fine - you did the research!
 
-## Output Document
+## Step 6: Output Document
 
 Write to `memory-bank/creative/creative-[question-name].md`:
 

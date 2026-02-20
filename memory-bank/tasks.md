@@ -108,7 +108,7 @@ Each file below is a discrete deliverable. Operator reviews and approves before 
 - [x] File 2b: L3 workflow (operator-authored)
 - [x] File 3: Creative skill (orchestration) — framework first
 - [x] File 4: Creative phase — algorithm
-- [ ] File 5: Creative phase — architecture
+- [x] File 5: Creative phase — architecture
 - [ ] File 6: Creative phase — uiux
 - [ ] File 7: Creative phase — generic
 - [ ] File 8: Creative phase — authoring template (meta)
