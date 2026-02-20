@@ -21,4 +21,4 @@ If no complexity level is set, or `memory-bank/activeContext.md` does not exist:
 
 ## Step 3: Route to Level-Specific Planning
 
-Load the appropriate complexity level-specific Niko workflow file, then load the document it specifies for the Plan phase.
+Load the appropriate complexity level-specific Niko workflow file, then use its phase mappings to proceed to the Plan phase.

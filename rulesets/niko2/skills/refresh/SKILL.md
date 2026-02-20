@@ -179,8 +179,8 @@ Update `memory-bank/tasks.md` and `memory-bank/progress.md` with the resolution.
 ## Next Steps
 
 After successfully diagnosing and fixing the issue:
-- Update the parent task's task list with the resolution
-- Return to the appropriate mode for the task:
-  - If in BUILD phase: Invoke the `niko-build` skill
-  - If in PLAN phase: Invoke the `niko-plan` skill
-  - If testing issues: Verify with appropriate test commands
+
+1. Update the parent task's task list with the resolution
+2. Load the appropriate complexity level-specific Niko workflow file, then use its phase mappings to resume the phase that was interrupted.
+
+If the issue could not be resolved, stop and wait for operator input. You're done for now.

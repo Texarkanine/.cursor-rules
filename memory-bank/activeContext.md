@@ -1,22 +1,16 @@
 # Active Context
 
 ## Current Task: niko2-l3-reflect-archive-creative
-**Phase:** BUILD — Files 1-2 refactored, awaiting operator review
+**Phase:** BUILD — Files 1-2b complete, awaiting next build
 
 ## What Was Done
-- Files 1-2 refactored: reflect & archive skills became thin routers (matching niko-plan pattern)
-- Created `level2/level2-reflect.mdc` — L2-only reflection instructions
-- Created `level3/level3-reflect.mdc` — L3+ reflection instructions (L4 adds depth note)
-- Created `level2/level2-archive.mdc` — L2-only archive instructions
-- Created `level3/level3-archive.mdc` — L3+ archive instructions (L4 adds depth note)
-- Updated `level2/level2-workflow.mdc` phase mappings to point to level-specific files (not skills)
-
-## Design Decision
-- Skills (niko-reflect, niko-archive) are now pure routers like niko-plan
-- Level-specific .mdc files own all content — zero irrelevant instructions per level
-- L4 reuses L3 files with a depth note at the top (not separate files — L3/L4 are structurally identical)
-- Workflow files point to .mdc files directly for reflect/archive (not through the skill)
+- Reflect & archive skills: thin routers (matching niko-plan pattern)
+- 4 level-specific .mdc files: L2/L3 reflect, L2/L3 archive
+- L2 workflow updated to point to .mdc files
+- L3 workflow authored by operator (TD layout, creative loop, operator gates)
+- L4 design specified in tasks.md (milestone-based composition, no capstone reflect, milestone presence as L4 signal)
+- Terminology: "open question" replaces "mega-unknown"
+- Future work captured: L4 impl, mermaid enforcement, pinned info, batch ops rule
 
 ## Next Step
-- Operator reviews all 6 files
-- On approval: build File 3 (Creative phase — algorithm)
+- Build File 4: Algorithm creative phase (`niko/phases/creative/creative-phase-algorithm.mdc`)

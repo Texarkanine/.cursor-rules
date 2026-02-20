@@ -9,20 +9,33 @@ Implement the Reflect skill, Archive skill, Creative skill + phase content, and 
 ## Design Decisions
 
 ### Creative Phase Orchestration
-- Plan identifies "mega-unknowns" — aspects where the implementation approach is genuinely ambiguous or requires design exploration
-- `/creative` is invoked once per mega-unknown, routing to the best-fit creative impl (architecture, algorithm, uiux, or generic template)
-- Creative either resolves it autonomously (proceeds) or surfaces findings to operator and waits (deus ex humana)
-- The determination of WHEN to go creative is the critical L3/L4 plan responsibility
+- During planning, the agent identifies **open questions** — aspects where the implementation approach is genuinely ambiguous and requires exploring multiple approaches before committing
+- The flagging criteria: "If you cannot confidently describe HOW to implement this without exploring alternatives, it's an open question"
+- `/creative` is invoked once per open question, routing to the best-fit creative impl (architecture, algorithm, uiux, or generic)
+- Creative either resolves it autonomously (high confidence → proceeds) or surfaces findings to operator and waits (low confidence → deus ex humana)
+- The determination of WHEN to enter creative is the critical L3 plan responsibility
 
-### Reflect & Archive are Level-Dependent
-- L1: skips both
-- L2+: reflect runs, archive runs
-- The skills themselves route to the level-specific workflow for depth/format guidance
-- But the niko2 archive template (`archives.mdc`) and reflection template (`reflections.mdc`) already define a universal format with "complexity-level specific sections" — so the skill just needs to scale depth, not switch templates
+### Reflect & Archive: Thin Router Skills + Level-Specific .mdc Files
+- Skills (niko-reflect, niko-archive) are pure routers matching the niko-plan pattern
+- Level-specific .mdc files own ALL content — zero irrelevant instructions per level
+- Workflow files point to .mdc files directly for reflect/archive (not through the skill)
+- Rationale: >20% of instructions were irrelevant to non-target levels when inline; split eliminates confusion surface
+
+### L4 is Project Composition, Not a Workflow Level
+- **L4 tasks are too big to plan and execute in one pass.** They are composed of multiple L1/L2/L3 sub-runs.
+- Complexity analysis recognizes L4 and produces a **milestone list** (high-level bullets, not detailed plans) stored in a known location
+- **The milestone list's presence IS the L4 signal.** No milestone list → fresh task, classify normally. Milestone list with unchecked items → pull next milestone. Milestone list with all items checked → capstone archive. This is unambiguous: standalone L1-L3 tasks never have a milestone list; L4 tasks always do.
+- For each milestone: `/niko` pulls the next unchecked milestone, complexity-analyzes IT (as L1, L2, or L3), enters the appropriate workflow
+- Each sub-run completes through reflect, then loops back to `/niko` for the next milestone
+- **No archive between sub-runs** — reflections accumulate, progress accretes, milestone list mutates. Ephemeral files persist across sub-runs.
+- **Milestone mutation happens in `/niko` on re-entry**, not in reflect. Reflect is backward-looking; milestone review is forward-looking. On re-entry, complexity analysis reads the latest reflection + remaining milestones and revises if needed.
+- **No capstone reflect.** Sub-run reflections already capture everything. The capstone archive consolidates and synthesizes across sub-runs — that IS the retrospective work. A separate reflect step would duplicate it.
+- **Dedicated L4 archive** (`level4-archive.mdc`): consolidates the whole project — original milestone list, how it evolved, each sub-run's key outcomes (inlined from their reflections), and the final state of the system. This is the only L4-specific phase file needed.
+- No separate L4 plan/build files. L4 plan = milestone list (produced by complexity analysis). L4 build = the sub-run builds.
 
 ### Tightening Calibration
 - niko2 L2 plan is ~170 lines (vs original L2 planning at ~190 lines of mostly mermaid diagrams)
-- niko2 skills (preflight, QA) are ~100 lines of dense, actionable prose — no mermaid, no emoji headers, no checklists-as-verification
+- niko2 skills (preflight, QA) are ~100 lines of dense, actionable prose
 - niko2 workflows (L1, L2) are ~55 lines: mermaid graph + legend + operator-stop list + change tracking + phase mappings table
 - Target: same density for L3 equivalents. More content than L2 (creative phases add real complexity), but NO bloat
 
@@ -30,64 +43,101 @@ Implement the Reflect skill, Archive skill, Creative skill + phase content, and 
 
 Each file below is a discrete deliverable. Operator reviews and approves before proceeding to the next.
 
-### File 1: `skills/niko-reflect/SKILL.md` — Reflect Skill
-- Pattern: follows QA/preflight skill structure
-- Load memory bank → verify prerequisites (QA must have passed) → review implementation against plan → document findings → write reflection file → update memory bank → route to workflow
-- Level-scaling: L2 gets a focused reflection (what worked, what didn't, one actionable improvement). L3 adds creative phase effectiveness review and cross-phase analysis. L4 adds strategic insights and enterprise-wide process improvements.
-- Output: structured operator-facing summary
+### File 1: `skills/niko-reflect/SKILL.md` — Reflect Skill (DONE)
+- Thin router matching niko-plan pattern
 
-### File 2: `skills/niko-archive/SKILL.md` — Archive Skill
-- Pattern: follows QA/preflight skill structure
-- Load memory bank → verify prerequisites (reflection must exist) → create archive document (INLINE all ephemeral content) → clear ephemeral files → git commit → route done
-- Level-scaling: L2 archive is concise. L3 inlines creative phase decisions and reflection. L4 adds architectural documentation and deployment notes.
-- Critical: archive format already defined in `niko/memory-bank/archives.mdc` — skill references that, doesn't duplicate it
-- Critical: ephemeral cleanup list already defined in `niko/core/memory-bank-paths.mdc`
+### File 2: `skills/niko-archive/SKILL.md` — Archive Skill (DONE)
+- Thin router matching niko-plan pattern
 
-### File 3: `niko/phases/creative/creative-phase-algorithm.mdc` — Algorithm Creative Phase
-- Port from original niko's algorithm creative phase, tightened to niko2 style
+### File 2a: Level-specific reflect/archive .mdc files (DONE)
+- `level2/level2-reflect.mdc`, `level3/level3-reflect.mdc`
+- `level2/level2-archive.mdc`, `level3/level3-archive.mdc`
+- Updated `level2/level2-workflow.mdc` phase mappings
+
+### File 2b: `niko/level3/level3-workflow.mdc` — Level 3 Workflow (DONE by operator)
+
+### File 3: `skills/niko-creative/creative.md` — Creative Skill (Orchestration)
+- Framework first — defines the contract that all creative phase types must fulfill
+- Receives a flagged open question from the plan
+- Analyzes the nature of the question → selects best-fit creative phase impl (architecture, algorithm, uiux, or generic)
+- On RESOLVED (high confidence): documents decision, returns to workflow
+- On UNRESOLVED (low confidence): presents findings to operator, waits
+- Does NOT loop — one invocation per open question. The workflow handles iteration.
+
+### File 4: `niko/phases/creative/creative-phase-algorithm.mdc` — Algorithm Creative Phase
+- Port from original niko, tightened to niko2 style
 - Focus: problem definition, option comparison, complexity analysis, KISS/DRY/YAGNI evaluation
 - Output: decision documented in `memory-bank/creative/creative-[feature_name].md`
 
-### File 4: `niko/phases/creative/creative-phase-template.mdc` — Generic Creative Phase Template
-- The catch-all for creative explorations that don't fit architecture, algorithm, or uiux
-- Provides the universal structure: Problem → Options → Analysis → Decision → Implementation Notes
-- Designed to be extensible — new creative phase types can be added by following this template's pattern
+### File 5: `niko/phases/creative/creative-phase-architecture.mdc` — Architecture Creative Phase
+- Port from original niko, tightened to niko2 style (currently a stub in niko2)
+- Focus: requirements analysis, component identification, architecture options, evaluation, decision
+- Evaluation criteria: scalability, maintainability, performance, security, cost, time to market
 
-### File 5: `skills/niko-creative/creative.md` — Creative Skill (Orchestration)
-- The routing skill: receives a flagged mega-unknown from the plan
-- Analyzes the nature of the unknown → selects best-fit creative phase impl (architecture, algorithm, uiux, or generic template)
-- Executes the creative phase → evaluates outcome
-- On RESOLVED: documents decision, returns to workflow
-- On UNRESOLVED: presents findings to operator, waits for input (deus ex humana)
-- Does NOT loop — one invocation per mega-unknown. The workflow (or plan) handles iteration across multiple unknowns.
+### File 6: `niko/phases/creative/creative-phase-uiux.mdc` — UI/UX Creative Phase
+- Port from original niko, tightened to niko2 style (currently a stub in niko2)
+- Focus: style guide integration, user needs, IA, interaction design, visual design, accessibility
+- Critical: must check for `memory-bank/style-guide.md` first
 
-### File 6: `niko/level3/level3-workflow.mdc` — Level 3 Workflow
-- Pattern: follows L1/L2 workflow structure (mermaid + legend + stop-list + change tracking + phase mappings)
-- Phase sequence: Plan → Creative (per mega-unknown, may loop) → Preflight → Build → QA → Reflect → Archive
-- Key additions vs L2: creative phase loop, preflight gate before build
-- Operator-initiated transitions: Plan (on preflight/QA fail), Archive (after reflect)
+### File 7: `niko/phases/creative/creative-phase-generic.mdc` — Generic Creative Phase
+- Fallback for open questions that don't fit architecture, algorithm, or uiux
+- Uses the universal Problem → Options → Analysis → Decision structure without domain-specific evaluation criteria
+- Thinner than specialized phases but covers the long tail
 
-### File 7: `niko/level3/level3-plan.mdc` — Level 3 Plan Phase
-- Pattern: follows L2 plan structure but adds creative phase flagging
-- Critical addition: "Mega-Unknown Identification" step — for each aspect of the plan where the implementation approach is genuinely ambiguous, flag it for creative exploration with a brief problem statement
-- The flagging criteria: "If you cannot confidently describe HOW to implement this without exploring multiple approaches, it's a mega-unknown"
+### File 8: `niko/phases/creative/creative-phase-template.mdc` — Creative Phase Authoring Template
+- Meta-template for ruleset authors creating NEW creative phase types
+- NOT invoked during tasks — this is documentation for extending niko2
+- Extracted from the patterns across files 4-7: the contract, the structure, the expected inputs/outputs
+
+### File 9: `niko/level3/level3-plan.mdc` — Level 3 Plan Phase
+- Follows L2 plan structure but adds open question identification and creative phase flagging
 - Includes component analysis, cross-module dependency mapping, risk assessment
-- TDD test planning still present but at feature/module granularity
+- TDD test planning at feature/module granularity
 
-### File 8: `niko/level3/level3-build.mdc` — Level 3 Build Phase
-- Pattern: follows L2 build structure but adds creative doc review
-- Step 1: Review plan AND all creative phase decisions before building
-- Module-by-module TDD iteration (vs L2's step-by-step)
+### File 10: `niko/level3/level3-build.mdc` — Level 3 Build Phase
+- Follows L2 build structure but adds creative doc review
+- Review plan AND all creative phase decisions before building
+- Module-by-module TDD iteration
 - Integration testing across modules after individual module tests pass
-- Progress tracking at module granularity in tasks.md
 
 ## Status
 
-- [x] File 1: Reflect skill
-- [x] File 2: Archive skill (refactored: skills are thin routers, level-specific .mdc files own content)
-- [ ] File 3: Creative phase — algorithm
-- [ ] File 4: Creative phase — generic template
-- [ ] File 5: Creative skill (orchestration)
-- [ ] File 6: L3 workflow
-- [ ] File 7: L3 plan
-- [ ] File 8: L3 build
+- [x] File 1: Reflect skill (thin router)
+- [x] File 2: Archive skill (thin router)
+- [x] File 2a: Level-specific reflect/archive .mdc files (4 files + workflow update)
+- [x] File 2b: L3 workflow (operator-authored)
+- [x] File 3: Creative skill (orchestration) — framework first
+- [ ] File 4: Creative phase — algorithm
+- [ ] File 5: Creative phase — architecture
+- [ ] File 6: Creative phase — uiux
+- [ ] File 7: Creative phase — generic
+- [ ] File 8: Creative phase — authoring template (meta)
+- [ ] File 9: L3 plan
+- [ ] File 10: L3 build
+
+## Future Work (Outside Current Task)
+
+### L4 Implementation
+- `level4/level4-workflow.mdc` — milestone-based loop through `/niko`, no dedicated plan/build
+- `level4/level4-archive.mdc` — capstone archive consolidating all sub-runs (no separate capstone reflect)
+- Updates to `core/complexity-analysis.mdc` — detect L4 (milestone list presence), produce milestones, handle re-entry/mutation, detect completion (all milestones checked)
+- Milestone storage location TBD (dedicated section in a known file; its presence/absence is the L4 signal)
+
+### Mermaid Chart Enforcement in Planning/Design Docs
+- Enforce appropriate use of mermaid diagrams in L2+ plan and creative phases
+- "Appropriate" = enhances intelligibility beyond prose alone. The RIGHT chart at the RIGHT time:
+  - **Flowchart**: control flow, decision trees, workflow routing
+  - **Class diagram / UML**: code structure — captures INTENT, leaves implementation to implementor
+  - **Sequence diagram**: component interactions, API call flows, event sequences
+  - **ERD**: data models, relationships, schema design
+- Valuable at project brief level and top of tasks.md
+- Existing `rules/visual-planning.mdc` has guidelines but isn't rigidly adhered to; want rigid adherence with precise, sparing use
+- Consider "pinned info" section in projectbrief.md for north-star charts/requirements
+  - Rule: every edit must re-assess pinned info accuracy and relevance
+  - Prevents stale diagrams from misleading later phases
+
+### Batch Operation Rule (Non-Niko)
+- When multiple independent operations of the same type are needed, batch into a single command
+- `rm file1 file2 file3` not three separate deletes
+- For tools that don't accept multiple targets, write a shell loop rather than N tool calls
+- Reduces token waste, latency, and context pollution
