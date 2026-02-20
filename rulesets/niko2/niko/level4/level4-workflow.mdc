@@ -1,5 +1,5 @@
 ---
-alwaysApply: true
+alwaysApply: false
 ---
 
 Level 4 workflows are not implemented yet, sorry! Stop execution and wait for operator input.
