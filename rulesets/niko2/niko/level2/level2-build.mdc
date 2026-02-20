@@ -17,7 +17,7 @@ Read:
 
 ## Step 2: Verify Prerequisites
 
-- Confirm `memory-bank/.preflight_status` exists and contains `PASS` or `PASS WITH ADVISORY`
+- Confirm `memory-bank/.preflight-status` exists and contains `PASS` or `PASS WITH ADVISORY`
 - Confirm `memory-bank/tasks.md` contains a complete implementation plan (produced by the Plan phase)
 - Confirm the task's test plan is present: behaviors to verify, test infrastructure, and test file mapping
 

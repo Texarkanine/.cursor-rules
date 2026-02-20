@@ -50,7 +50,7 @@ Read:
 
 7. **Generate Preflight Report**
    - Create comprehensive findings report
-   - Write validation status to `memory-bank/.preflight_status`
+   - Write validation status to `memory-bank/.preflight-status`
    - Update `memory-bank/tasks.md` with any plan amendments or findings
 
 8. **Handle Results**
