@@ -37,18 +37,25 @@ graph TD
     ComplexityCP --> InitSystem["INITIALIZE MEMORY BANK"]
     InitSystem --> Complete1["LEVEL 1 INITIALIZATION COMPLETE"]
     
-    %% Level-dependent workflow paths after PLAN mode
-    ForceExit -.-> L2Path["L2: PLAN → BUILD → QA → REFLECT → ARCHIVE"]
-    ForceExit -.-> L34Path["L3-4: PLAN → CREATIVE → PREFLIGHT → BUILD → QA → REFLECT → ARCHIVE"]
-
+    %% For Level 2+ tasks after PLAN and CREATIVE modes
+    ForceExit -.-> OtherModes["PLAN → CREATIVE modes"]
+    OtherModes -.-> VANQA["NIKO QA MODE"]
+    VANQA --> QAProcess["Technical Validation Process"]
+    QAProcess --> QACheck{"All Checks Pass?"}
+    QACheck -->|"Yes"| BUILD["To BUILD MODE"]
+    QACheck -->|"No"| FixIssues["Fix Technical Issues"]
+    FixIssues --> QAProcess
+    
     %% Style nodes
     style PlatformCP fill:#f55,stroke:#d44,color:white
     style BasicFileCP fill:#f55,stroke:#d44,color:white
     style ComplexityCP fill:#f55,stroke:#d44,color:white
     style CRITICALGATE fill:#ff0000,stroke:#990000,color:white,stroke-width:3px
     style ForceExit fill:#ff0000,stroke:#990000,color:white,stroke-width:2px
-    style L2Path fill:#4da6ff,stroke:#0066cc,color:white
-    style L34Path fill:#4da6ff,stroke:#0066cc,color:white
+    style VANQA fill:#4da6ff,stroke:#0066cc,color:white,stroke-width:3px
+    style QAProcess fill:#4da6ff,stroke:#0066cc,color:white
+    style QACheck fill:#4da6ff,stroke:#0066cc,color:white
+    style FixIssues fill:#ff5555,stroke:#dd3333,color:white
 ```
 
 ## 🌐 PLATFORM DETECTION PROCESS
@@ -133,18 +140,51 @@ graph TD
     style DetermineLevel fill:#f6546a,stroke:#c30052,color:white
 ```
 
-## 🔄 COMPLETE WORKFLOW
+## 🔄 COMPLETE WORKFLOW WITH QA VALIDATION
 
-The full workflow varies by complexity level:
+The full workflow includes technical validation before implementation:
 
 ```mermaid
-flowchart TD
-    L1["L1: NIKO → BUILD"]
-    L2["L2: NIKO → PLAN → BUILD → QA → REFLECT → ARCHIVE"]
-    L34["L3-4: NIKO → PLAN → CREATIVE → PREFLIGHT → BUILD → QA → REFLECT → ARCHIVE"]
+flowchart LR
+    VAN1["NIKO MODE 
+    (Initial Analysis)"] --> PLAN["PLAN MODE
+    (Task Planning)"]
+    PLAN --> CREATIVE["CREATIVE MODE
+    (Design Decisions)"]
+    CREATIVE --> VANQA["NIKO QA MODE
+    (Technical Validation)"] 
+    VANQA --> BUILD["BUILD MODE
+    (Implementation)"]
 ```
 
-> **Note:** QA runs *after* BUILD as a post-build semantic review (L2+). PREFLIGHT runs *before* BUILD as a pre-build plan validation (L3+ only). See `qa-mode-map.mdc` for QA details.
+## 🔍 TECHNICAL VALIDATION OVERVIEW
+
+The NIKO QA technical validation process consists of four key validation points:
+
+```mermaid
+graph TD
+    VANQA["NIKO QA MODE"] --> FourChecks["FOUR-POINT VALIDATION"]
+    
+    FourChecks --> DepCheck["1️⃣ DEPENDENCY VERIFICATION<br>Check all required packages"]
+    DepCheck --> ConfigCheck["2️⃣ CONFIGURATION VALIDATION<br>Verify format & compatibility"]
+    ConfigCheck --> EnvCheck["3️⃣ ENVIRONMENT VALIDATION<br>Check build environment"]
+    EnvCheck --> MinBuildCheck["4️⃣ MINIMAL BUILD TEST<br>Test core functionality"]
+    
+    MinBuildCheck --> ValidationResults{"All Checks<br>Passed?"}
+    ValidationResults -->|"Yes"| SuccessReport["GENERATE SUCCESS REPORT"]
+    ValidationResults -->|"No"| FailureReport["GENERATE FAILURE REPORT"]
+    
+    SuccessReport --> BUILD["Proceed to BUILD MODE"]
+    FailureReport --> FixIssues["Fix Technical Issues"]
+    FixIssues --> ReValidate["Re-validate"]
+    ReValidate --> ValidationResults
+    
+    style VANQA fill:#4da6ff,stroke:#0066cc,color:white
+    style FourChecks fill:#f6546a,stroke:#c30052,color:white
+    style ValidationResults fill:#f6546a,stroke:#c30052,color:white
+    style BUILD fill:#10b981,stroke:#059669,color:white
+    style FixIssues fill:#ff5555,stroke:#dd3333,color:white
+```
 
 ## 📝 VALIDATION STATUS FORMAT
 
@@ -172,26 +212,20 @@ You MUST switch to PLAN mode for proper documentation and planning
 Type `/plan` to switch to planning mode
 ```
 
-### CREATIVE to PREFLIGHT Transition (L3+ only)
+### CREATIVE to NIKO QA Transition
 After completing the CREATIVE mode:
 ```
-⏭️ NEXT MODE: /preflight
-To validate the plan before implementation, please type '/preflight'
+⏭️ NEXT MODE: NIKO QA
+To validate technical requirements before implementation, please type `/qa`
 ```
 
-### PREFLIGHT/PLAN to BUILD Transition
-After successful preflight (L3+) or planning (L2):
+### NIKO QA to BUILD Transition
+After successful validation:
 ```
-✅ PREREQUISITES COMPLETE
+✅ TECHNICAL VALIDATION COMPLETE
+All prerequisites verified successfully
 You may now proceed to BUILD mode
-Type '/build' to begin implementation
-```
-
-### BUILD to QA Transition (L2+)
-After completing BUILD mode:
-```
-⏭️ NEXT MODE: /qa
-To perform post-build semantic review, please type '/qa'
+Type `/build` to begin implementation
 ```
 
 ## 🔒 BUILD MODE PREVENTION MECHANISM

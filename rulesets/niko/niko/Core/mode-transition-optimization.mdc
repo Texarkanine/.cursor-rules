@@ -82,52 +82,16 @@ Create a standardized transition document when switching modes:
 - Rule optimization: Only load creative templates for identified components
 ```
 
-### CREATIVE → PREFLIGHT Transition (L3+)
+### CREATIVE → BUILD Transition
 
 ```markdown
-### CREATIVE → PREFLIGHT
+### CREATIVE → BUILD
 - Context preserved: Design decisions, implementation guidelines, requirements
-- Files transferred: tasks.md, design documents, systemPatterns.md, style-guide.md
-- Rule optimization: Pre-load validation rules for plan-vs-codebase comparison
+- Files transferred: tasks.md, design documents, implementation checklist
+- Rule optimization: Pre-load implementation templates based on design decisions
 ```
 
-### PLAN → PREFLIGHT Transition (L3+, no creative phases)
-
-```markdown
-### PLAN → PREFLIGHT
-- Context preserved: Task requirements, implementation plan, component list
-- Files transferred: tasks.md, systemPatterns.md, techContext.md
-- Rule optimization: Load preflight validation rules based on complexity level
-```
-
-### PREFLIGHT → BUILD Transition
-
-```markdown
-### PREFLIGHT → BUILD
-- Context preserved: Validated plan, preflight findings, advisory notes
-- Files transferred: tasks.md (with amendments), .preflight_status, design documents
-- Rule optimization: Pre-load implementation templates based on validated plan
-```
-
-### BUILD → QA Transition (L2+)
-
-```markdown
-### BUILD → QA
-- Context preserved: Implementation status, build outcomes, original plan
-- Files transferred: tasks.md, progress.md, implementation notes
-- Rule optimization: Load semantic review rules for plan-vs-implementation comparison
-```
-
-### QA → REFLECT Transition
-
-```markdown
-### QA → REFLECT
-- Context preserved: QA findings, corrections applied, implementation status
-- Files transferred: tasks.md, progress.md, .qa_validation_status
-- Rule optimization: Load reflection templates based on completion status
-```
-
-### BUILD → REFLECT Transition (L1 only)
+### BUILD → REFLECT Transition
 
 ```markdown
 ### BUILD → REFLECT
@@ -231,9 +195,9 @@ function updateMemoryBankFile(filePath, newContent) {
 }
 ```
 
-## 🔗 CREATIVE TO PREFLIGHT/BUILD BRIDGE
+## 🔗 CREATIVE TO BUILD BRIDGE
 
-Special handling for the critical Creative → Preflight → Build transition:
+Special handling for the critical Creative → Build transition:
 
 ~~~markdown
 ## CREATIVE → BUILD BRIDGE
@@ -349,18 +313,18 @@ When transitioning from PLAN to CREATIVE mode:
 - Reference architecture: docs/system-architecture.md
 ```
 
-### Example: CREATIVE → PREFLIGHT Transition
+### Example: CREATIVE → BUILD Transition
 
-When transitioning from CREATIVE to PREFLIGHT mode (L3+):
+When transitioning from CREATIVE to BUILD mode:
 
 ```markdown
-# MODE TRANSITION: CREATIVE → PREFLIGHT
+# MODE TRANSITION: CREATIVE → BUILD
 
 ## Context Summary
 - Task: Implement user authentication system
 - Complexity: Level 3
-- Current Phase: Creative completed, awaiting preflight validation
-- Progress: 50% (Planning: 100%, Creative: 100%, Preflight: 0%, Implement: 0%)
+- Current Phase: Creative completed
+- Progress: 70% (Planning: 100%, Creative: 100%, Implement: 0%)
 
 ## Key Decisions
 - Authentication: JWT-based approach selected
@@ -373,10 +337,10 @@ When transitioning from CREATIVE to PREFLIGHT mode (L3+):
 - Security considerations: XSS protection, CSRF mitigation, Rate limiting
 
 ## Next Steps
-1. Validate plan against codebase conventions
-2. Check dependency impact
-3. Detect conflicts with existing implementations
-4. Verify completeness of implementation plan
+1. Implement JWT generation and validation
+2. Create authentication middleware
+3. Build user login/logout endpoints
+4. Implement client-side auth integration
 
 ## Resource Pointers
 - Creative document: creative-auth-decisions.md

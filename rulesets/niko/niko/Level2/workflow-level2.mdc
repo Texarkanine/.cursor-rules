@@ -5,7 +5,7 @@ alwaysApply: false
 ---
 # WORKFLOW FOR LEVEL 2 TASKS
 
-> **TL;DR:** This document outlines a structured yet efficient workflow for Level 2 (Simple Enhancement) tasks, including 7 key phases with milestone checkpoints, post-build QA review, and quality verification.
+> **TL;DR:** This document outlines a structured yet efficient workflow for Level 2 (Simple Enhancement) tasks, including 6 key phases with milestone checkpoints and quality verification.
 
 ## 🔍 LEVEL 2 WORKFLOW OVERVIEW
 
@@ -14,16 +14,14 @@ graph LR
     Init["1. INITIALIZATION"] --> Doc["2. DOCUMENTATION<br>SETUP"]
     Doc --> Plan["3. TASK<br>PLANNING"]
     Plan --> Impl["4. IMPLEMENTATION"]
-    Impl --> QA["5. QA<br>REVIEW"]
-    QA --> Reflect["6. REFLECTION"]
-    Reflect --> Archive["7. ARCHIVING"]
-
+    Impl --> Reflect["5. REFLECTION"]
+    Reflect --> Archive["6. ARCHIVING"]
+    
     %% Document connections for each phase
     Init -.-> InitDocs["INITIALIZATION"]
     Doc -.-> DocDocs["DOCUMENTATION"]
     Plan -.-> PlanDocs["PLANNING"]
     Impl -.-> ImplDocs["IMPLEMENTATION"]
-    QA -.-> QADocs["SEMANTIC REVIEW"]
     Reflect -.-> ReflectDocs["REFLECTION"]
     Archive -.-> ArchiveDocs["ARCHIVING"]
 ```
@@ -156,45 +154,11 @@ graph TD
 - All tests now passing? [YES/NO]
 - tasks.md fully updated? [YES/NO]
 
-→ If all YES: Proceed to QA Review
+→ If all YES: Proceed to Reflection
 → If any NO: Complete implementation steps
 ```
 
-### Phase 5: QA REVIEW
-
-```mermaid
-graph TD
-    Start["Begin QA<br>Review"] --> ReadPlan["Read Original<br>Implementation Plan"]
-    ReadPlan --> ReviewCode["Review Implemented<br>Code Against Plan"]
-    ReviewCode --> ApplyChecks["Apply KISS/DRY/YAGNI<br>Completeness/Regression/Integrity"]
-    ApplyChecks --> ApplyFixes["Apply Fixes<br>Directly"]
-    ApplyFixes --> GenerateReport["Generate QA Report<br>Write .qa_validation_status"]
-    GenerateReport --> QAComplete["QA Review<br>Complete"]
-```
-
-**Steps:**
-1. Read original plan from `memory-bank/tasks.md`
-2. Review implemented code against plan using semantic constraints (KISS, DRY, YAGNI, Completeness, Regression, Integrity)
-3. Apply fixes directly for any findings
-4. Re-run mechanical verification (lint/build/test) after fixes
-5. Generate QA report and write status to `memory-bank/.qa_validation_status`
-
-**Milestone Checkpoint:**
-```
-✓ QA REVIEW CHECKPOINT
-- Original plan reviewed? [YES/NO]
-- Code reviewed against KISS/DRY/YAGNI? [YES/NO]
-- Completeness verified (no TODOs/stubs)? [YES/NO]
-- Regression check passed? [YES/NO]
-- Integrity verified (no debug artifacts)? [YES/NO]
-- All fixes applied and tests passing? [YES/NO]
-- QA validation status written? [YES/NO]
-
-→ If all YES: Proceed to Reflection
-→ If any NO: Address findings and re-run /qa
-```
-
-### Phase 6: REFLECTION
+### Phase 5: REFLECTION
 
 ```mermaid
 graph TD
@@ -226,7 +190,7 @@ graph TD
 → If any NO: Complete reflection steps
 ```
 
-### Phase 7: ARCHIVING
+### Phase 6: ARCHIVING
 
 ```mermaid
 graph TD
@@ -266,7 +230,6 @@ graph TD
 - All milestone checkpoints passed? [YES/NO]
 - TDD process followed (tests first)? [YES/NO]
 - All tests passing? [YES/NO]
-- QA semantic review passed? [YES/NO]
 - tasks.md fully updated? [YES/NO]
 - Reflection document created? [YES/NO]
 - Archive document created? [YES/NO]
@@ -285,9 +248,8 @@ For minimal mode, use this streamlined workflow:
 2. DOCS: Update projectbrief and activeContext
 3. PLAN: Define requirements, subtasks, estimates
 4. IMPL: Complete subtasks, update status
-5. QA: Semantic review against plan (KISS/DRY/YAGNI/Completeness/Regression/Integrity)
-6. REFLECT: Document key insights and actions
-7. ARCHIVE: Document completion and cross-reference
+5. REFLECT: Document key insights and actions
+6. ARCHIVE: Document completion and cross-reference
 ```
 
 ## 🔄 LEVEL TRANSITION HANDLING

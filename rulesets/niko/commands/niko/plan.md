@@ -82,17 +82,8 @@ Load: .cursor/rules/shared/niko/Level4/workflow-level4.mdc
 
 Type `/plan` to start planning based on the task in `memory-bank/tasks.md`.
 
-## Output to Operator
-
-When planning is complete, print:
-1. **Complexity level** and phase count
-2. **Plan summary** — one-line description of each planned step or phase
-3. **Creative phases identified** — list any components flagged for `/creative`, or "none"
-4. **Next command** — the specific next command to run (`/creative`, `/preflight`, or `/build`)
-
 ## Next Steps
 
 - **If creative phases identified:** Use `/creative` command
-- **If no creative phases and Level 3+:** Proceed to `/preflight` command
-- **If no creative phases and Level 2:** Proceed to `/build` command
+- **If no creative phases:** Proceed to `/build` command
 

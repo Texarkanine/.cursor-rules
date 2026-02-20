@@ -192,7 +192,7 @@ This ensures that knowledge is preserved and can be referenced in the future.
 
 The `/archive` command automatically clears task-specific files after creating the archive document:
 
-- **Clears:** `creative/`, `reflection/`, `tasks.md`, `progress.md`, `activeContext.md`, `.qa_validation_status`, `.preflight_status`
+- **Clears:** `creative/`, `reflection/`, `tasks.md`, `progress.md`, `activeContext.md`, `.qa_validation_status`
 - **Preserves:** Repository knowledge files (`projectbrief.md`, `productContext.md`, `systemPatterns.md`, `techContext.md`, `style-guide.md`) and all archive documents
 - **Git Commit:** All changes are committed with `chore: archive <task-id> and clear memory bank`
 

@@ -59,12 +59,12 @@ Load: .cursor/rules/shared/niko/Level4/phased-implementation.mdc
 ## Workflow
 
 1. **Verify Prerequisites**
-   - **All levels:**
-     - Check `memory-bank/tasks.md` for planning completion
-     - Review implementation plan
-   - **Level 3-4 only:**
-     - Check `memory-bank/.preflight_status` (must be PASS or ADVISORY) — blocked until `/preflight` passes
-     - Verify creative phase documents exist
+   - Check `memory-bank/.qa_validation_status` for QA validation (must be PASS)
+   - Check `memory-bank/tasks.md` for planning completion
+   - For Level 3-4: Verify creative phase documents exist
+   - Review implementation plan
+   
+   **Note**: BUILD mode is blocked until QA validation passes. If QA validation has not been completed, the system will prompt you to run `/qa` first.
 
 2. **Determine Complexity Level**
    - Read complexity level from `memory-bank/tasks.md`
@@ -107,16 +107,7 @@ Load: .cursor/rules/shared/niko/Level4/phased-implementation.mdc
 
 Type `/build` to start implementation based on the plan in `memory-bank/tasks.md`.
 
-## Output to Operator
-
-When implementation is complete, print:
-1. **What was built** — one-line summary of each implemented component or phase
-2. **Test results** — pass/fail counts and any notable outcomes
-3. **Files changed** — list of files created or modified
-4. **Next command** — `/reflect` (Level 1) or `/qa` (Level 2+)
-
 ## Next Steps
 
-- **Level 1**: After implementation complete, proceed to `/reflect` command for task review.
-- **Level 2+**: After implementation complete, proceed to `/qa` command for post-build semantic review.
+After implementation complete, proceed to `/reflect` command for task review.
 

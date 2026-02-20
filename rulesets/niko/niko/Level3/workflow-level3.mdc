@@ -18,20 +18,16 @@ graph LR
     DocSetup["2. DOCUMENTATION SETUP"] -->
     Plan["3. FEATURE PLANNING (PLAN Mode)"] -->
     Creative["4. CREATIVE PHASES (CREATIVE Mode)"] -->
-    Preflight["5. PREFLIGHT (PREFLIGHT Mode)"] -->
-    Impl["6. IMPLEMENTATION (BUILD Mode)"] -->
-    QA["7. QA REVIEW (QA Mode)"] -->
-    Reflect["8. REFLECTION (REFLECT Mode)"] -->
-    Archive["9. ARCHIVING (ARCHIVE Mode)"]
+    Impl["5. IMPLEMENTATION (BUILD Mode)"] -->
+    Reflect["6. REFLECTION (REFLECT Mode)"] -->
+    Archive["7. ARCHIVING (ARCHIVE Mode)"]
 
     %% Document connections for each phase (conceptual links to mode guidance)
     Init -.-> InitDocs["Core Rules & L3 Confirmation"]
     DocSetup -.-> DocSetupDocs["Memory Bank Setup for L3"]
     Plan -.-> PlanDocs["Comprehensive Feature Plan"]
     Creative -.-> CreativeDocs["Targeted Design Documents"]
-    Preflight -.-> PreflightDocs["Plan Validation Against Codebase"]
     Impl -.-> ImplDocs["Feature Implementation & Testing"]
-    QA -.-> QADocs["Post-Build Semantic Review"]
     Reflect -.-> ReflectDocs["In-depth Feature Reflection"]
     Archive -.-> ArchiveDocs["Feature Archive Package"]
 
@@ -39,9 +35,7 @@ graph LR
     style DocSetup fill:#b3e5fc,stroke:#81d4fa
     style Plan fill:#c8e6c9,stroke:#a5d6a7
     style Creative fill:#ffd8b2,stroke:#ffcc80
-    style Preflight fill:#fff9c4,stroke:#fff176
     style Impl fill:#ffcdd2,stroke:#ef9a9a
-    style QA fill:#ffe0b2,stroke:#ffb74d
     style Reflect fill:#d1c4e9,stroke:#b39ddb
     style Archive fill:#cfd8dc,stroke:#b0bec5
 ````
@@ -162,8 +156,7 @@ graph TD
     - Aspects needing CREATIVE mode explicitly flagged in tasks.md? [YES/NO]
     - tasks.md comprehensively updated with the feature plan? [YES/NO]
 
-    → If all YES and creative phases flagged: Proceed to CREATIVE Phases.
-    → If all YES and no creative phases: Proceed to PREFLIGHT Validation.
+    → If all YES: Proceed to CREATIVE Phases (if flagged) or IMPLEMENTATION.
     → If any NO: Complete planning steps.
     ```
 
@@ -199,46 +192,11 @@ graph TD
     - Rationale for decisions clearly stated? [YES/NO]
     - tasks.md updated to reflect completion of creative sub-tasks and links to decision docs? [YES/NO]
 
-    → If all YES: Proceed to Preflight Validation.
+    → If all YES: Proceed to Implementation.
     → If any NO: Complete creative phase work.
     ```
 
-### Phase 5: PREFLIGHT VALIDATION (PREFLIGHT Mode)
-
-Validates the implementation plan against codebase reality before any code is written.
-
-```mermaid
-graph TD
-    StartPreflight["Begin L3 Preflight<br>Validation"] --> ReadPlan["Read Plan & Creative Docs<br>from `tasks.md` and `creative-*.md`"]
-    ReadPlan --> ConventionCheck["Convention Compliance<br>(systemPatterns.md, style-guide.md)"]
-    ConventionCheck --> DependencyImpact["Dependency Impact<br>Analysis"]
-    DependencyImpact --> ConflictDetect["Conflict Detection<br>(Existing Code vs Plan)"]
-    ConflictDetect --> CompletenessCheck["Completeness Precheck<br>(All Requirements Mapped)"]
-    CompletenessCheck --> IntegrationElegance["Integration Elegance<br>(Advisory Only)"]
-    IntegrationElegance --> WriteStatus["Write .preflight_status<br>& Update tasks.md"]
-    WriteStatus --> PreflightComplete["L3 Preflight<br>Complete"]
-
-    style StartPreflight fill:#fff9c4,stroke:#fff176
-    style PreflightComplete fill:#fff176,stroke:#fdd835
-```
-
-  * **Execution:** Run `/preflight` — see the preflight command for detailed procedure.
-  * **Milestone Checkpoint:**
-    ```
-    ✓ L3 PREFLIGHT VALIDATION CHECKPOINT
-    - Plan read and understood? [YES/NO]
-    - Convention compliance verified? [YES/NO]
-    - Dependency impact analysis complete? [YES/NO]
-    - Conflict detection complete (no blocking conflicts)? [YES/NO]
-    - Completeness precheck passed? [YES/NO]
-    - .preflight_status written? [YES/NO]
-
-    → If PASS: Proceed to Implementation.
-    → If FAIL (rearchitect): Return to /plan with findings.
-    → If FAIL (fixable): Address findings and re-run /preflight.
-    ```
-
-### Phase 6: IMPLEMENTATION (BUILD Mode - TDD)
+### Phase 5: IMPLEMENTATION (BUILD Mode - TDD)
 
 Guided by `visual-maps/build-mode-map.mdc` and `Level3/implementation-L3.mdc`.
 
@@ -282,45 +240,11 @@ graph TD
     - End-to-end feature testing successful? [YES/NO]
     - `tasks.md` and `progress.md` updated with implementation status? [YES/NO]
 
-    → If all YES: Proceed to QA Review.
+    → If all YES: Proceed to Reflection.
     → If any NO: Complete implementation and testing.
     ```
 
-### Phase 7: QA REVIEW (QA Mode)
-
-Post-build semantic review of the implementation against the original plan.
-
-```mermaid
-graph TD
-    StartQA["Begin L3 QA<br>Review"] --> ReadPlan["Read Original Plan<br>& Creative Docs"]
-    ReadPlan --> SemanticReview["Apply Semantic Constraints<br>(KISS/DRY/YAGNI/Completeness/<br>Regression/Integrity)"]
-    SemanticReview --> ApplyFixes["Apply Fixes<br>Directly"]
-    ApplyFixes --> IntegrationInsight["Integration Insight<br>(Advisory Only)"]
-    IntegrationInsight --> WriteStatus["Write .qa_validation_status<br>& Update tasks.md"]
-    WriteStatus --> QAComplete["L3 QA Review<br>Complete"]
-
-    style StartQA fill:#ffe0b2,stroke:#ffb74d
-    style QAComplete fill:#ffb74d,stroke:#ff9800
-```
-
-  * **Execution:** Run `/qa` — see the QA command for detailed procedure.
-  * **Milestone Checkpoint:**
-    ```
-    ✓ L3 QA REVIEW CHECKPOINT
-    - Original plan reviewed as baseline? [YES/NO]
-    - KISS/DRY/YAGNI checks applied? [YES/NO]
-    - Completeness verified (no TODOs/stubs)? [YES/NO]
-    - Regression check passed? [YES/NO]
-    - Integrity verified (no debug artifacts)? [YES/NO]
-    - All fixes applied and tests passing? [YES/NO]
-    - .qa_validation_status written? [YES/NO]
-
-    → If PASS: Proceed to Reflection.
-    → If FAIL (iterate): Return to /build, then re-run /qa.
-    → If FAIL (replan): Return to /plan for fundamental issues.
-    ```
-
-### Phase 8: REFLECTION (REFLECT Mode)
+### Phase 6: REFLECTION (REFLECT Mode)
 
 Guided by `visual-maps/reflect-mode-map.mdc` and `Level3/reflection-L3.mdc`.
 
@@ -357,7 +281,7 @@ graph TD
     → If any NO: Complete reflection documentation.
     ```
 
-### Phase 9: ARCHIVING (ARCHIVE Mode - Highly Recommended for L3)
+### Phase 7: ARCHIVING (ARCHIVE Mode - Highly Recommended for L3)
 
 Guided by `visual-maps/archive-mode-map.mdc` and `Level3/archive-L3.mdc`.
 

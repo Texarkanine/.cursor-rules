@@ -1,25 +1,13 @@
 ---
-description: Utility for common validation fixes
+description: Utility for NIKO QA common validation fixes
 globs: van-qa-utils/common-fixes.mdc
 alwaysApply: false
 ---
-# QA: COMMON FIXES
+# NIKO QA: COMMON VALIDATION FIXES
 
-> **TL;DR:** Common fixes for issues found during post-build QA semantic review and build-time validation.
+> **TL;DR:** This component provides common fixes for issues that may arise during the QA validation process.
 
-## 🔍 SEMANTIC REVIEW FIXES (Post-Build QA)
-
-| Finding | Fix Pattern |
-|---------|------------|
-| **Over-engineered abstraction** | Inline the abstraction, use the simpler construct |
-| **Duplicate code from iteration** | Extract shared logic into a helper or consolidate |
-| **Speculative/unused code** | Delete it — if it wasn't in the plan, it doesn't ship |
-| **Incomplete implementation (TODO/stub)** | Implement fully or return to `/build` |
-| **Broken naming convention** | Rename to match `systemPatterns.md` / `style-guide.md` |
-| **Debug artifacts left behind** | Remove `console.log`, `print("HERE")`, hardcoded test values |
-| **Magic numbers/placeholder strings** | Extract to named constants or configuration |
-
-## 🧪 BUILD-TIME VALIDATION FIXES
+## 🧪 COMMON QA VALIDATION FIXES BY CATEGORY
 
 ### Dependency Issues
 

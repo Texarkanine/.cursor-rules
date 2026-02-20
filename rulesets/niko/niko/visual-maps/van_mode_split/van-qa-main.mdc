@@ -5,11 +5,21 @@ alwaysApply: false
 ---
 # NIKO MODE: QA TECHNICAL VALIDATION (Main Entry)
 
-> **TL;DR:** This is the entry point for the QA semantic review process that executes *after* BUILD mode. It performs a structured review of implemented code against the original plan, catching over-engineering, incomplete implementations, and pattern violations. Required for L2+ tasks; gates `/reflect`.
+> **TL;DR:** This is the entry point for the QA validation process that executes *after* CREATIVE mode and *before* BUILD mode. It ensures technical requirements are met before implementation begins.
 
-## 🚀 QA MODE ACTIVATION
+## 📣 HOW TO USE THESE QA RULES
 
-After completing BUILD mode, when the user types "/qa", respond:
+To access any QA validation rule or component, use the `fetch_rules` tool with exact rule names:
+
+```
+// CRITICAL: Always use fetch_rules to load validation components
+// For detailed examples and guidance, load:
+// shared/niko/visual-maps/van-qa-utils/rule-calling-guide
+```
+
+## 🚀 NIKO QA MODE ACTIVATION
+
+After completing CREATIVE mode, when the user types "/qa", respond:
 
 ```mermaid
 graph TD
@@ -45,63 +55,88 @@ QA validation checks now running...
 Any issues found MUST be remediated before continuing with normal process flow
 ```
 
-## 🔍 SEMANTIC REVIEW OVERVIEW
+## 🔍 TECHNICAL VALIDATION OVERVIEW
 
-Seven-point semantic review process:
+Four-point validation process with selective loading:
 
 ```mermaid
 graph TD
-    QA["QA MODE"] --> ReadPlan["Read Original Plan<br>from tasks.md"]
-    ReadPlan --> SevenChecks["SEVEN-POINT SEMANTIC REVIEW"]
+    VANQA["NIKO QA MODE"] --> FourChecks["FOUR-POINT VALIDATION"]
+    
+    FourChecks --> DepCheck["1️⃣ DEPENDENCY VERIFICATION
+    Load: van-qa-checks/dependency-check.mdc"]
+    DepCheck --> ConfigCheck["2️⃣ CONFIGURATION VALIDATION
+    Load: van-qa-checks/config-check.mdc"]
+    ConfigCheck --> EnvCheck["3️⃣ ENVIRONMENT VALIDATION
+    Load: van-qa-checks/environment-check.mdc"]
+    EnvCheck --> MinBuildCheck["4️⃣ MINIMAL BUILD TEST
+    Load: van-qa-checks/build-test.mdc"]
+    
+    MinBuildCheck --> ValidationResults{"All Checks<br>Passed?"}
+    ValidationResults -->|"Yes"| SuccessReport["GENERATE SUCCESS REPORT
+    Load: van-qa-utils/reports.mdc"]
+    ValidationResults -->|"No"| FailureReport["GENERATE FAILURE REPORT
+    Load: van-qa-utils/reports.mdc"]
+    
+    SuccessReport --> BUILD_Transition["Trigger BUILD Mode
+    Load: van-qa-utils/mode-transitions.mdc"]
+    FailureReport --> FixIssues["Fix Technical Issues
+    Load: van-qa-utils/common-fixes.mdc"]
+    FixIssues --> ReValidate["Re-validate (Re-run /qa)"]
+    ReValidate --> FourChecks
+    
+    style VANQA fill:#4da6ff,stroke:#0066cc,color:white
+    style FourChecks fill:#f6546a,stroke:#c30052,color:white
+    style ValidationResults fill:#f6546a,stroke:#c30052,color:white
+    style BUILD_Transition fill:#10b981,stroke:#059669,color:white
+    style FixIssues fill:#ff5555,stroke:#dd3333,color:white
+```
 
-    SevenChecks --> KISS["1️⃣ KISS: Simplify over-engineering"]
-    SevenChecks --> DRY["2️⃣ DRY: Consolidate duplicates"]
-    SevenChecks --> YAGNI["3️⃣ YAGNI: Prune speculative code"]
-    SevenChecks --> Complete["4️⃣ COMPLETENESS: All requirements met?"]
-    SevenChecks --> Regression["5️⃣ REGRESSION: Patterns preserved?"]
-    SevenChecks --> Integrity["6️⃣ INTEGRITY: Debug artifacts removed?"]
-    SevenChecks --> Integration["7️⃣ INTEGRATION INSIGHT (Advisory)"]
+## 🔄 INTEGRATION WITH DESIGN DECISIONS
 
-    KISS & DRY & YAGNI & Complete & Regression & Integrity --> ApplyFixes["Apply Fixes Directly"]
-    ApplyFixes --> ReTest["Re-run Tests"]
-    Integration --> Advisory["Flag for Operator"]
-    ReTest --> WriteStatus["Write .qa_validation_status"]
+Reads Creative Phase outputs to inform validation:
 
-    WriteStatus --> QAResult{"QA Result"}
-    QAResult -->|"PASS"| AllowReflect["Allow /reflect"]
-    QAResult -->|"FAIL"| ReturnBuild["Return to /build"]
-
-    style QA fill:#4da6ff,stroke:#0066cc,color:white
-    style SevenChecks fill:#f6546a,stroke:#c30052,color:white
-    style QAResult fill:#f6546a,stroke:#c30052,color:white
-    style AllowReflect fill:#10b981,stroke:#059669,color:white
-    style ReturnBuild fill:#ff5555,stroke:#dd3333,color:white
+```mermaid
+graph TD
+    Start["Read Design Decisions"] --> ReadCreative["Parse Creative Phase<br>Documentation"]
+    ReadCreative --> ExtractTech["Extract Technology<br>Choices"]
+    ExtractTech --> ExtractDeps["Extract Required<br>Dependencies"]
+    ExtractDeps --> BuildValidationPlan["Build Validation<br>Plan"]
+    BuildValidationPlan --> StartValidation["Start Four-Point<br>Validation Process"]
+    
+    style Start fill:#4da6ff,stroke:#0066cc,color:white
+    style ExtractTech fill:#f6546a,stroke:#c30052,color:white
+    style BuildValidationPlan fill:#10b981,stroke:#059669,color:white
+    style StartValidation fill:#f6546a,stroke:#c30052,color:white
 ```
 
 ## 📋 COMPONENT LOADING SEQUENCE
 
-The QA process uses these utilities as needed:
+The QA validation process follows this selective loading sequence:
 
 1. **Main Entry (This File)**: `van-qa-main.mdc`
-2. **Utilities (As Needed)**:
-   - `van-qa-utils/reports.mdc` — Report generation
-   - `van-qa-utils/common-fixes.mdc` — Common fix patterns
-   - `van-qa-utils/mode-transitions.mdc` — Mode transition logic
+2. **Validation Checks**:
+   - `van-qa-checks/dependency-check.mdc`
+   - `van-qa-checks/config-check.mdc`
+   - `van-qa-checks/environment-check.mdc`
+   - `van-qa-checks/build-test.mdc`
+3. **Utilities (As Needed)**:
+   - `van-qa-utils/reports.mdc`
+   - `van-qa-utils/common-fixes.mdc`
+   - `van-qa-utils/mode-transitions.mdc`
 
-## 📋 FINAL QA CHECKPOINT
+## 📋 FINAL QA VALIDATION CHECKPOINT
 
 ```
-✓ SECTION CHECKPOINT: QA SEMANTIC REVIEW
-- KISS: Over-engineering addressed? [YES/NO]
-- DRY: Duplicates consolidated? [YES/NO]
-- YAGNI: Speculative code pruned? [YES/NO]
-- COMPLETENESS: All requirements met? [YES/NO]
-- REGRESSION: Patterns preserved? [YES/NO]
-- INTEGRITY: Debug artifacts removed? [YES/NO]
+✓ SECTION CHECKPOINT: QA VALIDATION
+- Dependency Verification Passed? [YES/NO]
+- Configuration Validation Passed? [YES/NO]
+- Environment Validation Passed? [YES/NO]
+- Minimal Build Test Passed? [YES/NO]
 
-→ If all YES: Write PASS to .qa_validation_status, proceed to /reflect.
-→ If any NO: Fix issues and re-run /qa.
+→ If all YES: Ready for BUILD mode transition.
+→ If any NO: Fix identified issues and re-run /qa.
 ```
 
-**Next Step (on PASS):** Proceed to `/reflect` (load `van-qa-utils/mode-transitions.mdc`).
+**Next Step (on PASS):** Trigger BUILD mode (load `van-qa-utils/mode-transitions.mdc`).
 **Next Step (on FAIL):** Address issues (load `van-qa-utils/common-fixes.mdc`) and re-run `/qa`. 

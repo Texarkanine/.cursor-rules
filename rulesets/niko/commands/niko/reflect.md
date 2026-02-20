@@ -56,10 +56,6 @@ Load: .cursor/rules/shared/niko/Level4/reflection-comprehensive.mdc
 1. **Verify Implementation Complete**
    - Check `memory-bank/tasks.md` for implementation completion
    - If not complete, return to `/build` command
-   - For Level 2+: Check `memory-bank/.qa_validation_status` for QA validation (must be PASS)
-   - If QA has not passed for Level 2+ tasks, prompt to run `/qa` first
-
-   **Note**: For Level 2+ tasks, REFLECT mode is blocked until QA validation passes. The system checks `memory-bank/.qa_validation_status` before allowing REFLECT mode access. Level 1 tasks skip this check.
 
 2. **Review Implementation**
    - Compare implementation against original plan
@@ -98,14 +94,6 @@ Load: .cursor/rules/shared/niko/Level4/reflection-comprehensive.mdc
 ## Usage
 
 Type `/reflect` to start reflection on the completed task.
-
-## Output to Operator
-
-When reflection is complete, print:
-1. **Reflection summary** — what went well, key challenges, and lessons learned (one line each)
-2. **Process improvements** (if any) — concrete suggestions for future tasks
-3. **Reflection document location** — path to the created reflection file
-4. **Next command** — `/archive`
 
 ## Next Steps
 

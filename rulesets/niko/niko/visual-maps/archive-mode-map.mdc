@@ -51,7 +51,7 @@ graph TD
     
     %% Completion - Archive, Clear, and Commit
     L1Complete & L2Complete & L34Complete --> CreateArchive["Create Archive<br>Document in<br>memory-bank/archive/<kind>/"]
-    CreateArchive --> ClearFiles["Clear Task-Specific<br>Files (creative/, reflection/,<br>tasks.md, progress.md,<br>activeContext.md, .qa_validation_status,<br>.preflight_status)"]
+    CreateArchive --> ClearFiles["Clear Task-Specific<br>Files (creative/, reflection/,<br>tasks.md, progress.md,<br>activeContext.md, .qa_validation_status)"]
     ClearFiles --> GitCommit["Git Commit<br>chore: archive task-id<br>and clear memory bank"]
     GitCommit --> Ready["Memory Bank Ready<br>for Next Task"]
     
@@ -289,7 +289,6 @@ When archiving is complete, update tasks.md with:
 - progress.md cleared (reset to initial state)? [YES/NO]
 - activeContext.md cleared (reset to initial state)? [YES/NO]
 - .qa_validation_status removed? [YES/NO]
-- .preflight_status removed? [YES/NO]
 - Repository-specific files preserved? [YES/NO]
 
 ✓ GIT COMMIT VERIFICATION
@@ -308,7 +307,7 @@ When archiving is complete, notify user with:
 ## TASK ARCHIVED
 
 ✅ Archive document created in memory-bank/archive/<kind>/
-✅ Task-specific files cleared (creative/, reflection/, tasks.md, progress.md, activeContext.md, .qa_validation_status, .preflight_status)
+✅ Task-specific files cleared (creative/, reflection/, tasks.md, progress.md, activeContext.md, .qa_validation_status)
 ✅ Repository knowledge preserved
 ✅ Git commit: "chore: archive <task-id> and clear memory bank"
 
@@ -331,7 +330,6 @@ graph TD
         ClearProgress["progress.md"]
         ClearActive["activeContext.md"]
         ClearQA[".qa_validation_status"]
-        ClearPreflight[".preflight_status"]
     end
     
     subgraph "Files PRESERVED (Repository-Specific)"

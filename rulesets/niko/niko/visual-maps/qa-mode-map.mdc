@@ -1,12 +1,11 @@
 ---
-description: QA Mode - Post-Build Semantic Review
+description: QA Mode
 globs: qa-mode-map.mdc
 alwaysApply: false
 ---
 
-# QA MODE: POST-BUILD SEMANTIC REVIEW
 
-> **TL;DR:** The `/qa` command performs a structured semantic review of code implemented during BUILD mode against the original plan. It runs *after* BUILD (not before), catches over-engineering, incomplete implementations, pattern violations, and implementation debris. Required for L2+ tasks; gates `/reflect`. It also performs universal validation (Memory Bank consistency, task tracking, reference checks) as part of its review.
+> **TL;DR:** This enhanced QA mode provides comprehensive validation at any stage of development. It automatically detects the current phase, validates Memory Bank consistency, verifies task tracking, and performs phase-specific technical validation to ensure project quality throughout the development lifecycle.
 
 ## 🔍 ENHANCED QA MODE PROCESS FLOW
 
@@ -209,48 +208,30 @@ graph TD
     style FailCREATIVE fill:#ff5555,stroke:#dd3333,color:white
 ```
 
-### POST-BUILD Semantic Review (Primary QA Mode)
+### BUILD Phase Technical Validation
 
-QA now runs *after* BUILD mode as a semantic code review against the original plan:
+This retains the original QA validation from the previous version:
 
 ```mermaid
 graph TD
-    POSTBUILD["POST-BUILD<br>Semantic Review"] --> ReadPlan["Read Original Plan<br>from tasks.md"]
-    ReadPlan --> SevenChecks["Seven-Point Semantic<br>Review"]
-
-    SevenChecks --> KISS["1️⃣ KISS<br>Simplify over-engineering"]
-    SevenChecks --> DRY["2️⃣ DRY<br>Consolidate duplicates"]
-    SevenChecks --> YAGNI["3️⃣ YAGNI<br>Prune speculative code"]
-    SevenChecks --> Complete["4️⃣ COMPLETENESS<br>All requirements met?"]
-    SevenChecks --> Regression["5️⃣ REGRESSION<br>Patterns preserved?"]
-    SevenChecks --> Integrity["6️⃣ INTEGRITY<br>Debug artifacts removed?"]
-    SevenChecks --> Integration["7️⃣ INTEGRATION INSIGHT<br>(Advisory only)"]
-
-    KISS & DRY & YAGNI & Complete & Regression & Integrity --> ApplyFixes["Apply Fixes Directly"]
-    ApplyFixes --> ReTest["Re-run Tests"]
-    Integration --> Advisory["Flag for Operator"]
-    ReTest --> WriteStatus["Write .qa_validation_status"]
-
-    WriteStatus --> QAResult{"QA Result"}
-    QAResult -->|"PASS"| AllowReflect["Allow /reflect"]
-    QAResult -->|"FAIL"| ReturnBuild["Return to /build"]
-
-    style POSTBUILD fill:#4da6ff,stroke:#0066cc,color:white
-    style SevenChecks fill:#f6546a,stroke:#c30052,color:white
-    style QAResult fill:#f6546a,stroke:#c30052,color:white
-    style AllowReflect fill:#10b981,stroke:#059669,color:white
-    style ReturnBuild fill:#ff5555,stroke:#dd3333,color:white
+    BUILD["BUILD Phase<br>Validation"] --> ReadDesign["Read Design Decisions"]
+    ReadDesign --> FourChecks["Four-Point Technical<br>Validation"]
+    
+    FourChecks --> DepCheck["1️⃣ Dependency<br>Verification"]
+    DepCheck --> ConfigCheck["2️⃣ Configuration<br>Validation"]
+    ConfigCheck --> EnvCheck["3️⃣ Environment<br>Validation"]
+    EnvCheck --> MinBuildCheck["4️⃣ Minimal Build<br>Test"]
+    
+    MinBuildCheck --> BUILDConsistency{"Technical<br>Prerequisites Met?"}
+    BUILDConsistency -->|"Yes"| PassBUILD["✅ BUILD Phase<br>Validation Passed"]
+    BUILDConsistency -->|"No"| FailBUILD["❌ BUILD Phase<br>Issues Found"]
+    
+    style BUILD fill:#4da6ff,stroke:#0066cc,color:white
+    style FourChecks fill:#f6546a,stroke:#c30052,color:white
+    style BUILDConsistency fill:#f6546a,stroke:#c30052,color:white
+    style PassBUILD fill:#10b981,stroke:#059669,color:white
+    style FailBUILD fill:#ff5555,stroke:#dd3333,color:white
 ```
-
-#### Semantic Constraint Details
-
-1. **KISS** — Simplify over-engineered logic; flatten unnecessary abstractions introduced during build.
-2. **DRY** — Consolidate duplicate code and boilerplate from iterative development.
-3. **YAGNI** — Prune speculative code, unused parameters, and features not in the plan.
-4. **COMPLETENESS** — Verify every requirement was actually implemented, not stubbed or TODO'd.
-5. **REGRESSION** — Confirm no existing patterns were broken (naming, error handling, imports, structure).
-6. **INTEGRITY** — Remove debug artifacts, magic numbers, placeholder strings, hardcoded shortcuts.
-7. **INTEGRATION INSIGHT** *(advisory, does not block)* — Flag broader architectural simplifications visible only after implementation. Do not action; report to operator.
 
 ## 📋 UNIVERSAL VALIDATION COMMAND EXECUTION
 
