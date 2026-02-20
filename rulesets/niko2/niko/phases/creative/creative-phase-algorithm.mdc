@@ -4,7 +4,7 @@ alwaysApply: false
 
 # Creative Phase: Algorithm Design
 
-This document guides exploration of an open question about logic and computation - how to solve a specific problem, what data structures to use, how to handle complex transformations, or performance-sensitive processing. It is loaded by the creative skill after routing.
+This document guides exploration of an open question about logic and computation - how to solve a specific problem, what data structures to use, how to handle complex transformations, or performance-sensitive processing. It is loaded by the `niko-creative` skill.
 
 ## Inputs
 
@@ -53,8 +53,8 @@ Use a comparison table when three or more options are evaluated:
 Note key insights - the non-obvious tradeoffs, edge cases where options diverge, or constraints that eliminate options.
 
 Guard against:
-- Premature optimization (solving for scale you don't have)
-- Reinventing the wheel (a library already does this)
+- Premature optimization (e.g. solving for scale you don't have)
+- Reinventing the wheel (e.g. a library already does this)
 - Over-engineering for hypothetical future requirements (YAGNI)
 
 ## Step 4: Decide
@@ -62,10 +62,10 @@ Guard against:
 Select the winning option. State:
 - Which option was selected
 - Why it won (tied to the specific requirements and constraints)
-- What was traded away (the key tradeoff accepted)
+- What was traded away (the key tradeoff(s) accepted, if any)
 - Implementation notes: edge cases to handle, performance considerations, integration points
 
-If no clear winner emerges, this is a low-confidence result - return to the creative skill with findings and let it handle the UNRESOLVED path.
+If no clear winner emerges, this is a **low-confidence result**, which is fine - you did the research!
 
 ## Output Document
 
@@ -89,6 +89,9 @@ Key insights:
 - [Edge case or constraint that shaped the decision]
 
 ## Decision
+
+<!-- if a high-confidence result, use this format: -->
+
 **Selected**: [Option name]
 **Rationale**: [Why this won, tied to requirements]
 **Tradeoff**: [What was accepted/sacrificed]
@@ -97,6 +100,18 @@ Key insights:
 - [Edge case handling]
 - [Performance consideration]
 - [Integration point]
+
+<!-- if a low-confidence result, use this format: -->
+
+**Low-Confidence Result**: [Why no clear winner emerged]
 ~~~
 
-Return control to the creative skill for confidence evaluation.
+## Output to Operator
+
+~~~markdown
+# Algorithm Decision: [Question Name]
+
+## Decision
+
+[the "Decision" section from the output document]
+~~~
