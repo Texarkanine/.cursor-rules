@@ -52,7 +52,7 @@ Read:
 
 5. **Handle Results**
     - **On PASS (clean or all issues fixed)**: Good job!
-    - **On FAIL (issues requiring build changes)**: Operator input required. TODO: when/can we auto-route back to /niko-build?
+    - **On FAIL (issues requiring build changes)**: Return to the Build phase to fix the issues.
     - **On FAIL (fundamental plan issue discovered)**: Return to the Plan phase to revise the plan.
 
 ## Step 3: Output to Operator
