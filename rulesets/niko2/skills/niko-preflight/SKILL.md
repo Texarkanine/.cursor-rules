@@ -55,9 +55,9 @@ Read:
 
 8. **Handle Results**
    - **On PASS**: Good job!
-   - **On PASS with ADVISORY**: Allow transition to `/build`, but document advisory findings for the operator's consideration
+   - **On PASS with ADVISORY**: Allow transition to `/niko-build`, but document advisory findings for the operator's consideration
    - **On FAIL (rearchitect needed)**: Operator decision required.
-   - **On FAIL (conflict/convention)**: Provide specific fix instructions, block `/build`; Operator decision required.
+   - **On FAIL (conflict/convention)**: Provide specific fix instructions, block `/niko-build`; Operator decision required.
 
 ## Step 3: Output to Operator
 
@@ -91,8 +91,8 @@ When preflight validation is complete, print:
 
 ## Next Steps
 
-- **On FAIL (rearchitect)**: Run `/plan` when ready to revise the approach.
-- **On FAIL (fixable)**: Address the findings and re-run `/preflight`.
+- **On FAIL (rearchitect)**: Run `/niko-plan` when ready to revise the approach.
+- **On FAIL (fixable)**: Address the findings and re-run `/niko-preflight`.
 ~~~
 
 ## Step 4: Phase Transition

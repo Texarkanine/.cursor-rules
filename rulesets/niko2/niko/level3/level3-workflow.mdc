@@ -12,16 +12,16 @@ Level 3 tasks are intermediate features that require a structured approach with 
 graph TD
     Start(("Complexity Analysis")) --> NikoPlan["🐱 plan"]
     NikoPlan --> NikoPreflight{"🐱 preflight"}
-    NikoPreflight -.->|"PASS"| ManualBuild[/"🧑‍💻 /build"/]
-    NikoPreflight -.->|"FAIL"| ManualPlan[/"🧑‍💻 /plan"/]
+    NikoPreflight -.->|"PASS"| ManualBuild[/"🧑‍💻 /niko-build"/]
+    NikoPreflight -.->|"FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
 
     NikoPlan -->|"Open Questions"| NikoCreative{"🐱 creative"}
     NikoCreative -->|"High Confidence"| NikoPlan
-    NikoCreative -.->|"Low Confidence"| ManualPlan[/"🧑‍💻 /plan"/]
+    NikoCreative -.->|"Low Confidence"| ManualPlan[/"🧑‍💻 /niko-plan"/]
 
     ManualBuild --> NikoQA{"🐱 qa"}
     NikoQA -->|"PASS"| NikoReflect["🐱 reflect"]
-    NikoReflect -.-> ManualArchive[/"🧑‍💻 /archive"/]
+    NikoReflect -.-> ManualArchive[/"🧑‍💻 /niko-archive"/]
     NikoQA -->|"FAIL (fixable)"| ManualBuild
     NikoQA -->|"FAIL (rearchitect)"| ManualPlan
 

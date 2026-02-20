@@ -50,9 +50,9 @@ Create the file in Markdown format, according to this template:
 ## What Was Done
 - P0: Reverted 4 visual-maps files to main, applied surgical semantic edits (diff reduced from 2262 to 368 lines)
 - P1: Fixed workflow completeness — always archive for L2+, correct phase counts
-- P2: Trimmed duplication — commands reference `/preflight` and `/qa` instead of reproducing procedures; consolidated archive dotfile cleanup; nested build prerequisites by level
+- P2: Trimmed duplication — commands reference `/niko-preflight` and `/niko-qa` instead of reproducing procedures; consolidated archive dotfile cleanup; nested build prerequisites by level
 - P3: Added "Output to Operator" section to all 6 commands; deleted 2 obsolete files; updated common-fixes.mdc for semantic QA
 
 ## Next Step
-- QA PASSED — proceed to `/reflect`
+- QA PASSED — proceed to `/niko-reflect`
 ~~~

@@ -52,7 +52,7 @@ Archives use the following format:
 
 ## TESTING
 
-[Describe verification steps taken: how was this work tested or validated? List manual checks, test runs, use of `/qa`, etc.]
+[Describe verification steps taken: how was this work tested or validated? List manual checks, test runs, use of `/niko-qa`, etc.]
 
 ## LESSONS LEARNED
 

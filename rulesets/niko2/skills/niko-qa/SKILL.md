@@ -42,7 +42,7 @@ Read:
 
 3. **Apply Fixes or Fail**
      - **Trivial fixes** (debug artifacts, naming inconsistencies, dead code, magic numbers): fix directly, re-run lint/build/test after each.
-     - **Substantive issues** (missing requirements, wrong approach, broken contracts, incomplete implementations): do NOT fix. Record as a FAIL finding with enough detail for the next /build or /plan cycle to act on it.
+     - **Substantive issues** (missing requirements, wrong approach, broken contracts, incomplete implementations): do NOT fix. Record as a FAIL finding with enough detail for the next Build or Plan cycle to act on it.
      - The line: if the fix requires understanding design intent or making a decision between approaches, it's not QA's job. Fail and route back.
 
 4. **Generate QA Report**
@@ -52,7 +52,7 @@ Read:
 
 5. **Handle Results**
     - **On PASS (clean or all issues fixed)**: Good job!
-    - **On FAIL (issues requiring build changes)**: Operator input required. TODO: when/can we auto-route back to /build?
+    - **On FAIL (issues requiring build changes)**: Operator input required. TODO: when/can we auto-route back to /niko-build?
     - **On FAIL (fundamental plan issue discovered)**: Return to the Plan phase to revise the plan.
 
 ## Step 3: Output to Operator

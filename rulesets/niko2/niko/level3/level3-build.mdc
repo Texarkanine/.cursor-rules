@@ -116,8 +116,8 @@ QA review will now run automatically.
 
 ## Next Steps
 
-- **Plan deficiency**: Return to `/plan` to revise the implementation approach.
-- **Creative decision invalid**: Return to `/plan` - the relevant open question needs re-exploration.
+- **Plan deficiency**: Return to `/niko-plan` to revise the implementation approach.
+- **Creative decision invalid**: Return to `/niko-plan` - the relevant open question needs re-exploration.
 - **External blocker**: Operator input required - [describe what's needed].
 ~~~
 

@@ -97,7 +97,7 @@ Create `memory-bank/reflection/reflection-<task-id>.md`:
 - Update `memory-bank/tasks.md`: mark Reflect phase complete
 - Update `memory-bank/activeContext.md` with reflection outcome
 
-## Output to Operator
+## Step 7: Output to Operator
 
 When reflection is complete, print:
 
@@ -115,7 +115,9 @@ When reflection is complete, print:
 
 ## Next Steps
 
-Run `/archive` to create the archive document and finalize the current project.
+Run `/niko-archive` to create the archive document and finalize the current project.
 ~~~
 
-Then, wait for operator input.
+## Step 8: Phase Transition
+
+Reflection is a terminal node. Stop and wait for operator input.

@@ -13,7 +13,7 @@ graph TD
     Start(("Complexity Analysis")) --> NikoPlan["🐱 plan"]
     NikoPlan --> NikoPreflight{"🐱 preflight"}
     NikoPreflight -->|"PASS"| NikoBuild["🐱 build"]
-    NikoPreflight -.->|"FAIL"| ManualPlan[/"🧑‍💻 /plan"/]
+    NikoPreflight -.->|"FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
 
     NikoBuild --> NikoQA{"🐱 qa"}
     NikoQA -->|"PASS"| NikoReflect["🐱 reflect"]

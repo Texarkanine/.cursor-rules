@@ -16,8 +16,8 @@ graph LR
     NikoQA -->|"FAIL"| NikoBuild
 ```
 
-Level 1 tasks skip `/plan`, `/creative`, and `/preflight`. Go straight to build.
-Level 1 tasks are *simple* so there's no `/reflect` or `/archive` after building, either. A commit message & description are sufficient record.
+Level 1 tasks skip `/niko-plan`, `/niko-creative`, and `/niko-preflight`. Go straight to build.
+Level 1 tasks are *simple* so there's no `/niko-reflect` or `/niko-archive` after building, either. A commit message & description are sufficient record.
 
 ## Change Tracking
 

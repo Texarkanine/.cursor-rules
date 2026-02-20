@@ -52,7 +52,7 @@ When all implementation steps are checked off:
    - Key implementation decisions made during build
    - Any deviations from the plan and why
 
-## Output to Operator
+## Step 6: Output to Operator
 
 When build is complete, print:
 
@@ -93,9 +93,9 @@ QA review will now run automatically.
 
 [Which implementation step, what was attempted, what went wrong]
 
-## Next Steps
+## Step 7: Phase Transition
 
-- **Plan deficiency**: Return to `/plan` to revise the implementation approach.
+- **Plan deficiency**: Return to `/niko-plan` to revise the implementation approach.
 - **External blocker**: Operator input required - [describe what's needed].
 ~~~
 
