@@ -51,5 +51,5 @@ To execute a phase for a level 2 task, read and follow the instructions in the a
 - **Preflight Phase**: Invoke the `niko-preflight` skill
 - **Build Phase**: Load `.cursor/rules/shared/niko/level2/level2-build.mdc`
 - **QA Phase**: Invoke the `niko-qa` skill
-- **Reflect Phase**: Invoke the `niko-reflect` skill
-- **Archive Phase**: Invoke the `niko-archive` skill
+- **Reflect Phase**: Load `.cursor/rules/shared/niko/level2/level2-reflect.mdc`
+- **Archive Phase**: Load `.cursor/rules/shared/niko/level2/level2-archive.mdc`

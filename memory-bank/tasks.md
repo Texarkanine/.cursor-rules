@@ -84,7 +84,7 @@ Each file below is a discrete deliverable. Operator reviews and approves before 
 ## Status
 
 - [x] File 1: Reflect skill
-- [ ] File 2: Archive skill
+- [x] File 2: Archive skill (refactored: skills are thin routers, level-specific .mdc files own content)
 - [ ] File 3: Creative phase — algorithm
 - [ ] File 4: Creative phase — generic template
 - [ ] File 5: Creative skill (orchestration)
