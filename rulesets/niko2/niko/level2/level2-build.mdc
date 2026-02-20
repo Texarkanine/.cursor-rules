@@ -93,11 +93,13 @@ QA review will now run automatically.
 
 [Which implementation step, what was attempted, what went wrong]
 
-## Step 7: Phase Transition
+## Next Steps
 
 - **Plan deficiency**: Return to `/niko-plan` to revise the implementation approach.
 - **External blocker**: Operator input required - [describe what's needed].
 ~~~
+
+## Step 7: Phase Transition
 
 If operator input is required, stop and wait for them.
 

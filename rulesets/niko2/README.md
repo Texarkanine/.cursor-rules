@@ -33,7 +33,7 @@ The Niko ruleset includes other supplementary rules to give Niko the capabilitie
 
 Niko will create **many** files in your repo, mostly in the `memory-bank/` directory. This is cool and good: Niko is storing memory on disk instead of in an LLM's context window.
 
-Some of those files are long-lived, "persistent" files that serve as [AGENTS.md](https://agents.md/) but [better](https://blog.cani.ne.jp/2026/02/12/stop-doing-agents-md.html) - purpose-separated high-level indicies to crucial information that your agents need to know about.
+Some of those files are long-lived, "persistent" files that serve as [AGENTS.md](https://agents.md/) but [better](https://blog.cani.ne.jp/2026/02/12/stop-doing-agents-md.html) - purpose-separated high-level indices to crucial information that your agents need to know about.
 
 Other files are ephemeral, created to track a task and its progress. They're cleaned up after you finish a task.
 
