@@ -8,7 +8,7 @@ This document guides exploration of an open question about logic and computation
 
 ## Inputs
 
-The creative skill provides:
+The `niko-creative` skill provides:
 - The open question (problem statement, why it's ambiguous, constraints)
 - Memory bank context (if available)
 
@@ -104,14 +104,4 @@ Key insights:
 <!-- if a low-confidence result, use this format: -->
 
 **Low-Confidence Result**: [Why no clear winner emerged]
-~~~
-
-## Output to Operator
-
-~~~markdown
-# Algorithm Decision: [Question Name]
-
-## Decision
-
-[the "Decision" section from the output document]
 ~~~
