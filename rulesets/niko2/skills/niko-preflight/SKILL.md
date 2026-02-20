@@ -16,7 +16,7 @@ Read:
 - `memory-bank/techContext.md`
 - `memory-bank/creative/**/*.md` (if any exist)
 
-## Workflow
+## Step 2: Preflight Workflow
 
 1. **Verify Prerequisites**
    - Check `memory-bank/tasks.md` for planning completion
@@ -59,7 +59,7 @@ Read:
    - **On FAIL (rearchitect needed)**: Operator decision required.
    - **On FAIL (conflict/convention)**: Provide specific fix instructions, block `/build`; Operator decision required.
 
-## Output to Operator
+## Step 3: Output to Operator
 
 When preflight validation is complete, print:
 
@@ -75,9 +75,6 @@ When preflight validation is complete, print:
 1. **Findings** — bulleted list of each finding with severity
 2. **Advisory items** (if any) — concrete recommendations the operator can evaluate
 
-## Next Steps
-
-Run `/build` to implement the plan.
 ~~~
 
 ### FAIL
@@ -97,6 +94,8 @@ Run `/build` to implement the plan.
 - **On FAIL (rearchitect)**: Run `/plan` when ready to revise the approach.
 - **On FAIL (fixable)**: Address the findings and re-run `/preflight`.
 ~~~
+
+## Step 4: Phase Transition
 
 If operator input is required, stop and wait for them.
 

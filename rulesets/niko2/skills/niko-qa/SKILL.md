@@ -17,7 +17,7 @@ Read:
 - `memory-bank/progress.md`
 - `memory-bank/creative/`
 
-## Workflow
+## Step 2: QA Workflow
 
 1. **Verify Prerequisites**
     - Check `memory-bank/tasks.md` for build phase completion
@@ -52,10 +52,10 @@ Read:
 
 5. **Handle Results**
     - **On PASS (clean or all issues fixed)**: Good job!
-    - **On FAIL (issues requiring build changes)**: Operator input required.
+    - **On FAIL (issues requiring build changes)**: Operator input required. TODO: when/can we auto-route back to /build?
     - **On FAIL (fundamental plan issue discovered)**: Return to the Plan phase to revise the plan.
 
-## Output to Operator
+## Step 3: Output to Operator
 
 When QA review is complete, print:
 
@@ -71,9 +71,6 @@ When QA review is complete, print:
 1. **Findings** — bulleted list of each semantic finding and the fix applied (or why it blocks)
 2. **Integration Insight** (if any) — advisory recommendations surfaced during review
 
-## Next Steps
-
-(the next command, if any, based on the current complexity-level's workflow)
 ~~~
 
 ### FAIL
@@ -90,6 +87,8 @@ When QA review is complete, print:
 
 (the next command, if any, based on the current complexity-level's workflow & QA result)
 ~~~
+
+## Step 4: Phase Transition
 
 If operator input is required, stop and wait for them.
 

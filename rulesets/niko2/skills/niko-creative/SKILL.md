@@ -57,7 +57,7 @@ After the creative phase type completes its exploration:
 
 **Standalone**: Present the exploration results directly to the operator in the output below. If a memory bank exists, also write the creative document to `memory-bank/creative/` for future reference.
 
-## Output to Operator
+## Step 6: Output to Operator
 
 ### High Confidence (Resolved)
 
@@ -93,7 +93,7 @@ Documented in `memory-bank/creative/creative-[question-name].md`
 Documented in `memory-bank/creative/creative-[question-name].md`
 ~~~
 
-## Next Steps
+## Step 7: Phase Transition
 
 **Within a Niko Workflow:**
 
