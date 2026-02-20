@@ -13,15 +13,15 @@ graph TD
     Start(("Complexity Analysis")) --> NikoPlan["🐱 plan"]
     NikoPlan --> NikoPreflight{"🐱 preflight"}
     NikoPreflight -->|"PASS"| NikoBuild["🐱 build"]
-    NikoPreflight -.->|"FAIL"| ManPlan[/"🧑‍💻 /plan"/]
+    NikoPreflight -.->|"FAIL"| ManualPlan[/"🧑‍💻 /plan"/]
 
     NikoBuild --> NikoQA{"🐱 qa"}
     NikoQA -->|"PASS"| NikoReflect["🐱 reflect"]
-    NikoReflect -.-> ManArchive[/"🧑‍💻 /archive"/]
+    NikoReflect -.-> ManualArchive[/"🧑‍💻 /archive"/]
     NikoQA -->|"FAIL (fixable)"| NikoBuild
-    NikoQA -->|"FAIL (rearchitect)"| ManPlan
+    NikoQA -->|"FAIL (rearchitect)"| ManualPlan
 
-    ManPlan -.-> NikoPlan
+    ManualPlan -.-> NikoPlan
 ```
 
 > Legend:
