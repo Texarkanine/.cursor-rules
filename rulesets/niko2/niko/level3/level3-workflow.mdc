@@ -2,7 +2,7 @@
 alwaysApply: false
 ---
 
-# Level 2 Workflow: Intermediate Feature
+# Level 3 Workflow: Intermediate Feature
 
 Level 3 tasks are intermediate features that require a structured approach with rigorous planning and documentation. The operator is looped in during preparatory phases to ensure that the plan is rock-solid before implementation begins.
 
@@ -23,7 +23,7 @@ graph TD
     NikoQA -->|"PASS"| NikoReflect["🐱 reflect"]
     NikoReflect -.-> ManualArchive[/"🧑‍💻 /niko-archive"/]
     NikoQA -->|"FAIL (fixable)"| ManualBuild
-    NikoQA -->|"FAIL (rearchitect)"| ManualPlan
+    NikoQA -.->|"FAIL (rearchitect)"| ManualPlan
 
     ManualPlan -.-> NikoPlan
 ```

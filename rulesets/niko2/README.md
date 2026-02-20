@@ -89,7 +89,7 @@ flowchart TD
 	NikoQA -->|"PASS"| NikoReflect["🐱 reflect"]
 	NikoReflect -.-> ManualArchive[/"🧑‍💻 /archive"/]
 	NikoQA -->|"FAIL (fixable)"| NikoBuild
-	NikoQA -->|"FAIL (rearchitect)"| ManualPlan
+	NikoQA -.->|"FAIL (rearchitect)"| ManualPlan
 
 	ManualPlan -.-> NikoPlan
 
