@@ -56,7 +56,7 @@ After all component-level implementation steps are complete:
 1. Run integration tests that span component boundaries (as specified in the test plan)
 2. Run the full project test suite to confirm no regressions
 3. Run any linters and/or formatters to confirm mechanical correctness
-4. Run any build or packaging processes to confirm that no regressions
+4. Run any build or packaging processes to confirm no regressions
 
 If integration tests fail:
 - **Interface mismatch** (components don't communicate as planned): fix at the boundary, re-run

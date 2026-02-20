@@ -41,11 +41,58 @@ A key feature of the memory bank is `memory-bank/archive/` - a directory of summ
 
 ## Niko's Workflows
 
-Niko will evaluate the complexity of the tasks and choose one of three workflows depending on the complexity. These may look daunting, but don't worry:
+Niko's workflows will guide your agent and you through several well-defined phases, tuned to the complexity of the task.
+
+```mermaid
+flowchart LR
+
+	%% Nodes
+	Niko(("🧑‍💻 /niko"))
+	Plan["Plan"]
+	Creative["Creative"]
+	Preflight{"Preflight"}
+	QA{"QA"}
+	Archive["Archive"]
+
+	%% Paths
+	subgraph Planning
+        Niko -- "Level 2 & 3" --> Plan
+
+        Plan -- "Level 3 (Feature)" --> Creative
+
+        
+	end
+
+    Creative --> Preflight
+    Niko -- "Level 1 (Fix)" --> Build
+    Plan -- "Level 2 (Enhance)" --> Preflight
+
+	Preflight -->|"Pass"| Build
+    Preflight -.->|"Fail"| Plan
+
+	subgraph Execution
+        Build["Build"]
+	end
+
+    Build --> QA
+    
+    QA -.->|"Fail"| Plan
+	QA -->|"Level1<br>Pass"| Done("Done")
+    QA -->|"Level2+<br>Pass"| Reflect
+	
+	subgraph Learning
+        Reflect["Reflect"]
+        Reflect -.->|"Rework"| Plan
+
+        Reflect --> Archive
+	end
+```
+
+These may look daunting, but don't worry:
 
 1. Niko will do most phase transitions for you.
 2. Niko will tell you which command to run when a phase transition requires your input.
-3. These charts *include* the actions you'd take on GitHub, too
+3. Niko will evaluate the complexity of the task at hand and choose one of three workflows depending on the complexity. Simpler tasks will have much simpler workflows.
 
 <details>
 <summary>Level 1: Quick Fix</summary>
@@ -56,7 +103,7 @@ graph LR
 	NikoBuild --> NikoQA{"🐱 QA"}
 	NikoQA -->|"FAIL"| NikoBuild
 
-	ManBuild[/"🧑‍💻 /build"/]
+	ManBuild[/"🧑‍💻 /niko-build"/]
 
 	PR{"🧑‍💻 Open Pull Request"}
 	PR -."Rework PR".-> ManBuild
@@ -87,7 +134,7 @@ flowchart TD
 
 	NikoBuild --> NikoQA{"🐱 qa"}
 	NikoQA -->|"PASS"| NikoReflect["🐱 reflect"]
-	NikoReflect -.-> ManualArchive[/"🧑‍💻 /archive"/]
+	NikoReflect -.-> ManualArchive[/"🧑‍💻 /niko-archive"/]
 	NikoQA -->|"FAIL (fixable)"| NikoBuild
 	NikoQA -.->|"FAIL (rearchitect)"| ManualPlan
 
@@ -150,55 +197,6 @@ Use the `/niko` command to get started:
 
 Niko will start working on your request and will prompt you to use other commands **if necessary** to get the work done.
 
-The full range of Niko's phases are:
-
-```mermaid
-flowchart LR
-
-	%% Nodes
-	Niko(("🧑‍💻 /niko"))
-	Plan["Plan"]
-	Creative["Creative"]
-	Preflight{"Preflight"}
-	QA{"QA"}
-	Archive["Archive"]
-
-	%% Paths
-	subgraph Planning
-        Niko -- "Level 2 & 3" --> Plan
-
-        Plan -- "Level 3 (Feature)" --> Creative
-
-        
-	end
-
-    Creative --> Preflight
-    Niko -- "Level 1 (Fix)" --> Build
-    Plan -- "Level 2 (Enhance)" --> Preflight
-
-	Preflight -->|"Pass"| Build
-    Preflight -.->|"Fail"| Plan
-
-	subgraph Execution
-        Build["Build"]
-	end
-
-    Build --> QA
-    
-    QA -.->|"Fail"| Plan
-	QA -->|"Level1<br>Pass"| Done("Done")
-    QA -->|"Level2+<br>Pass"| Reflect
-	
-	subgraph Learning
-        Reflect["Reflect"]
-        Reflect -.->|"Rework"| Plan
-
-        Reflect --> Archive
-	end
-```
-
-
-<br>
 Key insights: 
 
 1. `/niko-reflect` whenever a milestone is reached. `/niko-archive` at the very end before merge. You want your PR reviewers to see your reflections to answer things like "why didn't you..." or "why did you..." etc.
