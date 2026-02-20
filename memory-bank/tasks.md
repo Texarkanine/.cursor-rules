@@ -110,9 +110,9 @@ Each file below is a discrete deliverable. Operator reviews and approves before 
 - [x] File 4: Creative phase — algorithm
 - [x] File 5: Creative phase — architecture
 - [x] File 6: Creative phase — uiux
-- [ ] File 7: Creative phase — generic
-- [ ] File 8: Creative phase — authoring template (meta)
-- [ ] File 9: L3 plan
+- [x] File 7: Creative phase — generic
+- [x] File 8: Creative phase — authoring template (meta)
+- [x] File 9: L3 plan
 - [ ] File 10: L3 build
 
 ## Future Work (Outside Current Task)

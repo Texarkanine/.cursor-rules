@@ -47,7 +47,7 @@ Read:
 
 4. **Generate QA Report**
     - Summarize findings and corrections applied
-    - Write validation status to `memory-bank/.qa_validation_status`
+    - Write validation status to `memory-bank/.qa-validation-status`
     - Update `memory-bank/tasks.md` with QA results
 
 5. **Handle Results**
