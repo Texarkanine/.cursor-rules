@@ -99,4 +99,4 @@ When preflight validation is complete, print:
 
 If operator input is required, stop and wait for them.
 
-If operator input is not required, load the appropriate complexity level-specific Niko workflkow file then proceed to the next Phase as specified by that document.
+If operator input is not required, load the appropriate complexity level-specific Niko workflow file then proceed to the next Phase as specified by that document.

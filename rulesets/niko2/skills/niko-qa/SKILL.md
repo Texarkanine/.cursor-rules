@@ -66,8 +66,6 @@ When QA review is complete, print:
 
 ✅ PASS
 
-## Findings
-
 1. **Findings** — bulleted list of each semantic finding and the fix applied (or why it blocks)
 2. **Integration Insight** (if any) — advisory recommendations surfaced during review
 
@@ -92,4 +90,4 @@ When QA review is complete, print:
 
 If operator input is required, stop and wait for them.
 
-If operator input is not required, load the appropriate complexity level-specific Niko workflkow file and proceed to the next Phase as specified by that document.
+If operator input is not required, load the appropriate complexity level-specific Niko workflow file and proceed to the next Phase as specified by that document.
