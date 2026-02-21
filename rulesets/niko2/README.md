@@ -44,11 +44,11 @@ Some memory-bank files are long-lived, "persistent" files that serve as [AGENTS.
 | `techContext.md`    | Persistent | Technical stack: languages, frameworks, build tools, file conventions, dependencies, design system references.   |
 | `archive/**/*.md`   | Persistent | A directory of summary documents of past work.                                                                   |
 
-A key feature of the memory bank is `memory-bank/archive/` - a directory of summary documents of past work. These collect key decisions, insights, and tasks from past work. You can use them to help understand a specific piece of past work, *and* you can periodically comb over them to identify patterns and opportunities for improvement.
+The archive is a *key* feature! Archives collect key decisions, insights, and tasks from past work. You can use them to help understand a specific piece of past work, *and* you can periodically comb over them to identify patterns and opportunities for improvement. The archive is the long-term memory of work on the project.
 
 ### Ephemeral Files
 
-Other memory-bank files are ephemeral, created to track a task and its progress. They're cleaned up after you finish a task.
+Other memory-bank files are ephemeral, created to track a task and its progress. They're cleaned up after you finish a task. These are the short-term memory for work on the current task.
 
 | File                     | Kind      | Purpose                                                                                                       |
 |--------------------------|-----------|---------------------------------------------------------------------------------------------------------------|
@@ -226,7 +226,7 @@ Niko will start working on your request and will prompt you to use other command
 
 If Niko stops and asks for your input, once you provide it, ask Niko to update the memory bank. Then, you **start a new session** before running the next `/niko-*` command. This gives you a clean and empty context window - which is great for agents. How will Niko know what to do? Every `/niko-*` command will read the `memory-bank/` from disk and learn what it needs to know to continue!
 
-If your context window is getting full, you can also just end the current conversation and start a new one. Niko will have to to a little extra work to figure out what was done since the last memory-bank update, but all the context will be there in the `memory-bank/`, so it'll figure it out!
+If your context window is getting full, you can also just end the current conversation and start a new one. Niko will have to do a little extra work to figure out what was done since the last memory-bank update, but all the context will be there in the `memory-bank/`, so it'll figure it out!
 
 ### Advanced Troubleshooting
 
