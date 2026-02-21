@@ -20,7 +20,11 @@ alwaysApply: false
 
 ## Niko System Patterns
 - **Complexity Levels**: 1 (simple) to 4 (complex system)
-- **Mode Transitions**: NIKO (init) → PLAN → CREATIVE → BUILD → REFLECT → ARCHIVE
+- **Mode Transitions** (level-dependent):
+  - L1: NIKO → BUILD
+  - L2: NIKO → PLAN → BUILD → QA → REFLECT → ARCHIVE
+  - L3: NIKO → PLAN → CREATIVE → PREFLIGHT → BUILD → QA → REFLECT → ARCHIVE
+  - L4: NIKO → PLAN → CREATIVE → PREFLIGHT → BUILD → QA → REFLECT → ARCHIVE
 - **Memory Bank Files**: Ephemeral (tasks.md, progress.md, creative/, reflection/) vs Persistent (archives, project context)
 
 ## Archive Pattern

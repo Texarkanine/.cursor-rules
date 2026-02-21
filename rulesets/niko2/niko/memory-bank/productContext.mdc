@@ -1,0 +1,34 @@
+---
+globs: memory-bank/productContext.md
+---
+
+# Product Context
+
+The "Product Context" is the business context of this collection of files: target users, use cases, success criteria, constraints.
+
+## File
+
+`memory-bank/productContext.md`
+
+## How to Create
+
+Scan the codebase for traditional documentation sources, such as README files, `docs/` directories, etc. If sufficient information as to the product's context is not found, prompt the user for more information and create the file accordingly.
+
+## Format
+
+Create the file in Markdown format, according to this template:
+
+~~~markdown
+# Product Context
+
+## Target Audience
+
+## Use Cases
+
+## Key Benefits
+
+## Success Criteria
+
+## Key Constraints
+
+~~~
