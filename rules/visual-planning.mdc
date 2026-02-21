@@ -30,6 +30,21 @@ Pick the diagram type that matches what you're communicating:
 
 Use `TD` (top-down) for hierarchies and dependencies. Use `LR` (left-right) for sequential flows.
 
+## Visual Elements for Rapid Scanning
+
+Use these visual elements sparingly to draw attention to critical areas of a diagram:
+
+```
+🎯 Main goals and objectives
+✅ Completed components  
+🔧 Technical implementation details
+🎨 User-facing features and interfaces
+⚠️ Risk areas, blockers, or dependencies
+🔄 Iterative or recurring processes
+📊 Data flow or state management
+🌐 External integrations or APIs
+```
+
 ## Syntax Rules
 
 These prevent rendering failures:
