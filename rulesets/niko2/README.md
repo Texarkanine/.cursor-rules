@@ -98,7 +98,8 @@ flowchart LR
 
     Build --> QA
     
-    QA -.->|"Fail"| Plan
+	QA -->|"Level 1<br>Fail"| Build
+    QA -.->|"Level 2+<br>Fail"| Plan
 	QA -->|"Level1<br>Pass"| Done("Done")
     QA -->|"Level2+<br>Pass"| Reflect
 	
@@ -183,7 +184,7 @@ Key differences from Level 2:
 
 ```mermaid
 graph TD
-	Start(("Complexity Analysis")) --> NikoPlan["🐱 plan"]
+	Start(("🧑‍💻 /niko<br>Complexity Analysis")) --> NikoPlan["🐱 plan"]
 	NikoPlan --> NikoPreflight{"🐱 preflight"}
 	NikoPreflight -.->|"PASS"| ManualBuild[/"🧑‍💻 /niko-build"/]
 	NikoPreflight -.->|"FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
