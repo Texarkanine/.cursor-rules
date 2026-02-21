@@ -173,8 +173,8 @@ graph TD
 	ManualBuild --> NikoQA{"🐱 qa"}
 	NikoQA -->|"PASS"| NikoReflect["🐱 reflect"]
 	NikoReflect -.-> ManualArchive[/"🧑‍💻 /niko-archive"/]
-	NikoQA -->|"FAIL (fixable)"| ManualBuild
-	NikoQA -->|"FAIL (rearchitect)"| ManualPlan
+	NikoQA -.->|"FAIL (fixable)"| ManualBuild
+	NikoQA -.->|"FAIL (rearchitect)"| ManualPlan
 
 	ManualPlan -.-> NikoPlan
 
@@ -199,8 +199,7 @@ Niko will start working on your request and will prompt you to use other command
 
 Key insights: 
 
-1. `/niko-reflect` whenever a milestone is reached. `/niko-archive` at the very end before merge. You want your PR reviewers to see your reflections to answer things like "why didn't you..." or "why did you..." etc.
-2. When iterating, return to `/niko` and it may route your refinements to a different level - e.g. if you finished a Level 3 feature but want a minor change, that iteration might be routed to the Level 1 flow.
+When iterating, return to `/niko` and it may route your refinements to a different level - e.g. if you finished a Level 3 feature but want a minor change, that iteration might be routed to the Level 1 flow.
 
 ### Context Refreshing
 
