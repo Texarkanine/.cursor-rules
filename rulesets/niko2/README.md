@@ -13,11 +13,11 @@ This specific configuration of `niko` is designed to be used in Cursor, installe
 	ai-rizz init https://github.com/texarkanine/.cursor-rules.git --commit
 	ai-rizz add ruleset niko
 
-**You will need to make manual changes** if you want to use `niko` in other environments.
-
 If you use Claude Code, you can install Niko that way, then use [a16n](https://npmjs.com/package/a16n) to convert Niko to a compatible format:
 
 	a16n convert --from cursor --to claude --delete-source --rewrite-path-refs
+
+**You will need to make manual changes** if you want to use `niko` in other environments.
 
 ## Niko, the Dev
 
@@ -44,6 +44,8 @@ Some memory-bank files are long-lived, "persistent" files that serve as [AGENTS.
 | `techContext.md`    | Persistent | Technical stack: languages, frameworks, build tools, file conventions, dependencies, design system references.   |
 | `archive/**/*.md`   | Persistent | A directory of summary documents of past work.                                                                   |
 
+A key feature of the memory bank is `memory-bank/archive/` - a directory of summary documents of past work. These collect key decisions, insights, and tasks from past work. You can use them to help understand a specific piece of past work, *and* you can periodically comb over them to identify patterns and opportunities for improvement.
+
 ### Ephemeral Files
 
 Other memory-bank files are ephemeral, created to track a task and its progress. They're cleaned up after you finish a task.
@@ -58,8 +60,6 @@ Other memory-bank files are ephemeral, created to track a task and its progress.
 | `creative/*.md`          | Ephemeral | Records of exploring & deciding on thorny or ambiguous design decisions for the current task.                 |
 | `.preflight-status`      | Ephemeral | Records the Plan's validation; gates Build                                                                    |
 | `.qa-validation-status`  | Ephemeral | Records QA validation; gates completion / Reflect                                                             |
-
-A key feature of the memory bank is `memory-bank/archive/` - a directory of summary documents of past work. These collect key decisions, insights, and tasks from past work. You can use them to help understand a specific piece of past work, *and* you can periodically comb over them to identify patterns and opportunities for improvement.
 
 ## Niko's Workflows
 
@@ -131,7 +131,7 @@ graph LR
 	PR{"🧑‍💻 Open Pull Request"}
 	PR -."Rework PR".-> ManBuild
 
-	NikoQA -->|"PASS"| PR
+	NikoQA -.->|"PASS"| PR
 	
 	ManBuild --> NikoBuild
 	PR -."Ready".-> MergePR("Merge PR")
@@ -167,8 +167,9 @@ flowchart TD
 
 	NikoReflect -.-> PR
 
-	PR -."Rework PR".-> ManualPlan
 	PR -."Ready".-> ManualArchive
+	PR -."Rework PR".-> ManualPlan
+	
 	ManualArchive -.-> MergePR("Merge PR")
 ```
 
@@ -205,8 +206,9 @@ graph TD
 
 	NikoReflect -.-> PR
 
-	PR -."Rework PR".-> ManualPlan
 	PR -."Ready".-> ManualArchive
+	PR -."Rework PR".-> ManualPlan
+
 	ManualArchive -.-> MergePR("Merge PR")
 ```
 
@@ -220,13 +222,11 @@ Use the `/niko` command to get started:
 
 Niko will start working on your request and will prompt you to use other commands **if necessary** to get the work done.
 
-Key insights: 
-
-When iterating, return to `/niko` and it may route your refinements to a different level - e.g. if you finished a Level 3 feature but want a minor change, that iteration might be routed to the Level 1 flow.
-
 ### Context Refreshing
 
-Niko stores progress on disk in the `memory-bank` directory. When your context window is getting full, let Niko finish the current task, then... start a new conversation! If Niko was building, you can just start a new chat with `/niko-build` and nothing else and Niko will resume the work!
+If Niko stops and asks for your input, once you provide it, ask Niko to update the memory bank. Then, you **start a new session** before running the next `/niko-*` command. This gives you a clean and empty context window - which is great for agents. How will Niko know what to do? Every `/niko-*` command will read the `memory-bank/` from disk and learn what it needs to know to continue!
+
+If your context window is getting full, you can also just end the current conversation and start a new one. Niko will have to to a little extra work to figure out what was done since the last memory-bank update, but all the context will be there in the `memory-bank/`, so it'll figure it out!
 
 ### Advanced Troubleshooting
 
