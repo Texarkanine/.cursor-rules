@@ -31,11 +31,33 @@ The Niko ruleset includes other supplementary rules to give Niko the capabilitie
 
 ## Niko's Memory Bank
 
-Niko will create **many** files in your repo, mostly in the `memory-bank/` directory. This is cool and good: Niko is storing memory on disk instead of in an LLM's context window.
+Niko will create **many** files in your repo, mostly in the `memory-bank/` directory. This is cool and good: Niko is storing memory on disk instead of in an LLM's context window. See [memory-bank-paths.mdc](./niko/core/memory-bank-paths.mdc) for more details.
 
-Some of those files are long-lived, "persistent" files that serve as [AGENTS.md](https://agents.md/) but [better](https://blog.cani.ne.jp/2026/02/12/stop-doing-agents-md.html) - purpose-separated high-level indices to crucial information that your agents need to know about.
+### Persistent Files
 
-Other files are ephemeral, created to track a task and its progress. They're cleaned up after you finish a task.
+Some memory-bank files are long-lived, "persistent" files that serve as [AGENTS.md](https://agents.md/) but [better](https://blog.cani.ne.jp/2026/02/12/stop-doing-agents-md.html) - purpose-separated high-level indices to crucial information that your agents need to know about.
+
+| File                | Kind       | Purpose                                                                                                          |
+|---------------------|------------|------------------------------------------------------------------------------------------------------------------|
+| `productContext.md` | Persistent | Business context: target users, use cases, success criteria, constraints.                                        |
+| `systemPatterns.md` | Persistent | Architectural patterns: code organization, naming conventions, design patterns in use.                           |
+| `techContext.md`    | Persistent | Technical stack: languages, frameworks, build tools, file conventions, dependencies, design system references.   |
+| `archive/**/*.md`   | Persistent | A directory of summary documents of past work.                                                                   |
+
+### Ephemeral Files
+
+Other memory-bank files are ephemeral, created to track a task and its progress. They're cleaned up after you finish a task.
+
+| File                     | Kind      | Purpose                                                                                                       |
+|--------------------------|-----------|---------------------------------------------------------------------------------------------------------------|
+| `projectbrief.md`        | Ephemeral | Current session deliverable: user story & requirements. This guides all development.                          |
+| `activeContext.md`       | Ephemeral | Current session focus: what's being worked on now, recent decisions, immediate next steps.                    |
+| `progress.md`            | Ephemeral | Implementation progress: history of completed work and phase transitions.                                     |
+| `tasks.md`               | Ephemeral | Active task tracking: current task details, checklists, component lists. The work to do in the current phase. |
+| `reflection/*.md`        | Ephemeral | Insights from work performed during the current task                                                          |
+| `creative/*.md`          | Ephemeral | Records of exploring & deciding on thorny or ambiguous design decisions for the current task.                 |
+| `.preflight-status`      | Ephemeral | Records the Plan's validation; gates Build                                                                    |
+| `.qa-validation-status`  | Ephemeral | Records QA validation; gates completion / Reflect                                                             |
 
 A key feature of the memory bank is `memory-bank/archive/` - a directory of summary documents of past work. These collect key decisions, insights, and tasks from past work. You can use them to help understand a specific piece of past work, *and* you can periodically comb over them to identify patterns and opportunities for improvement.
 
