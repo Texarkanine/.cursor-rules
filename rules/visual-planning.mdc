@@ -35,7 +35,7 @@ Use `TD` (top-down) for hierarchies and dependencies. Use `LR` (left-right) for 
 These prevent rendering failures:
 
 1. **Always quote node labels** with double quotes: `A["Node Label"]`
-2. **Escape special characters** - use `#quot;` for quotes inside labels, `#amp;` for ampersands
+2. **Escape special characters** - use `#quot;` for quotes inside labels, `#amp;` for ampersands. The `#` instead of `&` on-purpose and important: because Mermaid often renders within HTML documents, it uses its own entity format to ensure that the HTML renderer does NOT process it - only the Mermaid renderer.
 3. **Use `subgraph` blocks** to group related nodes - label them clearly
 4. **Use `classDef` + `:::className`** for styling - never inline `style` statements
 5. **Keep diagrams focused.** If a single diagram exceeds ~15-20 nodes, split it into multiple diagrams with clear titles explaining what each one covers.
