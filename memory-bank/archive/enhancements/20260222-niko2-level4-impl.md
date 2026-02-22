@@ -1,9 +1,11 @@
-# TASK ARCHIVE: niko2-level4-impl
+---
+task_id: niko2-level4-impl
+date: 2026-02-22
+complexity: level-3
+status: completed
+---
 
-## METADATA
-- **Task ID**: niko2-level4-impl
-- **Complexity**: Level 3
-- **Date Completed**: 2026-02-22
+# TASK ARCHIVE: niko2-level4-impl
 
 ## SUMMARY
 

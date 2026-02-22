@@ -1,10 +1,11 @@
-# TASK ARCHIVE: Archive Command Completion Gate
+---
+task_id: archive-completion-gate
+date: 2026-01-25
+complexity: level-1
+status: completed
+---
 
-## METADATA
-- **Task ID:** archive-completion-gate
-- **Date:** 2026-01-25
-- **Complexity:** Level 1 (Enhancement)
-- **Status:** COMPLETE
+# TASK ARCHIVE: Archive Command Completion Gate
 
 ## SUMMARY
 

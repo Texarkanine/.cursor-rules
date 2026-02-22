@@ -1,9 +1,11 @@
-# TASK ARCHIVE: niko2 — L3 / Reflect / Archive / Creative
+---
+task_id: niko2-l3-reflect-archive-creative
+date: 2026-02-21
+complexity: level-3
+status: completed
+---
 
-## METADATA
-- **Task ID**: niko2-l3-reflect-archive-creative
-- **Complexity**: Level 3 (meta — niko2 ruleset authoring)
-- **Date Completed**: 2026-02-21
+# TASK ARCHIVE: niko2 — L3 / Reflect / Archive / Creative
 
 ## SUMMARY
 

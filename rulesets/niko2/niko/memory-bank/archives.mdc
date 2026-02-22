@@ -31,12 +31,14 @@ If an archive section has no meaningful content, include it but add a small note
 Archives use the following format:
 
 ~~~markdown
-# TASK ARCHIVE: [Task Name]
+---
+task_id: [task-id]
+complexity: level-[n]
+date: YYYY-MM-DD
+status: completed
+---
 
-## METADATA
-- **Task ID**: [task-id]
-- **Complexity**: [Task Complexity Level (e.g., Level 2, Level 3)]
-- **Date Completed**: [YYYY-MM-DD]
+# TASK ARCHIVE: [Task Name]
 
 ## SUMMARY
 

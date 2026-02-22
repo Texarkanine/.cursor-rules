@@ -53,11 +53,13 @@ Categorize insights as:
 Create `memory-bank/reflection/reflection-<task-id>.md`:
 
 ~~~markdown
-# Reflection: [Task Name]
+---
+task_id: [task-id]
+date: YYYY-MM-DD
+complexity: level-[n]
+---
 
-**Task ID:** [task-id]
-**Date:** [date]
-**Complexity:** Level [N]
+# Reflection: [Task Name]
 
 ## Summary
 

@@ -1,6 +1,6 @@
 # Progress: archive-reflection-metadata-format
 
-## 2026-02-22 — Complexity Analysis Complete
+## 2026-02-22 — Build Complete
 
 Task: Switch archive and reflection document metadata from bullet lists to YAML frontmatter.
 

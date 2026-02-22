@@ -1,10 +1,11 @@
-# TASK ARCHIVE: Archive Inlining Fix
+---
+task_id: archive-inlining-fix
+date: 2026-01-20
+complexity: level-2
+status: completed
+---
 
-## METADATA
-- **Task ID**: archive-inlining-fix
-- **Complexity**: Level 2 (Simple Enhancement)
-- **Date Completed**: 2026-01-20
-- **Status**: COMPLETED & ARCHIVED
+# TASK ARCHIVE: Archive Inlining Fix
 
 ## SUMMARY
 

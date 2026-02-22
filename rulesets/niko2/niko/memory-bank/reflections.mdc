@@ -26,11 +26,13 @@ Each task complexity level has its own guidelines for creating a reflection - di
 Reflections use the following format:
 
 ~~~markdown
-# Reflection: [Task Name]
+---
+task_id: [task-id]
+date: YYYY-MM-DD
+complexity: level-[n]
+---
 
-- **Task ID:** [task-id]
-- **Date:** [date]
-- **Complexity:** [complexity]
+# Reflection: [Task Name]
 
 ## Summary
 
