@@ -122,7 +122,7 @@ Read:
 - [ ] QA
 ~~~
 
-## Output to Operator
+## Step 9: Output to Operator
 
 When planning is complete, print:
 
@@ -165,6 +165,8 @@ Preflight validation will now run automatically.
 - **Prerequisites missing**: Run `/niko` to initialize properly.
 - **Re-level required**: Task complexity exceeds Level 2. Discuss with operator before re-planning at Level 3+.
 ~~~
+
+## Step 10: Phase Transition
 
 If operator input is required, stop and wait for them.
 

@@ -22,6 +22,6 @@ Keep it minimal:
 
 Do NOT update persistent memory bank files (projectbrief, techContext, etc.) unless the fix genuinely reveals new architectural knowledge.
 
-## Next Steps
+## Step 3: Phase Transition
 
 Load the appropriate complexity level-specific Niko workflkow file, then proceed to the next Phase as specified by that document.
