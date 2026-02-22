@@ -45,9 +45,7 @@ graph TD
 - `level4-archive.mdc`: stub → full capstone archive document
 - `memory-bank-paths.mdc`: add `milestones.md` ephemeral file entry
 - `memory-bank/systemPatterns.md`: fix incorrect L4 row (shows sequential; should show milestone-based composition)
-- `.claude/skills/level4-workflow/SKILL.md`: "not implemented" → load level4-workflow.mdc
-- `.claude/skills/level4-plan/SKILL.md`: empty stub → clear N/A note
-- `.claude/skills/level4-build/SKILL.md`: empty stub → clear N/A note
+
 
 ### Cross-Module Dependencies
 
@@ -55,7 +53,6 @@ graph TD
 - `complexity-analysis.mdc` → `memory-bank/milestones.md`: reads/writes for detection, mutation, completion check
 - `level4-workflow.mdc` → `level4-archive.mdc`: phase mapping for capstone archive
 - `level4-archive.mdc` → `memory-bank/reflection/`: reads accumulated sub-run reflections
-- `.claude/skills/level4-workflow/SKILL.md` → `level4-workflow.mdc`: thin routing
 
 ### Boundary Changes
 
@@ -78,9 +75,6 @@ This is a markdown/ruleset project. Verification is semantic review via niko-qa.
 - `complexity-analysis.mdc` — `milestones.md` present + unchecked items + activeContext does NOT show REFLECT COMPLETE → resumes current sub-run (re-classifies same milestone)
 - `level4-workflow.mdc` — clearly describes the milestone-based composition model with mermaid diagram; capstone archive phase mapping present
 - `level4-archive.mdc` — complete capstone archive instructions: inlines sub-run reflections, documents milestone list evolution, includes format template
-- `.claude/skills/level4-workflow/SKILL.md` — loads and follows `level4-workflow.mdc` (not "stop, not implemented")
-- `.claude/skills/level4-plan/SKILL.md` — clearly explains L4 has no dedicated plan phase and why
-- `.claude/skills/level4-build/SKILL.md` — clearly explains L4 has no dedicated build phase and why
 - `memory-bank-paths.mdc` — `milestones.md` entry present with correct lifecycle (born at L4 kickoff, deleted at capstone archive)
 - `memory-bank/systemPatterns.md` — L4 row shows milestone-based composition, not sequential workflow
 
@@ -120,14 +114,6 @@ Ordered fewest-dependencies-first:
 5. **`complexity-analysis.mdc` — add L4 detection paths**
    - Files: `rulesets/niko2/niko/core/complexity-analysis.mdc`
    - Changes: Add a "Step 0: L4 Re-entry Check" BEFORE the decision tree. If `memory-bank/milestones.md` exists: (a) read it, (b) if activeContext shows REFLECT COMPLETE → check off that milestone in milestones.md, (c) re-read milestones.md, (d) if all checked → load level4-workflow.mdc and proceed to capstone archive, (e) else → classify first unchecked as L1/L2/L3 and proceed. Also: in the fresh-L4 path (decision tree results in L4), add: generate milestone list (prompt operator if task description is vague), write milestones.md, then classify first milestone as L1/L2/L3.
-
-6. **SKILL.md stubs — routing updates**
-   - Files: `.claude/skills/level4-workflow/SKILL.md`, `.claude/skills/level4-plan/SKILL.md`, `.claude/skills/level4-build/SKILL.md`
-   - Note: these files do NOT exist in `rulesets/niko2/skills/` — they are `.claude/`-only; edit in place is correct.
-   - Changes:
-     - `level4-workflow/SKILL.md`: load and follow `rulesets/niko2/niko/level4/level4-workflow.mdc` (or the .cursor deployed path)
-     - `level4-plan/SKILL.md`: explain L4 has no dedicated plan phase — the milestone list (produced by complexity analysis) IS the L4 plan. If invoked directly, redirect to `/niko`.
-     - `level4-build/SKILL.md`: explain L4 has no dedicated build phase — sub-run builds are L1/L2/L3 builds. If invoked directly, redirect to `/niko`.
 
 ## Technology Validation
 

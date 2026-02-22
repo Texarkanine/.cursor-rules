@@ -10,23 +10,51 @@ Level 4 tasks are too large to plan and execute in one pass. They are composed o
 
 ```mermaid
 graph TD
-    Start(("Complexity Analysis")) --> Check{"memory-bank/milestones.md<br>exists?"}
 
-    Check --"No (fresh L4)"-->  Generate["Generate milestone list<br>Write milestones.md<br>Classify first milestone as L1/L2/L3"]
-    Check --"Yes (re-entry)"--> AllDone{"All milestones<br>checked?"}
+    Start(("Complexity Analysis"))
+    CheckIfMilestones{"memory-bank/milestones.md<br>exists?"}
 
-    AllDone --"Yes"--> Capstone[/"🧑‍💻 /niko-archive (capstone)"/]
-    AllDone --"No"--> PrevDone{"activeContext shows<br>REFLECT COMPLETE?"}
+    subgraph Init["First L4 Run"]
+        NikoPlan["😺 plan<br>(generate milestones)"]
+        NikoPreflight{"😺 preflight"}
+        ManualReview["🧑‍💻 review plan"]
+    end
 
-    PrevDone --"Yes"--> CheckOff["Check off completed<br>milestone in milestones.md"]
-    CheckOff --> NextSub["Classify next unchecked<br>milestone as L1/L2/L3"]
-    PrevDone --"No"--> Resume["Resume current milestone:<br>re-classify, enter sub-run"]
+    subgraph ReEntry["L4 Milestone Management"]
+        CheckMilestoneCompletion{"All milestones complete?"}
+        Capstone[/"🧑‍💻 /niko-archive (capstone)"/]
+        Capstone -->Done("Done")
+        PrevDone{"activeContext shows<br>REFLECT COMPLETE?"}
+        CheckOff["Check off completed<br>milestone in milestones.md"]
+        Resume["Load context<br>prepare to re-enter workflow"]
+    end
 
-    Generate --> SubRun["Enter sub-run at<br>classified level workflow"]
-    NextSub --> SubRun
+    subgraph SubWorkflow["L1-L3 Milestone Execution"]
+        NextSub(("😺 Complexity Analysis<br>Classify next unchecked<br>milestone as L1/L2/L3"))
+        SubRun("😺 Run L1/L2/L3 workflow")
+    end
+
+    Start --> CheckIfMilestones
+
+    CheckIfMilestones -->|"No"| NikoPlan
+    NikoPlan --> NikoPreflight
+    NikoPreflight -->|"FAIL"| NikoPlan
+
+    NikoPreflight -.->|"PASS"| ManualReview
+    ManualReview -.->|"🧑‍💻 /niko"| Start
+
+    CheckIfMilestones -->|"Yes"| CheckMilestoneCompletion
+    CheckMilestoneCompletion -.->|"Yes"| Capstone
+
+    CheckMilestoneCompletion -->|"No"| PrevDone
+    PrevDone --"Yes"--> CheckOff
+    CheckOff --> NextSub
+
+    PrevDone --"No"--> Resume
     Resume --> SubRun
 
-    SubRun -.->|"Sub-run reflect complete<br>operator invokes /niko"| Start
+    NextSub --> SubRun
+    SubRun -.->|"Sub-run reflect complete<br>🧑‍💻 /niko"| Start
 ```
 
 > Legend:
@@ -39,6 +67,7 @@ The following require operator input; if you have arrived at one of these transi
 
 - Sub-run reflect complete → next `/niko` invocation (operator decides when to continue)
 - All milestones checked → capstone archive (operator invokes `/niko-archive`)
+- Initial L4 milestone generation → first workflow execution (operator invokes `/niko`)
 
 ## Change Tracking
 
@@ -49,6 +78,11 @@ The following require operator input; if you have arrived at one of these transi
 
 ## Phase Mappings
 
-Level 4 tasks have no dedicated plan or build phases. Sub-runs execute entirely within their own level's workflow. The only Level 4-specific phase is the capstone archive:
+To execute a phase for a level 4 task:
 
-- **Level 4 Capstone Archive**: Load `.cursor/rules/shared/niko/level4/level4-archive.mdc`
+1. Update `memory-bank/progress.md` to indicate completion of the phase you are leaving.
+2. Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: saving work before [phase] phase`.
+3. Read and follow the instructions in the appropriate locations:
+    - **Level 4 Plan Phase**: Load `.cursor/rules/shared/niko/level4/level4-plan.mdc`
+    - **Level 4 Preflight Phase**: Invoke the `niko-preflight` skill
+    - **Level 4 Archive Phase**: Load `.cursor/rules/shared/niko/level4/level4-archive.mdc`
