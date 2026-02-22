@@ -23,4 +23,4 @@ Ask the operator for clarification, and wait for their instructions. You're done
 
 ## Step 3: Route to Level-Specific Reflection
 
-Load the appropriate complexity level-specific Niko workflow file, then use its Phase Mappings to proceed to the Reflect phase.
+Load the appropriate complexity level-specific Niko workflow file, then use its Phase Mappings to execute the Reflect phase.

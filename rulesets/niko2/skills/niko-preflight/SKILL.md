@@ -63,6 +63,8 @@ Read:
 
 > 🚨 **Printing this notice is NOT the end of this phase.** After printing, continue immediately to the next step - do not stop.
 
+Update `memory-bank/progress.md` to record completion of the preflight phase.
+
 Print the appropriate block:
 
 ### PASS
@@ -101,6 +103,7 @@ Print the appropriate block:
 
 > 🚨 **Execute this immediately after printing — do not stop between steps.**
 
-If operator input is required (FAIL result), stop and wait for them.
+Commit all changes (memory bank updates) with `chore: saving work before build phase`.
 
-If operator input is not required (PASS or PASS WITH ADVISORY), load the appropriate complexity level-specific Niko workflow file then proceed to the next phase as specified by that document.
+- If operator input is required (FAIL result): stop and wait for them.
+- If operator input is not required (PASS or PASS WITH ADVISORY): load the appropriate complexity level-specific Niko workflkow file, then use its Phase Mappings to execute the next phase.

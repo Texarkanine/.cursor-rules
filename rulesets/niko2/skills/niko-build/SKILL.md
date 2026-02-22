@@ -21,4 +21,4 @@ If no complexity level is set, or `memory-bank/activeContext.md` does not exist:
 
 ## Step 3: Route to Level-Specific Build
 
-Load the appropriate complexity level-specific Niko workflow file, then use its phase mappings to proceed to the Build phase.
+Load the appropriate complexity level-specific Niko workflow file, then use its Phase Mappings to execute the Build phase.
