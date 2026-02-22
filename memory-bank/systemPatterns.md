@@ -2,8 +2,8 @@
 
 ## File Organization
 - Source rules in `rulesets/` are the source of truth
-- `.cursor/rules/shared/` contains active copies for Cursor to load
-- Both locations must stay synchronized
+- `.cursor/**/shared/**/*` contains active copies for Cursor to load
+- Edits are only EVER made to `rules/` and `rulesets/` - NEVER to `.cursor/` or `.claude/`
 
 ## Rule File Structure (.mdc)
 ```yaml
@@ -22,7 +22,7 @@ alwaysApply: false
 - **Complexity Levels**: 1 (simple) to 4 (complex system)
 - **Mode Transitions** (level-dependent):
   - L1: NIKO → BUILD
-  - L2: NIKO → PLAN → BUILD → QA → REFLECT → ARCHIVE
+  - L2: NIKO → PLAN → PREFLIGHT → BUILD → QA → REFLECT → ARCHIVE
   - L3: NIKO → PLAN → CREATIVE → PREFLIGHT → BUILD → QA → REFLECT → ARCHIVE
   - L4: Milestone-based composition of L1/L2/L3 sub-runs. Complexity analysis generates `memory-bank/milestones.md` on kickoff, then each milestone executes as an independent sub-run at its own level. Capstone archive consolidates all sub-runs at completion.
 - **Memory Bank Files**: Ephemeral (tasks.md, progress.md, creative/, reflection/) vs Persistent (archives, project context)

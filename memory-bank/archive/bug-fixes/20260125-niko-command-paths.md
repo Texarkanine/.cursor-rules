@@ -1,10 +1,11 @@
-# TASK ARCHIVE: Fix Niko Command Paths
+---
+task_id: niko-command-paths
+date: 2026-01-25
+complexity_level: 1
+status: completed
+---
 
-## METADATA
-- **Task ID:** niko-command-paths
-- **Date:** 2026-01-25
-- **Complexity:** Level 1 (Bulk Find/Replace)
-- **Status:** COMPLETE
+# TASK ARCHIVE: Fix Niko Command Paths
 
 ## SUMMARY
 
