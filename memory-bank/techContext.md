@@ -16,4 +16,4 @@ See `ai-rizz.skbd` for configuration. Do not manually sync files.
 
 ## Git Conventions
 - Commits: Use conventional commit prefixes (feat, fix, chore, docs)
-- No GPG signing required
+- No GPG signing required for agents

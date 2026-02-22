@@ -1,7 +1,7 @@
 ---
 task_id: niko2-level4-impl
 date: 2026-02-22
-complexity: level-3
+complexity_level: 3
 status: completed
 ---
 

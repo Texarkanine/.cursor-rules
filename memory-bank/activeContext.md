@@ -7,7 +7,7 @@ Archive & Reflection Metadata Format (archive-reflection-metadata-format)
 Level 2
 
 ## Phase
-BUILD - COMPLETE
+REFLECT - COMPLETE
 
 ## What Was Done
 - Updated 4 rulesets template files: archives.mdc, reflections.mdc, level2-reflect.mdc, level3-reflect.mdc

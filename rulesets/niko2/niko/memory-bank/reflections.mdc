@@ -29,7 +29,7 @@ Reflections use the following format:
 ---
 task_id: [task-id]
 date: YYYY-MM-DD
-complexity: level-[n]
+complexity_level: [n]
 ---
 
 # Reflection: [Task Name]

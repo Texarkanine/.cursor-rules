@@ -33,7 +33,7 @@ Archives use the following format:
 ~~~markdown
 ---
 task_id: [task-id]
-complexity: level-[n]
+complexity_level: [n]
 date: YYYY-MM-DD
 status: completed
 ---

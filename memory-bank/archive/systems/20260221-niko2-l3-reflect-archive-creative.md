@@ -1,7 +1,7 @@
 ---
 task_id: niko2-l3-reflect-archive-creative
 date: 2026-02-21
-complexity: level-3
+complexity_level: 3
 status: completed
 ---
 

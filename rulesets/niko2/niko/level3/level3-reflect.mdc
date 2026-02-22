@@ -56,7 +56,7 @@ Create `memory-bank/reflection/reflection-<task-id>.md`:
 ---
 task_id: [task-id]
 date: YYYY-MM-DD
-complexity: level-[n]
+complexity_level: [n]
 ---
 
 # Reflection: [Task Name]

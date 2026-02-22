@@ -1,7 +1,7 @@
 ---
 task_id: niko-command-paths
 date: 2026-01-25
-complexity: level-1
+complexity_level: 1
 status: completed
 ---
 

@@ -1,7 +1,7 @@
 ---
 task_id: archive-inlining-fix
 date: 2026-01-20
-complexity: level-2
+complexity_level: 2
 status: completed
 ---
 
