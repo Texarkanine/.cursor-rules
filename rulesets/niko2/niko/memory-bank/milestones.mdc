@@ -14,6 +14,8 @@ globs: memory-bank/milestones.md
 ```markdown
 # Milestones: <task-id>
 
+[optional Mermaid flowchart showing dependency relationships between milestones — omit if all milestones are sequential]
+
 - [ ] <Milestone 1: one-line description of the deliverable>
 - [ ] <Milestone 2: one-line description of the deliverable>
 - [ ] <Milestone 3: one-line description of the deliverable>
@@ -24,6 +26,7 @@ Rules:
 - Each milestone is a standard GFM checkbox: `- [ ]` (unchecked) or `- [x]` (complete)
 - One milestone per line - no sub-bullets, no notes inline
 - Description is a single line: concise, action-oriented, specific enough that a future agent can classify it as L1/L2/L3 without additional context
+- The optional dependency flowchart (if present) precedes the checklist and is not a milestone — complexity analysis identifies milestones by the `- [ ]` / `- [x]` markers only
 
 ## What Makes a Good Milestone
 

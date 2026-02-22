@@ -15,10 +15,10 @@ Determine the appropriate complexity level (1-4) for a task, then write the dete
     1. Read `memory-bank/milestones.md` and `memory-bank/activeContext.md`.
     2. **If `activeContext.md` shows the previous phase as REFLECT COMPLETE:** check off that sub-run's milestone in `milestones.md`. (The current sub-run is done.)
     3. Re-read the updated `milestones.md`:
-        - **All milestones checked (`- [x]`):** The L4 project is complete. Skip to Step 5.
+        - **All milestones checked (`- [x]`):** The L4 project is complete. Skip to Step 6: Load Workflow.
         - **Unchecked milestones remain:** The first unchecked milestone is the next sub-run target. Classify it as L1, L2, or L3 using the decision tree below (apply it to the milestone description, not the overall task) and proceed as normal.
 
-## Step 1: Decision Tree
+## Step 2: Decision Tree
 
 ```mermaid
 graph TD
@@ -74,7 +74,7 @@ graph TD
 - **Risk**: High, architectural implications
 - **Examples**: payment processing framework, microservice architecture, database migration system, real-time communication system
 
-## Step 2: Assessment Questions
+## Step 3: Assessment Questions
 
 When the decision tree doesn't give a clear answer, consider:
 
@@ -83,7 +83,7 @@ When the decision tree doesn't give a clear answer, consider:
 3. **Risk** — What breaks if this goes wrong? Is it isolated or cascading?
 4. **Effort** — Hours, days, or weeks?
 
-## Step 3:Write Determination to Memory Bank
+## Step 4: Write Determination to Memory Bank
 
 Before writing, check whether the ephemeral files already exist:
 
@@ -109,7 +109,7 @@ Create a stub file with the task name. Do **not** populate checklists yet — th
 
 Include a brief summary of the work to be done as described in the project brief - you've just *completed* complexity analysis!
 
-## Step 4: Log Progress
+## Step 5: Log Progress
 
 After writing the determination, inform the user:
 
@@ -118,7 +118,7 @@ After writing the determination, inform the user:
 Loading Level N workflow...
 ```
 
-## Step 5: Load Workflow
+## Step 6: Load Workflow
 
 Load the level-specific workflow and use its Phase Mappings to execute the next phase.
 

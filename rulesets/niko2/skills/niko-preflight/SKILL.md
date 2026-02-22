@@ -102,4 +102,4 @@ Print the appropriate block:
 ## Step 4: Phase Transition
 
 - If operator input is required: stop and wait for them.
-- If operator input is not required: load the appropriate complexity level-specific Niko workflkow file, then use its Phase Mappings to execute the next phase.
+- If operator input is not required: load the appropriate complexity level-specific Niko workflow file, then use its Phase Mappings to execute the next phase.

@@ -132,4 +132,4 @@ No new technology — validation not required.
 - [x] Technology validation: N/A
 - [x] Preflight (PASS WITH ADVISORY — plan amended to target rulesets/niko2/ not .cursor/)
 - [x] Build
-- [ ] QA
+- [x] QA (PASS — 4 trivial fixes applied)
