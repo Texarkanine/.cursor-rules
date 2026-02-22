@@ -4,13 +4,13 @@
 **Phase:** BUILD — COMPLETE
 
 ## What Was Done
-- Step 1: `rulesets/niko2/niko/core/memory-bank-paths.mdc` — added `memory-bank/milestones.md` L4 entry
-- Step 2: `memory-bank/systemPatterns.md` — fixed L4 row to show milestone-based composition
-- Step 3: `rulesets/niko2/niko/level4/level4-workflow.mdc` — full document (mermaid loop, phase mappings, change tracking)
-- Step 4: `rulesets/niko2/niko/level4/level4-archive.mdc` — created new (capstone archive, milestone list, sub-run inlining)
-- Step 5: `rulesets/niko2/niko/core/complexity-analysis.mdc` — added Step 0 (L4 re-entry check) and Fresh L4 Kickoff section
-- Step 6: .claude/skills/ stubs skipped — live dirs, ai-rizz handles on publish
-- Deviation: niko-preflight Log Progress fix also applied to rulesets/niko2/skills/niko-preflight/SKILL.md (operator-requested mid-build)
+- Step 1: `memory-bank-paths.mdc` — milestones.md L4 entry added
+- Step 2: `memory-bank/systemPatterns.md` — L4 row fixed to milestone-based composition
+- Step 3: `level4-workflow.mdc` — full document (user-finalized with Plan + Preflight + Archive phase mappings)
+- Step 4: `level4-archive.mdc` — created (capstone archive)
+- Step 5: `complexity-analysis.mdc` — user handled: removed Fresh L4 Kickoff, re-entry Step 1 intact, fresh L4 routes to level4-workflow.mdc Plan phase
+- Step 6: `milestones.mdc` — created (format spec, quality criteria, lifecycle table)
+- Step 7: `level4-plan.mdc` — created (milestone generation, milestones.md write, Log Progress + Phase Transition → preflight)
 
 ## Next Step
 - QA review
