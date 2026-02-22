@@ -57,7 +57,7 @@ Commit all changes (the new archive document + the deleted ephemeral files) with
 chore: archive <task-id> and clear memory bank
 ```
 
-## Output to Operator
+## Step 7: Output to Operator
 
 When archiving is complete, print:
 
