@@ -52,7 +52,9 @@ When all implementation steps are checked off:
    - Key implementation decisions made during build
    - Any deviations from the plan and why
 
-## Step 6: Output to Operator
+## Step 6: Log Progress
+
+> 🚨 **Printing this notice is NOT the end of this phase.** After printing, continue immediately to the next step - do not stop.
 
 When build is complete, print:
 

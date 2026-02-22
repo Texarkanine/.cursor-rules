@@ -59,9 +59,11 @@ Read:
    - **On FAIL (rearchitect needed)**: Operator decision required.
    - **On FAIL (conflict/convention)**: Provide specific fix instructions, block `/niko-build`; Operator decision required.
 
-## Step 3: Output to Operator
+## Step 3: Log Progress
 
-When preflight validation is complete, print:
+> 🚨 **Printing this notice is NOT the end of this phase.** After printing, continue immediately to the next step - do not stop.
+
+Print the appropriate block:
 
 ### PASS
 
@@ -97,6 +99,8 @@ When preflight validation is complete, print:
 
 ## Step 4: Phase Transition
 
-If operator input is required, stop and wait for them.
+> 🚨 **Execute this immediately after printing — do not stop between steps.**
 
-If operator input is not required, load the appropriate complexity level-specific Niko workflow file then proceed to the next Phase as specified by that document.
+If operator input is required (FAIL result), stop and wait for them.
+
+If operator input is not required (PASS or PASS WITH ADVISORY), load the appropriate complexity level-specific Niko workflow file then proceed to the next phase as specified by that document.

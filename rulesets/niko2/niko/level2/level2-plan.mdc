@@ -122,7 +122,9 @@ Read:
 - [ ] QA
 ~~~
 
-## Step 9: Output to Operator
+## Step 9: Log Progress
+
+> 🚨 **Printing this notice is NOT the end of this phase.** After printing, continue immediately to the next step - do not stop.
 
 When planning is complete, print:
 

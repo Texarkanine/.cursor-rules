@@ -71,7 +71,9 @@ If integration tests fail:
     - Any deviations from the plan and why
     - Integration test results
 
-## Step 7: Output to Operator
+## Step 7: Log Progress
+
+> 🚨 **Printing this notice is NOT the end of this phase.** After printing, continue immediately to the next step - do not stop.
 
 When build is complete, print:
 

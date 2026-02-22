@@ -55,7 +55,9 @@ Read:
     - **On FAIL (issues requiring build changes)**: Return to the Build phase to fix the issues.
     - **On FAIL (fundamental plan issue discovered)**: Return to the Plan phase to revise the plan.
 
-## Step 3: Output to Operator
+## Step 3: Log Progress
+
+> 🚨 **Printing this notice is NOT the end of this phase.** After printing, continue immediately to the next step - do not stop.
 
 When QA review is complete, print:
 

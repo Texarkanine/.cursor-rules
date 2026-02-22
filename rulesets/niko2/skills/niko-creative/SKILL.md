@@ -57,7 +57,9 @@ After the creative phase type completes its exploration, the result will be in o
 
 **Standalone**: Present the exploration results directly to the operator in the output format below. If a memory bank exists, also write the creative document to `memory-bank/creative/` for future reference.
 
-## Step 6: Output to Operator
+## Step 6: Log Progress
+
+> 🚨 **Printing this notice is NOT the end of this phase.** After printing, continue immediately to the next step - do not stop.
 
 ### High Confidence (Resolved)
 
