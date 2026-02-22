@@ -189,7 +189,7 @@ Process open questions one at a time. After each creative phase completes, reass
 - [ ] QA
 ~~~
 
-## Output to Operator
+Step 11: Output to Operator
 
 When planning is complete, print:
 
@@ -218,7 +218,7 @@ When planning is complete, print:
 
 ## Next Steps
 
-Preflight validation will now run automatically.
+Proceed to "Preflight" phase to validate the plan.
 ~~~
 
 ### FAIL
@@ -238,6 +238,8 @@ Preflight validation will now run automatically.
 - **Re-level required**: Task complexity exceeds Level 3. Discuss with operator before re-planning at Level 4.
 - **Open questions unresolved**: Awaiting operator input on [specific question].
 ~~~
+
+## Step 12: Phase Transition
 
 If operator input is required, stop and wait for them.
 

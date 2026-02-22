@@ -71,7 +71,7 @@ If integration tests fail:
     - Any deviations from the plan and why
     - Integration test results
 
-## Output to Operator
+## Step 7: Output to Operator
 
 When build is complete, print:
 
@@ -120,6 +120,8 @@ QA review will now run automatically.
 - **Creative decision invalid**: Return to `/niko-plan` - the relevant open question needs re-exploration.
 - **External blocker**: Operator input required - [describe what's needed].
 ~~~
+
+## Step 8: Phase Transition
 
 If operator input is required, stop and wait for them.
 
