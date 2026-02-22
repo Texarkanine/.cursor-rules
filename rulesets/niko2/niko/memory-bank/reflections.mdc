@@ -28,9 +28,9 @@ Reflections use the following format:
 ~~~markdown
 # Reflection: [Task Name]
 
-**Task ID:** [task-id]
-**Date:** [date]
-**Complexity:** [complexity]
+- **Task ID:** [task-id]
+- **Date:** [date]
+- **Complexity:** [complexity]
 
 ## Summary
 
