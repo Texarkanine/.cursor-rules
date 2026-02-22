@@ -6,6 +6,22 @@ alwaysApply: false
 
 Determine the appropriate complexity level (1-4) for a task, then write the determination to the memory bank and load the corresponding workflow.
 
+## Step 0: L4 Re-entry Check
+
+**Before running the decision tree**, check whether `memory-bank/milestones.md` exists.
+
+**If `milestones.md` is absent:** proceed to the Decision Tree below — this is a fresh task.
+
+**If `milestones.md` is present:** an L4 project is already in-flight. Do not run the decision tree.
+
+1. Read `memory-bank/milestones.md` and `memory-bank/activeContext.md`.
+2. **If `activeContext.md` shows the previous phase as REFLECT COMPLETE:** check off that sub-run's milestone in `milestones.md`. (The current sub-run is done.)
+3. Re-read the updated `milestones.md`:
+   - **All milestones checked (`- [x]`):** The L4 project is complete. Load `level4-workflow.mdc` and proceed to the capstone archive phase. **Stop here — do not continue below.**
+   - **Unchecked milestones remain:** The first unchecked milestone is the next sub-run target. Classify it as L1, L2, or L3 using the decision tree below (apply it to the milestone description, not the overall task). Write the determination to the ephemeral files as normal, then load the appropriate level workflow. **Stop here — do not continue below.**
+
+---
+
 ## Decision Tree
 
 ```mermaid
@@ -96,6 +112,24 @@ Create a stub file with the task name. Do **not** populate checklists yet — th
 **`memory-bank/progress.md`** — Initialize if absent:
 
 Include a brief summary of the work to be done as described in the project brief - you've just *completed* complexity analysis!
+
+### Fresh L4 Kickoff
+
+If the decision tree determined **Level 4**, perform this additional step before loading the workflow:
+
+1. **Generate the milestone list**: Break the task into 3–7 concrete milestones. Each milestone should be independently deliverable as an L1, L2, or L3 sub-run. Write them as a checklist in `memory-bank/milestones.md`:
+   ```markdown
+   # Milestones: <task-id>
+
+   - [ ] <Milestone 1 description>
+   - [ ] <Milestone 2 description>
+   - [ ] <Milestone 3 description>
+   ```
+   If the task description is too vague to produce a confident milestone list, ask the operator to clarify scope before proceeding.
+
+2. **Classify the first milestone** using the decision tree (apply it to the milestone description). Write that classification to the ephemeral files as the current sub-run's task.
+
+3. Load the first milestone's level workflow and proceed.
 
 ## Next Steps
 

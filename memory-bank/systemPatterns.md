@@ -24,7 +24,7 @@ alwaysApply: false
   - L1: NIKO → BUILD
   - L2: NIKO → PLAN → BUILD → QA → REFLECT → ARCHIVE
   - L3: NIKO → PLAN → CREATIVE → PREFLIGHT → BUILD → QA → REFLECT → ARCHIVE
-  - L4: NIKO → PLAN → CREATIVE → PREFLIGHT → BUILD → QA → REFLECT → ARCHIVE
+  - L4: Milestone-based composition of L1/L2/L3 sub-runs. Complexity analysis generates `memory-bank/milestones.md` on kickoff, then each milestone executes as an independent sub-run at its own level. Capstone archive consolidates all sub-runs at completion.
 - **Memory Bank Files**: Ephemeral (tasks.md, progress.md, creative/, reflection/) vs Persistent (archives, project context)
 
 ## Archive Pattern

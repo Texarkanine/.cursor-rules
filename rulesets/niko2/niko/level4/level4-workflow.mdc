@@ -2,4 +2,53 @@
 alwaysApply: false
 ---
 
-Level 4 workflows are not implemented yet, sorry! Stop execution and wait for operator input.
+# Level 4 Workflow: Complex System
+
+Level 4 tasks are too large to plan and execute in one pass. They are composed of multiple L1/L2/L3 sub-runs, each corresponding to a milestone. Complexity analysis manages the milestone list and routes each sub-run to the appropriate level workflow. There are no dedicated Level 4 plan or build phases — those happen inside each sub-run at its own level.
+
+## Workflow Overview
+
+```mermaid
+graph TD
+    Start(("Complexity Analysis")) --> Check{"memory-bank/milestones.md<br>exists?"}
+
+    Check --"No (fresh L4)"-->  Generate["Generate milestone list<br>Write milestones.md<br>Classify first milestone as L1/L2/L3"]
+    Check --"Yes (re-entry)"--> AllDone{"All milestones<br>checked?"}
+
+    AllDone --"Yes"--> Capstone[/"🧑‍💻 /niko-archive (capstone)"/]
+    AllDone --"No"--> PrevDone{"activeContext shows<br>REFLECT COMPLETE?"}
+
+    PrevDone --"Yes"--> CheckOff["Check off completed<br>milestone in milestones.md"]
+    CheckOff --> NextSub["Classify next unchecked<br>milestone as L1/L2/L3"]
+    PrevDone --"No"--> Resume["Resume current milestone:<br>re-classify, enter sub-run"]
+
+    Generate --> SubRun["Enter sub-run at<br>classified level workflow"]
+    NextSub --> SubRun
+    Resume --> SubRun
+
+    SubRun -.->|"Sub-run reflect complete<br>operator invokes /niko"| Start
+```
+
+> Legend:
+> - 🐱 = Phase executed autonomously
+> - 🧑‍💻 = Phase initiated by operator with explicit command
+> - Solid edge = Transition does not require operator input
+> - Dashed edge = Transition requires operator input
+
+The following require operator input; if you have arrived at one of these transitions, STOP and wait:
+
+- Sub-run reflect complete → next `/niko` invocation (operator decides when to continue)
+- All milestones checked → capstone archive (operator invokes `/niko-archive`)
+
+## Change Tracking
+
+🚨 **CRITICAL:** Before entering a new phase, you MUST update `memory-bank/progress.md` and commit all changes to source control:
+
+1. Update `memory-bank/progress.md` to indicate completion of the phase you are leaving.
+2. Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: saving work before [phase] phase`.
+
+## Phase Mappings
+
+Level 4 tasks have no dedicated plan or build phases. Sub-runs execute entirely within their own level's workflow. The only Level 4-specific phase is the capstone archive:
+
+- **Level 4 Capstone Archive**: Load `.cursor/rules/shared/niko/level4/level4-archive.mdc`

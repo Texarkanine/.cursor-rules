@@ -25,6 +25,7 @@ These files contain relatively stable information and persist across tasks to gu
 * **Reflection Docs:** `memory-bank/reflection/reflection-<task-id>.md`
 * **Preflight Status:** `memory-bank/.preflight-status` - Task-specific preflight validation status file (created by `/niko-preflight`, gates `/niko-build` for L3+ tasks)
 * **QA Validation Status:** `memory-bank/.qa-validation-status` - Task-specific QA validation status file (created by `/niko-qa`, gates `/niko-reflect` for L2+ tasks)
+* **L4 Milestone List:** `memory-bank/milestones.md` - L4-only. Ordered checklist of sub-run milestones for the current L4 project. Created by complexity analysis on fresh L4 kickoff. Its presence is the L4 in-flight signal. Checked off by complexity analysis on each `/niko` re-entry as sub-runs complete. Deleted by the capstone archive phase when all milestones are done.
 
 **Verification Mandate:** Before any `create_file` or `edit_file` operation on these core files, verify the path starts with `memory-bank/`. If attempting to create a new core file (e.g., `tasks.md` at the start of a project), ensure it is created at `memory-bank/tasks.md`.
 
