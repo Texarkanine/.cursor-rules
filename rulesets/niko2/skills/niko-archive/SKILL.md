@@ -23,4 +23,4 @@ Ask the operator for clarification, and wait for their instructions. You're done
 
 ## Step 3: Route to Level-Specific Archive
 
-Load the appropriate complexity level-specific Niko workflow file, then use its Phase Mappings to proceed to the Archive phase.
+Load the appropriate complexity level-specific Niko workflow file, then use its Phase Mappings to execute the Archive phase.

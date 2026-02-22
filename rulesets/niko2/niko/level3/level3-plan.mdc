@@ -189,9 +189,11 @@ Process open questions one at a time. After each creative phase completes, reass
 - [ ] QA
 ~~~
 
-## Output to Operator
+## Step 11: Log Progress
 
-When planning is complete, print:
+> 🚨 **Printing this notice is NOT the end of this phase.** After printing, continue immediately to the next step - do not stop.
+
+Log the results depending on the build outcome by printing the appropriate block:
 
 ### PASS
 
@@ -218,7 +220,7 @@ When planning is complete, print:
 
 ## Next Steps
 
-Preflight validation will now run automatically.
+Proceed to "Preflight" phase to validate the plan.
 ~~~
 
 ### FAIL
@@ -239,6 +241,7 @@ Preflight validation will now run automatically.
 - **Open questions unresolved**: Awaiting operator input on [specific question].
 ~~~
 
-If operator input is required, stop and wait for them.
+## Step 12: Phase Transition
 
-If operator input is not required, load the appropriate complexity level-specific Niko workflow file and proceed to the next phase as specified by that document.
+- If operator input is required: stop and wait for them.
+- If operator input is not required: load the appropriate complexity level-specific Niko workflow file, then use its Phase Mappings to execute the next phase.

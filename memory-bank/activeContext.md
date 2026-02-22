@@ -1,25 +1,16 @@
 # Active Context
 
-## Current Task: niko2-l3-reflect-archive-creative
-**Phase:** BUILD — Files 1-9 complete, building File 10
+## Current Task: niko2-level4-impl
+**Phase:** BUILD — COMPLETE
 
 ## What Was Done
-- Reflect & archive skills: thin routers (matching niko-plan pattern)
-- 4 level-specific .mdc files: L2/L3 reflect, L2/L3 archive
-- L2 workflow updated to point to .mdc files
-- L3 workflow authored by operator (TD layout, creative loop, operator gates)
-- L4 design specified in tasks.md (milestone-based composition, no capstone reflect, milestone presence as L4 signal)
-- Terminology: "open question" replaces "mega-unknown"
-- Future work captured: L4 impl, mermaid enforcement, pinned info, batch ops rule
-- Creative skill (SKILL.md): dual-mode (workflow + standalone), routes to 4 phase types, confidence evaluation
-- Algorithm creative phase: 4-step, operator-tested with haiku subagents
-- Architecture creative phase: 5-step, quality attribute ranking, risk/reversibility criterion
-- UI/UX creative phase: design system check via techContext.md, user & context focus, accessibility first-class
-- Generic creative phase: derived evaluation criteria (no fixed rubric), bikeshedding guard, "Frame the Decision" framing
-- Design system references folded into techContext.md (updated template, init, paths)
-- Creative phase authoring template: meta-template for ruleset authors, contract extraction, registration instructions
-- L3 plan: component analysis, open question identification, creative loop, TDD at component boundaries
-- Operator added: pinned info section (mermaid diagrams pinned at top of tasks.md), diagram identification in Step 7
+- Step 1: `memory-bank-paths.mdc` — milestones.md L4 entry added
+- Step 2: `memory-bank/systemPatterns.md` — L4 row fixed to milestone-based composition
+- Step 3: `level4-workflow.mdc` — full document (user-finalized with Plan + Preflight + Archive phase mappings)
+- Step 4: `level4-archive.mdc` — created (capstone archive)
+- Step 5: `complexity-analysis.mdc` — user handled: removed Fresh L4 Kickoff, re-entry Step 1 intact, fresh L4 routes to level4-workflow.mdc Plan phase
+- Step 6: `milestones.mdc` — created (format spec, quality criteria, lifecycle table)
+- Step 7: `level4-plan.mdc` — created (milestone generation, milestones.md write, Log Progress + Phase Transition → preflight)
 
 ## Next Step
-- Build File 10: L3 build (`niko/level3/level3-build.mdc`)
+- QA PASSED — proceed to `/niko-reflect`

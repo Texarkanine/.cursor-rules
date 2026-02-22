@@ -1,0 +1,4 @@
+PASS WITH ADVISORY
+
+Amended: all .mdc edits target rulesets/niko2/niko/ (source of truth), not .cursor/ directly.
+Advisory: pre-existing staged/unstaged rulesets changes exist (unrelated to this task).

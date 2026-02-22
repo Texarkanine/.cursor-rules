@@ -1,0 +1,40 @@
+---
+globs: memory-bank/systemPatterns.md
+---
+
+# System Patterns
+
+The "System Patterns" is the architectural patterns of this collection of files: code organization, naming conventions, design patterns in use.
+
+## File
+
+`memory-bank/systemPatterns.md`
+
+## How to Create
+
+Scan the codebase for significant patterns (nonstandard or high-criticality) and document them.
+This is largely a free-form document designed to capture and surface information that would otherwise require time and effort to discover.
+
+Do not document obvious patterns - for example, a project with a `pyproject.toml` should not say "This project uses python."
+
+However, a project with a `pyproject.toml` *and* a `setup.py` *and* a `requirements.txt` should probably include something about the design that necessitates all three of them.
+
+Err on the side of brevity - if you're not sure if something is exceptional, don't document it.
+This document can be appended to later as actual work reveals patterns that would benefit from documentation.
+
+## Format
+
+Create the file in Markdown format, according to this template:
+
+~~~markdown
+# System Patterns
+
+## Pattern 1
+
+Succint description of pattern, with a pointer to instances and/or evidence
+
+## Pattern 2
+
+...
+
+~~~

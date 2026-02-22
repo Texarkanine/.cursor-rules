@@ -55,7 +55,11 @@ Read:
     - **On FAIL (issues requiring build changes)**: Return to the Build phase to fix the issues.
     - **On FAIL (fundamental plan issue discovered)**: Return to the Plan phase to revise the plan.
 
-## Step 3: Output to Operator
+## Step 3: Log Progress
+
+> 🚨 **Printing this notice is NOT the end of this phase.** After printing, continue immediately to the next step - do not stop.
+
+Update `memory-bank/progress.md` to record completion of the QA phase.
 
 When QA review is complete, print:
 
@@ -88,6 +92,5 @@ When QA review is complete, print:
 
 ## Step 4: Phase Transition
 
-If operator input is required, stop and wait for them.
-
-If operator input is not required, load the appropriate complexity level-specific Niko workflow file and proceed to the next Phase as specified by that document.
+- If operator input is required: stop and wait for them.
+- If operator input is not required: load the appropriate complexity level-specific Niko workflow file, then use its Phase Mappings to execute the next phase.

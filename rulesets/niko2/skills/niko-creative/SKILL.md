@@ -57,7 +57,11 @@ After the creative phase type completes its exploration, the result will be in o
 
 **Standalone**: Present the exploration results directly to the operator in the output format below. If a memory bank exists, also write the creative document to `memory-bank/creative/` for future reference.
 
-## Step 6: Output to Operator
+## Step 6: Log Progress
+
+> 🚨 **Printing this notice is NOT the end of this phase.** After printing, continue immediately to the next step - do not stop.
+
+**Within a Niko workflow:** Update `memory-bank/progress.md` to record completion of this creative phase exploration.
 
 ### High Confidence (Resolved)
 
@@ -95,9 +99,13 @@ Documented in `memory-bank/creative/creative-[question-name].md`
 
 ## Step 7: Phase Transition
 
+> 🚨 **Execute this immediately after printing — do not stop between steps.**
+
 **Within a Niko Workflow:**
 
-- If the open question was successfully resolved, load the appropriate complexity level-specific Niko workflow file, then follow its instructions to resume the Plan phase.
+Commit all changes (creative document + memory bank updates) with `chore: saving work before plan phase`.
+
+- If the open question was successfully resolved, load the appropriate complexity level-specific Niko workflow file, then use its Phase Mappings to resume the Plan phase.
 - If the open question could not be successfully resolved, wait for operator input. You're done for now.
 
 **Standalone Mode:**

@@ -6,17 +6,29 @@ alwaysApply: false
 
 Determine the appropriate complexity level (1-4) for a task, then write the determination to the memory bank and load the corresponding workflow.
 
-## Decision Tree
+## Step 1: L4 Re-entry Check
+
+**Before running the decision tree**, check whether `memory-bank/milestones.md` exists.
+
+- **If `milestones.md` is absent:** proceed to the Decision Tree below - this is a fresh task.
+- **If `milestones.md` is present:** an L4 project is already in-flight. Do not run the decision tree. Instead:
+    1. Read `memory-bank/milestones.md` and `memory-bank/activeContext.md`.
+    2. **If `activeContext.md` shows the previous phase as REFLECT COMPLETE:** check off that sub-run's milestone in `milestones.md`. (The current sub-run is done.)
+    3. Re-read the updated `milestones.md`:
+        - **All milestones checked (`- [x]`):** The L4 project is complete. Skip to Step 6: Load Workflow.
+        - **Unchecked milestones remain:** The first unchecked milestone is the next sub-run target. Classify it as L1, L2, or L3 using the decision tree below (apply it to the milestone description, not the overall task) and proceed as normal.
+
+## Step 2: Decision Tree
 
 ```mermaid
 graph TD
-    Start["New Task"] --> Q1{"Bug fix or<br>error correction?"}
+    Start(("New Task")) --> Q1{"Bug fix or<br>error correction?"}
     Q1 -->|Yes| Q1a{"Affects single<br>component?"}
-    Q1a -->|Yes| L1["Level 1:<br>Quick Bug Fix"]
+    Q1a -->|Yes| L1("Level 1:<br>Quick Bug Fix")
     Q1a -->|No| Q1b{"Affects multiple<br>components?"}
-    Q1b -->|Yes| L2["Level 2:<br>Simple Enhancement"]
+    Q1b -->|Yes| L2("Level 2:<br>Simple Enhancement")
     Q1b -->|No| Q1c{"Affects system<br>architecture?"}
-    Q1c -->|Yes| L3["Level 3:<br>Intermediate Feature"]
+    Q1c -->|Yes| L3("Level 3:<br>Intermediate Feature")
     Q1c -->|No| L2
 
     Q1 -->|No| Q2{"Adding small<br>feature or<br>enhancement?"}
@@ -62,7 +74,7 @@ graph TD
 - **Risk**: High, architectural implications
 - **Examples**: payment processing framework, microservice architecture, database migration system, real-time communication system
 
-## Assessment Questions
+## Step 3: Assessment Questions
 
 When the decision tree doesn't give a clear answer, consider:
 
@@ -71,7 +83,7 @@ When the decision tree doesn't give a clear answer, consider:
 3. **Risk** — What breaks if this goes wrong? Is it isolated or cascading?
 4. **Effort** — Hours, days, or weeks?
 
-## Write Determination to Memory Bank
+## Step 4: Write Determination to Memory Bank
 
 Before writing, check whether the ephemeral files already exist:
 
@@ -97,7 +109,7 @@ Create a stub file with the task name. Do **not** populate checklists yet — th
 
 Include a brief summary of the work to be done as described in the project brief - you've just *completed* complexity analysis!
 
-## Next Steps
+## Step 5: Log Progress
 
 After writing the determination, inform the user:
 
@@ -106,7 +118,9 @@ After writing the determination, inform the user:
 Loading Level N workflow...
 ```
 
-Then, load the level-specific workflow and proceed to the next phase as specified by that document.
+## Step 6: Load Workflow
+
+Load the level-specific workflow and use its Phase Mappings to execute the next phase.
 
 - Level 1: `.cursor/rules/shared/niko/level1/level1-workflow.mdc`
 - Level 2: `.cursor/rules/shared/niko/level2/level2-workflow.mdc`

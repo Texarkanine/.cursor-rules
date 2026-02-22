@@ -168,6 +168,8 @@ Document results in the troubleshooting task list.
 
 ### Step 11. Report Outcome
 
+> 🚨 **Reporting the outcome is NOT the end!** After printing, continue immediately to the next step - do not stop.
+
 Succinctly report:
 - The identified root cause
 - The fix applied
