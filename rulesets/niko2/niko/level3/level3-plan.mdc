@@ -32,6 +32,7 @@ L3 tasks touch multiple components or modules. Map the scope:
 - **Cross-module dependencies**: Identify how the affected components interact. Which components call which? What data flows between them? Are there shared state or concurrency concerns?
 - **Boundary changes**: Will this feature change any component's public interface, API contract, or data schema? Flag these - they have higher blast radius and may need creative phase exploration.
 - **Cross-reference against `memory-bank/systemPatterns.md`** to confirm the planned touchpoints align with established patterns. If they don't, that's an open question.
+- **Invariants & Constraints:** List the invariants and constraints that the correct solution must preserve.
 
 ## Step 4: Identify Open Questions
 
