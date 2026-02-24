@@ -78,34 +78,34 @@ graph TD
 
 When the decision tree doesn't give a clear answer, consider:
 
-1. **Scope** — Single component, multiple components, or system-wide?
-2. **Design decisions** — Can you start coding immediately, or do you need to explore and choose between approaches first?
-3. **Risk** — What breaks if this goes wrong? Is it isolated or cascading?
-4. **Effort** — Hours, days, or weeks?
+1. **Scope** - Single component, multiple components, or system-wide?
+2. **Design decisions** - Can you start coding immediately, or do you need to explore and choose between approaches first?
+3. **Risk** - What breaks if this goes wrong? Is it isolated or cascading?
+4. **Effort** - Hours, days, or weeks?
 
 ## Step 4: Write Determination to Memory Bank
 
 Before writing, check whether the ephemeral files already exist:
 
-- If **all four** ephemeral files exist (`projectbrief.md`, `activeContext.md`, `tasks.md`, `progress.md`), work is already in-progress. **Warn the user** — the previous task should be archived first, or explicitly abandoned before proceeding.
+- If **all four** ephemeral files exist (`projectbrief.md`, `activeContext.md`, `tasks.md`, `progress.md`), work is already in-progress. **Warn the user** - the previous task should be archived first, or explicitly abandoned before proceeding.
 - If the ephemeral files are absent and only the persistent files exist, the memory bank is ready for new work. Create or overwrite the ephemeral files as described below.
 
 ---
 
-**`memory-bank/projectbrief.md`** — Capture the user story and requirements: Populate it from the user's input, prompting for clarification if the requirements are incomplete or ambiguous.
+**`memory-bank/projectbrief.md`** - Capture the user story and requirements: Populate it from the user's input, prompting for clarification if the requirements are incomplete or ambiguous.
 
-**`memory-bank/activeContext.md`** — Record the current session state:
+**`memory-bank/activeContext.md`** - Record the current session state:
 
-- **Current Task** — task name derived from the user's request
-- **Phase** — `COMPLEXITY-ANALYSIS - COMPLETE`
-- **What Was Done** — complexity level determined (Level N) and rationale
-- **Next Step** — load the Level N workflow
+- **Current Task** - task name derived from the user's request
+- **Phase** - `COMPLEXITY-ANALYSIS - COMPLETE`
+- **What Was Done** - complexity level determined (Level N) and rationale
+- **Next Step** - load the Level N workflow
 
-**`memory-bank/tasks.md`** — Stub the task list:
+**`memory-bank/tasks.md`** - Stub the task list:
 
-Create a stub file with the task name. Do **not** populate checklists yet — the level-specific planning rules prescribe the exact format and content.
+Create a stub file with the task name. Do **not** populate checklists yet - the level-specific planning rules prescribe the exact format and content.
 
-**`memory-bank/progress.md`** — Initialize if absent:
+**`memory-bank/progress.md`** - Initialize if absent:
 
 Include a brief summary of the work to be done as described in the project brief - you've just *completed* complexity analysis!
 

@@ -4,7 +4,7 @@ alwaysApply: false
 
 # Level 1 Workflow: Quick Bug Fix
 
-Level 1 tasks are isolated bug fixes affecting a single component. Prioritize speed — but never skip the test.
+Level 1 tasks are isolated bug fixes affecting a single component. Prioritize speed - but never skip the test.
 
 ## Workflow Phases
 

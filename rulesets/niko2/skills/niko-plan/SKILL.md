@@ -5,7 +5,7 @@ description: Niko Memory Bank System - Plan Phase - Implementation Planning
 
 # Plan Phase - Implementation Planning
 
-This command creates a detailed implementation plan for the current task. Planning depth scales with complexity level — this file routes to the appropriate level-specific planning document.
+This command creates a detailed implementation plan for the current task. Planning depth scales with complexity level - this file routes to the appropriate level-specific planning document.
 
 ## Step 1: Load Memory Bank Files
 

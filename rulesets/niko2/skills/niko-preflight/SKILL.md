@@ -35,18 +35,19 @@ Read:
 
 4. **Conflict Detection**
    - Search for existing implementations, utilities, or patterns that overlap with or contradict the plan's approach
-   - Identify duplication-in-waiting — cases where the plan proposes building something the codebase already provides
+   - Identify duplication-in-waiting - cases where the plan proposes building something the codebase already provides
    - Flag any proposed changes that would break existing contracts or interfaces
 
 5. **Completeness Precheck**
-   - Verify the plan addresses all stated requirements with concrete implementation steps mapped to each one — not aspirationally, but with specific files, functions, and approaches identified
+   - Verify the plan addresses all stated requirements with concrete implementation steps mapped to each one - not aspirationally, but with specific files, functions, and approaches identified
    - Flag any requirements that are acknowledged but lack a clear implementation path
    - Verify test coverage is planned for all new behavior
 
-6. **Integration Elegance** *(advisory — not blocking)*
-   - For each proposed change in the plan, examine the existing system and ask: what would the most elegant solution look like if this requirement had been a foundational assumption from the start? If the plan describes something that bolts on rather than weaves in, flag the gap between the planned approach and that cleaner design.
-   - Describe the alternative integration concretely — not as a vague suggestion, but as a specific structural sketch the operator can evaluate against the cost of redesign.
-   - **This check is advisory, not blocking** — the operator decides whether the investment is warranted before build tokens are spent.
+6. **Radical Innovation** *(advisory - not blocking)*
+    - What's the single smartest and most radically innovative and accretive and useful and compelling change you could make to the plan at this point?
+    - Describe the change concretely - not as a vague suggestion, but as a specific structural sketch the operator can evaluate against the cost of redesign.
+    - If the change can be made within the current workflow's complexity level and within the current Project Brief's scope, make the change to the plan.
+    - If the change would change the complexity level of the task *or* if the change would significantly deviat from the current Project Brief's scope, flag it as an advisory finding for operator consideration but do not make the change.
 
 7. **Generate Preflight Report**
    - Create comprehensive findings report
@@ -76,8 +77,8 @@ Print the appropriate block:
 
 ## Findings
 
-1. **Findings** — bulleted list of each finding with severity
-2. **Advisory items** (if any) — concrete recommendations the operator can evaluate
+1. **Findings** - bulleted list of each finding with severity
+2. **Advisory items** (if any) - concrete recommendations the operator can evaluate
 
 ~~~
 
@@ -90,8 +91,8 @@ Print the appropriate block:
 
 ## Findings
 
-1. **Findings** — bulleted list of each finding with severity
-2. **Advisory items** (if any) — concrete recommendations the operator can evaluate
+1. **Findings** - bulleted list of each finding with severity
+2. **Advisory items** (if any) - concrete recommendations the operator can evaluate
 
 ## Next Steps
 

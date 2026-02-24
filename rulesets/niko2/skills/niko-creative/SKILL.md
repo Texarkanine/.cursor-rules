@@ -99,7 +99,7 @@ Documented in `memory-bank/creative/creative-[question-name].md`
 
 ## Step 7: Phase Transition
 
-> 🚨 **Execute this immediately after printing — do not stop between steps.**
+> 🚨 **Execute this immediately after printing - do not stop between steps.**
 
 **Within a Niko Workflow:**
 

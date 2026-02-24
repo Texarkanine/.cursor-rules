@@ -27,7 +27,7 @@ Read:
 
 - **Behavior Identification**: Enumerate the specific, observable behaviors this enhancement must exhibit when complete. Each behavior is a testable assertion, not a vague description. Frame as `[input/action] → [expected outcome]`.
 - **Edge Cases**: Identify at minimum: invalid input, boundary values, empty/null states, and interaction with existing behavior that must not regress.
-- **Test Infrastructure Survey**: Locate the project's existing test framework, runner, conventions, and directory structure. New tests must conform to established patterns — do not introduce a parallel test infrastructure. If no test infrastructure can be located, flag this as a blocking question for the operator.
+- **Test Infrastructure Survey**: Locate the project's existing test framework, runner, conventions, and directory structure. New tests must conform to established patterns - do not introduce a parallel test infrastructure. If no test infrastructure can be located, flag this as a blocking question for the operator.
 - **Test File Mapping**: For each behavior identified, specify the exact test file (existing or new) and describe the test case. If a new test file is needed, its name and location must follow existing conventions.
 
 ## Step 4: Review Codebase Structure
