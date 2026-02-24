@@ -47,7 +47,7 @@ Read:
     - What's the single smartest and most radically innovative and accretive and useful and compelling change you could make to the plan at this point?
     - Describe the change concretely - not as a vague suggestion, but as a specific structural sketch the operator can evaluate against the cost of redesign.
     - If the change can be made within the current workflow's complexity level and within the current Project Brief's scope, make the change to the plan.
-    - If the change would change the complexity level of the task *or* if the change would significantly deviat from the current Project Brief's scope, flag it as an advisory finding for operator consideration but do not make the change.
+    - If the change would change the complexity level of the task *or* if the change would significantly deviate from the current Project Brief's scope, flag it as an advisory finding for operator consideration but do not make the change.
 
 7. **Generate Preflight Report**
    - Create comprehensive findings report
