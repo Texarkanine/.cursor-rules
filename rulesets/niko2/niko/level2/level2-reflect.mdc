@@ -39,7 +39,13 @@ Categorize insights as:
 - **Technical**: patterns discovered, gotchas in the codebase, library behaviors, architectural observations
 - **Process**: workflow adjustments, estimation accuracy, phase-skipping opportunities, tooling improvements
 
-## Step 5: Write Reflection Document
+## Step 5: Million-Dollar Question
+
+> Given the changes made, examine the existing system and describe the most elegant solution that would have emerged if the change had been a foundational assumption from the start.
+
+Sometimes, the most-elegant solution is what we built - it's okay for this step to not produce a sweeping redesign!
+
+## Step 6: Write Reflection Document
 
 Create `memory-bank/reflection/reflection-<task-id>.md`:
 
@@ -75,14 +81,18 @@ complexity_level: 2
 
 ### Process
 - [Concrete process insight, or "Nothing notable"]
+
+### Million-Dollar Question
+
+[Result from Step 5, or "Nothing notable"]
 ~~~
 
-## Step 6: Update Memory Bank
+## Step 7: Update Memory Bank
 
 - Update `memory-bank/tasks.md`: mark Reflect phase complete
 - Update `memory-bank/activeContext.md` with reflection outcome
 
-## Step 7: Log Progress
+## Step 8: Log Progress
 
 Print a summary of the reflection according to the following format:
 
@@ -102,6 +112,6 @@ Print a summary of the reflection according to the following format:
 Run `/niko-archive` to create the archive document and finalize the current project.
 ~~~
 
-## Step 8: Phase Transition
+## Step 9: Phase Transition
 
 Reflection is a terminal node. Stop and wait for operator input.

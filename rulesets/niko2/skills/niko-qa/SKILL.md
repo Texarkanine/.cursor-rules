@@ -32,13 +32,11 @@ Read:
 
     - **YAGNI**: Prune speculative code, "just-in-case" variables, unused parameters, and features not explicitly required by the plan. If it wasn't asked for, it doesn't ship.
 
-    - **Completeness**: Verify every requirement from the original plan was **actually implemented** — not stubbed, TODO'd, commented-as-pseudocode, or hand-waved. Treat any `// TODO` or placeholder value introduced during this session as a blocking deficiency, not a future suggestion.
+    - **Completeness**: Verify every requirement from the original plan was **actually implemented** - not stubbed, TODO'd, commented-as-pseudocode, or hand-waved. Treat any `// TODO` or placeholder value introduced during this session as a blocking deficiency, not a future suggestion.
 
-    - **Regression**: Confirm no existing architectural patterns were broken — naming conventions, casing, error handling strategies, import styles, file structure, and established abstractions must remain consistent **across all affected projects**. New code must be indistinguishable in style from surrounding code **and integrate as a natural extension of existing architecture, not an accretion layer.**
+    - **Regression**: Confirm no existing architectural patterns were broken - naming conventions, casing, error handling strategies, import styles, file structure, and established abstractions must remain consistent **across all affected projects**. New code must be indistinguishable in style from surrounding code **and integrate as a natural extension of existing architecture, not an accretion layer.**
 
     - **Integrity**: Replace any hardcoded shortcuts, magic numbers, placeholder strings, or debug artifacts (`console.log`, `print("HERE")`) introduced as temporary scaffolding. If it was a means to an end during development, it does not survive into the final commit.
-
-    - **Integration Insight** *(advisory — does not block)*: Now that the change is implemented, examine whether it reveals a broader architectural simplification that wasn't visible from the plan alone. Ask: if this requirement had been a foundational assumption from the start, would the surrounding system look different? If yes — flag it prominently. Describe what that redesigned system would look like and why it would be cleaner. **Do not action this; surface it for the operator** as a concrete recommendation for future work.
 
 3. **Apply Fixes or Fail**
      - **Trivial fixes** (debug artifacts, naming inconsistencies, dead code, magic numbers): fix directly, re-run lint/build/test after each.
@@ -70,8 +68,7 @@ When QA review is complete, print:
 
 ✅ PASS
 
-1. **Findings** — bulleted list of each semantic finding and the fix applied (or why it blocks)
-2. **Integration Insight** (if any) — advisory recommendations surfaced during review
+1. **Findings** - bulleted list of each semantic finding and the fix applied (or why it blocks)
 
 ~~~
 
@@ -82,8 +79,7 @@ When QA review is complete, print:
 
 ❌ FAIL
 
-1. **Findings** — bulleted list of each semantic finding and the fix applied (or why it blocks)
-2. **Integration Insight** (if any) — advisory recommendations surfaced during review
+1. **Findings** - bulleted list of each semantic finding and the fix applied (or why it blocks)
 
 ## Next Steps
 

@@ -37,12 +37,20 @@ For each milestone, estimate its complexity level (L1/L2/L3) using the decision 
 
 **If the task description is too vague to produce a confident milestone list**, stop here and ask the operator to clarify scope. Do not guess; a wrong decomposition cannot be fixed cheaply once sub-runs begin.
 
+After enumerating the milestones, state the **cross-milestone invariants**: the constraints that every sub-run must preserve regardless of which milestone it implements. These are not goals or requirements - they are properties of the system that no milestone is permitted to violate. Examples: "API backward compatibility is maintained at every milestone boundary," "the database migration is reversible after any individual milestone," "no milestone introduces a dependency that another milestone would need to remove."
+
+Record these invariants in `memory-bank/milestones.md` alongside the milestone checklist.
+
 ## Step 4: Write milestones.md
 
 Write `memory-bank/milestones.md` following the format in milestones.mdc:
 
 ```markdown
 # Milestones: <task-id>
+
+## Cross-milestone invariants & constraints
+
+## Execution Order
 
 [optional dependency flowchart to illustrate parallelization opportunities]
 

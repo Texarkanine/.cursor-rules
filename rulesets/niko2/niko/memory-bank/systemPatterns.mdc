@@ -12,7 +12,9 @@ The "System Patterns" is the architectural patterns of this collection of files:
 
 ## How to Create
 
-Scan the codebase for significant patterns (nonstandard or high-criticality) and document them.
+Begin with the "How This System Works" section: a narrative explanation of the architecture and mental model required to modify this system safely. This is not a pattern catalog - it is the senior developer's "here's what you need to know before you touch anything" briefing. It should cover non-obvious coupling, load-bearing assumptions, and the consequences of violating them. This section will evolve as reflections and archives reveal new architectural truths.
+
+Then, scan the codebase for significant patterns (nonstandard or high-criticality) and document them.
 This is largely a free-form document designed to capture and surface information that would otherwise require time and effort to discover.
 
 Do not document obvious patterns - for example, a project with a `pyproject.toml` should not say "This project uses python."
@@ -20,7 +22,7 @@ Do not document obvious patterns - for example, a project with a `pyproject.toml
 However, a project with a `pyproject.toml` *and* a `setup.py` *and* a `requirements.txt` should probably include something about the design that necessitates all three of them.
 
 Err on the side of brevity - if you're not sure if something is exceptional, don't document it.
-This document can be appended to later as actual work reveals patterns that would benefit from documentation.
+This document can be appended to later as actual work reveals patterns that would benefit from inclusion.
 
 ## Format
 
@@ -29,9 +31,11 @@ Create the file in Markdown format, according to this template:
 ~~~markdown
 # System Patterns
 
+## How This System Works
+
 ## Pattern 1
 
-Succint description of pattern, with a pointer to instances and/or evidence
+Succinct description of pattern, with a pointer to instances and/or evidence
 
 ## Pattern 2
 
