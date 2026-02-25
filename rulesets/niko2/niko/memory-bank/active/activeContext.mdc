@@ -5,7 +5,7 @@ globs: memory-bank/active/activeContext.md
 # Active Context
 
 The "Active Context" is the current session focus: what's being worked on now, recent decisions, immediate next steps. A pointer to the current phase.
-This is an ideological parent of the `memory-bank/active/tasks.md` task list, containing high-level objectives & results for the current session and phase.
+This is a logical parent of the `memory-bank/active/tasks.md` task list, containing high-level objectives & results for the current session and phase.
 This file serves a pre-computed "compacted context" to enable pausing and resuming of work - concise summaries of the current thinking, decisions, and actions.
 
 ## File

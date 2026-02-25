@@ -18,7 +18,7 @@ This file should be created when the first work session of a project is started.
 
 ## When to Update
 
-When sufficient tasks in `memory-bank/active/tasks.md` have completed such that the `memory-bank/active/activeContext.md` is ready to be changed to a new focus, that information gets moved to a succint section in this file.
+When sufficient tasks in `memory-bank/active/tasks.md` have completed such that the `memory-bank/active/activeContext.md` is ready to be changed to a new focus, that information gets moved to a succinct section in this file.
 Each time this file is updated, a *new* section should be *appended* to the *bottom* of the file.
 
 🚨 **CRITICAL:** The progress **must** be updated whenever a phase is completed.

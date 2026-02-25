@@ -21,7 +21,7 @@ Err on the side of brevity: this document can be appended to later as actual wor
 
 ### Avoid
 
-1. Obvious patterns: for example, a project with a `pyproject.toml` should not say "This project uses python."
+1. Obvious patterns: for example, a project with a `pyproject.toml` should not say "This project uses Python."
     - However, a project with a `pyproject.toml` *and* a `setup.py` *and* a `requirements.txt` should probably include something about the design that necessitates all three of them.
 2. Ordinary patterns: if you're not sure if something is exceptional, don't document it.
 3. Temporal or variant patterns: If something isn't clearly a permanent fixture of the system, don't record it here.
