@@ -79,12 +79,10 @@ graph LR
 	NikoQA -->|"FAIL"| NikoBuild
 ```
 
+The long version shows all the paths Niko can take, depending on the complexity of the task, with more details about phase transitions:
+
 <details>
 <summary>Long Version...</summary>
-
-<br>
-All Niko workflow paths across all complexity levels:
-<br><br>
 
 ```mermaid
 flowchart LR
@@ -136,7 +134,12 @@ flowchart LR
 
 <br>
 In case you want the "Long Version" but for just a single complexity level:
-<br><br>
+
+**Legend:**
+- 🐱 = Phase executed autonomously
+- 🧑‍💻 = Phase initiated by operator with explicit command
+- Solid edge = Transition does not require operator input
+- Dashed edge = Transition requires operator input
 
 <details>
 <summary>Level 1: Quick Fix</summary>
