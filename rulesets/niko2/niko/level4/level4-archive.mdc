@@ -17,7 +17,6 @@ Read:
 
 ## Step 2: Verify Prerequisites
 
-- Confirm `memory-bank/active/milestones.md` exists
 - Confirm **all milestones are checked** (`- [x]`) in `memory-bank/active/milestones.md`
 
 🚨 If any milestones remain unchecked: STOP - the project is not complete. Inform the operator which milestones remain, then wait for their instructions.
