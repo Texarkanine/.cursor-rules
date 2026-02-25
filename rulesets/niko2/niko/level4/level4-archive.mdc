@@ -52,7 +52,7 @@ Commit all changes (archive document + deleted ephemeral files  & all code chang
 chore: archive <task-id> and clear memory bank
 ```
 
-## Log Progress
+## Step 7: Log Progress
 
 Print a summary of the archive according to the following format:
 

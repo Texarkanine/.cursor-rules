@@ -48,7 +48,7 @@ The archive is a *key* feature! Archives collect key decisions, insights, and ta
 
 ### Ephemeral Files
 
-Other memory-bank files are ephemeral, created to track a task and its progress. They're cleaned up after you finish a task. These are the short-term memory for work on the current task.
+Other memory-bank files are ephemeral, created to track a task and its progress. They're stored in the `memory-bank/active/` folder and cleaned up after you finish a task. These are the short-term memory for work on the current task.
 
 | File                     | Kind      | Purpose                                                                                                       |
 |--------------------------|-----------|---------------------------------------------------------------------------------------------------------------|
