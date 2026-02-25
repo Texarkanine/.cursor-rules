@@ -14,7 +14,7 @@ Reflections are ephemeral files that will eventually be collapsed into a single 
 
 ## Files
 
-Reflection are stored in the `memory-bank/active/reflection/` directory.
+Reflection files are stored in the `memory-bank/active/reflection/` directory.
 Reflection files are named in the format `reflection-<task-id>.md`.
 
 ## How to Create
