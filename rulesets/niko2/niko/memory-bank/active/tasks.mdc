@@ -1,5 +1,5 @@
 ---
-globs: memory-bank/tasks.md
+globs: memory-bank/active/tasks.md
 ---
 
 # Tasks
@@ -9,7 +9,7 @@ It contains an exhaustive checklist of all the necessary steps to do, in order, 
 
 ## File
 
-`memory-bank/tasks.md`
+`memory-bank/active/tasks.md`
 
 ## How to Create
 

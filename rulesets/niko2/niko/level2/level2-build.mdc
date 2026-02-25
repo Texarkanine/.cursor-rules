@@ -9,16 +9,16 @@ This document executes the implementation plan produced by the Level 2 Plan phas
 ## Step 1: Load Memory Bank Files
 
 Read:
-- `memory-bank/tasks.md`
-- `memory-bank/activeContext.md`
-- `memory-bank/projectbrief.md`
+- `memory-bank/active/tasks.md`
+- `memory-bank/active/activeContext.md`
+- `memory-bank/active/projectbrief.md`
 - `memory-bank/systemPatterns.md`
-- `memory-bank/progress.md`
+- `memory-bank/active/progress.md`
 
 ## Step 2: Verify Prerequisites
 
-- Confirm `memory-bank/.preflight-status` exists and contains `PASS` or `PASS WITH ADVISORY`
-- Confirm `memory-bank/tasks.md` contains a complete implementation plan (produced by the Plan phase)
+- Confirm `memory-bank/active/.preflight-status` exists and contains `PASS` or `PASS WITH ADVISORY`
+- Confirm `memory-bank/active/tasks.md` contains a complete implementation plan (produced by the Plan phase)
 - Confirm the task's test plan is present: behaviors to verify, test infrastructure, and test file mapping
 
 🚨 If preflight has not passed: STOP - invoke the `niko-preflight` skill and proceed as instructed there.
@@ -26,10 +26,10 @@ Read:
 
 ## Step 3: Execute Implementation
 
-Work through the implementation plan in `memory-bank/tasks.md` **in order**. For each step:
+Work through the implementation plan in `memory-bank/active/tasks.md` **in order**. For each step:
 
 1. Follow the defined TDD process: stub tests → stub interface → write tests → run tests (expect red) → write code → run tests (expect green)
-2. After each step passes, update `memory-bank/tasks.md` to check off the completed step
+2. After each step passes, update `memory-bank/active/tasks.md` to check off the completed step
 3. If a step fails in a way the plan did not anticipate, stop and assess:
    - **Recoverable** (typo, minor misunderstanding of API): fix and continue
    - **Plan deficiency** (wrong approach, missing dependency, broken assumption): FAIL - the plan needs revision
@@ -46,8 +46,8 @@ When all implementation steps are checked off:
 
 ## Step 5: Update Memory Bank
 
-1. Update `memory-bank/tasks.md`: mark Build phase complete in the Status section
-2. Update `memory-bank/activeContext.md` with:
+1. Update `memory-bank/active/tasks.md`: mark Build phase complete in the Status section
+2. Update `memory-bank/active/activeContext.md` with:
    - Files created or modified (absolute paths)
    - Key implementation decisions made during build
    - Any deviations from the plan and why

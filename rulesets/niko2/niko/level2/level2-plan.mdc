@@ -9,17 +9,17 @@ This document creates a concrete implementation plan for a Level 2 (Simple Enhan
 ## Step 1: Load Memory Bank Files
 
 Read:
-- `memory-bank/tasks.md`
-- `memory-bank/projectbrief.md`
+- `memory-bank/active/tasks.md`
+- `memory-bank/active/projectbrief.md`
 - `memory-bank/systemPatterns.md`
-- `memory-bank/activeContext.md`
+- `memory-bank/active/activeContext.md`
 - `memory-bank/techContext.md`
 
 ## Step 2: Verify Prerequisites
 
-- Confirm `memory-bank/tasks.md` exists (stub created by `/niko` - it will contain the task name but not yet a full plan; that's this document's job)
-- Confirm `memory-bank/activeContext.md` exists and indicates that the current task is indeed a Level 2 (Simple Enhancement) task
-- Confirm `memory-bank/projectbrief.md` exists with the user story and requirements
+- Confirm `memory-bank/active/tasks.md` exists (stub created by `/niko` - it will contain the task name but not yet a full plan; that's this document's job)
+- Confirm `memory-bank/active/activeContext.md` exists and indicates that the current task is indeed a Level 2 (Simple Enhancement) task
+- Confirm `memory-bank/active/projectbrief.md` exists with the user story and requirements
 
 🚨 If any of the prerequisites are missing, STOP and inform the user (see "Output to Operator" below).
 
@@ -57,9 +57,8 @@ Read:
 
 ## Step 8: Generate Plan Report
 
-1. Write the complete plan to `memory-bank/tasks.md` using the output format below
-2. Write validation status to `memory-bank/.plan_status`
-3. Update `memory-bank/activeContext.md` with planning outcome
+1. Write the complete plan to `memory-bank/active/tasks.md` using the output format below
+2. Update `memory-bank/active/activeContext.md` with planning outcome
 
 ### tasks.md Plan Format
 

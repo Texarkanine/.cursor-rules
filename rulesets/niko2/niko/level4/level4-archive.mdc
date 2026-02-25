@@ -9,16 +9,15 @@ This document guides the capstone archive for a completed Level 4 task. It conso
 ## Step 1: Load Memory Bank Files
 
 Read:
-- `memory-bank/milestones.md`
-- `memory-bank/projectbrief.md`
-- `memory-bank/activeContext.md`
-- `memory-bank/progress.md`
-- `memory-bank/reflection/` (all files - the sub-run reflections)
+- `memory-bank/active/milestones.md`
+- `memory-bank/active/projectbrief.md`
+- `memory-bank/active/activeContext.md`
+- `memory-bank/active/progress.md`
+- `memory-bank/active/reflection/` (all files - the sub-run reflections)
 
 ## Step 2: Verify Prerequisites
 
-- Confirm `memory-bank/milestones.md` exists
-- Confirm **all milestones are checked** (`- [x]`) in `memory-bank/milestones.md`
+- Confirm **all milestones are checked** (`- [x]`) in `memory-bank/active/milestones.md`
 
 🚨 If any milestones remain unchecked: STOP - the project is not complete. Inform the operator which milestones remain, then wait for their instructions.
 
@@ -52,7 +51,7 @@ Commit all changes (archive document + deleted ephemeral files  & all code chang
 chore: archive <task-id> and clear memory bank
 ```
 
-## Log Progress
+## Step 7: Log Progress
 
 Print a summary of the archive according to the following format:
 

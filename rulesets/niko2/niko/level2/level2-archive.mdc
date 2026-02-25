@@ -9,15 +9,15 @@ This document guides archiving for a Level 2 task. The archive is a concise reco
 ## Step 1: Load Memory Bank Files
 
 Read:
-- `memory-bank/tasks.md`
-- `memory-bank/activeContext.md`
-- `memory-bank/progress.md`
-- `memory-bank/projectbrief.md`
-- `memory-bank/reflection/` (all files)
+- `memory-bank/active/tasks.md`
+- `memory-bank/active/activeContext.md`
+- `memory-bank/active/progress.md`
+- `memory-bank/active/projectbrief.md`
+- `memory-bank/active/reflection/` (all files)
 
 ## Step 2: Verify Prerequisites
 
-- Check that `memory-bank/reflection/reflection-<task-id>.md` exists
+- Check that `memory-bank/active/reflection/reflection-<task-id>.md` exists
 - If no reflection exists: 🛑 STOP - it does not make sense to archive work that hasn't been reflected on. Ask the operator for clarification, and wait for their instructions. You're done for now.
 
 ## Step 3: Determine Archive Category
@@ -51,7 +51,7 @@ chore: archive <task-id> and clear memory bank
 
 ## Step 7: Log Progress
 
-Update `memory-bank/progress.md` to record completion of the archive phase, then print:
+Print:
 
 ~~~markdown
 # Archive Result

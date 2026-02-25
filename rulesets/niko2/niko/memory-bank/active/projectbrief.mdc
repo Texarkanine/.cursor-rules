@@ -1,5 +1,5 @@
 ---
-globs: memory-bank/projectbrief.md
+globs: memory-bank/active/projectbrief.md
 ---
 
 # Project Brief
@@ -8,7 +8,7 @@ The "Project Brief" is the current session deliverable: user story & requirement
 
 ## File
 
-`memory-bank/projectbrief.md`
+`memory-bank/active/projectbrief.md`
 
 ## How to Create
 

@@ -8,11 +8,11 @@ Determine the appropriate complexity level (1-4) for a task, then write the dete
 
 ## Step 1: L4 Re-entry Check
 
-**Before running the decision tree**, check whether `memory-bank/milestones.md` exists.
+**Before running the decision tree**, check whether `memory-bank/active/milestones.md` exists.
 
 - **If `milestones.md` is absent:** proceed to the Decision Tree below - this is a fresh task.
 - **If `milestones.md` is present:** an L4 project is already in-flight. Do not run the decision tree. Instead:
-    1. Read `memory-bank/milestones.md` and `memory-bank/activeContext.md`.
+    1. Read `memory-bank/active/milestones.md` and `memory-bank/active/activeContext.md`.
     2. **If `activeContext.md` shows the previous phase as REFLECT COMPLETE:** check off that sub-run's milestone in `milestones.md`. (The current sub-run is done.)
     3. Re-read the updated `milestones.md`:
         - **All milestones checked (`- [x]`):** The L4 project is complete. Skip to Step 6: Load Workflow.
@@ -92,20 +92,20 @@ Before writing, check whether the ephemeral files already exist:
 
 ---
 
-**`memory-bank/projectbrief.md`** - Capture the user story and requirements: Populate it from the user's input, prompting for clarification if the requirements are incomplete or ambiguous.
+**`memory-bank/active/projectbrief.md`** - Capture the user story and requirements: Populate it from the user's input, prompting for clarification if the requirements are incomplete or ambiguous.
 
-**`memory-bank/activeContext.md`** - Record the current session state:
+**`memory-bank/active/activeContext.md`** - Record the current session state:
 
 - **Current Task** - task name derived from the user's request
 - **Phase** - `COMPLEXITY-ANALYSIS - COMPLETE`
 - **What Was Done** - complexity level determined (Level N) and rationale
 - **Next Step** - load the Level N workflow
 
-**`memory-bank/tasks.md`** - Stub the task list:
+**`memory-bank/active/tasks.md`** - Stub the task list:
 
 Create a stub file with the task name. Do **not** populate checklists yet - the level-specific planning rules prescribe the exact format and content.
 
-**`memory-bank/progress.md`** - Initialize if absent:
+**`memory-bank/active/progress.md`** - Initialize if absent:
 
 Include a brief summary of the work to be done as described in the project brief - you've just *completed* complexity analysis!
 
