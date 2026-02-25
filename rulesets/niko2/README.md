@@ -65,6 +65,27 @@ Other memory-bank files are ephemeral, created to track a task and its progress.
 
 Niko's workflows will guide your agent and you through several well-defined phases, tuned to the complexity of the task.
 
+The short version is:
+
+```mermaid
+graph LR
+	Start(("🧑‍💻 /niko")) --> NikoPlan["🐱 plan"]
+	NikoPlan --> NikoPreflight{"🐱 preflight"}
+	NikoPreflight -->|"PASS"| NikoBuild["🐱 build"]
+	NikoPreflight -->|"FAIL"| NikoPlan
+	NikoBuild --> NikoQA{"🐱 qa"}
+	NikoQA -->|"PASS"| NikoReflect["🐱 reflect"]
+	NikoReflect --> ManualArchive[/"🧑‍💻 /niko-archive"/]
+	NikoQA -->|"FAIL"| NikoBuild
+```
+
+<details>
+<summary>Long Version...</summary>
+
+<br>
+All Niko workflow paths across all complexity levels:
+<br><br>
+
 ```mermaid
 flowchart LR
 
@@ -111,11 +132,11 @@ flowchart LR
 	end
 ```
 
-These may look daunting, but don't worry:
+</details>
 
-1. Niko will do most phase transitions for you.
-2. Niko will tell you which command to run when a phase transition requires your input.
-3. Niko will evaluate the complexity of the task at hand and choose one of three workflows depending on the complexity. Simpler tasks will have much simpler workflows.
+<br>
+In case you want the "Long Version" but for just a single complexity level:
+<br><br>
 
 <details>
 <summary>Level 1: Quick Fix</summary>
@@ -142,7 +163,7 @@ graph LR
 <details>
 <summary>Level 2: Enhancement</summary>
 
-Key differences from Level 1:
+**Key differences from Level 1:**
 
 1. "Preflight" phase to validate plan
 2. "Reflect" phase to capture insights before opening PR, may run multiple times depending on PR feedback/rework cycle
@@ -178,7 +199,7 @@ flowchart TD
 <details>
 <summary>Level 3: Feature</summary>
 
-Key differences from Level 2:
+**Key differences from Level 2:**
 
 1. "Creative" phase to resolve open-ended questions
 2. Human must manually review plan after Preflight
@@ -210,6 +231,63 @@ graph TD
 	PR -."Rework PR".-> ManualPlan
 
 	ManualArchive -.-> MergePR("Merge PR")
+```
+
+</details>
+
+<details>
+<summary>Level 4: System</summary>
+
+**Key differences from Level 3:**
+
+1. Level 4 decomposes a complex task into multiple milestones, each of L1, L2, or L3 complexity.
+2. "Reflections" accumulate after milestones are completed, and are archived once at the end ("Capstone" archive)
+3. Manual `/niko` command required to advance from one completed milestone to the next
+	- this is your chance to review Niko's work!
+
+```mermaid
+graph TD
+
+    Start(("🧑‍💻 /niko<br>Complexity Analysis"))
+    CheckIfMilestones{"L4 In-Progress?"}
+
+    subgraph Init["First L4 Run"]
+        NikoPlan["😺 plan<br>(generate milestones)"]
+        NikoPreflight{"😺 preflight"}
+        ManualReview["🧑‍💻 review plan"]
+    end
+
+    subgraph ReEntry["L4 Milestone Management"]
+        CheckMilestoneCompletion{"All milestones complete?"}
+        Capstone[/"🧑‍💻 /niko-archive<br>(capstone)"/]
+        Capstone -->Done("Done")
+        PrevDone{"Current Milestone Complete?"}
+    end
+
+    subgraph SubWorkflow["L1-L3 Milestone Execution"]
+        NextSub(("😺 Complexity Analysis<br>on next milestone"))
+        SubRun("😺 Run L1/L2/L3 workflow")
+    end
+
+    Start --> CheckIfMilestones
+
+    CheckIfMilestones -->|"No"| NikoPlan
+    NikoPlan --> NikoPreflight
+    NikoPreflight -->|"FAIL"| NikoPlan
+
+    NikoPreflight -.->|"PASS"| ManualReview
+    ManualReview --> Start
+
+    CheckIfMilestones -->|"Yes"| CheckMilestoneCompletion
+    CheckMilestoneCompletion -->|"Yes"| Capstone
+
+    CheckMilestoneCompletion -->|"No"| PrevDone
+    PrevDone --"Yes"--> NextSub
+
+    PrevDone --"No"--> SubRun
+
+    NextSub --> SubRun
+    SubRun -->|"Sub-run reflect complete<br>🧑‍💻 /niko"| Start
 ```
 
 </details>
