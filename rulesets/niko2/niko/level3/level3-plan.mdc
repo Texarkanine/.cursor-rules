@@ -9,19 +9,19 @@ This document creates a concrete implementation plan for a Level 3 (Intermediate
 ## Step 1: Load Memory Bank Files
 
 Read:
-- `memory-bank/tasks.md`
-- `memory-bank/projectbrief.md`
+- `memory-bank/active/tasks.md`
+- `memory-bank/active/projectbrief.md`
 - `memory-bank/systemPatterns.md`
-- `memory-bank/activeContext.md`
+- `memory-bank/active/activeContext.md`
 - `memory-bank/techContext.md`
 
-Also read any existing creative phase documents in `memory-bank/creative/` - these contain decisions from previous creative phase invocations on this task (if the plan phase has already looped through creative once or more).
+Also read any existing creative phase documents in `memory-bank/active/creative/` - these contain decisions from previous creative phase invocations on this task (if the plan phase has already looped through creative once or more).
 
 ## Step 2: Verify Prerequisites
 
-- Confirm `memory-bank/tasks.md` exists (stub created by `/niko`)
-- Confirm `memory-bank/activeContext.md` exists and indicates Level 3
-- Confirm `memory-bank/projectbrief.md` exists with the user story and requirements
+- Confirm `memory-bank/active/tasks.md` exists (stub created by `/niko`)
+- Confirm `memory-bank/active/activeContext.md` exists and indicates Level 3
+- Confirm `memory-bank/active/projectbrief.md` exists with the user story and requirements
 
 🚨 If any prerequisites are missing, STOP and inform the operator (see "Output to Operator" below).
 
@@ -41,7 +41,7 @@ Scan the requirements, component analysis, and your understanding of the impleme
 - Multiple viable approaches exist and the right choice depends on tradeoffs that need evaluation
 - The requirements are ambiguous enough that two engineers might build different things
 
-For each open question, document in `memory-bank/tasks.md`:
+For each open question, document in `memory-bank/active/tasks.md`:
 - A brief problem statement describing what needs to be decided
 - Why it's ambiguous (what makes multiple approaches viable)
 - Any constraints or requirements the decision must satisfy
@@ -58,7 +58,7 @@ The creative phase will:
 - Explore options and evaluate tradeoffs
 - Return either a resolved decision (high confidence) or unresolved findings (low confidence)
 
-**High confidence**: Integrate the decision into the plan. The creative document in `memory-bank/creative/` is the record. Continue to the next open question or to Step 6 if all open questions have been investigated..
+**High confidence**: Integrate the decision into the plan. The creative document in `memory-bank/active/creative/` is the record. Continue to the next open question or to Step 6 if all open questions have been investigated..
 
 **Low confidence**: The creative phase will surface findings to the operator and stop. When the operator provides direction, they will re-enter this plan phase by invoking the `niko-plan` skill. The creative document will contain the operator's decision, and Step 1 will pick it up.
 
@@ -96,8 +96,8 @@ Process open questions one at a time. After each creative phase completes, reass
 
 ## Step 10: Generate Plan Report
 
-1. Write the complete plan to `memory-bank/tasks.md` using the format below
-2. Update `memory-bank/activeContext.md` with planning outcome
+1. Write the complete plan to `memory-bank/active/tasks.md` using the format below
+2. Update `memory-bank/active/activeContext.md` with planning outcome
 
 ### tasks.md Plan Format
 
@@ -134,7 +134,7 @@ Process open questions one at a time. After each creative phase completes, reass
 
 ## Open Questions
 
-- [x] [Question 1] → Resolved: [decision summary] (see `memory-bank/creative/creative-[name].md`)
+- [x] [Question 1] → Resolved: [decision summary] (see `memory-bank/active/creative/creative-[name].md`)
 - [x] [Question 2] → Resolved: [decision summary]
 - [ ] [Question 3] → Unresolved: awaiting operator input
 

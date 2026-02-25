@@ -9,14 +9,14 @@ This document guides reflection for a Level 2 task. Keep it focused - a few sent
 ## Step 1: Load Memory Bank Files
 
 Read:
-- `memory-bank/tasks.md`
-- `memory-bank/projectbrief.md`
-- `memory-bank/activeContext.md`
-- `memory-bank/progress.md`
+- `memory-bank/active/tasks.md`
+- `memory-bank/active/projectbrief.md`
+- `memory-bank/active/activeContext.md`
+- `memory-bank/active/progress.md`
 
 ## Step 2: Verify Prerequisites
 
-- Check `memory-bank/.qa-validation-status` exists and contains `PASS`
+- Check `memory-bank/active/.qa-validation-status` exists and contains `PASS`
 - If QA has not passed: 🛑 STOP - it does not make sense to reflect on work whose correctness has not been verified. Ask the operator for clarification, and wait for their instructions. You're done for now.
 
 ## Step 3: Review the Task
@@ -47,7 +47,7 @@ Sometimes, the most-elegant solution is what we built - it's okay for this step 
 
 ## Step 6: Write Reflection Document
 
-Create `memory-bank/reflection/reflection-<task-id>.md`:
+Create `memory-bank/active/reflection/reflection-<task-id>.md`:
 
 ~~~markdown
 ---
@@ -89,8 +89,8 @@ complexity_level: 2
 
 ## Step 7: Update Memory Bank
 
-- Update `memory-bank/tasks.md`: mark Reflect phase complete
-- Update `memory-bank/activeContext.md` with reflection outcome
+- Update `memory-bank/active/tasks.md`: mark Reflect phase complete
+- Update `memory-bank/active/activeContext.md` with reflection outcome
 
 ## Step 8: Log Progress
 

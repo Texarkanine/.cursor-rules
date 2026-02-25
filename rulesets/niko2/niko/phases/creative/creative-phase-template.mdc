@@ -44,7 +44,7 @@ The phase must include these steps, in order. Step names and evaluation criteria
    If no clear winner emerges, this is a **low-confidence result**, which is fine - you did the research!
    ```
 
-5. **Step 5: Output Document** - Write to `memory-bank/creative/creative-[question-name].md`. The format must include at minimum:
+5. **Step 5: Output Document** - Write to `memory-bank/active/creative/creative-[question-name].md`. The format must include at minimum:
    - A domain-appropriate header (e.g., "Algorithm Decision:", "Architecture Decision:", "Decision:")
    - Options Evaluated (bulleted, one-line summaries)
    - Analysis (table or prose)
@@ -130,7 +130,7 @@ If no clear winner emerges, this is a **low-confidence result**, which is fine -
 
 ## Step 5: Output Document
 
-Write to `memory-bank/creative/creative-[question-name].md`:
+Write to `memory-bank/active/creative/creative-[question-name].md`:
 
 [Domain-specific output document template with required sections]
 ~~~

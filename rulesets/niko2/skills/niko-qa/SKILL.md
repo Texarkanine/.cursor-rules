@@ -10,17 +10,17 @@ This command performs a structured semantic review of the code just implemented 
 ## Step 1: Load Memory Bank Files
 
 Read:
-- `memory-bank/tasks.md`
-- `memory-bank/projectbrief.md`
+- `memory-bank/active/tasks.md`
+- `memory-bank/active/projectbrief.md`
 - `memory-bank/systemPatterns.md`
-- `memory-bank/activeContext.md`
-- `memory-bank/progress.md`
-- `memory-bank/creative/`
+- `memory-bank/active/activeContext.md`
+- `memory-bank/active/progress.md`
+- `memory-bank/active/creative/`
 
 ## Step 2: QA Workflow
 
 1. **Verify Prerequisites**
-    - Check `memory-bank/tasks.md` for build phase completion
+    - Check `memory-bank/active/tasks.md` for build phase completion
     - Read the original implementation plan to establish the review baseline
     - For Level 3-4: Read creative phase documents for design intent
 
@@ -45,8 +45,8 @@ Read:
 
 4. **Generate QA Report**
     - Summarize findings and corrections applied
-    - Write validation status to `memory-bank/.qa-validation-status`
-    - Update `memory-bank/tasks.md` with QA results
+    - Write validation status to `memory-bank/active/.qa-validation-status`
+    - Update `memory-bank/active/tasks.md` with QA results
 
 5. **Handle Results**
     - **On PASS (clean or all issues fixed)**: Good job!
@@ -57,7 +57,7 @@ Read:
 
 > 🚨 **Printing this notice is NOT the end of this phase.** After printing, continue immediately to the next step - do not stop.
 
-Update `memory-bank/progress.md` to record completion of the QA phase.
+Update `memory-bank/active/progress.md` to record completion of the QA phase.
 
 When QA review is complete, print:
 

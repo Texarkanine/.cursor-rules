@@ -10,16 +10,16 @@ This command validates the implementation plan against codebase reality before a
 ## Step 1: Load Memory Bank Files
 
 Read:
-- `memory-bank/tasks.md`
-- `memory-bank/projectbrief.md`
+- `memory-bank/active/tasks.md`
+- `memory-bank/active/projectbrief.md`
 - `memory-bank/systemPatterns.md`
 - `memory-bank/techContext.md`
-- `memory-bank/creative/**/*.md` (if any exist)
+- `memory-bank/active/creative/**/*.md` (if any exist)
 
 ## Step 2: Preflight Workflow
 
 1. **Verify Prerequisites**
-   - Check `memory-bank/tasks.md` for planning completion
+   - Check `memory-bank/active/tasks.md` for planning completion
    - For Level 3-4: Verify creative phase documents exist (if creative phases were flagged)
    - Read implementation plan and design decisions
 
@@ -51,8 +51,8 @@ Read:
 
 7. **Generate Preflight Report**
    - Create comprehensive findings report
-   - Write validation status to `memory-bank/.preflight-status`
-   - Update `memory-bank/tasks.md` with any plan amendments or findings
+   - Write validation status to `memory-bank/active/.preflight-status`
+   - Update `memory-bank/active/tasks.md` with any plan amendments or findings
 
 8. **Handle Results**
    - **On PASS**: Good job!
@@ -64,7 +64,7 @@ Read:
 
 > 🚨 **Printing this notice is NOT the end of this phase.** After printing, continue immediately to the next step - do not stop.
 
-Update `memory-bank/progress.md` to record completion of the preflight phase.
+Update `memory-bank/active/progress.md` to record completion of the preflight phase.
 
 Print the appropriate block:
 

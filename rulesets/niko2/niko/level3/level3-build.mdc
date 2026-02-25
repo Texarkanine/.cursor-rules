@@ -9,18 +9,18 @@ This document executes the implementation plan produced by the Level 3 Plan phas
 ## Step 1: Load Memory Bank Files
 
 Read:
-- `memory-bank/tasks.md`
-- `memory-bank/activeContext.md`
-- `memory-bank/projectbrief.md`
+- `memory-bank/active/tasks.md`
+- `memory-bank/active/activeContext.md`
+- `memory-bank/active/projectbrief.md`
 - `memory-bank/systemPatterns.md`
 - `memory-bank/techContext.md`
-- `memory-bank/progress.md`
-- All files in `memory-bank/creative/` (creative phase decisions)
+- `memory-bank/active/progress.md`
+- All files in `memory-bank/active/creative/` (creative phase decisions)
 
 ## Step 2: Verify Prerequisites
 
-- Confirm `memory-bank/.preflight-status` exists and contains `PASS` or `PASS WITH ADVISORY`
-- Confirm `memory-bank/tasks.md` contains a complete implementation plan with component analysis, resolved open questions, test plan, and ordered implementation steps
+- Confirm `memory-bank/active/.preflight-status` exists and contains `PASS` or `PASS WITH ADVISORY`
+- Confirm `memory-bank/active/tasks.md` contains a complete implementation plan with component analysis, resolved open questions, test plan, and ordered implementation steps
 - Confirm all open questions in the plan are marked resolved (or explicitly deferred by the operator)
 - 🚨 If preflight has not passed: STOP - invoke the `niko-preflight` skill.
 - 🚨 If the implementation plan is missing or incomplete: STOP - invoke the `niko-plan` skill.
@@ -28,7 +28,7 @@ Read:
 
 ## Step 3: Review Creative Decisions
 
-Before writing any code, review every creative phase document in `memory-bank/creative/`. For each decision:
+Before writing any code, review every creative phase document in `memory-bank/active/creative/`. For each decision:
 - Understand what was decided and why
 - Note the implementation notes - these are direct inputs to how you build
 - Confirm the decision is still valid given the current state of the codebase (if not, flag to operator - don't silently deviate)
@@ -37,7 +37,7 @@ This step exists because creative decisions may have been made during planning, 
 
 ## Step 4: Execute Implementation
 
-Work through the implementation plan in `memory-bank/tasks.md` **in order**, grouped by component/module as specified in the plan. For each step:
+Work through the implementation plan in `memory-bank/active/tasks.md` **in order**, grouped by component/module as specified in the plan. For each step:
 
 1. **TDD cycle**: Write failing tests first → implement to pass → refactor
 2. If a step references a creative phase decision, verify the implementation conforms to that decision
@@ -45,7 +45,7 @@ Work through the implementation plan in `memory-bank/tasks.md` **in order**, gro
     - **Recoverable** (typo, minor API misunderstanding): fix and continue
     - **Plan deficiency** (wrong approach, missing dependency, broken assumption): FAIL - the plan needs revision
     - **Creative decision invalid** (the decided approach doesn't work in practice): FAIL - needs creative re-exploration
-4. After finishing the last step in a section's list, update `memory-bank/tasks.md` to check off the completed step(s).
+4. After finishing the last step in a section's list, update `memory-bank/active/tasks.md` to check off the completed step(s).
 
 When finishing a component/module's steps, run that component's unit tests in full before moving to the next component.
 
@@ -64,8 +64,8 @@ If integration tests fail:
 
 ## Step 6: Update Memory Bank
 
-1. Update `memory-bank/tasks.md`: mark Build phase complete in the Status section
-2. Update `memory-bank/activeContext.md` with:
+1. Update `memory-bank/active/tasks.md`: mark Build phase complete in the Status section
+2. Update `memory-bank/active/activeContext.md` with:
     - Files created or modified
     - Key implementation decisions made during build (not already in creative docs)
     - Any deviations from the plan and why

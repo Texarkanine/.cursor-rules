@@ -1,5 +1,5 @@
 ---
-globs: memory-bank/progress.md
+globs: memory-bank/active/progress.md
 ---
 
 # Progress
@@ -10,7 +10,7 @@ This file will accumulate the history of the project's journey from start to fin
 
 ## File
 
-`memory-bank/progress.md`
+`memory-bank/active/progress.md`
 
 ## How to Create
 
@@ -18,7 +18,7 @@ This file should be created when the first work session of a project is started.
 
 ## When to Update
 
-When sufficient tasks in `memory-bank/tasks.md` have completed such that the `memory-bank/activeContext.md` is ready to be changed to a new focus, that information gets moved to a succint section in this file.
+When sufficient tasks in `memory-bank/active/tasks.md` have completed such that the `memory-bank/active/activeContext.md` is ready to be changed to a new focus, that information gets moved to a succint section in this file.
 Each time this file is updated, a *new* section should be *appended* to the *bottom* of the file.
 
 🚨 **CRITICAL:** The progress **must** be updated whenever a phase is completed.
@@ -30,7 +30,7 @@ Create the file in Markdown format, according to this template:
 ~~~markdown
 # Progress
 
-Short, high-level summary of the work that needs to be done in order to complete the work laid out in the `memory-bank/projectbrief.md` file.
+Short, high-level summary of the work that needs to be done in order to complete the work laid out in the `memory-bank/active/projectbrief.md` file.
 
 ## [Date] - [Phase] - [Status]
 

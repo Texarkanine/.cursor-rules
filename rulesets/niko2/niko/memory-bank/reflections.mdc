@@ -1,11 +1,11 @@
 ---
-globs: memory-bank/reflection/**/*.md
+globs: memory-bank/active/reflection/**/*.md
 ---
 
 # Reflections
 
 Reflections are task-specific collections of outcomes and insights, created after a task is completed.
-After each build session, a reflection *may* be created; it's recommended to reflect whenever you *think* you've finished implementing the vision in the `memory-bank/projectbrief.md`.
+After each build session, a reflection *may* be created; it's recommended to reflect whenever you *think* you've finished implementing the vision in the `memory-bank/active/projectbrief.md`.
 User feedback that sends you back to build or adjust will cause a new build session and another reflection at the end of that, etc.
 
 Accumulating reflections allows code reviewers and other authors to understand the methodology that got you to where you are.
@@ -14,7 +14,7 @@ Reflections are ephemeral files that will eventually be collapsed into a single 
 
 ## Files
 
-Reflection are stored in the `memory-bank/reflection/` directory.
+Reflection are stored in the `memory-bank/active/reflection/` directory.
 Reflection files are named in the format `reflection-<task-id>.md`.
 
 ## How to Create

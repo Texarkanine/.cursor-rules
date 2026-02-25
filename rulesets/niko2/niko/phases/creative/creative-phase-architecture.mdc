@@ -76,7 +76,7 @@ If no clear winner emerges, this is a **low-confidence result**, which is fine -
 
 ## Step 6: Output Document
 
-Write to `memory-bank/creative/creative-[question-name].md`:
+Write to `memory-bank/active/creative/creative-[question-name].md`:
 
 ~~~markdown
 # Architecture Decision: [Question Name]
