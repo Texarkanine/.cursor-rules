@@ -26,6 +26,12 @@ This ensures that even if the *specifics* of testing are free to change, the gen
 
 Err on the side of brevity - if you're not sure if something needs to be mentioned, don't document it. For example, if a project has a `package.json`, it probably uses `javascript` and so you don't need to document *that*. But if it has a `package.json` *and* a `pom.xml`, for example, well, that's unusual and probably worth investigating and documenting.
 
+### Avoid
+
+1. Cataloging dependencies - the package manager file (`package.json`, `pyproject.toml`, `Cargo.toml`, etc.) is the source of truth. Only mention a dependency here if there is non-obvious context about it that a developer needs to know (e.g., a history of compatibility issues, a hard-won workaround, or a reason a seemingly-redundant dependency exists).
+2. Values that will drift without someone updating this file. Prefer indirection: say "version pinned in `.nvmrc`" instead of "version 20.18.0 in `.nvmrc`". Say "configured in `jest.config.js`" instead of listing the configuration. The goal is pointers that remain valid even as the pointed-to values change.
+3. Unverified claims. If you infer something (e.g., a tool is in use) but cannot confirm it from project files, do not include it.
+
 ## Format
 
 Create the file in Markdown format, according to this template:

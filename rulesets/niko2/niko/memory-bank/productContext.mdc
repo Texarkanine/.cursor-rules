@@ -14,6 +14,8 @@ The "Product Context" is the business context of this collection of files: targe
 
 Scan the codebase for traditional documentation sources, such as README files, `docs/` directories, etc. If sufficient information as to the product's context is not found, prompt the user for more information and create the file accordingly.
 
+Aim for proportional coverage across the system's capabilities. Do not let the most complex or most-recently-developed area dominate the document - each major functional area deserves similar depth. This file should read as a balanced overview, not a spotlight on one feature.
+
 ## Format
 
 Create the file in Markdown format, according to this template:
