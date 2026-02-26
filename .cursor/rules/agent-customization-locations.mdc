@@ -1,5 +1,5 @@
 ---
-globs: .cursor/rules/shared/**/*.mdc,.cursor/rules/local/**/*.mdc,.cursor/commands/**/*.md,.claude/rules/shared/**/*.mdc,.claude/rules/local/**/*.mdc,.claude/skills/**/*.md
+globs: .cursor/*/shared/**/*.md*,.cursor/*/local/**/*.md*,.claude/*/shared/**/*.md*,.claude/*/local/**/*.md*
 alwaysApply: false
 ---
 
