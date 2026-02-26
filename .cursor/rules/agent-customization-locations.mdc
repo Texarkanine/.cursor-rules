@@ -10,6 +10,6 @@ The `a16n` tool is used to convert these to equivalents in `.claude/rules/` and 
 
 This repository contains many of those rules and commands' canonical definitions - in the `rulesets/` and `rules/` directories.
 
-If you are making changes to a rule that is present in both `.cursor/**` and a `rules/` or `rulesets/` directory, **ALWAYS** edit the canonical source in the `rulesets/` and `rules/` directory. **NEVER** edit such a file in the `.cursor/` directory. The same applies for `./claude/` edits.
+If you are making changes to a rule that is present in both `.cursor/**` and a `rules/` or `rulesets/` directory, **ALWAYS** edit the canonical source in the `rulesets/` and `rules/` directory. **NEVER** edit such a file in the `.cursor/` directory. If a rule also exists under `./claude/**` and a corresponding canonical copy exists in a `rules/` or `rulesets/` directory, you must **ALWAYS** edit the canonical source in `rulesets/` or `rules/` and **NEVER** edit the file under `./claude/**`; follow the same ALWAYS/NEVER approach as for `.cursor/**`.
 
 Some files in `.cursor/` do NOT exist elsewhere in this repository. Those are rules and/or commands that were authored specifically *for* this repository, and it is OK to edit them where they are.
