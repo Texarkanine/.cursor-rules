@@ -29,6 +29,8 @@ If the memory bank is completely uninitialized, the following persistent files m
 
 **🚨 CRITICAL:** If initializing the memory bank in preparation for a user-initiated task, do *not* take the user's task into account when creating the persistent files. The persistent files should be able to stand on their own, in a vacuum, regardless of the user's task. Including knowledge of the user's task in the persistent files will pollute them with stale, temporary information!
 
+**🚨 CRITICAL:** Before writing persistent files, scan for existing AI-facing documentation (`.cursor/rules/`, `.claude/`, `AGENTS.md`, `CLAUDE.md`, or equivalent). Persistent files must not duplicate information already present in these files - they serve different purposes. Persistent files capture *project knowledge* (business context, non-obvious architecture, tech stack orientation). Rule files capture *working instructions* (how to test, how to format output, coding conventions). If a fact is already in a rule file, omit it from the persistent file or reference the rule file instead.
+
 Once the above files have been created, the memory bank is partially initialized, and ready for new work.
 
 ### Output to User:

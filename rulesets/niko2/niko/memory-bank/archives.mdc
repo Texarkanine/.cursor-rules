@@ -12,7 +12,7 @@ They are created after the project is verified as complete.
 Archives are stored in the `memory-bank/archive/<kind>/` directory.
 Archive files are named in the format `YYYYMMDD-<task-id>.md`.
 
-Archives are categorized into the following kinds:
+Archives are categorized into one of the following kinds (no others):
 - `bug-fixes/` - something was wrong, but it has been corrected
 - `enhancements/` - an existing feature or capability has been improved or extended
 - `features/` - an entirely new feature or capability has been added
