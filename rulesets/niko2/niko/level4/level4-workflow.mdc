@@ -69,19 +69,12 @@ The following require operator input; if you have arrived at one of these transi
 - All milestones checked → capstone archive (operator invokes `/niko-archive`)
 - Initial L4 milestone generation → first workflow execution (operator invokes `/niko`)
 
-## Change Tracking
-
-🚨 **CRITICAL:** Before entering a new phase, you MUST update `memory-bank/active/progress.md` and commit all changes to source control:
-
-1. Update `memory-bank/active/progress.md` to indicate completion of the phase you are leaving.
-2. Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: saving work before [phase] phase`.
-
 ## Phase Mappings
 
 To execute a phase for a level 4 task:
 
 1. Update `memory-bank/active/progress.md` to indicate completion of the phase you are leaving.
-2. Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: saving work before [phase] phase`.
+2. 🚨 ***CRITICAL:*** Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: saving work before [phase] phase`.
 3. Read and follow the instructions in the appropriate locations:
     - **Level 4 Plan Phase**: Load `.cursor/rules/shared/niko/level4/level4-plan.mdc`
     - **Level 4 Preflight Phase**: Invoke the `niko-preflight` skill
