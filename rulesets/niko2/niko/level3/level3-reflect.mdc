@@ -96,8 +96,8 @@ complexity_level: [n]
 
 ## Step 6: Update Memory Bank
 
-1. Update `memory-bank/active/tasks.md`: mark Reflect phase complete
-2. Update `memory-bank/active/activeContext.md` with reflection outcome
+1. Update `memory-bank/active/activeContext.md` with reflection outcome
+2. Update `memory-bank/active/progress.md`: record completion of the Reflect phase
 3. 🚨 ***CRITICAL:*** Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: reflected on [task-id]`.
 
 ## Step 7: Log Progress
