@@ -11,7 +11,7 @@ This command explores a single open question - an aspect of design or implementa
 
 **Within a Niko workflow**: Creative is invoked by the plan phase, once per open question. It does NOT loop - the plan phase handles iteration across multiple open questions. Context comes from the memory bank.
 
-**Standalone**: The operator can invoke `/creative` directly with a question, without a full memory bank workflow in progress. In this mode, the question comes from operator input rather than `memory-bank/tasks.md`.
+**Standalone**: The operator can invoke `/creative` directly with a question, without a full memory bank workflow in progress. In this mode, the question comes from operator input rather than `memory-bank/active/tasks.md`.
 
 ## Step 1: Determine Context
 
@@ -21,7 +21,7 @@ Read all available memory-bank files (persistent and ephemeral) for context.
 
 ## Step 2: Identify the Open Question
 
-**Within a workflow**: The plan phase should have flagged this open question in `memory-bank/tasks.md` with:
+**Within a workflow**: The plan phase should have flagged this open question in `memory-bank/active/tasks.md` with:
 - A brief problem statement describing what needs to be decided
 - Why it's ambiguous (what makes multiple approaches viable)
 - Any constraints or requirements the decision must satisfy
@@ -53,11 +53,15 @@ After the creative phase type completes its exploration, the result will be in o
 
 ## Step 5: Document the Decision
 
-**Within a workflow**: Create `memory-bank/creative/creative-[question-name].md`. The format is defined by the specific creative phase type that was loaded in Step 3 - follow its documentation instructions. Update `memory-bank/tasks.md`: mark this open question as explored, note the decision (or note that it's unresolved), and link to the creative document.
+**Within a workflow**: Create `memory-bank/active/creative/creative-[question-name].md`. The format is defined by the specific creative phase type that was loaded in Step 3 - follow its documentation instructions. Update `memory-bank/active/tasks.md`: mark this open question as explored, note the decision (or note that it's unresolved), and link to the creative document.
 
-**Standalone**: Present the exploration results directly to the operator in the output format below. If a memory bank exists, also write the creative document to `memory-bank/creative/` for future reference.
+**Standalone**: Present the exploration results directly to the operator in the output format below. If a memory bank exists, also write the creative document to `memory-bank/active/creative/` for future reference.
 
-## Step 6: Output to Operator
+## Step 6: Log Progress
+
+> 🚨 **Printing this notice is NOT the end of this phase.** After printing, continue immediately to the next step - do not stop.
+
+**Within a Niko workflow:** Update `memory-bank/active/progress.md` to record completion of this creative phase exploration.
 
 ### High Confidence (Resolved)
 
@@ -71,7 +75,7 @@ After the creative phase type completes its exploration, the result will be in o
 **Decision:** [1-2 sentence summary of the chosen approach]
 **Rationale:** [why this won over alternatives]
 
-Documented in `memory-bank/creative/creative-[question-name].md`
+Documented in `memory-bank/active/creative/creative-[question-name].md`
 ~~~
 
 ### Low Confidence (Unresolved)
@@ -90,14 +94,18 @@ Documented in `memory-bank/creative/creative-[question-name].md`
 **Why Unresolved:** [what's blocking a confident decision]
 **Recommendation:** [if any - the agent's best guess with caveats]
 
-Documented in `memory-bank/creative/creative-[question-name].md`
+Documented in `memory-bank/active/creative/creative-[question-name].md`
 ~~~
 
 ## Step 7: Phase Transition
 
+> 🚨 **Execute this immediately after printing - do not stop between steps.**
+
 **Within a Niko Workflow:**
 
-- If the open question was successfully resolved, load the appropriate complexity level-specific Niko workflow file, then follow its instructions to resume the Plan phase.
+Commit all changes (creative document + memory bank updates) with `chore: saving work before plan phase`.
+
+- If the open question was successfully resolved, load the appropriate complexity level-specific Niko workflow file, then use its Phase Mappings to resume the Plan phase.
 - If the open question could not be successfully resolved, wait for operator input. You're done for now.
 
 **Standalone Mode:**

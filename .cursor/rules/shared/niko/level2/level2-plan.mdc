@@ -9,17 +9,17 @@ This document creates a concrete implementation plan for a Level 2 (Simple Enhan
 ## Step 1: Load Memory Bank Files
 
 Read:
-- `memory-bank/tasks.md`
-- `memory-bank/projectbrief.md`
+- `memory-bank/active/tasks.md`
+- `memory-bank/active/projectbrief.md`
 - `memory-bank/systemPatterns.md`
-- `memory-bank/activeContext.md`
+- `memory-bank/active/activeContext.md`
 - `memory-bank/techContext.md`
 
 ## Step 2: Verify Prerequisites
 
-- Confirm `memory-bank/tasks.md` exists (stub created by `/niko` - it will contain the task name but not yet a full plan; that's this document's job)
-- Confirm `memory-bank/activeContext.md` exists and indicates that the current task is indeed a Level 2 (Simple Enhancement) task
-- Confirm `memory-bank/projectbrief.md` exists with the user story and requirements
+- Confirm `memory-bank/active/tasks.md` exists (stub created by `/niko` - it will contain the task name but not yet a full plan; that's this document's job)
+- Confirm `memory-bank/active/activeContext.md` exists and indicates that the current task is indeed a Level 2 (Simple Enhancement) task
+- Confirm `memory-bank/active/projectbrief.md` exists with the user story and requirements
 
 🚨 If any of the prerequisites are missing, STOP and inform the user (see "Output to Operator" below).
 
@@ -27,7 +27,7 @@ Read:
 
 - **Behavior Identification**: Enumerate the specific, observable behaviors this enhancement must exhibit when complete. Each behavior is a testable assertion, not a vague description. Frame as `[input/action] → [expected outcome]`.
 - **Edge Cases**: Identify at minimum: invalid input, boundary values, empty/null states, and interaction with existing behavior that must not regress.
-- **Test Infrastructure Survey**: Locate the project's existing test framework, runner, conventions, and directory structure. New tests must conform to established patterns — do not introduce a parallel test infrastructure. If no test infrastructure can be located, flag this as a blocking question for the operator.
+- **Test Infrastructure Survey**: Locate the project's existing test framework, runner, conventions, and directory structure. New tests must conform to established patterns - do not introduce a parallel test infrastructure. If no test infrastructure can be located, flag this as a blocking question for the operator.
 - **Test File Mapping**: For each behavior identified, specify the exact test file (existing or new) and describe the test case. If a new test file is needed, its name and location must follow existing conventions.
 
 ## Step 4: Review Codebase Structure
@@ -57,9 +57,8 @@ Read:
 
 ## Step 8: Generate Plan Report
 
-1. Write the complete plan to `memory-bank/tasks.md` using the output format below
-2. Write validation status to `memory-bank/.plan_status`
-3. Update `memory-bank/activeContext.md` with planning outcome
+1. Write the complete plan to `memory-bank/active/tasks.md` using the output format below
+2. Update `memory-bank/active/activeContext.md` with planning outcome
 
 ### tasks.md Plan Format
 
@@ -122,9 +121,11 @@ Read:
 - [ ] QA
 ~~~
 
-## Output to Operator
+## Step 9: Log Progress
 
-When planning is complete, print:
+> 🚨 **Printing this notice is NOT the end of this phase.** After printing, continue immediately to the next step - do not stop.
+
+Record the results by printing the appropriate block:
 
 ### PASS
 
@@ -166,6 +167,7 @@ Preflight validation will now run automatically.
 - **Re-level required**: Task complexity exceeds Level 2. Discuss with operator before re-planning at Level 3+.
 ~~~
 
-If operator input is required, stop and wait for them.
+## Step 10: Phase Transition
 
-If operator input is not required, load the appropriate complexity level-specific Niko workflkow file and proceed to the next Phase as specified by that document.
+- If operator input is required: stop and wait for them.
+- If operator input is not required: load the appropriate complexity level-specific Niko workflow file, then use its Phase Mappings to execute the next phase.

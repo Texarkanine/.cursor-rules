@@ -41,7 +41,7 @@ Based on the persistent user query about a problem that likely failed to resolve
 ### Step 1. Load Memory Bank Files
 
 Read:
-- `memory-bank/projectbrief.md`
+- `memory-bank/active/projectbrief.md`
 - `memory-bank/systemPatterns.md`
 - `memory-bank/techContext.md`
 
@@ -168,13 +168,15 @@ Document results in the troubleshooting task list.
 
 ### Step 11. Report Outcome
 
+> 🚨 **Reporting the outcome is NOT the end!** After printing, continue immediately to the next step - do not stop.
+
 Succinctly report:
 - The identified root cause
 - The fix applied
 - The results of comprehensive verification
 - Confirmation that the issue is resolved
 
-Update `memory-bank/tasks.md` and `memory-bank/progress.md` with the resolution.
+Update `memory-bank/active/tasks.md` and `memory-bank/active/progress.md` with the resolution.
 
 ## Step 12: Phase Transition
 

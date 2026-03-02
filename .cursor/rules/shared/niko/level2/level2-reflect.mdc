@@ -9,14 +9,14 @@ This document guides reflection for a Level 2 task. Keep it focused - a few sent
 ## Step 1: Load Memory Bank Files
 
 Read:
-- `memory-bank/tasks.md`
-- `memory-bank/projectbrief.md`
-- `memory-bank/activeContext.md`
-- `memory-bank/progress.md`
+- `memory-bank/active/tasks.md`
+- `memory-bank/active/projectbrief.md`
+- `memory-bank/active/activeContext.md`
+- `memory-bank/active/progress.md`
 
 ## Step 2: Verify Prerequisites
 
-- Check `memory-bank/.qa-validation-status` exists and contains `PASS`
+- Check `memory-bank/active/.qa-validation-status` exists and contains `PASS`
 - If QA has not passed: 🛑 STOP - it does not make sense to reflect on work whose correctness has not been verified. Ask the operator for clarification, and wait for their instructions. You're done for now.
 
 ## Step 3: Review the Task
@@ -39,16 +39,24 @@ Categorize insights as:
 - **Technical**: patterns discovered, gotchas in the codebase, library behaviors, architectural observations
 - **Process**: workflow adjustments, estimation accuracy, phase-skipping opportunities, tooling improvements
 
-## Step 5: Write Reflection Document
+## Step 5: Million-Dollar Question
 
-Create `memory-bank/reflection/reflection-<task-id>.md`:
+> Given the changes made, examine the existing system and describe the most elegant solution that would have emerged if the change had been a foundational assumption from the start.
+
+Sometimes, the most-elegant solution is what we built - it's okay for this step to not produce a sweeping redesign!
+
+## Step 6: Write Reflection Document
+
+Create `memory-bank/active/reflection/reflection-<task-id>.md`:
 
 ~~~markdown
-# Reflection: [Task Name]
+---
+task_id: [task-id]
+date: YYYY-MM-DD
+complexity_level: 2
+---
 
-**Task ID:** [task-id]
-**Date:** [date]
-**Complexity:** Level 2
+# Reflection: [Task Name]
 
 ## Summary
 
@@ -73,16 +81,21 @@ Create `memory-bank/reflection/reflection-<task-id>.md`:
 
 ### Process
 - [Concrete process insight, or "Nothing notable"]
+
+### Million-Dollar Question
+
+[Result from Step 5, or "Nothing notable"]
 ~~~
 
-## Step 6: Update Memory Bank
+## Step 7: Update Memory Bank
 
-- Update `memory-bank/tasks.md`: mark Reflect phase complete
-- Update `memory-bank/activeContext.md` with reflection outcome
+1. Update `memory-bank/active/activeContext.md` with reflection outcome
+2. Update `memory-bank/active/progress.md`: record completion of the Reflect phase
+3. 🚨 ***CRITICAL:*** Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: reflected on [task-id]`.
 
-## Step 7: Output to Operator
+## Step 8: Log Progress
 
-When reflection is complete, print:
+Print a summary of the reflection according to the following format:
 
 ~~~markdown
 # Reflect Result
@@ -100,6 +113,6 @@ When reflection is complete, print:
 Run `/niko-archive` to create the archive document and finalize the current project.
 ~~~
 
-## Step 8: Phase Transition
+## Step 9: Phase Transition
 
 Reflection is a terminal node. Stop and wait for operator input.

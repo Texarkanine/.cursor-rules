@@ -6,17 +6,67 @@ alwaysApply: false
 
 Determine the appropriate complexity level (1-4) for a task, then write the determination to the memory bank and load the corresponding workflow.
 
-## Decision Tree
+## Step 1: Re-entry Check
+
+**Before running the decision tree**, check for in-flight work.
 
 ```mermaid
 graph TD
-    Start["New Task"] --> Q1{"Bug fix or<br>error correction?"}
+    Start(("Re-entry<br>Check")) --> M{"milestones.md<br>exists?"}
+    M -->|"No"| E{"All ephemeral<br>files exist?"}
+    M -->|"Yes"| L4["1a: L4 Re-entry"]
+    L4 --> AllDone{"All milestones<br>done?"}
+    AllDone -->|"Yes"| Step6(("Step 6"))
+    AllDone -->|"No"| Step2
+    E -->|"No"| Step2(("Step 2"))
+    E -->|"Yes"| RC{"Reflect-complete?"}
+    RC -->|"No"| Warn["⚠️ Work in-progress"]
+    RC -->|"Yes"| Ask{"Rework or<br>archive?"}
+    Ask -.->|"Archive"| Archive[/"🧑‍💻 /niko-archive"/]
+    Ask -->|"Rework"| Rework["Amend memory bank,<br>clear stale state"]
+    Rework --> Step2
+```
+
+### 1a: L4 Re-entry
+
+Check whether `memory-bank/active/milestones.md` exists.
+
+- **If `milestones.md` is absent:** proceed to Step 1b.
+- **If `milestones.md` is present:** an L4 project is already in-flight. Do not run the decision tree. Instead:
+    1. Read `memory-bank/active/milestones.md` and `memory-bank/active/activeContext.md`.
+    2. **If `activeContext.md` shows the previous phase as REFLECT COMPLETE:** check off that sub-run's milestone in `milestones.md`. (The current sub-run is done.)
+    3. Re-read the updated `milestones.md`:
+        - **All milestones checked (`- [x]`):** The L4 project is complete. Skip to `Step 6: Load Workflow`.
+        - **Unchecked milestones remain:** The first unchecked milestone is the next sub-run target. Classify it as L1, L2, or L3 using the decision tree below (apply it to the milestone description, not the overall task) and proceed as normal.
+
+### 1b: Existing Work Check
+
+Check whether all four ephemeral files exist (`projectbrief.md`, `activeContext.md`, `tasks.md`, `progress.md` in `memory-bank/active/`).
+
+- **If ephemeral files are absent, or only partially present:** this is a fresh task. Proceed to `Step 2: Decision Tree`.
+- **If all four exist:** read `activeContext.md` to determine current state:
+    - **If NOT reflect-complete:** work is actively in-progress. **Warn the operator** - the current task should be archived or explicitly abandoned before starting new work. STOP and wait for operator input.
+    - **If reflect-complete:** the previous task has completed reflection but hasn't been archived. Ask the operator: is this **rework** on the same task, or should the task be **archived** first?
+        - **Archive**: direct the operator to run `/niko-archive`. STOP and wait for operator input.
+        - **Rework**: gather the rework context from the operator (e.g., PR feedback, reviewer comments, specific issues to address). Then:
+            1. Update `memory-bank/active/progress.md`: append a section recording rework initiation and the feedback that prompted it.
+            2. Update `memory-bank/active/projectbrief.md`: append a **Rework** section with the new/changed requirements, preserving the original brief intact above it.
+            3. Delete `memory-bank/active/tasks.md` and `memory-bank/active/activeContext.md`.
+            4. Delete stale gate files: remove `.qa-validation-status` and `.preflight-status` from `memory-bank/active/` if present.
+            5. Commit: `chore: initiating rework on [task-id]`
+            6. Proceed to `Step 2: Decision Tree` - classify the rework's complexity independently of the original task.
+
+## Step 2: Decision Tree
+
+```mermaid
+graph TD
+    Start(("New Task")) --> Q1{"Bug fix or<br>error correction?"}
     Q1 -->|Yes| Q1a{"Affects single<br>component?"}
-    Q1a -->|Yes| L1["Level 1:<br>Quick Bug Fix"]
+    Q1a -->|Yes| L1("Level 1:<br>Quick Bug Fix")
     Q1a -->|No| Q1b{"Affects multiple<br>components?"}
-    Q1b -->|Yes| L2["Level 2:<br>Simple Enhancement"]
+    Q1b -->|Yes| L2("Level 2:<br>Simple Enhancement")
     Q1b -->|No| Q1c{"Affects system<br>architecture?"}
-    Q1c -->|Yes| L3["Level 3:<br>Intermediate Feature"]
+    Q1c -->|Yes| L3("Level 3:<br>Intermediate Feature")
     Q1c -->|No| L2
 
     Q1 -->|No| Q2{"Adding small<br>feature or<br>enhancement?"}
@@ -62,42 +112,37 @@ graph TD
 - **Risk**: High, architectural implications
 - **Examples**: payment processing framework, microservice architecture, database migration system, real-time communication system
 
-## Assessment Questions
+## Step 3: Assessment Questions
 
 When the decision tree doesn't give a clear answer, consider:
 
-1. **Scope** — Single component, multiple components, or system-wide?
-2. **Design decisions** — Can you start coding immediately, or do you need to explore and choose between approaches first?
-3. **Risk** — What breaks if this goes wrong? Is it isolated or cascading?
-4. **Effort** — Hours, days, or weeks?
+1. **Scope** - Single component, multiple components, or system-wide?
+2. **Design decisions** - Can you start coding immediately, or do you need to explore and choose between approaches first?
+3. **Risk** - What breaks if this goes wrong? Is it isolated or cascading?
+4. **Effort** - Hours, days, or weeks?
 
-## Write Determination to Memory Bank
+## Step 4: Write Determination to Memory Bank
 
-Before writing, check whether the ephemeral files already exist:
+Create any **missing** ephemeral files as described below. Preserve files that already exist (e.g., `progress.md` and `projectbrief.md` retained from a rework re-entry).
 
-- If **all four** ephemeral files exist (`projectbrief.md`, `activeContext.md`, `tasks.md`, `progress.md`), work is already in-progress. **Warn the user** — the previous task should be archived first, or explicitly abandoned before proceeding.
-- If the ephemeral files are absent and only the persistent files exist, the memory bank is ready for new work. Create or overwrite the ephemeral files as described below.
+**`memory-bank/active/projectbrief.md`** - Capture the user story and requirements: Populate it from the user's input, prompting for clarification if the requirements are incomplete or ambiguous.
 
----
+**`memory-bank/active/activeContext.md`** - Record the current session state:
 
-**`memory-bank/projectbrief.md`** — Capture the user story and requirements: Populate it from the user's input, prompting for clarification if the requirements are incomplete or ambiguous.
+- **Current Task** - task name derived from the user's request
+- **Phase** - `COMPLEXITY-ANALYSIS - COMPLETE`
+- **What Was Done** - complexity level determined (Level N) and rationale
+- **Next Step** - load the Level N workflow
 
-**`memory-bank/activeContext.md`** — Record the current session state:
+**`memory-bank/active/tasks.md`** - Stub the task list:
 
-- **Current Task** — task name derived from the user's request
-- **Phase** — `COMPLEXITY-ANALYSIS - COMPLETE`
-- **What Was Done** — complexity level determined (Level N) and rationale
-- **Next Step** — load the Level N workflow
+Create a stub file with the task name. Do **not** populate checklists yet - the level-specific planning rules prescribe the exact format and content.
 
-**`memory-bank/tasks.md`** — Stub the task list:
-
-Create a stub file with the task name. Do **not** populate checklists yet — the level-specific planning rules prescribe the exact format and content.
-
-**`memory-bank/progress.md`** — Initialize if absent:
+**`memory-bank/active/progress.md`** - Initialize if absent:
 
 Include a brief summary of the work to be done as described in the project brief - you've just *completed* complexity analysis!
 
-## Next Steps
+## Step 5: Log Progress
 
 After writing the determination, inform the user:
 
@@ -106,7 +151,9 @@ After writing the determination, inform the user:
 Loading Level N workflow...
 ```
 
-Then, load the level-specific workflow and proceed to the next phase as specified by that document.
+## Step 6: Load Workflow
+
+Load the level-specific workflow and use its Phase Mappings to execute the next phase.
 
 - Level 1: `.cursor/rules/shared/niko/level1/level1-workflow.mdc`
 - Level 2: `.cursor/rules/shared/niko/level2/level2-workflow.mdc`

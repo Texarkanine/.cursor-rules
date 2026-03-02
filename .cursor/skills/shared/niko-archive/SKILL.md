@@ -10,17 +10,17 @@ This command creates a self-contained archive document for the completed task, i
 ## Step 1: Load Memory Bank Files
 
 Read:
-- `memory-bank/tasks.md`
-- `memory-bank/activeContext.md`
+- `memory-bank/active/tasks.md`
+- `memory-bank/active/activeContext.md`
 
 ## Step 2: Determine Complexity Level
 
-Read the complexity level from `memory-bank/activeContext.md`.
+Read the complexity level from `memory-bank/active/activeContext.md`.
 
-If no complexity level is set, or `memory-bank/activeContext.md` does not exist: 🛑 STOP! It doesn't make sense to archive before a task has been completed.
+If no complexity level is set, or `memory-bank/active/activeContext.md` does not exist: 🛑 STOP! It doesn't make sense to archive before a task has been completed.
 
 Ask the operator for clarification, and wait for their instructions. You're done for now.
 
 ## Step 3: Route to Level-Specific Archive
 
-Load the appropriate complexity level-specific Niko workflow file, then use its Phase Mappings to proceed to the Archive phase.
+Load the appropriate complexity level-specific Niko workflow file, then use its Phase Mappings to execute the Archive phase.

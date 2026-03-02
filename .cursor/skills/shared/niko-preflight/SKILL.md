@@ -10,16 +10,16 @@ This command validates the implementation plan against codebase reality before a
 ## Step 1: Load Memory Bank Files
 
 Read:
-- `memory-bank/tasks.md`
-- `memory-bank/projectbrief.md`
+- `memory-bank/active/tasks.md`
+- `memory-bank/active/projectbrief.md`
 - `memory-bank/systemPatterns.md`
 - `memory-bank/techContext.md`
-- `memory-bank/creative/**/*.md` (if any exist)
+- `memory-bank/active/creative/**/*.md` (if any exist)
 
 ## Step 2: Preflight Workflow
 
 1. **Verify Prerequisites**
-   - Check `memory-bank/tasks.md` for planning completion
+   - Check `memory-bank/active/tasks.md` for planning completion
    - For Level 3-4: Verify creative phase documents exist (if creative phases were flagged)
    - Read implementation plan and design decisions
 
@@ -35,23 +35,24 @@ Read:
 
 4. **Conflict Detection**
    - Search for existing implementations, utilities, or patterns that overlap with or contradict the plan's approach
-   - Identify duplication-in-waiting — cases where the plan proposes building something the codebase already provides
+   - Identify duplication-in-waiting - cases where the plan proposes building something the codebase already provides
    - Flag any proposed changes that would break existing contracts or interfaces
 
 5. **Completeness Precheck**
-   - Verify the plan addresses all stated requirements with concrete implementation steps mapped to each one — not aspirationally, but with specific files, functions, and approaches identified
+   - Verify the plan addresses all stated requirements with concrete implementation steps mapped to each one - not aspirationally, but with specific files, functions, and approaches identified
    - Flag any requirements that are acknowledged but lack a clear implementation path
    - Verify test coverage is planned for all new behavior
 
-6. **Integration Elegance** *(advisory — not blocking)*
-   - For each proposed change in the plan, examine the existing system and ask: what would the most elegant solution look like if this requirement had been a foundational assumption from the start? If the plan describes something that bolts on rather than weaves in, flag the gap between the planned approach and that cleaner design.
-   - Describe the alternative integration concretely — not as a vague suggestion, but as a specific structural sketch the operator can evaluate against the cost of redesign.
-   - **This check is advisory, not blocking** — the operator decides whether the investment is warranted before build tokens are spent.
+6. **Radical Innovation** *(advisory - not blocking)*
+    - What's the single smartest and most radically innovative and accretive and useful and compelling change you could make to the plan at this point?
+    - Describe the change concretely - not as a vague suggestion, but as a specific structural sketch the operator can evaluate against the cost of redesign.
+    - If the change can be made within the current workflow's complexity level and within the current Project Brief's scope, make the change to the plan.
+    - If the change would change the complexity level of the task *or* if the change would significantly deviate from the current Project Brief's scope, flag it as an advisory finding for operator consideration but do not make the change.
 
 7. **Generate Preflight Report**
    - Create comprehensive findings report
-   - Write validation status to `memory-bank/.preflight-status`
-   - Update `memory-bank/tasks.md` with any plan amendments or findings
+   - Write validation status to `memory-bank/active/.preflight-status`
+   - Update `memory-bank/active/tasks.md` with any plan amendments or findings
 
 8. **Handle Results**
    - **On PASS**: Good job!
@@ -59,9 +60,13 @@ Read:
    - **On FAIL (rearchitect needed)**: Operator decision required.
    - **On FAIL (conflict/convention)**: Provide specific fix instructions, block `/niko-build`; Operator decision required.
 
-## Step 3: Output to Operator
+## Step 3: Log Progress
 
-When preflight validation is complete, print:
+> 🚨 **Printing this notice is NOT the end of this phase.** After printing, continue immediately to the next step - do not stop.
+
+Update `memory-bank/active/progress.md` to record completion of the preflight phase.
+
+Print the appropriate block:
 
 ### PASS
 
@@ -72,8 +77,8 @@ When preflight validation is complete, print:
 
 ## Findings
 
-1. **Findings** — bulleted list of each finding with severity
-2. **Advisory items** (if any) — concrete recommendations the operator can evaluate
+1. **Findings** - bulleted list of each finding with severity
+2. **Advisory items** (if any) - concrete recommendations the operator can evaluate
 
 ~~~
 
@@ -86,8 +91,8 @@ When preflight validation is complete, print:
 
 ## Findings
 
-1. **Findings** — bulleted list of each finding with severity
-2. **Advisory items** (if any) — concrete recommendations the operator can evaluate
+1. **Findings** - bulleted list of each finding with severity
+2. **Advisory items** (if any) - concrete recommendations the operator can evaluate
 
 ## Next Steps
 
@@ -97,6 +102,5 @@ When preflight validation is complete, print:
 
 ## Step 4: Phase Transition
 
-If operator input is required, stop and wait for them.
-
-If operator input is not required, load the appropriate complexity level-specific Niko workflow file then proceed to the next Phase as specified by that document.
+- If operator input is required: stop and wait for them.
+- If operator input is not required: load the appropriate complexity level-specific Niko workflow file, then use its Phase Mappings to execute the next phase.
