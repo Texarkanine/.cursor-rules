@@ -5,12 +5,12 @@
 
 ## Plan Phase — Complete
 - Created implementation plan with 3 discrete steps (one per item, each committed separately)
-- Item 1: QA doc enforcement + Plan doc planning (4 files)
-- Item 2: L1 wrap-up cleanup guidance (1 file, with opinionated recommendation)
-- Item 3: Lazy path reference fixes (2 files, 8 reference expansions)
 
 ## Preflight Phase — Complete (PASS)
-- All 7 target files verified in `rulesets/niko/`
-- Convention compliance confirmed (canonical source only)
-- Minor count correction applied (9→8 lazy refs)
-- No conflicts, no missing deps, no duplication risks
+- All target files verified, convention compliance confirmed, no conflicts
+
+## Build Phase — Complete
+- Item 1 committed: `feat: enforce documentation updates in QA and Plan phases` (4 files)
+- Item 2 committed: `docs: add memory-bank cleanup guidance to L1 workflow` (1 file)
+- Item 3 committed: `fix: expand lazy rule path references to full installed paths` (2 files)
+- Zero lazy path references remain (verified via ripgrep)
