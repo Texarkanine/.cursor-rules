@@ -32,3 +32,12 @@ To execute a phase for a level 1 task:
 ## Commit When Done
 
 When QA has passed and you are done, commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: completed [task-id]`.
+
+## Cleanup
+
+Level 1 tasks have no archive phase, so `memory-bank/active/` is not automatically cleaned up. Once the work is merged (or whenever you are satisfied), delete the `memory-bank/active/` directory and commit:
+
+```
+rm -rf memory-bank/active
+git add memory-bank/active && git commit -m "chore: clean up memory-bank/active after [task-id]"
+```
