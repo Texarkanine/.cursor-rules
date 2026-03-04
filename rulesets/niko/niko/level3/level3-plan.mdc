@@ -78,6 +78,7 @@ Process open questions one at a time. After each creative phase completes, reass
 - Each step maps to roughly one TDD cycle: write failing test → implement to pass → refactor.
 - Steps must be sequenced so that each builds on the last. For multi-component features, start with the component that has the fewest dependencies and work outward.
 - Document the specific changes per file: new functions, modified signatures, added exports, config changes.
+- Include documentation update steps for any project documentation (README files, doc comments, configuration docs, user-facing guides) that would be affected by the implementation. Documentation changes are implementation work, not an afterthought.
 - Reference creative phase decisions where they inform implementation choices.
 - Identify key relationships or designs that would be more-clearly communicated with a diagram (flowchart, sequence diagram, entity relationship diagram, or UML diagram), than with prose. These diagrams will either be "pinned" at the top of the task list if they apply generally to the whole plan, or placed later on near the most-relevant section.
 

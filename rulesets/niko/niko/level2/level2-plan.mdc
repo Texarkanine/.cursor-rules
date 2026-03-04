@@ -42,6 +42,7 @@ Read:
 - Each step should map to roughly one TDD cycle: write failing test → implement to pass → refactor.
 - Steps must be sequenced so that each builds on the last; no step should require backtracking.
 - Document the specific changes per file: new functions, modified signatures, added exports, config changes.
+- Include documentation update steps for any project documentation (README files, doc comments, configuration docs, user-facing guides) that would be affected by the implementation. Documentation changes are implementation work, not an afterthought.
 
 ## Step 6: Identify Challenges & Mitigations
 
