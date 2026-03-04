@@ -1,13 +1,14 @@
 # Active Context
 
 ## Current Task: niko-ruleset-enhancements
-**Phase:** PLAN - COMPLETE
+**Phase:** PREFLIGHT - COMPLETE (PASS)
 
 ## What Was Done
-- Complexity level determined: Level 2 (Simple Enhancement)
-- Full plan created with 3 implementation steps (one per user request item), each with a separate commit
-- Identified 7 files to modify across QA, Plan (L2/L3/L4), L1 workflow, and 2 files with lazy path refs
-- Evaluated L1 wrap-up options; recommended lightweight cleanup note (no new phase)
+- Plan validated against codebase reality
+- All target files confirmed to exist in `rulesets/niko/`
+- Convention compliance verified (edits target canonical source only)
+- Minor count correction: 8 lazy ref expansions, not 9
+- No conflicts, missing deps, or duplication risks
 
 ## Next Step
-- Preflight validation to verify plan against codebase reality
+- Build phase: execute the 3 implementation steps with separate commits
