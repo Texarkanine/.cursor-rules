@@ -1,12 +1,12 @@
 # Active Context
 
 ## Current Task: niko-ruleset-enhancements
-**Phase:** QA - COMPLETE (PASS)
+**Phase:** REFLECT - COMPLETE
 
 ## What Was Done
-- QA reviewed all changes against 7 semantic constraints
-- All checks passed, no issues found
-- README confirmed not needing updates
+- Reflection completed: all 3 items delivered cleanly
+- Key insight: distinguish rule references from example text during audits
+- Million-dollar question: additive enhancement is the correct pattern here
 
 ## Next Step
-- Reflect phase
+- Run `/niko-archive` to create the archive document and finalize
