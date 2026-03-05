@@ -23,17 +23,18 @@ Read:
 
 ## Step 3: Generate Milestone List
 
-Decompose the overall task into an appropriate, optimal number of milestones. Apply the quality criteria from milestones.mdc (loaded in Step 1):
+Decompose the overall task into an appropriate, optimal number of milestones. Apply the quality criteria from `.cursor/rules/shared/niko/memory-bank/active/milestones.mdc` (loaded in Step 1):
 
 - Each milestone is independently deliverable as an L1/L2/L3 sub-run
 - Each milestone is concrete enough that a future agent can classify it without additional context beyond the milestone + the memory bank files.
 - Milestones cover the full project scope - no gaps, no overlap
+- Milestones that change documented behavior must include documentation updates in their scope (README files, doc comments, configuration docs, user-facing guides)
 - Sequence in dependency order: milestone N must not require work from milestone N+1
 - If milestones have opportunities for parallelization
     - Add a flowchart at the top of the `memory-bank/active/milestones.md` file to show the dependency relationships between the milestones.
     - Create the milestone checklist in an order that is compatible with serial execution.
 
-For each milestone, estimate its complexity level (L1/L2/L3) using the decision tree in `complexity-analysis.mdc`. This estimate is advisory - the actual classification happens at the start of each sub-run - but a milestone estimated as L4 is a signal it needs to be split further.
+For each milestone, estimate its complexity level (L1/L2/L3) using the decision tree in `.cursor/rules/shared/niko/core/complexity-analysis.mdc`. This estimate is advisory - the actual classification happens at the start of each sub-run - but a milestone estimated as L4 is a signal it needs to be split further.
 
 **If the task description is too vague to produce a confident milestone list**, stop here and ask the operator to clarify scope. Do not guess; a wrong decomposition cannot be fixed cheaply once sub-runs begin.
 
@@ -43,7 +44,7 @@ Record these invariants in `memory-bank/active/milestones.md` alongside the mile
 
 ## Step 4: Write milestones.md
 
-Write `memory-bank/active/milestones.md` following the format in milestones.mdc:
+Write `memory-bank/active/milestones.md` following the format in `.cursor/rules/shared/niko/memory-bank/active/milestones.mdc`:
 
 ```markdown
 # Milestones: <task-id>

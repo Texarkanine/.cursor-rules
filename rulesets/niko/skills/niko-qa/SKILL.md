@@ -38,6 +38,8 @@ Read:
 
     - **Integrity**: Replace any hardcoded shortcuts, magic numbers, placeholder strings, or debug artifacts (`console.log`, `print("HERE")`) introduced as temporary scaffolding. If it was a means to an end during development, it does not survive into the final commit.
 
+    - **Documentation**: Verify that any project documentation (README files, doc comments, memory bank persistent files, configuration docs, user-facing guides) affected by the code changes was updated alongside those changes. Treat missing documentation updates as an incomplete implementation — same severity as a missing requirement.
+
 3. **Apply Fixes or Fail**
      - **Trivial fixes** (debug artifacts, naming inconsistencies, dead code, magic numbers): fix directly, re-run lint/build/test after each.
      - **Substantive issues** (missing requirements, wrong approach, broken contracts, incomplete implementations): do NOT fix. Record as a FAIL finding with enough detail for the next Build or Plan cycle to act on it.
