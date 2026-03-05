@@ -1,9 +1,0 @@
-PASS
-
-Preflight validated 2026-03-04 for task niko-ruleset-enhancements (Level 2).
-
-Findings:
-- Minor count correction: plan said 9 lazy ref expansions, actual is 8. Corrected in tasks.md.
-- All 7 target files verified to exist in rulesets/niko/.
-- Convention compliance: edits target canonical source only.
-- No conflicts, no missing dependencies, no duplication risks.
