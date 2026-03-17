@@ -15,9 +15,9 @@ Read:
 
 ## Step 2: Determine Complexity Level
 
-Read the complexity level from `memory-bank/active/activeContext.md`.
+Read the complexity level from `memory-bank/active/progress.md` (the `**Complexity:**` field).
 
-If no complexity level is set, or `memory-bank/active/activeContext.md` does not exist: 🛑 STOP! It doesn't make sense to archive before a task has been completed.
+If no complexity level is set, or `memory-bank/active/progress.md` does not exist: 🛑 STOP! It doesn't make sense to archive before a task has been completed.
 
 Ask the operator for clarification, and wait for their instructions. You're done for now.
 

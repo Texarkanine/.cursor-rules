@@ -44,7 +44,7 @@ If the user provided task input, skip to Step 3.
 When `/niko` is invoked with no user input, check for existing in-flight work:
 
 1. **L4 in-flight:** If `memory-bank/active/milestones.md` exists, an L4 project is active. Proceed to Step 3 — complexity analysis handles L4 re-entry.
-2. **L1-L3 in-flight:** If all four ephemeral files exist (`projectbrief.md`, `activeContext.md`, `tasks.md`, `progress.md`) but `milestones.md` does not, read `activeContext.md` to determine the current complexity level and phase. Load the appropriate level-specific workflow and resume execution from the current phase.
+2. **L1-L3 in-flight:** If all four ephemeral files exist (`projectbrief.md`, `activeContext.md`, `tasks.md`, `progress.md`) but `milestones.md` does not, read `progress.md` for the `**Complexity:**` field (the level) and `activeContext.md` for the `**Phase:**` field (the current phase). Load the appropriate level-specific workflow and resume execution from the current phase.
 3. **No work in-flight:** Nothing to resume. Exit and do nothing else.
 
 ## Step 3: Determine Complexity Level

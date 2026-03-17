@@ -15,9 +15,9 @@ Read:
 
 ## Step 2: Determine Complexity Level
 
-Read the complexity level from `memory-bank/active/activeContext.md`
+Read the complexity level from `memory-bank/active/progress.md` (the `**Complexity:**` field).
 
-If no complexity level is set, or `memory-bank/active/activeContext.md` does not exist: STOP PLANNING! Invoke the `niko` skill to initialize the memory bank and perform complexity analysis, then proceed as instructed there.
+If no complexity level is set, or `memory-bank/active/progress.md` does not exist: STOP PLANNING! Invoke the `niko` skill to initialize the memory bank and perform complexity analysis, then proceed as instructed there.
 
 ## Step 3: Route to Level-Specific Planning
 

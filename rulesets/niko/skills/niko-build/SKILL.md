@@ -15,9 +15,9 @@ Read:
 
 ## Step 2: Determine Complexity Level
 
-Read the complexity level from `memory-bank/active/activeContext.md`.
+Read the complexity level from `memory-bank/active/progress.md` (the `**Complexity:**` field).
 
-If no complexity level is set, or `memory-bank/active/activeContext.md` does not exist: STOP BUILDING! Invoke the `niko` skill to initialize the memory bank and perform complexity analysis.
+If no complexity level is set, or `memory-bank/active/progress.md` does not exist: STOP BUILDING! Invoke the `niko` skill to initialize the memory bank and perform complexity analysis.
 
 ## Step 3: Route to Level-Specific Build
 

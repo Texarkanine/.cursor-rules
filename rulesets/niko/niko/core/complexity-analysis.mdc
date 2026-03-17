@@ -144,7 +144,7 @@ Create a stub file with the task name. Do **not** populate checklists yet - the 
 
 **`memory-bank/active/progress.md`** - Initialize if absent:
 
-Include a brief summary of the work to be done as described in the project brief - you've just *completed* complexity analysis!
+Include a brief summary of the work to be done as described in the project brief, followed by `**Complexity:** Level N`. This is the **system of record** for the task's complexity level — other files may display it, but `progress.md` is the canonical source.
 
 ## Step 5: Log Progress
 
