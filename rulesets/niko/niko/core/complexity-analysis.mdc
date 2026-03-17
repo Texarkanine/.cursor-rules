@@ -15,9 +15,12 @@ graph TD
     Start(("Re-entry<br>Check")) --> M{"milestones.md<br>exists?"}
     M -->|"No"| E{"All ephemeral<br>files exist?"}
     M -->|"Yes"| L4["1a: L4 Re-entry"]
-    L4 --> AllDone{"All milestones<br>done?"}
-    AllDone -->|"Yes"| Step6(("Step 6"))
+    L4 --> RC2{"Reflect-complete?"}
+    RC2 -->|"Yes"| CheckOff["Check off milestone"]
+    CheckOff --> AllDone{"All milestones<br>done?"}
     AllDone -->|"No"| Step2
+    AllDone -->|"Yes"| Step6(("Step 6"))
+    RC2 -->|"No"| Step6
     E -->|"No"| Step2(("Step 2"))
     E -->|"Yes"| RC{"Reflect-complete?"}
     RC -->|"No"| Warn["⚠️ Work in-progress"]
@@ -34,10 +37,11 @@ Check whether `memory-bank/active/milestones.md` exists.
 - **If `milestones.md` is absent:** proceed to Step 1b.
 - **If `milestones.md` is present:** an L4 project is already in-flight. Do not run the decision tree. Instead:
     1. Read `memory-bank/active/milestones.md` and `memory-bank/active/activeContext.md`.
-    2. **If `activeContext.md` shows the previous phase as REFLECT COMPLETE:** check off that sub-run's milestone in `milestones.md`. (The current sub-run is done.)
-    3. Re-read the updated `milestones.md`:
-        - **All milestones checked (`- [x]`):** The L4 project is complete. Skip to `Step 6: Load Workflow`.
-        - **Unchecked milestones remain:** The first unchecked milestone is the next sub-run target. Classify it as L1, L2, or L3 using the decision tree below (apply it to the milestone description, not the overall task) and proceed as normal.
+    2. Check `activeContext.md` for the current state:
+        - **If REFLECT COMPLETE:** the current sub-run is done. Check off that sub-run's milestone in `milestones.md`. Re-read the updated `milestones.md`:
+            - **All milestones checked (`- [x]`):** The L4 project is complete. Skip to `Step 6: Load Workflow`.
+            - **Unchecked milestones remain:** The first unchecked milestone is the next sub-run target. Classify it as L1, L2, or L3 using the decision tree below (apply it to the milestone description, not the overall task) and proceed as normal.
+        - **If NOT reflect-complete:** a sub-run is still in progress. Skip to `Step 6: Load Workflow` — the L4 workflow will handle resuming the in-progress sub-run.
 
 ### 1b: Existing Work Check
 
@@ -140,7 +144,7 @@ Create a stub file with the task name. Do **not** populate checklists yet - the 
 
 **`memory-bank/active/progress.md`** - Initialize if absent:
 
-Include a brief summary of the work to be done as described in the project brief - you've just *completed* complexity analysis!
+Include a brief summary of the work to be done as described in the project brief, followed by `**Complexity:** Level N`. This is the **system of record** for the task's complexity level — other files may display it, but `progress.md` is the canonical source.
 
 ## Step 5: Log Progress
 
