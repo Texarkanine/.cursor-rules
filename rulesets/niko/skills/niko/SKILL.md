@@ -80,9 +80,9 @@ flowchart TD
     end
 ```
 
-> **Legend:**
-> - **Solid edge** = does not require operator input
-> - **Dashed edge** = requires operator input before traversal
+> Legend:
+> - Solid edge = Transition does not require operator input
+> - Dashed edge = Transition requires operator input
 
 ## How to Navigate
 
