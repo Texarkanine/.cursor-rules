@@ -12,10 +12,9 @@ This command creates a self-contained archive document for the completed task, i
 Read:
 - `memory-bank/active/tasks.md`
 - `memory-bank/active/activeContext.md`
+- `memory-bank/active/progress.md`
 
 ## Step 2: Determine Complexity Level
-
-Read the complexity level from `memory-bank/active/progress.md` (the `**Complexity:**` field).
 
 If no complexity level is set, or `memory-bank/active/progress.md` does not exist: 🛑 STOP! It doesn't make sense to archive before a task has been completed.
 
