@@ -4,19 +4,10 @@
 Fix L4 Sub-Run Completion Flow (issue-54) — Rework: Option B
 
 ## Phase
-BUILD - COMPLETE
+QA - COMPLETE (PASS)
 
 ## What Was Done
-All 4 implementation steps complete:
-1. `/niko` SKILL.md — full state routing with mermaid diagram (Step 2: State Routing with 2a/2b subgraphs)
-2. `complexity-analysis.mdc` — stripped to pure classifier (Step 1: Classification Target — 3 lines replacing ~95 lines)
-3. `milestones.mdc` — lifecycle table and prose updated to reference `/niko` instead of `complexity-analysis.mdc`
-4. `level4-workflow.mdc` — diagram entry changed from "Complexity Analysis" to "/niko", subgraph renamed to "/niko State Routing"
-
-## Key Decisions
-- "Task complete?" check widened everywhere: REFLECT COMPLETE or L1 + QA PASS (not just L4 path)
-- State routing fires regardless of user input
-- Diagram carries branching; prose describes node bodies
+QA review passed. One trivial fix applied: "Resume sub-run" in 2a now handles the first-entry-after-L4-plan edge case (progress shows Level 4 → classify first milestone instead of looping back into L4 workflow). Pre-existing gap, fixed as part of the rewrite.
 
 ## Files Modified
 - `rulesets/niko/skills/niko/SKILL.md`
@@ -25,4 +16,4 @@ All 4 implementation steps complete:
 - `rulesets/niko/niko/level4/level4-workflow.mdc`
 
 ## Next Step
-QA review
+Run `/niko-reflect` to capture insights, then `/niko-archive`

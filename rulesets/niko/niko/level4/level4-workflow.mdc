@@ -4,7 +4,7 @@ alwaysApply: false
 
 # Level 4 Workflow: Complex System
 
-Level 4 tasks are too large to plan and execute in one pass. They are composed of multiple L1/L2/L3 sub-runs, each corresponding to a milestone. `/niko` manages the milestone list — checking off completed sub-runs, cleaning inter-run state, and routing to classification for the next milestone. There are no dedicated Level 4 plan or build phases — those happen inside each sub-run at its own level.
+Level 4 tasks are too large to plan and execute in one pass. They are composed of multiple L1/L2/L3 sub-runs, each corresponding to a milestone. `/niko` manages the milestone list — checking off completed sub-runs, cleaning inter-run state, and routing to classification for the next milestone. There are no dedicated Level 4 build phases — those happen inside each sub-run at its own level.
 
 ## Workflow Overview
 

@@ -102,7 +102,7 @@ Then follow the L4 Milestone Transition subgraph.
 
 **All milestones done?** Every milestone is `- [x]`. The L4 project is complete — direct the operator to run `/niko-archive` for the capstone archive. STOP and wait.
 
-**Resume sub-run.** Sub-run is not complete. Read `progress.md` for the `**Complexity:**` field and `activeContext.md` for the `**Phase:**` field. Load the appropriate level-specific workflow and resume execution from the current phase.
+**Resume sub-run.** Sub-run is not complete. Read `progress.md` for the `**Complexity:**` field. If the complexity is Level 4, no sub-run has started yet — proceed to Step 3 to classify the first unchecked milestone. Otherwise, read `activeContext.md` for the `**Phase:**` field, load the appropriate level-specific workflow, and resume execution from the current phase.
 
 ### 2b: Existing Work
 
