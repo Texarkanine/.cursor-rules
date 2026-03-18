@@ -17,3 +17,4 @@ Fix the L4 sub-run completion flow so that sub-runs within L4 direct to `/niko` 
 - **Rework Preflight Phase**: PASS WITH ADVISORY. milestones.mdc and level4-workflow.mdc added to plan.
 - **Rework Build Phase**: Complete. 4/4 steps: SKILL.md state routing, complexity-analysis simplified, milestones.mdc cross-refs, level4-workflow.mdc diagram.
 - **Rework QA Phase**: PASS. One trivial fix: "Resume sub-run" in 2a now handles first-entry-after-L4-plan (progress shows L4 → classify first milestone instead of looping into L4 workflow).
+- **Rework Reflect Phase**: Complete. Key insight: routing and classification are different responsibilities; the current design is the clean-sheet solution.

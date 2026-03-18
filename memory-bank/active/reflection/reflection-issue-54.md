@@ -8,28 +8,28 @@ complexity_level: 2
 
 ## Summary
 
-Fixed the L4 sub-run completion flow across 5 rule files so that sub-runs correctly direct to `/niko` re-entry instead of `/niko-archive`, with L1 completion detection from natural state and ephemeral cleanup between sub-runs.
+Fixed the L4 sub-run completion flow so sub-runs direct to `/niko` re-entry instead of `/niko-archive`, with proper cleanup and L1 detection. Then refactored to separate concerns: `/niko` owns state routing, `complexity-analysis` owns classification only.
 
 ## Requirements vs Outcome
 
-All 4 requirements delivered. One design refinement: the original plan proposed an artificial `L1 COMPLETE` state marker, but operator feedback guided the design toward inferring completion from naturally existing artifacts (`.qa-validation-status` PASS + Level 1 in `progress.md`). This was a better outcome — no coupling between L1's workflow and L4's re-entry logic.
+All four original requirements delivered. The rework (Option B) was operator-initiated after the first build passed QA — it improved architecture without changing behavior. Preflight caught missing `milestones.mdc` cross-references; QA caught a pre-existing edge case (first entry after L4 plan) and fixed it in-line.
 
 ## Plan Accuracy
 
-Plan was accurate — correct files, correct sequence, correct scope. The L1 marker revision happened during planning (before build), not as a mid-build surprise. No steps were added, reordered, or removed during implementation.
+Original plan was accurate but prompted an architectural revision. Rework plan was tight — 4 steps, no deviations. Preflight proved its value by catching the `milestones.mdc` dependency that the plan missed. The "first-entry-after-L4-plan" edge case was pre-existing, not introduced by the refactor, but worth fixing during the rewrite.
 
 ## Build & QA Observations
 
-Build was clean — each step was a focused text edit to a specific section of a rule file. QA found no substantive issues. Pre-existing note: L2 workflow diagram says `/archive` instead of `/niko-archive`.
+Both builds were clean. The diagram-carries-branching pattern paid off: `/niko` SKILL.md absorbed 100+ lines of routing logic but stayed readable because the mermaid diagram handles all branching and prose only describes node bodies. `complexity-analysis.mdc` shrank from ~209 lines to ~116 lines — the re-entry check (95 lines of subgraphs and prose) replaced by a 3-line classification target step.
 
 ## Insights
 
 ### Technical
-- The L4 sub-run system implicitly requires a uniform "sub-run terminal state" interface, but L1/L2/L3 have fundamentally different lifecycles (L1 has no reflect/archive). When composing sub-workflows, the parent needs to handle each sub-workflow's terminal state indicators, or the sub-workflows need a uniform completion signal. We chose inference from existing artifacts, which is more resilient than requiring sub-workflows to adopt L4-specific markers.
+- Separating state routing from classification clarified both files' responsibilities. The original L4 implementation put re-entry logic in complexity-analysis because that's where classification happened — but routing and classification are different concerns. The refactor made both files simpler.
+- "Infer from what's already there" > "write new markers." The widened "task complete?" check (REFLECT COMPLETE or L1+QA PASS) works for both L4 and standalone contexts without introducing new state.
 
 ### Process
-- Operator pushback on the artificial marker was correct and improved the design. "Infer from what's already there" is a better principle than "write new state to signal completion." This reduces coupling and avoids requiring downstream workflows to know about upstream contexts they don't otherwise participate in.
+- Operator-driven iteration (build → QA → reflect → rework → build) works well for design refinement. First pass establishes correctness; rework improves architecture. The ability to redirect after reflect but before archive was the right workflow seam.
 
 ### Million-Dollar Question
-
-If sub-run re-entry had been foundational from the start, the reflect phases would never mention archiving directly. Archiving would be a concern of the parent context only — standalone tasks get archived, L4 sub-runs get managed by L4 workflow. The current design is close to this: reflect phases now delegate the next-step decision to a milestones.md presence check rather than hardcoding `/niko-archive`.
+If the separation of concerns had been foundational from the start, `/niko` would always have been the state router and `complexity-analysis` would always have been a pure classifier. The original L4 implementation conflated them because classification was the only entry point that ran on every invocation. The current design — where `/niko` routes and complexity-analysis classifies — is the design that would have emerged from a clean-sheet approach.

@@ -4,16 +4,10 @@
 Fix L4 Sub-Run Completion Flow (issue-54) — Rework: Option B
 
 ## Phase
-QA - COMPLETE (PASS)
+REFLECT - COMPLETE
 
 ## What Was Done
-QA review passed. One trivial fix applied: "Resume sub-run" in 2a now handles the first-entry-after-L4-plan edge case (progress shows Level 4 → classify first milestone instead of looping back into L4 workflow). Pre-existing gap, fixed as part of the rewrite.
-
-## Files Modified
-- `rulesets/niko/skills/niko/SKILL.md`
-- `rulesets/niko/niko/core/complexity-analysis.mdc`
-- `rulesets/niko/niko/memory-bank/active/milestones.mdc`
-- `rulesets/niko/niko/level4/level4-workflow.mdc`
+Reflection complete. Key insight: separating state routing (/niko) from classification (complexity-analysis) clarified both files and produced the design that would have emerged from a clean-sheet approach.
 
 ## Next Step
-Run `/niko-reflect` to capture insights, then `/niko-archive`
+Run `/niko-archive` to create the archive document and finalize the current project.
