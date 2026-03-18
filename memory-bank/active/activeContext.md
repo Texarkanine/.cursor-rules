@@ -4,11 +4,10 @@
 Fix L4 Sub-Run Completion Flow (issue-54)
 
 ## Phase
-QA - COMPLETE
+REFLECT - COMPLETE
 
 ## What Was Done
-QA review passed. All requirements verified. No blocking findings.
-Pre-existing note: L2 workflow diagram says `/archive` instead of `/niko-archive` (not introduced by this change).
+Reflection complete. Key insight: "infer from what's already there" is a better principle than "write new state to signal completion." Reduces coupling between workflow levels.
 
 ## Next Step
-Reflect phase
+Run `/niko-archive` to create the archive document and finalize the current project.

@@ -10,4 +10,5 @@ Fix the L4 sub-run completion flow so that sub-runs within L4 direct to `/niko` 
 - **Plan Phase**: Complete. 6-step implementation plan across 5 canonical files in `rulesets/niko/`. 10 verifiable behaviors defined. Revised per operator feedback: no artificial markers, L1 completion inferred from natural state.
 - **Preflight Phase**: PASS WITH ADVISORY. All checks passed. Advisory: defensive archive guard for L2/L3 archive phases (out of scope).
 - **Build Phase**: Complete. All 6 steps implemented. No deviations from plan.
-- **QA Phase**: PASS. All requirements verified, no blocking findings. Pre-existing note: L2 workflow diagram `/archive` vs `/niko-archive`.
+- **QA Phase**: PASS. All requirements verified, no blocking findings.
+- **Reflect Phase**: Complete. Key insight: infer completion from existing artifacts rather than introducing artificial markers. Reduces coupling between workflow levels.
