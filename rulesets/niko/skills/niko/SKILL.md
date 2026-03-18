@@ -110,7 +110,7 @@ Read the contents of `memory-bank/active/`. Exactly one of three states applies:
 
 ## Step 2: Assess L4 Sub-run
 
-Read `milestones.md`, `activeContext.md`, `progress.md`, and `.qa-validation-status` (if present). Determine which state applies:
+Read `milestones.md`, `activeContext.md`, `progress.md` (if present), and `.qa-validation-status` (if present). Determine which state applies:
 
 1. **Complete**: `activeContext.md` shows `REFLECT COMPLETE`, or the sub-run's complexity (from `progress.md`) is Level 1 and `.qa-validation-status` shows `PASS`. → Step 2a
 2. **Not started**: `progress.md` does not exist, or the `**Complexity:**` field in `progress.md` is `Level 4` (L4 plan exists but no sub-run has been classified yet). → Step 6
