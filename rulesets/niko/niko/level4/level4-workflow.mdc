@@ -4,14 +4,14 @@ alwaysApply: false
 
 # Level 4 Workflow: Complex System
 
-Level 4 tasks are too large to plan and execute in one pass. They are composed of multiple L1/L2/L3 sub-runs, each corresponding to a milestone. Complexity analysis manages the milestone list and routes each sub-run to the appropriate level workflow. There are no dedicated Level 4 plan or build phases - those happen inside each sub-run at its own level.
+Level 4 tasks are too large to plan and execute in one pass. They are composed of multiple L1/L2/L3 sub-runs, each corresponding to a milestone. `/niko` manages the milestone list — checking off completed sub-runs, cleaning inter-run state, and routing to classification for the next milestone. There are no dedicated Level 4 plan or build phases — those happen inside each sub-run at its own level.
 
 ## Workflow Overview
 
 ```mermaid
 graph TD
 
-    Start(("Complexity Analysis"))
+    Start(("🧑‍💻 /niko"))
     CheckIfMilestones{"memory-bank/active/milestones.md<br>exists?"}
 
     subgraph Init["First L4 Run"]
@@ -20,17 +20,18 @@ graph TD
         ManualReview["🧑‍💻 review plan"]
     end
 
-    subgraph ReEntry["L4 Milestone Management"]
-        CheckMilestoneCompletion{"All milestones complete?"}
+    subgraph NikoRouting["/niko State Routing"]
+        CheckMilestoneCompletion{"All milestones<br>complete?"}
         Capstone[/"🧑‍💻 /niko-archive (capstone)"/]
-        Capstone -->Done("Done")
+        Capstone --> Done("Done")
         PrevDone{"Sub-run<br>complete?"}
         CheckOff["Check off completed<br>milestone in milestones.md"]
-        Resume["Load context<br>prepare to re-enter workflow"]
+        Cleanup["Clean sub-run state"]
+        Resume["Resume sub-run<br>workflow"]
     end
 
     subgraph SubWorkflow["L1-L3 Milestone Execution"]
-        NextSub(("😺 Complexity Analysis<br>Classify next unchecked<br>milestone as L1/L2/L3"))
+        Classify(("😺 Classify milestone<br>as L1/L2/L3"))
         SubRun("😺 Run L1/L2/L3 workflow")
     end
 
@@ -48,13 +49,12 @@ graph TD
 
     CheckMilestoneCompletion -->|"No"| PrevDone
     PrevDone --"Yes"--> CheckOff
-    CheckOff --> Cleanup["Clean sub-run state"]
-    Cleanup --> NextSub
+    CheckOff --> Cleanup --> Classify
 
     PrevDone --"No"--> Resume
     Resume --> SubRun
 
-    NextSub --> SubRun
+    Classify --> SubRun
     SubRun -.->|"Sub-run complete<br>🧑‍💻 /niko"| Start
 ```
 

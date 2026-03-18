@@ -35,7 +35,7 @@ Behaviors B1-B6 (reflect/L1 "Next Steps" guidance) are already implemented and u
 
 ## Implementation Plan
 
-### Step 1: /niko SKILL.md — Full state routing
+### Step 1: /niko SKILL.md — Full state routing [DONE]
 
 - File: `rulesets/niko/skills/niko/SKILL.md`
 - Replace the current Step 2 "Resume Check (No User Input)" with a comprehensive Step 2 "State Routing" that always runs (regardless of user input). Move the following logic here from complexity-analysis:
@@ -49,7 +49,7 @@ Behaviors B1-B6 (reflect/L1 "Next Steps" guidance) are already implemented and u
 - Step 3 becomes: load complexity-analysis.mdc
 - Behaviors: B7-B17, B20
 
-### Step 2: complexity-analysis.mdc — Pure classifier
+### Step 2: complexity-analysis.mdc — Pure classifier [DONE]
 
 - File: `rulesets/niko/niko/core/complexity-analysis.mdc`
 - Remove the entire Step 1 "Re-entry Check" (both subgraphs, all 1a/1b prose)
@@ -60,13 +60,13 @@ Behaviors B1-B6 (reflect/L1 "Next Steps" guidance) are already implemented and u
 - Everything from the Decision Tree onward is unchanged
 - Behaviors: B18, B19
 
-### Step 3: milestones.mdc — Update cross-references (preflight finding)
+### Step 3: milestones.mdc — Update cross-references (preflight finding) [DONE]
 
 - File: `rulesets/niko/niko/memory-bank/active/milestones.mdc`
 - Update lifecycle table: 3 rows reference `complexity-analysis.mdc Step 1` → update to reference `/niko` state routing
 - Update prose: lines 9 and 52 reference "complexity analysis" as the consumer of the milestones.md signal → update to "/niko"
 
-### Step 4: level4-workflow.mdc — Diagram attribution update
+### Step 4: level4-workflow.mdc — Diagram attribution update [DONE]
 
 - File: `rulesets/niko/niko/level4/level4-workflow.mdc`
 - The diagram currently labels `Start(("Complexity Analysis"))` and shows milestone management (checkoff, cleanup, classify) flowing from that entry point. With Option B, milestone management happens in `/niko` before complexity-analysis is invoked.
@@ -98,6 +98,6 @@ No new technology — validation not required.
 - [x] Test planning complete (TDD)
 - [x] Implementation plan complete
 - [x] Technology validation complete
-- [ ] Preflight
-- [ ] Build
+- [x] Preflight
+- [x] Build
 - [ ] QA
