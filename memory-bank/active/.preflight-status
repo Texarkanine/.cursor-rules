@@ -1,0 +1,2 @@
+PASS WITH ADVISORY
+Advisory: L2/L3 archive phases could add a defensive guard to refuse running when milestones.md exists (safety net against accidental /niko-archive during L4 sub-runs). Out of scope for this task.
