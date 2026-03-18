@@ -15,9 +15,10 @@ graph TD
     Start(("Re-entry<br>Check")) --> M{"milestones.md<br>exists?"}
     M -->|"No"| E{"All ephemeral<br>files exist?"}
     M -->|"Yes"| L4["1a: L4 Re-entry"]
-    L4 --> RC2{"Reflect-complete?"}
+    L4 --> RC2{"Sub-run<br>complete?"}
     RC2 -->|"Yes"| CheckOff["Check off milestone"]
-    CheckOff --> AllDone{"All milestones<br>done?"}
+    CheckOff --> Cleanup["Clean sub-run state"]
+    Cleanup --> AllDone{"All milestones<br>done?"}
     AllDone -->|"No"| Step2
     AllDone -->|"Yes"| Step6(("Step 6"))
     RC2 -->|"No"| Step6
@@ -36,12 +37,17 @@ Check whether `memory-bank/active/milestones.md` exists.
 
 - **If `milestones.md` is absent:** proceed to Step 1b.
 - **If `milestones.md` is present:** an L4 project is already in-flight. Do not run the decision tree. Instead:
-    1. Read `memory-bank/active/milestones.md` and `memory-bank/active/activeContext.md`.
-    2. Check `activeContext.md` for the current state:
-        - **If REFLECT COMPLETE:** the current sub-run is done. Check off that sub-run's milestone in `milestones.md`. Re-read the updated `milestones.md`:
+    1. Read `memory-bank/active/milestones.md`, `memory-bank/active/activeContext.md`, `memory-bank/active/progress.md`, and `memory-bank/active/.qa-validation-status` (if it exists).
+    2. Determine whether the current sub-run is complete. A sub-run is complete if either:
+        - `activeContext.md` shows REFLECT COMPLETE (L2/L3 sub-runs), or
+        - `.qa-validation-status` shows PASS and `progress.md` shows Level 1 complexity (L1 sub-runs have no reflect phase).
+    3. **If the sub-run is complete:**
+        a. Check off that sub-run's milestone in `milestones.md`.
+        b. **Clean sub-run state:** Delete the following from `memory-bank/active/`: `tasks.md`, `activeContext.md`, `creative/` (if present), `.qa-validation-status`, `.preflight-status` (if present). **Preserve**: `milestones.md`, `projectbrief.md`, `progress.md`, `reflection/`.
+        c. Re-read the updated `milestones.md`:
             - **All milestones checked (`- [x]`):** The L4 project is complete. Skip to `Step 6: Load Workflow`.
             - **Unchecked milestones remain:** The first unchecked milestone is the next sub-run target. Classify it as L1, L2, or L3 using the decision tree below (apply it to the milestone description, not the overall task) and proceed as normal.
-        - **If NOT reflect-complete:** a sub-run is still in progress. Skip to `Step 6: Load Workflow` — the L4 workflow will handle resuming the in-progress sub-run.
+    4. **If the sub-run is NOT complete:** skip to `Step 6: Load Workflow` — the L4 workflow will handle resuming the in-progress sub-run.
 
 ### 1b: Existing Work Check
 

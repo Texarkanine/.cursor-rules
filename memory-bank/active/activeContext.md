@@ -4,11 +4,17 @@
 Fix L4 Sub-Run Completion Flow (issue-54)
 
 ## Phase
-BUILD - IN-PROGRESS
+BUILD - COMPLETE
 
 ## What Was Done
-- Plan revised per operator feedback (no artificial markers, infer from natural state)
-- Preflight PASS WITH ADVISORY (defensive archive guard flagged as out-of-scope enhancement)
+All 6 implementation steps completed across 5 canonical files:
+- `rulesets/niko/niko/level2/level2-reflect.mdc` — context-aware "Next Steps" (milestones.md check)
+- `rulesets/niko/niko/level3/level3-reflect.mdc` — context-aware "Next Steps" (milestones.md check)
+- `rulesets/niko/niko/level1/level1-workflow.mdc` — L4-aware Wrap-Up (milestones.md check, `/niko` guidance)
+- `rulesets/niko/niko/core/complexity-analysis.mdc` — generalized sub-run detection (REFLECT COMPLETE or L1 QA PASS), ephemeral cleanup between sub-runs
+- `rulesets/niko/niko/level4/level4-workflow.mdc` — diagram labels updated to "Sub-run complete"
+
+No deviations from plan.
 
 ## Next Step
-Execute implementation steps 1-6
+QA review

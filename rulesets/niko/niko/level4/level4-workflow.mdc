@@ -24,7 +24,7 @@ graph TD
         CheckMilestoneCompletion{"All milestones complete?"}
         Capstone[/"🧑‍💻 /niko-archive (capstone)"/]
         Capstone -->Done("Done")
-        PrevDone{"activeContext shows<br>REFLECT COMPLETE?"}
+        PrevDone{"Sub-run<br>complete?"}
         CheckOff["Check off completed<br>milestone in milestones.md"]
         Resume["Load context<br>prepare to re-enter workflow"]
     end
@@ -48,13 +48,14 @@ graph TD
 
     CheckMilestoneCompletion -->|"No"| PrevDone
     PrevDone --"Yes"--> CheckOff
-    CheckOff --> NextSub
+    CheckOff --> Cleanup["Clean sub-run state"]
+    Cleanup --> NextSub
 
     PrevDone --"No"--> Resume
     Resume --> SubRun
 
     NextSub --> SubRun
-    SubRun -.->|"Sub-run reflect complete<br>🧑‍💻 /niko"| Start
+    SubRun -.->|"Sub-run complete<br>🧑‍💻 /niko"| Start
 ```
 
 > Legend:
@@ -65,7 +66,7 @@ graph TD
 
 The following require operator input; if you have arrived at one of these transitions, STOP and wait:
 
-- Sub-run reflect complete → next `/niko` invocation (operator decides when to continue)
+- Sub-run complete → next `/niko` invocation (operator decides when to continue)
 - All milestones checked → capstone archive (operator invokes `/niko-archive`)
 - Initial L4 milestone generation → first workflow execution (operator invokes `/niko`)
 
