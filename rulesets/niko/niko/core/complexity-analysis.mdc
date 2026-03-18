@@ -8,63 +8,70 @@ Determine the appropriate complexity level (1-4) for a task, then write the dete
 
 ## Step 1: Re-entry Check
 
-**Before running the decision tree**, check for in-flight work.
+Check for in-flight or completed work before classifying a new task. Read the contents of `memory-bank/active/`, then follow the diagram.
 
 ```mermaid
 graph TD
     Start(("Re-entry<br>Check")) --> M{"milestones.md<br>exists?"}
-    M -->|"No"| E{"All ephemeral<br>files exist?"}
-    M -->|"Yes"| L4["1a: L4 Re-entry"]
-    L4 --> RC2{"Sub-run<br>complete?"}
-    RC2 -->|"Yes"| CheckOff["Check off milestone"]
-    CheckOff --> Cleanup["Clean sub-run state"]
-    Cleanup --> AllDone{"All milestones<br>done?"}
+
+    subgraph L4["1a: L4 Re-entry"]
+        RC2{"REFLECT COMPLETE<br>or Level 1 + QA PASS?"}
+        CheckOff["Check off milestone"]
+        Cleanup["Clean sub-run state"]
+        AllDone{"All milestones<br>done?"}
+    end
+
+    M -->|"Yes"| RC2
+    RC2 -->|"Yes"| CheckOff
+    CheckOff --> Cleanup
+    Cleanup --> AllDone
     AllDone -->|"No"| Step2
     AllDone -->|"Yes"| Step6(("Step 6"))
     RC2 -->|"No"| Step6
+
+    subgraph Existing["1b: Existing Work Check"]
+        E{"All ephemeral<br>files exist?"}
+        RC{"Reflect-complete?"}
+        Warn["⚠️ Work in-progress"]
+        Ask{"Rework or<br>archive?"}
+        Rework["Amend memory bank,<br>clear stale state"]
+    end
+
+    M -->|"No"| E
     E -->|"No"| Step2(("Step 2"))
-    E -->|"Yes"| RC{"Reflect-complete?"}
-    RC -->|"No"| Warn["⚠️ Work in-progress"]
-    RC -->|"Yes"| Ask{"Rework or<br>archive?"}
+    E -->|"Yes"| RC
+    RC -->|"No"| Warn
+    RC -->|"Yes"| Ask
     Ask -.->|"Archive"| Archive[/"🧑‍💻 /niko-archive"/]
-    Ask -->|"Rework"| Rework["Amend memory bank,<br>clear stale state"]
+    Ask -->|"Rework"| Rework
     Rework --> Step2
 ```
 
 ### 1a: L4 Re-entry
 
-Check whether `memory-bank/active/milestones.md` exists.
+When `milestones.md` is present, an L4 project is in-flight. Read `milestones.md`, `activeContext.md`, `progress.md`, and `.qa-validation-status` (if present), then follow the L4 Re-entry subgraph.
 
-- **If `milestones.md` is absent:** proceed to Step 1b.
-- **If `milestones.md` is present:** an L4 project is already in-flight. Do not run the decision tree. Instead:
-    1. Read `memory-bank/active/milestones.md`, `memory-bank/active/activeContext.md`, `memory-bank/active/progress.md`, and `memory-bank/active/.qa-validation-status` (if it exists).
-    2. Determine whether the current sub-run is complete. A sub-run is complete if either:
-        - `activeContext.md` shows REFLECT COMPLETE (L2/L3 sub-runs), or
-        - `.qa-validation-status` shows PASS and `progress.md` shows Level 1 complexity (L1 sub-runs have no reflect phase).
-    3. **If the sub-run is complete:**
-        a. Check off that sub-run's milestone in `milestones.md`.
-        b. **Clean sub-run state:** Delete the following from `memory-bank/active/`: `tasks.md`, `activeContext.md`, `creative/` (if present), `.qa-validation-status`, `.preflight-status` (if present). **Preserve**: `milestones.md`, `projectbrief.md`, `progress.md`, `reflection/`.
-        c. Re-read the updated `milestones.md`:
-            - **All milestones checked (`- [x]`):** The L4 project is complete. Skip to `Step 6: Load Workflow`.
-            - **Unchecked milestones remain:** The first unchecked milestone is the next sub-run target. Classify it as L1, L2, or L3 using the decision tree below (apply it to the milestone description, not the overall task) and proceed as normal.
-    4. **If the sub-run is NOT complete:** skip to `Step 6: Load Workflow` — the L4 workflow will handle resuming the in-progress sub-run.
+**REFLECT COMPLETE or Level 1 + QA PASS?** — The sub-run is complete when `activeContext.md` shows REFLECT COMPLETE, or when the task's complexity level (from `progress.md`) is Level 1 and `.qa-validation-status` shows PASS.
+
+**Check off milestone** — Mark the completed sub-run's milestone as `- [x]` in `milestones.md`.
+
+**Clean sub-run state** — Delete from `memory-bank/active/`: `tasks.md`, `activeContext.md`, `creative/` (if present), `.qa-validation-status`, `.preflight-status` (if present). Preserve: `milestones.md`, `projectbrief.md`, `progress.md`, `reflection/`.
+
+**All milestones done?** — If all milestones are `- [x]`, the L4 project is complete; load the L4 workflow for capstone archive. If unchecked milestones remain, the first unchecked milestone is the next sub-run target. Classify it as L1/L2/L3 using the decision tree in Step 2 (apply it to the milestone description, not the overall task) and proceed as normal.
 
 ### 1b: Existing Work Check
 
-Check whether all four ephemeral files exist (`projectbrief.md`, `activeContext.md`, `tasks.md`, `progress.md` in `memory-bank/active/`).
+When `milestones.md` is absent, check for existing ephemeral files (`projectbrief.md`, `activeContext.md`, `tasks.md`, `progress.md` in `memory-bank/active/`), then follow the Existing Work Check subgraph.
 
-- **If ephemeral files are absent, or only partially present:** this is a fresh task. Proceed to `Step 2: Decision Tree`.
-- **If all four exist:** read `activeContext.md` to determine current state:
-    - **If NOT reflect-complete:** work is actively in-progress. **Warn the operator** - the current task should be archived or explicitly abandoned before starting new work. STOP and wait for operator input.
-    - **If reflect-complete:** the previous task has completed reflection but hasn't been archived. Ask the operator: is this **rework** on the same task, or should the task be **archived** first?
-        - **Archive**: direct the operator to run `/niko-archive`. STOP and wait for operator input.
-        - **Rework**: gather the rework context from the operator (e.g., PR feedback, reviewer comments, specific issues to address). Then:
-            1. Update `memory-bank/active/progress.md`: append a section recording rework initiation and the feedback that prompted it.
-            2. Update `memory-bank/active/projectbrief.md`: append a **Rework** section with the new/changed requirements, preserving the original brief intact above it.
-            3. Delete `memory-bank/active/tasks.md` and `memory-bank/active/activeContext.md`.
-            4. Delete stale gate files: remove `.qa-validation-status` and `.preflight-status` from `memory-bank/active/` if present.
-            5. Commit: `chore: initiating rework on [task-id]`
-            6. Proceed to `Step 2: Decision Tree` - classify the rework's complexity independently of the original task.
+**All ephemeral files exist?** — If any are missing, this is a fresh task; proceed to Step 2.
+
+**Reflect-complete?** — Read `activeContext.md`. If the phase shows REFLECT COMPLETE, the previous task finished but hasn't been archived.
+
+**⚠️ Work in-progress** — Warn the operator that the current task should be archived or explicitly abandoned before starting new work. STOP and wait for operator input.
+
+**Rework or archive?** — Ask the operator. Archive directs to `/niko-archive`. Rework gathers feedback context from the operator, then amends the memory bank.
+
+**Amend memory bank, clear stale state** — Append rework initiation and feedback to `progress.md`. Append a **Rework** section to `projectbrief.md` (preserve original brief above). Delete `tasks.md`, `activeContext.md`, `.qa-validation-status`, `.preflight-status`. Commit: `chore: initiating rework on [task-id]`. Then proceed to Step 2 — classify the rework's complexity independently of the original task.
 
 ## Step 2: Decision Tree
 
