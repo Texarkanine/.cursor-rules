@@ -1,83 +1,77 @@
-# Task: Fix L4 Sub-Run Completion Flow
+# Task: Fix L4 Sub-Run Completion Flow — Rework: Option B
 
 * Task ID: issue-54
 * Complexity: Level 2
-* Type: Bug fix (multi-component)
+* Type: Refactor (separation of concerns)
 
-When an L2/L3 sub-run completes as part of an L4 project, the reflect phase's "Next Steps" incorrectly directs the operator to `/niko-archive`. This breaks the L4 flow because `/niko-archive` deletes `milestones.md`. The correct next step is `/niko` re-entry, which checks off the completed milestone and routes to the next one.
-
-Additionally, L1 sub-runs within L4 have no terminal "next step" guidance and no mechanism for re-entry detection. Between sub-runs, no ephemeral cleanup is defined.
+Move L4 re-entry state management and existing-work-check from `complexity-analysis.mdc` to `/niko` SKILL.md. `/niko` becomes the state router; `complexity-analysis.mdc` becomes a pure classifier.
 
 
 ## Test Plan (TDD)
 
 ### Behaviors to Verify
 
-- **B1 (L2 reflect, L4 context)**: milestones.md exists → "Next Steps" says "Run `/niko` to continue to the next milestone"
-- **B2 (L2 reflect, standalone)**: milestones.md absent → "Next Steps" says "Run `/niko-archive`" (unchanged behavior)
-- **B3 (L3 reflect, L4 context)**: Same as B1
-- **B4 (L3 reflect, standalone)**: Same as B2
-- **B5 (L1 completion, L4 context)**: milestones.md exists → operator directed to "Run `/niko` to continue to the next milestone"
-- **B6 (L1 completion, standalone)**: milestones.md absent → current behavior (commit and done)
-- **B7 (Re-entry, L2/L3 sub-run)**: milestones.md exists + activeContext shows REFLECT COMPLETE → check off milestone, clean sub-run state, classify next
-- **B8 (Re-entry, L1 sub-run)**: milestones.md exists + .qa-validation-status PASS + progress.md shows Level 1 → check off milestone, clean sub-run state, classify next
-- **B9 (Cleanup preserves L4 state)**: Between sub-runs, milestones.md, projectbrief.md, progress.md, and reflection/ are preserved
-- **B10 (Cleanup removes sub-run state)**: Between sub-runs, tasks.md, activeContext.md, creative/, .qa-validation-status, .preflight-status are deleted
+Behaviors B1-B6 (reflect/L1 "Next Steps" guidance) are already implemented and unaffected.
+
+- **B7 (L4 re-entry, L2/L3 sub-run)**: milestones.md exists + REFLECT COMPLETE → /niko checks off milestone, cleans sub-run state, routes to classification
+- **B8 (L4 re-entry, L1 sub-run)**: milestones.md exists + Level 1 + QA PASS → same as B7
+- **B9 (Cleanup preserves L4 state)**: milestones.md, projectbrief.md, progress.md, reflection/ preserved
+- **B10 (Cleanup removes sub-run state)**: tasks.md, activeContext.md, creative/, .qa-validation-status, .preflight-status deleted
+- **B11 (L4 all done)**: milestones.md exists + all milestones checked → /niko directs to /niko-archive (capstone)
+- **B12 (L4 sub-run in-progress)**: milestones.md exists + sub-run NOT complete → /niko resumes sub-run
+- **B13 (Standalone complete)**: no milestones + all ephemeral files + task complete (REFLECT COMPLETE or L1 + QA PASS) → rework or archive
+- **B14 (Standalone in-progress, new input)**: no milestones + all ephemeral files + NOT complete + user input → warn
+- **B15 (Standalone in-progress, no input)**: no milestones + all ephemeral files + NOT complete + no user input → resume workflow
+- **B16 (Fresh task)**: no milestones + missing ephemeral files + user input → straight to classification
+- **B17 (No input, no work)**: no milestones + missing ephemeral files + no user input → done
+- **B18 (Classification target — L4)**: milestones.md exists when classification loads → classify first unchecked milestone, not user input
+- **B19 (Classification target — standalone)**: no milestones.md → classify user input
+- **B20 (Normal one-off fast path)**: no milestones, no ephemeral files, user input → /niko → classification → decision tree (no L4 branching touched)
 
 ### Test Infrastructure
 
-- Framework: **None** — this project consists entirely of `.mdc` rule files with no executable code or automated test framework.
-- Verification approach: Operator reviews each modified rule file against the behavior specifications above.
+- Framework: **None** — operator verification against behavior specifications.
 
 
 ## Implementation Plan
 
-### Step 1: L2 Reflect — Context-aware "Next Steps"
+### Step 1: /niko SKILL.md — Full state routing
 
-- File: `rulesets/niko/niko/level2/level2-reflect.mdc`
-- Changes: In Step 8 "Log Progress", replace the hardcoded "Next Steps" block with a conditional:
-  - Check whether `memory-bank/active/milestones.md` exists
-  - If milestones.md exists: `Run /niko to continue to the next milestone.`
-  - If milestones.md absent: `Run /niko-archive to create the archive document and finalize the current project.`
-- Behaviors: B1, B2
+- File: `rulesets/niko/skills/niko/SKILL.md`
+- Replace the current Step 2 "Resume Check (No User Input)" with a comprehensive Step 2 "State Routing" that always runs (regardless of user input). Move the following logic here from complexity-analysis:
+  - L4 milestone transition (check off, cleanup, capstone-or-classify)
+  - L4 sub-run resume
+  - Existing work check (with widened "task complete?" — REFLECT COMPLETE or L1 + QA PASS)
+  - Rework flow
+  - Fresh task / no-input routing
+- New mermaid diagram showing the full state machine with subgraphs
+- Prose describes each node's body (no conditionals — diagram handles branching)
+- Step 3 becomes: load complexity-analysis.mdc
+- Behaviors: B7-B17, B20
 
-### Step 2: L3 Reflect — Context-aware "Next Steps"
-
-- File: `rulesets/niko/niko/level3/level3-reflect.mdc`
-- Changes: Same pattern as Step 1, applied to Step 7 "Log Progress"
-- Behaviors: B3, B4
-
-### Step 3: L1 Workflow — L4-aware completion guidance
-
-- File: `rulesets/niko/niko/level1/level1-workflow.mdc`
-- Changes: In the "Commit When Done" section, after the commit instruction:
-  - If `milestones.md` exists, this is an L4 sub-run: inform the operator to run `/niko` to continue. STOP and wait.
-  - If no milestones.md: current behavior (done, no further guidance)
-- No new state markers — detection relies on naturally existing artifacts.
-- Behaviors: B5, B6
-
-### Step 4: Complexity Analysis — Generalized re-entry detection
+### Step 2: complexity-analysis.mdc — Pure classifier
 
 - File: `rulesets/niko/niko/core/complexity-analysis.mdc`
-- Changes to Step 1a:
-  - Widen the "sub-run complete?" check from just REFLECT COMPLETE to also recognize L1 completion: `.qa-validation-status` shows PASS and `progress.md` shows Level 1 complexity.
-  - Update mermaid diagram to reflect the widened check.
-- No artificial markers — inferred from naturally existing state.
-- Behaviors: B7, B8
+- Remove the entire Step 1 "Re-entry Check" (both subgraphs, all 1a/1b prose)
+- Replace with a lightweight Step 1 "Classification Target":
+  - If milestones.md exists, read it — the classification target is the first unchecked milestone description
+  - Otherwise, the classification target is the user's task input
+- Renumber remaining steps (Decision Tree becomes Step 2, etc.)
+- Everything from the Decision Tree onward is unchanged
+- Behaviors: B18, B19
 
-### Step 5: Complexity Analysis — Ephemeral cleanup between sub-runs
+### Step 3: milestones.mdc — Update cross-references (preflight finding)
 
-- File: `rulesets/niko/niko/core/complexity-analysis.mdc`
-- Changes to Step 1a, after checking off the completed milestone:
-  - **Delete** (sub-run scoped): `tasks.md`, `activeContext.md`, `creative/`, `.qa-validation-status`, `.preflight-status`
-  - **Preserve** (L4 scoped): `milestones.md`, `projectbrief.md`, `progress.md`, `reflection/`
-- Update mermaid diagram to include cleanup node.
-- Behaviors: B9, B10
+- File: `rulesets/niko/niko/memory-bank/active/milestones.mdc`
+- Update lifecycle table: 3 rows reference `complexity-analysis.mdc Step 1` → update to reference `/niko` state routing
+- Update prose: lines 9 and 52 reference "complexity analysis" as the consumer of the milestones.md signal → update to "/niko"
 
-### Step 6: L4 Workflow — Diagram label update
+### Step 4: level4-workflow.mdc — Diagram attribution update
 
 - File: `rulesets/niko/niko/level4/level4-workflow.mdc`
-- Changes: Update the SubRun edge label from "Sub-run reflect complete" to "Sub-run complete" to cover L1 sub-runs (which have no reflect phase)
+- The diagram currently labels `Start(("Complexity Analysis"))` and shows milestone management (checkoff, cleanup, classify) flowing from that entry point. With Option B, milestone management happens in `/niko` before complexity-analysis is invoked.
+- Update the diagram's entry label and subgraph boundaries to reflect the new split: `/niko` handles state routing and milestone management, complexity-analysis handles classification only.
+- Update any corresponding prose below the diagram if needed.
 
 
 ## Technology Validation
@@ -87,15 +81,15 @@ No new technology — validation not required.
 
 ## Dependencies
 
-- Each step is independent and can be implemented in any order
-- All changes are to canonical sources in `rulesets/niko/` per the `agent-customization-locations.mdc` rule
+- Step 1 and Step 2 should be implemented together (the logic moves from one file to the other)
+- L2/L3 reflect and L1 workflow changes from the original build are already in place and unaffected
 
 
 ## Challenges & Mitigations
 
-- **No test infrastructure**: Verification is operator review of rule file content. Precise behaviors (B1-B10) defined for traceability.
-- **L1 completion detection without markers**: Relies on naturally existing state (`.qa-validation-status` + Level 1 in `progress.md`). These artifacts are guaranteed to exist after a successful L1 sub-run per existing workflow rules.
-- **Ephemeral cleanup correctness**: Explicitly listing both "delete" and "preserve" sets, cross-referenced against the L4 capstone archive's prerequisites (which reads `reflection/`).
+- **/niko SKILL.md grows significantly**: Mitigated by the diagram-carries-branching pattern — the diagram IS the state machine, prose describes node bodies. Structure matches what /niko already does as an entry point.
+- **Existing-work-check widened criteria**: The "task complete?" check now uses REFLECT COMPLETE or L1 + QA PASS everywhere (not just L4 path). This correctly detects standalone L1 completion, which was previously a gap.
+- **Step 2 fires with user input**: The existing work check must catch work-in-flight even when the user provides new task input. The current "skip Step 2 if user input" behavior is removed.
 
 
 ## Status
@@ -104,6 +98,6 @@ No new technology — validation not required.
 - [x] Test planning complete (TDD)
 - [x] Implementation plan complete
 - [x] Technology validation complete
-- [x] Preflight
-- [x] Build
-- [x] QA
+- [ ] Preflight
+- [ ] Build
+- [ ] QA

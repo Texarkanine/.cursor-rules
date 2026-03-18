@@ -1,13 +1,13 @@
 # Active Context
 
 ## Current Task
-Fix L4 Sub-Run Completion Flow (issue-54)
+Fix L4 Sub-Run Completion Flow (issue-54) — Rework: Option B
 
 ## Phase
-REFLECT - COMPLETE
+PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
 
 ## What Was Done
-Reflection complete. Key insight: "infer from what's already there" is a better principle than "write new state to signal completion." Reduces coupling between workflow levels.
+Preflight validated the Option B plan. One finding: milestones.mdc lifecycle table and prose reference "complexity-analysis.mdc Step 1" for milestone operations — these need updating to "/niko" since that's where the logic moves. Added as Step 3 in the plan.
 
 ## Next Step
-Run `/niko-archive` to create the archive document and finalize the current project.
+Run `/niko-build` to implement the plan

@@ -14,65 +14,79 @@ Check for in-flight or completed work before classifying a new task. Read the co
 graph TD
     Start(("Re-entry<br>Check")) --> Milestones{"milestones.md<br>exists?"}
 
+    Milestones -->|"Yes"| RC2
     subgraph L4["1a: L4 Re-entry"]
         RC2{"REFLECT COMPLETE<br>or Level 1 + QA PASS?"}
         CheckOff["Check off milestone"]
         Cleanup["Clean sub-run state"]
         AllDone{"All milestones<br>done?"}
-    end
 
+        RC2 -->|"Yes"| CheckOff
+        CheckOff --> Cleanup
+        Cleanup --> AllDone
+    end
     RC2 -->|"No"| Step6
-    Milestones -->|"Yes"| RC2
-    RC2 -->|"Yes"| CheckOff
-    CheckOff --> Cleanup
-    Cleanup --> AllDone
     AllDone -->|"Yes"| Step6(("Step 6: Load Workflow"))
     AllDone -->|"No"| Step2(("Step 2: Decision Tree"))
     
-
+    Milestones -->|"No"| EphemeralFiles
     subgraph Existing["1b: Existing Work Check"]
         EphemeralFiles{"All ephemeral<br>files exist?"}
         RC{"Reflect-complete?"}
         Warn["⚠️ Work in-progress"]
         Ask{"Rework or<br>archive?"}
         Rework["Amend memory bank,<br>clear stale state"]
-    end
 
+        EphemeralFiles -->|"Yes"| RC
+        RC -->|"No"| Warn
+        RC -->|"Yes"| Ask
+        Ask -->|"Rework"| Rework
+    end
     Rework --> Step2
-    Milestones -->|"No"| EphemeralFiles
     EphemeralFiles -->|"No"| Step2
-    EphemeralFiles -->|"Yes"| RC
-    RC -->|"No"| Warn
-    RC -->|"Yes"| Ask
     Ask -.->|"Archive"| Archive[/"🧑‍💻 /niko-archive"/]
-    Ask -->|"Rework"| Rework
 ```
 
 ### 1a: L4 Re-entry
 
 `milestones.md` exists — an L4 project is in-flight.
 
-Read `milestones.md`, `activeContext.md`, `progress.md`, and `.qa-validation-status` (if present). Then follow the L4 Re-entry subgraph.
+Read 
 
-**Sub-run complete?** `activeContext.md` shows REFLECT COMPLETE, or the task's complexity level (from `progress.md`) is Level 1 and `.qa-validation-status` shows PASS.
-
-**Check off milestone.** Mark the completed sub-run's milestone as `- [x]` in `milestones.md`.
-
-**Clean sub-run state.** Delete from `memory-bank/active/`:
-
-- `tasks.md`
+- `milestones.md`
 - `activeContext.md`
-- `creative/` (if present)
-- `.qa-validation-status`
-- `.preflight-status` (if present)
+- `progress.md`
+- `.qa-validation-status` (if present)
 
-Preserve `milestones.md`, `projectbrief.md`, `progress.md`, and `reflection/`.
+Then follow the L4 Re-entry subgraph, executing the nodes as appropriate:
+
+- **Sub-run complete?** YES if: `activeContext.md` shows REFLECT COMPLETE, or the task's complexity level (from `progress.md`) is Level 1 and `.qa-validation-status` shows PASS.
+- **Check off milestone:** Mark the completed sub-run's milestone as `- [x]` in `milestones.md`.
+- **Clean sub-run state:** 
+    - Delete from `memory-bank/active/`:
+        - `tasks.md`
+        - `activeContext.md`
+        - `creative/` (if present)
+        - `.qa-validation-status`
+        - `.preflight-status` (if present)
+    - Preserve (do NOT delete) 
+        - `milestones.md`
+        - `projectbrief.md`
+        - `progress.md`
+        - `reflection/`
 
 **Next milestone.** The first unchecked milestone is the next sub-run target. Classify it as L1/L2/L3 using the decision tree in Step 2, applied to the milestone description.
 
 ### 1b: Existing Work Check
 
-`milestones.md` absent — check for existing ephemeral files in `memory-bank/active/`: `projectbrief.md`, `activeContext.md`, `tasks.md`, `progress.md`. Then follow the Existing Work Check subgraph.
+`milestones.md` absent — check for normal in-progress work. Read:
+
+- `memory-bank/active/projectbrief.md`
+- `memory-bank/active/activeContext.md`
+- `memory-bank/active/tasks.md`
+- `memory-bank/active/progress.md`
+
+Then follow the Existing Work Check subgraph, executing the nodes as appropriate:
 
 **Reflect-complete?** Read `activeContext.md`. The previous task is complete when the phase shows REFLECT COMPLETE.
 
