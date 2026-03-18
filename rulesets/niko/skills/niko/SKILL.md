@@ -5,129 +5,174 @@ description: Niko Memory Bank System - Niko Phase - Initialization & Entry Point
 
 # Niko Phase - Initialization & Entry Point
 
-`/niko` is the single entry point for the Niko system. It initializes the memory bank, routes based on current state, and delegates to complexity analysis for new or next work.
+`/niko` is the single entry point for the Niko system. It initializes the memory bank, detects current state, and routes to the appropriate workflow.
 
-```mermaid
-graph TD
-    Start(("🧑‍💻 /niko")) --> Load["Step 1: Load &<br>Ensure Memory Bank"]
-    Load --> InitOnly{"Init only?"}
-    InitOnly --"Yes"--> Done("Done")
-    InitOnly --"No"--> ReadActive["Step 2: Read<br>memory-bank/active/"]
+## Step 0: Ensure Memory Bank
 
-    ReadActive --> MS{"milestones.md?"}
-
-    subgraph L4["2a: L4 Milestone Transition"]
-        SubDone{"Sub-run<br>complete?"}
-        CheckOff["Check off milestone"]
-        Cleanup["Clean sub-run state"]
-        AllDone{"All milestones<br>done?"}
-
-        SubDone --"Yes"--> CheckOff --> Cleanup --> AllDone
-    end
-
-    MS --"Yes"--> SubDone
-    SubDone --"No"--> ResumeL4["Resume sub-run"]
-    AllDone --"Yes"--> Capstone[/"🧑‍💻 /niko-archive"/]
-    AllDone --"No"--> Classify
-
-    MS --"No"--> Eph{"Ephemeral<br>files exist?"}
-
-    subgraph Existing["2b: Existing Work"]
-        TaskDone{"Task<br>complete?"}
-        ReworkAsk{"Rework or<br>archive?"}
-        Amend["Clear stale state"]
-        InProgress{"User input?"}
-
-        TaskDone --"Yes"--> ReworkAsk
-        TaskDone --"No"--> InProgress
-        ReworkAsk --"Rework"--> Amend
-    end
-
-    Eph --"Yes"--> TaskDone
-    InProgress --"Yes"--> Warn["⚠️ Work in-progress"]
-    InProgress --"No"--> Resume["Resume workflow"]
-    ReworkAsk -.->|"Archive"| Archive[/"🧑‍💻 /niko-archive"/]
-    Amend --> Classify
-
-    Eph --"No"--> Fresh{"User input?"}
-    Fresh --"Yes"--> Classify(("Step 3:<br>Classify"))
-    Fresh --"No"--> Done
-```
-
-## Step 1: Load & Ensure Memory Bank Persistent Files
+Before entering the state machine, ensure the memory bank exists.
 
 ```
 Load: .cursor/rules/shared/niko/core/memory-bank-paths.mdc
 Load: .cursor/rules/shared/niko/core/memory-bank-init.mdc
 ```
 
-**CRITICAL:** If *at least one* of the memory-bank's persistent files does not exist, initialize the memory bank's persistent files *immediately* according to the defined process.
+If any persistent file (`productContext.md`, `systemPatterns.md`, `techContext.md`) does not exist, initialize immediately per `memory-bank-init.mdc`.
 
-If the only user input was to initialize the memory bank, you are done! Exit and do nothing else.
+If the user's only input was to initialize the memory bank, you are done — exit and do nothing else. Otherwise, proceed to the state machine.
 
-## Step 2: State Routing
+## State Machine
 
-Read the contents of `memory-bank/active/`, then follow the diagram.
+```mermaid
+flowchart TD
+    S0(("Step 0:<br>Ensure Memory Bank"))
+    S1{"Step 1:<br>Detect Active<br>State"}
+    S4{"Step 4:<br>Check for<br>User Input"}
 
-### 2a: L4 Milestone Transition
+    S0 --> S1
+    S1 -->|"L4"| S2
+    S1 -->|"Standalone"| S3
+    S1 -->|"Fresh"| S4
 
-`milestones.md` exists — an L4 project is in-flight.
+    subgraph L4["L4 Re-entry"]
+        S2{"Step 2:<br>Assess L4<br>Sub-run"}
+        S2a["Step 2a:<br>Advance L4<br>Milestone"]
 
-Read:
+        S2 -->|"Complete"| S2a
+    end
 
-- `milestones.md`
-- `activeContext.md`
-- `progress.md`
-- `.qa-validation-status` (if present)
+    subgraph Standalone["Standalone Re-entry"]
+        S3{"Step 3:<br>Assess Standalone<br>Task"}
+        S3a{"Step 3a:<br>Determine<br>Disposition"}
+        S3b["Step 3b:<br>Clear Stale<br>State"]
+        S3c{"Step 3c:<br>Check for<br>Conflicting Input"}
 
-Then follow the L4 Milestone Transition subgraph.
+        S3 -->|"Incomplete"| S3c
+        S3 -->|"Complete"| S3a
+        S3a -.->|"Rework"| S3b
+    end
 
-**Sub-run complete?** YES if: `activeContext.md` shows REFLECT COMPLETE, or the task's complexity level (from `progress.md`) is Level 1 and `.qa-validation-status` shows PASS.
+    
+    S2a -.->|"All done"| Archive
+    S3a -.->|"Archive"| Archive
 
-**Check off milestone.** Mark the completed sub-run's milestone as `- [x]` in `milestones.md`.
+    
+    
+    S2 -->|"Not started"| Classify
+    S2a -->|"Milestones remain"| Classify
+    S3b --> Classify
+    S4 -->|"Has input"| Classify
 
-**Clean sub-run state.**
+    S2 -->|"In-progress"| Resume
+    S3c -->|"No input"| Resume
 
-- Delete from `memory-bank/active/`:
-    - `tasks.md`
-    - `activeContext.md`
-    - `creative/` (if present)
-    - `.qa-validation-status`
-    - `.preflight-status` (if present)
-- Preserve (do NOT delete):
-    - `milestones.md`
-    - `projectbrief.md`
-    - `progress.md`
-    - `reflection/`
+    S3c -->|"Has input"| Warn
 
-**All milestones done?** Every milestone is `- [x]`. The L4 project is complete — direct the operator to run `/niko-archive` for the capstone archive. STOP and wait.
+    
+    
+    S4 -->|"No input"| Done
 
-**Resume sub-run.** Sub-run is not complete. Read `progress.md` for the `**Complexity:**` field. If the complexity is Level 4, no sub-run has started yet — proceed to Step 3 to classify the first unchecked milestone. Otherwise, read `activeContext.md` for the `**Phase:**` field, load the appropriate level-specific workflow, and resume execution from the current phase.
+    subgraph "End States" 
+        Archive[/"🧑‍💻 /niko-archive"/]
+        Warn("⚠️ STOP:<br>Work in-progress")
+        Resume("Step 5:<br>Resume Workflow")
+        Classify("Step 6:<br>Classify Complexity")
+        Done("Done")
+    end
+```
 
-### 2b: Existing Work
+> **Legend:**
+> - **Solid edge** = does not require operator input
+> - **Dashed edge** = requires operator input before traversal
 
-No `milestones.md` — check for standalone in-progress work. All four core ephemeral files must exist: `projectbrief.md`, `activeContext.md`, `tasks.md`, `progress.md`.
+## How to Navigate
 
-**Task complete?** YES if: `activeContext.md` shows REFLECT COMPLETE, or the task's complexity level (from `progress.md`) is Level 1 and `.qa-validation-status` shows PASS.
+The flowchart above and the step definitions below form a single contract. The flowchart is the **authoritative routing map** — it shows every legal path through the state machine. The step definitions explain **how to evaluate conditions and execute procedures** at each node.
 
-**Rework or archive?** The previous task is complete. Ask the operator. Archive directs to `/niko-archive`; STOP and wait. Rework gathers feedback context from the operator.
+To execute `/niko`:
 
-**Clear stale state.** Rework path:
+1. Begin at **Step 1**, whose definition is below.
+2. **Decision node**: the definition describes what to evaluate and what each outcome means. Your evaluation result maps to one of the labeled edges leaving that node. Follow it to the next step.
+3. **Action node**: the definition describes a procedure to execute. When complete, follow the outgoing edge to the next step.
+4. Repeat from (2).
+5. **Terminal nodes** (`Done`, `⚠️ STOP`, `🧑‍💻 /niko-archive`) mean stop — do not continue.
 
-1. Append rework initiation and feedback to `progress.md`.
+Lettered sub-steps (2a, 3a, 3b, 3c) belong to their parent step's subgraph. While inside a subgraph, your next step is either another sub-step in the same group or a top-level step — the edges make this explicit.
+
+---
+
+## Step 1: Detect Active State
+
+Read the contents of `memory-bank/active/`. Exactly one of three states applies:
+
+1. `milestones.md` exists → **L4** → Step 2
+2. All four core ephemeral files exist (`projectbrief.md`, `activeContext.md`, `tasks.md`, `progress.md`) but no `milestones.md` → **Standalone** → Step 3
+3. Neither condition is met → **Fresh** → Step 4
+
+## Step 2: Assess L4 Sub-run
+
+Read `milestones.md`, `activeContext.md`, `progress.md`, and `.qa-validation-status` (if present). Determine which state applies:
+
+1. **Complete**: `activeContext.md` shows `REFLECT COMPLETE`, or the sub-run's complexity (from `progress.md`) is Level 1 and `.qa-validation-status` shows `PASS`. → Step 2a
+2. **Not started**: the `**Complexity:**` field in `progress.md` is `Level 4` (L4 plan exists but no sub-run has been classified yet). → Step 6
+3. **In-progress**: a sub-run is active but not yet complete. → Step 5
+
+### Step 2a: Advance L4 Milestone
+
+1. Mark the completed sub-run's milestone as `- [x]` in `milestones.md`.
+2. Delete sub-run ephemeral files from `memory-bank/active/`:
+    - **Delete:** `tasks.md`, `activeContext.md`, `creative/` (if present), `.qa-validation-status`, `.preflight-status` (if present)
+    - **Preserve:** `milestones.md`, `projectbrief.md`, `progress.md`, `reflection/`
+3. Re-read `milestones.md`:
+    - Every milestone is `- [x]` → **All done.** Direct the operator to run `/niko-archive` for the capstone archive. STOP and wait.
+    - Unchecked milestones remain → **Milestones remain** → Step 6
+
+## Step 3: Assess Standalone Task
+
+Read `activeContext.md`, `progress.md`, and `.qa-validation-status` (if present). Determine which state applies:
+
+1. **Complete**: `activeContext.md` shows `REFLECT COMPLETE`, or the task's complexity (from `progress.md`) is Level 1 and `.qa-validation-status` shows `PASS`. → Step 3a
+2. **Incomplete**: task is in-progress but not yet complete. → Step 3c
+
+### Step 3a: Determine Disposition
+
+The previous task is complete but not yet archived. Ask the operator: **rework** or **archive**? STOP and wait for their response.
+
+- **Archive** → direct the operator to run `/niko-archive`.
+- **Rework** → gather rework context from the operator (PR feedback, reviewer comments, specific issues). → Step 3b
+
+### Step 3b: Clear Stale State
+
+1. Append rework initiation and the operator's feedback to `progress.md`.
 2. Append a **Rework** section to `projectbrief.md` (preserve the original brief above).
-3. Delete `tasks.md`, `activeContext.md`, `.qa-validation-status`, `.preflight-status`.
+3. Delete from `memory-bank/active/`: `tasks.md`, `activeContext.md`, `.qa-validation-status` (if present), `.preflight-status` (if present).
 4. Commit: `chore: initiating rework on [task-id]`
 
-Rework complexity is classified independently of the original task. Proceed to Step 3.
+→ Step 6
 
-**User input? (task not complete).** If the user provided new task input, warn that work is in-progress — the current task should be archived or explicitly abandoned. STOP and wait. If no user input, resume: read `progress.md` for the `**Complexity:**` field and `activeContext.md` for the `**Phase:**` field, load the appropriate level-specific workflow, and resume execution from the current phase.
+### Step 3c: Check for Conflicting Input
 
-### Fresh Task
+A standalone task is incomplete. Evaluate whether the user provided new task input alongside the `/niko` invocation:
 
-No ephemeral files — no work in-progress. If the user provided task input, proceed to Step 3. If no user input, nothing to do — exit.
+1. **Has input** → ⚠️ Warn the operator that work is in-progress. The current task should be archived or explicitly abandoned before starting new work. STOP and wait.
+2. **No input** → Step 5
 
-## Step 3: Classify
+## Step 4: Check for User Input
+
+No work is in-flight. Evaluate whether the user provided task input alongside the `/niko` invocation:
+
+1. **Has input** → Step 6
+2. **No input** → Done (nothing to do; exit)
+
+## Step 5: Resume Workflow
+
+Read `progress.md` for the `**Complexity:**` field and `activeContext.md` for the `**Phase:**` field. Load the appropriate level-specific workflow and resume execution from the current phase.
+
+- Level 1: `.cursor/rules/shared/niko/level1/level1-workflow.mdc`
+- Level 2: `.cursor/rules/shared/niko/level2/level2-workflow.mdc`
+- Level 3: `.cursor/rules/shared/niko/level3/level3-workflow.mdc`
+- Level 4: `.cursor/rules/shared/niko/level4/level4-workflow.mdc`
+
+## Step 6: Classify Complexity
 
 ```
 Load: .cursor/rules/shared/niko/core/complexity-analysis.mdc
