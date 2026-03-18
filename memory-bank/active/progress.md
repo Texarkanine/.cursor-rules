@@ -13,3 +13,5 @@ Fix the L4 sub-run completion flow so that sub-runs within L4 direct to `/niko` 
 - **QA Phase**: PASS.
 - **Reflect Phase**: Complete. Key insight: infer from existing state.
 - **Rework initiated**: Operator feedback — move L4 re-entry state management from complexity-analysis to /niko (Option B). Separation of concerns: /niko owns lifecycle/state routing, complexity-analysis owns classification only.
+- **Rework Plan Phase**: Complete. 4-step plan: SKILL.md state routing, complexity-analysis simplification, milestones.mdc cross-refs, level4-workflow.mdc diagram.
+- **Rework Preflight Phase**: PASS WITH ADVISORY. milestones.mdc and level4-workflow.mdc added to plan.
