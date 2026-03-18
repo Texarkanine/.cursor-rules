@@ -102,7 +102,7 @@ Lettered sub-steps (2a, 3a, 3b, 3c) belong to their parent step's subgraph. Whil
 
 ## Step 1: Detect Active State
 
-Read the contents of `memory-bank/active/`. Exactly one of three states applies:
+List the files in `memory-bank/active/`. Exactly one of three states applies:
 
 1. `milestones.md` exists → **L4** → Step 2
 2. All four core ephemeral files exist (`projectbrief.md`, `activeContext.md`, `tasks.md`, `progress.md`) but no `milestones.md` → **Standalone** → Step 3
@@ -110,25 +110,38 @@ Read the contents of `memory-bank/active/`. Exactly one of three states applies:
 
 ## Step 2: Assess L4 Sub-run
 
-Read `milestones.md`, `activeContext.md`, `progress.md`, and `.qa-validation-status` (if present). Determine which state applies:
+Read 
+
+- `memory-bank/active/milestones.md`
+- `memory-bank/active/activeContext.md`
+- `memory-bank/active/progress.md` (if present)
+- `memory-bank/active/.qa-validation-status` (if present)
+
+Determine which state applies:
 
 1. **Complete**: `activeContext.md` shows `REFLECT COMPLETE`, or the sub-run's complexity (from `progress.md`) is Level 1 and `.qa-validation-status` shows `PASS`. → Step 2a
-2. **Not started**: the `**Complexity:**` field in `progress.md` is `Level 4` (L4 plan exists but no sub-run has been classified yet). → Step 6
+2. **Not started**: `progress.md` does not exist, or the `**Complexity:**` field in `progress.md` is `Level 4` (L4 plan exists but no sub-run has been classified yet). → Step 6
 3. **In-progress**: a sub-run is active but not yet complete. → Step 5
 
 ### Step 2a: Advance L4 Milestone
 
 1. Mark the completed sub-run's milestone as `- [x]` in `milestones.md`.
 2. Delete sub-run ephemeral files from `memory-bank/active/`:
-    - **Delete:** `tasks.md`, `activeContext.md`, `creative/` (if present), `.qa-validation-status`, `.preflight-status` (if present)
-    - **Preserve:** `milestones.md`, `projectbrief.md`, `progress.md`, `reflection/`
+    - **Delete:** `tasks.md`, `activeContext.md`, `progress.md`, `creative/` (if present), `.qa-validation-status`, `.preflight-status` (if present)
+    - **Preserve:** `milestones.md`, `projectbrief.md`, `reflection/`
 3. Re-read `milestones.md`:
     - Every milestone is `- [x]` → **All done.** Direct the operator to run `/niko-archive` for the capstone archive. STOP and wait.
     - Unchecked milestones remain → **Milestones remain** → Step 6
 
 ## Step 3: Assess Standalone Task
 
-Read `activeContext.md`, `progress.md`, and `.qa-validation-status` (if present). Determine which state applies:
+Read 
+
+- `memory-bank/active/activeContext.md`
+- `memory-bank/active/progress.md` (if present)
+- `memory-bank/active/.qa-validation-status` (if present)
+
+Determine which state applies:
 
 1. **Complete**: `activeContext.md` shows `REFLECT COMPLETE`, or the task's complexity (from `progress.md`) is Level 1 and `.qa-validation-status` shows `PASS`. → Step 3a
 2. **Incomplete**: task is in-progress but not yet complete. → Step 3c
