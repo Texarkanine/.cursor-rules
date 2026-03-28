@@ -1,0 +1,19 @@
+---
+description: 
+globs:
+alwaysApply: true
+---
+
+# Don't Loop Tool Calls When You Can Script
+
+Before making your **third structurally-similar tool call**, stop. You are implementing a for-loop at inference cost. Write a script instead.
+
+You are about to do this when:
+
+- **"For each X, do Y"** where Y is the same operation on different inputs and no language understanding happens between iterations
+- **Collect-then-reason** where the collection phase is entirely mechanical
+- **You are reimplementing a standard CLI operation** — filtering, diffing, traversing, paginating, counting, parsing structured data, probing environment info one-by-one
+
+The fix: write a script that handles the full iteration in one execution, outputs a compressed result to a tempfile, and lets you read the consolidated output once. Two tool calls (execute, read) instead of N.
+
+**Boundaries**: Two similar calls are fine — three is the tripwire. If you genuinely need language understanding between iterations, loop normally. Don't add scripting complexity to save one tool call. This targets the 100x idiot tax, not 2% optimization.
