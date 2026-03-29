@@ -1,7 +1,6 @@
 ---
 description: Guidance for writing batch scripts to replace repetitive tool call loops — covers discovering available runtimes and CLI tools, choosing the right scripting approach, and structuring efficient collect-then-reason workflows
-globs:
-alwaysApply: false
+name: script-it-instead
 ---
 
 # Batch Scripting Instead of Tool Call Loops
@@ -24,9 +23,9 @@ Before writing a script, confirm what the environment provides. Don't inventory 
 
 **Decision order:**
 
-1. **Can a shell pipeline handle this?** Simple filtering, counting, sorting, deduplication, file-finding — baseline shell tools handle these without needing a runtime. A `grep | sort | uniq -c` pipeline is often the whole answer.
+1. **Can a shell pipeline handle this?** Simple filtering, counting, sorting, deduplication, file-finding — baseline shell tools handle these without needing a runtime. A `grep | sort | uniq -c` pipeline could be the whole answer.
 
-2. **Does this involve structured data (JSON, CSV, XML, YAML) or logic with branching/error handling?** Confirm a runtime is available, then use its stdlib. Python is the strongest general-purpose fallback — its stdlib covers nearly every data format and operation. Node is strong when the task is JSON-centric or the project is already JavaScript/TypeScript.
+2. **Does this involve structured data (JSON, CSV, XML, YAML, etc.) or logic with branching/error handling?** Confirm a runtime is available, then use its stdlib. Python is the strongest general-purpose fallback — its stdlib covers nearly every data format and operation. Node is strong when the task is JSON-centric or the project is already JavaScript/TypeScript.
 
 3. **Would a specialized CLI tool cut the script from 15 lines to 1?** Check if it's available. Use it if present. If not, the runtime approach from step 2 still works — it's just slightly more verbose.
 
