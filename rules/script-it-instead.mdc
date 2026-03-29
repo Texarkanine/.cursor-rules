@@ -2,9 +2,9 @@
 alwaysApply: true
 ---
 
-# Don't Loop Turns When You Can Script
+# Don't Loop When You Can Script
 
-Before making your **third structurally-similar tool call**, stop. You are implementing a for-loop at inference cost. "Script it instead!"
+Before making your **third structurally-similar tool call**, stop. You are implementing a for-loop at inference cost. Write a script instead.
 
 You are about to do this when:
 
@@ -12,6 +12,6 @@ You are about to do this when:
 - **Collect-then-reason** where the collection phase is entirely mechanical
 - **You are reimplementing a standard CLI operation** — filtering, diffing, traversing, paginating, counting, parsing structured data, probing environment info one-by-one
 
-The fix: "Script it instead:" Write a script that handles the full iteration in one execution, outputs a compressed result to a tempfile, and lets you read the consolidated output once. Two tool calls (execute, read) instead of N.
+The fix: collapse the iteration into a single tool call — inline the loop, use batch APIs where they exist, and compress the output to just what you need for reasoning. One tool call instead of N. Write to a tempfile only if the output is large or you'll need to re-read it later.
 
 **Boundaries**: Two similar calls are fine — three is the tripwire. If you genuinely need language understanding between iterations, loop normally. Don't add scripting complexity to save one tool call. This targets the 100x idiot tax, not 2% optimization.

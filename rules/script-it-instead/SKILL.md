@@ -13,9 +13,15 @@ Before writing a script, confirm what the environment provides. Don't inventory 
 
 **Assume nothing about the platform.** POSIX baseline tools (`grep`, `awk`, `sed`, `find`, `sort`, `diff`, `xargs`, `cut`, `wc`, `head`, `tail`, `tee`) are available on Unix-like systems but not on Windows. When the platform is ambiguous, verify before depending on them.
 
-**Check runtimes, not individual tools.** The critical question is "which language runtimes are present?" — not "which CLI tools are installed." A runtime unlocks its entire standard library, and you already know from training what those standard libraries contain. A single `python3 --version` check unlocks `json`, `csv`, `re`, `pathlib`, `glob`, `subprocess`, `tempfile`, `difflib`, `collections.Counter`, `xml.etree`, `sqlite3`, `http.client`, `shutil`, and more. A single `node --version` check unlocks `fs`, `path`, `child_process`, `JSON`, `os`, `url`, `readline`, `crypto`, `zlib`.
+**Distinguish API CLIs from manipulation CLIs — they are not interchangeable.**
 
-**Enhanced CLI tools are a bonus.** If a purpose-built tool (a JSON processor, a fast search tool, a tree visualizer, a YAML processor, a language-specific package manager CLI) would make the script meaningfully simpler, check for it before using it. If it's there, use it. If not, fall back to the runtime stdlib that covers the same capability. **Never install tools to satisfy this optimization.** Use what exists.
+*API CLIs* (`gh`, `aws`, `gcloud`, `az`, `kubectl`, `heroku`, `stripe`, `fly`, `vercel`, `docker`, etc.) are pre-authenticated, domain-aware interfaces to remote services. They carry the user's OAuth tokens, IAM sessions, or API keys. They know their service's pagination, rate limiting, error handling, and endpoint structure. They often have built-in batch modes (`gh api --paginate`, `aws s3 sync`, `kubectl get -o json`). **A runtime stdlib cannot cheaply substitute for these** — you'd have to reconstruct auth discovery, endpoint URLs, pagination cursors, and error handling from scratch. When your task involves a remote service, check for its API CLI first. If it's present, it is almost certainly the right tool.
+
+*Manipulation CLIs* (`jq`, `yq`, `rg`, `fd`, `tree`, `csvkit`, etc.) are ergonomic shortcuts for data processing — JSON filtering, fast search, directory visualization, YAML parsing. They're nice to have and can make scripts dramatically shorter, but **they are fully replaceable by a runtime's stdlib.** `jq '.name'` and `python3 -c "import json; ..."` produce the same result. Check for them, use them when present, fall back without them.
+
+**Runtime stdlibs are the universal fallback for data manipulation.** Once you confirm a runtime is available, your training knowledge of its standard library becomes your tool inventory. A single `python3 --version` check unlocks `json`, `csv`, `re`, `pathlib`, `glob`, `subprocess`, `tempfile`, `difflib`, `collections.Counter`, `xml.etree`, `sqlite3`, `http.client`, `shutil`, and more. A single `node --version` check unlocks `fs`, `path`, `child_process`, `JSON`, `os`, `url`, `readline`, `crypto`, `zlib`. Ruby's stdlib includes `yaml` (Psych), `json`, `csv`, `fileutils`, `open-uri`, `erb`, and `tempfile` — notably, Ruby is the only common runtime with YAML parsing in its stdlib, which matters in config-heavy environments.
+
+**Never install tools to satisfy this optimization.** No `pip install`, no `npm install`, no `gem install`, no `brew install`. Use what the environment already provides. The goal is zero setup cost.
 
 **If you need to check multiple things, check them in one tool call.** Write a small probe that tests for everything you need in a single execution. Don't fall into the very anti-pattern that brought you here by checking tools one at a time.
 
@@ -23,33 +29,33 @@ Before writing a script, confirm what the environment provides. Don't inventory 
 
 **Decision order:**
 
-1. **Can a shell pipeline handle this?** Simple filtering, counting, sorting, deduplication, file-finding — baseline shell tools handle these without needing a runtime. A `grep | sort | uniq -c` pipeline could be the whole answer.
+1. **Can baseline shell tools handle this?** Simple filtering, counting, sorting, deduplication, file-finding — POSIX tools handle these without needing anything else. A `grep | sort | uniq -c` pipeline is often the whole answer.
 
-2. **Does this involve structured data (JSON, CSV, XML, YAML, etc.) or logic with branching/error handling?** Confirm a runtime is available, then use its stdlib. Python is the strongest general-purpose fallback — its stdlib covers nearly every data format and operation. Node is strong when the task is JSON-centric or the project is already JavaScript/TypeScript.
+2. **Does the task involve a remote service with a CLI?** Check for the API CLI. If present, prefer it — it carries auth, knows the API's idioms, and often supports batch/paginated operations natively. This is not a nice-to-have; rebuilding what `gh api --paginate '/repos/{owner}/{repo}/issues'` does with raw `curl` and token management is a waste of effort the CLI already solved.
 
-3. **Would a specialized CLI tool cut the script from 15 lines to 1?** Check if it's available. Use it if present. If not, the runtime approach from step 2 still works — it's just slightly more verbose.
+3. **Does this involve data manipulation (JSON, CSV, XML, text transformation)?** Check for a manipulation CLI that fits the format. If present, use it for brevity. If not, confirm a runtime is available and use its stdlib. Python is the strongest general-purpose fallback. Node is strong when the task is JSON-centric or the project is already JS/TS. For YAML specifically, Ruby is the only runtime with stdlib support — otherwise you need a manipulation CLI.
 
-**Stdlib-only constraint:** Do not import external packages. No `pip install`, no `npm install`, no `gem install`. If a capability isn't in the runtime's standard library, either use a different approach or accept the slightly-less-elegant shell version. The goal is zero setup cost.
+4. **Does this need complex logic, branching, or error handling?** Use a runtime. Shell pipelines get brittle past a certain complexity threshold. A 10-line Python script is clearer and more reliable than a 10-line bash script with nested conditionals.
 
 ## Step 3: Write the Script
 
-**Structure every batch script the same way:**
+**The "script" is usually just the body of a single tool call.** You are replacing N tool calls with one tool call whose argument contains the loop. A bash one-liner, a `python3 -c "..."` invocation, a heredoc — inline it directly in the tool call. Don't write a file to disk when the logic fits in a few lines. Only break it out to a temp script file when the logic is complex enough that inline becomes unreadable, or when you'll need to run the same collection logic again later in the conversation.
+
+**Structure the logic the same way regardless of whether it's inline or in a file:**
 
 1. **Collect** — iterate over the inputs, call APIs/read files/query databases in batch where possible, extract only the fields you'll need for reasoning
 2. **Compress** — reduce verbose outputs to just the relevant data; don't dump 4KB of JSON when you need 3 fields
-3. **Output to a tempfile** — write consolidated results somewhere stable that can be re-read later without re-executing
+3. **Output** — for simple cases, let the result come back as stdout from the tool call; for larger outputs, write to a tempfile so the data can be re-read later without re-executing
 
 **Batch-first I/O:** Prefer bulk operations over iteration. GraphQL over per-resource REST. `--paginate` flags over manual page-following. `find -exec` over per-file tool calls. `SELECT ... FROM information_schema` over per-table `DESCRIBE`. Multi-key queries over single-key lookups.
 
-**Compression matters.** Raw API responses, full file contents, and verbose command outputs burn context window when read back. The script should extract, filter, and format before writing the output file. The reasoning step that follows should receive a clean, minimal dataset — not raw firehose output.
+**Compression matters.** Raw API responses, full file contents, and verbose command outputs burn context window when read back. The script should extract, filter, and format before the result hits the context window. The reasoning step that follows should receive a clean, minimal dataset — not raw firehose output.
 
 ## Step 4: Execute and Read
 
-Two tool calls:
-1. **Execute the script.** One invocation that runs the full batch.
-2. **Read the tempfile.** One read of the consolidated, compressed output.
+**Best case: one tool call.** The inline script runs and its stdout is your compressed result. You reason on it directly.
 
-If you need to re-examine the data later in the conversation, re-read the tempfile. Don't re-collect.
+**If the output is large or you'll need it again:** write to a tempfile. That's two tool calls — execute, then read. If you need to re-examine the data later in the conversation, re-read the tempfile. Don't re-collect.
 
 ## Recognizing Common Shapes
 
