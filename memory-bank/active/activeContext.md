@@ -4,7 +4,7 @@
 Add Backwards Compatibility Guidance (no-backcompat-bias)
 
 ## Phase
-BUILD - COMPLETE
+REFLECT - COMPLETE
 
 ## What Was Done
 - Creative phase completed: Option A selected (inline in niko-core.mdc) + sharpen existing workflow language
@@ -23,4 +23,4 @@ BUILD - COMPLETE
 - Wording condensed: "factor to weigh in light of the public interface and its consumers" replaces explicit enumeration of sources (operator, project docs, consumers) — R&P bullet carries the detailed operationalization
 
 ## Next Step
-Proceed to QA (`/niko-qa`) for semantic review of the updated guidance
+Run `/niko-archive` to create the archive document and finalize the current project.

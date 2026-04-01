@@ -34,3 +34,22 @@ Add guidance to the Niko system correcting the AI agent bias of treating backwar
 ## Advisory items
 
 1. **Scope alignment (medium)**: Consider updating the project brief to explicitly record that L3-plan sharpening is out of scope for `no-backcompat-bias`, or scheduling a follow-on task if you want that complementary enhancement tracked separately.
+
+## 2026-04-01 - BUILD - COMPLETE
+
+* Work completed
+    - Added "Default to clean-break changes" inline in Core Persona paragraph after sentence 6 (peak autonomy), before sentence 7 (temperance)
+    - Added "Public Interface Identification" bullet in Research & Planning after "Dependency & Impact Analysis"
+    - Sharpened preflight "Conflict Detection" bullet to scope to public contracts and published interfaces
+    - Operator-driven QA revision: changed Core Persona addition from standalone bolded paragraph to inline sentences; condensed wording to "Default to clean-break changes. Backwards compatibility is a factor to weigh in light of the public interface and its consumers - not an implicit requirement."
+* Decisions made
+    - Inline over standalone: backcompat guidance is posture, not a peer-level directive to "Be disagreeable"
+    - After sentence 6 (posture capstone), not end of paragraph (scope-limiter section): bias affects planning/scoping/architecture, not just code changes
+
+## 2026-04-01 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote reflection document at `memory-bank/active/reflection/reflection-no-backcompat-bias.md`
+* Insights
+    - Core Persona paragraph has implicit two-part structure (posture 1-6, scope-limiters 7-8); new content must be classified by type before placement
+    - Prefer semantic analysis over rhetorical analysis when evaluating content placement — semantic gives one answer, rhetorical gives many
