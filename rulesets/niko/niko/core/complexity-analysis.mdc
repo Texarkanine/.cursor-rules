@@ -79,7 +79,7 @@ When the decision tree doesn't give a clear answer, consider:
 
 Create any **missing** ephemeral files as described below. Preserve files that already exist (e.g., `progress.md` and `projectbrief.md` retained from a rework re-entry).
 
-**`memory-bank/active/projectbrief.md`** - Capture the user story and requirements: Populate it from the user's input, prompting for clarification if the requirements are incomplete or ambiguous.
+**`memory-bank/active/projectbrief.md`** - Capture the user story and requirements: Populate it from the user's input (validated by the intent clarification step).
 
 **`memory-bank/active/activeContext.md`** - Record the current session state:
 
