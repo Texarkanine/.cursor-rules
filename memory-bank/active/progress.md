@@ -13,3 +13,4 @@ Design and implement an intent-clarification loop in Niko's `/niko` entrypoint t
 - Preflight phase: PASS with advisory. Found dual-format pattern (rulesets + .claude), milestones.mdc step reference, both addressed in amended plan.
 - Build phase: All 5 implementation steps built to plan, no deviations.
 - QA phase: PASS — all plan steps, project brief requirements, 9 behavioral tests (B1-B9), and 2 integration tests verified. Step renumbering consistent across all affected files. No issues found.
+- Reflect phase: Full lifecycle review complete. All requirements delivered, plan accurate, creative decisions held up, no cross-phase issues. Insights: Load directive pattern scales for state machine extensions; behavioral test specs provide structure for spec-only QA; narrowly-scoped creative questions produce actionable decisions.
