@@ -1,6 +1,6 @@
 # Active Context
 
 - **Current Task:** Intent Clarification Loop
-- **Phase:** PLAN - COMPLETE
-- **What Was Done:** Component analysis complete. Four open questions resolved via creative phase (scope, artifact, CA interaction, structural form). Test plan, implementation plan, challenges & mitigations documented.
-- **Next Step:** Preflight validation, then build.
+- **Phase:** PREFLIGHT - COMPLETE (PASS with advisory)
+- **What Was Done:** Preflight validation identified dual-format pattern (rulesets + .claude copies need parallel edits), milestones.mdc step reference needing update. Plan amended to address both. No blocking issues.
+- **Next Step:** Build phase (operator must invoke `/niko-build`)
