@@ -21,11 +21,11 @@ alwaysApply: false
 ## Niko System Patterns
 - **Complexity Levels**: 1 (simple) to 4 (complex system)
 - **Mode Transitions** (level-dependent):
-  - L1: NIKO → INTENT CLARIFICATION → BUILD
-  - L2: NIKO → INTENT CLARIFICATION → PLAN → PREFLIGHT → BUILD → QA → REFLECT → ARCHIVE
-  - L3: NIKO → INTENT CLARIFICATION → PLAN → CREATIVE → PREFLIGHT → BUILD → QA → REFLECT → ARCHIVE
+  - L1: NIKO → BUILD
+  - L2: NIKO → PLAN → PREFLIGHT → BUILD → QA → REFLECT → ARCHIVE
+  - L3: NIKO → PLAN → CREATIVE → PREFLIGHT → BUILD → QA → REFLECT → ARCHIVE
   - L4: Milestone-based composition of L1/L2/L3 sub-runs. Complexity analysis generates `memory-bank/milestones.md` on kickoff, then each milestone executes as an independent sub-run at its own level. Capstone archive consolidates all sub-runs at completion.
-- **Intent Clarification**: Fires only on fresh user input (Step 4 "has input" path in `/niko`). L4 milestones, rework, and resume paths bypass it — their input is already validated by prior workflow steps.
+- **Intent Clarification**: Step within `/niko` (Step 5) that validates user intent before complexity analysis. Fires only on fresh user input (Step 4 "has input" path). L4 milestones, rework, and resume paths bypass it — their input is already validated by prior workflow steps.
 - **Memory Bank Files**: Ephemeral (tasks.md, progress.md, creative/, reflection/) vs Persistent (archives, project context)
 
 ## Archive Pattern
