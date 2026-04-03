@@ -1,0 +1,8 @@
+# Progress: /niko-save Command
+
+Implement `/niko-save` — a new operator-invokable skill that flushes in-context memory bank state to disk and commits all changes atomically. Canonical source at `rulesets/niko/skills/niko-save/SKILL.md`.
+
+**Complexity:** Level 2
+
+## Phase History
+- **COMPLEXITY-ANALYSIS** — Complete. Classified as Level 2.
