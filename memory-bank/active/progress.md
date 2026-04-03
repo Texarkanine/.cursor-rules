@@ -6,3 +6,4 @@ Implement `/niko-save` — a new operator-invokable skill that flushes in-contex
 
 ## Phase History
 - **COMPLEXITY-ANALYSIS** — Complete. Classified as Level 2.
+- **PLAN** — Complete. Two-step implementation plan: create SKILL.md, update README.
