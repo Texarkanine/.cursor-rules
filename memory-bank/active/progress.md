@@ -10,3 +10,4 @@ Implement `/niko-save` — a new operator-invokable skill that flushes in-contex
 - **PREFLIGHT** — PASS. All conventions, dependencies, and completeness checks passed. Advisory: add operator summary output.
 - **BUILD** — Complete. Created `rulesets/niko/skills/niko-save/SKILL.md`, updated `rulesets/niko/README.md`.
 - **QA** — PASS. All semantic checks passed, no issues found.
+- **REFLECT** — Complete. Clean execution. Process insight on TDD friction for doc-only tasks.
