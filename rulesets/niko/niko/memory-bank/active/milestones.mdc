@@ -45,7 +45,7 @@ If a milestone fails any of these criteria during preflight, it should be split,
 |-------|-----|--------|
 | L4 Plan phase | `.cursor/rules/shared/niko/level4/level4-plan.mdc` | Creates `memory-bank/active/milestones.md` |
 | `/niko` re-entry - sub-run complete | `/niko` Step 2a (Advance L4 Milestone) | Checks off the completed milestone (`- [ ]` → `- [x]`) |
-| `/niko` re-entry - unchecked remain | `/niko` Step 2a → Step 6 (Classify) | Classifies first unchecked as L1/L2/L3, initiates sub-run |
+| `/niko` re-entry - unchecked remain | `/niko` Step 2a → Step 7 (Classify) | Classifies first unchecked as L1/L2/L3, initiates sub-run |
 | `/niko` re-entry - all `- [x]` | `/niko` Step 2a | Routes to capstone archive |
 | Capstone archive | `.cursor/rules/shared/niko/level4/level4-archive.mdc` | Deletes `memory-bank/active/milestones.md` |
 
