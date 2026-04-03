@@ -1,5 +1,5 @@
 ---
-name: refresh
+name: nk-refresh
 description: General-purpose guidance for taking a step back and getting un-stuck from a problem that you've tried to solve multiple times unsuccessfully.
 ---
 

@@ -299,27 +299,39 @@ Use the `/niko` command to get started:
 
 Niko will start working on your request and will prompt you to use other commands **if necessary** to get the work done.
 
-### Context Refreshing
+If Niko stops and prompts you to run another command to continue, you should run that command in a new context window, to keep your context window clean and clear for work.
 
-If Niko stops and asks for your input, once you provide it, ask Niko to update the memory bank. Then, you **start a new session** before running the next `/niko-*` command. This gives you a clean and empty context window - which is great for agents. How will Niko know what to do? Every `/niko-*` command will read the `memory-bank/` from disk and learn what it needs to know to continue!
+### Circuit Breakers
 
-If your context window is getting full, you can also just end the current conversation and start a new one. Niko will have to do a little extra work to figure out what was done since the last memory-bank update, but all the context will be there in the `memory-bank/`, so it'll figure it out!
+Things the operator (that's you!) may choose to do by hand in the middle of a workflow, breaking the normal autonomous flow.
 
-### Saving Mid-Phase
+#### Refresh
 
-If you want a clean save point *before* Niko reaches a natural phase boundary, use `/niko-save`:
+`/nk-refresh`
 
-	/niko-save
+If you (or Niko!) get stuck on a problem, use the `/nk-refresh` command to have Niko rigorously investigate the problem and give you a solution *or* places to investigate next. Run this in the *existing* context window, so that all the attempts and failures can be properly taken into account.
 
-This flushes any in-context state to the memory bank files and commits everything (code and memory bank) atomically. It's `Ctrl+S` — it does not advance the workflow or trigger phase transitions. When you're ready to resume, just run `/niko` in a new session; Niko will detect the active state and pick up where it left off.
+#### Save
 
-`/niko-save` is especially useful when:
+`/nk-save`
+
+This will flush any in-context state to the memory bank files and commit everything  atomically. It is now safe to close the current context window.
+
+When you're ready to resume, just run `/niko` in a new session; Niko will detect the active state and pick up where it left off.
+
+You might want to save when:
 - You want to switch AI harnesses mid-phase (e.g., Cursor → Claude Code)
-- The context window is getting long and you'd rather checkpoint than push through
+- The context window is getting full and you'd rather checkpoint than push through
 - You need to step away and want to guarantee nothing is lost
 
-### Advanced Troubleshooting
+### Ad-Hoc Entrypoints
 
-If you (or Niko!) get stuck on a problem, use the `/refresh` command to have Niko rigorously investigate the problem and give you a solution *or* places to investigate next.
+Outside the normal `/niko` workflow, there are some other ways to interact with Niko:
 
-**Note:** `/niko-creative` is for exploring solution spaces and creating new things. `/refresh` is for troubleshooting an existing defect.
+#### Creative Exploration
+
+`/niko-creative`
+
+The "Creative Phase" is usually used to resolve open design questions autonomously, but it can also be invoked on its own, outside a workflow.
+
+You might use this if you know you want to build something, but you aren't sure exactly what to build yet and aren't ready to turn Niko loose. Run `/niko-creative` with what you DO know, and the memory-bank will guide Niko in exploring your codebase and the problem space, and help you come up with ideas.

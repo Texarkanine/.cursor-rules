@@ -1,11 +1,11 @@
 ---
-name: niko-save
+name: nk-save
 description: Niko Memory Bank System - Mid-Phase Save & Commit
 ---
 
-# /niko-save - Flush & Commit
+# /nk-save - Flush & Commit
 
-`/niko-save` flushes in-context memory bank state to disk and commits all changes atomically. It is **not a workflow phase** - it does not advance the workflow, trigger phase transitions, or produce deliverables. It is `Ctrl+S`.
+`/nk-save` flushes in-context memory bank state to disk and commits all changes atomically. It is **not a workflow phase** - it does not advance the workflow, trigger phase transitions, or produce deliverables. It is `Ctrl+S`.
 
 ## Step 1: Verify Active State
 
@@ -61,23 +61,23 @@ For each file below, compare what you know from the current context window again
 Stage and commit **everything** - code, memory bank, all working-tree changes - in a single atomic commit:
 
 ```
-chore: /niko-save [task-id] at [phase]
+chore: saved work on [task-id] at [phase]
 ```
 
 Where `[task-id]` and `[phase]` are the values from Step 3. Example:
 
 ```
-chore: /niko-save niko-save at BUILD - implementing step 1
+chore: saved work on new-error-handling at BUILD - implementing step 1
 ```
 
 If there are no changes to commit (working tree is clean after the flush), skip the commit and note this in the output.
 
-## Step 6: Confirm
+## Step 6: Log Progress
 
 Print:
 
 ```markdown
-✅ **/niko-save complete** - `[task-id]` saved at `[phase]`
+✅ **/nk-save complete** - `saved work on [task-id]` saved at `[phase]`
 ```
 
 **Done.** Do not advance the workflow. Do not execute further phases or transitions. The operator will resume with `/niko` in a new session when ready.
