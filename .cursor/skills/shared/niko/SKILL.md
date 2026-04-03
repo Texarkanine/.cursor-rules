@@ -60,7 +60,9 @@ flowchart TD
     S2 -->|"Not started"| Classify
     S2a -->|"Milestones remain"| Classify
     S3b --> Classify
-    S4 -->|"Has input"| Classify
+    S4 -->|"Has input"| S5
+
+    S5["Step 5:<br>Clarify Intent"] --> Classify
 
     S2 -->|"In-progress"| Resume
     S3c -->|"No input"| Resume
@@ -74,8 +76,8 @@ flowchart TD
     subgraph "End States" 
         Archive[/"🧑‍💻 /niko-archive"/]
         Warn("⚠️ STOP:<br>Work in-progress")
-        Resume("Step 5:<br>Resume Workflow")
-        Classify("Step 6:<br>Classify Complexity")
+        Resume("Step 6:<br>Resume Workflow")
+        Classify("Step 7:<br>Classify Complexity")
         Done("Done")
     end
 ```
@@ -120,8 +122,8 @@ Read
 Determine which state applies:
 
 1. **Complete**: `activeContext.md` shows `REFLECT COMPLETE`, or the sub-run's complexity (from `progress.md`) is Level 1 and `.qa-validation-status` shows `PASS`. → Step 2a
-2. **Not started**: `progress.md` does not exist, or the `**Complexity:**` field in `progress.md` is `Level 4` (L4 plan exists but no sub-run has been classified yet). → Step 6
-3. **In-progress**: a sub-run is active but not yet complete. → Step 5
+2. **Not started**: `progress.md` does not exist, or the `**Complexity:**` field in `progress.md` is `Level 4` (L4 plan exists but no sub-run has been classified yet). → Step 7
+3. **In-progress**: a sub-run is active but not yet complete. → Step 6
 
 ### Step 2a: Advance L4 Milestone
 
@@ -131,7 +133,7 @@ Determine which state applies:
     - **Preserve:** `milestones.md`, `projectbrief.md`, `reflection/`
 3. Re-read `milestones.md`:
     - Every milestone is `- [x]` → **All done.** Direct the operator to run `/niko-archive` for the capstone archive. STOP and wait.
-    - Unchecked milestones remain → **Milestones remain** → Step 6
+    - Unchecked milestones remain → **Milestones remain** → Step 7
 
 ## Step 3: Assess Standalone Task
 
@@ -160,23 +162,31 @@ The previous task is complete but not yet archived. Ask the operator: **rework**
 3. Delete from `memory-bank/active/`: `tasks.md`, `activeContext.md`, `.qa-validation-status` (if present), `.preflight-status` (if present).
 4. Commit: `chore: initiating rework on [task-id]`
 
-→ Step 6
+→ Step 7
 
 ### Step 3c: Check for Conflicting Input
 
 A standalone task is incomplete. Evaluate whether the user provided new task input alongside the `/niko` invocation:
 
 1. **Has input** → ⚠️ Warn the operator that work is in-progress. The current task should be archived or explicitly abandoned before starting new work. STOP and wait.
-2. **No input** → Step 5
+2. **No input** → Step 6
 
 ## Step 4: Check for User Input
 
 No work is in-flight. Evaluate whether the user provided task input alongside the `/niko` invocation:
 
-1. **Has input** → Step 6
+1. **Has input** → Step 5
 2. **No input** → Done (nothing to do; exit)
 
-## Step 5: Resume Workflow
+## Step 5: Clarify Intent
+
+```
+Load: .cursor/rules/shared/niko/core/intent-clarification.mdc
+```
+
+Follow the instructions to validate the user's intent. Once the user approves the restatement, proceed to Step 7.
+
+## Step 6: Resume Workflow
 
 Read `progress.md` for the `**Complexity:**` field and `activeContext.md` for the `**Phase:**` field. Load the appropriate level-specific workflow and resume execution from the current phase.
 
@@ -185,7 +195,7 @@ Read `progress.md` for the `**Complexity:**` field and `activeContext.md` for th
 - Level 3: `.cursor/rules/shared/niko/level3/level3-workflow.mdc`
 - Level 4: `.cursor/rules/shared/niko/level4/level4-workflow.mdc`
 
-## Step 6: Classify Complexity
+## Step 7: Classify Complexity
 
 ```
 Load: .cursor/rules/shared/niko/core/complexity-analysis.mdc
