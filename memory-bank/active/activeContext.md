@@ -1,6 +1,6 @@
 # Active Context
 
 - **Current Task:** /niko-save command (issue #52)
-- **Phase:** PLAN - COMPLETE
-- **What Was Done:** Created implementation plan. Two files to create/modify: `rulesets/niko/skills/niko-save/SKILL.md` (new) and `rulesets/niko/README.md` (update). No test infrastructure in repo — deliverables are markdown instruction files.
-- **Next Step:** Preflight validation, then Build
+- **Phase:** PREFLIGHT - COMPLETE (PASS)
+- **What Was Done:** Preflight validated plan. Convention compliance, dependency impact, conflict detection, and completeness all passed. Advisory incorporated: add operator summary output to SKILL.md.
+- **Next Step:** Build phase
