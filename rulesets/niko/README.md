@@ -305,6 +305,19 @@ If Niko stops and asks for your input, once you provide it, ask Niko to update t
 
 If your context window is getting full, you can also just end the current conversation and start a new one. Niko will have to do a little extra work to figure out what was done since the last memory-bank update, but all the context will be there in the `memory-bank/`, so it'll figure it out!
 
+### Saving Mid-Phase
+
+If you want a clean save point *before* Niko reaches a natural phase boundary, use `/niko-save`:
+
+	/niko-save
+
+This flushes any in-context state to the memory bank files and commits everything (code and memory bank) atomically. It's `Ctrl+S` — it does not advance the workflow or trigger phase transitions. When you're ready to resume, just run `/niko` in a new session; Niko will detect the active state and pick up where it left off.
+
+`/niko-save` is especially useful when:
+- You want to switch AI harnesses mid-phase (e.g., Cursor → Claude Code)
+- The context window is getting long and you'd rather checkpoint than push through
+- You need to step away and want to guarantee nothing is lost
+
 ### Advanced Troubleshooting
 
 If you (or Niko!) get stuck on a problem, use the `/refresh` command to have Niko rigorously investigate the problem and give you a solution *or* places to investigate next.

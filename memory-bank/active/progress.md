@@ -8,3 +8,4 @@ Implement `/niko-save` — a new operator-invokable skill that flushes in-contex
 - **COMPLEXITY-ANALYSIS** — Complete. Classified as Level 2.
 - **PLAN** — Complete. Two-step implementation plan: create SKILL.md, update README.
 - **PREFLIGHT** — PASS. All conventions, dependencies, and completeness checks passed. Advisory: add operator summary output.
+- **BUILD** — Complete. Created `rulesets/niko/skills/niko-save/SKILL.md`, updated `rulesets/niko/README.md`.
