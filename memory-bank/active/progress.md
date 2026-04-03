@@ -11,3 +11,4 @@ Implement `/niko-save` — a new operator-invokable skill that flushes in-contex
 - **BUILD** — Complete. Created `rulesets/niko/skills/niko-save/SKILL.md`, updated `rulesets/niko/README.md`.
 - **QA** — PASS. All semantic checks passed, no issues found.
 - **REFLECT** — Complete. Clean execution. Process insight on TDD friction for doc-only tasks.
+- **POST-REFLECT REVIEW** — Operator challenged 6 design decisions in SKILL.md. Two revisions applied (directory-level read, fabrication guard rewrite). Naming convention decided: `/nk-` prefix for circuit breakers to avoid `/niko-ref*` collision. Skill renamed to `/nk-save`, directory moved. Operator refactored README Usage section.
