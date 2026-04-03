@@ -315,7 +315,7 @@ If you (or Niko!) get stuck on a problem, use the `/nk-refresh` command to have 
 
 `/nk-save`
 
-This will flush any in-context state to the memory bank files and commit everything  atomically. It is now safe to close the current context window.
+This will flush any in-context state to the memory bank files and commit everything atomically. It is now safe to close the current context window.
 
 When you're ready to resume, just run `/niko` in a new session; Niko will detect the active state and pick up where it left off.
 
