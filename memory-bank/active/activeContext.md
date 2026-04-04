@@ -1,6 +1,6 @@
 # Active Context
 
 **Current Task:** fix-orphaned-troubleshooting-path
-**Phase:** PLAN - COMPLETE
-**What Was Done:** Created implementation plan targeting 4 canonical files under `rulesets/niko/`. No test infrastructure (documentation-only repo); verification is semantic grep/read.
-**Next Step:** Preflight validation.
+**Phase:** PREFLIGHT - COMPLETE (PASS)
+**What Was Done:** Validated plan against codebase. Archive phases use blanket "delete ephemeral" so no archive-level edits needed. All convention/dependency/completeness checks passed.
+**Next Step:** Build phase.
