@@ -49,7 +49,7 @@ Read:
 
 **CRITICAL**: Plan and track your diagnostics in a unique Task List File, distinct from any parent task's Task List. 
 
-- Locate or create: `memory-bank/troubleshooting/troubleshooting-<timestamp>.md`
+- Locate or create: `memory-bank/active/troubleshooting/troubleshooting-<timestamp>.md`
 - This task list is for THIS diagnostic session only
 - Always identify the correct Task List File before making updates
 
