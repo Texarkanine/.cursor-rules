@@ -8,11 +8,11 @@ complexity_level: 2
 
 ## Summary
 
-Moved `/nk-refresh` troubleshooting logs from `memory-bank/troubleshooting/` to `memory-bank/active/troubleshooting/` and registered the path in the ephemeral file contract. All 5 requirements delivered cleanly; QA passed with no fixes.
+Moved `/nk-refresh` troubleshooting logs from `memory-bank/troubleshooting/` to `memory-bank/active/troubleshooting/` and registered the path in the ephemeral file contract. All 5 requirements delivered cleanly; QA passed with no fixes. Post-reflect follow-up: replaced vague `<timestamp>` with explicit `<YYYYMMDD-HHmmss>` format to prevent same-day filename collisions.
 
 ## Requirements vs Outcome
 
-Exact match. All five requirements (path fix, registry entry, archive exception, L4 cleanup, rework cleanup) were implemented as specified. No scope changes, no additions, no gaps.
+Exact match on initial five requirements. Post-reflect, an additional fix was folded in: the `<timestamp>` placeholder was ambiguous (agents defaulted to `YYYYMMDD`, matching the archive naming pattern), which would cause collisions on same-day re-runs. Replaced with explicit `<YYYYMMDD-HHmmss>` in both `nk-refresh/SKILL.md` and `memory-bank-paths.mdc`.
 
 ## Plan Accuracy
 
