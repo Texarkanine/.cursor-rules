@@ -129,7 +129,7 @@ Determine which state applies:
 
 1. Mark the completed sub-run's milestone as `- [x]` in `milestones.md`.
 2. Delete sub-run ephemeral files from `memory-bank/active/`:
-    - **Delete** (skip any that don't exist): `tasks.md`, `activeContext.md`, `progress.md`, `creative/`, `troubleshooting/`, `.qa-validation-status`, `.preflight-status`
+    - **Delete** all of the following that exist: `tasks.md`, `activeContext.md`, `progress.md`, `creative/`, `troubleshooting/`, `.qa-validation-status`, `.preflight-status`
     - **Preserve:** `milestones.md`, `projectbrief.md`, `reflection/`
 3. Re-read `milestones.md`:
     - Every milestone is `- [x]` → **All done.** Direct the operator to run `/niko-archive` for the capstone archive. STOP and wait.
@@ -159,7 +159,7 @@ The previous task is complete but not yet archived. Ask the operator: **rework**
 
 1. Append rework initiation and the operator's feedback to `progress.md`.
 2. Append a **Rework** section to `projectbrief.md` (preserve the original brief above).
-3. Delete from `memory-bank/active/` (skip any that don't exist): `tasks.md`, `activeContext.md`, `troubleshooting/`, `.qa-validation-status`, `.preflight-status`.
+3. Delete from `memory-bank/active/` all of the following that exit: `tasks.md`, `activeContext.md`, `troubleshooting/`, `.qa-validation-status`, `.preflight-status`.
 4. Commit: `chore: initiating rework on [task-id]`
 
 → Step 7
