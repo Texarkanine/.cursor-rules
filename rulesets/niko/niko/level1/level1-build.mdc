@@ -18,9 +18,7 @@ Keep it minimal:
 
 - **tasks.md** - Record the fix: what broke, why, what changed, files affected.
 - **activeContext.md** - Update current focus to reflect completion.
-- **progress.md** - Only if the fix reveals something significant about the codebase.
-
-Do NOT update persistent memory bank files (projectbrief, techContext, etc.) unless the fix genuinely reveals new architectural knowledge.
+- **progress.md** - Briefly record the build phase's key takeaways.
 
 ## Step 3: Phase Transition
 

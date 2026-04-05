@@ -33,8 +33,9 @@ To execute a phase for a level 1 task:
 
 When QA has passed and you are done:
 
-1. Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: completed [task-id]`.
-2. Check whether `memory-bank/active/milestones.md` exists:
+1. Load `.cursor/rules/shared/niko/core/reconcile-persistent.mdc` and follow its instructions.
+2. Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: completed [task-id]`.
+3. Check whether `memory-bank/active/milestones.md` exists:
 
 **milestones.md exists** (L4 sub-run): Print the following, then STOP and wait for operator input.
 
