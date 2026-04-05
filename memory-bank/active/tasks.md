@@ -121,4 +121,4 @@ No new technology — validation not required. All deliverables are `.mdc` markd
 - [x] Technology validation complete
 - [x] Preflight
 - [x] Build
-- [ ] QA
+- [x] QA
