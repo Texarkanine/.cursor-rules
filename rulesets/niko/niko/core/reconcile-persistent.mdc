@@ -30,5 +30,5 @@ If any file was updated, briefly note what changed and why in your output to the
 
 - **Selective, not routine.** Most tasks won't change persistent files. This step should be a quick mental scan, not a ritual rewrite. If nothing is obviously wrong or missing, move on immediately.
 - **Surgical, not comprehensive.** Update what this task invalidated. Do not audit for unrelated staleness. Do not rewrite sections that aren't directly affected.
-- **No scope creep.** Persistent files capture project-level knowledge, not task-specific details. A new React component doesn't warrant a `techContext.md` update. A migration from Jest to Vitest does.
+- **System-level scope.** These files describe the system's shape, not individual tasks.
 - **Skip confidently.** When in doubt, leave the file alone. Under-updating is safe (future tasks can fix it). Over-updating introduces noise and potential inaccuracy.
