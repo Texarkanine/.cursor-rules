@@ -9,3 +9,4 @@ Add a reconciliation step at the end of every code-producing Niko workflow (L1â€
 - **Complexity Analysis:** Level 3 determined. Multiple components affected (L1/L2/L3 workflows + new shared reconciliation logic), design decisions needed, creative exploration requested.
 - **Creative Phase (reconciliation-injection-point):** Architecture exploration resolved. Selected Option A â€” inject into reflect (L2/L3) and wrap-up (L1), with a shared `reconcile-persistent.mdc` rule file containing all logic.
 - **Plan Phase:** Complete. 4 affected files (1 new, 3 modified), 5 implementation steps, no new dependencies.
+- **Preflight Phase:** PASS. All conventions, dependencies, conflicts, and completeness checks clear. One refinement incorporated: reconciliation triggers on both "factually wrong" and "materially incomplete."
