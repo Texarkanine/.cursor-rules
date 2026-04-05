@@ -6,12 +6,6 @@ alwaysApply: false
 
 > **TL;DR:** Quick scan of persistent memory bank files against the work just completed. Update only what this task invalidated. Skip silently if nothing changed.
 
-## When This Runs
-
-This rule is loaded at the end of every code-producing workflow:
-- **L1**: During Wrap-Up, before the final commit
-- **L2/L3**: During Reflect, after the reflection document is written, before the commit
-
 ## Persistent Files to Check
 
 | File | Guidance Rule |
