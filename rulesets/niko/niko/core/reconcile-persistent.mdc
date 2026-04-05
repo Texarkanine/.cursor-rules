@@ -18,11 +18,11 @@ alwaysApply: false
 
 For each persistent file listed above:
 
-1. **Load** its guidance rule — this defines what belongs in the file and how to write it.
+1. **Load** its guidance rule - this defines what belongs in the file and how to write it.
 2. **Read** the file's current contents.
 3. **Compare** against the work just completed: with the guidance rule's definition in mind, does the file contain anything that is now **factually wrong** or **materially incomplete** because of the changes made in this task?
-4. **If no**: move on — do not touch the file.
-5. **If yes**: make a **surgical update** following the guidance rule's conventions — fix only the specific content invalidated by this task.
+4. **If no**: move on - do not touch the file.
+5. **If yes**: make a **surgical update** following the guidance rule's conventions - fix only the specific content invalidated by this task.
 
 If any file was updated, briefly note what changed and why in your output to the operator.
 

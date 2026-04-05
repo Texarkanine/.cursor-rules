@@ -18,7 +18,7 @@ Keep it minimal:
 
 - **tasks.md** - Record the fix: what broke, why, what changed, files affected.
 - **activeContext.md** - Update current focus to reflect completion.
-- **progress.md** - Briefly record the build phase's key takeaweays.
+- **progress.md** - Briefly record the build phase's key takeaways.
 
 ## Step 3: Phase Transition
 
