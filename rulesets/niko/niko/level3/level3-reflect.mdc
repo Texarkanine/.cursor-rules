@@ -94,13 +94,17 @@ complexity_level: [n]
 - [Concrete process insight, or "Nothing notable"]
 ~~~
 
-## Step 6: Update Memory Bank
+## Step 6: Reconcile Persistent Files
+
+Load `.cursor/rules/shared/niko/core/reconcile-persistent.mdc` and follow its instructions.
+
+## Step 7: Update Memory Bank
 
 1. Update `memory-bank/active/activeContext.md` with reflection outcome
 2. Update `memory-bank/active/progress.md`: record completion of the Reflect phase
 3. 🚨 ***CRITICAL:*** Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: reflected on [task-id]`.
 
-## Step 7: Log Progress
+## Step 8: Log Progress
 
 Check whether `memory-bank/active/milestones.md` exists to determine the appropriate next step:
 - **milestones.md exists** (L4 sub-run): the next step is `Run /niko to continue to the next milestone.`
@@ -125,6 +129,6 @@ Print a summary of the reflection according to the following format:
 [next step determined above]
 ~~~
 
-## Step 8: Phase Transition
+## Step 9: Phase Transition
 
 Reflection is a terminal node. Stop and wait for operator input.
