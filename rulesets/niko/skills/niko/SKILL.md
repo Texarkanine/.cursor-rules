@@ -159,7 +159,7 @@ The previous task is complete but not yet archived. Ask the operator: **rework**
 
 1. Append rework initiation and the operator's feedback to `progress.md`.
 2. Append a **Rework** section to `projectbrief.md` (preserve the original brief above).
-3. Delete from `memory-bank/active/` all of the following that exit: `tasks.md`, `activeContext.md`, `troubleshooting/`, `.qa-validation-status`, `.preflight-status`.
+3. Delete from `memory-bank/active/` all of the following that exist: `tasks.md`, `activeContext.md`, `troubleshooting/`, `.qa-validation-status`, `.preflight-status`.
 4. Commit: `chore: initiating rework on [task-id]`
 
 → Step 7
