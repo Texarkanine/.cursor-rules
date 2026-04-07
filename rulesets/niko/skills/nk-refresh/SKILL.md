@@ -178,7 +178,7 @@ Succinctly report:
 
 Update `memory-bank/active/tasks.md` and `memory-bank/active/progress.md` with the resolution.
 
-## Step 12: Phase Transition
+### Step 12: Phase Transition
 
 After successfully diagnosing and fixing the issue:
 
