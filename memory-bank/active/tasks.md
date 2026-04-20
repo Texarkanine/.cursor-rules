@@ -4,7 +4,7 @@
 * Complexity: Level 3
 * Type: Refactor / structural migration
 
-Relocate the 24 `alwaysApply: false` niko content files out of `rulesets/niko/niko/{core,level1..4,phases}/**/*.mdc` into `rulesets/niko/skills/niko/resources/` mirroring the current tree. Strip frontmatter. Rename `.mdc` → `.md`. Rewrite every `.cursor/rules/shared/niko/...` path reference across the niko tree, driven by two/three scripts with a dry-run audit that the operator approves before execution. Update `systemPatterns.md`. Verify via `ai-rizz` dry-run and `a16n --rewrite-path-refs --dry-run`.
+Relocate the 24 `alwaysApply: false` niko content files out of `rulesets/niko/niko/{core,level1..4,phases}/**/*.mdc` into `rulesets/niko/skills/niko/resources/` mirroring the current tree. Strip frontmatter. Rename `.mdc` → `.md`. Rewrite every `.cursor/rules/shared/niko/...` path reference across the niko tree, driven by two/three scripts with a dry-run audit that the operator approves before execution. Update `systemPatterns.md`. `a16n --rewrite-path-refs --dry-run --to-dir <x> --from-dir <y>`.
 
 Architecture decision: [creative-manual-rules-as-skill-resources.md](creative/creative-manual-rules-as-skill-resources.md).
 
@@ -222,5 +222,5 @@ No new technology — validation not required.
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Preflight complete (findings applied)
-- [ ] Build
+- [x] Build
 - [ ] QA

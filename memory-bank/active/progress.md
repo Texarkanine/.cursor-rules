@@ -15,3 +15,5 @@ Relocate all `alwaysApply: false` niko content from `rulesets/niko/niko/**/*.mdc
 - Leaving plan phase → entering preflight phase.
 - Preflight complete (PASS). Fixed blocking Cursor-form path (`.cursor/skills/shared/niko/resources/...`, with the ai-rizz `shared/` infix). Consolidated scripts 3→2 via radical-innovation finding. Advisory: verify a16n's handling of the `shared/` infix during QA.
 - Leaving preflight phase → entering build phase.
+- Build phase complete (PASS). Authored `scripts/audit_manual_rules.py` (24-entry audit) and `scripts/migrate_manual_rules.py` (preview / rewrite-refs / move-files / verify). Operator approved preview. Executed rewrite-refs (36 refs across 12 files), move-files (24 files moved + frontmatter stripped), `systemPatterns.md` documentation update, and verify (all 4 invariants PASS). `ai-rizz` and `a16n` runtime verification deferred to QA — both require a synced `.cursor/` tree and `ai-rizz` is remote-sourced so cannot verify uncommitted state.
+- Leaving build phase → entering QA phase.
