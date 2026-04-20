@@ -1,0 +1,2 @@
+# Migration tooling: deterministically regenerable audit index.
+scripts/migration-audit.json
