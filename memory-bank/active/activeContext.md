@@ -38,18 +38,40 @@ All under `rulesets/niko/niko/{core,level1..4,phases/creative}/` → `rulesets/n
 
 Body fenced-block example frontmatter in `creative-phase-template.md` (inner `---`/`---` around lines 78/80) preserved — leading-frontmatter strip did not touch in-body examples.
 
-## Deferred Checks (→ QA)
+## QA Results
 
-- **`ai-rizz sync` dry-run:** `ai-rizz` reads from the git remote (`github.com/texarkanine/.cursor-rules.git` per `ai-rizz.skbd`), so it cannot verify uncommitted local state. `.cursor/rules/shared/niko/` is currently stale (last synced 2026-02-22). QA should push to remote, run `ai-rizz sync`, and confirm `.cursor/skills/shared/niko/resources/` populates with 24 `.md` files and `.cursor/rules/shared/niko/` no longer contains the 24 moved files (memory-bank-paths + memory-bank/** should remain).
-- **`a16n convert --from cursor --to claude --rewrite-path-refs --dry-run`:** explicitly deferred by preflight Finding 4. Depends on the synced `.cursor/` tree; QA should run after the ai-rizz sync above.
+**Phase: QA - COMPLETE (PASS)**
+
+### Findings resolved during QA
+
+- **Fixed:** `creative-phase-template.md` skeleton updated to reflect the new resource-file convention (was still showing `alwaysApply: false` frontmatter in the authoring example).
+
+### a16n runtime check (was preflight Finding 4 advisory)
+
+Verified by running `a16n convert --from cursor --to claude --rewrite-path-refs` against a sandbox `.cursor/`-mirror built from current `rulesets/` via `a16n --from-dir/--to-dir`. Result: **17 orphan-path-ref warnings**, one per resource-path ref across:
+
+- `.cursor/rules/shared/niko/core/memory-bank-paths.mdc` (4 refs)
+- `.cursor/rules/shared/niko/memory-bank/active/milestones.mdc` (2 refs)
+- `.cursor/skills/shared/niko/SKILL.md` (7 refs)
+- `.cursor/skills/shared/niko-creative/SKILL.md` (4 refs)
+
+a16n correctly copies the 24 resource files to `.claude/skills/niko/resources/` and correctly rewrites rule↔rule refs, but doesn't treat `.cursor/skills/<name>/resources/...` paths as convertible for `--rewrite-path-refs`. The converted `.claude/` output therefore contains path refs still written as `.cursor/skills/shared/niko/resources/...` — broken for Claude-only consumers.
+
+**Operator-accepted** per preflight Finding 4 fallback. The migration's primary goal (avoiding `alwaysApply: false` mistranslation per rulesync#1515) is fully met. The a16n ref-rewrite limitation is a tooling issue requiring an upstream fix, queued as follow-up #1 in `tasks.md`.
+
+### ai-rizz runtime check (deferred to post-merge)
+
+Remains deferred. `ai-rizz` reads from the git remote per `ai-rizz.skbd`, so it cannot observe the uncommitted branch. Structural correctness is already established via preflight Finding 2 (`cp -rL`) and local `verify` invariants. Post-merge sync should confirm the tree shape matches the sandbox used for the a16n verification.
 
 ## Deviations from Plan
 
-None. Executed to the letter, with two exceptions explicitly authorized by the preflight:
+None substantive. Executed to the letter, with two planned exceptions:
 
 1. Scripts consolidated 3 → 2 (preflight Finding 6).
-2. Runtime verification via ai-rizz/a16n deferred to QA (preflight Finding 4 plus the ai-rizz remote-sourced constraint observed during build).
+2. `ai-rizz` runtime sync deferred (remote-sourced constraint); `a16n` runtime verified in QA via sandbox (per operator cue — the `--from-dir`/`--to-dir` flags make `.cursor/` sync unnecessary).
+
+One QA-time trivial fix: `creative-phase-template.md` skeleton.
 
 ## Next Step
 
-QA phase: invoke `niko-qa` skill. QA should run the two deferred runtime checks against a pushed branch and perform semantic review.
+L3 workflow: QA PASS → Reflect is a dashed edge (requires operator input). Awaiting operator decision on Reflect transition.

@@ -205,6 +205,22 @@ No new technology — validation not required.
 - **Challenge: a16n converts Cursor skills → Claude skills by moving `.cursor/skills/` → `.claude/skills/`. Path refs inside the skill's resources must be rewritten from `.cursor/skills/niko/resources/...` → `.claude/skills/niko/resources/...`.** **Mitigation:** `a16n --rewrite-path-refs` is documented to do this for any source-format path, not only rules paths. Verify in the dry-run step.
 - **Challenge: Not actually a Level 4.** Double-checked: single workstream, cohesive scope, no parallel milestones needed, fully reversible. L3 stands.
 
+## QA Findings
+
+- **[FIXED]** `creative-phase-template.md` skeleton (the "Example: Skeleton" section) still showed the old `alwaysApply: false` frontmatter format. After the migration, new creative-phase types are resource files with no frontmatter, so this skeleton was stale. Replaced the frontmatter block with a one-sentence note explaining the new convention (plain Markdown under `rulesets/niko/skills/niko/resources/phases/creative/<name>.md`, no frontmatter).
+- **[PASS]** All other moved files: body content intact, no stale frontmatter in migrated files, body fenced-block examples preserved.
+- **[PASS]** All 17 `.cursor/rules/shared/niko/(memory-bank-paths.mdc|memory-bank/...)` refs correctly preserved as still-at-rules targets.
+- **[PASS]** Scripts clean under lint: no debug prints, magic numbers, or speculative code.
+- **[PASS — accepted per preflight Finding 4 fallback]** Ran `a16n convert --from cursor --to claude --rewrite-path-refs` against a sandbox `.cursor/`-mirror constructed from `rulesets/` (using `a16n --from-dir/--to-dir`). Result: 17 orphan-path-ref warnings — one per resource-path ref in SKILL.md / rule files. a16n copies the 24 resource files to `.claude/skills/niko/resources/` correctly, and correctly rewrites rule↔rule refs (e.g., `.cursor/rules/shared/niko/core/memory-bank-paths.mdc` → `.claude/rules/shared/niko/core/memory-bank-paths.md`), but leaves resource refs unrewritten (still `.cursor/skills/shared/niko/resources/...` in the Claude output). **Operator-accepted** per the preflight Finding 4 fallback: primary migration goal (avoiding `alwaysApply: false` mistranslation per rulesync#1515) is fully met; secondary a16n ref-rewrite limitation is a tooling-level issue that requires an upstream fix. Queued as a follow-up.
+- **[PASS — structural]** `ai-rizz sync` runtime verification remains deferred because ai-rizz reads from the git remote and cannot observe uncommitted local state. Structural correctness is established via preflight Finding 2 (`cp -rL` subtree preservation) plus the local `verify` invariants. A post-merge ai-rizz sync should confirm the tree shape matches the sandbox used in the a16n check (`.cursor/skills/shared/niko/resources/` populated with 24 `.md` files; 24 fewer `.mdc` files under `.cursor/rules/shared/niko/{core,level*,phases/creative}/`).
+
+## Follow-ups
+
+1. **a16n resource-path rewriting.** File an upstream issue / PR against a16n: `--rewrite-path-refs` should treat paths under `.cursor/skills/<name>/resources/` as part of the conversion set (rewrite to `.claude/skills/<name>/resources/`). Until that's fixed, consumers of a16n's Claude output need a post-processing step or must use a different converter.
+2. **Post-push `ai-rizz sync` smoke test.** After merging `contort-for-rulesync`, run `ai-rizz sync` and confirm the generated `.cursor/` tree matches the sandbox structure verified in QA.
+3. (Pre-existing) `memory-bank-paths.mdc` rule-vs-resource reclassification (deferred from the creative phase).
+4. (Pre-existing) Decide whether to delete `.cursor/rules/shared/niko/<moved-paths>` once sync lands, or retain backward-compat shims.
+
 ## Preflight Findings
 
 - **Finding 1 (BLOCKING → fixed in plan):** Cursor-form path must be `.cursor/skills/shared/niko/resources/...` (includes `shared/` infix from ai-rizz commit mode). Plan updated.
@@ -223,4 +239,4 @@ No new technology — validation not required.
 - [x] Technology validation complete
 - [x] Preflight complete (findings applied)
 - [x] Build
-- [ ] QA
+- [x] QA
