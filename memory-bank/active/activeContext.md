@@ -1,16 +1,19 @@
 # Active Context
 
 **Current Task:** Migrate manual rules to skill resources
-**Phase:** PLAN - COMPLETE
+**Phase:** PREFLIGHT - COMPLETE (PASS)
 
 ## What Was Done
 
-- Ran Level 3 plan phase.
-- Component analysis identified the precise scope: **24 files** under `rulesets/niko/niko/{core,level1..4,phases/creative}` with `alwaysApply: false`.
-- Scope refinement during planning: `memory-bank/**/*.mdc` templates use `globs:` (File Rules), not `alwaysApply: false`, so they are NOT in scope. Updated projectbrief and creative doc accordingly.
-- Open questions: none. Tactical decisions (script language = Python 3 stdlib, audit format = JSON, rewrite preview = tabular, path syntax = Cursor source-form) have defensible defaults documented in `tasks.md`.
-- Implementation plan: 10 ordered steps, centered on three Python scripts (`audit_manual_rules.py`, `rewrite_niko_paths.py`, `migrate_niko_files.py`) plus a verify script, with operator-gated dry-run approval before any destructive operation.
+- Ran Level 3 preflight against the plan.
+- Inspected ai-rizz source to verify how it handles skill subdirectories. Found `cp -rL` at line 4826 — full subtree preserved. Target dir is `.cursor/skills/shared/<name>/` for commit mode.
+- Plan blocking fix: updated Cursor-form path from `.cursor/skills/niko/resources/...` → `.cursor/skills/shared/niko/resources/...` (the `shared/` infix is ai-rizz's commit-mode convention).
+- Consolidated script count 3 → 2 matching user's mental model: `audit_manual_rules.py` (helper) + `migrate_manual_rules.py` (main, with subcommands `preview`, `rewrite-refs`, `move-files`, `verify`).
+- `migration-audit.json` earmarked for gitignore.
+- Advisory: `a16n` behavior for the `shared/` infix will be verified during QA dry-run.
 
 ## Next Step
 
-Proceed to the Preflight phase via the `niko-preflight` skill.
+Proceed to Build phase: author `scripts/audit_manual_rules.py` and `scripts/migrate_manual_rules.py`, then run `audit → preview → (operator approves) → rewrite-refs → move-files → verify → docs → ai-rizz sync → a16n dry-run → commits`.
+
+Operator input required at the approval gate between `preview` and `rewrite-refs`.

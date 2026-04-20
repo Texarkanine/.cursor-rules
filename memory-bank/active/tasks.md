@@ -70,7 +70,7 @@ flowchart TD
 
 ### Boundary Changes
 
-- Public-facing change: the canonical path for the 24 resource files changes from `.cursor/rules/shared/niko/<subtree>/<name>.mdc` to `.cursor/skills/niko/resources/<subtree>/<name>.md` (Cursor form). Claude-form is `.claude/skills/niko/resources/<subtree>/<name>.md`.
+- Public-facing change: the canonical path for the 24 resource files changes from `.cursor/rules/shared/niko/<subtree>/<name>.mdc` to `.cursor/skills/shared/niko/resources/<subtree>/<name>.md` (Cursor form, produced by ai-rizz `cp -rL` into `.cursor/skills/shared/`). a16n's Claude-form output is verified during QA (advisory preflight finding).
 - Any external consumer hardcoding the old `.cursor/rules/shared/niko/...` paths will break. Accepted per creative decision.
 - Refs to `memory-bank-paths.mdc` and `memory-bank/**` templates keep the old `.cursor/rules/shared/niko/...` form because those files are NOT moving.
 
@@ -90,8 +90,10 @@ None. The architecture decision (Option B) is resolved via the creative phase. T
 - **Script language**: Python 3, stdlib only (`pathlib`, `json`, `re`, `argparse`). Cross-platform, readable, no new deps.
 - **Audit index format**: JSON, one record per file with fields `{ "old_path", "new_path", "had_frontmatter" }`.
 - **Rewrite preview format**: tabular plain text (`file:line | old_ref → new_ref`), also dumpable to JSON via `--json`.
-- **Path syntax in rewrites**: Cursor source-form (`.cursor/skills/niko/resources/...`). Keeps the current visual style in SKILL.md/resource-to-resource refs; `a16n --rewrite-path-refs` handles the Cursor→Claude swap.
+- **Path syntax in rewrites**: Cursor source-form with the ai-rizz `shared/` infix: `.cursor/skills/shared/niko/resources/<subtree>/<name>.md`. Keeps visual style symmetric with the existing `.cursor/rules/shared/niko/...` pattern; `a16n --rewrite-path-refs` handles Cursor→Claude at conversion time.
 - **Script location**: `scripts/` at repo root. New directory.
+- **Script count**: two scripts (matching user's mental model). `scripts/audit_manual_rules.py` is the helper; `scripts/migrate_manual_rules.py` is the main with subcommands.
+- **Audit JSON**: `scripts/migration-audit.json` — gitignored (deterministically regenerable).
 
 ## Test Plan (TDD)
 
@@ -123,57 +125,67 @@ Since this is a docs/config refactor with no runtime code, "tests" are verificat
 
 ## Implementation Plan
 
-1. **Write `scripts/audit_manual_rules.py`** (TDD: spec outputs first, then implement).
-    - Files: `scripts/audit_manual_rules.py` (new), `scripts/migration-audit.json` (generated output).
+Two scripts total, matching the user's mental model: a helper that audits, and a main script with subcommands for each migration stage.
+
+1. **Write `scripts/audit_manual_rules.py`** (helper).
+    - Files: `scripts/audit_manual_rules.py` (new), `scripts/migration-audit.json` (generated; gitignored).
     - Inputs: walks `rulesets/niko/niko/` recursively.
-    - Logic: for each `*.mdc`, read the frontmatter; include if `alwaysApply: false` is present. Exclude explicit skip list (`memory-bank-paths.mdc`).
-    - Output: JSON array of `{old_path, new_path, had_frontmatter}`. Prints count + path to stdout on success. Optional `--print-table` for human-readable list.
-    - Verification: run it; confirm exactly 24 entries, and spot-check a few new_paths.
+    - Logic: for each `*.mdc`, read leading frontmatter; include if `alwaysApply: false` is present. Exclude explicit skip list (`memory-bank-paths.mdc`).
+    - For each included file: derive `{ old_path, new_path, old_ref, new_ref }` where:
+        - `old_path` = e.g. `rulesets/niko/niko/level3/level3-plan.mdc`
+        - `new_path` = e.g. `rulesets/niko/skills/niko/resources/level3/level3-plan.md`
+        - `old_ref` = e.g. `.cursor/rules/shared/niko/level3/level3-plan.mdc`
+        - `new_ref` = e.g. `.cursor/skills/shared/niko/resources/level3/level3-plan.md`
+    - Output: JSON array to `scripts/migration-audit.json`. Prints count + path to stdout. Optional `--print-table` for human-readable preview.
+    - Verification: run it; confirm exactly 24 entries; spot-check subtree mapping; confirm `memory-bank-paths.mdc` and all of `memory-bank/**/*.mdc` are absent from output.
 
-2. **Write `scripts/rewrite_niko_paths.py`** with dry-run default.
-    - Files: `scripts/rewrite_niko_paths.py` (new).
-    - Inputs: reads `scripts/migration-audit.json`; scans `rulesets/niko/` (configurable via `--target-dir`).
-    - Logic:
-        - Build a mapping: for each audit entry, derive the old Cursor-form ref `.cursor/rules/shared/niko/<old-subtree-path-minus-rulesets-niko-niko>` → new Cursor-form ref `.cursor/skills/niko/resources/<old-subtree-path-minus-rulesets-niko-niko-with-.md>`.
-        - For each file in target tree, for each line, apply literal string replacement per mapping; record `(file, line_number, original_line, proposed_line)` for every actual change.
-        - Exclude files we'd expect never to contain refs (e.g., binary; but rulesets/ is all text, skip this filter).
-        - Do NOT rewrite refs to `memory-bank-paths.mdc` or `memory-bank/**/*.mdc` (not in the audit → not in the mapping).
-    - Modes:
-        - default: print preview table `file:line | old_text → new_text`; also `--json` for machine output.
-        - `--execute`: apply the changes in place.
-    - Verification: dry-run produces preview; operator reviews; execute zeroes out the matching grep.
+2. **Write `scripts/migrate_manual_rules.py`** with dry-run default and subcommands.
+    - Files: `scripts/migrate_manual_rules.py` (new).
+    - Shared setup: loads `scripts/migration-audit.json`; builds `{old_ref → new_ref}` mapping from audit entries.
+    - Subcommand `preview` (default; dry-run; no mutations):
+        - Scan `rulesets/niko/` (configurable `--target-dir`).
+        - For each file, for each line, find all `old_ref` matches; print `<file>:<line_no> | <old_ref> → <new_ref>`.
+        - Print summary: `N refs across M files`.
+        - `--json` to emit machine-readable records.
+    - Subcommand `rewrite-refs`:
+        - Same scan as `preview` but writes in place.
+        - Prints the same table plus a `WROTE` summary.
+        - Explicit flag required; does nothing without it. Name the flag `rewrite-refs` itself (positional subcommand), not a toggle.
+    - Subcommand `move-files`:
+        - For each audit entry: `mkdir -p` destination; `git mv` old → new; strip leading `^---\n.*?\n---\n?\n?` frontmatter from the new file (non-greedy, anchored at line 1; must NOT touch in-body fenced-block frontmatter examples like `creative-phase-template.mdc` line 83); preserve rest byte-for-byte.
+        - Has `--dry-run` flag that prints intended operations without executing. (Default is execute, since this is an explicit destructive subcommand.)
+    - Subcommand `verify`:
+        - `grep` invariant checks (spelled out below) — each PASS/FAIL.
+        - Broken-ref check: every `new_ref` that appears in any rulesets/ file must resolve to an actual file on disk (post-move).
+        - Always dry-run; read-only.
+    - Verification for the script itself: subcommand help text is correct; `preview` on pristine state lists all expected rewrites; `rewrite-refs` on a sandbox copy produces expected diff.
 
-3. **Operator review + approval.** Task owner manually reads the dry-run preview, confirms nothing unexpected, greenlights execute mode.
+3. **Operator review + approval.** Run `preview`; operator reads the full table and confirms nothing unexpected, then greenlights the remaining subcommands.
 
-4. **Execute path rewrite.** Run `rewrite_niko_paths.py --execute`. Spot-check with grep.
+4. **Execute path rewrite.** Run `migrate_manual_rules.py rewrite-refs`. Spot-check with a quick grep.
 
-5. **Write `scripts/migrate_niko_files.py`** (move + frontmatter strip).
-    - Files: `scripts/migrate_niko_files.py` (new).
-    - Inputs: reads `scripts/migration-audit.json`.
-    - Logic: for each entry, `mkdir -p` the destination dir, `git mv` old → new, then open the new file and strip the leading `^---\n.*?\n---\n?\n?` frontmatter block (non-greedy, only the first block, only if starts at line 1). Preserve everything else byte-for-byte (including a body that happens to show frontmatter examples in fenced code blocks — we only touch column-1 leading frontmatter).
-    - Modes: default dry-run (prints planned ops); `--execute` applies.
-    - Verification: `git status` shows renames; `head` of moved files confirms frontmatter gone; `git diff --stat` confirms expected file count.
+5. **Execute file move + frontmatter strip.** Run `migrate_manual_rules.py move-files`. Check `git --no-pager status` shows the 24 renames and the frontmatter diffs.
 
 6. **Update `memory-bank/systemPatterns.md`** "File Organization" section.
     - Files: `memory-bank/systemPatterns.md`.
-    - Changes: replace the existing description with the new rule-vs-resource split; mention the `scripts/` helpers.
+    - Changes: document the three-tier split (rules = `rulesets/niko/*.mdc` and `rulesets/niko/niko/core/memory-bank-paths.mdc` and `rulesets/niko/niko/memory-bank/**/*.mdc`; resources = `rulesets/niko/skills/niko/resources/**/*.md`; skills = `rulesets/niko/skills/*/SKILL.md`). Mention the migration scripts briefly.
 
-7. **Write `scripts/verify_migration.sh`** (acceptance checks).
-    - Files: `scripts/verify_migration.sh` (new).
-    - Checks (each prints PASS/FAIL):
-        - `grep -r '\.cursor/rules/shared/niko/\(core/complexity-analysis\|core/intent-clarification\|core/memory-bank-init\|core/reconcile-persistent\|level[1-4]/\|phases/creative/\)' rulesets/` → expect zero matches.
-        - `grep -r '\.cursor/rules/shared/niko/core/memory-bank-paths\.mdc' rulesets/` → expect matches preserved (count matches pre-migration).
-        - Every `.cursor/skills/niko/resources/...` ref in `rulesets/niko/` resolves to an actual file under `rulesets/niko/skills/niko/resources/`.
-        - Count of files under `rulesets/niko/skills/niko/resources/` equals 24.
-    - Verification: run after migration; all checks PASS.
+7. **Run `migrate_manual_rules.py verify`** and confirm all checks PASS.
+    - `grep -r '\.cursor/rules/shared/niko/(core/complexity-analysis|core/intent-clarification|core/memory-bank-init|core/reconcile-persistent|level[1-4]/|phases/creative/)' rulesets/` → zero matches.
+    - `grep -r '\.cursor/rules/shared/niko/(core/memory-bank-paths\.mdc|memory-bank/)' rulesets/` → matches preserved at expected count.
+    - Every `.cursor/skills/shared/niko/resources/...` ref resolves to an actual file.
+    - Count of `*.md` files under `rulesets/niko/skills/niko/resources/` == 24.
 
-8. **Run `ai-rizz` dry-run / sync and confirm `.cursor/` regenerates correctly.**
-    - No file changes by hand; just run the tool and inspect output.
+8. **Run `ai-rizz sync`** (or the maintainer's equivalent) and confirm `.cursor/` regenerates correctly — `.cursor/skills/shared/niko/resources/` populated, `.cursor/rules/shared/niko/` free of the 24 files' former presence, `niko-core.mdc` and the remaining rules (`memory-bank-paths`, memory-bank templates) still present as rules.
 
-9. **Run `a16n convert --from cursor --to claude --rewrite-path-refs --dry-run .`** and confirm zero `orphan-path-ref` warnings.
-    - No file changes; verification only.
+9. **Run `a16n convert --from cursor --to claude --rewrite-path-refs --dry-run .`** and confirm zero `orphan-path-ref` warnings. If `shared/` infix causes issues, report findings and triage (see Challenges).
 
-10. **Commit the migration** in a single logical commit (or a small handful of semantically-separated commits: scripts added, rewrite + migration executed, docs updated).
+10. **Add `scripts/migration-audit.json` to `.gitignore`** (if not already covered by existing patterns).
+
+11. **Commit**: semantically-separated commits:
+    - `feat(scripts): add manual-rules migration tooling` — adds audit + migrate scripts, updates `.gitignore`.
+    - `refactor: migrate manual rules to niko skill resources` — path rewrites + file moves + frontmatter strip, all 24 files.
+    - `docs: update systemPatterns file-organization for rule/resource split`.
 
 ## Technology Validation
 
@@ -193,6 +205,15 @@ No new technology — validation not required.
 - **Challenge: a16n converts Cursor skills → Claude skills by moving `.cursor/skills/` → `.claude/skills/`. Path refs inside the skill's resources must be rewritten from `.cursor/skills/niko/resources/...` → `.claude/skills/niko/resources/...`.** **Mitigation:** `a16n --rewrite-path-refs` is documented to do this for any source-format path, not only rules paths. Verify in the dry-run step.
 - **Challenge: Not actually a Level 4.** Double-checked: single workstream, cohesive scope, no parallel milestones needed, fully reversible. L3 stands.
 
+## Preflight Findings
+
+- **Finding 1 (BLOCKING → fixed in plan):** Cursor-form path must be `.cursor/skills/shared/niko/resources/...` (includes `shared/` infix from ai-rizz commit mode). Plan updated.
+- **Finding 2 (PASS):** ai-rizz uses `cp -rL` for skills (source line 4826); full subdirectory tree is preserved. Resources-under-skill layout is safe.
+- **Finding 3 (PASS):** ai-rizz does no frontmatter transformation; source must be committed with frontmatter already stripped.
+- **Finding 4 (ADVISORY, defer to QA):** a16n behavior for `.cursor/skills/shared/...` paths is unverified; check via dry-run in QA. Fallbacks: accept orphan-path-ref warnings or adjust a16n mapping.
+- **Finding 5 (ADVISORY → fixed in plan):** `scripts/migration-audit.json` added to gitignore plan.
+- **Finding 6 (RADICAL INNOVATION → applied):** Consolidated three scripts into two (audit helper + main with subcommands), matching user's mental model.
+
 ## Status
 
 - [x] Component analysis complete
@@ -200,6 +221,6 @@ No new technology — validation not required.
 - [x] Test planning complete (TDD)
 - [x] Implementation plan complete
 - [x] Technology validation complete
-- [ ] Preflight
+- [x] Preflight complete (findings applied)
 - [ ] Build
 - [ ] QA
