@@ -240,3 +240,4 @@ No new technology — validation not required.
 - [x] Preflight complete (findings applied)
 - [x] Build
 - [x] QA
+- [x] Reflect

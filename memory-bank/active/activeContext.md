@@ -72,6 +72,23 @@ None substantive. Executed to the letter, with two planned exceptions:
 
 One QA-time trivial fix: `creative-phase-template.md` skeleton.
 
+## Reflect Outcome
+
+**Phase: Reflect - COMPLETE**
+
+Reflection document: `memory-bank/active/reflection/reflection-manual-rules-to-skill-resources.md`.
+
+### Key insights surfaced
+
+- **Technical:** Path-ref rewriting and file moves must be separate, reversible steps — combining them makes rollback expensive. a16n's `--rewrite-path-refs` surface is top-level-only (skill-nested resources aren't indexed). A JSON audit index + operator-gated dry-run was dramatically safer than one-pass migration for 24-file scope.
+- **Process:** Preflight findings derived from reading tool source (vs guessing from docs) produce higher-confidence outputs — the `shared/` infix fix came from inspecting `ai-rizz.src:4826`. Advisory preflight findings should always carry an explicit fallback menu — Finding 4's "accept orphan-path-ref warnings or adjust a16n mapping" pre-authorized the operator's resolution path when the predicted issue materialized in QA. Mid-phase operator hints can unlock scope — the `--from-dir`/`--to-dir` suggestion converted a post-merge risk into an in-phase verification.
+
+### Persistent files reconciled
+
+- `memory-bank/productContext.md`: broadened "Quality Standards" to name all three content tiers (rules / skills / resources) instead of implying universal `.mdc`-with-frontmatter.
+- `memory-bank/techContext.md`: split "Technologies" and "File Conventions" across the three tiers; expanded "Synchronization" to cover `.cursor/skills/` sync target and the `ai-rizz` remote-sourcing constraint; added `a16n` (with `--from-dir`/`--to-dir` flags) to technologies.
+- `memory-bank/systemPatterns.md`: already updated during Build (three-tier File Organization section) — no further changes needed.
+
 ## Next Step
 
-L3 workflow: QA PASS → Reflect is a dashed edge (requires operator input). Awaiting operator decision on Reflect transition.
+L3 workflow: Reflect → Archive is a dashed edge (requires operator input). Awaiting operator decision to invoke `niko-archive`.
