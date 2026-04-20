@@ -11,3 +11,5 @@ Relocate all `alwaysApply: false` niko content from `rulesets/niko/niko/**/*.mdc
 - Creative phase complete (ran standalone before task classification). Architecture decision: Option B — consolidate resources under the `niko` skill.
 - Complexity analysis complete: Level 3.
 - Leaving complexity analysis → entering plan phase.
+- Plan phase complete. Scope refined from ~28 files to 24 files (memory-bank templates are `globs:` File Rules, out of scope). Implementation plan in `tasks.md`: three Python scripts (audit, rewrite with dry-run, migrate+strip-frontmatter) plus verify script, 10 ordered steps with operator approval gate between preview and execute.
+- Leaving plan phase → entering preflight phase.

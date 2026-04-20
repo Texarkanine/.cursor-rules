@@ -10,11 +10,12 @@ Background: [rulesync #1515](https://github.com/dyoshikawa/rulesync/issues/1515)
 
 ## Requirements
 
-1. **Move `alwaysApply: false` content** from `rulesets/niko/niko/{core,level1,level2,level3,level4,memory-bank,phases}/**/*.mdc` into `rulesets/niko/skills/niko/resources/` mirroring the current tree.
+1. **Move `alwaysApply: false` content** from `rulesets/niko/niko/{core,level1,level2,level3,level4,phases}/**/*.mdc` into `rulesets/niko/skills/niko/resources/` mirroring the current tree. Total: 24 files.
 2. **Strip frontmatter** and rename `.mdc` → `.md` on every moved file.
 3. **Keep as rules** (do not move):
    - `rulesets/niko/niko-core.mdc` (`alwaysApply: true`) — genuine global prompt.
    - `rulesets/niko/niko/core/memory-bank-paths.mdc` (`alwaysApply: true`) — deferred; revisit separately.
+   - `rulesets/niko/niko/memory-bank/**/*.mdc` — these use `globs:` (File Rules), not `alwaysApply: false`; they auto-inject when editing matching memory-bank files and have clean cross-harness equivalents (Claude `paths:`). Not in scope.
 4. **Rewrite every internal path reference** from `.cursor/rules/shared/niko/...` to the new skill-resource path across all niko tree files and SKILL.md files.
 5. **Path rewrites must be scripted**, not manual, with:
    - A helper/audit script that enumerates the `alwaysApply: false` files (the "to be moved" set) and persists that index.

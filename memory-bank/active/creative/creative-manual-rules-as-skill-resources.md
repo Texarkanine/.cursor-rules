@@ -20,10 +20,14 @@ Today the workaround is `a16n convert --rewrite-path-refs`, which correctly rewr
 **Constraints:**
 - `rulesets/` is source-of-truth; `ai-rizz` already syncs `rulesets/niko/skills/` and top-level rules into `.cursor/`.
 - `rulesets/niko/skills/*/SKILL.md` follows AgentSkills.io shape.
-- Of ~30 `.mdc` files under `rulesets/niko/niko/`, only `niko-core.mdc` and `memory-bank-paths.mdc` are `alwaysApply: true`. The other ~28 are referenced exclusively by explicit path from skills and other `.mdc` files — they are functionally static resources.
+- Of the `.mdc` files under `rulesets/niko/niko/`:
+  - `memory-bank-paths.mdc` is `alwaysApply: true` (genuine always-on rule).
+  - The `memory-bank/**/*.mdc` templates use `globs:` (Cursor File Rules; Claude `paths:` equivalent) — clean cross-harness translation, out of scope.
+  - The remaining **24** files (under `core/`, `level{1..4}/`, `phases/creative/`) are `alwaysApply: false` — referenced exclusively by explicit path from skills and other `.mdc` files. They are functionally static resources.
+- `niko-core.mdc` at `rulesets/niko/niko-core.mdc` is `alwaysApply: true` and is a genuine always-on rule.
 
-**In scope:** the ~28 `alwaysApply: false` files under `rulesets/niko/niko/{core,level1-4,memory-bank,phases}`.
-**Out of scope:** `niko-core.mdc`, `always-tdd.mdc`, `test-running-practices.mdc`, `visual-planning.mdc`, and (deferred) `memory-bank-paths.mdc`.
+**In scope:** the 24 `alwaysApply: false` files under `rulesets/niko/niko/{core,level1-4,phases}`.
+**Out of scope:** `niko-core.mdc`, `always-tdd.mdc`, `test-running-practices.mdc`, `visual-planning.mdc`, `memory-bank-paths.mdc` (deferred), and `memory-bank/**/*.mdc` (File Rules, not manual rules).
 
 ## Components
 
