@@ -1,7 +1,3 @@
----
-alwaysApply: false
----
-
 # Intent Clarification
 
 Validate the user's intent before proceeding to complexity analysis. This step bridges raw, unvalidated user input into a shared understanding confirmed by the user.

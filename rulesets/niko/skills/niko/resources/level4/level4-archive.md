@@ -1,7 +1,3 @@
----
-alwaysApply: false
----
-
 # Archive Phase - Level 4: Capstone Archive
 
 This document guides the capstone archive for a completed Level 4 task. It consolidates the entire project: the milestone list and how it evolved, each sub-run's key outcomes (inlined from their reflection documents), and the final state of the system. No separate capstone reflect is needed - sub-run reflections already captured the retrospective work; this phase combines and distills them.

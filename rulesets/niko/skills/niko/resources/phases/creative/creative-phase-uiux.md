@@ -1,7 +1,3 @@
----
-alwaysApply: false
----
-
 # Creative Phase: UI/UX Design
 
 This document guides exploration of an open question about user-facing design - how to present information, interaction flows, visual layout, accessibility, or style decisions. It is loaded by the `niko-creative` skill.

@@ -1,7 +1,3 @@
----
-alwaysApply: false
----
-
 # Creative Phase: Architecture Design
 
 This document guides exploration of an open question about system structure - how components relate, what patterns to use, how to organize modules, where boundaries should be, or how data flows between subsystems. It is loaded by the `niko-creative` skill.

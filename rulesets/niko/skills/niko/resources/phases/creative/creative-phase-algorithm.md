@@ -1,7 +1,3 @@
----
-alwaysApply: false
----
-
 # Creative Phase: Algorithm Design
 
 This document guides exploration of an open question about logic and computation - how to solve a specific problem, what data structures to use, how to handle complex transformations, or performance-sensitive processing. It is loaded by the `niko-creative` skill.

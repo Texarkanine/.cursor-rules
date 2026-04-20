@@ -1,7 +1,3 @@
----
-alwaysApply: false
----
-
 # Plan Phase - Level 3: Intermediate Feature
 
 This document creates a concrete implementation plan for a Level 3 (Intermediate Feature) task. It includes component analysis, cross-module dependency mapping, and open question identification. If any aspect of the design is genuinely ambiguous, this phase flags it as an open question and invokes the `niko-creative` phase to resolve it before finalizing the plan.

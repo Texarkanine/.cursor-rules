@@ -1,7 +1,3 @@
----
-alwaysApply: false
----
-
 # Build Phase - Level 2: Simple Enhancement
 
 This document executes the implementation plan produced by the Level 2 Plan phase. It follows the plan step-by-step, applying TDD for each implementation step, and tracks progress in the memory bank.

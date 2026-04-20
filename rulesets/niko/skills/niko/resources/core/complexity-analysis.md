@@ -1,7 +1,3 @@
----
-alwaysApply: false
----
-
 # Task Complexity Determination
 
 Determine the appropriate complexity level (1-4) for a task, then write the determination to the memory bank and load the corresponding workflow.
@@ -109,7 +105,7 @@ Loading Level N workflow...
 
 Load the level-specific workflow and use its Phase Mappings to execute the next phase.
 
-- Level 1: `.cursor/rules/shared/niko/level1/level1-workflow.mdc`
-- Level 2: `.cursor/rules/shared/niko/level2/level2-workflow.mdc`
-- Level 3: `.cursor/rules/shared/niko/level3/level3-workflow.mdc`
-- Level 4: `.cursor/rules/shared/niko/level4/level4-workflow.mdc`
+- Level 1: `.cursor/skills/shared/niko/resources/level1/level1-workflow.md`
+- Level 2: `.cursor/skills/shared/niko/resources/level2/level2-workflow.md`
+- Level 3: `.cursor/skills/shared/niko/resources/level3/level3-workflow.md`
+- Level 4: `.cursor/skills/shared/niko/resources/level4/level4-workflow.md`

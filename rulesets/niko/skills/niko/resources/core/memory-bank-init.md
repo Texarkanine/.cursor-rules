@@ -1,7 +1,3 @@
----
-alwaysApply: false
----
-
 # Memory Bank Initialization & Verification
 
 ```mermaid

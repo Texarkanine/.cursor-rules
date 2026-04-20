@@ -34,13 +34,13 @@ If the open question is not clearly stated: 🛑 STOP! Ask the operator to clari
 
 Analyze the nature of the open question and select the best-fit creative phase document:
 
-- **Architecture** (`.cursor/rules/shared/niko/phases/creative/creative-phase-architecture.mdc`): The question is about system structure - how components relate, what patterns to use, how to organize modules, where boundaries should be, how data flows between subsystems.
+- **Architecture** (`.cursor/skills/shared/niko/resources/phases/creative/creative-phase-architecture.md`): The question is about system structure - how components relate, what patterns to use, how to organize modules, where boundaries should be, how data flows between subsystems.
 
-- **Algorithm** (`.cursor/rules/shared/niko/phases/creative/creative-phase-algorithm.mdc`): The question is about logic and computation - how to solve a specific problem, what data structures to use, how to handle complex transformations, performance-sensitive processing.
+- **Algorithm** (`.cursor/skills/shared/niko/resources/phases/creative/creative-phase-algorithm.md`): The question is about logic and computation - how to solve a specific problem, what data structures to use, how to handle complex transformations, performance-sensitive processing.
 
-- **UI/UX** (`.cursor/rules/shared/niko/phases/creative/creative-phase-uiux.mdc`): The question is about user-facing design - how to present information, interaction flows, visual layout, accessibility, style guide decisions.
+- **UI/UX** (`.cursor/skills/shared/niko/resources/phases/creative/creative-phase-uiux.md`): The question is about user-facing design - how to present information, interaction flows, visual layout, accessibility, style guide decisions.
 
-- **Generic** (`.cursor/rules/shared/niko/phases/creative/creative-phase-generic.mdc`): The question doesn't fit the above categories - naming conventions, testing strategies, process decisions, tooling choices, configuration approaches, or anything else not explicitly associated with a specific creative phase type.
+- **Generic** (`.cursor/skills/shared/niko/resources/phases/creative/creative-phase-generic.md`): The question doesn't fit the above categories - naming conventions, testing strategies, process decisions, tooling choices, configuration approaches, or anything else not explicitly associated with a specific creative phase type.
 
 Load the selected document and follow its instructions.
 

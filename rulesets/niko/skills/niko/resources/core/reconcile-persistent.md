@@ -1,7 +1,3 @@
----
-alwaysApply: false
----
-
 # Reconcile Persistent Files
 
 > **TL;DR:** Quick scan of persistent memory bank files against the work just completed. Update only what this task invalidated. Skip silently if nothing changed.

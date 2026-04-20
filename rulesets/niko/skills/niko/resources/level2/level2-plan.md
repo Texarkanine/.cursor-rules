@@ -1,7 +1,3 @@
----
-alwaysApply: false
----
-
 # Plan Phase - Level 2: Simple Enhancement
 
 This document creates a concrete implementation plan for a Level 2 (Simple Enhancement) task. It produces a linear, actionable plan with test-first design, technology validation, and a clear checklist - enough structure to prevent drift without the overhead of creative phases or architectural analysis.

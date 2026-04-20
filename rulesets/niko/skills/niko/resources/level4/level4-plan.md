@@ -1,7 +1,3 @@
----
-alwaysApply: false
----
-
 # Plan Phase - Level 4: Complex System
 
 This document guides the planning phase for a Level 4 task. The L4 plan is a milestone list - a breakdown of the overall project into multiple independent sub-runs, each scoped as L1, L2, or L3. Every subsequent step in the L4 workflow is driven by this list. A bad milestone decomposition causes compounding problems across every sub-run; a good one makes the rest of the project mechanical.
@@ -34,7 +30,7 @@ Decompose the overall task into an appropriate, optimal number of milestones. Ap
     - Add a flowchart at the top of the `memory-bank/active/milestones.md` file to show the dependency relationships between the milestones.
     - Create the milestone checklist in an order that is compatible with serial execution.
 
-For each milestone, estimate its complexity level (L1/L2/L3) using the decision tree in `.cursor/rules/shared/niko/core/complexity-analysis.mdc`. This estimate is advisory - the actual classification happens at the start of each sub-run - but a milestone estimated as L4 is a signal it needs to be split further.
+For each milestone, estimate its complexity level (L1/L2/L3) using the decision tree in `.cursor/skills/shared/niko/resources/core/complexity-analysis.md`. This estimate is advisory - the actual classification happens at the start of each sub-run - but a milestone estimated as L4 is a signal it needs to be split further.
 
 **If the task description is too vague to produce a confident milestone list**, stop here and ask the operator to clarify scope. Do not guess; a wrong decomposition cannot be fixed cheaply once sub-runs begin.
 

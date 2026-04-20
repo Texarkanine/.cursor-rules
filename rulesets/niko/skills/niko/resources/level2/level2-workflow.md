@@ -1,7 +1,3 @@
----
-alwaysApply: false
----
-
 # Level 2 Workflow: Simple Enhancement
 
 Level 2 tasks are simple enhancements that require a structured approach with moderate planning and documentation.
@@ -43,9 +39,9 @@ To execute a phase for a level 2 task:
 1. Update `memory-bank/active/progress.md` to indicate completion of the phase you are leaving.
 2. 🚨 ***CRITICAL:*** Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: saving work before [phase] phase`.
 3. Read and follow the instructions in the appropriate locations:
-    - **Level 2 Plan Phase**: Load `.cursor/rules/shared/niko/level2/level2-plan.mdc`
+    - **Level 2 Plan Phase**: Load `.cursor/skills/shared/niko/resources/level2/level2-plan.md`
     - **Level 2 Preflight Phase**: Invoke the `niko-preflight` skill
-    - **Level 2 Build Phase**: Load `.cursor/rules/shared/niko/level2/level2-build.mdc`
+    - **Level 2 Build Phase**: Load `.cursor/skills/shared/niko/resources/level2/level2-build.md`
     - **Level 2 QA Phase**: Invoke the `niko-qa` skill
-    - **Level 2 Reflect Phase**: Load `.cursor/rules/shared/niko/level2/level2-reflect.mdc`
-    - **Level 2 Archive Phase**: Load `.cursor/rules/shared/niko/level2/level2-archive.mdc`
+    - **Level 2 Reflect Phase**: Load `.cursor/skills/shared/niko/resources/level2/level2-reflect.md`
+    - **Level 2 Archive Phase**: Load `.cursor/skills/shared/niko/resources/level2/level2-archive.md`

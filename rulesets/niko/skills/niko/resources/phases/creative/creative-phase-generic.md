@@ -1,7 +1,3 @@
----
-alwaysApply: false
----
-
 # Creative Phase: Generic
 
 This document guides exploration of an open question that doesn't fit one of the specialized creative phase types. It covers the long tail: naming conventions, testing strategies, process decisions, tooling choices, configuration approaches, data modeling, API design, and anything else where the approach is genuinely ambiguous. It is loaded by the `niko-creative` skill.

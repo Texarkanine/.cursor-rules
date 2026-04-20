@@ -13,7 +13,7 @@ Before entering the state machine, ensure the memory bank exists.
 
 ```
 Load: .cursor/rules/shared/niko/core/memory-bank-paths.mdc
-Load: .cursor/rules/shared/niko/core/memory-bank-init.mdc
+Load: .cursor/skills/shared/niko/resources/core/memory-bank-init.md
 ```
 
 If any persistent file (`productContext.md`, `systemPatterns.md`, `techContext.md`) does not exist, initialize immediately per `memory-bank-init.mdc`.
@@ -181,7 +181,7 @@ No work is in-flight. Evaluate whether the user provided task input alongside th
 ## Step 5: Clarify Intent
 
 ```
-Load: .cursor/rules/shared/niko/core/intent-clarification.mdc
+Load: .cursor/skills/shared/niko/resources/core/intent-clarification.md
 ```
 
 Follow the instructions to validate the user's intent. Once the user approves the restatement, proceed to Step 7.
@@ -190,15 +190,15 @@ Follow the instructions to validate the user's intent. Once the user approves th
 
 Read `progress.md` for the `**Complexity:**` field and `activeContext.md` for the `**Phase:**` field. Load the appropriate level-specific workflow and resume execution from the current phase.
 
-- Level 1: `.cursor/rules/shared/niko/level1/level1-workflow.mdc`
-- Level 2: `.cursor/rules/shared/niko/level2/level2-workflow.mdc`
-- Level 3: `.cursor/rules/shared/niko/level3/level3-workflow.mdc`
-- Level 4: `.cursor/rules/shared/niko/level4/level4-workflow.mdc`
+- Level 1: `.cursor/skills/shared/niko/resources/level1/level1-workflow.md`
+- Level 2: `.cursor/skills/shared/niko/resources/level2/level2-workflow.md`
+- Level 3: `.cursor/skills/shared/niko/resources/level3/level3-workflow.md`
+- Level 4: `.cursor/skills/shared/niko/resources/level4/level4-workflow.md`
 
 ## Step 7: Classify Complexity
 
 ```
-Load: .cursor/rules/shared/niko/core/complexity-analysis.mdc
+Load: .cursor/skills/shared/niko/resources/core/complexity-analysis.md
 ```
 
 Follow the instructions to determine the complexity level. Complexity analysis will populate the memory bank's ephemeral files and guide you to the next step.

@@ -1,7 +1,3 @@
----
-alwaysApply: false
----
-
 # Archive Phase - Level 2: Simple Enhancement
 
 This document guides archiving for a Level 2 task. The archive is a concise record - summary, what changed, what was learned. A few paragraphs total.

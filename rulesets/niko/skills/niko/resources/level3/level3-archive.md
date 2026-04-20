@@ -1,7 +1,3 @@
----
-alwaysApply: false
----
-
 # Archive Phase - Level 3: Intermediate Feature
 
 This document guides archiving for a Level 3 task. The archive is the full story of the feature - a reader should be able to understand what was built, why design decisions were made, and what was learned, entirely from this one document.

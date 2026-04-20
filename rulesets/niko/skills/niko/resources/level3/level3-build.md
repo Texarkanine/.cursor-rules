@@ -1,7 +1,3 @@
----
-alwaysApply: false
----
-
 # Build Phase - Level 3: Intermediate Feature
 
 This document executes the implementation plan produced by the Level 3 Plan phase. It follows the plan step-by-step with TDD, reviews creative phase decisions before building, works module-by-module, and runs integration tests across components after individual modules pass.
