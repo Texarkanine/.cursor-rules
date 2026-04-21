@@ -6,7 +6,7 @@
      - Always-on: `rulesets/niko/niko-core.mdc`, `rulesets/niko/niko/core/memory-bank-paths.mdc`, `rulesets/niko/always-tdd.mdc`, `rulesets/niko/test-running-practices.mdc`, `rulesets/niko/visual-planning.mdc`.
      - File-rules (pattern-triggered): `rulesets/niko/niko/memory-bank/**/*.mdc`.
   2. **Skills** (`rulesets/niko/skills/*/SKILL.md`) — AgentSkills.io shape; invoked by the agent.
-  3. **Resources** (`rulesets/niko/skills/niko/resources/**/*.md`) — plain Markdown, no frontmatter; loaded by explicit path from skills and other resources. The niko workflow's 24 `alwaysApply: false` content files (`core/`, `level{1..4}/`, `phases/creative/`) live here so cross-harness translation is correct by construction (see [rulesync #1515](https://github.com/dyoshikawa/rulesync/issues/1515)).
+  3. **References** (`rulesets/niko/skills/niko/references/**/*.md`) — plain Markdown, no frontmatter; loaded by explicit path from skills and other references. The folder name matches the AgentSkills.io convention for skill-nested reference material. The niko workflow's 24 `alwaysApply: false` content files (`core/`, `level{1..4}/`, `phases/creative/`) live here so cross-harness translation is correct by construction (see [rulesync #1515](https://github.com/dyoshikawa/rulesync/issues/1515)).
 - `.cursor/**/shared/**/*` and `.claude/**/shared/**/*` contain active copies produced by `ai-rizz` / `a16n`. Never edit those trees — only `rulesets/` and top-level `rules/`.
 - Migration tooling lives in `scripts/`:
   - `scripts/audit_manual_rules.py` — enumerates `alwaysApply: false` files and emits `scripts/migration-audit.json` (gitignored).

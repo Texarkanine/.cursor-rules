@@ -35,6 +35,6 @@ To execute a phase for a level 4 task:
 1. Update `memory-bank/active/progress.md` to indicate completion of the phase you are leaving.
 2. 🚨 ***CRITICAL:*** Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: saving work before [phase] phase`.
 3. Read and follow the instructions in the appropriate locations:
-    - **Level 4 Plan Phase**: Load `.cursor/skills/shared/niko/resources/level4/level4-plan.md`
+    - **Level 4 Plan Phase**: Load `.cursor/skills/shared/niko/references/level4/level4-plan.md`
     - **Level 4 Preflight Phase**: Invoke the `niko-preflight` skill
-    - **Level 4 Archive Phase**: Load `.cursor/skills/shared/niko/resources/level4/level4-archive.md`
+    - **Level 4 Archive Phase**: Load `.cursor/skills/shared/niko/references/level4/level4-archive.md`

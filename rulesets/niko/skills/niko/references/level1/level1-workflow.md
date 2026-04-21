@@ -22,14 +22,14 @@ To execute a phase for a level 1 task:
 1. Update `memory-bank/active/progress.md` to indicate completion of the phase you are leaving.
 2. 🚨 ***CRITICAL:*** Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: saving work before [phase] phase`.
 3. Read and follow the instructions in the appropriate locations:
-    - **Level 1 Build Phase**: Load `.cursor/skills/shared/niko/resources/level1/level1-build.md`
+    - **Level 1 Build Phase**: Load `.cursor/skills/shared/niko/references/level1/level1-build.md`
     - **Level 1 QA Phase**: Invoke the `niko-qa` skill
 
 ## Wrap-Up
 
 When QA has passed and you are done:
 
-1. Load `.cursor/skills/shared/niko/resources/core/reconcile-persistent.md` and follow its instructions.
+1. Load `.cursor/skills/shared/niko/references/core/reconcile-persistent.md` and follow its instructions.
 2. Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: completed [task-id]`.
 3. Check whether `memory-bank/active/milestones.md` exists:
 

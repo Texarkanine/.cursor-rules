@@ -30,7 +30,7 @@ Decompose the overall task into an appropriate, optimal number of milestones. Ap
     - Add a flowchart at the top of the `memory-bank/active/milestones.md` file to show the dependency relationships between the milestones.
     - Create the milestone checklist in an order that is compatible with serial execution.
 
-For each milestone, estimate its complexity level (L1/L2/L3) using the decision tree in `.cursor/skills/shared/niko/resources/core/complexity-analysis.md`. This estimate is advisory - the actual classification happens at the start of each sub-run - but a milestone estimated as L4 is a signal it needs to be split further.
+For each milestone, estimate its complexity level (L1/L2/L3) using the decision tree in `.cursor/skills/shared/niko/references/core/complexity-analysis.md`. This estimate is advisory - the actual classification happens at the start of each sub-run - but a milestone estimated as L4 is a signal it needs to be split further.
 
 **If the task description is too vague to produce a confident milestone list**, stop here and ask the operator to clarify scope. Do not guess; a wrong decomposition cannot be fixed cheaply once sub-runs begin.
 

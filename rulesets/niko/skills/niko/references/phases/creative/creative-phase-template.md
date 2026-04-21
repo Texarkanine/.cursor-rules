@@ -74,7 +74,7 @@ After creating a new creative phase type, update the `niko-creative` skill's Ste
 
 ## Example: Skeleton
 
-New creative phase types are authored as plain Markdown resource files under `rulesets/niko/skills/niko/resources/phases/creative/<name>.md` — no YAML frontmatter. The `niko-creative` skill loads them by path.
+New creative phase types are authored as plain Markdown resource files under `rulesets/niko/skills/niko/references/phases/creative/<name>.md` — no YAML frontmatter. The `niko-creative` skill loads them by path.
 
 ~~~markdown
 # Creative Phase: [Domain Name]

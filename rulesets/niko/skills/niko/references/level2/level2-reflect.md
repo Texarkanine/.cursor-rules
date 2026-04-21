@@ -85,7 +85,7 @@ complexity_level: 2
 
 ## Step 7: Reconcile Persistent Files
 
-Load `.cursor/skills/shared/niko/resources/core/reconcile-persistent.md` and follow its instructions.
+Load `.cursor/skills/shared/niko/references/core/reconcile-persistent.md` and follow its instructions.
 
 ## Step 8: Update Memory Bank
 
