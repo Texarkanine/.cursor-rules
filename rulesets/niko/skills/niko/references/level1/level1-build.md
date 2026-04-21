@@ -1,7 +1,3 @@
----
-alwaysApply: false
----
-
 # Level 1 Build Phase
 
 

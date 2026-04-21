@@ -1,12 +1,6 @@
----
-alwaysApply: false
----
+# Reflect Phase - Level 2: Simple Enhancement
 
-# Reflect Phase - Level 3: Intermediate Feature
-
-This document guides reflection for a Level 3 task. Full treatment of each section. The goal is a thorough review of the entire lifecycle - plan, creative, build, QA - with cross-phase analysis that connects cause and effect across phases.
-
-For Level 4 tasks that load this document: add strategic technical insights (what does this task reveal about the system's architecture?), process improvement recommendations for the workflow itself, and estimation accuracy analysis.
+This document guides reflection for a Level 2 task. Keep it focused - a few sentences per section, one page max. The goal is to capture the key lesson, not write a retrospective.
 
 ## Step 1: Load Memory Bank Files
 
@@ -15,14 +9,13 @@ Read:
 - `memory-bank/active/projectbrief.md`
 - `memory-bank/active/activeContext.md`
 - `memory-bank/active/progress.md`
-- `memory-bank/active/creative/` (all files)
 
 ## Step 2: Verify Prerequisites
 
 - Check `memory-bank/active/.qa-validation-status` exists and contains `PASS`
 - If QA has not passed: 🛑 STOP - it does not make sense to reflect on work whose correctness has not been verified. Ask the operator for clarification, and wait for their instructions. You're done for now.
 
-## Step 3: Review the Full Task Lifecycle
+## Step 3: Review the Task
 
 Walk through the task from start to finish, comparing what was planned against what actually happened:
 
@@ -30,13 +23,7 @@ Walk through the task from start to finish, comparing what was planned against w
 
 - **Plan Accuracy**: Was the implementation plan's sequence, file list, and scope correct? Did steps need reordering, splitting, or adding? Were the identified challenges the ones that actually materialized - or did surprises come from elsewhere?
 
-- **Creative Phase Effectiveness**: For each creative phase that was executed - did the chosen approach hold up during implementation? Were there friction points where the design decision didn't translate cleanly to code? Were the right things flagged as mega-unknowns, or were there unknowns that should have been flagged but weren't?
-
 - **Build & QA Observations**: What went smoothly during build? Where did you struggle or iterate? Did QA catch substantive issues, or was the build clean? If QA failed and required rework - what caused the gap between plan and implementation?
-
-- **Cross-Phase Analysis**: Did planning gaps cause build problems? Did creative decisions create QA findings? Did preflight catch things that would have been expensive to discover during build? Trace the causal chains across phases.
-
-- **Process Observations**: Did the workflow structure itself help or hinder? Were any phases unnecessary overhead for this task? Were any missing?
 
 ## Step 4: Extract Insights
 
@@ -48,7 +35,13 @@ Categorize insights as:
 - **Technical**: patterns discovered, gotchas in the codebase, library behaviors, architectural observations
 - **Process**: workflow adjustments, estimation accuracy, phase-skipping opportunities, tooling improvements
 
-## Step 5: Write Reflection Document
+## Step 5: Million-Dollar Question
+
+> Given the changes made, examine the existing system and describe the most elegant solution that would have emerged if the change had been a foundational assumption from the start.
+
+Sometimes, the most-elegant solution is what we built - it's okay for this step to not produce a sweeping redesign!
+
+## Step 6: Write Reflection Document
 
 Create `memory-bank/active/reflection/reflection-<task-id>.md`:
 
@@ -56,7 +49,7 @@ Create `memory-bank/active/reflection/reflection-<task-id>.md`:
 ---
 task_id: [task-id]
 date: YYYY-MM-DD
-complexity_level: [n]
+complexity_level: 2
 ---
 
 # Reflection: [Task Name]
@@ -73,17 +66,9 @@ complexity_level: [n]
 
 [Was the plan right? What surprised us?]
 
-## Creative Phase Review
-
-[For each creative decision - did it hold up? Friction points?]
-
 ## Build & QA Observations
 
 [What went well, what was hard, what QA caught]
-
-## Cross-Phase Analysis
-
-[Causal chains: did planning gaps cause build problems? Did creative decisions create QA findings?]
 
 ## Insights
 
@@ -92,19 +77,23 @@ complexity_level: [n]
 
 ### Process
 - [Concrete process insight, or "Nothing notable"]
+
+### Million-Dollar Question
+
+[Result from Step 5, or "Nothing notable"]
 ~~~
 
-## Step 6: Reconcile Persistent Files
+## Step 7: Reconcile Persistent Files
 
-Load `.cursor/rules/shared/niko/core/reconcile-persistent.mdc` and follow its instructions.
+Load `.cursor/skills/shared/niko/references/core/reconcile-persistent.md` and follow its instructions.
 
-## Step 7: Update Memory Bank
+## Step 8: Update Memory Bank
 
 1. Update `memory-bank/active/activeContext.md` with reflection outcome
 2. Update `memory-bank/active/progress.md`: record completion of the Reflect phase
 3. 🚨 ***CRITICAL:*** Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: reflected on [task-id]`.
 
-## Step 8: Log Progress
+## Step 9: Log Progress
 
 Check whether `memory-bank/active/milestones.md` exists to determine the appropriate next step:
 - **milestones.md exists** (L4 sub-run): the next step is `Run /niko to continue to the next milestone.`
@@ -121,14 +110,13 @@ Print a summary of the reflection according to the following format:
 
 ## Key Insights
 
-- [Most important technical insight]
-- [Most important process insight]
+- [Most important insight, or "Nothing notable - clean execution"]
 
 ## Next Steps
 
 [next step determined above]
 ~~~
 
-## Step 9: Phase Transition
+## Step 10: Phase Transition
 
 Reflection is a terminal node. Stop and wait for operator input.

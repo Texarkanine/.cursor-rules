@@ -1,7 +1,3 @@
----
-alwaysApply: false
----
-
 # Reflect Phase - Level 3: Intermediate Feature
 
 This document guides reflection for a Level 3 task. Full treatment of each section. The goal is a thorough review of the entire lifecycle - plan, creative, build, QA - with cross-phase analysis that connects cause and effect across phases.
@@ -96,7 +92,7 @@ complexity_level: [n]
 
 ## Step 6: Reconcile Persistent Files
 
-Load `.cursor/rules/shared/niko/core/reconcile-persistent.mdc` and follow its instructions.
+Load `.cursor/skills/shared/niko/references/core/reconcile-persistent.md` and follow its instructions.
 
 ## Step 7: Update Memory Bank
 

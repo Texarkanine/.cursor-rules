@@ -16,5 +16,7 @@ Provide high-quality, reusable Cursor IDE rules that enhance AI-assisted develop
 
 ## Quality Standards
 - Rules must be well-documented with clear descriptions
-- Rules should follow the `.mdc` format with proper frontmatter
+- Rules use the `.mdc` format with proper YAML frontmatter (either `alwaysApply: true` or `globs:` to trigger inclusion)
+- Skills use the AgentSkills-idiomatic `SKILL.md` shape
+- References (plain Markdown content loaded by path from skills or other references) use `.md` with no frontmatter; folder name matches the AgentSkills.io `references/` convention
 - Examples should be practical and actionable
