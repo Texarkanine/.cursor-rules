@@ -15,3 +15,5 @@ Design a minimal, bounded rule/guidance insertion that pre-authorizes Niko-presc
 ## Phase log
 
 - `COMPLEXITY-ANALYSIS` — complete, Level 3 determined.
+- `PLAN` — in progress. Plan drafted with one open question (OQ-1: phrasing & placement of the pre-authorization rule). Invoked creative phase for OQ-1.
+- `CREATIVE (OQ-1)` — complete, **unresolved (by design)**. Operator asked for collaborative phrasing; five candidate packages analyzed, recommendation made (combined C2+C4 embedded in `niko-core.mdc` with belt+suspenders pointers), six specific questions posed to operator. See `memory-bank/active/creative/creative-commit-autonomy.md`. Awaiting operator input before resuming PLAN.
