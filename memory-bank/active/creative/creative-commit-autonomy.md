@@ -2,141 +2,170 @@
 
 ## Context
 
-Cursor's base agent prompt (injected under the `Shell` tool in a `<committing-changes-with-git>` block) contains:
+Cursor's base agent prompt contains an always-on injection that causes agents to skip Niko-prescribed commits:
 
 > "NEVER commit changes unless the user explicitly asks you to. It is VERY IMPORTANT to only commit when explicitly asked, otherwise the user will feel that you are being too proactive."
 
-This reliably suppresses the commits that Niko workflows prescribe (`🚨 CRITICAL: Commit all changes…` in `level{2,3,4}-workflow` references, `/nk-save`, etc.). We need a rule that causes agents to perform those commits reliably.
+(Full diagnostic: `memory-bank/active/cursor_request_for_system_prompt_detail.md`.)
 
-**What needs to be decided**: the exact text, framing, voice, and placement of a single rule (or rule-edit) that dissolves the conflict for Niko-prescribed commits only.
+**What needs to be decided**: the exact text, framing, voice, and placement of the Niko-side guidance that causes agents to reliably perform the commits prescribed by `level{1..4}-workflow.md` phase transitions and by `/nk-save`.
 
-**Why it matters**: this rule is the load-bearing element for every Niko workflow's phase-transition and save-point commits. If it's too weak, the base-prompt prohibition wins and agents keep hesitating. If it's too broad, agents start committing outside Niko moments (which loses the user's trust in a different way). If it adversarially "overrides" the base prompt, models that respect post-training biases toward Cursor's prompt may simply ignore the override.
+### Design shift after operator feedback (v2)
 
-**Constraints** (from `projectbrief.md` and `tasks.md`):
+The operator pushed back on framing the rule as a *patch against Cursor's prompt*. Niko shouldn't be polluted with idiosyncratic responses to one harness's current wording — that ages badly and signals the wrong intent. The rule should instead be a **general Niko principle** that happens to also resolve the observed Cursor behavior:
 
-1. Minimal surface area — one file edit or add, not dozens.
-2. Dissolves, doesn't overrides (satisfies "user explicitly asked" on its own terms).
-3. Bounded scope — Niko-prescribed commits only.
-4. Operator voice preferred over rule voice (per the transcript's critique).
-5. Must survive `ai-rizz` sync and `a16n` cross-harness translation.
-6. Must not conflict with existing `git-safety.mdc` policy (one mutating git op per turn, known inverse).
+> **Workflow invocation is the operator's explicit consent for every action that workflow prescribes.** Harness safeguards that defer to "explicit user requests" are satisfied by the invocation itself.
+
+This framing:
+
+- Is stable across harnesses (Claude Code, future Cursor, anything else) because it doesn't target a specific injected sentence.
+- Generalizes beyond commits (covers any prescribed action a harness might gate on).
+- Positions the principle as *what Niko is*, not *what Niko defends against*.
+
+### Empirical failure mode to design against
+
+Observed: agents running a *sub*-slash-command like `/niko-build` were reasoning that "the operator typed `/niko-build`, not `/niko`, so this isn't the full explicit-consent invocation." Sub-command invocation was not being recognized as inheriting consent from the top-level workflow it's part of. **This is the specific failure mode the rule needs to address**, and it implies the consent affirmation needs to be visible at the invocation site for each sub-command, not just at the `/niko` root.
+
+### Constraints
+
+1. Minimal surface area preferred, but effectiveness ≥ minimalism when they conflict (operator's "minimal but effective").
+2. Framing is a general Niko principle, not a Cursor-specific patch.
+3. Scope bounded to what a Niko workflow/skill explicitly prescribes — not a license for arbitrary side actions.
+4. Must survive `ai-rizz` sync and `a16n` cross-harness translation.
+5. Must not conflict with existing `git-safety.mdc` (one mutating git op per turn, known inverse).
+6. Sub-command invocation must be handled as equivalent-consent to the parent workflow.
 
 ## Options Evaluated
 
-Five candidate packages (phrasing + placement coupled, since they inform each other):
+Each option gets a prose name for ease of reference.
 
-- **C1. Standalone rule, verbatim-quote framing, operator pre-auth voice.** New file `rulesets/niko/commit-autonomy.mdc`. Quotes Cursor's sentence verbatim and sets up a named exception.
-- **C2. Embed in `niko-core.mdc`, generic framing, rule voice.** Adds a short section to the already-always-on core file. Does not quote Cursor; addresses the posture directly.
-- **C3. Extend `git-safety.mdc`, operator pre-auth voice.** Adds a paragraph to the existing always-on git-safety rule. Semantic neighbor of mutating-git-op hygiene.
-- **C4. Slash-command-as-explicit-ask reframe.** Either a standalone file or embedded in `niko-core.mdc`. Argues that invoking `/niko`, `/niko-build`, `/nk-save`, etc. *is itself* the operator's present-tense explicit request for the commits those phases prescribe. Tightest logical argument for dissolving the conflict.
-- **C5. User-level rule.** `~/.cursor/rules/niko-commit-autonomy.mdc`. Applies across all the operator's Cursor workspaces. Not versioned with Niko.
+- **C1 — Named Exception**: New standalone file `rulesets/niko/commit-autonomy.mdc`, always-on. Quotes Cursor's offending sentence verbatim and creates a named exception. Cursor-specific by construction.
+- **C2 — Core Bullet**: Short bullet added to `rulesets/niko/niko-core.mdc` under **Safety & Approval Guidelines**. Already-always-on, generic framing, smallest net-new content for a single-file solution.
+- **C3 — Git-Safety Extension**: Paragraph added to `rulesets/niko/git-safety.mdc`. Clusters with the existing git-ops-hygiene rule.
+- **C4 — Invocation-As-Consent (global)**: A rule (placement flexible — standalone or inside `niko-core.mdc`) that reframes slash-command invocation as the present-tense explicit ask. Could be commit-specific or (v2 form) a general-principle statement about workflow invocation.
+- **C5 — User-Level Global**: `~/.cursor/rules/niko-commit-autonomy.mdc`. Applies across all the operator's Cursor workspaces. Not versioned with Niko repo.
+- **C6 — Per-Workflow Header**: A consent affirmation lives *inside each Niko file that prescribes a commit* (4 level-workflow references + `nk-save/SKILL.md`). The affirmation travels with the instruction; no reliance on always-on injection being respected.
+
+### C6 variants
+
+- **C6a — Per-Workflow Header, Inline Full Text**: Full authorization paragraph embedded at the top of each of the 5 files. Maximum in-context strength; highest drift risk (5 copies).
+- **C6b — Per-Workflow Header, Shared Load**: Short `Load: <path-to-consent-ref>` directive at the top of each of the 5 files, pointing to one canonical consent reference (e.g., `rulesets/niko/skills/niko/references/core/invocation-consent.md`). One source of truth; five tiny pointers.
+- **C6c — Per-Command Header (broader)**: Header on **every** `/niko-*` and `/nk-*` SKILL.md, not just the ones that directly commit. Addresses the observed sub-command failure mode (`/niko-build` not recognized as inheriting from `/niko`) by asserting consent at every invocation surface. Maximum coverage; most files touched (~10).
+- **C6d — Niko-Core + Per-Workflow (hybrid)**: C2-style bullet in `niko-core.mdc` **plus** C6a or C6b headers. General posture in core; specific affirmation at commit site. Belt + suspenders.
 
 ## Analysis
 
-### Comparison
+| Criterion | C1 Named Exception | C2 Core Bullet | C3 Git-Safety Ext | C4 Invocation-As-Consent | C5 User-Level | C6a Per-File Full | C6b Per-File Load | C6c Per-Command Hdr | C6d Hybrid |
+|---|---|---|---|---|---|---|---|---|---|
+| Files touched | 1 new | 1 edit | 1 edit | 1 new or 1 edit | 1 new (outside repo) | 5 edits | 5 edits + 1 new | ~10 edits | 1 edit + 5 edits + 1 new |
+| Framing | Cursor-specific | can be generic | git-clustered | generic (v2) | varies | generic | generic | generic | generic |
+| Addresses sub-command failure mode | no | no | no | partial | no | yes (4 of 5 hits) | yes | **yes (best)** | yes |
+| Reliance on always-on injection | full | full | full | full | full | **none** | **none** | **none** | partial |
+| Maintenance burden on phrasing changes | 1 file | 1 file | 1 file | 1 file | 1 file | 5 files | 1 file | ~10 files | varies |
+| Addresses operator's "not a Cursor patch" goal | poor | yes | partial | **yes** | varies | **yes** | **yes** | **yes** | **yes** |
+| Portability across future harnesses | poor | fair | fair | **good** | fair | **good** | **good** | **good** | **good** |
 
-| Criterion | C1: Standalone + verbatim | C2: Core-embed + generic | C3: Extend git-safety | C4: Slash reframe | C5: User-level |
-|---|---|---|---|---|---|
-| Files touched | 1 new | 1 edited | 1 edited | 1 new or 1 edited | 1 new (outside repo) |
-| In-context priority | always-on | always-on (core) | always-on | depends on host | always-on globally |
-| Ships with Niko repo | yes | yes | yes | yes | **no** |
-| Directly satisfies base-prompt's condition | by pre-auth | by pre-auth | by pre-auth | **by literal slash-command act** | by pre-auth |
-| Brittleness if Cursor changes prompt text | high (verbatim) | low | low | low | varies |
-| Semantic fit | neutral | core ethos | git cluster | logical/elegant | neutral |
-| Versioned across operator's projects | workspace only | workspace only | workspace only | workspace only | **all workspaces** |
-| Bikeshed risk | moderate | moderate | moderate | low | moderate |
+### Key Insights (updated)
 
-### Key Insights
+1. **C1 is now explicitly off the table**. It bakes Cursor's current sentence into Niko, which violates the "don't patch idiosyncrasies" goal.
 
-1. **Slash-command reframing (C4) is structurally the strongest argument.** The base prompt says "commit when the user explicitly asks." When the operator types `/niko-build`, they are **literally** performing an explicit request for the commits that phase prescribes. It's not a pre-authorization ("I'll commit later") or an override ("ignore the base rule") — it's satisfying the base rule on its own terms in the present tense. Any model reasoning about whether "the user asked" has a direct, factual answer: yes, the user just typed `/niko-build`.
+2. **Sub-command failure mode changes the calculus**. If agents are empirically reasoning "`/niko-build` ≠ `/niko`, so no explicit consent," a single always-on rule in `niko-core.mdc` may not reach into that reasoning; it lives in a different mental slot than the thing the agent is actively reading. The fix is to assert consent at each sub-command's invocation surface — which is C6c in its purest form.
 
-2. **Verbatim quoting (C1) is brittle but specific.** It creates a named exception to a named sentence, which maximally helps a model resolve the conflict — but if Cursor rewords their prompt (which happens often), the quote drifts. Generic framing (C2, C4) sidesteps this.
+3. **Generic-principle framing decouples the fix from the problem's shape**. If Claude Code or a future Cursor rewrite has a different caution prompt, the Niko rule still applies on its own terms (as a Niko principle about workflow invocation) rather than needing to be re-targeted.
 
-3. **`niko-core.mdc` already does 60% of the work.** It already emphasizes autonomous execution, "no user approval required," "meticulously follow explicit formatting constraints like commit message prefixes," and "Commitment Completeness." It does **not** currently have a direct counter to the Cursor base-prompt sentence by name. The minimum diff to get the effect is a small new section there, not a new file. This makes C2 (or C2 fused with C4's framing) the most "minimal" in the literal sense.
+4. **C6b (shared Load) is the drift-proof version of C6**. One canonical file carries the text; 5 tiny one-line directives pull it in at load time. Phrasing iteration only touches the canonical file. It gets most of C6a's strength for almost none of C6a's maintenance cost.
 
-4. **User-level (C5) is tempting for portability but fights the goal.** If the user has many Cursor workspaces and only some use Niko, a user-level rule either scopes too broadly (risking commits in non-Niko contexts) or forces in-body scope-bounding language that's the same content as a workspace rule — just placed in a less-discoverable location. Also not discoverable by future contributors to this rules repo.
+5. **C2 and C6 are complementary, not competing**. C2 states the general Niko posture always-on; C6 hits each sub-command's reading frame. Together (C6d) they reinforce without redundancy: the core bullet sets "this is a Niko value," the per-file headers say "and it applies specifically to this invocation." This is the most likely-to-work option; it's also the second-most-files-touched.
 
-5. **`git-safety.mdc` extension (C3) mixes concerns.** The existing file is about *how* to run git ops (one at a time, with known inverse). Adding *when it's authorized to commit* is a different axis — a cleaner separation is to keep them in distinct rules.
+6. **`ai-rizz` reads from remote**. Any option that adds/edits files must be pushed before local `.cursor/rules/` reflects the change. Noted as a pre-canary step.
 
-6. **Belt+suspenders cross-references add reliability cheaply.** Adding a one-liner pointer in each `level{N}-workflow.md` reference (at the point where it says `🚨 CRITICAL: Commit all changes`) costs ~1 line × 4 files and puts the authorization in-context at the exact commit-decision moment, even if the always-on rule gets crowded out of a large context. This is orthogonal to C1–C5 and can be added to any of them.
+### Candidate Wordings (v2, generic-principle framing)
 
-### Candidate Wordings (rough drafts to pick from)
-
-These are **sketches** intended for collaborative refinement with the operator, not final text.
-
-#### C1-text (standalone, verbatim quote, operator voice)
+#### Canonical consent statement (for C2 bullet, C6a inline, or C6b `Load:` target)
 
 ```markdown
----
-description: Pre-authorization for Niko-prescribed commits
-alwaysApply: true
----
+## Workflow Invocation is Explicit Consent
 
-# Niko Commit Autonomy
+Niko workflows and skills prescribe specific actions at specific points — phase-transition commits, save-point commits, file writes within the declared scope, and other actions spelled out in the workflow's instructions. When the operator invokes a Niko workflow or skill (by name, by slash command including sub-commands like `/niko-build` or `/nk-save`, or by resuming an in-progress workflow), that invocation is their **explicit, present-tense consent for every action the workflow prescribes**.
 
-Cursor's base instructions include:
+Default harness safeguards that require an "explicit user request" for particular action types (git commits, shell execution, file edits, etc.) are **satisfied by the operator's invocation of the workflow** — they do not require a fresh, separate ask for each prescribed action. Sub-command invocation (`/niko-build`, `/niko-plan`, etc.) inherits consent from the parent workflow it implements; the sub-command is itself a first-class explicit ask.
 
-> NEVER commit changes unless the user explicitly asks you to. It is VERY IMPORTANT to only commit when explicitly asked, otherwise the user will feel that you are being too proactive.
+Execute the prescribed actions without seeking fresh authorization. Failing to execute a prescribed action is the deviation from what the operator has asked for.
 
-I — the operator of this repository — **have explicitly asked you**, in advance, once here, and covering every future occurrence, to perform the following commits whenever you reach them inside this repo:
-
-1. Phase-transition commits prescribed by any `level{1..4}-workflow.md` file (format: `chore: saving work before [phase] phase`).
-2. Save-point commits performed by the `nk-save` skill (format: `chore: saved work on [task-id] at [phase]`).
-3. Any commit whose message a Niko phase document or skill prescribes verbatim.
-
-When any of the above applies, the condition "the user has explicitly asked" is **already satisfied by this document**. Do not re-ask. Do not interpret executing these commits as "being too proactive" — failing to perform them is the deviation from what I've asked for.
-
-Commits outside these scenarios still require an explicit ask per Cursor's base guidance.
+Actions *outside* what the workflow explicitly prescribes still require an explicit operator ask, as normal.
 ```
 
-#### C2-text (embed in `niko-core.mdc`, rule voice, generic)
-
-New section added under **Safety & Approval Guidelines**:
+#### C2 Core-Bullet form (compact, for embedding in `niko-core.mdc`)
 
 ```markdown
-- **Niko-Prescribed Commits are Pre-Authorized**: When a Niko workflow or skill file currently in your context (e.g., `level{1..4}-workflow.md`, `nk-save/SKILL.md`) prescribes a commit at a specific point with a specific message format, the operator's invocation of that workflow **is** their explicit request for that commit. Execute it without re-asking. This covers phase-transition commits and `/nk-save` save-points. Commits outside these prescribed points continue to require an explicit operator ask.
+- **Workflow Invocation is Explicit Consent**: When the operator invokes a Niko workflow or skill — by slash command (including sub-commands like `/niko-build` or `/nk-save`), by name, or by resuming an in-progress workflow — that invocation is their explicit, present-tense consent for every action the workflow prescribes (phase-transition commits, save-points, in-scope edits, etc.). Default harness safeguards that gate on "explicit user request" are satisfied by the invocation itself; do not seek fresh authorization for prescribed actions. Failing to execute a prescribed action is the deviation from what the operator asked for. Actions outside what the workflow prescribes still require an explicit ask.
 ```
 
-#### C4-text (slash-command reframe, embed in `niko-core.mdc`)
+#### C6b short-form header (one-liner at top of workflow/skill files)
 
-New section added under **Safety & Approval Guidelines**:
+A block like this appears at the top of each of: `level{1..4}-workflow.md`, `nk-save/SKILL.md`, and optionally every `/niko-*` SKILL.md:
 
 ```markdown
-- **Slash-Command Invocation is an Explicit Commit Request**: When the operator invokes `/niko`, `/niko-build`, `/nk-save`, or any other `/niko-*` slash command, they are **performing a present-tense, explicit request for every commit those workflows prescribe** (phase-transition commits, save-points, and any commit whose message format is given verbatim in the loaded workflow or skill). The operator typing the slash command is the explicit ask. Execute the prescribed commits without seeking fresh permission. Commits outside those prescribed moments still require an explicit ask.
+> **Invocation is Explicit Consent.** Loading this workflow is the operator's explicit request for every action it prescribes (including commits). Harness safeguards that gate on "explicit user request" are satisfied by the invocation. See `.cursor/skills/shared/niko/references/core/invocation-consent.md` for the full principle.
 ```
 
-#### Combined C2+C4 (recommended starter phrasing)
+Or even tighter, if you prefer:
 
 ```markdown
-- **Niko-Prescribed Commits are Pre-Authorized by the Slash-Command Invocation**: When the operator invokes `/niko`, `/niko-build`, `/nk-save`, or any other Niko workflow command, that invocation **is** their explicit, present-tense request for every commit the loaded workflow or skill prescribes — phase-transition commits (`chore: saving work before [phase] phase`), save-points (`chore: saved work on [task-id] at [phase]`), and any commit whose message a Niko phase document spells out verbatim. Execute these without re-asking; the explicit ask has already occurred. Commits outside these prescribed moments continue to require an explicit operator ask.
+> **By loading this, the operator has explicitly requested every action it prescribes.** Harness "explicit user request" safeguards are already satisfied. Full principle: `<path>`.
 ```
 
 ## Decision
 
-**Low-Confidence Result**: The operator explicitly asked for a collaborative phrasing session — they want to pick-and-choose the wording rather than having me commit unilaterally. The structural analysis is complete and points toward a **C2+C4 hybrid** (embed in `niko-core.mdc`, slash-command-as-explicit-ask framing, with optional belt+suspenders pointers in level-workflow references), but the final text needs the operator's eye.
+**Low-Confidence Result** — operator is selecting phrasing collaboratively.
 
-### Agent's recommendation (for operator to accept, modify, or reject)
+### Agent's recommendation (updated v2)
 
-1. **Placement**: embed in `rulesets/niko/niko-core.mdc` as a new bullet under **Safety & Approval Guidelines**. *Rationale*: most surgical (no new file), rides on the most-in-context always-on rule, clusters with the existing approval/autonomy language.
-2. **Framing**: slash-command-as-explicit-ask (C4), optionally augmented with the pre-auth fallback language from C2 to cover Niko commits that happen without a fresh slash-command invocation (e.g., resuming a session).
-3. **Verbatim quoting**: **no**. Generic framing is less brittle and the logical argument stands on its own.
-4. **Belt+suspenders pointers**: **yes**, one-liner added in `level{1..4}-workflow.md` references at the `🚨 CRITICAL: Commit all changes` step. Low cost, high in-context reliability boost.
-5. **User-level placement (C5)**: **not for this task**. Ships-with-Niko is a bigger win than cross-workspace portability, and future contributors/new-machine setups get it for free.
-6. **Scope-bounding mechanism**: trigger-based ("when a Niko workflow or skill file currently in your context prescribes a commit") is the most robust — it auto-covers new phases/skills without maintenance, and naturally excludes non-Niko commits.
+**C6d — Niko-Core + Per-Workflow Hybrid, with `Load:`-directive variant (C6b mechanism for the per-file piece)**. Specifically:
 
-### Open to operator
+1. **Add** the "Workflow Invocation is Explicit Consent" bullet to `rulesets/niko/niko-core.mdc` under **Safety & Approval Guidelines** (C2 form, compact).
+2. **Add** a canonical reference file at `rulesets/niko/skills/niko/references/core/invocation-consent.md` (or similar) containing the full principle statement. Plain Markdown, no frontmatter, per the post-migration reference convention.
+3. **Add** a short header block at the top of each of:
+   - `rulesets/niko/skills/niko/references/level1/level1-workflow.md`
+   - `rulesets/niko/skills/niko/references/level2/level2-workflow.md`
+   - `rulesets/niko/skills/niko/references/level3/level3-workflow.md`
+   - `rulesets/niko/skills/niko/references/level4/level4-workflow.md`
+   - `rulesets/niko/skills/nk-save/SKILL.md`
+   
+   — with a short affirmation + `Load:` pointer to the canonical reference.
+4. **Optional stretch**: extend C6 to every `/niko-*` SKILL.md (C6c coverage) to directly neutralize the observed sub-command failure mode even when no level-workflow reference is loaded yet. ~5 additional files, all tiny edits.
 
-1. Is the combined C2+C4 wording in the right direction, or do you prefer pure C4 (reframe only) or pure C2 (pre-auth only)?
-2. Should we edit `niko-core.mdc` in place (my recommendation), or introduce a standalone `commit-autonomy.mdc` alongside it?
-3. Verbatim quote of Cursor's sentence (C1 flavor) — valuable specificity or brittle liability? Do you want it as a quoted anchor or not?
-4. Belt+suspenders pointers in level-workflow files — yes/no?
-5. Any specific operator voice you want to hit ("I have", "I've", "I, the operator,…") or any phrasing tics (e.g., avoid the word "explicit" because it's overloaded)?
-6. Escape hatch wording: current draft says "Commits outside these prescribed moments continue to require an explicit operator ask." Keep, rephrase, or drop?
+Total: 1 `niko-core.mdc` edit + 1 new reference file + 5 tiny header additions (or ~10 if including 4-stretch). Phrasing iteration only touches 1 file (the canonical reference + the core bullet — which should say substantively the same thing in different form).
+
+### What's traded away
+
+- **Minimalism by file count**: 7 files vs. 1. That's the cost of defense-in-depth against a known failure mode.
+- **One extra `Load:` step** during workflow execution (negligible cost).
+
+### Why this wins over single-file options
+
+- **C2 alone** doesn't address the `/niko-X ≠ /niko` sub-command failure mode because the core bullet, while always-on, lives in a different part of the agent's attention than the SKILL/workflow file it's currently executing.
+- **C6b alone** covers the invocation site but misses the "this is the general Niko posture" message that a core-level bullet conveys.
+- Together, the core bullet sets expectations, the per-file headers enforce them at the point of use.
+
+## Open to operator (updated questions)
+
+1. **Is the v2 "Workflow Invocation is Explicit Consent" general-principle framing the right center of gravity?** (Alternative: narrower commit-only framing.)
+2. **Do you want the full recommendation (C6d hybrid), or a subset?**
+   - C6d full: core bullet + canonical reference file + 5 workflow/skill headers
+   - C6d minus headers: just the core bullet + canonical reference (drops the per-file fix against sub-command failure)
+   - C6b only: canonical reference + 5 headers, no core bullet
+   - C6c stretch: C6d + extend headers to all `/niko-*` SKILL.mds (~10 total header sites)
+3. **Canonical-reference file placement**: `rulesets/niko/skills/niko/references/core/invocation-consent.md` (under the niko skill references, fits the existing taxonomy) or somewhere else?
+4. **Voice and phrasing on the canonical statement**: any nits on the draft above? (e.g., too long, too short, wrong tone, operator-first-person vs. third-person, prefer "explicit consent" vs. "explicit request" vs. something else?)
+5. **Short-form header wording**: prefer the more-explanatory "Invocation is Explicit Consent…" block or the tighter "By loading this…" one-liner?
+6. **Escape hatch**: current draft keeps "Actions outside what the workflow prescribes still require an explicit ask." Keep, tighten, or drop?
+7. **Sub-command stretch (C6c)**: apply the header to every `/niko-*` SKILL.md, or only the commit-prescribing ones?
 
 ## Implementation Notes (will finalize after operator decision)
 
-- If C2/C4/hybrid: single surgical edit to `rulesets/niko/niko-core.mdc` under **Safety & Approval Guidelines**.
-- If standalone file: add `rulesets/niko/commit-autonomy.mdc` with `alwaysApply: true`.
-- If belt+suspenders confirmed: add one line at the `🚨 CRITICAL: Commit all changes` step in `rulesets/niko/skills/niko/references/level{1..4}/level{N}-workflow.md` and in `rulesets/niko/skills/nk-save/SKILL.md` pointing to the authorization location.
-- Update `memory-bank/systemPatterns.md` with a one-bullet note under "Niko System Patterns" naming the pre-authorization mechanism so future contributors know it exists.
-- Push branch so `ai-rizz` can sync on next run (`ai-rizz` reads from remote, per `techContext.md`).
+- If C6d or C6c is chosen, structural sync path: new file under `rulesets/niko/skills/niko/references/core/` → gets synced into `.cursor/skills/shared/niko/references/core/` by `ai-rizz`.
+- Header edits are tiny and localized; verify nothing breaks existing `Load:` path references with a grep check (`scripts/migrate_manual_rules.py verify`-style).
+- `a16n` sandbox translation should handle the new reference cleanly (post-migration resource paths are handled per the known caveat in the recent archive).
+- Push branch so `ai-rizz` picks up changes on next run.
+- Update `memory-bank/systemPatterns.md` with a one-bullet mention of the "Invocation is Consent" principle under Niko System Patterns for future-contributor discoverability.
