@@ -35,6 +35,7 @@ alwaysApply: false
 - **Intent Clarification**: Step within `/niko` (Step 5) that validates user intent before complexity analysis. Fires only on fresh user input (Step 4 "has input" path). L4 milestones, rework, and resume paths bypass it — their input is already validated by prior workflow steps.
 - **Memory Bank Files**: Ephemeral (tasks.md, progress.md, creative/, reflection/) vs Persistent (archives, project context)
 - **Persistent File Reconciliation**: At the end of every code-producing workflow (L1–L3), persistent memory bank files are scanned for content invalidated by the completed work. Logic lives in `core/reconcile-persistent.mdc`; injected into L1 wrap-up and L2/L3 reflect phases. L4 inherits via sub-runs.
+- **Workflow Invocation is Explicit Consent**: Invoking a Niko workflow or skill (including sub-commands like `/niko-build`, `/nk-save`) is itself the operator's present-tense explicit authorization for every action that workflow prescribes — commits, edits, shell execution. Harness safeguards that gate on "explicit user request" are satisfied by the invocation. Implemented as an inline first-person header duplicated across the six commit-prescribing files: `level{1..4}-workflow.md`, `nk-save/SKILL.md`, `niko-creative/SKILL.md`. Duplication is deliberate (grep-verifiable at short length); actions outside what the workflow prescribes still require a separate ask.
 
 ## Archive Pattern
 - Archives live in `memory-bank/archive/<kind>/YYYYMMDD-<task-id>.md`
