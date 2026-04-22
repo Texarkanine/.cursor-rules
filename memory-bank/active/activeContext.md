@@ -1,6 +1,0 @@
-# Active Context: Niko Commit Autonomy
-
-- **Current Task:** Niko Commit Autonomy — add a Niko-native "Workflow Invocation is Explicit Consent" header to 6 commit-prescribing files, dissolving Cursor's base-prompt "NEVER commit unless explicitly asked" conflict.
-- **Phase:** REFLECT (completed, non-standard precondition — see caveat).
-- **What Was Done:** Classified Level 3. Full plan in `tasks.md`. Creative phase resolved at iteration 3 (C6a: per-file inline headers, first-person operator voice); creative doc updated but `tasks.md`/`progress.md` were not reconciled before build. Build landed as commit `6e695d1` (plus fix-ups `7171c9d`, `c504f6a`) on branch `let-me-git-on-with-it`, opened as a PR. The 6 headers are in place; two supporting artifacts (contributor doc at `rulesets/niko/skills/niko/references/core/invocation-consent.md` and `memory-bank/systemPatterns.md` bullet) were not created. PREFLIGHT and QA were skipped; no behavioral canary (B1–B5) has been run. Reflection written to `memory-bank/active/reflection/reflection-niko-commit-autonomy.md`, explicitly noting the skipped precondition.
-- **Next Step:** Operator decides whether to (a) run the skipped canary + missing artifacts before archiving, or (b) archive the task as-is and track the follow-ups separately. Per the level-3 workflow, Reflect → Archive is a dashed (operator-gated) transition.
