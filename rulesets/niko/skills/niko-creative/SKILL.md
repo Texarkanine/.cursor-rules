@@ -105,7 +105,7 @@ Documented in `memory-bank/active/creative/creative-[question-name].md`
 
 **Within a Niko Workflow:**
 
-Commit all changes (creative document + memory bank updates) with `chore: completed autonomouscreative exploration`.
+Commit all changes (creative document + memory bank updates) with `chore: completed autonomous creative exploration`.
 
 - If the open question was successfully resolved, load the appropriate complexity level-specific Niko workflow file, then use its Phase Mappings to resume the Plan phase.
 - If the open question could not be successfully resolved, wait for operator input. You're done for now.
