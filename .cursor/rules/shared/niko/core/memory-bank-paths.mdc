@@ -38,7 +38,7 @@ These files are scoped to the current task, and will be updated as the task prog
 
 Tasks are categorized into different levels of complexity. Each level has a specific workflow that guides the task through the different phases, and specific implementations of those phases. Phase execution and mappings must always be done as specified by the workflow that applies to the current task's complexity level.
 
-- Level 1: `.cursor/rules/shared/niko/level1/level1-workflow.mdc`
-- Level 2: `.cursor/rules/shared/niko/level2/level2-workflow.mdc`
-- Level 3: `.cursor/rules/shared/niko/level3/level3-workflow.mdc`
-- Level 4: `.cursor/rules/shared/niko/level4/level4-workflow.mdc`
+- Level 1: `.cursor/skills/shared/niko/references/level1/level1-workflow.md`
+- Level 2: `.cursor/skills/shared/niko/references/level2/level2-workflow.md`
+- Level 3: `.cursor/skills/shared/niko/references/level3/level3-workflow.md`
+- Level 4: `.cursor/skills/shared/niko/references/level4/level4-workflow.md`

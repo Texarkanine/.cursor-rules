@@ -117,55 +117,59 @@ Or even tighter, if you prefer:
 
 ## Decision
 
-**Low-Confidence Result** — operator is selecting phrasing collaboratively.
+**RESOLVED** (iteration 3) — operator landed on text, placement, and mechanism after collaborative workshop.
 
-### Agent's recommendation (updated v2)
+### Selected approach: C6 variant
 
-**C6d — Niko-Core + Per-Workflow Hybrid, with `Load:`-directive variant (C6b mechanism for the per-file piece)**. Specifically:
+**Scope: 6 files** — the `/niko` commit-prescribing sites.
 
-1. **Add** the "Workflow Invocation is Explicit Consent" bullet to `rulesets/niko/niko-core.mdc` under **Safety & Approval Guidelines** (C2 form, compact).
-2. **Add** a canonical reference file at `rulesets/niko/skills/niko/references/core/invocation-consent.md` (or similar) containing the full principle statement. Plain Markdown, no frontmatter, per the post-migration reference convention.
-3. **Add** a short header block at the top of each of:
-   - `rulesets/niko/skills/niko/references/level1/level1-workflow.md`
-   - `rulesets/niko/skills/niko/references/level2/level2-workflow.md`
-   - `rulesets/niko/skills/niko/references/level3/level3-workflow.md`
-   - `rulesets/niko/skills/niko/references/level4/level4-workflow.md`
-   - `rulesets/niko/skills/nk-save/SKILL.md`
-   
-   — with a short affirmation + `Load:` pointer to the canonical reference.
-4. **Optional stretch**: extend C6 to every `/niko-*` SKILL.md (C6c coverage) to directly neutralize the observed sub-command failure mode even when no level-workflow reference is loaded yet. ~5 additional files, all tiny edits.
+Operator's logic: workflow files are the natural chokepoint for flow-based commits (every commit-prescribing phase routes through one). `nk-save` is the one standalone commit-prescribing corner case. `niko-creative`'s in-flow commit could theoretically rely on an earlier-turn workflow-file header being in context, but since the cost of "skill directs a commit and it's missed" is high, risk/reward favors giving it its own header.
 
-Total: 1 `niko-core.mdc` edit + 1 new reference file + 5 tiny header additions (or ~10 if including 4-stretch). Phrasing iteration only touches 1 file (the canonical reference + the core bullet — which should say substantively the same thing in different form).
+Target files:
+
+- `rulesets/niko/skills/niko/references/level1/level1-workflow.md`
+- `rulesets/niko/skills/niko/references/level2/level2-workflow.md`
+- `rulesets/niko/skills/niko/references/level3/level3-workflow.md`
+- `rulesets/niko/skills/niko/references/level4/level4-workflow.md`
+- `rulesets/niko/skills/nk-save/SKILL.md`
+- `rulesets/niko/skills/niko-creative/SKILL.md`
+
+**Mechanism: C6a (inline full text).** Short enough at ~4 sentences that drift risk is low and easy to grep-verify; avoids the indirection cost of a `Load:` directive. If drift ever becomes a problem, refactor to C6b later.
+
+**No niko-core bullet (no C2 component)** in this pass. The per-file headers are expected to be sufficient on their own; if canary testing shows they're not, escalating to C6d by adding a core bullet is a cheap follow-on.
+
+### Canonical text (final)
+
+```markdown
+> **Operator consent by invocation:** I - the operator - have explicitly invoked a Niko workflow. Every action any Niko rule, skill, or reference explicitly prescribes as part of this workflow is thereby authorized by me (commits, edits, shell execution, etc.). You have standing permission to perform the prescribed actions without seeking secondary confirmation. **Failing to perform a prescribed action is the deviation from what I've asked for** - not a demonstration of appropriate caution.
+```
+
+### Rationale (why this text)
+
+- **First-person operator voice** (strongest signal pattern for dissolving harness "user hasn't asked" gates — reads as a live voice in the room, not a third-party claim of authority).
+- **"Any Niko rule, skill, or reference"** precisely names the three-tier Niko taxonomy post-migration, covering `always-tdd.mdc` and other `.mdc` rules, every SKILL.md, and every reference doc — no accidental exclusion.
+- **"Explicitly prescribes as part of this workflow"** is the scope-bounding phrase; anything not explicitly prescribed falls out of scope by implication, eliminating the need for an explicit escape-hatch sentence.
+- **Concrete examples (commits, edits, shell execution)** anchor the abstraction without binding to any specific harness or feature.
+- **"Standing permission ... without seeking secondary confirmation"** is pure Niko-native framing — no quote or paraphrase of any harness's caution wording, so it doesn't age with prompt changes.
+- **"Failing to perform a prescribed action is the deviation from what I've asked for — not a demonstration of appropriate caution"** is the load-bearing line that inverts the "user will feel you're being too proactive" training pressure directly. Generic phrasing (no mention of Cursor or commits) but surgically addresses the observed failure mode.
+
+### Supporting artifacts
+
+- **Contributor-facing doc** at `rulesets/niko/skills/niko/references/core/invocation-consent.md`. Plain Markdown (no frontmatter, per references convention). Explains the "invocation is consent" principle and why the same header text is duplicated across 6 files, so a future contributor doesn't try to consolidate and break things. Not a runtime artifact.
+- **`memory-bank/systemPatterns.md`** gets a one-bullet mention under Niko System Patterns for discoverability.
 
 ### What's traded away
 
-- **Minimalism by file count**: 7 files vs. 1. That's the cost of defense-in-depth against a known failure mode.
-- **One extra `Load:` step** during workflow execution (negligible cost).
+- **Minimalism by file count**: 7 files touched (6 headers + 1 contributor doc + 1 systemPatterns bullet = 8 changes, in 7 distinct files). Not the 1-file minimum of a C2 core bullet.
+- **Single source of truth for the text**: 6 inline copies. Mitigated by the text being short enough to grep-verify, and by the contributor doc explaining the intended duplication.
 
-### Why this wins over single-file options
+### What was explicitly considered and rejected
 
-- **C2 alone** doesn't address the `/niko-X ≠ /niko` sub-command failure mode because the core bullet, while always-on, lives in a different part of the agent's attention than the SKILL/workflow file it's currently executing.
-- **C6b alone** covers the invocation site but misses the "this is the general Niko posture" message that a core-level bullet conveys.
-- Together, the core bullet sets expectations, the per-file headers enforce them at the point of use.
-
-## Open to operator (updated questions)
-
-1. **Is the v2 "Workflow Invocation is Explicit Consent" general-principle framing the right center of gravity?** (Alternative: narrower commit-only framing.)
-2. **Do you want the full recommendation (C6d hybrid), or a subset?**
-   - C6d full: core bullet + canonical reference file + 5 workflow/skill headers
-   - C6d minus headers: just the core bullet + canonical reference (drops the per-file fix against sub-command failure)
-   - C6b only: canonical reference + 5 headers, no core bullet
-   - C6c stretch: C6d + extend headers to all `/niko-*` SKILL.mds (~10 total header sites)
-3. **Canonical-reference file placement**: `rulesets/niko/skills/niko/references/core/invocation-consent.md` (under the niko skill references, fits the existing taxonomy) or somewhere else?
-4. **Voice and phrasing on the canonical statement**: any nits on the draft above? (e.g., too long, too short, wrong tone, operator-first-person vs. third-person, prefer "explicit consent" vs. "explicit request" vs. something else?)
-5. **Short-form header wording**: prefer the more-explanatory "Invocation is Explicit Consent…" block or the tighter "By loading this…" one-liner?
-6. **Escape hatch**: current draft keeps "Actions outside what the workflow prescribes still require an explicit ask." Keep, tighten, or drop?
-7. **Sub-command stretch (C6c)**: apply the header to every `/niko-*` SKILL.md, or only the commit-prescribing ones?
-
-## Implementation Notes (will finalize after operator decision)
-
-- If C6d or C6c is chosen, structural sync path: new file under `rulesets/niko/skills/niko/references/core/` → gets synced into `.cursor/skills/shared/niko/references/core/` by `ai-rizz`.
-- Header edits are tiny and localized; verify nothing breaks existing `Load:` path references with a grep check (`scripts/migrate_manual_rules.py verify`-style).
-- `a16n` sandbox translation should handle the new reference cleanly (post-migration resource paths are handled per the known caveat in the recent archive).
-- Push branch so `ai-rizz` picks up changes on next run.
-- Update `memory-bank/systemPatterns.md` with a one-bullet mention of the "Invocation is Consent" principle under Niko System Patterns for future-contributor discoverability.
+- **C1 (Named Exception)** — bakes Cursor's specific wording into Niko; ages badly.
+- **C2 (Core Bullet alone)** — risks the `/niko-X ≠ /niko` sub-command failure mode the operator observed empirically.
+- **C3 (Git-Safety Extension)** — mixes concerns (existing file is about how to run git ops, not when commits are authorized).
+- **C5 (User-Level Global)** — hides the mechanism from contributors; not versioned with Niko.
+- **C6b (Load-directive + canonical)** — adds indirection whose benefit is marginal at this text length; can be refactored to later if needed.
+- **C6c (every `/niko-*` SKILL.md)** — unnecessary breadth given that non-commit-prescribing skills don't hit the failure mode.
+- **C6d (with core bullet)** — defense-in-depth, but likely overkill for the first pass; held as an escalation path.
+- **Escape-hatch sentence** ("Actions outside Niko's prescriptions still require a separate ask") — dropped because scope is already implicit in the prescriptive language.

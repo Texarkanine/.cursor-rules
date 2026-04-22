@@ -7,6 +7,8 @@ description: Niko Memory Bank System - Creative Phase - Design Exploration
 
 This command explores a single open question - an aspect of design or implementation where the approach is genuinely ambiguous and requires evaluating multiple options before committing. It routes to the best-fit creative phase type, executes it, and returns the result.
 
+**Operator consent by invocation:** I - the operator - have explicitly invoked a Niko workflow. Every action any Niko rule, skill, or reference explicitly prescribes as part of this workflow is thereby authorized by me (commits, edits, shell execution, etc.). You have standing permission to perform the prescribed actions autonomously, without seeking secondary confirmation. **Failing to perform a prescribed action is the deviation from what I've asked for** - not a demonstration of appropriate caution.
+
 ## Modes of Operation
 
 **Within a Niko workflow**: Creative is invoked by the plan phase, once per open question. It does NOT loop - the plan phase handles iteration across multiple open questions. Context comes from the memory bank.
@@ -103,7 +105,7 @@ Documented in `memory-bank/active/creative/creative-[question-name].md`
 
 **Within a Niko Workflow:**
 
-Commit all changes (creative document + memory bank updates) with `chore: saving work before plan phase`.
+Commit all changes (creative document + memory bank updates) with `chore: completed autonomouscreative exploration`.
 
 - If the open question was successfully resolved, load the appropriate complexity level-specific Niko workflow file, then use its Phase Mappings to resume the Plan phase.
 - If the open question could not be successfully resolved, wait for operator input. You're done for now.
