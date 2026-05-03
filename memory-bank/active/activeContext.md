@@ -2,11 +2,11 @@
 
 **Current Task:** PR Feedback Judge Command (ruleset)
 
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** PLAN - COMPLETE
 
 **What Was Done:**
-- Intent clarified and approved by user.
-- Complexity determined: **Level 3 — Intermediate Feature**.
-  - Rationale: new ruleset with multiple composed components (URL parsing, batch GitHub fetch, evaluation template, ruleset composition with `script-it-instead`). Real design decisions need exploration before coding (GitHub access mechanism, verdict format). Not architectural — does not touch Niko's state machine; `/nk-chat` (issue #63) explicitly punted to a separate thread.
+- Plan phase research collapsed two of three open questions to validated tech choices: `gh` CLI for GitHub access (confirmed installed/authenticated), and `rulesets/<name>/commands/<file>.md` for command packaging (confirmed via existing `test` ruleset on `main` and `wiggum-niko-coderabbit-pr` command precedent).
+- Creative phase resolved the remaining open question (Q1: intro/verdict template) — scaffolded intro + hybrid verdict format.
+- `tasks.md` contains the complete L3 plan: pinned URL→endpoint table, four affected components (1 new command file + 1 new ruleset directory with 3 symlinks + 1 README), inspection-grade test plan (B1–B12), 6-step implementation plan, technology validation done, challenges/mitigations documented.
 
-**Next Step:** Load Level 3 workflow and execute the Plan phase.
+**Next Step:** Preflight phase — validate the plan before build.
