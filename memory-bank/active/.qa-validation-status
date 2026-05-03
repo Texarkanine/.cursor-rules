@@ -1,9 +1,0 @@
-status: PASS (re-passed after post-reflect rework cycle)
-date: 2026-05-03
-findings: 1 trivial (in-phase) + 4 substantive (operator-surfaced post-reflect, fixed in rework cycle)
-blocking_findings: 0
-constraints_evaluated: KISS, DRY, YAGNI, Completeness, Regression, Integrity, Documentation
-fix_applied (in-phase): Inlined minimal suggested body template under the A3 follow-up-issue tip — plan called for "a minimal suggested body template" but build delivered only a natural-language description of the body contents. Added a 4-line markdown template with checkbox + comment-link + reviewer + reason columns matching the per-item block's data shape.
-fix_applied (post-reflect rework): (1) dropped "When to use" section — Cursor commands are manual-invoke-only, the body is read after the decision has already been made; (2) softened load-bearing instruction wording — reviewer's words are not "the *only* evidence" but they MUST be retrieved and considered before judging; (3) dropped filesystem-scan-for-MCPs anti-pattern — never observed in the wild, YAGNI; (4) dropped "popular GitHub MCPs / no single-comment-by-ID getter" sentence — implementation-detail scaffolding the agent can derive from runtime schema reading; (5) dropped T2 access-pattern table — the URL-shape table at the top tells the agent what each URL contains, "filter list by id" is mechanical, agent reads MCP tool schemas at runtime. File 198 → 181 lines.
-deferred_to_post_push: B2 (ai-rizz list shows /pr-feedback-judge — requires push to remote because ai-rizz reads from git remote, not local working tree).
-deferred_to_live_chat: B11/B11a/B11b/B12 (behavioral smoke tests — must be run by operator in fresh chat with command attached, in T1, T2-only, and no-tier environments).

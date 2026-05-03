@@ -1,8 +1,0 @@
-status: PASS (v2 — simplified single-rule packaging)
-date: 2026-05-03
-supersedes: v1 (2026-05-03 earlier) — v1 validated the ruleset structure; Q4 then resolved in favor of single-rule packaging, requiring re-run.
-advisories: 1 (A3 — optional follow-up-issue tip in tail) — folded into plan Step 1 section 8.
-blocking_findings: 0
-verified_live: ai-rizz sync of top-level rules/*.md → .cursor/commands/shared/ (verified in preflight v1; pattern unchanged).
-dropped_from_v1: A1 (no longer applicable — only one install path exists), ruleset-structure verification (no longer relevant).
-retained_from_v1: A2 (MCP detection anti-pattern — still folded into plan Step 1 tier-detection block).
