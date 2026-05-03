@@ -10,7 +10,7 @@ Build a Cursor command, packaged as the new `pr-feedback-judge` ruleset, that ta
 
 ### URL Shape → GitHub API Endpoint
 
-The command's dispatch logic depends entirely on classifying input URLs. This table is the contract. The API path is identical across the `gh` and anonymous-`curl` tiers (T1 and T2 — see Q2); the GitHub MCP tier (T0, when available) uses MCP tool names but operates on the same data shape.
+The command's dispatch logic depends entirely on classifying input URLs. This table is the contract. The API path applies to the `gh` tier (T1, preferred); the GitHub MCP tier (T2, fallback) uses self-describing MCP tools whose schemas the agent reads at runtime.
 
 | URL fragment | Shape | API path (under `https://api.github.com`) | Yields |
 |---|---|---|---|
@@ -45,7 +45,7 @@ flowchart LR
 ### Cross-Module Dependencies
 
 - `rulesets/pr-feedback-judge/` → `rules/pr-feedback-judge.md`, `rules/script-it-instead.mdc`, `rules/how-to-script-it-instead.mdc` (all via symlink)
-- The command body itself depends at runtime on **at least one of**, in priority order: a registered GitHub MCP server (T0, harness-native, best), `gh` CLI authenticated (T1, dominant case), or `curl` for anonymous public-PR access (T2, best-effort). See Q2 for the tier chain. Always depends on the always-on `script-it-instead` rule that the same ruleset injects.
+- The command body itself depends at runtime on **at least one of**, in priority order: `gh` CLI authenticated (T1, preferred — direct single-comment lookups, batches with `script-it-instead`), or a registered GitHub MCP server (T2, fallback — harness-native but list-and-filter for single-comment URLs). Anonymous access is cut entirely. See Q2 for the tier chain. Always depends on the always-on `script-it-instead` rule that the same ruleset injects.
 
 ### Boundary Changes
 
@@ -62,8 +62,9 @@ flowchart LR
 
 ## Open Questions
 
-- [~] **Q1 — Questioning intro & per-item verdict template.** → **Provisionally resolved (v0)**: scaffolded intro (criteria: technical accuracy, scope alignment, severity) + hybrid verdict (triage table for all items, detail blocks for valid-only, summary tail). Templates drafted in `memory-bank/active/creative/creative-pr-feedback-judge-template.md`. **Subject to revision** in build phase Step 1 (warehouse mining) — the v0 template is grounded only in the warehouse summary I was handed, not in the actual user-prompt corpus. If mining surfaces patterns the v0 template misses or overfits, it is amended before the command body is written.
-- [x] **Q2 — GitHub fetch tier strategy.** Reopened twice. Final resolution: **T0 (GitHub MCP, when registered with the harness) → T1 (`gh` CLI authenticated) → T2 (anonymous `curl`, best-effort, public PRs only)**. Tier order tracks user setup intent, not just tool availability. No env-var token harvesting. No per-tier sanity-check (long-list truncation is a "use a more specific URL" problem, not an engineering problem). All tiers reason over the same data shape (author / body / path / diff_hunk / verdict), so the parsing & template-rendering logic is tier-agnostic. See `memory-bank/active/creative/creative-pr-feedback-judge-fetch-tiers.md`.
+- [x] **Q1 — Questioning intro & per-item verdict template (v0).** Provisionally resolved during plan-phase creative as scaffolded intro + hybrid (triage-table + valid-detail) verdict. Operator flagged the grounding (a summary doc only, not the actual user-prompt corpus) as insufficient. v0 is preserved in `creative-pr-feedback-judge-template.md` for design-history reasons but is **superseded by Q3** (see below). The v0 doc has a banner pointing at the grounded version.
+- [x] **Q2 — GitHub fetch tier strategy.** Reopened three times. Final resolution: **T1 (`gh` CLI authenticated, preferred — direct single-comment lookups, batches with `script-it-instead`) → T2 (GitHub MCP, loose-detected by case-insensitive `github` substring match against MCP server name/identifier/description; agent reads tool schemas at runtime) → fail loudly**. Anonymous access cut. No env-var token harvesting. No sanity-check. Verified the popular `user-github` MCP exposes only PR/issue-scoped method-dispatch tools (no single-comment-by-ID getter), which is why T1 wins on efficiency. See `memory-bank/active/creative/creative-pr-feedback-judge-fetch-tiers.md`.
+- [x] **Q3 — Questioning intro & per-item verdict template (grounded).** Promoted from a build step to its own creative exploration per operator: this is the real meat of the prompt design. Mined the actual user-prompt corpus from the local Cursor warehouse (21 URL-bearing user messages extracted, 12 clean signal). Findings: the user's actual criteria vocabulary is **valid / worth fixing / in scope for this PR** (not "technical accuracy / severity / scope alignment"); the user wants the three questions answered separately, not collapsed; the user wants an explicit disposition (fix-now / defer-follow-up / dismiss) which is the composition of the three answers; real ask sizes are 1–3 items (not 30) so the triage table demotes to >5-items-only; corpus shows a corpus-attested failure mode (agent answered before fetching the linked comment) that requires a load-bearing "fetch first" instruction in the intro. Final template in `memory-bank/active/creative/creative-pr-feedback-judge-template-grounded.md`.
 
 (URL parsing/dispatch was flagged as open in the projectbrief but collapsed: regex on the URL fragment, mapping unambiguous and now in the Pinned Info table.)
 
@@ -85,16 +86,17 @@ This is a documentation/rule repo with no automated test framework (confirmed: n
 
 - B6: `rules/pr-feedback-judge.md` parses as Markdown without lint errors (using whatever markdown linter the repo uses; if none, manual visual review).
 - B7: The command body documents all four URL shapes from the Pinned Info table.
-- B8: The command body specifies the **tier-detection block in priority order T0→T1→T2** and shows one invocation example per tier for at least one URL shape, plus the API path table shared by T1/T2.
-- B9: The command body includes the intro/verdict template (final, post-mining version) selected in Q1.
+- B8: The command body specifies the **tier-detection block in priority order T1 (`gh`) → T2 (GitHub MCP, loose-detected) → fail** and shows the `gh api` invocations for each URL shape; for T2, describes the access pattern (which logical operation per URL shape) without hardcoding MCP tool names.
+- B9: The command body includes the grounded intro and per-item block from Q3 verbatim (intro + per-item block always; triage table conditional on >5 items).
 - B10: The command body explicitly references `script-it-instead` (so the agent knows to treat the fetch as a batch script, not a loop).
-- B10a: The command body documents the private-repo failure mode for T2 (with the "install gh / register MCP" message) and the rate-limit failure mode for T2.
+- B10a: The command body documents the failure modes from Q2: 404 in T1 → "private or deleted or malformed"; no tier available → "install gh and run gh auth login, or register a GitHub MCP server."
+- B10b: The command body includes the load-bearing "fetch first, never judge from the URL alone" instruction from Q3 finding F6.
 
 **Behavioral (manual smoke test)**
 
 - B11: Pasting a real PR URL (e.g. `https://github.com/Texarkanine/a16n/pull/97`) plus a real `#discussion_r…` URL into a fresh chat with the command attached produces: one verdict per inline-review comment + one verdict per conversation comment + one verdict for the single inline comment, with no duplicate evaluations.
-- B11a: Repeat B11 in a tier-degraded environment (`PATH` stripped of `gh`) — the command must still produce a correct rendering via T2 against a public PR.
-- B11b: Repeat B11 against a known-private PR with no `gh` auth and no MCP — the command must surface the "install gh / register MCP" message rather than misclassifying or crashing.
+- B11a: Repeat B11 in a tier-degraded environment (`PATH` stripped of `gh`) — the command must still produce a correct rendering via T2 (GitHub MCP).
+- B11b: Repeat B11 with neither `gh` nor a registered GitHub MCP — the command must surface the "install gh / register MCP" message rather than misclassifying or crashing or trying to fetch anonymously.
 - B12: An invalid / malformed URL produces a clear "could not classify" message, not a crash.
 
 ### Test Infrastructure
@@ -110,51 +112,47 @@ This is a documentation/rule repo with no automated test framework (confirmed: n
 
 ## Implementation Plan
 
-Diagram-first. The new files are tiny and acyclic; the implementation order matches the dependency direction (leaves first). Build-phase steps 1 and 2 ground the template in real data before anything is written.
+The plan-phase work has done all the design. Build phase is straight execution — write the file, lay down the symlinks, write the README, validate.
 
-1. **Mine the warehouse for actual user questioning patterns.** The Q1 v0 template is grounded in the warehouse summary doc, not in the actual user-prompt corpus — operator flagged this as insufficient.
-   - **Read fully**: `memory-bank/cursor_pull_request_feedback_references.md` (already in this task's context — re-read deliberately, do not skim).
-   - **Run queries** against the local DuckDB warehouse using the `cw-query` skill (loaded via `/cw-query` in this conversation, or directly via `query.py`):
-     - Pull the **first user message** for each of the ~40 sessions whose `text_content` contains a `github.com/.../pull/N` URL, with the system-context XML stripped (`regexp_extract` on `<user_query>…</user_query>`). This surfaces the actual phrasing the user uses to ask for feedback evaluation.
-     - Pull the **specific message that contains the URL** when it isn't the first message — that's where the "evaluate this" framing usually sits. Same XML-stripping treatment.
-     - Inspect the two CSVs the prior `/cw-query` session left at `/tmp/cursor-warehouse-pr-feedback-github-pull-urls.csv` and `/tmp/cursor-warehouse-pr-feedback-semantic-vs-url.csv` if they still exist on the build machine; regenerate via the same SQL (documented in the warehouse extract doc) if not.
-     - Run a `cw-recall` semantic search for natural-language paraphrases of "judge this PR feedback" / "is this reviewer comment valid" / "evaluate each piece of feedback" to catch sessions the URL-only filter misses.
-   - **Synthesize** what the user actually does in those threads: the recurring framing verbs ("evaluate", "judge", "weigh", "tell me if X is valid"), the recurring decision criteria they invoke explicitly, the recurring output structure they ask for (or accept without correction), and any consistent failure modes (e.g. agent emitting opinions before fetching, agent ignoring some comments).
-   - **Compare to the v0 template** in `creative-pr-feedback-judge-template.md`. For each delta — wording, criteria, structure — decide: amend the template, or note explicitly why the v0 wins.
-   - **Output**: a short addendum or revision to `creative-pr-feedback-judge-template.md` titled "Warehouse-mining update", documenting what was searched, what was found, and what (if anything) changed in the template. If nothing changes, that null result is itself documented with the queries that justified it. The (possibly amended) template at the end of this step is the **final** Q1 resolution.
-
-2. **Write the canonical command body.** This is the bulk of the work.
+1. **Write the canonical command body.** This is the bulk of the work.
    - Files: `rules/pr-feedback-judge.md` (new)
-   - Sections (in order): purpose / when-to-use; URL shape table (lifted from Pinned Info, tier-agnostic API paths); **tier-detection block in priority order T0→T1→T2 + per-tier invocation recipes** (from Q2); the intro template (final, from Q1 + Step 1 mining); the per-item verdict format (final, from Q1 + Step 1 mining); orchestration walkthrough that ties batch-fetch (script-it-instead) to per-item evaluation; failure-mode handling — malformed URL, private-repo-without-auth, anonymous rate limit, no-tier-available; example invocation.
-   - Creative refs: Q1 → `creative-pr-feedback-judge-template.md` (post-mining); Q2 → `creative-pr-feedback-judge-fetch-tiers.md`.
+   - Sections (in order):
+     - Purpose / when-to-use.
+     - **Load-bearing instruction**: "Fetch the actual comment text first, never judge from the URL alone" (Q3 finding F6).
+     - URL shape table (lifted verbatim from Pinned Info, T1 paths shown).
+     - Tier-detection block: T1 (`gh` + `gh auth status`) → T2 (loose `github` substring match against MCP server metadata) → fail loudly. Per-tier invocation recipes for at least one URL shape.
+     - The grounded intro from Q3 (verbatim).
+     - The per-item block from Q3 (verbatim) and the conditional triage-table-when->5-items rule.
+     - Orchestration walkthrough that ties batch-fetch (script-it-instead) to per-item evaluation.
+     - Failure-mode handling: malformed URL, T1 404, no-tier-available.
+     - Example invocation against a public PR with one `#discussion_r…` and one whole-PR URL, showing the rendered output shape.
+   - Creative refs: Q3 (final) → `creative-pr-feedback-judge-template-grounded.md`; Q2 → `creative-pr-feedback-judge-fetch-tiers.md`.
 
-3. **Create the ruleset directory and symlinks.**
+2. **Create the ruleset directory and symlinks.**
    - Files:
      - `rulesets/pr-feedback-judge/commands/pr-feedback-judge.md` → `../../../rules/pr-feedback-judge.md`
      - `rulesets/pr-feedback-judge/script-it-instead.mdc` → `../../rules/script-it-instead.mdc`
      - `rulesets/pr-feedback-judge/how-to-script-it-instead.mdc` → `../../rules/how-to-script-it-instead.mdc`
    - Verification: `find rulesets/pr-feedback-judge -type l -xtype l` is empty.
 
-4. **Write the ruleset README.**
+3. **Write the ruleset README.**
    - Files: `rulesets/pr-feedback-judge/README.md` (new)
-   - Style: match `rulesets/shell/README.md` — brief purpose, links to each contained file, scope notes.
-   - Content: explain the command's purpose, the four URL shapes accepted, the **tier-priority access model** (MCP preferred, gh fallback, anonymous best-effort for public PRs), and the rationale for bundling `script-it-instead`.
+   - Style: match `rulesets/shell/README.md`.
+   - Content: command purpose, four URL shapes accepted, tier-priority access model (`gh` preferred, GitHub MCP fallback, anonymous not supported), rationale for bundling `script-it-instead`.
 
-5. **Run inspection-grade validations B1–B10a.**
-   - Mechanical shell one-liners; capture results into the QA report later.
+4. **Run inspection-grade validations B1–B10b.** Mechanical shell one-liners; capture results for the QA report.
 
-6. **Manual smoke test B11/B11a/B11b/B12** (deferred to QA phase, but listed here so the implementer remembers it's part of "done").
+5. **Manual smoke test B11/B11a/B11b/B12** (QA phase, but listed here so it's not forgotten as part of "done").
 
 ## Technology Validation
 
-- **T0 — GitHub MCP**: detection mechanism confirmed (the harness exposes registered MCP servers in the agent's context block; in this Cursor environment they live under `~/.cursor/projects/<proj>/mcps/<server>/tools/*.json`). No GitHub MCP is present in *this* build environment (current MCPs: `cursor-ide-browser`, `plugin-gitlab-GitLab`, `user-context7`), so T0 cannot be smoke-tested locally — but the command body design only requires the agent to *recognize* a github-flavored MCP tool when one is exposed; it does not bind to a specific server.
-- **T1 — `gh` CLI 2.83.0**: installed locally, authenticated as `Texarkanine`, verified `gh api repos/Texarkanine/a16n/pulls/97/comments` returns clean JSON.
-- **T2 — anonymous REST**: `curl -fsS https://api.github.com/repos/Texarkanine/a16n/pulls/comments/3177417607` confirmed during plan to return identical JSON shape to T1, including `diff_hunk` and `pull_request_review_id`. Anonymous rate limit confirmed at `x-ratelimit-limit: 60` per hour; that's plenty for a single PR review and we are explicitly not engineering around it.
-- **`jq` 1.6**: installed locally; treated as opportunistic in T2 (T2 falls back to a `python3 -c '…'` stdlib parse if absent).
+- **T1 — `gh` CLI 2.83.0**: installed locally, authenticated as `Texarkanine`, verified `gh api repos/Texarkanine/a16n/pulls/97/comments` returns clean JSON. Direct single-comment lookup `gh api repos/Texarkanine/a16n/pulls/comments/<id>` confirmed working — O(1), no list-and-filter needed.
+- **T2 — GitHub MCP**: a GitHub MCP server (`user-github`, official-style implementation, 41 tools) was registered with the harness during plan-phase iteration. Inspected its tool surface: `pull_request_read` (method-dispatch with `get_review_comments` / `get_reviews` / `get_comments` / `get`), `issue_read` (method-dispatch with `get_comments`). **Confirmed: no single-comment-by-ID getter** — single-comment URLs require list-and-filter via the parent PR/issue. This validates the Q2 decision to demote MCP to T2 rather than T1.
+- **MCP detection signal**: the directory layout `~/.cursor/projects/<proj>/mcps/<server>/SERVER_METADATA.json` exposes the server's name and identifier; the agent's runtime context also lists registered MCP servers and their tool schemas. Loose `github` substring match (case-insensitive) over server name/identifier/description is sufficient and operator-confirmed.
 - **`ai-rizz`**: installed at `/home/mobaxterm/.local/bin/ai-rizz`; `ai-rizz list` works and already lists the existing `script-it` ruleset and `wiggum-niko-coderabbit-pr` command, confirming the conventions we're modeling on.
-- **Warehouse access for build Step 1**: the `cw-query` and `cw-recall` skills are loaded in this conversation; `query.py` and `vsearch.py` are resolvable per their respective SKILL files. No new install required.
+- **Warehouse mining (Q3 plan-phase work)**: `cw-query` skill loaded; `query.py` resolved at `~/.cursor/plugins/local/cursor-warehouse/scripts/query.py`; prior CSVs from the warehouse-extract session reused at `/tmp/cursor-warehouse-pr-feedback-*.csv`. SQL extracted 21 URL-bearing user prompts; new artifact written at `/tmp/pr-feedback-user-prompts-extracted.csv`. Methodology fully documented in `creative-pr-feedback-judge-template-grounded.md`.
 
-No new dependencies are introduced — every tool in the tier chain is either deliberate user setup (T0/T1) or already present in the audience's environment (T2's `curl`).
+No new dependencies are introduced — `gh` and the GitHub MCP are deliberate user setup.
 
 ## Challenges & Mitigations
 
@@ -166,9 +164,9 @@ No new dependencies are introduced — every tool in the tier chain is either de
 ## Status
 
 - [x] Component analysis complete
-- [x] Open questions resolved (Q1 v0 + Q2 final; Q1 final pending build Step 1 mining as designed)
+- [x] Open questions resolved (Q1 superseded; Q2 final; Q3 final via warehouse mining)
 - [x] Test planning complete (TDD-equivalent inspection plan)
-- [x] Implementation plan complete (build Step 1 = warehouse mining; Step 2+ = build proper)
+- [x] Implementation plan complete (5 steps, all build-execution; design fully done in plan)
 - [x] Technology validation complete
 - [ ] Preflight
 - [ ] Build

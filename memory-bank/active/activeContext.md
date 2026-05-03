@@ -2,12 +2,11 @@
 
 **Current Task:** PR Feedback Judge Command (ruleset)
 
-**Phase:** PLAN - COMPLETE (v3 — fetch-tier reordered, warehouse-mining baked into build)
+**Phase:** PLAN - COMPLETE (v4 — tier order flipped, anonymous cut, Q3 grounded template done)
 
 **What Was Done:**
-- Q2 re-revised after operator feedback: tier order is now **T0 GitHub MCP → T1 `gh` CLI → T2 anonymous `curl` (best-effort)**. Anonymous demoted to third-class with no rate-limit engineering and explicitly no env-var token harvesting (per operator constraint).
-- Sanity-check / count-verification step rejected — long-list truncation is a user-behavior fix (use a more specific URL), not an engineering concern.
-- Q1 reclassified as provisionally resolved (v0). Build Step 1 is now an explicit warehouse-mining task: re-read `memory-bank/cursor_pull_request_feedback_references.md` deliberately, run `cw-query` SQL to extract the actual first-user-prompt and URL-bearing-message text from the ~40 PR-feedback sessions in the local warehouse (XML-stripped via `regexp_extract` on `<user_query>`), run `cw-recall` semantic searches for paraphrases, synthesize the recurring framing/criteria/structure the user actually uses, and amend the template if v0 misses or overfits. The post-mining template is the final Q1 resolution.
-- `creative-pr-feedback-judge-fetch-tiers.md` rewritten end-to-end. `tasks.md` updated: tier ordering, removed sanity-check angle, added build Step 1 warehouse-mining ahead of command-body write, smoke tests adjusted (B11a now T2-only, B11b expects "install gh / register MCP" message).
+- Q2 reopened a third time after operator added a real GitHub MCP server (`user-github`, 41 tools) to the harness. Inspection confirmed: this MCP — and likely most read-oriented GitHub MCPs — has only PR/issue-scoped method-dispatch tools; no single-comment-by-ID getter. That flips the tier order: T1 `gh` is now preferred (O(1) single-comment lookups + native batching with `script-it-instead`); T2 GitHub MCP is fallback (loose-detected via case-insensitive `github` substring match against server metadata). Anonymous access cut entirely. No env-var token harvesting. Failure when neither tier present is a clear "install gh / register MCP" message.
+- Q3 promoted from a build step to its own creative exploration. Did the actual mining: extracted 21 URL-bearing user prompts from the local Cursor warehouse via `cw-query` SQL, filtered to 12 clean signals, synthesized six findings (F1–F6) about the user's real questioning patterns. The corpus revealed v0's criteria vocabulary was wrong ("technical accuracy / severity / scope alignment" → user actually says "valid / worth fixing / in scope for this PR"), v0 collapsed three questions the user wants separate, v0 missed the disposition concept, v0 over-optimized for 30-item runs that don't appear in the corpus, and v0 missed a corpus-attested failure mode (agent judging before fetching). Final template in `creative-pr-feedback-judge-template-grounded.md`; v0 banner-marked superseded.
+- Plan revised: implementation plan now 5 build-execution steps. Tier-detection block, URL→endpoint table, README dependency line, and smoke-test expectations all updated for the gh→MCP order.
 
-**Next Step:** Preflight phase — validate the v3 plan before build.
+**Next Step:** Preflight phase — validate the v4 plan before build.

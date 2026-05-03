@@ -1,3 +1,11 @@
+# Decision: PR Feedback Judge — Intro & Verdict Template (v0 — SUPERSEDED)
+
+> **⚠️ This v0 is superseded by `creative-pr-feedback-judge-template-grounded.md`.**
+>
+> The grounded version mines the actual user-prompt corpus from the local Cursor warehouse and revises the criteria vocabulary, structure, and ask-size assumptions in light of real evidence. The v0 below is preserved for design-history reasons (so the trade between this and the grounded version is auditable), but the grounded doc is the authoritative template.
+
+---
+
 # Decision: PR Feedback Judge — Intro & Verdict Template
 
 ## Context
