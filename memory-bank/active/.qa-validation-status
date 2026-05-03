@@ -1,0 +1,8 @@
+status: PASS
+date: 2026-05-03
+findings: 1 (trivial — fix applied during QA)
+blocking_findings: 0
+constraints_evaluated: KISS, DRY, YAGNI, Completeness, Regression, Integrity, Documentation
+fix_applied: Inlined minimal suggested body template under the A3 follow-up-issue tip — plan called for "a minimal suggested body template" but build delivered only a natural-language description of the body contents. Added a 4-line markdown template with checkbox + comment-link + reviewer + reason columns matching the per-item block's data shape.
+deferred_to_post_push: B2 (ai-rizz list shows /pr-feedback-judge — requires push to remote because ai-rizz reads from git remote, not local working tree).
+deferred_to_live_chat: B11/B11a/B11b/B12 (behavioral smoke tests — must be run by operator in fresh chat with command attached, in T1, T2-only, and no-tier environments).

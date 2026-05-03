@@ -134,9 +134,16 @@ For 5 or fewer items, skip the table — the per-item blocks alone are clearer a
 
 > N items evaluated · X to fix in this PR · Y deferred · Z dismissed.
 
-Then add this one-line tip:
+Then add this one-line tip with a minimal body template:
 
-> To turn all "defer to follow-up" items into a GitHub issue, run: `gh issue create --title "Follow-ups from PR #N" --body-file <path>` with a body that lists each deferred item's link + reviewer + the "in scope?" answer.
+> To turn all "defer to follow-up" items into a GitHub issue, run: `gh issue create --title "Follow-ups from PR #N" --body-file <path>`. Suggested minimal body:
+>
+> ```markdown
+> Follow-ups deferred from PR #N. Each item links back to the original review comment.
+>
+> - [ ] [discussion_r123](https://github.com/{o}/{r}/pull/N#discussion_r123) — @reviewer — <one-line "in scope?" answer / why it's deferred>
+> - [ ] [discussion_r456](https://github.com/{o}/{r}/pull/N#discussion_r456) — @reviewer — <…>
+> ```
 
 ## Orchestration walkthrough
 

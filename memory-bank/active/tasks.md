@@ -152,4 +152,4 @@ No new dependencies are introduced — `gh` and the GitHub MCP are deliberate us
 - [x] Preflight v1 (PASS; superseded by v2 after Q4 simplification)
 - [x] Preflight v2 (PASS; A2 retained, A3 added; single-rule plan validated)
 - [x] Build
-- [ ] QA
+- [x] QA (PASS — 1 trivial fix applied: inlined A3 minimal body template)
