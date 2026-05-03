@@ -78,11 +78,11 @@ This is a documentation/rule repo with no automated test framework (confirmed: n
 
 - B6: `rules/pr-feedback-judge.md` parses as Markdown without lint errors (visual review; no repo-wide markdown linter configured).
 - B7: The command body documents all four URL shapes from the Pinned Info table.
-- B8: The command body specifies the **tier-detection block in priority order T1 (`gh`) → T2 (GitHub MCP, loose-detected) → fail** and shows the `gh api` invocations for each URL shape; for T2, describes the access pattern (which logical operation per URL shape) without hardcoding MCP tool names.
+- B8: The command body specifies the **tier-detection block in priority order T1 (`gh`) → T2 (GitHub MCP, loose-detected) → fail** and shows the `gh api` invocations for each URL shape; for T2, instructs the agent to read MCP tool schemas at runtime and pick the matching tool. (Post-reflect rework: dropped the previously-required explicit T2 access-pattern table — operator flagged as YAGNI; agent can derive from URL-shape table + runtime schema reading.)
 - B9: The command body includes the grounded intro and per-item block from Q3 verbatim (intro + per-item block always; triage table conditional on >5 items).
 - B10: The command body includes the inlined batch-fetch instruction: "if you end up with 3+ structurally-identical `gh api` calls in one invocation (e.g., multiple `#discussion_r…` URLs), issue them as one batched pipeline, not a sequential loop."
 - B10a: The command body documents the failure modes from Q2: 404 in T1 → "private or deleted or malformed"; no tier available → "install gh and run gh auth login, or register a GitHub MCP server."
-- B10b: The command body includes the load-bearing "fetch first, never judge from the URL alone" instruction from Q3 finding F6.
+- B10b: The command body includes the load-bearing "fetch first, never judge from the URL alone" instruction from Q3 finding F6. (Post-reflect rework: softened "the *only* evidence you may judge from" → "MUST be retrieved and considered before you judge" — reviewer's words are not the only evidence, but they must be actually fetched and considered.)
 
 **Behavioral (manual smoke test)**
 
@@ -154,3 +154,4 @@ No new dependencies are introduced — `gh` and the GitHub MCP are deliberate us
 - [x] Build
 - [x] QA (PASS — 1 trivial fix applied: inlined A3 minimal body template)
 - [x] Reflect (`memory-bank/active/reflection/reflection-pr-feedback-judge.md`)
+- [x] Post-reflect rework cycle (operator-flagged YAGNI/wording — 4 substantive fixes; QA re-passed; reflection amended)

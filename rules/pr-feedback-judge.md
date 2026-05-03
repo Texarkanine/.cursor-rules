@@ -2,16 +2,11 @@
 
 Evaluate one or more pieces of GitHub PR review feedback against the standard "valid? worth fixing? in scope for this PR?" rubric and emit a per-item verdict with an explicit disposition.
 
-## When to use
-
-- You've been handed one or more GitHub PR-feedback URLs (whole PR, a specific PR review, or individual inline / conversation comments — any mix) and need to decide what to do with each piece of feedback.
-- Typical usage point: at the `reflect → pr open → [here]` seam of a Niko flow, when reviewers (human or bot) have weighed in and you're triaging their feedback before responding or fixing.
-
 **Access requirements.** Prefers the `gh` CLI for direct, batched fetches. Falls back to a registered GitHub MCP server. Requires one or the other — anonymous public access is not supported.
 
 ## ⚠️ Load-bearing instruction: fetch first, never judge from the URL alone
 
-**Always fetch the actual comment text before forming any opinion.** Do not improvise a verdict from the URL slug, the file path, or your prior knowledge of the PR. The reviewer's actual words — and the diff hunk they were anchored to — are the *only* evidence you may judge from. Fetch first, then evaluate. Every time.
+**Always fetch the actual comment text and consider it before forming any opinion.** Do not improvise a verdict from the URL slug or the file path alone. The reviewer's actual words — and the diff hunk they were anchored to — MUST be retrieved and considered before you judge. Fetch first, then evaluate. Every time.
 
 ## URL shape → GitHub endpoint
 
@@ -63,18 +58,7 @@ gh api "repos/{o}/{r}/issues/comments/{cid}"
 
 Detection: scan the harness's **registered-MCP-servers list** (the same block of MCP metadata exposed to you at invocation time) for any server whose **name, identifier, or description** contains `github` (case-insensitive substring). If one matches, use its read-only PR/issue tools.
 
-**Anti-pattern — do NOT do this:** filesystem-scan for MCPs (e.g., walking `~/.cursor/projects/*/mcps/`, reading descriptor JSON files off disk, or any other out-of-band discovery). The detection signal is the registered-MCP list already in your runtime context. If you're searching the filesystem for an MCP, you're doing it wrong.
-
-Once a GitHub MCP is detected, read its tool schemas at runtime and pick the tool that matches each URL shape. The popular GitHub MCPs (e.g., `user-github`) expose method-dispatched, PR/issue-scoped tools — there is **no single-comment-by-ID getter**, so single-comment URLs require a list-and-filter against the parent PR/issue:
-
-| URL shape | T2 access pattern |
-|---|---|
-| Whole PR `…/pull/N` | All review-thread comments + all PR conversation comments + all reviews of PR `{o}/{r}#{N}` |
-| `#pullrequestreview-{rid}` | All review-thread comments on PR `{o}/{r}#{N}`, filtered to `pull_request_review_id == {rid}` + the review body for `{rid}` |
-| `#discussion_r{cid}` | All review-thread comments on PR `{o}/{r}#{N}`, filtered to `id == {cid}` |
-| `#issuecomment-{cid}` | All conversation comments on PR `{o}/{r}#{N}`, filtered to `id == {cid}` |
-
-Derive `{N}` from the URL path (`…/pull/N#…`) when filtering for single-comment URLs.
+Once a GitHub MCP is detected, read its tool schemas at runtime and pick the tool that matches each URL shape.
 
 ### No tier available — fail loudly
 

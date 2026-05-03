@@ -2,7 +2,7 @@
 
 **Current Task:** PR Feedback Judge Command
 
-**Phase:** REFLECT - COMPLETE
+**Phase:** REFLECT - COMPLETE (with post-reflect rework cycle, 2026-05-03 14:44)
 
 **What Was Done:**
 - Wrote canonical command body at `rules/pr-feedback-judge.md` per the simplified single-rule plan (post-Q4). Section order matches the plan exactly: purpose / when-to-use (with the Q2 access-requirements paragraph) → load-bearing fetch-first instruction (Q3 F6) → URL-shape table (T1 paths) → tier-detection block (T1 → T2 → fail; per-shape `gh api` recipes; T2 access-pattern table; A2 anti-pattern explicitly called out) → grounded intro (Q3, verbatim) → per-item block (Q3, verbatim) → conditional >5-item triage table → tail with A3 follow-up-issue tip → orchestration walkthrough (with B10 inlined batch-fetch instruction) → failure modes → example invocation against `Texarkanine/a16n#97`.
@@ -31,4 +31,6 @@
 
 **Persistent files reconciled:** scanned `productContext.md` / `systemPatterns.md` / `techContext.md`. None invalidated by this task. `systemPatterns.md` already documents top-level `rules/` as a canonical source; no other shape was changed.
 
-**Next Step:** Run `/niko-archive` to create the archive document and finalize the project. (Reflect is a terminal node; archive transition requires operator input.)
+**Post-Reflect Rework:** Operator surfaced 4 substantive findings (3 YAGNI cuts + 1 wording softening + dropped "When to use" section). Treated as a rework cycle, fixed in-place, QA re-passed, reflection amended with addendum. File 198 → 181 lines.
+
+**Next Step:** Run `/niko-archive` to create the archive document and finalize the project. (Reflect remains a terminal node; archive transition requires operator input.)

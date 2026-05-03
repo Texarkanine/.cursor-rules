@@ -79,3 +79,25 @@ The other notable causal chain: **A2 in preflight v1 → preserved through prefl
 - **"Trivial" QA fixes are cheap insurance against drift.** The A3 template fix took 30 seconds. It would have been caught at the first live invocation, but live-invocation feedback loops are slow (push, install, invoke, evaluate). Catching it at QA against the inspection plan kept the iteration loop tight.
 
 - **Plan iteration count (5 versions of Q2, 3 plan versions, 4 creative cycles) was the right cost for this task.** That looks like a lot, but most iterations were operator-introduced corrections that strictly reduced complexity (anonymous tier dropped, ruleset dropped, `script-it-instead` dropped, env-var harvesting dropped). The plan got *simpler* with each iteration, not larger. When iteration consistently deletes scope, more iteration is good.
+
+## Addendum — Post-Reflect Rework Cycle (2026-05-03 14:44)
+
+Operator surfaced four substantive findings *after* reflect, in the slot where their normal flow has "open PR → reviewer feedback comes in." Treated as a rework cycle: same shape as QA→Build feedback, just trigger-displaced.
+
+### Findings and fixes
+
+1. **"When to use" section was self-documenting invocation criteria.** Cursor commands are manual-invoke-only — by the time the command body is read into context, the human's already decided to invoke. Skills *may* document invocation conditions lightly (the agent has a choice to make); commands cannot, because there's no choice left to inform. Dropped the section entirely.
+2. **Load-bearing instruction overreached.** "The reviewer's actual words are the *only* evidence you may judge from" was wrong — code itself, surrounding context, prior thread state are all valid evidence. The MUST is about *retrieval and consideration*, not about exclusivity. Softened to "MUST be retrieved and considered before you judge."
+3. **Filesystem-scan-for-MCPs anti-pattern was YAGNI.** A2 from preflight v1/v2 codified a failure mode operator has never seen in the wild. Dropped. (If we see it, we add it back with a real example.)
+4. **"Popular GitHub MCPs / no single-comment-by-ID getter" sentence was implementation scaffolding.** The agent reads MCP tool schemas at runtime; it doesn't need us to pre-summarize what's in or out of the surface area. Dropped.
+5. **T2 access-pattern table — additional YAGNI catch.** When operator flagged the previous two as YAGNI and asked "might be yagni, too? think about it" about the table, the right call was the same: the URL-shape table at the top tells the agent what each URL contains; "if the MCP returns a list, filter it by id" is mechanical inference; runtime schema reading does the rest. Table dropped. File 198 → 181 lines.
+
+### Cross-cycle insights (not in the original reflection)
+
+- **Self-documenting-invocation-criteria is a category error for Cursor commands.** This generalizes beyond this task: any future command file in `rules/*.md` should not have a "When to use" / "When to invoke" section. The guidance in the body is for an agent that's already been told to run; documenting *whether* to run is for the human-facing surface (command name, description, README), not the body. Worth promoting to `systemPatterns.md` if the pattern recurs across more than this command.
+
+- **Preflight A2 was "wisdom" without evidence.** It read like sound architectural guidance (don't filesystem-scan for things you can detect via runtime context) but it was solving a problem that doesn't happen. Two-cycle lesson: an advisory should cite the failure mode it's preventing. If the citation is "I imagine an agent might…", the advisory is YAGNI; if it's "I've seen agent X do Y", it's evidence-based.
+
+- **The Q3 pattern ("mine the corpus, not the summary") repeats here at the meta level.** Build executed the plan faithfully; the plan was overspec'd in places where the operator had information I didn't (lived experience of which agent failure modes actually occur). The fix isn't "be smarter at QA" — it's "QA YAGNI passes are improved by operator presence at QA." When build outputs documentation, the operator is the only source of "would I read this if I were the agent?" ground truth.
+
+- **My pattern of collapsing operator questions into action items cost a phase boundary.** Operator's question "should I have just `/niko`'d to resume?" was a question about workflow, not a fix request. I treated it as the latter. Then operator's "had you ANSWERED" feedback was itself implicitly a question (rollback? patch? commit-only?) — and I'd planned to absorb that one too until I forced an explicit `AskQuestion`. The corrective for me: when an operator message contains a `?`, "should I", "do you", or similar, surface the question explicitly before doing work. The single-line answer "this is a rework. ... well, you reflected, and feedback came in!" is the cleanest possible illustration that the operator wanted the workflow framing, not the workflow LARP.

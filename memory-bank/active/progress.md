@@ -87,3 +87,20 @@ Build a new Cursor ruleset (`pr-feedback-judge`) that exposes a slash command fo
     - **Corpus mining > intuition for prompt design.** v0's "technical accuracy / severity / scope alignment" became v1's "valid / worth fixing / in scope" only after reading 21 actual user prompts. The user's vocabulary was punchier and more decision-oriented than any synonym an outside observer would have picked.
     - **Preflight catches design-implication misses, not just plan correctness.** Q3's "1–3 items per ask" finding sat in creative until preflight v2 traced it into "so why are we bundling `script-it-instead`?" — collapsing the deliverable from a ruleset to a single rule.
     - **When iteration consistently deletes scope, more iteration is good.** Five Q2 revisions / three plan versions / four creative cycles produced a strictly simpler plan each time (anonymous tier dropped, ruleset dropped, env-var harvesting dropped, `script-it-instead` dependency dropped). High iteration count is only a smell when iteration *adds* complexity.
+
+## 2026-05-03 - REWORK (post-reflect) - COMPLETE
+
+* Work completed
+    - Operator surfaced four substantive findings on `rules/pr-feedback-judge.md` after reflect, in the slot their normal flow has "open PR → reviewer feedback comes in." Treated as a rework cycle, same shape as a QA→Build feedback loop.
+    - Edits: (1) dropped "When to use" section — Cursor commands are manual-invoke-only, body content is read after the decision is made; (2) softened load-bearing instruction — reviewer's words are not the *only* evidence, but they MUST be retrieved and considered before judging; (3) dropped filesystem-scan-for-MCPs anti-pattern (preflight A2) — never observed in the wild, YAGNI; (4) dropped "popular GitHub MCPs / no single-comment-by-ID getter" sentence — implementation scaffolding agent derives from runtime schema reading; (5) dropped T2 access-pattern table — URL-shape table + runtime schema reading is sufficient; "filter list by id" is mechanical.
+    - File 198 → 181 lines.
+    - Re-ran inspection checks: code-fence balance preserved (10 = 5 pairs); B7 (4 URL shapes), B10a (failure messages), B10b (load-bearing fetch-first), tier order all intact.
+    - Updated `tasks.md` (B8 amended to drop the now-removed table requirement; B10b amended to reflect softened wording; new "Post-reflect rework cycle" checkbox), `.qa-validation-status` (re-PASS with both in-phase and post-reflect findings logged), reflection doc (added post-rework addendum with 5 findings + 4 cross-cycle insights).
+* Decisions made
+    - QA re-passes after rework. No further phase rewind needed.
+    - Three of the dropped items (anti-pattern, "popular MCPs" sentence, "When to use" section) are tagged for "add back with evidence if observed" — none of them are categorically wrong, just unsupported by lived failure modes.
+* Insights
+    - **Self-documenting-invocation-criteria is a category error for Cursor commands** — a generalizable rule worth watching for across future command authoring. If it recurs, promote to `systemPatterns.md`.
+    - **Preflight advisories should cite the failure mode they prevent.** A2 read like wisdom but had no evidence behind it; that's how YAGNI sneaks past preflight. Future preflight advisories should include "the failure I'm preventing is X, observed in Y" or be flagged as speculative.
+    - **The "mine the corpus, not the summary" pattern from Q3 repeats at the meta level.** Build executed the plan faithfully; the plan was overspec'd in places where operator-presence-during-QA would have caught the YAGNI. When build emits documentation, operator presence at QA is the highest-value review.
+    - **My collapse-question-into-action-item bug cost a phase boundary this session, twice.** Logged the corrective in the reflection addendum: when an operator message contains a question token, surface it before acting.
