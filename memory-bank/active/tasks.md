@@ -151,5 +151,5 @@ No new dependencies are introduced — `gh` and the GitHub MCP are deliberate us
 - [x] Technology validation complete
 - [x] Preflight v1 (PASS; superseded by v2 after Q4 simplification)
 - [x] Preflight v2 (PASS; A2 retained, A3 added; single-rule plan validated)
-- [ ] Build
+- [x] Build
 - [ ] QA

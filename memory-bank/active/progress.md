@@ -49,3 +49,16 @@ Build a new Cursor ruleset (`pr-feedback-judge`) that exposes a slash command fo
 * Insights
     - "Compose an always-on rule" and "inline the one instruction that actually matters" are different tradeoffs. Always-on is the right call when the rule's guidance applies broadly across many agent actions; inlining is the right call when the guidance is specific to one step of one command. The plan's original instinct to bundle `script-it-instead` was right pattern-matching but wrong fit — the command's fetch is too bounded for an always-on rule to earn its keep.
     - Preflight caught a thing creative didn't (and shouldn't have): the *packaging* consequence of the Q3 corpus evidence. Q3 said "real ask sizes are 1–3 items." Nobody followed the implication into "so the batch-fetch rule doesn't trigger, so why are we bundling it?" until operator asked directly. Worth remembering: creative answers the design question it's scoped to; preflight's job is to notice when a design answer renders a plan decision moot.
+
+## 2026-05-03 - BUILD - COMPLETE
+
+* Work completed
+    - Wrote `rules/pr-feedback-judge.md` (single-file deliverable, 10.5KB) per the plan's section order: purpose + access requirements → load-bearing fetch-first instruction → URL-shape→endpoint table → tier-detection block (T1 gh → T2 GitHub MCP loose-detected → fail loudly, with per-shape `gh api` recipes and T2 access-pattern table) → grounded intro (Q3 verbatim) → per-item block (Q3 verbatim) → conditional >5-item triage table → tail + A3 follow-up-issue tip → orchestration walkthrough with B10 inlined batch-fetch instruction → failure modes → example invocation.
+    - Ran all inspection-grade validations from the test plan (B1, B6–B10b) locally — every check PASS. Behavioral smoke (B11–B12) and the post-push registration check (B2) deferred to QA per the plan.
+* Decisions made
+    - Built strictly to plan. No deviations.
+    - A2 (preflight v1, retained in v2): the T2 detection block explicitly anti-patterns filesystem-scanning for MCPs — detection is from the runtime registered-MCP list, not a walk of `~/.cursor/projects/*/mcps/`.
+    - A3 (preflight v2): the tail emits a one-liner showing the user how to roll all "defer to follow-up" dispositions into a `gh issue create` invocation. Closes the most common post-verdict action.
+* Insights
+    - Build was almost entirely a transcription job, which is what a well-executed plan-and-creative phase produces. The five sequential plan revisions (Q2 reopened three times, Q3 promoted from a build sub-step to its own creative, Q4 collapsing the ruleset) front-loaded all the design risk into phases where rework is cheap.
+    - The single load-bearing instruction at the top of the document (Q3 F6 — "fetch first, never judge from the URL alone") is the highest-leverage line in the file. Every other section is mechanics; that line is the corpus-attested behavior change.

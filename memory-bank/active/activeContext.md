@@ -1,12 +1,28 @@
 # Active Context
 
-**Current Task:** PR Feedback Judge Command (ruleset)
+**Current Task:** PR Feedback Judge Command
 
-**Phase:** PLAN - COMPLETE (v4 — tier order flipped, anonymous cut, Q3 grounded template done)
+**Phase:** BUILD - COMPLETE
 
 **What Was Done:**
-- Q2 reopened a third time after operator added a real GitHub MCP server (`user-github`, 41 tools) to the harness. Inspection confirmed: this MCP — and likely most read-oriented GitHub MCPs — has only PR/issue-scoped method-dispatch tools; no single-comment-by-ID getter. That flips the tier order: T1 `gh` is now preferred (O(1) single-comment lookups + native batching with `script-it-instead`); T2 GitHub MCP is fallback (loose-detected via case-insensitive `github` substring match against server metadata). Anonymous access cut entirely. No env-var token harvesting. Failure when neither tier present is a clear "install gh / register MCP" message.
-- Q3 promoted from a build step to its own creative exploration. Did the actual mining: extracted 21 URL-bearing user prompts from the local Cursor warehouse via `cw-query` SQL, filtered to 12 clean signals, synthesized six findings (F1–F6) about the user's real questioning patterns. The corpus revealed v0's criteria vocabulary was wrong ("technical accuracy / severity / scope alignment" → user actually says "valid / worth fixing / in scope for this PR"), v0 collapsed three questions the user wants separate, v0 missed the disposition concept, v0 over-optimized for 30-item runs that don't appear in the corpus, and v0 missed a corpus-attested failure mode (agent judging before fetching). Final template in `creative-pr-feedback-judge-template-grounded.md`; v0 banner-marked superseded.
-- Plan revised: implementation plan now 5 build-execution steps. Tier-detection block, URL→endpoint table, README dependency line, and smoke-test expectations all updated for the gh→MCP order.
+- Wrote canonical command body at `rules/pr-feedback-judge.md` per the simplified single-rule plan (post-Q4). Section order matches the plan exactly: purpose / when-to-use (with the Q2 access-requirements paragraph) → load-bearing fetch-first instruction (Q3 F6) → URL-shape table (T1 paths) → tier-detection block (T1 → T2 → fail; per-shape `gh api` recipes; T2 access-pattern table; A2 anti-pattern explicitly called out) → grounded intro (Q3, verbatim) → per-item block (Q3, verbatim) → conditional >5-item triage table → tail with A3 follow-up-issue tip → orchestration walkthrough (with B10 inlined batch-fetch instruction) → failure modes → example invocation against `Texarkanine/a16n#97`.
+- Ran inspection-grade validations B1 and B6–B10b locally (all PASS):
+    - B1: regular file (not symlink)
+    - B7: all 4 URL shapes documented
+    - B8: tier-detection order T1→T2→fail, all per-shape `gh api` paths present, T2 access pattern described without hardcoding MCP tool names
+    - B9: grounded intro + per-item block verbatim; triage table conditional on >5 items
+    - B10: inlined "3 or more structurally-identical `gh api` calls" batch-fetch instruction
+    - B10a: 404 → "private / deleted / malformed" message; no-tier → "install gh / register MCP" message
+    - B10b: load-bearing fetch-first instruction in its own H2 section
+- Deferred B2 (ai-rizz list shows `/pr-feedback-judge`) to QA — requires push to remote because ai-rizz reads from git remote, not local working tree.
+- Deferred B11/B11a/B11b/B12 (live behavioral smoke tests) to QA per the plan.
 
-**Next Step:** Preflight phase — validate the v4 plan before build.
+**Files Created/Modified:**
+- `rules/pr-feedback-judge.md` (NEW — sole deliverable)
+- `memory-bank/active/tasks.md` (Build status checkbox)
+- `memory-bank/active/activeContext.md` (this file)
+- `memory-bank/active/progress.md` (BUILD entry)
+
+**Deviations from Plan:** None. Built to plan.
+
+**Next Step:** QA — invoke the `niko-qa` skill. Per L3 workflow, this transition is automatic (no operator input required).
