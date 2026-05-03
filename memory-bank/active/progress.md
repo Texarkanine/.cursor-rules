@@ -74,3 +74,16 @@ Build a new Cursor ruleset (`pr-feedback-judge`) that exposes a slash command fo
     - Verdict: PASS. No substantive findings, no plan/build deficiencies.
 * Insights
     - The QA finding is small but representative: build can transcribe a plan's *intent* faithfully and still miss a *structural* requirement ("provide a template" vs. "describe a template"). Worth catching at QA where the cost of fixing is one StrReplace, not at reflect or post-push.
+
+## 2026-05-03 - REFLECT - COMPLETE
+
+* Work completed
+    - Walked the full lifecycle (plan v1→v4, three creative cycles with Q1 superseded by Q3, two preflight passes, build, QA) and traced the cross-phase causal chains.
+    - Wrote `memory-bank/active/reflection/reflection-pr-feedback-judge.md`.
+    - Reconciled persistent files (`productContext.md`, `systemPatterns.md`, `techContext.md`) — none invalidated by this task.
+* Decisions made
+    - No persistent file updates required.
+* Insights (top three — full set in reflection doc)
+    - **Corpus mining > intuition for prompt design.** v0's "technical accuracy / severity / scope alignment" became v1's "valid / worth fixing / in scope" only after reading 21 actual user prompts. The user's vocabulary was punchier and more decision-oriented than any synonym an outside observer would have picked.
+    - **Preflight catches design-implication misses, not just plan correctness.** Q3's "1–3 items per ask" finding sat in creative until preflight v2 traced it into "so why are we bundling `script-it-instead`?" — collapsing the deliverable from a ruleset to a single rule.
+    - **When iteration consistently deletes scope, more iteration is good.** Five Q2 revisions / three plan versions / four creative cycles produced a strictly simpler plan each time (anonymous tier dropped, ruleset dropped, env-var harvesting dropped, `script-it-instead` dependency dropped). High iteration count is only a smell when iteration *adds* complexity.

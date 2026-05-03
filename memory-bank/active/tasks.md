@@ -153,3 +153,4 @@ No new dependencies are introduced — `gh` and the GitHub MCP are deliberate us
 - [x] Preflight v2 (PASS; A2 retained, A3 added; single-rule plan validated)
 - [x] Build
 - [x] QA (PASS — 1 trivial fix applied: inlined A3 minimal body template)
+- [x] Reflect (`memory-bank/active/reflection/reflection-pr-feedback-judge.md`)

@@ -2,7 +2,7 @@
 
 **Current Task:** PR Feedback Judge Command
 
-**Phase:** QA - COMPLETE (PASS)
+**Phase:** REFLECT - COMPLETE
 
 **What Was Done:**
 - Wrote canonical command body at `rules/pr-feedback-judge.md` per the simplified single-rule plan (post-Q4). Section order matches the plan exactly: purpose / when-to-use (with the Q2 access-requirements paragraph) → load-bearing fetch-first instruction (Q3 F6) → URL-shape table (T1 paths) → tier-detection block (T1 → T2 → fail; per-shape `gh api` recipes; T2 access-pattern table; A2 anti-pattern explicitly called out) → grounded intro (Q3, verbatim) → per-item block (Q3, verbatim) → conditional >5-item triage table → tail with A3 follow-up-issue tip → orchestration walkthrough (with B10 inlined batch-fetch instruction) → failure modes → example invocation against `Texarkanine/a16n#97`.
@@ -27,4 +27,8 @@
 
 **QA Findings:** 1 trivial fix applied during QA — inlined a minimal suggested body template under the A3 follow-up-issue tip in the tail. Plan called for a template; build delivered only a natural-language description. No substantive issues, no plan deficiencies.
 
-**Next Step:** REFLECT — load `.cursor/skills/shared/niko/references/level3/level3-reflect.md`. Per L3 workflow, QA→Reflect is an automatic transition (no operator input required).
+**Reflection:** `memory-bank/active/reflection/reflection-pr-feedback-judge.md`. Headline insights: (1) corpus mining beats intuition for prompt design; (2) preflight's job includes catching design-implication misses (not just plan correctness); (3) when iteration consistently *deletes* scope, more iteration is good — this task's plan got simpler with every revision.
+
+**Persistent files reconciled:** scanned `productContext.md` / `systemPatterns.md` / `techContext.md`. None invalidated by this task. `systemPatterns.md` already documents top-level `rules/` as a canonical source; no other shape was changed.
+
+**Next Step:** Run `/niko-archive` to create the archive document and finalize the project. (Reflect is a terminal node; archive transition requires operator input.)
