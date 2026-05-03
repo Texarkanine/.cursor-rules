@@ -2,104 +2,86 @@
 
 ## Context
 
-**What needs to be decided.** The command's GitHub-access strategy. The original plan assumed `gh` CLI is universally available and authenticated. That's false for the actual audience: anyone with Cursor (and via `a16n`, anyone with Claude Code) on any machine, including a "drive-by review" use case where the user is curious about a public PR but has no GitHub tooling installed and no auth.
+**What needs to be decided.** The command's GitHub-access strategy. The audience is anyone with Cursor (or Claude Code via `a16n`) on any machine, with the realistic assumption that **anyone doing this for real is logged in to GitHub somehow** — either via a GitHub MCP server or via the `gh` CLI. Anonymous public-only access is a "drive-by curiosity" use case worth supporting on a best-effort basis but not worth over-engineering for.
 
-**Why it matters.** The command must work, with graceful degradation, on:
-1. Local dev box with `gh` installed and authenticated to a personal account.
-2. CI / sandbox / fresh machine with `curl` only — no `gh`, no auth.
-3. An agent harness that has its own URL-fetch tool (Cursor's web fetch, Claude Code's `WebFetch`, etc.) but no shell tooling installed at all.
+**Why it matters.** The command must work, with sensible degradation, on:
+1. A machine with a GitHub MCP server registered with the harness — the cleanest, harness-native option.
+2. A machine with `gh` CLI installed and authenticated — the dominant case for serious contributors.
+3. A machine with neither — best-effort access to public PRs only; no acrobatics for private repos or rate-limit headroom.
 
-If the command demands `gh`, it fails outright in cases 2 and 3 — which is exactly the most interesting "drop-in" use case.
+If the command demands a single tool, it fails on the other configurations. Order matters: prefer the tool that the user has *intentionally* set up for GitHub access over the one that happens to be on `PATH`.
 
 **Constraints.**
-1. Public PRs MUST be reviewable on a vanilla machine with no GitHub auth (this is the "drive-by" requirement).
-2. Private PRs MUST work when `gh` is installed and authenticated, and MUST fail with a clear, actionable error otherwise.
-3. The strategy must be detectable at runtime — the command body tells the agent how to probe & pick, not "you have gh, use it."
-4. Whatever tier is chosen, output to the LLM must be JSON or otherwise structured-ish — feeding the agent raw 200KB of GitHub HTML to extract one comment is the failure mode we're trying to avoid (per `script-it-instead`).
-5. The tier strategy must compose with the batch-fetch discipline — one script per invocation, regardless of which tier it picks.
+1. MCP, when present, MUST be preferred — it's harness-native, requires no shell, and reflects the user's deliberate authentication choice.
+2. `gh` CLI is the strong default when no MCP is registered.
+3. Public PRs SHOULD be reviewable on a vanilla machine with neither MCP nor `gh` installed (best-effort, not a hard requirement). Failure here is acceptable; failure here without a clear "install gh" message is not.
+4. **No env-var token harvesting.** If the user hasn't installed `gh` or registered an MCP, we don't grovel through `GITHUB_TOKEN` / `GH_TOKEN` / `~/.config/...` to authenticate `curl` requests. That's the user's choice to make.
+5. Whatever tier is chosen, output to the LLM must be JSON or otherwise structured-ish — feeding the agent raw HTML to extract one comment is the failure mode we're trying to avoid.
+6. The strategy must be detectable at runtime — the command body tells the agent how to probe & pick.
+7. The strategy must compose with the batch-fetch discipline from `script-it-instead` — one logical batch per invocation.
 
 ## Options Evaluated
 
-The space is a chain, not a set. Each tier is strictly better than the next on output quality and strictly worse on availability. The real decision is which tiers to include and the detection/fallback wiring.
+The space is a chain. Each tier is strictly better than the next on output quality and data completeness, and each requires more explicit user setup.
 
-- **T1 — `gh` CLI**: `gh api repos/.../pulls/comments/123 --jq '...'`. Authenticated. Clean JSON. Handles pagination via `--paginate`. Best when present; absent on most fresh machines.
-- **T2 — Anonymous REST (`curl` + `jq`)**: `curl -fsS https://api.github.com/repos/.../pulls/comments/123 | jq '...'`. Identical JSON shape to T1 (because gh wraps this API). Public PRs only. 60 requests/hour anonymous rate limit, which is plenty for one PR review. `jq` is much more commonly installed than `gh`.
-- **T3 — Anonymous REST without `jq`**: same `curl`, but pipe to a runtime stdlib (Python's `json` module via `python3 -c …`). Trades one tool dependency (`jq`) for another (`python3` or `node`), both more universal than `gh`.
-- **T4 — Harness web-fetch + LLM extraction**: invoke the harness's URL fetch tool (e.g. `WebFetch`) on the comment URL, get markdown-converted HTML, let the LLM pluck out the body. Always available (the harness *is* the runtime), but produces noisy output and burns context. The user's note explicitly identified this as the "very noisy" floor.
-- **T5 — Harness web-fetch on the API URL**: invoke the harness's URL fetch tool on the *API* URL (`https://api.github.com/repos/.../pulls/comments/123`) instead of the human page. The fetch tool returns the JSON body verbatim. This is the elegant fallback when no shell tooling exists at all — same data quality as T1/T2/T3, no auth, no shell.
+- **T0 — GitHub MCP server**: harness-native, surfaces tools like `get_pull_request_review_comments`, `get_pull_request_comments`, `get_pull_request_reviews`, `get_issue_comment` (exact names vary by MCP implementation). Authentication flows through the MCP's own setup. Best-quality data, no shell required, not affected by rate limits unless the MCP exposes them.
+- **T1 — `gh` CLI**: `gh api repos/.../pulls/comments/123 --jq '...'`. Authenticated with the user's GitHub account. Clean JSON. Handles pagination via `--paginate`. Standard for serious contributors.
+- **T2 — Anonymous REST (`curl` + `jq` or stdlib)**: `curl -fsS https://api.github.com/repos/.../pulls/comments/123`. Public PRs only, 60 req/hr anonymous limit, no env-token grovel. Best-effort fallback.
+- ~~**T3 — Web-fetch on the API URL**~~: feasible but only marginally different from T2 (different invocation, same data). Collapsed into T2's "and if neither curl nor jq exists, the harness web-fetch can hit the same `api.github.com` URL" footnote.
+- ~~**T4 — Web-fetch on the HTML page**~~: dropped; strictly dominated by T2 (same access path, dramatically noisier output).
 
 ## Analysis
 
-| Criterion | T1 gh | T2 curl+jq | T3 curl+stdlib | T4 web-fetch HTML | T5 web-fetch API |
-|---|---|---|---|---|---|
-| Public PRs | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Private PRs | ✅ | ❌ | ❌ | ❌ | ❌ |
-| Output quality | Clean JSON | Clean JSON | Clean JSON | Noisy markdown | Clean JSON |
-| Availability on fresh machine | Rare | Common | Very common | Universal | Universal |
-| Rate limit headroom | 5000/hr | 60/hr | 60/hr | Harness-dependent | 60/hr (anon) |
-| Composes with batch-fetch | ✅ paginate | ✅ link header | ✅ link header | ⚠️ one URL per call | ⚠️ one URL per call |
-| Auth required | Yes | No | No | No | No |
+| Criterion | T0 MCP | T1 gh | T2 anon | (notes) |
+|---|---|---|---|---|
+| Detection signal | MCP tool list contains a github-related tool | `command -v gh && gh auth status` succeeds | `command -v curl` succeeds | |
+| Public PRs | ✅ | ✅ | ✅ | |
+| Private PRs | ✅ if MCP is authenticated | ✅ | ❌ → message: "install gh and run `gh auth login`" | |
+| Output quality | Clean structured tool result | Clean JSON | Clean JSON | |
+| Auth model | MCP-specific | `gh auth login` (one-time) | None (don't grovel for env tokens) | per constraint 4 |
+| Rate limit headroom | MCP-dependent (typically authenticated) | 5000/hr | 60/hr — fine for one PR review, not engineered around | |
+| Composes with batch-fetch | ✅ MCP tools take ID lists or paginated args | ✅ `--paginate` | ✅ `?per_page=100&page=N` cursor | |
+| Setup the user already chose | They installed an MCP for this | They authed `gh` for this | None | this is the explicit ordering criterion |
 
 **Key insights:**
-- T1, T2, T3, and T5 all return the **same JSON shape** because they all hit the same REST API. That means the *parsing & template-rendering* logic in the command body is tier-agnostic — only the fetch invocation changes.
-- T2 and T3 are essentially the same tier with different tool prefs. Including both as alternatives within one tier (`jq` if present, else stdlib) gives ~universal coverage of fetch-once parsing without bloating the chain.
-- T4 (HTML scrape) is dominated by T5 (API JSON via the same web-fetch tool). The user's example URL `https://github.com/Texarkanine/a16n/pull/97#discussion_r3177417607` and its API equivalent `https://api.github.com/repos/Texarkanine/a16n/pulls/comments/3177417607` are both reachable by any fetch tool; T5 is strictly better. **T4 should not appear in the chain.**
-- T5 has one practical wrinkle: pagination. Whole-PR runs need 3 list endpoints, and listing comments on a busy PR can paginate. `Link:` headers may not survive harness web-fetch (some tools strip them). Mitigation: in T5 mode, the command instructs the agent to use the explicit `?per_page=100&page=N` cursor and stop when a page returns `[]` — works without needing the Link header.
-- Private repos in T2/T3/T5 fail with a 404 (not 401, deliberately, to avoid leaking existence). The command body must catch this and translate to "this looks like a private PR — install `gh` and run `gh auth login`, or paste the comment text directly."
-
-**What dominates:**
-- T1 is best when present. Detect with `command -v gh >/dev/null && gh auth status >/dev/null 2>&1`.
-- T2/T3 collapse into a single "shell + fetch + structured-parse" tier. Detect with `command -v curl`, then `command -v jq` decides which parser.
-- T5 is the universal floor. Detect by: shell unavailable OR no `curl`.
-- T4 is dropped.
+- Tier ordering tracks *user setup intent*, not just availability. Someone who registered a GitHub MCP did it deliberately; we should respect that over a `gh` that happens to be on the box for some other reason.
+- T1 and T2 hit identical REST endpoints, so the URL→API path table in the command body remains tier-agnostic between them. T0 uses MCP-tool names instead of API paths, but the *shape* of the data the agent reasons over (author / body / path / diff_hunk / verdict) is the same.
+- "Long lists silently truncating during pagination" is not a real risk worth engineering around — if a whole-PR fetch returns more items than will fit in one realistic chat turn, the user can just point at the specific review or comment URL instead. **No sanity-check / count-verification step needed.** (Operator confirmed.)
+- T0 detection is harness-shaped, not POSIX-shaped: in Cursor the agent sees enabled MCPs in its context block; in Claude Code, the same. The command body should describe the *capability* it needs ("a GitHub MCP tool capable of fetching PR comments by ID") and let the agent map that to whatever specific tool name its harness exposes.
 
 ## Decision
 
-**Selected**: a three-tier ordered fallback chain — **T1 → T2/T3 → T5** — with explicit detection probes and a unified failure message for private PRs in unauthenticated tiers.
+**Selected**: a three-tier ordered fallback chain — **T0 (GitHub MCP) → T1 (`gh` CLI) → T2 (anonymous `curl`, best-effort)** — with explicit detection probes at each tier and a single "install gh and authenticate" failure message when a private repo is encountered without T0 or T1.
 
-**Rationale**: Satisfies all five constraints. Public PRs work everywhere (T1, T2, T3, or T5 — at least one is always available because the harness itself qualifies as T5). Private PRs work in T1 and fail loudly with actionable guidance otherwise. The command body's parsing logic stays simple because all three remaining tiers return the same JSON shape — only the *invocation* differs.
+**Rationale**: Satisfies all seven constraints. Reflects the realistic audience: most users will have either MCP or `gh` deliberately set up; serving them well is the job. Anonymous works for drive-by curiosity but is not the design center.
 
-**Tradeoff**: Slightly more boilerplate in the command body (the detection block + three `gh` / `curl` / web-fetch invocation recipes for the same logical operation). Acceptable because the tradeoff is "one extra paragraph in a rule file" against "command silently breaks for the majority of the audience."
+**Tradeoff**: The command body has a tier-detection block plus three invocation recipes per logical operation. Boilerplate cost in exchange for working across the full audience.
 
 ## Implementation Notes
 
-### Detection block (command body emits as one shell line plus a fallback note)
+### Detection (described, not scripted — T0 is not detectable from shell)
 
-```bash
-# Tier detection — run once at command start
-if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
-  TIER=gh
-elif command -v curl >/dev/null 2>&1; then
-  if command -v jq >/dev/null 2>&1; then TIER=curl_jq; else TIER=curl_stdlib; fi
-else
-  TIER=webfetch
-fi
-```
+The command body instructs the agent to evaluate tiers in order:
 
-If shell itself is unavailable to the agent (rare but possible in some restricted harness modes), `TIER=webfetch` is the agent's only choice and it must use the harness web-fetch tool directly on `api.github.com` URLs.
+1. **T0**: scan the harness's available-MCP-tools block (the same block that exposes any other MCP). If there's a tool whose schema indicates it fetches GitHub PR comments / reviews / issue comments by ID (typical names: `get_pull_request_*`, `mcp_github_*`), use that tool family for all fetches in this invocation.
+2. **T1**: if no T0 tool is available, run `command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1`. If both succeed, use `gh api`.
+3. **T2**: otherwise, use `curl -fsS https://api.github.com/...` (with `jq` for parsing if present, else `python3 -c 'import json, sys; ...'`). If even `curl` is unavailable, the agent may fall back to its harness web-fetch tool on the same `api.github.com` URL. Do **not** read or pass `GITHUB_TOKEN` / `GH_TOKEN` / any auth env var.
 
-### URL→API mapping (now tier-agnostic, since the JSON path is identical)
+### URL→API mapping (shared by T1 and T2; T0 uses MCP tool names instead)
 
-| URL fragment | API path (relative to `https://api.github.com`) |
+| URL fragment | API path (under `https://api.github.com`) |
 |---|---|
-| (none) — `…/pull/N` | `/repos/{o}/{r}/pulls/{N}/comments?per_page=100` + `/repos/{o}/{r}/issues/{N}/comments?per_page=100` + `/repos/{o}/{r}/pulls/{N}/reviews?per_page=100` |
-| `#pullrequestreview-{rid}` | `/repos/{o}/{r}/pulls/{N}/reviews/{rid}` + `/repos/{o}/{r}/pulls/{N}/reviews/{rid}/comments?per_page=100` |
+| (none) — `…/pull/N` | `/repos/{o}/{r}/pulls/{N}/comments` + `/repos/{o}/{r}/issues/{N}/comments` + `/repos/{o}/{r}/pulls/{N}/reviews` (all paginated) |
+| `#pullrequestreview-{rid}` | `/repos/{o}/{r}/pulls/{N}/reviews/{rid}` + `/repos/{o}/{r}/pulls/{N}/reviews/{rid}/comments` |
 | `#discussion_r{cid}` | `/repos/{o}/{r}/pulls/comments/{cid}` |
 | `#issuecomment-{cid}` | `/repos/{o}/{r}/issues/comments/{cid}` |
 
-Per-tier invocation recipes (the command body shows one example for each operation in each tier; the rest is mechanical):
-
-- T1 (gh): `gh api 'repos/{o}/{r}/pulls/comments/{cid}'` (and `--paginate` for list endpoints)
-- T2 (curl+jq): `curl -fsS "https://api.github.com/repos/{o}/{r}/pulls/comments/{cid}" | jq '.'`
-- T3 (curl+stdlib): `curl -fsS … | python3 -c 'import json, sys; …'`
-- T5 (webfetch): use the harness web-fetch tool on `https://api.github.com/repos/{o}/{r}/pulls/comments/{cid}` — returns raw JSON
-
 ### Failure-mode block additions
 
-- **404 on a comment fetch in T2/T3/T5** → message: "Got 404 fetching `<url>`. Most likely causes: (a) the PR is private and you're not authenticated — install `gh` and run `gh auth login` to access private content; (b) the comment was deleted; (c) the URL is malformed. Cannot evaluate this item."
-- **Rate-limit (429 / 403 with `X-RateLimit-Remaining: 0`) in T2/T3/T5** → message: "GitHub anonymous rate limit exhausted (60 req/hr). Either authenticate with `gh auth login` for 5000/hr, or wait for the limit to reset (`X-RateLimit-Reset` header in the response)."
-- **`gh auth status` fails in T1 detection** → falls through to T2/T3/T5 as if `gh` weren't installed. Don't try to use `gh` unauthenticated; it's strictly worse than `curl` in that mode.
+- **T2 hits a 404** → message: "Got 404 fetching `<url>`. Most likely: this PR is private and you're not authenticated. Install [GitHub CLI](https://cli.github.com/) and run `gh auth login`, or register a GitHub MCP server with your harness. Cannot evaluate this item."
+- **T2 hits a rate limit (`X-RateLimit-Remaining: 0`)** → message: "Anonymous GitHub rate limit exhausted (60/hr). Authenticate via `gh auth login` or a GitHub MCP server for a higher limit, or wait for the limit to reset (`X-RateLimit-Reset` header in the response)."
+- **No tier available** (no MCP, no `gh`, no `curl`, no harness web-fetch) → message: "Cannot fetch GitHub data. Install [GitHub CLI](https://cli.github.com/) and run `gh auth login`."
 
-### Documentation in the README
+### README implications
 
-The ruleset README must state the access tier in plain English: "Works on public PRs without any setup. For private PRs, install [GitHub CLI](https://cli.github.com/) and run `gh auth login`."
+The ruleset README lists the supported access paths in priority order, with one line each: "Prefers a registered GitHub MCP server. Falls back to `gh` CLI if available and authenticated. Public PRs work best-effort with `curl` only."
