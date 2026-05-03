@@ -2,11 +2,13 @@
 
 **Current Task:** PR Feedback Judge Command (ruleset)
 
-**Phase:** PLAN - COMPLETE
+**Phase:** PLAN - COMPLETE (v2 — fetch-tier strategy revised)
 
 **What Was Done:**
-- Plan phase research collapsed two of three open questions to validated tech choices: `gh` CLI for GitHub access (confirmed installed/authenticated), and `rulesets/<name>/commands/<file>.md` for command packaging (confirmed via existing `test` ruleset on `main` and `wiggum-niko-coderabbit-pr` command precedent).
-- Creative phase resolved the remaining open question (Q1: intro/verdict template) — scaffolded intro + hybrid verdict format.
-- `tasks.md` contains the complete L3 plan: pinned URL→endpoint table, four affected components (1 new command file + 1 new ruleset directory with 3 symlinks + 1 README), inspection-grade test plan (B1–B12), 6-step implementation plan, technology validation done, challenges/mitigations documented.
+- Plan v1 closed the GitHub-access question prematurely by assuming `gh` everywhere. Operator caught this — the audience is anyone with Cursor/Claude Code on any machine, including drive-by reviews of public PRs with no GitHub tooling.
+- Reopened as Q2; ran a creative-generic pass; resolved as a tiered fallback chain: T1 `gh` (best, requires auth, supports private repos) → T2/T3 anonymous `curl` + `jq` or stdlib (public PRs only, 60 req/hr) → T5 harness web-fetch invoked on `api.github.com` URLs (universal floor, no shell required). T4 HTML scrape dropped as strictly dominated by T5.
+- Verified T2 empirically: anonymous `curl` to `api.github.com/.../pulls/comments/<id>` returns the same JSON shape as `gh api`, with `diff_hunk` and all needed fields.
+- Spliced into tasks.md: tier-agnostic API path table, per-tier invocation recipes mandate, expanded failure-mode requirements (private-repo + rate-limit messages), and tier-degraded smoke tests (B11a, B11b).
+- Q1 (template wording) remains as resolved in the prior pass.
 
-**Next Step:** Preflight phase — validate the plan before build.
+**Next Step:** Preflight phase — validate the revised plan before build.

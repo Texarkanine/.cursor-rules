@@ -10,14 +10,14 @@ Build a Cursor command, packaged as the new `pr-feedback-judge` ruleset, that ta
 
 ### URL Shape → GitHub API Endpoint
 
-The command's dispatch logic depends entirely on classifying input URLs. This table is the contract.
+The command's dispatch logic depends entirely on classifying input URLs. This table is the contract. The API path is identical across all fetch tiers (T1/T2/T3/T5 — see Q2) — only the *invocation* differs.
 
-| URL fragment | Shape | gh API call | Yields |
+| URL fragment | Shape | API path (under `https://api.github.com`) | Yields |
 |---|---|---|---|
-| (none) — `…/pull/N` | Whole PR | `pulls/N/comments --paginate` + `issues/N/comments --paginate` + `pulls/N/reviews --paginate` | Every inline review comment, every conversation comment, every review body |
-| `#pullrequestreview-<rid>` | PR review | `pulls/N/reviews/<rid>` + `pulls/N/reviews/<rid>/comments --paginate` | Review body + every inline comment in that review |
-| `#discussion_r<cid>` | Inline review comment | `pulls/comments/<cid>` | Single inline comment (incl. `diff_hunk`, `path`, `in_reply_to_id`) |
-| `#issuecomment-<cid>` | Conversation comment | `issues/comments/<cid>` | Single conversation comment |
+| (none) — `…/pull/N` | Whole PR | `/repos/{o}/{r}/pulls/{N}/comments` + `/repos/{o}/{r}/issues/{N}/comments` + `/repos/{o}/{r}/pulls/{N}/reviews` (all paginated) | Every inline review comment, every conversation comment, every review body |
+| `#pullrequestreview-<rid>` | PR review | `/repos/{o}/{r}/pulls/{N}/reviews/<rid>` + `/repos/{o}/{r}/pulls/{N}/reviews/<rid>/comments` | Review body + every inline comment in that review |
+| `#discussion_r<cid>` | Inline review comment | `/repos/{o}/{r}/pulls/comments/<cid>` | Single inline comment (incl. `diff_hunk`, `path`, `in_reply_to_id`) |
+| `#issuecomment-<cid>` | Conversation comment | `/repos/{o}/{r}/issues/comments/<cid>` | Single conversation comment |
 
 ```mermaid
 flowchart LR
@@ -45,7 +45,7 @@ flowchart LR
 ### Cross-Module Dependencies
 
 - `rulesets/pr-feedback-judge/` → `rules/pr-feedback-judge.md`, `rules/script-it-instead.mdc`, `rules/how-to-script-it-instead.mdc` (all via symlink)
-- The command body itself depends at runtime on: `gh` CLI (auth assumed), `jq`, and the always-on `script-it-instead` rule that the same ruleset injects.
+- The command body itself depends at runtime on **at least one of**: `gh` CLI (best, requires auth, supports private repos), `curl` + (`jq` or `python3`/`node` stdlib), or a harness web-fetch tool — see Q2 for the tier chain. Always depends on the always-on `script-it-instead` rule that the same ruleset injects.
 
 ### Boundary Changes
 
@@ -63,8 +63,9 @@ flowchart LR
 ## Open Questions
 
 - [x] **Q1 — Questioning intro & per-item verdict template.** → **Resolved**: scaffolded intro (names three criteria — technical accuracy, scope alignment, severity) + hybrid verdict (triage table for all items, detailed blocks for valid-only, summary tail). Templates fully drafted. See `memory-bank/active/creative/creative-pr-feedback-judge-template.md`.
+- [x] **Q2 — GitHub fetch tier strategy.** Initially closed-too-soon during plan research (assumed `gh` everywhere); re-opened after operator pointed out the audience is anyone with Cursor/Claude Code on any machine, including drive-by reviews of public PRs with no GitHub tooling. → **Resolved**: ordered fallback chain **T1 (`gh`) → T2/T3 (`curl` + `jq` or stdlib) → T5 (harness web-fetch on `api.github.com` URLs)**. T4 (HTML scrape) explicitly dropped — dominated by T5. All tiers return identical JSON shape, so parsing/template logic is tier-agnostic; only the invocation differs. See `memory-bank/active/creative/creative-pr-feedback-judge-fetch-tiers.md`.
 
-(GitHub access strategy and URL parsing/dispatch were flagged as open in the projectbrief but collapsed during plan-phase research: `gh` CLI is installed/authenticated/clean and the URL→endpoint mapping is unambiguous. Recorded in the Pinned Info table above.)
+(URL parsing/dispatch was flagged as open in the projectbrief but collapsed: regex on the URL fragment, mapping unambiguous and now in the Pinned Info table.)
 
 ## Test Plan (TDD)
 
@@ -84,13 +85,16 @@ This is a documentation/rule repo with no automated test framework (confirmed: n
 
 - B6: `rules/pr-feedback-judge.md` parses as Markdown without lint errors (using whatever markdown linter the repo uses; if none, manual visual review).
 - B7: The command body documents all four URL shapes from the Pinned Info table.
-- B8: The command body specifies the exact `gh api` invocations for each shape.
+- B8: The command body specifies the **tier-detection block** and shows one invocation example per tier (T1 `gh`, T2 `curl`+`jq`, T3 `curl`+stdlib, T5 web-fetch) for at least one URL shape, plus the API path table that's tier-agnostic.
 - B9: The command body includes the intro/verdict template selected in Q1.
 - B10: The command body explicitly references `script-it-instead` (so the agent knows to treat the fetch as a batch script, not a loop).
+- B10a: The command body documents the private-repo failure mode for non-T1 tiers and the rate-limit failure mode for anonymous tiers (both per Q2).
 
 **Behavioral (manual smoke test)**
 
 - B11: Pasting a real PR URL (e.g. `https://github.com/Texarkanine/a16n/pull/97`) plus a real `#discussion_r…` URL into a fresh chat with the command attached produces: one verdict per inline-review comment + one verdict per conversation comment + one verdict for the single inline comment, with no duplicate evaluations.
+- B11a: Repeat B11 in a tier-degraded environment (`PATH` stripped of `gh`, then stripped of `gh` *and* `jq`) — the command must still produce a correct rendering, just via T2/T3.
+- B11b: Repeat B11 against a known-private PR with no `gh` auth — the command must surface the "private repo, install gh" message rather than misclassifying or crashing.
 - B12: An invalid / malformed URL produces a clear "could not classify" message, not a crash.
 
 ### Test Infrastructure
@@ -114,8 +118,8 @@ Diagram-first. The new files are tiny and acyclic; the implementation order matc
 
 2. **Write the canonical command body.** This is the bulk of the work.
    - Files: `rules/pr-feedback-judge.md` (new)
-   - Sections (in order): purpose / when-to-use; URL shape table (lifted from Pinned Info); gh fetch recipes per shape with exact API paths; the intro template (from Q1); the per-item verdict format (from Q1); orchestration walkthrough that ties batch-fetch (script-it-instead) to per-item evaluation; failure-mode handling for malformed URLs; example invocation.
-   - Creative ref: Q1 → `creative-pr-feedback-judge-template.md`.
+   - Sections (in order): purpose / when-to-use; URL shape table (lifted from Pinned Info, tier-agnostic API paths); **tier-detection block + per-tier invocation recipes** (from Q2); the intro template (from Q1); the per-item verdict format (from Q1); orchestration walkthrough that ties batch-fetch (script-it-instead) to per-item evaluation; failure-mode handling — malformed URL, private-repo-without-auth, anonymous rate limit; example invocation.
+   - Creative refs: Q1 → `creative-pr-feedback-judge-template.md`; Q2 → `creative-pr-feedback-judge-fetch-tiers.md`.
 
 3. **Create the ruleset directory and symlinks.**
    - Files:
@@ -136,11 +140,14 @@ Diagram-first. The new files are tiny and acyclic; the implementation order matc
 
 ## Technology Validation
 
-- `gh` CLI 2.83.0 — installed, authenticated as `Texarkanine`, verified working with `gh api repos/Texarkanine/a16n/pulls/97/comments` returning clean JSON.
-- `jq` 1.6 — installed.
-- `ai-rizz` — installed at `/home/mobaxterm/.local/bin/ai-rizz`; `ai-rizz list` works and already lists the existing `script-it` ruleset and `wiggum-niko-coderabbit-pr` command, confirming the conventions we're modeling on.
+- **T1 — `gh` CLI 2.83.0**: installed, authenticated as `Texarkanine`, verified working with `gh api repos/Texarkanine/a16n/pulls/97/comments` returning clean JSON.
+- **T2 — anonymous REST**: `curl -fsS https://api.github.com/repos/Texarkanine/a16n/pulls/comments/3177417607` confirmed to return clean JSON without auth (public PR, well within 60 req/hr anonymous limit). The response shape is identical to T1's, validating Q2's "tier-agnostic parsing" claim.
+- **T3 — `curl` + stdlib**: same `curl` as T2; `python3` confirmed available; piping JSON through `python3 -c 'import json,sys; …'` is standard library only, no install.
+- **T5 — harness web-fetch**: Cursor's URL-fetch tool returns API JSON verbatim when handed an `api.github.com` URL (this is its standard behavior for `application/json` responses; harness-specific verification is part of B11a/B11b smoke tests).
+- **`jq` 1.6**: installed locally; treated as opportunistic in T2 (T2 falls back to T3 if absent).
+- **`ai-rizz`**: installed at `/home/mobaxterm/.local/bin/ai-rizz`; `ai-rizz list` works and already lists the existing `script-it` ruleset and `wiggum-niko-coderabbit-pr` command, confirming the conventions we're modeling on.
 
-No new dependencies are introduced.
+No new dependencies are introduced — every tool in the tier chain is standard or already present in the audience's environment by definition (the harness itself qualifies as T5).
 
 ## Challenges & Mitigations
 
