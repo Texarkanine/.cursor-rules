@@ -79,6 +79,6 @@ For T2 single-comment URLs, the agent must derive `{N}` from the URL (`/pull/N#�
 - **T1 hits a 404** → message: "Got 404 fetching `<url>`. Either the PR is private and your gh auth doesn't cover it, the comment was deleted, or the URL is malformed. Cannot evaluate this item."
 - **No tier available** → message above.
 
-### README implications
+### Command-body preamble implications
 
-Ruleset README explains in one paragraph: "Prefers `gh` CLI for direct, batched fetches. Falls back to a registered GitHub MCP server. Requires one or the other — anonymous public access is not supported."
+**Note (post-Q4 resolution during preflight v2):** originally this was "ruleset README implications" — the ruleset was dropped, so this content now belongs in the command body's purpose/when-to-use section. One paragraph: "Prefers `gh` CLI for direct, batched fetches. Falls back to a registered GitHub MCP server. Requires one or the other — anonymous public access is not supported."

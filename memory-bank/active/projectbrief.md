@@ -23,9 +23,9 @@ The command must accept a free mix of these URL shapes, in any combination, in a
 - Batch-fetch GitHub data (per `script-it-instead`) — never N tool calls for N comments.
 
 ### Packaging
-- Ship as a **ruleset** under `rulesets/` (canonical source per `agent-customization-locations`), not as a standalone rule.
-- The ruleset composes `script-it-instead` so consumers who already include it don't get duplicate content.
-- The ruleset installs into both `.cursor/` and `.claude/` ecosystems via the existing `ai-rizz` / `a16n` toolchain.
+- Ship as a **single top-level command** at `rules/pr-feedback-judge.md` (canonical source per `agent-customization-locations`), matching the `wiggum-niko-coderabbit-pr.md` precedent. ai-rizz auto-registers top-level `rules/*.md` files as slash commands under `.cursor/commands/shared/`.
+- No ruleset wrapper. `script-it-instead` composition was considered and rejected: the command's typical ask is 1–3 items (per corpus mining in Q3), which does not trip `script-it-instead`'s "third structurally-similar call" threshold often enough to justify an always-on rule dependency. Batch-fetch guidance specific to this command's fetch step is inlined in the command body.
+- Installs into both `.cursor/` and `.claude/` ecosystems via the existing `ai-rizz` / `a16n` toolchain.
 
 ### Out of Scope (Explicitly)
 - **`/nk-chat` / `/nk-with`** ([issue #63](https://github.com/Texarkanine/.cursor-rules/issues/63)). The Niko-context coupling problem is real but will be solved separately in a different thread; we will be rebased onto its result. This task assumes the command runs either inside a live Niko conversation or context-free, and does not try to load the memory bank itself.
