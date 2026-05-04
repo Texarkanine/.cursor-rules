@@ -21,10 +21,9 @@ Level 1 tasks are *simple* so there's no `/niko-reflect` or `/niko-archive` afte
 
 To execute a phase for a level 1 task:
 
-1. Load: `.cursor/rules/shared/niko/memory-bank/active/progress.mdc`.
-2. Update `memory-bank/active/progress.md` to indicate completion of the phase you are leaving, following the format prescribed in the rule you just loaded.
-3. 🚨 ***CRITICAL:*** Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: saving work before [phase] phase`.
-4. Read and follow the instructions in the appropriate locations:
+1. Update `memory-bank/active/progress.md` to indicate completion of the phase you are leaving.
+2. 🚨 ***CRITICAL:*** Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: saving work before [phase] phase`.
+3. Read and follow the instructions in the appropriate locations:
     - **Level 1 Build Phase**: Load `.cursor/skills/shared/niko/references/level1/level1-build.md`
     - **Level 1 QA Phase**: Invoke the `niko-qa` skill
 
