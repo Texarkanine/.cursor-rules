@@ -19,6 +19,7 @@
 - **Step 3b left alone:** the `/niko` rework append happens after `progress.md` exists; `globs:` auto-attach applies there. Touching it without a specific reason would be scope creep.
 - **Format referenced, not restated:** early draft restated the Format inline in `complexity-analysis.md`; final version defers to the rule to avoid creating a second source of truth that can drift.
 - **Numbered-step split:** phase-transition Load + Update are separate numbered steps (matching `memory-bank-init.md` per-file `Load:` precedent) to keep the load unmissable.
+- **Operator cleanup (post-build):** operator trimmed the "Do not rely on the rule's `globs:` attachment alone" clause from each `levelN-workflow.md` phase-transition Load step. Rationale is still documented once in `complexity-analysis.md` Step 4; the workflow files are left with a bare `Load:` directive to match the terseness of sibling Load references in those files. Agree — rationale belongs at the creation site, not repeated at every transition.
 
 ## Next Step
 

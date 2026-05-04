@@ -21,6 +21,7 @@ Implement the mechanical-alignment portion of [issue #72](https://github.com/Tex
     - Edited `rulesets/niko/skills/niko/references/level{1,2,3,4}/levelN-workflow.md`: split the phase-transition Phase Mappings item into two numbered steps — `1. Load \`…/progress.mdc\`` / `2. Update \`progress.md\` per that rule's Format` — and renumbered subsequent steps (commit → 3, read-and-follow → 4).
     - Aborted a prior over-reaching attempt (commit `0fbb324`) via `git reset --hard HEAD~1` on unpushed history and redid the changes cleanly.
     - Landed the clean change as commit `b0c0eb9` on branch `issue-72`.
+    - **Operator follow-up edit:** stripped the "Do not rely on the rule's `globs:` attachment alone" clause from each `levelN-workflow.md` phase-transition Load step. Rationale remains documented once in `complexity-analysis.md` Step 4; workflow files keep only the bare `Load:` directive.
 * Decisions made
     - Scope held to mechanical alignment only: issue #72's deeper-fix options ((a) IN-PROGRESS template grain, (b) restrict `nk-save` from touching `progress.md`) are deferred to a follow-up.
     - `SKILL.md` Step 3b (rework append) left alone: that write happens after `progress.md` exists, so `globs:` auto-attach already applies and no mechanical-fix rationale is present.

@@ -38,7 +38,7 @@ The following phase transitions require operator input; if you have arrived at o
 
 To execute a phase for a level 2 task:
 
-1. Load: `.cursor/rules/shared/niko/memory-bank/active/progress.mdc`. Do **not** rely on the rule's `globs:` attachment alone — explicitly load the rule every time.
+1. Load: `.cursor/rules/shared/niko/memory-bank/active/progress.mdc`.
 2. Update `memory-bank/active/progress.md` to indicate completion of the phase you are leaving, following the format prescribed in the rule you just loaded.
 3. 🚨 ***CRITICAL:*** Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: saving work before [phase] phase`.
 4. Read and follow the instructions in the appropriate locations:
