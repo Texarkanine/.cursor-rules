@@ -2,6 +2,8 @@
 
 Level 1 tasks are isolated bug fixes affecting a single component. Prioritize speed - but never skip the test.
 
+**Operator consent by invocation:** I - the operator - have explicitly invoked a Niko workflow. Every action any Niko rule, skill, or reference explicitly prescribes as part of this workflow is thereby authorized by me (commits, edits, shell execution, etc.). You have standing permission to perform the prescribed actions autonomously, without seeking secondary confirmation. **Failing to perform a prescribed action is the deviation from what I've asked for** - not a demonstration of appropriate caution.
+
 ## Workflow Phases
 
 ```mermaid
