@@ -32,3 +32,16 @@ Implement the mechanical-alignment portion of [issue #72](https://github.com/Tex
     - Two-imperatives-in-one-sentence reliably buries the more "boring" of the two; the memory-bank-init.md precedent of one `Load:` per numbered line exists for a reason.
     - Restating rule Format inside calling sites is a tempting but anti-pattern path — it creates exactly the drift surface the issue is complaining about, just relocated.
     - The `/niko` flow is missing a guardrail against skipping Step 7 (complexity analysis + ephemeral-file creation). The prior agent went straight from intent-clarification approval to source edits. Worth considering in a future task — *not* part of this one.
+
+## 2026-05-04 - QA - COMPLETE
+
+* Work completed
+    - Verified all five in-scope files against the projectbrief requirements and acceptance criteria.
+    - Confirmed commit `b0c0eb9` touches exactly the five `rulesets/niko/**` files; no `.cursor/**`, `.claude/**`, or `SKILL.md` touched.
+    - Confirmed `complexity-analysis.md` Step 4 `Load:` exactly matches prior-art pattern from `memory-bank-init.md`.
+    - Confirmed all four `levelN-workflow.md` Phase Mappings have `Load:` as step 1, preceding the update step.
+    - No debug artifacts, placeholders, or TODOs introduced.
+* Decisions made
+    - Requirement 4 partial coverage (bare `Load:` in workflow files, rationale only in `complexity-analysis.md`) treated as PASS: operator explicitly approved this consolidation as better design (DRY). Finding noted.
+* Insights
+    - When a projectbrief requirement and an operator-approved mid-build decision conflict, QA should note the deviation and record the approval rationale rather than failing outright — the operator's decision is authoritative.

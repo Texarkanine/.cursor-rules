@@ -23,6 +23,5 @@
 
 ## Next Step
 
-- **`/niko-qa`** — operator-driven semantic review of the commit (no automated test harness for ruleset docs). Expect QA to scrutinize: prior-art match for the `Load:` phrasing, numbering, absence of inline Format restatement, and that Step 3b / `.cursor/**` / `.claude/**` remain untouched.
-- After QA PASS: proceed to L1 Wrap-Up (reconcile persistent files → final `chore: completed [task-id]` commit → push branch → PR).
+- **QA PASSED** — proceed to L1 Wrap-Up: reconcile persistent files → final `chore: completed [task-id]` commit → push branch → PR.
 - **Not in this task:** the deeper-fix follow-up for issue #72 (option (a) or (b)).
