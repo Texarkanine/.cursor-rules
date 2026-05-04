@@ -44,9 +44,10 @@ The following phase transitions require operator input; if you have arrived at o
 
 To execute a phase for a level 3 task:
 
-1. Update `memory-bank/active/progress.md` to indicate completion of the phase you are leaving.
-2. 🚨 ***CRITICAL:*** Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: saving work before [phase] phase`.
-3. Read and follow the instructions in the appropriate locations:
+1. Load: `.cursor/rules/shared/niko/memory-bank/active/progress.mdc`. Do **not** rely on the rule's `globs:` attachment alone — explicitly load the rule every time.
+2. Update `memory-bank/active/progress.md` to indicate completion of the phase you are leaving, following the format prescribed in the rule you just loaded.
+3. 🚨 ***CRITICAL:*** Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: saving work before [phase] phase`.
+4. Read and follow the instructions in the appropriate locations:
     - **Level 3 Plan Phase**: Load `.cursor/skills/shared/niko/references/level3/level3-plan.md`
     - **Level 3 Preflight Phase**: Invoke the `niko-preflight` skill
     - **Level 3 Build Phase**: Load `.cursor/skills/shared/niko/references/level3/level3-build.md`
