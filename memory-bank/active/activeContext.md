@@ -2,10 +2,11 @@
 
 **Current Task:** Add `/niko-chat` ad-hoc entrypoint (issue #63)
 
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** PLAN - COMPLETE
 
 **What Was Done:**
-- Clarified intent with operator (3 use-cases confirmed, naming decided as `/niko-chat`).
-- Classified complexity as **Level 2 (Simple Enhancement)**: additive, self-contained — one new skill file plus a small README section update. No existing skills or workflows change.
+- Surveyed existing skill structure (`niko-creative/SKILL.md`, `nk-refresh/SKILL.md`) and README structure as templates.
+- Confirmed no traditional test infrastructure exists for skills (established repo pattern: preflight + QA serve as validation).
+- Wrote linear implementation plan to `tasks.md`: 1 new skill file + 2 README edits (new entrypoint subsection + convention paragraph). 8 behaviors identified, 4 edge cases, 4 challenges + mitigations.
 
-**Next Step:** Load Level 2 workflow and execute the Plan phase.
+**Next Step:** Preflight phase will validate the plan automatically.
