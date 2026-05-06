@@ -63,3 +63,13 @@ Add a new `/niko-chat` ad-hoc entrypoint that loads memory-bank context for read
     - Two non-plan skill-body sections retained ("When to Use This vs. Other Entrypoints" and "Step 5: Ending the Chat") — both reinforce the read-only contract or routing logic and are within scope
 * Insights
     - Conditional output templates need explicit branch documentation; otherwise the agent will print the literal template even when context makes part of it inappropriate
+
+## 2026-05-06 - REFLECT - COMPLETE
+
+* Work completed
+    - Reconciled persistent files: no updates needed across productContext, systemPatterns, techContext
+    - Wrote reflection document `memory-bank/active/reflection/reflection-niko-chat-entrypoint.md`
+* Decisions made
+    - Skill correctly excluded from the systemPatterns "Workflow Invocation is Explicit Consent" pattern (prescribes no state-mutating actions)
+* Insights
+    - Implicit conventions emerging from a small sample (here: 8 commands) should be made explicit before the next contributor needs to extend the pattern, not retrofitted under pressure
