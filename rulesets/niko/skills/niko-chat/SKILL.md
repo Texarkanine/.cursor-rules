@@ -54,11 +54,12 @@ Print a structured "Context Loaded" summary so the operator knows exactly what y
 **Phase:** [current phase from `activeContext.md`, if any]
 
 **Recent archives:** [count and most-recent 1–3 by name, or "none"]
-
-What would you like to discuss?
 ~~~
 
-If the operator already provided a question alongside `/niko-chat`, print the Context Loaded summary first, then proceed directly to answering in Step 3 — do not wait for them to repeat the question.
+Then handle the operator's input:
+
+- **No question provided alongside `/niko-chat`**: append `What would you like to discuss?` and wait for input.
+- **Question provided alongside `/niko-chat`**: do NOT append the prompt; proceed directly to Step 3 and answer their question.
 
 ## Step 3: Conversational Q&A Loop
 

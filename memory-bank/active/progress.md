@@ -52,3 +52,14 @@ Add a new `/niko-chat` ad-hoc entrypoint that loads memory-bank context for read
     - Added "When to Use This vs. Other Entrypoints" section in skill body to prevent the chat skill from being invoked when `/niko` or `/niko-creative` is the right tool
 * Insights
     - Skill description fields are doing double duty as both human-readable labels and agent-routing logic; longer descriptions can be a feature, not a bug, when the routing decision is nuanced
+
+## 2026-05-06 - QA - COMPLETE
+
+* Work completed
+    - Semantic review against plan: all 8 behaviors and 4 edge cases verified present
+    - KISS/DRY/YAGNI/Regression/Integrity/Documentation: all clean
+    - Applied one trivial fix: made the "Context Loaded" greeting's closing prompt conditional (would have printed "What would you like to discuss?" immediately before answering when a question was provided alongside the invocation)
+* Decisions made
+    - Two non-plan skill-body sections retained ("When to Use This vs. Other Entrypoints" and "Step 5: Ending the Chat") — both reinforce the read-only contract or routing logic and are within scope
+* Insights
+    - Conditional output templates need explicit branch documentation; otherwise the agent will print the literal template even when context makes part of it inappropriate
