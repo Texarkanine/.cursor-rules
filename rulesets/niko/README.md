@@ -301,6 +301,15 @@ Niko will start working on your request and will prompt you to use other command
 
 If Niko stops and prompts you to run another command to continue, you should run that command in a new context window, to keep your context window clean and clear for work.
 
+### Naming Convention: `niko-*` vs `nk-*`
+
+Niko's manually-invoked commands split across two namespaces by design:
+
+- **`niko-*`** — Workflow phases and ad-hoc entrypoints. Things you might *want* to autocomplete to during normal use (`/niko-plan`, `/niko-build`, `/niko-creative`, `/niko-chat`, `/niko-archive`, ...). The `/niko-` prefix is the front door of the system.
+- **`nk-*`** — Circuit breakers. Out-of-band interventions on in-flight work (`/nk-refresh`, `/nk-save`). Deliberately *not* in the `/niko-` autocomplete cluster because reaching for them mid-workflow should be a conscious choice, not an accidental tab-completion.
+
+The split is primarily a UX/discoverability axis. As a secondary tell, `nk-*` commands tend to mutate live workflow state (refreshing diagnostics, flushing to disk + committing); `niko-*` commands either advance the workflow or are read-only/standalone.
+
 ### Circuit Breakers
 
 Things the operator (that's you!) may choose to do by hand in the middle of a workflow, breaking the normal autonomous flow.
@@ -335,3 +344,17 @@ Outside the normal `/niko` workflow, there are some other ways to interact with 
 The "Creative Phase" is usually used to resolve open design questions autonomously, but it can also be invoked on its own, outside a workflow.
 
 You might use this if you know you want to build something, but you aren't sure exactly what to build yet and aren't ready to turn Niko loose. Run `/niko-creative` with what you DO know, and the memory-bank will guide Niko in exploring your codebase and the problem space, and help you come up with ideas.
+
+#### Codebase Chat
+
+`/niko-chat`
+
+A read-only, memory-bank-aware Q&A session. Loads the persistent context (and reads any in-flight ephemeral state without mutating it) so you can ask questions about the codebase, an active task, or a possible future task — without committing to a workflow and without producing any artifacts.
+
+Use it when you want to:
+
+- **Consult about an in-flight task from a parallel context window.** A `/niko` workflow is already running elsewhere — open a new context and `/niko-chat` to ask "what's this task about?", "why was X chosen?", "what's left?" without disturbing the active work.
+- **Ask codebase questions when nothing is in flight.** Lighter than `/niko-creative` (which produces a doc); just want to talk and get answers grounded in the project.
+- **Think out loud before committing to `/niko`.** Mull whether something is even a thing. May naturally lead to a `/niko` invocation later, but chat itself seeds nothing on disk.
+
+Chat is read-only by contract: no edits, no commits, no memory-bank writes, no workflow kickoff. If the conversation reveals real work needs doing, chat will explicitly hand you off to `/niko` rather than silently doing it.

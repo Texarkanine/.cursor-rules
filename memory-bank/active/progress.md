@@ -39,3 +39,16 @@ Add a new `/niko-chat` ad-hoc entrypoint that loads memory-bank context for read
     - Will incorporate structured-context-summary requirement explicitly in the skill body during Build
 * Insights
     - Preflight on documentation/skill tasks is mostly about semantic coherence and convention conformance; the "TDD blocking" check is unfit-for-purpose and should be pattern-matched on task type. Future improvement candidate (out of scope here).
+
+## 2026-05-06 - BUILD - COMPLETE
+
+* Work completed
+    - Created `rulesets/niko/skills/niko-chat/SKILL.md` with 5 numbered steps, explicit Non-Goals, graceful degradation, and structured "Context Loaded" greeting
+    - Added "Naming Convention" subsection to README documenting `niko-*` vs `nk-*` split
+    - Added "Codebase Chat" subsection under Ad-Hoc Entrypoints documenting `/niko-chat` with three use-cases and read-only contract
+    - Linted: no errors
+* Decisions made
+    - Skill `description:` frontmatter is intentionally long — it's the agent's invocation trigger, and `/niko-chat`'s trigger conditions are nuanced enough to warrant detail
+    - Added "When to Use This vs. Other Entrypoints" section in skill body to prevent the chat skill from being invoked when `/niko` or `/niko-creative` is the right tool
+* Insights
+    - Skill description fields are doing double duty as both human-readable labels and agent-routing logic; longer descriptions can be a feature, not a bug, when the routing decision is nuanced
