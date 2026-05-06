@@ -28,3 +28,14 @@ Add a new `/niko-chat` ad-hoc entrypoint that loads memory-bank context for read
     - Skill will direct operator to `/niko-creative` when they want artifacts (clear differentiation)
 * Insights
     - The read-only contract is the single most important property of this skill; semantic ambiguity here is the primary risk and must be eliminated by prescriptive language
+
+## 2026-05-06 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Validated plan against codebase: convention compliance PASS, dependency impact PASS, conflict detection PASS, completeness PASS
+    - TDD encoding flagged as advisory (no test infra for skills; QA handles semantic validation per repo pattern; operator acknowledged upstream)
+    - Identified one within-scope improvement to fold into Build: structured "context loaded" summary at chat start
+* Decisions made
+    - Will incorporate structured-context-summary requirement explicitly in the skill body during Build
+* Insights
+    - Preflight on documentation/skill tasks is mostly about semantic coherence and convention conformance; the "TDD blocking" check is unfit-for-purpose and should be pattern-matched on task type. Future improvement candidate (out of scope here).
