@@ -301,6 +301,11 @@ Niko will start working on your request and will prompt you to use other command
 
 If Niko stops and prompts you to run another command to continue, you should run that command in a new context window, to keep your context window clean and clear for work.
 
+Niko's commands are split across two namespaces:
+
+- **`niko-*`** - Workflow entrypoints. Things you might *want* to autocomplete to during normal use in order to advance a workflow. The `/niko-` prefix is the front door of the system.
+- **`nk-*`** - Out-of-band interventions on in-flight work or interactions that use the memory-bank but do not advance a workflow. Deliberately *not* in the `/niko-` autocomplete cluster because reaching for them should be a conscious choice, not an accidental tab-completion.
+
 ### Circuit Breakers
 
 Things the operator (that's you!) may choose to do by hand in the middle of a workflow, breaking the normal autonomous flow.
@@ -335,3 +340,9 @@ Outside the normal `/niko` workflow, there are some other ways to interact with 
 The "Creative Phase" is usually used to resolve open design questions autonomously, but it can also be invoked on its own, outside a workflow.
 
 You might use this if you know you want to build something, but you aren't sure exactly what to build yet and aren't ready to turn Niko loose. Run `/niko-creative` with what you DO know, and the memory-bank will guide Niko in exploring your codebase and the problem space, and help you come up with ideas.
+
+#### Codebase Chat
+
+`/nk-chat`
+
+A read-only, memory-bank-aware Q&A session. Loads the persistent context (and reads any in-flight ephemeral state without mutating it) so you can ask questions about the codebase, an active task, or a possible future task without committing to a workflow and without producing any artifacts.
