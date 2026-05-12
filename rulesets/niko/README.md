@@ -301,14 +301,10 @@ Niko will start working on your request and will prompt you to use other command
 
 If Niko stops and prompts you to run another command to continue, you should run that command in a new context window, to keep your context window clean and clear for work.
 
-### Naming Convention: `niko-*` vs `nk-*`
+Niko's commands are split across two namespaces:
 
-Niko's manually-invoked commands split across two namespaces by design:
-
-- **`niko-*`** — Workflow phases and ad-hoc entrypoints. Things you might *want* to autocomplete to during normal use (`/niko-plan`, `/niko-build`, `/niko-creative`, `/niko-chat`, `/niko-archive`, ...). The `/niko-` prefix is the front door of the system.
-- **`nk-*`** — Circuit breakers. Out-of-band interventions on in-flight work (`/nk-refresh`, `/nk-save`). Deliberately *not* in the `/niko-` autocomplete cluster because reaching for them mid-workflow should be a conscious choice, not an accidental tab-completion.
-
-The split is primarily a UX/discoverability axis. As a secondary tell, `nk-*` commands tend to mutate live workflow state (refreshing diagnostics, flushing to disk + committing); `niko-*` commands either advance the workflow or are read-only/standalone.
+- **`niko-*`** - Workflow entrypoints. Things you might *want* to autocomplete to during normal use in order to advance a workflow. The `/niko-` prefix is the front door of the system.
+- **`nk-*`** - Out-of-band interventions on in-flight work or interactions that use the memory-bank but do not advance a workflow. Deliberately *not* in the `/niko-` autocomplete cluster because reaching for them should be a conscious choice, not an accidental tab-completion.
 
 ### Circuit Breakers
 
