@@ -347,14 +347,6 @@ You might use this if you know you want to build something, but you aren't sure 
 
 #### Codebase Chat
 
-`/niko-chat`
+`/nk-chat`
 
-A read-only, memory-bank-aware Q&A session. Loads the persistent context (and reads any in-flight ephemeral state without mutating it) so you can ask questions about the codebase, an active task, or a possible future task — without committing to a workflow and without producing any artifacts.
-
-Use it when you want to:
-
-- **Consult about an in-flight task from a parallel context window.** A `/niko` workflow is already running elsewhere — open a new context and `/niko-chat` to ask "what's this task about?", "why was X chosen?", "what's left?" without disturbing the active work.
-- **Ask codebase questions when nothing is in flight.** Lighter than `/niko-creative` (which produces a doc); just want to talk and get answers grounded in the project.
-- **Think out loud before committing to `/niko`.** Mull whether something is even a thing. May naturally lead to a `/niko` invocation later, but chat itself seeds nothing on disk.
-
-Chat is read-only by contract: no edits, no commits, no memory-bank writes, no workflow kickoff. If the conversation reveals real work needs doing, chat will explicitly hand you off to `/niko` rather than silently doing it.
+A read-only, memory-bank-aware Q&A session. Loads the persistent context (and reads any in-flight ephemeral state without mutating it) so you can ask questions about the codebase, an active task, or a possible future task without committing to a workflow and without producing any artifacts.

@@ -1,19 +1,8 @@
 ---
-name: niko-chat
-description: Niko Memory Bank System - Codebase Chat - Read-only memory-bank-aware Q&A about the codebase. Invoke for free-form questions, parallel consultation about an in-flight task in another window, or pre-task scoping. Produces no artifacts and never modifies state.
+name: nk-chat
+description: Load Niko's memory bank and begin a conversation
+disable-model-invocation: true
 ---
-
-# Niko Chat - Read-Only Codebase Conversation
-
-This command opens a memory-bank-aware Q&A session with the operator. It loads the project's persistent context (and reads any in-flight ephemeral state without mutating it) so the operator can ask questions about the codebase, an active task, or a possible future task — without committing to a workflow and without producing any artifacts.
-
-**This skill is read-only by contract.** It is not a backdoor for making changes. See "Non-Goals" below.
-
-## When to Use This vs. Other Entrypoints
-
-- Use `/niko-chat` when you want to **ask questions** and get answers grounded in the project context. No artifacts. No state changes.
-- Use `/niko-creative` when you want to **explore an open design question** and produce a creative document that can seed future workflow work.
-- Use `/niko` when you want to **do work**. Chat will hand you off here if the conversation reveals real work to be done.
 
 ## Step 1: Load Context
 
@@ -29,13 +18,14 @@ Read everything available, in this order. Do not skip files.
    - `memory-bank/active/activeContext.md`
    - `memory-bank/active/tasks.md`
    - `memory-bank/active/progress.md`
-   - any files under `memory-bank/active/creative/` and `memory-bank/active/reflection/`
+   - any files under `memory-bank/active/creative/`
+   - any files under `memory-bank/active/reflection/`
 
 3. **Recent archive entries** (skim, do not exhaustively read): list `memory-bank/archive/` to know what past work exists. Read individual archive files only when a question makes one relevant.
 
 ### Graceful Degradation
 
-- **No `memory-bank/` directory at all**: Stop loading. Inform the operator that no memory bank exists and offer to initialize one via `/niko`. Do not fabricate context.
+- **No `memory-bank/` directory at all**: Stop loading. Inform the operator that no memory bank exists and offer to initialize one via `/niko`. Do not fabricate context. Do not continue to Step 2. You are done.
 - **Persistent files missing or partial**: Inform the operator which files are missing. Offer to initialize via `/niko`. Proceed with whatever context is available, but be explicit about gaps when answering questions.
 - **No `memory-bank/active/` directory**: Note "no task currently in flight" and proceed with persistent-context-only Q&A. This is normal and expected.
 - **Partial ephemeral state** (e.g., `progress.md` exists but no `tasks.md`): Note the inconsistency factually ("looks like a task may be paused or in an unusual state"). Do not attempt to repair it.
@@ -47,19 +37,19 @@ Print a structured "Context Loaded" summary so the operator knows exactly what y
 ~~~markdown
 # Context Loaded
 
-**Persistent context:** [list of persistent files read, or "none — no memory bank found"]
+**Persistent context:** [numbered list of persistent files read, or "none — no memory bank found"]
 
 **In-flight task:** [one-line summary from `activeContext.md` and `progress.md`, or "none — no active ephemeral state"]
 
 **Phase:** [current phase from `activeContext.md`, if any]
 
-**Recent archives:** [count and most-recent 1–3 by name, or "none"]
+**Recent archives:** [numbered list of most-recent 1–3 by name, or "none"]
 ~~~
 
 Then handle the operator's input:
 
-- **No question provided alongside `/niko-chat`**: append `What would you like to discuss?` and wait for input.
-- **Question provided alongside `/niko-chat`**: do NOT append the prompt; proceed directly to Step 3 and answer their question.
+- **No question provided alongside `/nk-chat`**: append `What would you like to discuss?` and wait for input.
+- **Question provided alongside `/nk-chat`**: proceed directly to Step 3.
 
 ## Step 3: Conversational Q&A Loop
 
@@ -76,25 +66,8 @@ The conversation continues for as many turns as the operator wants. Each turn: r
 
 If the conversation reveals real work to be done, **do not do the work**. Hand off explicitly:
 
-- Operator asks you to make a change → "That's real work — you'll want to invoke `/niko` (in a fresh context window if a task is already in flight) so the work goes through the proper workflow."
+- Operator asks you to make a change → "That's real work — you'll want to invoke `/niko` so the work goes through the proper workflow."
 - Conversation surfaces an open design question worth exploring with a documented outcome → "Sounds like a `/niko-creative` candidate. Want me to summarize the question for you to take into that?"
 - Operator says "yeah just do it" or otherwise tries to skip the handoff → restate the contract once: "Chat is read-only by design — even with your go-ahead I shouldn't modify state from here. Drop into `/niko` and I'll do it properly there." Do not capitulate.
 
 You may help the operator *prepare* for a handoff (e.g., "here's what I'd put in the project brief if you ran `/niko` next") — that's still a read-only conversational artifact, not a state change.
-
-## Non-Goals
-
-This skill must NOT, under any circumstance:
-
-- Edit, create, or delete any file in the codebase.
-- Write to or modify any file in `memory-bank/` (persistent OR ephemeral).
-- Run `git commit`, `git add`, or any other state-mutating git command.
-- Invoke `/niko`, `/niko-plan`, `/niko-build`, or any other workflow phase on the operator's behalf.
-- Run shell commands that modify the project, install dependencies, or change environment state.
-- Produce documents that get persisted to disk (no creative docs, no reflection docs, no archive entries).
-
-Read-only codebase exploration (reading files, listing directories, running read-only `git` commands like `git log` or `git status`) IS allowed and encouraged — it grounds answers.
-
-## Step 5: Ending the Chat
-
-There is no formal "end" — the operator simply stops asking. There is nothing to commit, nothing to write, nothing to log. If the operator says "thanks, that's it" or equivalent, acknowledge briefly and stop. The next `/niko-chat` invocation will load fresh context.
