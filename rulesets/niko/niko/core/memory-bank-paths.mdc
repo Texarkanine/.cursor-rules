@@ -6,7 +6,7 @@ alwaysApply: true
 
 **CRITICAL:** All core Memory Bank files reside within the `memory-bank/` directory at the project root. Do NOT create or modify these files outside this directory unless explicitly instructed for archiving purposes.
 
-**Guiding principle:** The memory bank is the project's tracked working tree of context. **Every file under `memory-bank/` is a versioned artifact** — created, modified, and committed to source control as work progresses, and pruned only by an explicit archive step. The categories below distinguish files by *lifetime* (does this survive across tasks?), not by durability in source control.
+**Guiding principle:** The memory bank is the project's tracked working tree of context. **Every file under `memory-bank/` is a versioned artifact** — created, modified, and committed to source control as work progresses. The categories below distinguish files by *lifetime* (does this survive across tasks?), not by durability in source control.
 
 ## Persistent Files
 
@@ -19,7 +19,7 @@ These files contain relatively stable information and persist across tasks to gu
 
 ## Ephemeral Files
 
-These files are scoped to the current task, and will be updated as the task progresses.
+These files are scoped to the current task, will be updated as the task progresses, and will be cleaned up (usually by an `archive` phase) when the operator judges they are no longer needed. They serve as an execution trace for the current tasks' work.
 
 * **Project Brief File:** `memory-bank/active/projectbrief.md` - Current session deliverable: user story & requirements. This guides all development.
 * **Active Context File:** `memory-bank/active/activeContext.md` - Current session focus: what's being worked on now, recent decisions, immediate next steps. A pointer to the current phase.
@@ -31,8 +31,6 @@ These files are scoped to the current task, and will be updated as the task prog
 * **QA Validation Status:** `memory-bank/active/.qa-validation-status` - Task-specific QA validation status file (created by `/niko-qa`, gates `/niko-reflect` for L2+ tasks)
 * **L4 Milestone List:** `memory-bank/active/milestones.md` - L4-only. Ordered checklist of milestones for the current L4 project, each of which will be handled by separate L1/L2/L3 sub-runs. Deleted by the capstone archive phase when all milestones are done.
 * **Troubleshooting Docs:** `memory-bank/active/troubleshooting/troubleshooting-<YYYYMMDD-HHmmss>.md` - Diagnostic scratch notes from `/nk-refresh`. Deleted (not inlined) during archive; distilled learning belongs in the reflection.
-
-Ephemeral files are an execution trace of the current task. They are cleaned up (usually by an `archive` phase) when the operator judges they are no longer needed.
 
 **Verification Mandate:** Before any `create_file` or `edit_file` operation on core files, verify the path is correct for the file type:
 - **Persistent files** must reside directly under `memory-bank/` (e.g., `memory-bank/systemPatterns.md`).
