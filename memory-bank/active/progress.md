@@ -73,3 +73,18 @@ Add a new `/niko-chat` ad-hoc entrypoint that loads memory-bank context for read
     - Skill correctly excluded from the systemPatterns "Workflow Invocation is Explicit Consent" pattern (prescribes no state-mutating actions)
 * Insights
     - Implicit conventions emerging from a small sample (here: 8 commands) should be made explicit before the next contributor needs to extend the pattern, not retrofitted under pressure
+
+## 2026-05-11 - NAMING CONVENTION REFINEMENT - COMPLETE
+
+* Work completed
+    - Reviewed the `niko-*` vs `nk-*` convention paragraph added to README during the just-completed L2 task.
+    - Identified that the "Circuit Breakers" framing was imprecise (`/nk-save` is a cadence override, not an emergency stop).
+    - Arrived at strict, falsifiable test: a command earns the `niko-` prefix if and only if it appears as a phase in the L1–L4 mode transition diagrams documented in `systemPatterns.md`.
+    - Decided `/niko-chat` → `/nk-chat` (chat is not a phase in any workflow; `niko-creative` remains `niko-` because CREATIVE is explicitly a phase and may be invoked out-of-band as a convenience).
+    - Updated README "Naming Convention" subsection and "Ad-Hoc Entrypoints" section to reflect the phase-based rule. Migrated skill to `rulesets/niko/skills/nk-chat/SKILL.md`.
+* Decisions made
+    - The `nk-*` namespace is now defined negatively ("commands outside the autonomous phase pipeline") — acceptable at small cardinality (3 commands).
+    - README behavioral sections constitute the operator-facing contract for command categorization; even small wording changes are high-stakes for future agent routing.
+* Insights
+    - The process overhead for changes that touch documented contracts is intentionally high to protect memory-bank accuracy, even when the mechanical diff is trivial.
+    - The prior weighting in agent responses had mis-placed the cost on the keystrokes rather than on the justification/hand-off ceremony required by the rules.
