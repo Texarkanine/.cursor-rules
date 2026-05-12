@@ -1,8 +1,0 @@
-PASS
-
-Advisory:
-- TDD plan encoding: this task adds a markdown skill file + documentation; no test infra exists for skills in this repo (verified during plan). Validation handled by preflight + QA semantic review per established repo pattern. Operator acknowledged upstream.
-- Build will incorporate structured "context loaded" summary at chat start (radical innovation finding, within scope).
-
-Out-of-scope advisory (not actioned):
-- README "Circuit Breakers" / "Ad-Hoc Entrypoints" entries could benefit from a one-liner "kind" tag at the top of each. Future task.
