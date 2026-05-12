@@ -6,7 +6,7 @@ alwaysApply: true
 
 **CRITICAL:** All core Memory Bank files reside within the `memory-bank/` directory at the project root. Do NOT create or modify these files outside this directory unless explicitly instructed for archiving purposes.
 
-**Guiding principle:** The memory bank is the project's tracked working tree of context. **Every file under `memory-bank/` is a versioned artifact** — created, modified, and committed to source control as work progresses. The categories below distinguish files by *lifetime* (does this survive across tasks?), not by durability in source control.
+**Guiding principle:** The memory bank is the project's tracked working tree of context. **Every file under `memory-bank/` is a versioned artifact** - created, modified, and committed to source control as work progresses. The categories below distinguish files by *lifetime* (does this survive across tasks?), not by durability in source control.
 
 ## Persistent Files
 
