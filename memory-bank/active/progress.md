@@ -88,3 +88,20 @@ guidance, cross-reference rules, Rossmann-derived prose style).
     - Preflight converted a likely QA finding (rule demonstrating its demoted fallback) into a
       planned build step — the phase paid for itself.
     - Encoding soft constraints (self-containment) as `rg` invariants made them checkable.
+
+## 2026-06-11 - POST-REFLECT ADDITION (operator request)
+
+* Work completed
+    - Added a "Diagram the Control Flow" section to `references/workflow-prompts.md`: agents
+      read diagrams even when unrendered; pick by control-flow shape (none / flowchart /
+      sequence); keep the map (chart) separate from the driving instructions (prose).
+    - Symlinked `rulesets/authoring/visual-planning.mdc -> ../../rules/visual-planning.mdc`
+      following the repo's standard ruleset-assembly convention; the diagram section
+      closed-stack-references it for the drawing mechanics.
+* Decisions made
+    - Diagram guidance lives in the workflow reference (it is about representing control flow).
+    - visual-planning included via symlink (standard mechanism), not duplication; reference to
+      it is the closed-execution-stack case the skill itself sanctions.
+* Insights
+    - The reference is a worked example of the skill's own cross-reference rule: a co-located,
+      controlled artifact, referenced for mechanics, with the section still complete on its own.

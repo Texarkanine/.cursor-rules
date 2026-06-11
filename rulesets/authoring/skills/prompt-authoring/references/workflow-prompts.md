@@ -30,3 +30,17 @@ Omission is just as deliberate. When you want a step handled on its own terms, d
 A small, consistent set of glyphs can help an agent parse structure fast - a stop sign for a hard halt, a single marker for "this is a phase boundary." That is a legitimate use: the glyph is load-bearing.
 
 Keep the set tiny and consistent, and give each glyph one meaning. Decorative emoji, or a different glyph every few lines, are noise the agent has to wade through. If a marker is not doing a job, cut it.
+
+## Diagram the Control Flow
+
+An agent reads a diagram the same way it reads the prose around it. A Mermaid flowchart sitting in the raw text is legible to the agent whether or not it is ever rendered to a picture, so the usual reason to skip one - "this prompt won't be viewed anywhere that draws the chart" - does not apply when the reader is an agent. If you also know the prompt lands somewhere that renders Mermaid for a human, better still; treat that as a bonus, not the deciding factor. Diagram when the shape of the work earns it.
+
+Let the control flow choose the diagram:
+
+- Straight through, with an occasional stop or skip: no diagram. A numbered list with a couple of explicit halts carries it, and a chart would just be the list drawn twice.
+- Several branches that split and rejoin: a flowchart. A chart shows branching at a glance in a way a numbered list cannot.
+- A lot of back and forth: a sequence diagram. When the work is an exchange - calls and responses, handoffs that return - a sequence diagram captures the round trips that a flowchart flattens.
+
+When you do diagram, keep the map separate from the driving instructions. The diagram is the map: it shows the flow and nothing else. The prose is how the vehicle is driven: it gives the algorithm for navigating that flow - what to evaluate at each node, what each branch means, where to stop. Don't make the prose re-narrate the diagram, and don't cram the operating rules into the diagram. They are two views of one process, and each carries what the other can't: the chart holds the structure, the prose holds the procedure.
+
+For which diagram type fits which subject, and the Mermaid syntax that actually renders, lean on the visual-planning rule that ships alongside this ruleset - it covers the drawing mechanics this section deliberately leaves out.

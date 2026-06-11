@@ -4,7 +4,7 @@ description: How to author a prompt, rule, or skill that an agent will actually 
 ---
 # Prompt Authoring
 
-Writing for an agent is not writing for a person. A person reads top to bottom and acts as they go; an agent reads the whole document first and then decides what to do. That one difference drives most of the guidance here. Before you write, work out what kind of thing you are writing, then keep the prose tight enough that the instructions survive being read all at once.
+Writing for an agent is not writing for a person. A person reads top to bottom and acts as they go, and may have used a programming language that behaves the same way; an agent reads the whole document first and then decides what to do. That one difference drives most of the guidance here. Before you write, work out what kind of thing you are writing, then keep the prose tight enough that the instructions survive being read all at once.
 
 ## Classify What You Are Writing
 
@@ -26,7 +26,7 @@ Deeper guidance for each kind lives next to this file:
 
 ## When It Is None of These
 
-The three kinds are a lens, not a gate. Plenty of good documents are a deliberate mix, and forcing a mixed document into one box makes it worse. Write what the document needs; use the kinds to check that each part is doing its job, not to amputate the parts that don't fit.
+The three kinds are a lens, not a gate. Plenty of good documents are a deliberate mix *or* something else entirely, and forcing a mixed document into one box makes it worse. Write what the document needs; use the kinds to check that each part is doing its job, not to amputate the parts that don't fit.
 
 For example, a style guide for a programming language is mostly reference - facts about syntax and convention. It might still open with one line of personality ("we value clarity over cleverness") and close with a two-step workflow ("run the formatter, then commit"). That is a healthy composite. Do not strip the opening line and the closing steps just to make it "pure reference."
 
@@ -39,9 +39,9 @@ Avoid referring to other prompts from inside a prompt. At authoring time you rar
 Two cases are safe:
 
 1. Execution handoff. "Now invoke X." This is not a reference to X's *content*; it is a transfer of control. The detail stays in X, where it belongs.
-2. Closed execution stack. You are authoring both the orchestrator and the piece it calls, and you control every entry point into the flow. There, a note like "concern Y is handled downstream" is accurate, because you are the one guaranteeing it.
+2. Closed execution stack. You are authoring both the orchestrator and the piece it calls, and you control every entry point into the flow. There, a note like "concern Y is handled downstream by X" is accurate, because you are the one guaranteeing it. However, most of the time "concern Y is handled downstream" will suffice without needing to name X; this produces a more extensible, robust design - prefer it.
 
-Everything else - restating what another prompt says, summarizing a sibling's behavior, pointing at a document you don't own - is the thing to cut. If two documents state the same rule, they will drift, and then they disagree.
+Everything else - restating what another prompt says, summarizing a sibling's behavior, pointing at a document you don't own - is the thing to cut. If two documents state the same rule, they will eventually drift and disagree.
 
 ## Prose Style
 

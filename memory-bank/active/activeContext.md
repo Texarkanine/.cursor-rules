@@ -20,6 +20,11 @@
 ## Next Step
 - Run `/niko-archive` to create the archive document and finalize the project.
 
+## Post-Reflect Addition (operator request)
+- Added "Diagram the Control Flow" to `references/workflow-prompts.md` and symlinked
+  `visual-planning.mdc` into the authoring ruleset (standard assembly convention). Verified
+  clean (no em-dashes, no lint). Ready to fold into the archive.
+
 ## Reflection
 - Reflection written to `reflection/reflection-md-style-and-prompt-authoring.md`.
 - Reconciled persistent files: generalized skill-location language in `systemPatterns.md`

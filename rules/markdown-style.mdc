@@ -105,7 +105,7 @@ make install
 
 The block above is the entire technique: a `~~~`-fenced outer block whose body contains a normal ```` ```bash ```` fence, untouched.
 
-You only count again if you need to show a tilde fence *itself* - a fence, inside a fence, inside a fence. That is rare. When it happens, bump the outer fence to four tildes (`~~~~`), or wrap it in a backtick fence (since the inner content is tildes, backticks won't collide). Reach for this only when you actually hit it.
+You only count again if you need to show a tilde fence *itself* - a fence, inside a fence, inside a fence. That is rare. When it happens, bump the outer fence to four tildes (`~~~~`). Reach for this only when you actually hit it.
 
 ### Fallback: Indented Code Blocks
 
