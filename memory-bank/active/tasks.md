@@ -152,4 +152,4 @@ build tools, or runtimes introduced.)
 - [x] Technology validation complete
 - [x] Preflight — PASS with advisory
 - [x] Build — all 8 steps complete
-- [ ] QA
+- [x] QA — PASS (all 10 acceptance checks)
