@@ -19,3 +19,21 @@ guidance, cross-reference rules, Rossmann-derived prose style).
 * Insights
     - Canonical skill location for a non-niko general-purpose skill is unresolved; all
       current skills live under `rulesets/niko/skills/`. Resolve in Plan.
+
+## 2026-06-11 - PLAN - COMPLETE
+
+* Work completed
+    - Mapped components: edit `rules/markdown-style.mdc`; create new `rulesets/authoring/`
+      group with `prompt-authoring` skill (SKILL.md + 3 references) and a README.
+    - Wrote full L3 plan into `tasks.md` (component analysis, acceptance checks, ordered
+      implementation steps, challenges).
+* Decisions made
+    - New skill lives in a NEW `rulesets/authoring/` ruleset group (general-purpose,
+      independently installable; not niko-coupled).
+    - Per-type guidance (workflow/reference/personality) split into `references/`; classify
+      lens + cross-ref rules + prose-style + self-check stay in SKILL.md.
+    - TDD automated tests are N/A for prose deliverables; verification = self-consistency +
+      QA acceptance check + `rg` invariants.
+* Insights
+    - `ai-rizz.skbd` may need a new entry to make `rulesets/authoring` installable; treated
+      as a deployment follow-up, separate from authoring the canonical content.
