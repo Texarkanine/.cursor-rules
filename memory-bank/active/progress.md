@@ -37,3 +37,15 @@ guidance, cross-reference rules, Rossmann-derived prose style).
 * Insights
     - `ai-rizz.skbd` may need a new entry to make `rulesets/authoring` installable; treated
       as a deployment follow-up, separate from authoring the canonical content.
+
+## 2026-06-11 - PREFLIGHT - COMPLETE (PASS w/ advisory)
+
+* Work completed
+    - Validated plan against codebase: TDD applicability, conventions, dependencies,
+      conflicts, completeness. Wrote `.preflight-status`.
+* Decisions made
+    - TDD test-first is inapplicable to prose; PASS with documented substitute verification.
+    - Two plan tweaks applied: composite worked example in classify section; build note to
+      convert existing indented examples to tilde fences.
+* Insights
+    - `systemPatterns.md` skill-location language should be generalized at reflect (advisory).

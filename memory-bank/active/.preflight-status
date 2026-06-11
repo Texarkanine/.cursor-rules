@@ -1,0 +1,15 @@
+PASS (with advisory)
+
+Task: md-style-and-prompt-authoring (Level 3)
+Date: 2026-06-11
+
+TDD encoding: PASS — prose deliverables, no executable units; TDD inapplicable, documented
+  honestly (verification = self-consistency + acceptance check + rg invariants).
+Convention: PASS w/ note — new rulesets/authoring/ group extends the documented skill-location
+  pattern; generalize systemPatterns.md at reflect.
+Dependency: noted — ai-rizz.skbd registration is a deployment follow-up, out of scope.
+Conflict: PASS — convert existing indented examples in markdown-style.mdc to tilde fences.
+Completeness: PASS — all 9 requirements mapped to steps.
+Radical innovation: applied in-scope (composite worked example in classify section).
+
+Cleared for /niko-build.

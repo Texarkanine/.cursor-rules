@@ -89,15 +89,20 @@ is flagged honestly rather than fabricating tests.
     - Files: `rules/markdown-style.mdc`
     - Changes: no clarifying parentheticals; bias for short, stand-alone, nav/anchor-friendly
       headings. Include WRONG/RIGHT examples.
+   - BUILD NOTE (preflight): the existing WRONG/CORRECT example blocks in this file use
+     tab-indentation to display markdown-in-markdown. Convert them to the `~~~` tilde
+     technique so the document practices its own newly-primary rule (don't leave the doc
+     demonstrating the demoted fallback as its main style).
 5. Create the new ruleset group scaffold.
     - Files: `rulesets/authoring/README.md`
     - Changes: short README describing the authoring ruleset and listing the skill.
 6. Author the skill entrypoint.
     - Files: `rulesets/authoring/skills/prompt-authoring/SKILL.md`
     - Changes: frontmatter (`name`, `description`); purpose; classify lens (workflow /
-      reference / personality + none/composite escape, advisory); self-containment principle;
-      cross-reference rules (two cases); prose-style (Rossmann-derived); self-check pass;
-      explicit-path pointers to the references.
+      reference / personality + none/composite escape, advisory) INCLUDING one short composite
+      worked example (e.g., a doc that is mostly reference but sets a little personality) so
+      the escape is concrete; self-containment principle; cross-reference rules (two cases);
+      prose-style (Rossmann-derived); self-check pass; explicit-path pointers to references.
 7. Author the per-type references.
     - Files: `rulesets/authoring/skills/prompt-authoring/references/workflow-prompts.md`,
       `.../reference-prompts.md`, `.../personality-prompts.md`
@@ -125,6 +130,19 @@ build tools, or runtimes introduced.)
 - The skill is prose about prose; risk of it not obeying its own rules. Mitigation: the
   self-consistency pass (step 8) treats the artifacts as their own worked examples.
 
+## Preflight Findings
+
+- [LOW] Convention: `systemPatterns.md` documents skills only under `rulesets/niko/skills/`.
+  New `rulesets/authoring/skills/` extends the underlying pattern (skills live in a ruleset
+  group's `skills/` dir). Not a violation; generalize the pattern language at reflect.
+- [LOW] Consistency: existing `markdown-style.mdc` examples use tab-indentation to show
+  markdown-in-markdown; convert to tilde fences in build (see step 4 BUILD NOTE).
+- [INFO] Dependency: `ai-rizz.skbd` may need a `rulesets/authoring` entry to be installable;
+  deployment follow-up, out of scope for content authoring.
+- [INFO] Glob broadening auto-injects markdown-style on `.mdc` files too — intended, low risk.
+- [ADVISORY] Applied in-scope: classify section gains one composite worked example (step 6).
+- [ADVISORY] Deferred (operator): generalize `systemPatterns.md` skill-location language.
+
 ## Status
 
 - [x] Component analysis complete
@@ -132,6 +150,6 @@ build tools, or runtimes introduced.)
 - [x] Test planning complete (TDD) — N/A for prose, documented
 - [x] Implementation plan complete
 - [x] Technology validation complete
-- [ ] Preflight
+- [x] Preflight — PASS with advisory
 - [ ] Build
 - [ ] QA
