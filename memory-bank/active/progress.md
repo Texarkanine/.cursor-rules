@@ -75,3 +75,16 @@ guidance, cross-reference rules, Rossmann-derived prose style).
 * Insights
     - Reflect must reconcile `systemPatterns.md` and `techContext.md` skill-location language
       to generalize beyond `rulesets/niko/skills/`.
+
+## 2026-06-11 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `reflection/reflection-md-style-and-prompt-authoring.md` (full lifecycle review).
+    - Reconciled persistent files: generalized skill-location language in `systemPatterns.md`
+      and `techContext.md`.
+* Decisions made
+    - Task complete; next step is `/niko-archive` (standalone task).
+* Insights
+    - Preflight converted a likely QA finding (rule demonstrating its demoted fallback) into a
+      planned build step — the phase paid for itself.
+    - Encoding soft constraints (self-containment) as `rg` invariants made them checkable.

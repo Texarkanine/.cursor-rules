@@ -10,8 +10,8 @@
 
 ## File Conventions
 - Rule files: `.mdc` extension, live under `rulesets/**/*.mdc` (sources) and sync into `.cursor/rules/**`.
-- Skill files: `SKILL.md` inside a named skill directory, live under `rulesets/niko/skills/<name>/SKILL.md` (sources) and sync into `.cursor/skills/shared/<name>/SKILL.md`.
-- Reference files: `.md` extension with no frontmatter, live under `rulesets/niko/skills/niko/references/**/*.md` (sources) and sync into `.cursor/skills/shared/niko/references/**/*.md`. Loaded by explicit path from skills and other references.
+- Skill files: `SKILL.md` inside a named skill directory, live under `rulesets/<group>/skills/<name>/SKILL.md` (sources; e.g. `rulesets/niko/skills/...`, `rulesets/authoring/skills/...`) and sync into `.cursor/skills/shared/<name>/SKILL.md`.
+- Reference files: `.md` extension with no frontmatter, live under `rulesets/<group>/skills/<skill>/references/**/*.md` (sources) and sync into `.cursor/skills/shared/<skill>/references/**/*.md`. Loaded by explicit path from skills and other references.
 - All paths should be workspace-relative.
 
 ## Synchronization

@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: Markdown Style Update & Prompt-Authoring Skill
-**Phase:** BUILD - COMPLETE
+**Phase:** REFLECT COMPLETE
 
 ## What Was Done
 - Cleaned up stale task state (#76); validated intent; classified L3; planned; preflight PASS.
@@ -18,7 +18,12 @@
   no linter errors; markdown rule renders (tilde fences contain backtick examples cleanly).
 
 ## Next Step
-- QA phase: verify all 10 acceptance checks against the built artifacts.
+- Run `/niko-archive` to create the archive document and finalize the project.
+
+## Reflection
+- Reflection written to `reflection/reflection-md-style-and-prompt-authoring.md`.
+- Reconciled persistent files: generalized skill-location language in `systemPatterns.md`
+  and `techContext.md` from `rulesets/niko/skills/` to `rulesets/<group>/skills/`.
 
 ## Deviations
 - None. Built to plan, including the two preflight tweaks (composite example; indented→tilde).
