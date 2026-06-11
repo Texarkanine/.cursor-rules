@@ -151,5 +151,5 @@ build tools, or runtimes introduced.)
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Preflight — PASS with advisory
-- [ ] Build
+- [x] Build — all 8 steps complete
 - [ ] QA

@@ -49,3 +49,18 @@ guidance, cross-reference rules, Rossmann-derived prose style).
       convert existing indented examples to tilde fences.
 * Insights
     - `systemPatterns.md` skill-location language should be generalized at reflect (advisory).
+
+## 2026-06-11 - BUILD - COMPLETE
+
+* Work completed
+    - Rewrote `rules/markdown-style.mdc` (globs, tilde fences, no-hard-wrap, heading rules,
+      converted existing examples to tilde fences).
+    - Created `rulesets/authoring/` group: README, `prompt-authoring` SKILL.md, and 3
+      per-type references.
+* Decisions made
+    - Wrote all new/edited prose unwrapped so the artifacts obey the new no-hard-wrap rule.
+    - Skill references the inner per-type guides by relative path (`references/*.md`) for
+      portability.
+* Insights
+    - `rg` self-check confirms the skill is free of repo-specific names; it is genuinely
+      installable standalone.

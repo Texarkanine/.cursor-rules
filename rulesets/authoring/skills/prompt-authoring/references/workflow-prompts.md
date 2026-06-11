@@ -1,0 +1,32 @@
+# Workflow Prompts
+
+A workflow prompt tells an agent how to execute a process: do this, then this, stop here, branch there. Workflows are the kind of prompt most often written badly, because authors reach for habits that come from writing for people or for interpreted programs - and neither habit holds.
+
+## An Agent Reads Everything First
+
+A human reads a procedure line by line and acts as they go, so step 4 is genuinely unknown while they work step 2. An interpreted program is the same: position in the file controls what runs when. Authors lean on that without noticing - they let *location in the document* carry ordering information, because for a human or an interpreter it does.
+
+An agent does not work that way. It reads the entire prompt, then decides what to do. By the time it acts on step 2, it has already read step 9 and the final warning. Anything you encoded purely by position is gone, because to the agent there is no "later in the document" - it is all present at once.
+
+So state ordering explicitly. Number the steps. Say what triggers each transition and what gates it ("when the tests pass, continue; otherwise stop"). Never rely on "as described above" or "you'll see why below" to carry sequence - the agent saw both at the same time.
+
+## Numbered Lists Versus Bulleted Lists
+
+The list style is a signal, so use it deliberately.
+
+- A numbered list says order matters: do these in sequence.
+- A bulleted list says order does not matter: this is a set, handle them in any order.
+
+Mixing the signal up - numbering a set that has no order, or bulleting steps that must run in sequence - tells the agent the opposite of what you mean.
+
+## Repeat on Purpose, Omit on Purpose
+
+Repetition in a workflow is often correct, not redundant. If a constraint applies at three different steps, and the agent might act at any of them, state the constraint at all three. The instinct to "say it once" comes from writing for a reader who passes through every line in order; an agent may engage a step in isolation, so the constraint has to be present where it is needed.
+
+Omission is just as deliberate. When you want a step handled on its own terms, do not cross-link it to other steps; the silence keeps the agent from dragging in context you wanted left out.
+
+## Emoji as Markers
+
+A small, consistent set of glyphs can help an agent parse structure fast - a stop sign for a hard halt, a single marker for "this is a phase boundary." That is a legitimate use: the glyph is load-bearing.
+
+Keep the set tiny and consistent, and give each glyph one meaning. Decorative emoji, or a different glyph every few lines, are noise the agent has to wade through. If a marker is not doing a job, cut it.
