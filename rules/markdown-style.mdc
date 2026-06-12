@@ -1,5 +1,5 @@
 ---
-description: How I like Markdown (and MDC) documents styled - fences, wrapping, and headings
+description: Rules for authoring intelligible, digestible, maintainable Markdown documents
 globs: **/*.md,**/*.mdc
 alwaysApply: false
 ---
