@@ -1,5 +1,5 @@
 ---
-description: Rules for authoring intelligible, digestible, maintainable Markdown documents
+description: Required baseline of stylistic and syntactic conventions for authoring Markdown content, wherever it shows up.
 globs: **/*.md,**/*.mdc
 alwaysApply: false
 ---
