@@ -1,16 +1,13 @@
 # System Patterns: Cursor Rules Repository
 
 ## File Organization
-- Source content in `rulesets/` is the source of truth. Three tiers, distinguished by semantics:
-  1. **Rules** (`alwaysApply: true` or `globs:`) — Cursor auto-injects these.
-     - Always-on: `rulesets/niko/niko-core.mdc`, `rulesets/niko/niko/core/memory-bank-paths.mdc`, `rulesets/niko/always-tdd.mdc`, `rulesets/niko/test-running-practices.mdc`, `rulesets/niko/visual-planning.mdc`.
-     - File-rules (pattern-triggered): `rulesets/niko/niko/memory-bank/**/*.mdc`.
-  2. **Skills** (`rulesets/<group>/skills/*/SKILL.md`; e.g. `niko`, `authoring`) — AgentSkills.io shape; invoked by the agent.
-  3. **References** (`rulesets/<group>/skills/<skill>/references/**/*.md`) — plain Markdown, no frontmatter; loaded by explicit path from skills and other references. The folder name matches the AgentSkills.io convention for skill-nested reference material. The niko workflow's 24 `alwaysApply: false` content files (`core/`, `level{1..4}/`, `phases/creative/`) live here so cross-harness translation is correct by construction (see [rulesync #1515](https://github.com/dyoshikawa/rulesync/issues/1515)).
-- `.cursor/**/shared/**/*` and `.claude/**/shared/**/*` contain active copies produced by `ai-rizz` / `a16n`. Never edit those trees — only `rulesets/` and top-level `rules/`.
-- Migration tooling lives in `scripts/`:
-  - `scripts/audit_manual_rules.py` — enumerates `alwaysApply: false` files and emits `scripts/migration-audit.json` (gitignored).
-  - `scripts/migrate_manual_rules.py` — subcommands `preview` (dry-run), `rewrite-refs`, `move-files`, `verify`.
+Source content in `rulesets/` and `rules/` is the source of truth. Three tiers, distinguished by semantics:
+
+1. **Rules** (`.mdc`) — Cursor auto-injects based on `alwaysApply` or `globs` frontmatter.
+2. **Skills** (`rules/<name>/SKILL.md` or `rulesets/<group>/skills/<name>/SKILL.md`) — AgentSkills.io shape; invoked by the agent. Rich skills with `references/` subdirectories live under `rules/` and are symlinked into the appropriate ruleset's `skills/` directory.
+3. **References** (plain `.md`, no frontmatter) — loaded by explicit path from skills. Live under the skill's own directory tree.
+
+`.cursor/` and `.claude/` contain active copies produced by `ai-rizz` / `a16n`. Never edit those trees — only `rulesets/` and `rules/`.
 
 ## Rule File Structure (.mdc)
 ```yaml
