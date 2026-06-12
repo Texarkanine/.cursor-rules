@@ -1,22 +1,26 @@
-# Product Context: Cursor Rules Repository
+# Product Context
 
-## Purpose
-Provide high-quality, reusable Cursor IDE rules that enhance AI-assisted development workflows.
+## Target Audience
 
-## Target Users
-- Developers using Cursor IDE
-- Teams wanting consistent AI behavior across projects
-- Projects needing structured task management (Niko system)
+Primarily the repository author, who uses these rules daily in Cursor. Secondarily, anyone who installs a subset with `ai-rizz`, converts them to another harness (e.g. Claude Code) with `a16n`, or reads them rendered on GitHub.
 
-## Key Features
-1. **Niko Memory Bank System**: Complexity-based task routing, context preservation, archival
-2. **TDD Rules**: Test-driven development enforcement
-3. **Style Rules**: Language-specific coding conventions
-4. **Planning Rules**: Visual planning and task decomposition
+## Use Cases
 
-## Quality Standards
-- Rules must be well-documented with clear descriptions
-- Rules use the `.mdc` format with proper YAML frontmatter (either `alwaysApply: true` or `globs:` to trigger inclusion)
-- Skills use the AgentSkills-idiomatic `SKILL.md` shape
-- References (plain Markdown content loaded by path from skills or other references) use `.md` with no frontmatter; folder name matches the AgentSkills.io `references/` convention
-- Examples should be practical and actionable
+- Reusable Cursor rules and rulesets that shape AI behavior consistently across many projects.
+- The Niko memory-bank system: complexity-based task routing, context preservation across sessions, and archival of completed work.
+- Topic-specific guidance (shell, markdown authoring, prompt authoring, TDD, and so on) that an agent pulls in when it becomes relevant.
+
+## Key Benefits
+
+- One canonical source for each rule, consumed by multiple harnesses instead of copy-pasted per project.
+- Rules compose into rulesets, so a consumer installs only the slice they need.
+
+## Success Criteria
+
+- A rule is self-contained enough to install on its own, yet composes cleanly into a ruleset.
+- Guidance is durable: it states intent and points at canonical sources rather than duplicating values that drift.
+
+## Key Constraints
+
+- This repo is consumed by external tooling (`ai-rizz`, `a16n`), so the shape of `rules/` and `rulesets/` is a contract, not just an internal layout.
+- The repo both *defines* the Niko system and *uses* it on itself, so its own `memory-bank/` must obey the same rules it ships.

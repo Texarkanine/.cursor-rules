@@ -1,22 +1,25 @@
-# Tech Context: Cursor Rules Repository
+# Tech Context
 
-## Technologies
-- **Rule format**: Markdown with YAML frontmatter (`.mdc` files) — `alwaysApply: true` or `globs:` to trigger auto-injection.
-- **Skill format**: AgentSkills-idiomatic `SKILL.md` (Markdown with `name:` / `description:` frontmatter).
-- **Reference format**: Plain Markdown (`.md`) with no frontmatter — loaded by explicit path from skills or other references. Folder name (`references/`) matches the AgentSkills.io convention.
-- **Diagrams**: Mermaid for flowcharts and process maps.
-- **Platform**: Cross-platform (Windows PowerShell, Mac/Linux Bash).
-- **Cross-harness translation**: `a16n` converts Cursor customizations to other harnesses (e.g., Claude Code). Accepts `--from-dir <src>` / `--to-dir <dst>` to operate on arbitrary source/target trees rather than the in-repo `.cursor/` / `.claude/`.
+A repository of Cursor customizations authored here as canonical source and distributed to live agent trees by external tooling. The entity taxonomy and source-of-truth rules live in `memory-bank/systemPatterns.md`; this file covers the tooling around them.
 
-## File Conventions
-- Rule files: `.mdc` extension, live under `rulesets/**/*.mdc` (sources) and sync into `.cursor/rules/**`.
-- Skill files: `SKILL.md` inside a named skill directory, live under `rulesets/niko/skills/<name>/SKILL.md` (sources) and sync into `.cursor/skills/shared/<name>/SKILL.md`.
-- Reference files: `.md` extension with no frontmatter, live under `rulesets/niko/skills/niko/references/**/*.md` (sources) and sync into `.cursor/skills/shared/niko/references/**/*.md`. Loaded by explicit path from skills and other references.
-- All paths should be workspace-relative.
+## Distribution Tooling
 
-## Synchronization
-Syncing between source (`rulesets/`) and active trees (`.cursor/rules/`, `.cursor/skills/`) is handled by **ai-rizz**. See `ai-rizz.skbd` for configuration. Do not manually edit the active trees. Note: `ai-rizz` reads from the configured git remote, not the local working tree, so uncommitted changes to `rulesets/` are invisible to it until pushed.
+- **ai-rizz** installs rules and rulesets from this repo into a consumer's `.cursor/` tree (configured in `ai-rizz.skbd`). It reads from the configured git *remote*, not the local working tree, so changes are invisible to it until pushed.
+- **a16n** converts Cursor customizations to other harnesses (e.g. Claude Code). It accepts `--from-dir` / `--to-dir` to operate on arbitrary trees rather than the in-repo `.cursor/` / `.claude/`.
+- Rules can also be viewed rendered as Markdown on GitHub via `client-side-mdc-render` (linked from the README).
+
+## Platform
+
+Cross-platform: any rule content or script must hold up under both Windows PowerShell and Mac/Linux Bash.
+
+## Diagrams
+
+Mermaid, per the `visual-planning` rule.
+
+## Licensing
+
+Licensing follows the REUSE specification (`REUSE.toml`, `LICENSES/`). New files may need copyright and license information recorded there.
 
 ## Git Conventions
-- Commits: Use conventional commit prefixes (feat, fix, chore, docs)
-- No GPG signing required for agents
+
+Conventional-commit prefixes (`feat`, `fix`, `chore`, `docs`, `refactor`, `test`). Agents commit without GPG signing.
