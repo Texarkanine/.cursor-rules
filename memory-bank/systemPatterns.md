@@ -4,8 +4,8 @@
 Source content in `rulesets/` and `rules/` is the source of truth. Three tiers, distinguished by semantics:
 
 1. **Rules** (`.mdc`) — Cursor auto-injects based on `alwaysApply` or `globs` frontmatter.
-2. **Skills** (`rules/<name>/SKILL.md` or `rulesets/<group>/skills/<name>/SKILL.md`) — AgentSkills.io shape; invoked by the agent. Rich skills with `references/` subdirectories live under `rules/` and are symlinked into the appropriate ruleset's `skills/` directory.
-3. **References** (plain `.md`, no frontmatter) — loaded by explicit path from skills. Live under the skill's own directory tree.
+2. **Commands** (`.md`) — Cursor slash-commands.
+3. **Skills** (`<name>/SKILL.md` directory) — invoked by the agent. Rich skills with `references/` subdirectories live under `rules/` and are symlinked into the appropriate ruleset's `skills/` directory.
 
 `.cursor/` and `.claude/` contain active copies produced by `ai-rizz` / `a16n`. Never edit those trees — only `rulesets/` and `rules/`.
 
