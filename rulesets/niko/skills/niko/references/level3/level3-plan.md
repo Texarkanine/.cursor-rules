@@ -93,8 +93,6 @@ After Challenges & Mitigations are recorded, run Pre-Mortem on the whole plan:
 - For each likely cause: say how the plan changes in response (scope cut, new step, new open question, stronger invariant, etc.), or note in one line that a Challenge already covers it and move on
 - Do **not** re-list the Challenges & Mitigations as a dump — Pre-Mortem is prospective hindsight on the plan as a whole (wrong premise, wrong layer, missing constraint), not another tech-risk register
 
-Write the Pre-Mortem into `memory-bank/active/tasks.md` under `## Pre-Mortem` (after Challenges & Mitigations).
-
 ## Step 10: Technology Validation
 
 - Document any new dependencies, build tool changes, or configuration additions
