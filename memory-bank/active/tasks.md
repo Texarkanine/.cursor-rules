@@ -32,19 +32,21 @@ All deliverables are prose (`.mdc` rules). No executable code and no Markdown te
 
 ## Implementation Plan
 
-1. Amend `systemPatterns.mdc` what-belongs definition.
+All steps complete (2026-07-09):
+
+1. [x] Amend `systemPatterns.mdc` what-belongs definition.
    - Files: `rulesets/niko/niko/memory-bank/systemPatterns.mdc`
    - Changes: rephrase the "Err on the side of brevity..." sentence to defer to the update contract; add Avoid item 4 (subsystem deep-dives + altitude test).
-2. Add "When to Update" to `systemPatterns.mdc`.
+2. [x] Add "When to Update" to `systemPatterns.mdc`.
    - Files: `rulesets/niko/niko/memory-bank/systemPatterns.mdc`
    - Changes: new H2 section between "How to Create" (after its "Avoid" H3) and "Format", per the creative doc draft: read-often/write-rarely framing, no-task-history rule, invalidation-only trigger with tripwire phrases, surgical scope, skip-confidently close.
-3. Amend `productContext.mdc`.
+3. [x] Amend `productContext.mdc`.
    - Files: `rulesets/niko/niko/memory-bank/productContext.mdc`
    - Changes: add "Avoid" H3 under "How to Create" (implementation vocabulary; feature accretion); add "When to Update" H2 (product-not-work framing, invalidation examples: new constituency, retired use case, changed constraint).
-4. Amend `techContext.mdc`.
+4. [x] Amend `techContext.mdc`.
    - Files: `rulesets/niko/niko/memory-bank/techContext.mdc`
    - Changes: add "When to Update" H2 after the existing "Avoid" H3, before "Format" (invalidation examples: build tool replaced, test process changed, environment step added; new content must be durable pointers).
-5. Self-check pass.
+5. [x] Self-check pass — both tripwire phrases present exactly once in each of the three rules and `reconcile-persistent.md`; zero cross-references (`rg "reconcile|\.cursor/|skills/"` exit 1); `git status` shows only the three canonical files modified; no linter errors.
    - Files: all three rules
    - Changes: none expected — run `rg` checks (tripwire phrases present in all three + reconcile-persistent; no skill-path references; no edits outside `rulesets/`), read lints, verify markdown-style compliance.
 
@@ -75,5 +77,5 @@ No new technology - validation not required.
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Preflight — PASS (2 info, 1 advisory)
-- [ ] Build
+- [x] Build — all 5 steps complete
 - [ ] QA

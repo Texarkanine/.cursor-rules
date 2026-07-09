@@ -34,3 +34,12 @@ Amend the three persistent memory-bank guidance rules (`systemPatterns.mdc` prim
     - TDD encoding accepted as N/A-for-prose with acceptance behaviors + `rg` self-checks (consistent with md-style task precedent).
 * Insights
     - Advisory carried forward: template guard line (creative doc option D) is the only lever for rule-less harnesses.
+
+## 2026-07-09 - BUILD - COMPLETE
+
+* Work completed
+    - All 5 plan steps: `systemPatterns.mdc` (Avoid item 4 with altitude test, defused append invitation, "When to Update"), `productContext.mdc` (new Avoid subsection, "When to Update"), `techContext.mdc` ("When to Update"), self-check pass green.
+* Decisions made
+    - Joined one pre-existing hard-wrapped paragraph in `systemPatterns.mdc` while editing it (markdown-style compliance; minor deviation, documented).
+* Insights
+    - Tripwire verified: "factually wrong" / "materially incomplete" now appear exactly once in each rule and in `reconcile-persistent.md`.
