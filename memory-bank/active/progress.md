@@ -124,3 +124,12 @@ Add a pre-mortem lens to Niko's planning path so plans are stress-tested for lik
     - None beyond plan — no deviations
 * Insights
     - Template `## Pre-Mortem` prose mentions can false-positive naive string-order checks; assert on fenced tasks.md headings
+
+## 2026-07-09 - QA - COMPLETE
+
+* Work completed
+    - Semantic review: completeness vs B1–B11 and creative notes; scope boundaries; no debris
+* Decisions made
+    - PASS — shared Pre-Mortem extract still declined (matches preflight advisory)
+* Insights
+    - Architecture's extra step vs template's 5-step contract is intentional special-case, documented under Choice Pre-Mortem
