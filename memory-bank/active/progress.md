@@ -43,3 +43,14 @@ Add a pre-mortem lens to Niko's planning path so plans are stress-tested for lik
     - Do not expand L2 with a new invariants section for this issue
 * Insights
     - "Never allow ¬X" and "must preserve X" are the same constraint set; keep the positive form
+
+## 2026-07-09 - PLAN - COMPLETE
+
+* Work completed
+    - Finalized L3 implementation plan: L2+L3 Pre-Mortem steps, L3 invariants clarify, `rg` verification behaviors
+    - Dogfooded Pre-Mortem on this plan itself
+* Decisions made
+    - No L4/L1/preflight/creative file changes
+    - Verification pattern: structural `rg` + QA (no executable tests)
+* Insights
+    - Insertion order Implementation → Pre-Mortem → Challenges is load-bearing for the two lenses to stay distinct
