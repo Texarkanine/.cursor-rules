@@ -1,12 +1,12 @@
 # Active Context
 
 ## Current Task: niko-plan-premortem
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** PLAN - IN-PROGRESS
 
 ## What Was Done
-- Intent clarified from [issue #78](https://github.com/Texarkanine/.cursor-rules/issues/78): pre-mortem primary; "what must never" secondary/suspect; full design path required
-- Operator bias confirmed: prefer pre-mortem; investigate whether hard-no is spurious vs existing constraints/invariants
-- Complexity determined: **Level 3** — multi-component workflow change (plan / possibly creative / preflight), open design questions on placement and wording, architectural implications for the planning path but not a system-wide Niko redesign
+- Intent clarified; Level 3 classified; ephemeral memory bank created
+- Component analysis: L2/L3 Challenges & Mitigations are step-scoped prospective risk; L3/L4 Invariants & Constraints are static preservation lists; preflight is codebase-reality + Radical Innovation advisory; creative is open-question design only
+- Open questions identified for creative: (1) pre-mortem placement & relationship to Challenges, (2) which levels get it, (3) hard-no disposition
 
 ## Next Step
-- Load Level 3 workflow and begin PLAN phase
+- Invoke `/niko-creative` for open questions, then finalize plan
