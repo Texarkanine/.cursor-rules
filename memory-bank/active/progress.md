@@ -13,3 +13,13 @@ Amend the three persistent memory-bank guidance rules (`systemPatterns.mdc` prim
 * Decisions made
     - No cross-reference to `reconcile-persistent.md`; the rules carry the judgment (direction of authority — it already points at them).
     - Primary deliverable is the what-belongs definition in each glob rule; the When-to-Update contract is the compact complement.
+
+## 2026-07-09 - PLAN - COMPLETE
+
+* Work completed
+    - 5-step linear plan written to `tasks.md`; 10 acceptance behaviors enumerated; TDD flagged not-applicable (prose artifacts, no Markdown test runner) with `rg` self-checks standing in for grep-able invariants.
+* Decisions made
+    - `productContext.mdc` also gains a small "Avoid" subsection (reasoned default from operator's what-belongs emphasis; FoxForge use cases showed code-altitude drift). `techContext.mdc` keeps its existing Avoid list and gains only "When to Update".
+    - Tripwire phrases ("factually wrong", "materially incomplete") copied verbatim from `reconcile-persistent.md` to make the deliberate duplication grep-verifiable.
+* Insights
+    - "When to Update" placement between "How to Create" and "Format" mirrors the ephemeral rules' existing section convention — the amendment restores symmetry rather than inventing structure.

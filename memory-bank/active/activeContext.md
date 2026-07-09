@@ -1,10 +1,11 @@
 # Active Context
 
 ## Current Task: persistent-file-update-contract
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Complexity determined: **Level 2** (Simple Enhancement). Prose-only amendments to three sibling rule files in one subsystem (`rulesets/niko/niko/memory-bank/`); all design decisions already resolved by the standalone creative exploration (`memory-bank/active/creative/creative-persistent-file-update-contract.md`, operator-refined); moderate, contained risk.
+- Complexity determined: Level 2 (prose-only amendments to three sibling rules; design pre-resolved by operator-refined creative doc).
+- Plan written to `memory-bank/active/tasks.md`: 5 linear steps (systemPatterns what-belongs + When to Update; productContext Avoid + When to Update; techContext When to Update; self-check pass). TDD not applicable (prose); verification is acceptance checks + `rg` self-checks for tripwire phrases and cross-reference absence.
 
 ## Next Step
-- Load the Level 2 workflow and execute the Plan phase.
+- Preflight validation (autonomous).
