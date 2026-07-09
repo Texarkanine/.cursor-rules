@@ -79,7 +79,7 @@ After a winning option is selected (or before finalizing high confidence), pre-m
 - For each reason: mark whether it is already checked in Requirements & Constraints / evidence
 - If a reason is an **unchecked** constraint or unverified assumption: do **not** finalize high confidence until it is verified, **or** return low confidence / surface to the operator
 
-Do **not** re-run Challenges-style tech risk lists. Do **not** ask for a hard-no / must-never list. Keep the Risk criterion in Step 4 as blast radius / reversibility — this step is a separate closing beat about *why* the choice would be wrong.
+Do **not** re-run Challenges-style tech risk lists. Keep the Risk criterion in Step 4 as blast radius / reversibility — this step is a separate closing beat about *why* the choice would be wrong.
 
 ## Step 7: Output Document
 

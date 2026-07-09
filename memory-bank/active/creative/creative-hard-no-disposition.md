@@ -50,4 +50,4 @@ Key insights:
 - In `level3-plan.md`, lightly strengthen the Invariants & Constraints bullet so it clearly covers plan-level properties that must hold (safety, compatibility, non-goals-as-preserved-boundaries) — still positive "must preserve / must hold."
 - Touch `level4-plan.md` only if the existing cross-milestone invariants wording is already clear enough (likely: leave alone or one clarifying phrase). Prefer minimal change.
 - In creative/plan docs and eventual issue closeout: state explicitly that hard-no was investigated and declined as a separate ritual.
-- Pre-mortem wording must not smuggle hard-no back in (no "list things that must never happen" under the pre-mortem heading).
+- Pre-mortem and choice-pre-mortem prompts should only ask for likely causes and plan/choice responses — do not name or invite a parallel negative checklist in agent-facing copy.

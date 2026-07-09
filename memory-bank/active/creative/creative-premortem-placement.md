@@ -81,7 +81,7 @@ Key insights (revised after operator pushback + corpus study):
 - Explicit transition in the Pre-Mortem step: e.g. "After Challenges & Mitigations are recorded, run Pre-Mortem…"
 - Challenges step body: leave intent unchanged; optional one-liner that Pre-Mortem (next) handles whole-plan failure imagination — only if needed for distinctness without rewriting Challenges.
 - `tasks.md` template: `## Challenges & Mitigations` then `## Pre-Mortem` (likely cause(s) + plan response; if already covered by a Challenge, note that and move on).
-- Pre-Mortem must **not** re-list step/tech risks; must **not** ask for a "must never" list.
+- Pre-Mortem must **not** re-list step/tech risks.
 - Use "pre-mortem" as the decompression key for the visualize-failure frame; keep the required outputs concrete (causes + plan changes).
 - Do **not** put pre-mortem in creative or preflight.
 - Levels: Q2 (L2+L3). Hard-no: Q3 (decline; clarify L3 Invariants).

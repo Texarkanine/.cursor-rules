@@ -45,7 +45,6 @@ Order inside plan phase is enforced by numbered steps and explicit transitions (
 - Canonical edits only under `rulesets/`
 - Challenges risk-register preserved
 - Plan PM ≠ choice PM (different objects); neither re-lists the other's concerns as a dump
-- No hard-no / must-never sections
 - Risk criterion retained; choice PM is a separate closing beat
 - Ordering explicit in numbered steps + transitions
 
@@ -127,7 +126,6 @@ No new technology - validation not required
 - **Agents conflate choice PM with plan PM or with Risk**: Mitigation — word choice PM as *this decision*; keep Risk as blast radius; plan PM says *this plan*.
 - **Choice PM hollow / always "N/A"**: Mitigation — require reasons; unchecked → confidence gate.
 - **Ceremony on tiny creatives**: Mitigation — architecture-only mandatory; others optional via template.
-- **Hard-no sneaks back**: Mitigation — Q3; ban must-never lists; QA.
 - **Step renumbering breaks refs**: Mitigation — search "Step N" after edits.
 - **Scope creep into all creative types**: Mitigation — Q4 explicitly defers mandatory generic/algorithm/uiux.
 

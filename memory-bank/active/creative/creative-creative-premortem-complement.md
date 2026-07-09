@@ -12,7 +12,7 @@
 - Architecture creative already has **Risk** (blast radius / reversibility) in tradeoff evaluation — adjacent, not Klein
 - Generic/algorithm/uiux lack an equivalent Risk row (generic has Reversibility)
 - Template (`creative-phase-template.md`) defines the shared Decide → Output shape; four phase types + template must stay consistent if we add a beat
-- Prompt-authoring: explicit steps; decompression key OK; don't invent hard-no
+- Prompt-authoring: explicit steps; decompression key OK
 - L2 has no creative — plan-end remains the only pre-mortem for L2
 - Prefer complement over substitute; YAGNI on ceremony for low-stakes creatives
 
@@ -73,7 +73,6 @@ Key insights:
 
 **Do not:**
 - Re-run Challenges-style tech risk lists
-- Ask for hard-no / must-never
 - Replace the Risk criterion — keep Risk as blast radius/reversibility; pre-mortem is a separate closing beat
 - Put whole-*plan* pre-mortem in creative (that's plan-end's job)
 
