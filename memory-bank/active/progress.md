@@ -133,3 +133,12 @@ Add a pre-mortem lens to Niko's planning path so plans are stress-tested for lik
     - PASS — shared Pre-Mortem extract still declined (matches preflight advisory)
 * Insights
     - Architecture's extra step vs template's 5-step contract is intentional special-case, documented under Choice Pre-Mortem
+
+## 2026-07-09 - REFLECT - COMPLETE
+
+* Work completed
+    - Full lifecycle reflection written; persistent files scanned (no updates)
+* Decisions made
+    - None — archive is next operator step
+* Insights
+    - See reflection doc: complementary lenses need distinct objects; revise creative + re-preflight when operator overturns a pick
