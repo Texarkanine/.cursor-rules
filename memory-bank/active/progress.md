@@ -50,3 +50,11 @@ Amend the three persistent memory-bank guidance rules (`systemPatterns.mdc` prim
     - Semantic review of the full diff against the plan's 10 acceptance behaviors: all verified. KISS/DRY/YAGNI/completeness/regression/integrity/documentation constraints clean; zero fixes required.
 * Insights
     - "Completing a task is not a reason to write here" recurs across all three When-to-Update sections as intentional parallel phrasing - part of the tripwire family, not accidental duplication.
+
+## 2026-07-09 - REFLECT - COMPLETE
+
+* Work completed
+    - Reflection written to `memory-bank/active/reflection/reflection-persistent-file-update-contract.md`.
+    - Persistent files reconciled: `memory-bank/systemPatterns.md` gained a surgical note generalizing grep-verifiable duplication as an established repo technique; the other two persistent files were untouched.
+* Insights
+    - Million-dollar question: the four-section skeleton (File / How to Create / When to Update / Format) is now uniform across memory-bank rules; stating it as a formal template for future rules is the remaining step toward the foundational-assumption design.
