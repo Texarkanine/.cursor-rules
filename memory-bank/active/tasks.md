@@ -36,10 +36,7 @@ Add a pre-mortem lens to Niko's planning path ([issue #78](https://github.com/Te
 
 - [x] **Q1: Pre-mortem placement & relationship to Challenges & Mitigations** → Resolved: Dedicated Pre-Mortem step in plan after Implementation Plan, before Challenges; complementary to step-scoped Challenges; not creative/preflight (see `memory-bank/active/creative/creative-premortem-placement.md`)
 
-- [ ] **Q2: Which complexity levels receive pre-mortem**
-  - Problem: L2 only, L3 only, L2+L3, or also L4 top-level?
-  - Why ambiguous: L2 has Challenges but no creative; L4 has invariants but defers detail to sub-runs; over-applying adds ceremony to small plans.
-  - Constraints: Proportional to level; L1 stays lean; L4 sub-runs inherit whatever their level gets.
+- [x] **Q2: Which complexity levels receive pre-mortem** → Resolved: L2 + L3 only; L1 untouched; L4 top-level skipped (sub-runs inherit) (see `memory-bank/active/creative/creative-premortem-levels.md`)
 
 - [ ] **Q3: Disposition of "what must never" / hard-no**
   - Problem: Keep as separate ritual, fold into Invariants & Constraints, reframe positively, or decline?

@@ -24,3 +24,12 @@ Add a pre-mortem lens to Niko's planning path so plans are stress-tested for lik
     - Challenges stay step-scoped; pre-mortem is plan-level; not creative or preflight
 * Insights
     - The incantation matters: renaming Challenges would likely keep producing step laundry lists
+
+## 2026-07-09 - CREATIVE (premortem-levels) - COMPLETE
+
+* Work completed
+    - Generic creative for Q2: which levels receive pre-mortem
+* Decisions made
+    - L2 + L3 only; L1 untouched; L4 top-level skipped (sub-runs inherit via their level)
+* Insights
+    - Pre-mortem's object is an implementation plan; L4 milestone lists are a different object
