@@ -58,6 +58,14 @@ The phase must include these steps, in order. Step names and evaluation criteria
 
    Additional sections specific to the domain (e.g., architecture adds "Requirements & Constraints" and "Components"; uiux adds "User & Context" and "Design System") go before Options Evaluated.
 
+### Choice Pre-Mortem
+
+Architecture creative **requires** a choice-level pre-mortem after Decide (before finalizing high confidence / before Output). Incantation: *If we shipped this decision and it turned out wrong, what would the likely reason be?* Record 1–3 likely reasons; mark each checked or unchecked; unchecked constraint/assumption → do not finalize high confidence until verified, or return low confidence. See `creative-phase-architecture.md`.
+
+Other creative phase types (generic, algorithm, uiux) **may** use the same beat when the decision is load-bearing. Do not treat it as mandatory for every naming or low-stakes creative. New phase types should document whether the beat is required or optional for that domain.
+
+This is distinct from plan-end Pre-Mortem (whole *plan* failure after Challenges) and from architecture's Risk criterion (blast radius / reversibility).
+
 ### What NOT to Include
 
 - No "Output to Operator" section. The `niko-creative` skill handles operator output by reading the Decision section of the output document.

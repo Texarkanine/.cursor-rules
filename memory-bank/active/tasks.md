@@ -82,21 +82,21 @@ Prose/workflow deliverables — verification = structural `rg` + QA.
 
 ## Implementation Plan
 
-1. **Red — baseline structural checks**
+1. **Red — baseline structural checks** ✅
     - Files: none (shell)
     - Changes: Run B1–B11 `rg` assertions; plan/creative Pre-Mortem absent (expected red). Keep command list for green step.
 
-2. **L3 plan — plan-end Pre-Mortem + invariants**
+2. **L3 plan — plan-end Pre-Mortem + invariants** ✅
     - Files: `rulesets/niko/skills/niko/references/level3/level3-plan.md`
     - Changes: As previously specified (Pre-Mortem after Challenges; invariants clarify; template; Status; PASS log)
     - Creative refs: Q1–Q3
 
-3. **L2 plan — plan-end Pre-Mortem**
+3. **L2 plan — plan-end Pre-Mortem** ✅
     - Files: `rulesets/niko/skills/niko/references/level2/level2-plan.md`
     - Changes: Same pattern; Challenges unchanged
     - Creative refs: Q1–Q2
 
-4. **Architecture creative — choice pre-mortem**
+4. **Architecture creative — choice pre-mortem** ✅
     - Files: `rulesets/niko/skills/niko/references/phases/creative/creative-phase-architecture.md`
     - Changes:
         - After Decide (before Output), add step or Decide subsection: pre-mortem this *choice* — if we shipped it and it turned out wrong, what would the likely reason be?
@@ -105,16 +105,16 @@ Prose/workflow deliverables — verification = structural `rg` + QA.
         - Extend output document format with choice pre-mortem under Decision
     - Creative ref: Q4
 
-5. **Creative template — document the pattern**
+5. **Creative template — document the pattern** ✅
     - Files: `rulesets/niko/skills/niko/references/phases/creative/creative-phase-template.md`
     - Changes: Note architecture requires choice pre-mortem after Decide; other types may use when load-bearing; do not mandate rewriting all phase types in this task
     - Creative ref: Q4
 
-6. **Green — re-run structural verification**
+6. **Green — re-run structural verification** ✅
     - Files: none
     - Changes: All B1–B11 pass
 
-7. **Docs / sync note**
+7. **Docs / sync note** ✅
     - No README required; no `.cursor/` edits; `ai-rizz` after push
 
 ## Technology Validation
@@ -153,5 +153,5 @@ No new technology - validation not required
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Preflight
-- [ ] Build
+- [x] Build
 - [ ] QA

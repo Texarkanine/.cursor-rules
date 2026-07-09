@@ -70,7 +70,18 @@ Select the winning option. State:
 
 If no clear winner emerges, this is a **low-confidence result**, which is fine - you did the research!
 
-## Step 6: Output Document
+## Step 6: Choice Pre-Mortem
+
+After a winning option is selected (or before finalizing high confidence), pre-mortem **this choice** — not the whole implementation plan:
+
+- Incantation: *If we shipped this decision and it turned out wrong, what would the likely reason be?*
+- Record 1–3 likely reasons the choice would be wrong (premise, constraint, or layer mistakes — not implementation footguns)
+- For each reason: mark whether it is already checked in Requirements & Constraints / evidence
+- If a reason is an **unchecked** constraint or unverified assumption: do **not** finalize high confidence until it is verified, **or** return low confidence / surface to the operator
+
+Do **not** re-run Challenges-style tech risk lists. Do **not** ask for a hard-no / must-never list. Keep the Risk criterion in Step 4 as blast radius / reversibility — this step is a separate closing beat about *why* the choice would be wrong.
+
+## Step 7: Output Document
 
 Write to `memory-bank/active/creative/creative-[question-name].md`:
 
@@ -101,6 +112,11 @@ Key insights:
 **Selected**: [Option name]
 **Rationale**: [Why this won, tied to ranked quality attributes]
 **Tradeoff**: [What was accepted/sacrificed]
+
+### Choice Pre-Mortem
+
+- [Likely reason this choice would be wrong]: [checked / unchecked — if unchecked, verify before high confidence or return low confidence]
+- [Likely reason 2]: [checked / unchecked]
 
 ## Implementation Notes
 - [Component boundaries]

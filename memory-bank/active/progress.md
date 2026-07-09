@@ -113,3 +113,14 @@ Add a pre-mortem lens to Niko's planning path so plans are stress-tested for lik
     - Build to creative decisions: B2 after Challenges; L2+L3; decline hard-no; architecture-only choice PM
 * Insights
     - None yet
+
+## 2026-07-09 - BUILD - COMPLETE
+
+* Work completed
+    - L2/L3 plan-end Pre-Mortem after Challenges; L3 invariants positive/plan-level clarify
+    - Architecture choice pre-mortem after Decide; creative template documents required-for-architecture / optional-elsewhere
+    - Structural verification B1–B11 all PASS
+* Decisions made
+    - None beyond plan — no deviations
+* Insights
+    - Template `## Pre-Mortem` prose mentions can false-positive naive string-order checks; assert on fenced tasks.md headings
