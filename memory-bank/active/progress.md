@@ -43,3 +43,10 @@ Amend the three persistent memory-bank guidance rules (`systemPatterns.mdc` prim
     - Joined one pre-existing hard-wrapped paragraph in `systemPatterns.mdc` while editing it (markdown-style compliance; minor deviation, documented).
 * Insights
     - Tripwire verified: "factually wrong" / "materially incomplete" now appear exactly once in each rule and in `reconcile-persistent.md`.
+
+## 2026-07-09 - QA - PASS
+
+* Work completed
+    - Semantic review of the full diff against the plan's 10 acceptance behaviors: all verified. KISS/DRY/YAGNI/completeness/regression/integrity/documentation constraints clean; zero fixes required.
+* Insights
+    - "Completing a task is not a reason to write here" recurs across all three When-to-Update sections as intentional parallel phrasing - part of the tripwire family, not accidental duplication.
