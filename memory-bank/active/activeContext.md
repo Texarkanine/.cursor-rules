@@ -4,9 +4,9 @@
 **Phase:** PREFLIGHT - COMPLETE
 
 ## What Was Done
-- Preflight validated plan against codebase and conventions
-- Amended plan: prose TDD ordering (rg red → edit → green); Status checklist includes Pre-Mortem
-- Advisory: shared Pre-Mortem extract declined (match Challenges duplication)
+- Operator refined design: Pre-Mortem **after** Challenges (visualize-failure only); keep Challenges risk register; preflight stays concrete
+- Revised creative Q1 (B2) + full plan/behaviors; corpus evidence (SLOBAC four-pass, stockroom wrong-layer) recorded in creative rationale
+- Re-preflighted revised plan: PASS
 
 ## Next Step
-- Operator runs `/niko-build` (L3 requires manual build after preflight PASS)
+- Operator runs `/niko-build`

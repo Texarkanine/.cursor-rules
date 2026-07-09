@@ -64,3 +64,24 @@ Add a pre-mortem lens to Niko's planning path so plans are stress-tested for lik
     - PASS WITH ADVISORY: declined extracting shared Pre-Mortem reference (match Challenges duplication / YAGNI)
 * Insights
     - Prior Niko prose work already established `rg` + QA as the TDD substitute; encode red→green explicitly in the plan
+
+## 2026-07-09 - PLAN REVISION (operator design) - COMPLETE
+
+* Work completed
+    - Operator pushback: Challenges are valuable; Klein pre-mortem is visualize-failure; order must be explicit (prompt-authoring); corpus study of ~70 Challenges + archives
+    - Revised creative Q1 to Option B2: Pre-Mortem **after** Challenges; Challenges unchanged
+    - Rewrote tasks.md plan, behaviors, dogfood Pre-Mortem
+* Decisions made
+    - B2 over B1 and over Challenges-as-key-only (A)
+    - Preflight remains concrete validation (not pre-mortem host)
+* Insights
+    - Historical Challenges ≈ ShadowBox identify+mitigate; expensive failures were premise/layer mistakes Challenges did not frame
+
+## 2026-07-09 - PREFLIGHT (revised plan) - COMPLETE
+
+* Work completed
+    - Re-validated revised plan: TDD red→green still encoded; Challenges preservation invariant; L2+L3 only; hard-no declined
+* Decisions made
+    - PASS — ready for `/niko-build`
+* Insights
+    - None beyond prior advisory (shared extract still declined)
