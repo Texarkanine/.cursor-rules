@@ -4,9 +4,9 @@
 **Phase:** PREFLIGHT - COMPLETE
 
 ## What Was Done
-- Operator refined design: Pre-Mortem **after** Challenges (visualize-failure only); keep Challenges risk register; preflight stays concrete
-- Revised creative Q1 (B2) + full plan/behaviors; corpus evidence (SLOBAC four-pass, stockroom wrong-layer) recorded in creative rationale
-- Re-preflighted revised plan: PASS
+- Expanded scope: investigated creative complement (Q4) — architecture choice-level pre-mortem after Decide; ship with plan-end
+- Updated brief, creative doc, plan (B9–B11), implementation steps 4–5
+- Re-preflighted expanded plan: PASS
 
 ## Next Step
 - Operator runs `/niko-build`

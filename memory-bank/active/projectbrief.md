@@ -14,14 +14,19 @@ During `/niko-plan` (or an adjacent phase), the agent runs a pre-mortem: "If thi
 
 When evaluating the issue's secondary "Hard No's / what must never" idea, the agent investigates whether that need is already covered by plan-phase constraints/invariants (especially L3/L4). If so, strengthen or clarify those hooks rather than inventing a parallel negative checklist. If a residue remains, reframe it positively or drop it.
 
+### Use-Case 3
+
+Investigate (and, if warranted, add) a **creative-phase** complement: after a creative decision is selected, stress-test *that choice* ("if this choice turned out wrong, why?") so load-bearing architecture picks are challenged before they harden into the implementation plan — complementary to plan-end whole-plan pre-mortem, not a substitute.
+
 ## Requirements
 
 1. Add a **pre-mortem** lens to Niko's planning path as the primary deliverable ([issue #78](https://github.com/Texarkanine/.cursor-rules/issues/78)).
 2. Decide placement (plan, creative, preflight, or new step) through design — not a bare paste of the issue prompts.
 3. Investigate "what must never" / hard-no: treat as secondary; prefer existing constraints/invariants or drop/reframe rather than co-equal negative checklist.
-4. Follow good prompt-authoring practice: prefer positive "do this / how" over "don't do that / how not."
-5. Edit canonical sources under `rulesets/` (never `.cursor/` / `.claude/` generated copies).
-6. Full Niko path including creative/design for open questions.
+4. Investigate a creative-phase complement to plan-end pre-mortem (choice-level vs plan-level); specify what would go there and whether to ship it in this task.
+5. Follow good prompt-authoring practice: prefer positive "do this / how" over "don't do that / how not."
+6. Edit canonical sources under `rulesets/` (never `.cursor/` / `.claude/` generated copies).
+7. Full Niko path including creative/design for open questions.
 
 ## Constraints
 
@@ -33,7 +38,8 @@ When evaluating the issue's secondary "Hard No's / what must never" idea, the ag
 ## Acceptance Criteria
 
 1. Pre-mortem is a named, operable part of the Niko planning path at the levels where it belongs.
-2. Design rationale documents where it lives and why (vs creative/preflight).
+2. Design rationale documents where it lives and why (vs creative/preflight), including how creative-phase complement relates if any.
 3. "What must never" is either folded into constraints/invariants, reframed positively, or explicitly declined — with rationale.
-4. Prompt wording follows prompt-authoring guidance (positive framing where possible).
-5. QA/preflight of the change itself passes; issue #78 intent is satisfied without over-building.
+4. Creative complement is either specified and implemented, or specified and explicitly deferred — with rationale (not left uninvestigated).
+5. Prompt wording follows prompt-authoring guidance (positive framing where possible).
+6. QA/preflight of the change itself passes; issue #78 intent is satisfied without over-building.

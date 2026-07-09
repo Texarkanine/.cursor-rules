@@ -85,3 +85,22 @@ Add a pre-mortem lens to Niko's planning path so plans are stress-tested for lik
     - PASS — ready for `/niko-build`
 * Insights
     - None beyond prior advisory (shared extract still declined)
+
+## 2026-07-09 - CREATIVE (creative-premortem-complement) + PLAN AMEND - COMPLETE
+
+* Work completed
+    - Q4: investigated what belongs in creative to complement plan-end Pre-Mortem
+    - Specified architecture-only choice pre-mortem after Decide + template note; ship in this task
+    - Updated projectbrief, tasks.md (B9–B11, steps 4–5)
+* Decisions made
+    - Choice PM ≠ plan PM (different objects); Risk criterion kept; not all creative types mandatory
+    - Reject expand-Risk-only (D) and plan-only-without-spec (A as final)
+* Insights
+    - SLOBAC-class failures need decision-time stress-test; plan-end is necessary but late for load-bearing creatives
+
+## 2026-07-09 - PREFLIGHT (with creative complement) - COMPLETE
+
+* Work completed
+    - Validated expanded plan against brief/requirements; creative files now in scope
+* Decisions made
+    - PASS — `/niko-build` when ready
