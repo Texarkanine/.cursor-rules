@@ -62,12 +62,18 @@ No new technology - validation not required.
 - The rules must stay reference-kind (prompt-authoring): no workflow steps, no personality; the "When to Update" section states a condition and a scope, not a procedure. Review in step 5.
 - Risk of over-writing (this task is itself prose about not over-writing): keep each addition to one short section; the creative doc drafts are the ceiling, not the floor.
 
+## Preflight Findings
+
+- [INFO] Rule consumers verified: only `memory-bank-init.md` (creation flow) and `reconcile-persistent.md` (reconciliation flow) load these rules; both edits are additive and break neither. Tripwire phrases currently exist only in `reconcile-persistent.md` — copying them verbatim creates the intended grep tripwire.
+- [INFO] Canonical rules and `.cursor/rules/shared/niko/memory-bank/` copies are in sync today; edits will make them drift until the ai-rizz / a16n regeneration flow runs (deployment follow-up, out of scope per brief).
+- [ADVISORY] Option D from the creative doc (a one-line maintenance notice in the generated `.md` templates) is the only lever that reaches rule-less harnesses (the `AGENTS.md` pseudo-memory-bank case). Out of brief scope; operator follow-on.
+
 ## Status
 
 - [x] Initialization complete
 - [x] Test planning complete (TDD)
 - [x] Implementation plan complete
 - [x] Technology validation complete
-- [ ] Preflight
+- [x] Preflight — PASS (2 info, 1 advisory)
 - [ ] Build
 - [ ] QA

@@ -23,3 +23,14 @@ Amend the three persistent memory-bank guidance rules (`systemPatterns.mdc` prim
     - Tripwire phrases ("factually wrong", "materially incomplete") copied verbatim from `reconcile-persistent.md` to make the deliberate duplication grep-verifiable.
 * Insights
     - "When to Update" placement between "How to Create" and "Format" mirrors the ephemeral rules' existing section convention — the amendment restores symmetry rather than inventing structure.
+
+## 2026-07-09 - PREFLIGHT - PASS
+
+* Work completed
+    - Verified rule consumers (`memory-bank-init.md`, `reconcile-persistent.md`) — additive edits break neither.
+    - Confirmed "When to Update" absent from all persistent rules (the gap is real) and tripwire phrases live only in `reconcile-persistent.md` today.
+    - Confirmed canonical ↔ `.cursor` copies currently in sync; drift after edit is a deployment follow-up.
+* Decisions made
+    - TDD encoding accepted as N/A-for-prose with acceptance behaviors + `rg` self-checks (consistent with md-style task precedent).
+* Insights
+    - Advisory carried forward: template guard line (creative doc option D) is the only lever for rule-less harnesses.
