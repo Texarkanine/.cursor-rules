@@ -1,4 +1,0 @@
-PASS
-task: persistent-file-update-contract
-date: 2026-07-09
-findings: 0 blocking, 2 info, 1 advisory (out-of-scope follow-on)
