@@ -76,27 +76,32 @@ Prose/workflow deliverables — no executable test suite in this repo. Verificat
 
 ## Implementation Plan
 
-1. **L3 plan — Pre-Mortem step + template + invariants clarify**
+1. **Red — baseline structural checks (TDD substitute for prose)**
+    - Files: none (shell only)
+    - Changes: Run the B1–B8 `rg` assertions against `rulesets/niko/skills/niko/references/level*/` and record that Pre-Mortem is absent (expected fail/red). Keep the exact command list for step 4.
+
+2. **L3 plan — Pre-Mortem step + template + invariants clarify**
     - Files: `rulesets/niko/skills/niko/references/level3/level3-plan.md`
     - Changes:
         - Strengthen Step 3 **Invariants & Constraints** bullet: plan-level properties that must hold (safety, compatibility, preserved non-goals/boundaries), still positive "must preserve / must hold" — no hard-no naming
         - Insert new step **Pre-Mortem** after Create Implementation Plan (current Step 7), before Challenges (current Step 8)
         - Renumber Technology Validation, Generate Plan Report, Log Progress, Phase Transition accordingly
         - Add `## Pre-Mortem` to `tasks.md` template (before Challenges & Mitigations)
+        - Add Pre-Mortem to the Status checklist in the template
         - Add brief Pre-Mortem line to PASS log summary if Challenges is summarized there
         - Step body: ask "If this plan were to fail, what would be the likely cause?" Require 1–3 likely causes and, for each, how the plan changes (mitigation, scope cut, or new open question). Explicitly distinguish from Challenges (plan-level vs step-level) and from preflight (imagination vs codebase reality). Do not ask for a "must never" list.
     - Creative refs: placement, levels, hard-no disposition
 
-2. **L2 plan — Pre-Mortem step + template**
+3. **L2 plan — Pre-Mortem step + template**
     - Files: `rulesets/niko/skills/niko/references/level2/level2-plan.md`
-    - Changes: Same Pre-Mortem insertion after Create Implementation Plan (Step 5), before Challenges (Step 6); renumber; add `## Pre-Mortem` to template; PASS log touch-up if needed. Wording aligned with L3 (shared intent, L2-proportional brevity).
+    - Changes: Same Pre-Mortem insertion after Create Implementation Plan (Step 5), before Challenges (Step 6); renumber; add `## Pre-Mortem` to template + Status checklist; PASS log touch-up if needed. Wording aligned with L3 (shared intent, L2-proportional brevity).
     - Creative refs: placement, levels
 
-3. **Structural verification**
+4. **Green — re-run structural verification**
     - Files: none (shell `rg` only)
-    - Changes: Confirm B1–B8 via ripgrep against `rulesets/niko/skills/niko/references/level*/`
+    - Changes: Re-run the step-1 command list; all B1–B8 assertions must pass
 
-4. **Docs / sync note**
+5. **Docs / sync note**
     - No README change required (README does not document Challenges internals)
     - Do not edit `.cursor/` copies; sync happens via `ai-rizz` after push per techContext
 
@@ -110,6 +115,13 @@ No new technology - validation not required
 - **Pre-Mortem becomes a hollow checkbox**: Mitigation — require causes + plan responses (not "N/A" without justification); empty/vague findings should trigger revisiting the implementation plan.
 - **Hard-no sneaks back via wording**: Mitigation — creative Q3 + explicit "do not ask for must-never list" in step body; QA checks for negative-checklist sections.
 - **Step renumbering breaks internal cross-references**: Mitigation — search each plan file for "Step N" references after renumbering.
+- **L2/L3 Pre-Mortem wording drifts**: Mitigation — accept parallel copies (same pattern as Challenges today); do not extract a shared reference in this task (YAGNI). Revisit only if drift appears in the wild.
+
+### Preflight amendments (2026-07-09)
+
+- Reordered implementation for prose TDD: baseline `rg` (red) → edits → `rg` (green).
+- Status checklist must include Pre-Mortem in both templates.
+- Advisory considered and declined: extracting shared Pre-Mortem reference — would diverge from Challenges' duplicated-inline pattern without proven drift.
 
 ## Pre-Mortem
 
@@ -127,6 +139,6 @@ No new technology - validation not required
 - [x] Test planning complete (TDD)
 - [x] Implementation plan complete
 - [x] Technology validation complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA

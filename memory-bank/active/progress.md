@@ -54,3 +54,13 @@ Add a pre-mortem lens to Niko's planning path so plans are stress-tested for lik
     - Verification pattern: structural `rg` + QA (no executable tests)
 * Insights
     - Insertion order Implementation → Pre-Mortem → Challenges is load-bearing for the two lenses to stay distinct
+
+## 2026-07-09 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Validated plan against conventions, dependencies, conflicts, completeness
+    - Amended plan for prose TDD ordering and Status checklist coverage
+* Decisions made
+    - PASS WITH ADVISORY: declined extracting shared Pre-Mortem reference (match Challenges duplication / YAGNI)
+* Insights
+    - Prior Niko prose work already established `rg` + QA as the TDD substitute; encode red→green explicitly in the plan

@@ -1,14 +1,12 @@
 # Active Context
 
 ## Current Task: niko-plan-premortem
-**Phase:** PLAN - COMPLETE
+**Phase:** PREFLIGHT - COMPLETE
 
 ## What Was Done
-- Component analysis of L2/L3/L4 plan, preflight, creative
-- Creative Q1: dedicated Pre-Mortem step in plan (after Implementation Plan, before Challenges)
-- Creative Q2: L2 + L3 only
-- Creative Q3: decline hard-no ritual; clarify L3 Invariants (positive framing)
-- Full L3 plan written with TDD verification via `rg` + QA; dogfooded Pre-Mortem on this plan
+- Preflight validated plan against codebase and conventions
+- Amended plan: prose TDD ordering (rg red → edit → green); Status checklist includes Pre-Mortem
+- Advisory: shared Pre-Mortem extract declined (match Challenges duplication)
 
 ## Next Step
-- Preflight phase to validate the plan against the codebase
+- Operator runs `/niko-build` (L3 requires manual build after preflight PASS)
