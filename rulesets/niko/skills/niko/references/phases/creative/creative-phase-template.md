@@ -40,7 +40,9 @@ The phase must include these steps, in order. Step names and evaluation criteria
    If no clear winner emerges, this is a **low-confidence result**, which is fine - you did the research!
    ```
 
-5. **Step 5: Output Document** - Write to `memory-bank/active/creative/creative-[question-name].md`. The format must include at minimum:
+5. **Optional domain closing step (between Decide and Output)** - Architecture **requires** Choice Pre-Mortem here (see below). Other types may insert an equivalent load-bearing beat; if unused, skip straight to Output.
+
+6. **Output Document** - Write to `memory-bank/active/creative/creative-[question-name].md`. The contract cares about order (Decide → optional closing beat → Output), not fixed step numbers across phase types. The format must include at minimum:
    - A domain-appropriate header (e.g., "Algorithm Decision:", "Architecture Decision:", "Decision:")
    - Options Evaluated (bulleted, one-line summaries)
    - Analysis (table or prose)
@@ -130,7 +132,11 @@ Select the winning option. State:
 
 If no clear winner emerges, this is a **low-confidence result**, which is fine - you did the research!
 
-## Step 5: Output Document
+## Step 5: [Optional domain closing step — e.g. Choice Pre-Mortem]
+
+[Omit for types that do not need it; architecture requires Choice Pre-Mortem here]
+
+## Step 6: Output Document
 
 Write to `memory-bank/active/creative/creative-[question-name].md`:
 

@@ -107,16 +107,16 @@ Key insights:
 
 ## Decision
 
+### Choice Pre-Mortem
+
+- [Likely reason this choice would be wrong]: [checked / unchecked — if unchecked, verify before high confidence or return low confidence]
+- [Likely reason 2]: [checked / unchecked]
+
 <!-- if a high-confidence result, use this format: -->
 
 **Selected**: [Option name]
 **Rationale**: [Why this won, tied to ranked quality attributes]
 **Tradeoff**: [What was accepted/sacrificed]
-
-### Choice Pre-Mortem
-
-- [Likely reason this choice would be wrong]: [checked / unchecked — if unchecked, verify before high confidence or return low confidence]
-- [Likely reason 2]: [checked / unchecked]
 
 ## Implementation Notes
 - [Component boundaries]
@@ -125,5 +125,5 @@ Key insights:
 
 <!-- if a low-confidence result, use this format: -->
 
-**Low-Confidence Result**: [Why no clear winner emerged]
+**Low-Confidence Result**: [Why no clear winner emerged — include Choice Pre-Mortem above when an unchecked reason (or similar) drove the escalation]
 ~~~
