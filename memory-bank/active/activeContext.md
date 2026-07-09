@@ -1,12 +1,11 @@
 # Active Context
 
 ## Current Task: niko-plan-premortem
-**Phase:** PREFLIGHT - COMPLETE
+**Phase:** BUILD - IN-PROGRESS
 
 ## What Was Done
-- Expanded scope: investigated creative complement (Q4) — architecture choice-level pre-mortem after Decide; ship with plan-end
-- Updated brief, creative doc, plan (B9–B11), implementation steps 4–5
-- Re-preflighted expanded plan: PASS
+- Preflight PASS (with creative complement)
+- Entering build: L2/L3 plan-end Pre-Mortem + architecture choice pre-mortem + template note
 
 ## Next Step
-- Operator runs `/niko-build`
+- Execute implementation plan steps 1–7 (red → edits → green)

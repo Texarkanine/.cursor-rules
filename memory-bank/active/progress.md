@@ -104,3 +104,12 @@ Add a pre-mortem lens to Niko's planning path so plans are stress-tested for lik
     - Validated expanded plan against brief/requirements; creative files now in scope
 * Decisions made
     - PASS — `/niko-build` when ready
+
+## 2026-07-09 - BUILD - IN-PROGRESS
+
+* Work completed
+    - Leaving preflight; entering build for plan-end Pre-Mortem (L2/L3) + architecture choice pre-mortem
+* Decisions made
+    - Build to creative decisions: B2 after Challenges; L2+L3; decline hard-no; architecture-only choice PM
+* Insights
+    - None yet
