@@ -33,3 +33,13 @@ Add a pre-mortem lens to Niko's planning path so plans are stress-tested for lik
     - L2 + L3 only; L1 untouched; L4 top-level skipped (sub-runs inherit via their level)
 * Insights
     - Pre-mortem's object is an implementation plan; L4 milestone lists are a different object
+
+## 2026-07-09 - CREATIVE (hard-no-disposition) - COMPLETE
+
+* Work completed
+    - Generic creative for Q3: hard-no / what-must-never disposition
+* Decisions made
+    - Decline separate hard-no ritual; clarify L3 Invariants (positive framing) for any useful residue
+    - Do not expand L2 with a new invariants section for this issue
+* Insights
+    - "Never allow ¬X" and "must preserve X" are the same constraint set; keep the positive form

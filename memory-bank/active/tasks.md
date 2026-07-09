@@ -38,7 +38,4 @@ Add a pre-mortem lens to Niko's planning path ([issue #78](https://github.com/Te
 
 - [x] **Q2: Which complexity levels receive pre-mortem** → Resolved: L2 + L3 only; L1 untouched; L4 top-level skipped (sub-runs inherit) (see `memory-bank/active/creative/creative-premortem-levels.md`)
 
-- [ ] **Q3: Disposition of "what must never" / hard-no**
-  - Problem: Keep as separate ritual, fold into Invariants & Constraints, reframe positively, or decline?
-  - Why ambiguous: Issue floated it; operator suspects it's spurious and conflicts with prompt-authoring; existing invariants may already cover the need.
-  - Constraints: Prefer positive framing; do not invent parallel negative checklist if existing hooks suffice; document rationale either way.
+- [x] **Q3: Disposition of "what must never" / hard-no** → Resolved: Decline separate ritual; fold useful residue into existing L3/L4 Invariants (positive framing); no L2 invariants expansion (see `memory-bank/active/creative/creative-hard-no-disposition.md`)
