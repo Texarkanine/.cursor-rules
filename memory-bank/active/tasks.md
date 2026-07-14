@@ -127,5 +127,12 @@ No new technology - validation not required. Licensing: existing `REUSE.toml` an
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight
-- [ ] Build
+- [x] Build
+  - [x] 1. Research primary locals + Niko templates
+  - [x] 2. Research FOSS supplements
+  - [x] 3. Synthesize principle set (`architecture-docs-research.md`)
+  - [x] 4a. Acceptance checklist (`architecture-docs-acceptance.md`)
+  - [x] 4b–4c. Author + verify `rules/architecture-docs/SKILL.md`
+  - [x] 5. Packaging (symlink + README + REUSE)
+  - [x] 6. Final gate
 - [ ] QA

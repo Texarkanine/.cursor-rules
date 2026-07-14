@@ -16,3 +16,9 @@ This ruleset collects guidance for authoring things agents read (prompts) in the
 
 - **Purpose**: How to use [Mermaid](https://mermaid.js.org/) diagrams to illustrate concepts. Given a topic, helps select the right diagram type and structure it clearly.
 - **Scope**: Any document that attempts to communicate complex concepts.
+
+## 🗺️ [architecture-docs](../../rules/architecture-docs/SKILL.md)
+
+- **Purpose**: How to write project architecture documentation as portable principles (genre frame, inclusion bar, orientation diagrams, invariants, change-surface routing) — not surface recipes from a single golden outline.
+- **Scope**: Project architecture / systems-atlas docs. Not memory-bank `systemPatterns` / `techContext` authorship, and not product how-to guides.
+

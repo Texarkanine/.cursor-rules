@@ -53,3 +53,16 @@ Create a Cursor skill in `.cursor-rules` that teaches how to write good architec
     - Checklist-as-test before authoring SKILL.md satisfies TDD encoding for prose skills
 * Insights
     - Earlier hardlink assumption came from resolving through the symlink to the same inode — the ruleset entry is the symlink itself
+
+## 2026-07-14 - BUILD - COMPLETE
+
+* Work completed
+    - Researched primary locals (stockroom Architecture atlas + ai-rizz Architecture), Niko-adjacent templates, secondary a16n, tertiary rust-analyzer + Flutter engine via git/content
+    - Recovered stockroom authoring why from archive + warehouse sessions (post-embed semantic/SQL)
+    - Wrote research inventory + acceptance checklist; authored `rules/architecture-docs/SKILL.md`; wired authoring ruleset symlink + README
+* Decisions made
+    - Ten principles + domain-mapping sibling note; evidence tags; Not-this anti-patterns; no FOSS override of local diagram/genre choices
+    - Orientation principle chooses diagram *kind* for the load-bearing story (anti-recipe for control-flow mimicry)
+* Insights
+    - Stockroom’s control-flow opener is justified by shared shim contract — portable as “orient with a model-loading diagram,” not as a mandated Mermaid type
+    - a16n is a strong domain-taxonomy golden and a weak systems-atlas golden — skill treats that as a sibling genre, not a substitute atlas
