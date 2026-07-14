@@ -21,38 +21,6 @@ This skill is a **reference**: hold the principles while you write.
 
 **Not this:** Mirroring an internal pattern catalog into Architecture, or treating a brainstorm seed list as the outline with no inclusion test.
 
-## Lead with What Is; Explain Why for Fences
-
-**Principle:** State what the system *is* first. Add *why* only for Chesterton's fences — or where ignorance causes damage.
-
-**Why:** Design-diary voice hides the model under history; fence explanations prevent “obvious” removals.
-
-**Not this:** Chronological design narrative as the spine, or unexplained magic with no hint a constraint is intentional.
-
-## Orient with a Diagram That Loads the Model
-
-**Principle:** Near the start, give a diagram that places the major pieces (and, when relevant, actors and flows) so a reader can navigate the rest of the atlas. Choose the *kind* of diagram for this system's load-bearing story — control flow, stack anatomy, desired-state vs generated-state, or another shape that actually orients.
-
-**Why:** A map beats decoration. Mandating one diagram type teaches mimicry.
-
-**Not this:** "Always open with a control-flow Mermaid flowchart," or a diagram that only restates the piece list without relationships. Do not default to a C4 stack unless that *is* the load-bearing story.
-
-## Name Invariants and Load-Bearing Boundaries
-
-**Principle:** Call out deliberate absences, API or ownership boundaries, and contracts that look optional but are not — as named invariants or doctrines, not buried asides.
-
-**Why:** Danger often lives in what is *not* there, or where rules change (desired state vs generated output).
-
-**Not this:** Treating every module as equally special, or documenting only the happy path.
-
-## Route Change Surfaces
-
-**Principle:** Help a changer find which page or section owns a class of edits — a short “when you change X, read Y” table on the overview.
-
-**Why:** An atlas that cannot answer “where do I look before I touch this?” fails under change.
-
-**Not this:** Topic pages marketed as optional appendices with no change-oriented entry path.
-
 ## Keep Procedures Outbound
 
 **Principle:** Architecture owns the model. Install steps, repair recipes, Make loops, and CLI flag tables live in how-to guides, linked from Architecture — not recopied as atlas body.
@@ -68,6 +36,38 @@ This skill is a **reference**: hold the principles while you write.
 **Why:** Micro-pages thrash (“Packaging or Shim?”); mega-files hide change surfaces.
 
 **Not this:** A dozen buzzword pages, or one undifferentiated dump with no thematic contracts.
+
+## Orient with a Diagram That Loads the Model
+
+**Principle:** Near the start, give a diagram that places the major pieces (and, when relevant, actors and flows) so a reader can navigate the rest of the atlas. Choose the *kind* of diagram for this system's load-bearing story — control flow, stack anatomy, desired-state vs generated-state, or another shape that actually orients.
+
+**Why:** A map beats decoration. Mandating one diagram type teaches mimicry.
+
+**Not this:** "Always open with a control-flow Mermaid flowchart," or a diagram that only restates the piece list without relationships. Do not default to a C4 stack unless that *is* the load-bearing story.
+
+## Route Change Surfaces
+
+**Principle:** Help a changer find which page or section owns a class of edits — a short “when you change X, read Y” table on the overview.
+
+**Why:** An atlas that cannot answer “where do I look before I touch this?” fails under change.
+
+**Not this:** Topic pages marketed as optional appendices with no change-oriented entry path.
+
+## Lead with What Is; Explain Why for Fences
+
+**Principle:** State what the system *is* first. Add *why* only for Chesterton's fences — or where ignorance causes damage.
+
+**Why:** Design-diary voice hides the model under history; fence explanations prevent “obvious” removals.
+
+**Not this:** Chronological design narrative as the spine, or unexplained magic with no hint a constraint is intentional.
+
+## Name Invariants and Load-Bearing Boundaries
+
+**Principle:** Call out deliberate absences, API or ownership boundaries, and contracts that look optional but are not — as named invariants or doctrines, not buried asides.
+
+**Why:** Danger often lives in what is *not* there, or where rules change (desired state vs generated output).
+
+**Not this:** Treating every module as equally special, or documenting only the happy path.
 
 ## Prefer Durable, Brief Stewardship
 
