@@ -138,3 +138,6 @@ No new technology - validation not required. Licensing: existing `REUSE.toml` an
 - [x] QA
   - Findings: one trivial portability fix ("see Heal" → generic "named model target"); no substantive FAIL
   - Status: PASS (`.qa-validation-status`)
+- [x] Reflect
+  - See `memory-bank/active/reflection/reflection-architecture-docs-authoring-skill.md`
+- [ ] Archive

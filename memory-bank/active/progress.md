@@ -77,3 +77,13 @@ Create a Cursor skill in `.cursor-rules` that teaches how to write good architec
     - Domain-Mapping Sibling section retained (YAGNI-clean: required by secondary corpus, not speculative)
 * Insights
     - Principle-level fence examples (truncation-at-rest, migrate-on-UI-open) remain useful; noun-level how-to names are the portability trap
+
+## 2026-07-14 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `memory-bank/active/reflection/reflection-architecture-docs-authoring-skill.md`
+    - Reconciled persistent files: no updates (authoring skill addition did not invalidate briefing altitude content)
+* Decisions made
+    - Standalone L3 → next operator step is `/niko-archive`
+* Insights
+    - Encode diagram *justification*, not diagram *type*; confirm stockroom embeddings before treating weak semantic hits as missing intent
