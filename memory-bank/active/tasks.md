@@ -19,3 +19,7 @@ Under `errexit`, a failing bare command exits before a following `$?` check. `"$
 ## Files
 
 - `rules/shell-posix-style.mdc` (canonical; `rulesets/shell/shell-posix-style.mdc` is a symlink)
+
+## QA
+
+- PASS — all acceptance criteria met; no YAGNI/KISS/completeness issues; `expr` left untouched

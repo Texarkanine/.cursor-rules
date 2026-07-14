@@ -25,3 +25,13 @@ Fix `shell-posix-style.mdc` examples called out in issue #82: replace `set -eu`-
     - Keep intentional `expr` examples (out of scope per #82)
 * Insights
     - Unsafe restore also glob-expanded in the working tree (`a*` matched real files) — strong teaching moment captured in the comment
+
+## 2026-07-14 - QA - COMPLETE
+
+* Work completed
+    - Semantic review against project brief / acceptance criteria
+    - Wrote `memory-bank/active/.qa-validation-status` = PASS
+* Decisions made
+    - No substantive findings; no return to Build
+* Insights
+    - Brief said "edit rulesets, sync rules"; repo layout is the reverse (`rules/` canonical, `rulesets/shell/*.mdc` symlinks) — implementation followed the real layout

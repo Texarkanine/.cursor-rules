@@ -1,13 +1,11 @@
 # Active Context
 
 ## Current Task: issue-82-shell-posix-style-errexit-examples
-**Phase:** BUILD - COMPLETE
+**Phase:** QA - COMPLETE (PASS)
 
 ## What Was Done
-- Operator confirmed: no automated tests for skill/rule prose; correct-by-inspection + operator eye (and occasional out-of-band evals)
-- Validated #82 claims under dash and bash (unreachable `$?` paths; `"$*"` restore splits/globs; proposed fixes work)
-- Updated `rules/shell-posix-style.mdc`: inline error handling + function-scoped positional list; left `expr` alone
-- Canonical path is `rules/`; `rulesets/shell/*.mdc` are symlinks
+- Fixed `rules/shell-posix-style.mdc` per issue #82 (errexit-safe error handling; function-scoped positional lists)
+- Validated under dash/bash; QA PASS; persistent files unchanged (nothing invalidated)
 
 ## Next Step
-- QA phase (`niko-qa`)
+- Level 1 wrap-up complete after final commit; operator may clean up `memory-bank/active/` when satisfied
