@@ -1,16 +1,21 @@
 # Authoring Ruleset
 
-This ruleset collects guidance for authoring things agents read (prompts) in their various forms including agentic harness rules, system prompts, skills, etc.
+This ruleset collects guidance for authoring things in their various forms including agentic harness rules, system prompts, skills, etc.
 
-## ✍️ [prompt-authoring](../../rules/prompt-authoring/SKILL.md)
+## 🗺️ [architecture-docs](../../rules/architecture-docs/SKILL.md)
 
-- **Purpose**: How to author a prompt to maximize the chances of an agent adhering to its instructions. Focuses on semantics; the meaning and narrative structure.
-- **Scope**: Any prompt-like artifact (workflow, reference, personality, or a mix).
+- **Purpose**: How to write project architecture documentation, based on [Diátaxis](https://diataxis.fr/) principles.
+- **Scope**: Project architecture / systems-atlas docs. Not product how-to guides, and not a substitute for short maintainer orientation notes or agent-only compact system models.
 
 ## ✍️ [markdown-style](../../rules/markdown-style.mdc)
 
 - **Purpose**: How to structure Markdown documents that work for humans, agents, *and* rendering engines. Focuses on syntax; the formatting of the document.
 - **Scope**: `*.md`, `*.mdc` files.
+
+## ✍️ [prompt-authoring](../../rules/prompt-authoring/SKILL.md)
+
+- **Purpose**: How to author a prompt to maximize the chances of an agent adhering to its instructions. Focuses on semantics; the meaning and narrative structure.
+- **Scope**: Any prompt-like artifact (workflow, reference, personality, or a mix).
 
 ## 📈 [visual-planning](../../rules/visual-planning.mdc)
 
