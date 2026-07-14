@@ -405,13 +405,8 @@ process_data() {
 	# Separate declaration and assignment for command substitution
 	pd_temp_file=$(mktemp)
 	
-	# Process data - handle failure inline (compatible with set -eu)
-	if sort "${pd_input_file}" > "${pd_temp_file}"; then
-		mv "${pd_temp_file}" "${pd_output_file}"
-	else
-		rm -f "${pd_temp_file}"
-		return 1
-	fi
+	sort "${pd_input_file}" > "${pd_temp_file}"
+	mv "${pd_temp_file}" "${pd_output_file}"
 }
 
 # Alternative naming schemes:
@@ -470,11 +465,15 @@ done
 
 ### 1. Check Return Values
 
-**Always check command return values:**
+**Always check command return values.**
+
+Under `set -eu`, a bare failing command exits the shell before any following `if [ $? ...]` can run. Handle failures inline:
+
+- `if ! cmd; then ...; fi` when you only care about the failure path
+- `if cmd; then ...; else ...; fi` when success and failure both need work
+- `if ! var=$(cmd); then ...; fi` for the same pattern with command substitution
 
 ```sh
-# Prefer inline if / if ! - under set -eu, a bare failing command exits
-# before any following `if [ $? ...]` can run
 if ! mv "${source_file}" "${dest_dir}/"; then
 	echo "Error: Unable to move ${source_file} to ${dest_dir}" >&2
 	exit 1
@@ -482,6 +481,13 @@ fi
 
 if ! cp "${file}" "${backup_location}"; then
 	echo "Error: Failed to backup ${file}" >&2
+	exit 1
+fi
+
+if sort "${input_file}" > "${temp_file}"; then
+	mv "${temp_file}" "${output_file}"
+else
+	rm -f "${temp_file}"
 	exit 1
 fi
 ```
@@ -718,23 +724,20 @@ POSIX shell has no arrays. Use these alternatives sparingly and only when necess
 
 **Positional parameters (limited use):**
 
+Do not use `set --` at script top level to hold a temporary list - that overwrites the caller's `$@`. Do not save and restore via `"$*"` and unquoted `set --` (that word-splits and globs). Wrap temporary `set --` work in a function so the caller's positional parameters stay untouched:
+
 ```sh
-# Prefer a function so temporary set -- does not touch the caller's $@.
-# Do not round-trip via "$*" / unquoted set -- - that splits and globs.
 process_paths() {
 	set -- "/path/one" "/path/two" "/path/three"
 
-	# Iterate over the list
 	for file in "$@"; do
 		echo "Processing: ${file}"
 	done
 
-	# Get count
 	echo "Total files: $#"
 
-	# Access specific items (limited)
 	first_file="$1"
-	shift  # Remove first item, $@ now has remaining items
+	shift  # Remove first item; $@ now has the remaining items
 }
 
 process_paths
