@@ -66,3 +66,14 @@ Create a Cursor skill in `.cursor-rules` that teaches how to write good architec
 * Insights
     - Stockroom’s control-flow opener is justified by shared shim contract — portable as “orient with a model-loading diagram,” not as a mandated Mermaid type
     - a16n is a strong domain-taxonomy golden and a weak systems-atlas golden — skill treats that as a sibling genre, not a substitute atlas
+
+## 2026-07-14 - QA - COMPLETE
+
+* Work completed
+    - Semantic review against plan, creative pedagogy, projectbrief acceptance criteria, and packaging invariants
+    - Trivial fix: removed stockroom-specific "Heal" how-to phrasing from Procedures Outbound principle
+    - Wrote `.qa-validation-status` = PASS
+* Decisions made
+    - Domain-Mapping Sibling section retained (YAGNI-clean: required by secondary corpus, not speculative)
+* Insights
+    - Principle-level fence examples (truncation-at-rest, migrate-on-UI-open) remain useful; noun-level how-to names are the portability trap

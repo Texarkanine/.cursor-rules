@@ -135,4 +135,6 @@ No new technology - validation not required. Licensing: existing `REUSE.toml` an
   - [x] 4b–4c. Author + verify `rules/architecture-docs/SKILL.md`
   - [x] 5. Packaging (symlink + README + REUSE)
   - [x] 6. Final gate
-- [ ] QA
+- [x] QA
+  - Findings: one trivial portability fix ("see Heal" → generic "named model target"); no substantive FAIL
+  - Status: PASS (`.qa-validation-status`)

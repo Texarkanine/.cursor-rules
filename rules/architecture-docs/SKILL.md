@@ -87,7 +87,7 @@ Evidence: `local`
 
 **Principle:** Architecture owns the model (what/why-of-fences). Install steps, heal recipes, Make loops, and CLI flag tables live in how-to guides, with outbound links from Architecture — not recopied as the body of the atlas.
 
-**Why:** Procedure dumps drift and blur ownership. A single model target lets every how-to say "see Heal" instead of re-explaining the fence.
+**Why:** Procedure dumps drift and blur ownership. A single named model target lets every how-to point at the fence instead of re-explaining it.
 
 **Not this:** Turning Architecture into Contributing 2.0 or pasting troubleshooting runbooks into doctrine pages.
 
