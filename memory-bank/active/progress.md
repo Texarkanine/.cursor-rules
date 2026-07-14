@@ -142,3 +142,12 @@ Add a pre-mortem lens to Niko's planning path so plans are stress-tested for lik
     - None — archive is next operator step
 * Insights
     - See reflection doc: complementary lenses need distinct objects; revise creative + re-preflight when operator overturns a pick
+
+## 2026-07-14 - ARCHIVE - IN-PROGRESS
+
+* Work completed
+    - Leaving reflect; entering archive for niko-plan-premortem
+* Decisions made
+    - Category: features/ (new planning-path capability)
+* Insights
+    - Unrelated untracked `creative-ecosystem-composition-strategy.md` will be preserved (not part of this task)

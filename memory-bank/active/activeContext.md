@@ -1,12 +1,12 @@
 # Active Context
 
 ## Current Task: niko-plan-premortem
-**Phase:** REFLECT - COMPLETE
+**Phase:** ARCHIVE - IN-PROGRESS
 
 ## What Was Done
-- Wrote `memory-bank/active/reflection/reflection-niko-plan-premortem.md`
-- Reconciled persistent files: no updates (product/system/tech context unchanged at system level)
-- QA was PASS; build matched plan
+- Reflect complete; entering archive
+- Will inline creatives + reflection into `memory-bank/archive/features/20260714-niko-plan-premortem.md`
+- Will clear task ephemeral files; preserve unrelated `creative-ecosystem-composition-strategy.md`
 
 ## Next Step
-- Operator runs `/niko-archive`
+- Complete archive document, clear ephemeral files, commit
