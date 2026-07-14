@@ -41,3 +41,10 @@ Preflight’s packaging correction avoided a hardlink/symlink mismatch that woul
 
 - For prose skills with no unit runner, checklist-as-test before authoring is an effective TDD stand-in — same pattern stockroom used for Architecture page claims.
 - When research depends on stockroom semantic recall of *just-authored* docs, confirm embeddings are current before treating empty/weak hits as absence of intent.
+
+## Post-Reflect Polish Addendum
+
+After Reflect COMPLETE, operator feedback drove two shipped-skill edits (research artifacts unchanged in intent):
+
+1. **Niko-agnostic surface** — Skill must work for consumers without Niko. Removed memory-bank / `systemPatterns` / `techContext` / `niko-adj` vocabulary; kept portable genre distinctions (how-tos, maintainer orientation notes, agent compact models).
+2. **Decompression keys** ([daz.is/blog/decompression-keys](https://daz.is/blog/decompression-keys/)) — Diátaxis explanation + Chesterton's fence compress genre/outbound/fence prose. Rejected C4 (recipe risk), arc42 (template mimicry), and overloaded keys (YAGNI/SSOT/SoC). Novel principles (change surfaces, atlas grain, diagram-*kind*) stay explicit. Net ~130→82 lines.

@@ -20,5 +20,5 @@ This ruleset collects guidance for authoring things agents read (prompts) in the
 ## 🗺️ [architecture-docs](../../rules/architecture-docs/SKILL.md)
 
 - **Purpose**: How to write project architecture documentation as portable principles (genre frame, inclusion bar, orientation diagrams, invariants, change-surface routing) — not surface recipes from a single golden outline.
-- **Scope**: Project architecture / systems-atlas docs. Not memory-bank `systemPatterns` / `techContext` authorship, and not product how-to guides.
+- **Scope**: Project architecture / systems-atlas docs. Not product how-to guides, and not a substitute for short maintainer orientation notes or agent-only compact system models.
 

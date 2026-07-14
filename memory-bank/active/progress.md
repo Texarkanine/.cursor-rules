@@ -87,3 +87,15 @@ Create a Cursor skill in `.cursor-rules` that teaches how to write good architec
     - Standalone L3 → next operator step is `/niko-archive`
 * Insights
     - Encode diagram *justification*, not diagram *type*; confirm stockroom embeddings before treating weak semantic hits as missing intent
+
+## 2026-07-14 - REFLECT - POST-REFLECT POLISH SAVED
+
+* Work completed
+    - Rewrote shipped `rules/architecture-docs/SKILL.md` + authoring README to be Niko-agnostic (no memory-bank / systemPatterns / techContext vocabulary)
+    - Applied decompression keys: Diátaxis (explanation genre) + Chesterton's fence; cut re-explanation; rejected C4/arc42/overloaded keys; skill shortened ~130→82 lines
+    - Updated acceptance checklist for portability + no Niko jargon in shipped surfaces
+* Decisions made
+    - Research notes may still name Niko as derivation source; installable skill must not
+    - Diátaxis/Chesterton earn keys; change-surface / atlas-grain / diagram-kind remain explicit (novel vs pretraining)
+* Insights
+    - Decompression keys replace *framework spelling*, not project-specific novel principles

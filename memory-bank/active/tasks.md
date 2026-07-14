@@ -140,4 +140,5 @@ No new technology - validation not required. Licensing: existing `REUSE.toml` an
   - Status: PASS (`.qa-validation-status`)
 - [x] Reflect
   - See `memory-bank/active/reflection/reflection-architecture-docs-authoring-skill.md`
+  - Post-reflect polish: Niko-agnostic shipped skill; Diátaxis/Chesterton decompression-key shortening
 - [ ] Archive
