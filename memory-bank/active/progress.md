@@ -26,3 +26,17 @@ Create a Cursor skill in `.cursor-rules` that teaches how to write good architec
     - Creative on skill pedagogy deferred until FOSS supplements are chosen (or explicitly declined)
 * Insights
     - Two open questions block plan PASS: FOSS selection (operator) and skill pedagogy (creative)
+
+## 2026-07-14 - PLAN - COMPLETE
+
+* Work completed
+    - Operator FOSS picks recorded: rust-analyzer, Flutter engine (tertiary weighting rationale: no stockroom-depth intent)
+    - Adjacent corpus noted: Niko `systemPatterns.mdc` / `techContext.mdc`
+    - Creative resolved: framed principle + anti-pattern reference (`creative-skill-pedagogy.md`)
+    - Full L3 plan written to `tasks.md`
+* Decisions made
+    - Evidence weight: primary local docs ≥ Niko-adjacent templates > a16n > FOSS
+    - Genres stay distinct; templates not rewritten
+    - Skill is reference-primary with Not-this anti-patterns; case-study depth stays in research, not skill body
+* Insights
+    - Niko memory-bank Avoid/When-to-Update rules are already portable architecture-authoring principles in briefing form — strong derivation source without being the same deliverable genre
