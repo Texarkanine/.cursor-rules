@@ -40,3 +40,16 @@ Create a Cursor skill in `.cursor-rules` that teaches how to write good architec
     - Skill is reference-primary with Not-this anti-patterns; case-study depth stays in research, not skill body
 * Insights
     - Niko memory-bank Avoid/When-to-Update rules are already portable architecture-authoring principles in briefing form — strong derivation source without being the same deliverable genre
+
+## 2026-07-14 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Validated plan against `prompt-authoring` packaging (directory symlink into `rulesets/authoring/skills/`)
+    - Confirmed REUSE annotations already cover `rules/**/*.md` (PPL-S)
+    - Amended Implementation Plan for explicit TDD cycles on skill content and packaging
+    - Wrote `memory-bank/active/.preflight-status` = PASS
+* Decisions made
+    - Wire via symlink like `prompt-authoring`, not file hardlinks
+    - Checklist-as-test before authoring SKILL.md satisfies TDD encoding for prose skills
+* Insights
+    - Earlier hardlink assumption came from resolving through the symlink to the same inode — the ruleset entry is the symlink itself

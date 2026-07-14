@@ -25,10 +25,10 @@ flowchart LR
 ## Component Analysis
 
 ### Affected Components
-- **`rules/architecture-docs/` (new skill tree)**: New `SKILL.md` (+ optional `references/` only if build proves necessary) — the deliverable agents load when writing architecture docs. Mirrors `rules/prompt-authoring/` (hardlinked into ruleset).
-- **`rulesets/authoring/`**: Wire the skill into the authoring ruleset (`skills/` hardlink, README entry). Current responsibility: collect guidance for authoring agent-facing artifacts (prompt-authoring, markdown-style, visual-planning).
-- **`REUSE.toml` / licensing**: New files need copyright/license recording per techContext.
-- **Memory-bank research artifacts** (ephemeral during the task): case-study notes and principle drafts live in `memory-bank/active/` until synthesized into the skill; not a permanent parallel doc set.
+- **`rules/architecture-docs/` (new skill tree)**: New `SKILL.md` (+ optional `references/` only if build proves necessary) — the deliverable agents load when writing architecture docs. Mirrors `rules/prompt-authoring/` (directory-symlinked into ruleset).
+- **`rulesets/authoring/`**: Wire the skill into the authoring ruleset (`skills/architecture-docs` → symlink to `../../../rules/architecture-docs`, README entry). Current responsibility: collect guidance for authoring agent-facing artifacts (prompt-authoring, markdown-style, visual-planning).
+- **`REUSE.toml` / licensing**: Confirm existing `rules/**/*.md` PPL-S annotation covers the new skill; amend only if a gap appears.
+- **Memory-bank research artifacts** (ephemeral during the task): case-study notes, principle drafts, and the TDD acceptance checklist live in `memory-bank/active/` until synthesized into the skill; not a permanent parallel doc set.
 - **Out of scope components**: stockroom / ai-rizz / a16n architecture doc trees (read/research only); Niko `systemPatterns.mdc` / `techContext.mdc` templates (read/research only — do not rewrite); Niko workflows (unchanged).
 
 ### Cross-Module Dependencies
@@ -64,7 +64,7 @@ flowchart LR
 - **Anti-recipe**: skill does not instruct "always open with a control-flow diagram" (or similar surface mandate) without an enclosing principle → grep/QA check.
 - **Evidence hierarchy**: skill states primary local ≥ Niko-adjacent > FOSS weighting → explicit in genre/evidence frame.
 - **Genre boundary**: skill distinguishes project architecture docs from memory-bank `systemPatterns` / `techContext` → frame present; no pasted Avoid-block duplication of those mdc files.
-- **Packaging**: `rules/architecture-docs/SKILL.md` and `rulesets/authoring/skills/architecture-docs/SKILL.md` are the same inode (hardlink pattern) → `stat` check during build.
+- **Packaging**: `rulesets/authoring/skills/architecture-docs` is a symlink to `../../../rules/architecture-docs` (same pattern as `prompt-authoring`) → `readlink` check during build.
 - **No sibling / template rewrite**: build changeset does not modify stockroom/ai-rizz/a16n architecture markdown or Niko memory-bank mdc templates → verify paths untouched.
 
 ### Test Infrastructure
@@ -82,29 +82,33 @@ flowchart LR
 
 ## Implementation Plan
 
-1. **Research primary locals + adjacent Niko templates** — `sr-search` / `sr-query` + git history for stockroom `docs/architecture`, ai-rizz `docs/developer-guide`, and `rulesets/niko/niko/memory-bank/systemPatterns.mdc` + `techContext.mdc`; secondary pass on a16n `understanding-conversions`; extract practices → candidate principles with recoverable why.
+1. **Research primary locals + adjacent Niko templates** — `sr-search` / `sr-query` + git history for stockroom `docs/architecture`, ai-rizz `docs/developer-guide`, and `rulesets/niko/niko/memory-bank/systemPatterns.mdc` + `techContext.mdc`; secondary pass on a16n `understanding-conversions`; extract practices → candidate principles with recoverable why. **Also** search stockroom for sessions that authored or revised those Niko templates (and the local architecture docs) — edit rationale is often denser than the shipped text.
     - Creative ref: pedagogy — research feeds derivation; do not draft skill outline-from-stockroom.
 2. **Research FOSS supplements** — git history / PRs for rust-analyzer and Flutter engine architecture docs; extract practices → tertiary candidate principles; never override local on conflict.
-3. **Synthesize principle set** — merge, dedupe, elevate to principles; drop surface-only observations lacking portable why; keep architecture-doc vs memory-bank genre boundary explicit.
-4. **Author skill** — write `rules/architecture-docs/SKILL.md` per creative decision:
-    - Files: `rules/architecture-docs/SKILL.md`
-    - Changes: frontmatter; genre frame; evidence-weight note; principle sections (principle / why / Not this / optional evidence tag)
+3. **Synthesize principle set** — merge, dedupe, elevate to principles; drop surface-only observations lacking portable why; keep architecture-doc vs memory-bank genre boundary explicit. Output: candidate principle inventory in `memory-bank/active/` (research notes), not yet `SKILL.md`.
+4. **Skill content (TDD cycle)**
+    - 4a. **Write failing verification first**: turn the synthesized inventory into an explicit acceptance checklist (observable checks the finished `SKILL.md` must satisfy: each principle present as principle+why+Not-this; genre frame; evidence-weight note; no surface mandates without enclosing principle; no pasted Niko Avoid-blocks). Record checklist under `memory-bank/active/` (e.g. progress/tasks or a short `architecture-docs-acceptance.md`).
+    - 4b. **Implement**: author `rules/architecture-docs/SKILL.md` to satisfy the checklist (frontmatter; genre frame; evidence-weight; principle sections per creative pedagogy).
+    - 4c. **Verify**: run the checklist against `SKILL.md`; fix until all checks pass.
     - Creative ref: `memory-bank/active/creative/creative-skill-pedagogy.md`
-5. **Wire authoring ruleset** — hardlink into `rulesets/authoring/skills/architecture-docs/`; update `rulesets/authoring/README.md`.
-6. **Licensing** — update `REUSE.toml` as required.
-7. **Verify packaging** — hardlink inode check; confirm no edits to sibling-repo architecture docs or Niko mdc templates.
+5. **Packaging (TDD cycle)**
+    - 5a. **Write failing packaging assertions first**: symlink path `rulesets/authoring/skills/architecture-docs` → `../../../rules/architecture-docs`; README entry present; `rules/**/*.md` already covered by REUSE PPL-S (confirm; no `REUSE.toml` edit unless annotations prove insufficient).
+    - 5b. **Implement**: create directory symlink; update `rulesets/authoring/README.md`.
+    - 5c. **Verify**: `readlink` + README grep + confirm no REUSE gap; confirm sibling repos and Niko mdc templates untouched.
+6. **Final gate** — re-run full Test Plan behaviors; mark Implementation Plan steps done in Status.
 
 ## Technology Validation
 
-No new technology - validation not required
+No new technology - validation not required. Licensing: existing `REUSE.toml` annotations already cover `rules/**/*.md` (PPL-S) and `rulesets/**/README.md` (AGPL); build confirms coverage rather than adding paths unless a gap appears.
 
 ## Challenges & Mitigations
 
 - **Principle collapse into recipes**: Agents default to copying stockroom's outline. Mitigation: framed principle + anti-pattern pedagogy; QA anti-recipe checks.
 - **FOSS diluting local goldens**: Mitigation: tertiary labeling; local wins on conflict.
 - **Thin stockroom history for "why"**: Mitigation: incomplete evidence → no invented principle.
-- **No automated tests for skill prose**: Mitigation: acceptance criteria + QA semantic review; packaging smoke checks.
+- **No automated test runner for skill prose**: Mitigation: explicit checklist-as-test in steps 4a/5a before implementation; QA semantic review; packaging smoke checks.
 - **Genre collapse**: Skill becomes a second copy of `systemPatterns.mdc` / `techContext.mdc`. Mitigation: explicit genre frame; QA against duplicated Avoid/When-to-Update blocks; templates remain read-only.
+- **Wrong packaging pattern**: Plan initially assumed file hardlinks; repo standard is **directory symlink** into `rulesets/authoring/skills/` (as `prompt-authoring`). Mitigation: amended in preflight to match archive/`ls` reality.
 - **Orphan research notes**: Mitigation: synthesize into skill; leave ephemeral research in memory bank for archive.
 
 ## Pre-Mortem
@@ -122,6 +126,6 @@ No new technology - validation not required
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA

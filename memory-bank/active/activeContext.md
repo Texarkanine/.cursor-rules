@@ -1,13 +1,13 @@
 # Active Context
 
 ## Current Task: architecture-docs-authoring-skill
-**Phase:** PLAN - COMPLETE
+**Phase:** PREFLIGHT - COMPLETE (PASS with advisory)
 
 ## What Was Done
-- FOSS supplements: rust-analyzer, Flutter engine (tertiary)
-- Adjacent corpus: Niko `systemPatterns.mdc` / `techContext.mdc` (researchable via stockroom; genres distinct)
-- Creative: **Framed principle + anti-pattern reference** skill shape (`creative-skill-pedagogy.md`)
-- Plan finalized: research → synthesize → author skill → wire authoring ruleset → REUSE → verify
+- Preflight validated plan against repo reality
+- Amended: packaging is **directory symlink** (not hardlink); REUSE likely already covers `rules/**/*.md`
+- Amended: TDD encoding for skill + packaging units (checklist/assertions before implement)
+- Creative pedagogy + FOSS/Niko adjacency unchanged
 
 ## Next Step
-- Preflight phase to validate the plan
+- Operator runs `/niko-build` (L3 gate)
