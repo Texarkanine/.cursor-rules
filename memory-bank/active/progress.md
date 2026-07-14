@@ -99,3 +99,12 @@ Create a Cursor skill in `.cursor-rules` that teaches how to write good architec
     - Diátaxis/Chesterton earn keys; change-surface / atlas-grain / diagram-kind remain explicit (novel vs pretraining)
 * Insights
     - Decompression keys replace *framework spelling*, not project-specific novel principles
+
+## 2026-07-14 - ARCHIVE - IN-PROGRESS
+
+* Work completed
+    - Reflect phase closed; entering archive to inline ephemeral memory-bank content and clear active state
+* Decisions made
+    - Archive category: `features/` (new authoring skill capability)
+* Insights
+    - None yet (archive in progress)
