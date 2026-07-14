@@ -401,16 +401,12 @@ process_data() {
 	pd_input_file="${1}"
 	pd_output_file="${2}"
 	pd_temp_file=""
-	pd_status=-1
 	
 	# Separate declaration and assignment for command substitution
 	pd_temp_file=$(mktemp)
 	
-	# Process data
-	sort "${pd_input_file}" > "${pd_temp_file}"
-	pd_status=$?
-	
-	if [ ${pd_status} -eq 0 ]; then
+	# Process data - handle failure inline (compatible with set -eu)
+	if sort "${pd_input_file}" > "${pd_temp_file}"; then
 		mv "${pd_temp_file}" "${pd_output_file}"
 	else
 		rm -f "${pd_temp_file}"
@@ -477,15 +473,14 @@ done
 **Always check command return values:**
 
 ```sh
-# Using if statement
+# Prefer inline if / if ! - under set -eu, a bare failing command exits
+# before any following `if [ $? ...]` can run
 if ! mv "${source_file}" "${dest_dir}/"; then
 	echo "Error: Unable to move ${source_file} to ${dest_dir}" >&2
 	exit 1
 fi
 
-# Using $? variable
-cp "${file}" "${backup_location}"
-if [ $? -ne 0 ]; then
+if ! cp "${file}" "${backup_location}"; then
 	echo "Error: Failed to backup ${file}" >&2
 	exit 1
 fi
@@ -501,8 +496,7 @@ The verbose approach should only be used when pipeline reliability is critical. 
 
 ```sh
 # Safe content: numbers, simple text, known formats
-file_list=$(find "${dir}" -name "*.txt")
-if [ $? -ne 0 ]; then
+if ! file_list=$(find "${dir}" -name "*.txt"); then
 	echo "Error: find command failed" >&2
 	exit 1
 fi
@@ -725,24 +719,25 @@ POSIX shell has no arrays. Use these alternatives sparingly and only when necess
 **Positional parameters (limited use):**
 
 ```sh
-# Store list in positional parameters (overwrites script arguments!)
-save_original_args="$*"  # Save original arguments if needed
-set -- "/path/one" "/path/two" "/path/three"
+# Prefer a function so temporary set -- does not touch the caller's $@.
+# Do not round-trip via "$*" / unquoted set -- - that splits and globs.
+process_paths() {
+	set -- "/path/one" "/path/two" "/path/three"
 
-# Iterate over the list
-for file in "$@"; do
-	echo "Processing: ${file}"
-done
+	# Iterate over the list
+	for file in "$@"; do
+		echo "Processing: ${file}"
+	done
 
-# Get count
-echo "Total files: $#"
+	# Get count
+	echo "Total files: $#"
 
-# Access specific items (limited)
-first_file="$1"
-shift  # Remove first item, $@ now has remaining items
+	# Access specific items (limited)
+	first_file="$1"
+	shift  # Remove first item, $@ now has remaining items
+}
 
-# Restore original arguments if needed
-set -- ${save_original_args}
+process_paths
 ```
 
 **Space-separated strings (when safe):**

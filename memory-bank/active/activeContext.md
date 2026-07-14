@@ -1,11 +1,13 @@
 # Active Context
 
 ## Current Task: issue-82-shell-posix-style-errexit-examples
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** BUILD - COMPLETE
 
 ## What Was Done
-- Intent clarified and approved for [issue #82](https://github.com/Texarkanine/.cursor-rules/issues/82)
-- Complexity determined: Level 1 (documentation bug fix in a single rule component; low risk; validation-in-scope does not expand architecture)
+- Operator confirmed: no automated tests for skill/rule prose; correct-by-inspection + operator eye (and occasional out-of-band evals)
+- Validated #82 claims under dash and bash (unreachable `$?` paths; `"$*"` restore splits/globs; proposed fixes work)
+- Updated `rules/shell-posix-style.mdc`: inline error handling + function-scoped positional list; left `expr` alone
+- Canonical path is `rules/`; `rulesets/shell/*.mdc` are symlinks
 
 ## Next Step
-- Load Level 1 workflow and enter Build phase
+- QA phase (`niko-qa`)
