@@ -62,7 +62,7 @@ Every file must start with a description:
 **Use tabs for initial indentation:**
 
 ```sh
-if [ "${1}" = "start" ]; then
+if [ "$1" = "start" ]; then
 	echo "Starting service..."
 	if systemctl start myservice; then
 		echo "Service started successfully"
@@ -76,7 +76,7 @@ fi
 **Use spaces for subsequent indentation:**
 
 ```sh
-if [ "${1}" = "start" ]; then
+if [ "$1" = "start" ]; then
 	echo "Starting service..."
 	if systemctl start myservice; then
 		# the following lines align function inputs w/ spaces
@@ -93,7 +93,7 @@ fi
 **ALWAYS use spaces for indentation within multi-line comments:**
 
 ```sh
-if [ "${1}" = "start" ]; then
+if [ "$1" = "start" ]; then
 	echo "Starting service..."
 	if systemctl start myservice; then
 		echo "Service started successfully"
@@ -217,7 +217,7 @@ else
 fi
 
 # for loops
-for file in "${@}"; do
+for file in "$@"; do
 	process_file "${file}"
 done
 
@@ -232,7 +232,7 @@ done < "${input_file}"
 **Align and indent consistently:**
 
 ```sh
-case "${1}" in
+case "$1" in
 	start)
 		start_service
 		;;
@@ -244,7 +244,7 @@ case "${1}" in
 		start_service
 		;;
 	*)
-		echo "Usage: ${0} {start|stop|restart}" >&2
+		echo "Usage: $0 {start|stop|restart}" >&2
 		exit 1
 		;;
 esac
@@ -254,16 +254,26 @@ esac
 
 ### 1. Variable Expansion
 
-**Always use braces for variable expansion:**
+**Brace-delimit all named variables. Do not brace single-character shell specials or positional parameters unless required or avoiding confusion:**
 
 ```sh
-# Good
+# Good - named variables always braced
 echo "Hello ${name}!"
 echo "File: ${file}.backup"
+
+# Good - specials and positional parameters unbraced
+echo "Positional: $1 $2"
+echo "Count: $#, status: $?"
+main "$@"
+
+# Braces required or avoiding confusion
+echo "${10}"      # multi-digit positional requires braces
+echo "${1}0${2}"  # digit follows the expansion
 
 # Bad
 echo "Hello $name!"
 echo "File: $file.backup"
+echo "Positional: ${1}"  # unnecessary braces
 ```
 
 ### 2. Quoting
@@ -305,7 +315,7 @@ fi
 ```sh
 # Single function
 process_file() {
-	file="${1}"
+	file="$1"
 	# implementation
 }
 ```
@@ -341,7 +351,7 @@ All function header comments must describe the intended API behavior using these
 #   1 on file not found
 #   2 on invalid format
 process_log_file() {
-	log_file="${1}"
+	log_file="$1"
 	format="${2:-text}"
 	
 	# Validate input
@@ -384,7 +394,7 @@ process_log_file() {
 # Returns:
 #   Always returns 0 (default exit status)
 display_message() {
-	dm_message="${1}"  # dm_ = display_message prefix
+	dm_message="$1"  # dm_ = display_message prefix
 	echo "INFO: ${dm_message}"
 }
 ```
@@ -396,38 +406,27 @@ display_message() {
 Since POSIX shell doesn't have `local`, all function variables are global. Use consistent prefixes to avoid conflicts. Initialize function variables to sane defaults.
 
 ```sh
-process_data() {
-	# Use function name prefix to avoid conflicts (pd_ = process_data)
-	pd_input_file="${1}"
-	pd_output_file="${2}"
-	pd_temp_file=""
-	pd_status=-1
-	
+summarize_log() {
+	# Use function name prefix to avoid conflicts (sl_ = summarize_log)
+	sl_log_file="$1"
+	sl_line_count=""
+
 	# Separate declaration and assignment for command substitution
-	pd_temp_file=$(mktemp)
-	
-	# Process data
-	sort "${pd_input_file}" > "${pd_temp_file}"
-	pd_status=$?
-	
-	if [ ${pd_status} -eq 0 ]; then
-		mv "${pd_temp_file}" "${pd_output_file}"
-	else
-		rm -f "${pd_temp_file}"
-		return 1
-	fi
+	sl_line_count=$(wc -l < "${sl_log_file}")
+
+	echo "INFO: ${sl_log_file} contains ${sl_line_count} lines"
 }
 
 # Alternative naming schemes:
 validate_input() {
-	vi_input="${1}"          # vi_ = validate_input
+	vi_input="$1"          # vi_ = validate_input
 	vi_format="${2:-text}"
 	# ... function logic
 }
 
 my_package_parse_config() {
-	mppc_config_file="${1}"  # mppc_ = my_package_parse_config  
-	mppc_section="${2}"
+	mppc_config_file="$1"  # mppc_ = my_package_parse_config  
+	mppc_section="$2"
 	# ... function logic
 }
 ```
@@ -474,19 +473,30 @@ done
 
 ### 1. Check Return Values
 
-**Always check command return values:**
+**Always check command return values.**
+
+Under `set -eu`, a bare failing command exits the shell before any following `if [ $? -ne 0 ]` check can run. Handle failures inline:
+
+- `if ! cmd; then ...; fi` when you only care about the failure path
+- `if cmd; then ...; else ...; fi` when success and failure both need work
+- `if ! var=$(cmd); then ...; fi` for the same pattern with command substitution
 
 ```sh
-# Using if statement
 if ! mv "${source_file}" "${dest_dir}/"; then
 	echo "Error: Unable to move ${source_file} to ${dest_dir}" >&2
 	exit 1
 fi
 
-# Using $? variable
-cp "${file}" "${backup_location}"
-if [ $? -ne 0 ]; then
-	echo "Error: Failed to backup ${file}" >&2
+if sort "${input_file}" > "${temp_file}"; then
+	mv "${temp_file}" "${output_file}"
+else
+	echo "Error: Failed to sort ${input_file}" >&2
+	rm -f "${temp_file}"
+	exit 1
+fi
+
+if ! disk_usage=$(du -sk "${backup_dir}"); then
+	echo "Error: Failed to check disk usage for ${backup_dir}" >&2
 	exit 1
 fi
 ```
@@ -501,8 +511,7 @@ The verbose approach should only be used when pipeline reliability is critical. 
 
 ```sh
 # Safe content: numbers, simple text, known formats
-file_list=$(find "${dir}" -name "*.txt")
-if [ $? -ne 0 ]; then
+if ! file_list=$(find "${dir}" -name "*.txt"); then
 	echo "Error: find command failed" >&2
 	exit 1
 fi
@@ -565,7 +574,7 @@ fi
 # Good - status uses exit codes
 is_even() {
   # Checks if the input number is even
-  if [ $(expr ${1} % 2) -eq 0 ]; then
+  if [ $(expr $1 % 2) -eq 0 ]; then
 	return 0 # it's even
   else
 	return 1 # it's not even
@@ -575,7 +584,7 @@ is_even() {
 # Bad - unnecessary string use for status
 file_exists() {
   # Checks if the given file exists
-  if [ -f "${1}" ]; then
+  if [ -f "$1" ]; then
 	echo "true" # it exists
   else
 	echo "false" # it doesn't exist
@@ -724,25 +733,25 @@ POSIX shell has no arrays. Use these alternatives sparingly and only when necess
 
 **Positional parameters (limited use):**
 
+`set --` replaces the current positional parameters: at script top level it destroys the script's own `$@`. Inside a function, positional parameters are local to the function and restored when it returns, so wrap temporary `set --` work in a function. Do not save and restore via `"$*"` and unquoted `set --` — that word-splits and glob-expands:
+
 ```sh
-# Store list in positional parameters (overwrites script arguments!)
-save_original_args="$*"  # Save original arguments if needed
-set -- "/path/one" "/path/two" "/path/three"
+process_paths() {
+	# pp_ = process_paths prefix
+	set -- "/path/one" "/path/two" "/path/three"
 
-# Iterate over the list
-for file in "$@"; do
-	echo "Processing: ${file}"
-done
+	for pp_file in "$@"; do
+		echo "Processing: ${pp_file}"
+	done
 
-# Get count
-echo "Total files: $#"
+	echo "Total files: $#"
 
-# Access specific items (limited)
-first_file="$1"
-shift  # Remove first item, $@ now has remaining items
+	# Access and consume items from the front
+	pp_first_file="$1"
+	shift  # Remove first item; $@ now has the remaining items
+}
 
-# Restore original arguments if needed
-set -- ${save_original_args}
+process_paths
 ```
 
 **Space-separated strings (when safe):**
@@ -831,7 +840,7 @@ fi
 
 ```sh
 validate_input() {
-	input="${1}"
+	input="$1"
 
 	# Check if input is provided
 	if [ -z "${input}" ]; then
@@ -897,7 +906,7 @@ set +f  # Re-enable globbing
 ```sh
 # Process items directly from command output (preferred)
 process_files() {
-	find "${1}" -name "*.txt" | while read -r file; do
+	find "$1" -name "*.txt" | while read -r file; do
 		echo "Processing: ${file}"
 		# Note: variables set in while loops persist within the loop
 		# but may not persist outside due to subshell behavior
@@ -953,12 +962,13 @@ EOF
 	# Bad: bash-specific array
 	files=( file1.txt file2.txt file3.txt )
 
-	# Good: POSIX-compatible list
-	set -- file1.txt file2.txt file3.txt
-	for file in "$@"; do
-		[ -f "${file}" ] || continue  # Skip if no matches
-		process_file "${file}"
-	done
+	# Good: POSIX-compatible list via function-local positional parameters
+	process_file_list() {
+		set -- file1.txt file2.txt file3.txt
+		for pfl_file in "$@"; do
+			process_file "${pfl_file}"
+		done
+	}
 	```
 
 ## Testing and Validation
@@ -978,10 +988,10 @@ subtract() {
 }
 
 main() {
-	case "${1}" in
-		add) add "${2}" "${3}" ;;
-		sub) subtract "${2}" "${3}" ;;
-		*)   echo "Usage: ${0} {add|sub} num1 num2" >&2; exit 1 ;;
+	case "$1" in
+		add) add "$2" "$3" ;;
+		sub) subtract "$2" "$3" ;;
+		*)   echo "Usage: $0 {add|sub} num1 num2" >&2; exit 1 ;;
 	esac
 }
 
@@ -1027,7 +1037,8 @@ my_func() {
 }
 
 # SC2039: Use of arrays
-# POSIX alternative: use positional parameters
+# POSIX alternative: use positional parameters, inside a function
+# so the script's own arguments are preserved
 # Instead of: arr=( one two three )
 set -- one two three
 ```
