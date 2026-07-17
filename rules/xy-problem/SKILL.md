@@ -18,7 +18,7 @@ This skill is a checkpoint workflow: a set of trigger signals, then a four-step 
 Run the check when any of these holds:
 
 - You are about to add a dependency — a library, framework, tool, or service — to accomplish a task.
-- A plan or design step has the shape "use <means> to do <goal>," and its fitness rests on its name, its README, its popularity, or your memory of it rather than on inspection.
+- A plan or design step has the shape "use `<means>` to do `<goal>`," and its fitness rests on its name, its README, its popularity, or your memory of it rather than on inspection.
 - You inherited the means from a ticket, plan document, or earlier conversation, and there is no recorded evidence it was vetted.
 - You have tried more than once to make an already-chosen means do something and it keeps not working. This is the retroactive trigger: "how do I make this thing do Z" loops are the signature of a means that was never verified, and the check may reveal that no configuration of it will ever work.
 
