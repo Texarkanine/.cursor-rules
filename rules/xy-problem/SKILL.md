@@ -26,7 +26,7 @@ Run the check when any of these holds:
 
 Scale the check to the decision's weight. A reversible one-line choice — which of two equivalent stdlib calls to use — deserves a moment's thought, not a survey. A choice that other work will be built on top of — a test framework, an HTTP layer, a data model — deserves the full check, because unwinding it later costs everything built above it. Weigh blast radius, reversibility, and how load-bearing the assumed capability is.
 
-Bezos's one-way/two-way door test is a second key for the same judgment. Plot the decision on two axes, reversible↔irreversible and consequential↔inconsequential: a reversible, low-consequence choice is a two-way door, decided on the spot with the information at hand; an irreversible or consequential one is a one-way door, made slowly and deliberately — which here means the full check. The test cuts both ways: it demands rigor at one-way doors and forbids ceremony at two-way ones, so a means-decision you can undo with one commit and a line or two should not be buried under a survey. The full matrix, with per-quadrant guidance, is in `references/bezos-decision-matrix.md`.
+Bezos's one-way/two-way door test is a second key for the same judgment. Plot the decision on two axes, reversible↔irreversible and consequential↔inconsequential: a reversible, low-consequence choice is a two-way door, decided on the spot with the information at hand; an irreversible or consequential one is a one-way door, made slowly and deliberately — which here means the full check. The test cuts both ways: it demands rigor at one-way doors and forbids ceremony at two-way ones, so a means-decision you can undo with one commit and a line or two should not be buried under a survey.
 
 ## The Check
 
