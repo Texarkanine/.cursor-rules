@@ -87,5 +87,5 @@ This rule guides you through the process of opening a pull request.
 3. Report the result to the user with ONLY and EXACTLY the following message (filling in the `<information>` appropriately):
 	Example:
 	```markdown
-	PR Opened: [feat(auth): implement OAuth2 authentication](https://github.com/<owner>/<repo>/pulls/<pr_number>)
+	PR Opened: [feat(auth): implement OAuth2 authentication](https://github.com/<owner>/<repo>/pull/<pr_number>)
 	```
