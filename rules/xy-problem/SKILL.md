@@ -18,7 +18,7 @@ This skill is a checkpoint workflow: a set of trigger signals, then a four-step 
 Run the check when any of these holds:
 
 - You are about to add a dependency — a library, framework, tool, or service — to accomplish a task.
-- A plan or design step has the shape "use ___ to do ___," and the blank's fitness rests on its name, its README, its popularity, or your memory of it rather than on inspection.
+- A plan or design step has the shape "use <means> to do <goal>," and its fitness rests on its name, its README, its popularity, or your memory of it rather than on inspection.
 - You inherited the means from a ticket, plan document, or earlier conversation, and there is no recorded evidence it was vetted.
 - You have tried more than once to make an already-chosen means do something and it keeps not working. This is the retroactive trigger: "how do I make this thing do Z" loops are the signature of a means that was never verified, and the check may reveal that no configuration of it will ever work.
 
@@ -41,4 +41,4 @@ Gate: do not build on the means until step 2's evidence exists. Work stacked on 
 
 What the unchecked path looks like, so it can be recognized mid-flight: a team needs integration tests that assert on outgoing HTTP calls. An agent picks an interception library because its README says "intercept HTTP," and starts building the test suite on it. The library patches Node's `http` module; the client under test issues requests through a different stack the library never touches. Every subsequent work session asks "how do I configure the library to catch these calls" — a question with no answer, because the wrong question was locked in at the moment of choosing.
 
-Mid-flight tells: the questions you're researching are shaped "how do I make ___ do ___"; adapter and workaround code is accumulating around the means; you are re-reading the same documentation hunting for a capability you have not yet seen demonstrated. When you notice any of these, run the check now and treat the work already spent as spent — it is not a reason to keep forcing the means.
+Mid-flight tells: the questions you're researching are shaped "how do I make <means> do <goal>"; adapter and workaround code is accumulating around the means; you are re-reading the same documentation hunting for a capability you have not yet seen demonstrated. When you notice any of these, run the check now and treat the work already spent as spent — it is not a reason to keep forcing the means.
