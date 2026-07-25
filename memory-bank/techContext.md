@@ -18,7 +18,7 @@ Cross-platform: any rule content or script must hold up under both Windows Power
 
 ## Diagrams
 
-Mermaid, per the `visual-planning` rule.
+Mermaid, per the `visual-planning` skill.
 
 ## Licensing
 

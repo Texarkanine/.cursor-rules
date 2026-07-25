@@ -72,3 +72,13 @@ Migrate agent-selected description rules and any remaining commands in `rules/` 
     - Root README remains high-level "rules" wording — not factually wrong; out of B9 scope
 * Insights
     - Installed `.cursor/` tree may contain dangling links until consumers re-sync via ai-rizz (explicitly out of build scope)
+
+## 2026-07-25 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `memory-bank/active/reflection/reflection-description-rules-and-commands-to-skills.md`
+    - Reconciled persistent files: techContext visual-planning → skill; systemPatterns already updated in build
+* Decisions made
+    - productContext left unchanged (still accurate at briefing altitude)
+* Insights
+    - See reflection doc (dangling-symlink exists() gotcha; a16n discover field shapes)
