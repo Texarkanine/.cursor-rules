@@ -185,8 +185,10 @@ def main() -> int:
         else:
             stale_candidates = [RULESETS / ruleset / f"{local}.mdc"]
         for stale_path in stale_candidates:
+            # Path.exists() is False for dangling symlinks; use lexists via is_symlink|exists.
+            stale_present = stale_path.is_symlink() or stale_path.exists()
             check(
-                not stale_path.exists(),
+                not stale_present,
                 f"B6: stale ruleset .mdc symlink still present {stale_path.relative_to(ROOT)}",
                 errors,
             )

@@ -1,3 +1,9 @@
+---
+name: "wiggum-niko-coderabbit-pr"
+description: "Invoke with /wiggum-niko-coderabbit-pr"
+disable-model-invocation: true
+---
+
 # CodeRabbit PR Wiggum Loop for Niko
 
 ## ⚠️ HEADLESS AUTOMATION - READ THIS FIRST ⚠️
