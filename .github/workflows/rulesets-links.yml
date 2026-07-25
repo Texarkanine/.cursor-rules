@@ -1,0 +1,23 @@
+name: PR
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ruleset-symlinks:
+    name: "Ruleset Symlinks"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Check ruleset symlink targets
+        run: make test-symlinks
+
+  ruleset-readme-links:
+    name: "Ruleset README Links"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Check ruleset README internal links
+        run: make test-readme-links
