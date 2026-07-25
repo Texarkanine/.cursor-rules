@@ -1,12 +1,11 @@
 # Active Context
 
 ## Current Task: description-rules-and-commands-to-skills
-**Phase:** PLAN - COMPLETE
+**Phase:** PREFLIGHT - COMPLETE (PASS)
 
 ## What Was Done
-- Planned Level 3 migration: stage-only a16n IR round-trip for 10 description rules → `rules/<name>/SKILL.md`; keep GlobalPrompts + FileRules.
-- Operator decision: hand-wrap `pr-feedback-judge` and `wiggum-niko-coderabbit-pr` as ManualPrompt skills (`disable-model-invocation: true`); **reject** `@`-neutralize workaround.
-- Empirical discover: staged `rules/*.mdc` → 10 simple-agent-skill, 5 global-prompt, 2 file-rule; commands skipped by a16n on `@`.
+- Plan locked: a16n IR round-trip for 10 description rules; hand-wrap 2 commands as ManualPrompt skills (operator decision).
+- Preflight validated TDD encoding, ai-rizz layout conventions, selective-staging invariant, ruleset symlink impact list; amended meta skill link naming explicitly.
 
 ## Next Step
-- Preflight phase to validate the plan before build.
+- Operator runs `/niko-build` to execute the migration.

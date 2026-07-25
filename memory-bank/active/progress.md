@@ -29,3 +29,14 @@ Migrate agent-selected description rules and any remaining commands in `rules/` 
 * Insights
     - Full-tree convert renames FileRules to `cursor-rules-*` — selective staging is load-bearing
     - a16n `--delete-source` cleans stage/IR only; canonical `git rm` of `rules/` sources is still required
+
+## 2026-07-25 - PREFLIGHT - COMPLETE (PASS)
+
+* Work completed
+    - Validated plan against a16n/ai-rizz layout, ruleset symlink inventory, TDD fail-first encoding
+    - Amended meta ruleset skill symlink naming in `tasks.md`
+    - Wrote `memory-bank/active/.preflight-status` = PASS
+* Decisions made
+    - No rearchitecture; proceed to build on operator `/niko-build`
+* Insights
+    - Eight ruleset symlinks will break if sources are deleted before rewrite — step 5 ordering is load-bearing

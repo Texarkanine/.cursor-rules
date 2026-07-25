@@ -149,7 +149,7 @@ flowchart LR
     - Affected:
       - `rulesets/shell`: `bash-style`, `shell-posix-style`, `shell-tdd` → `skills/`
       - `rulesets/script-it`: `how-to-script-it-instead` → `skills/` (keep `script-it-instead.mdc` GlobalPrompt)
-      - `rulesets/meta`: `conversation-transcript` / `create-cursor-rule` → `skills/` (names may keep ruleset-local link names pointing at skill dirs)
+      - `rulesets/meta`: replace `conversation-transcript.mdc` / `create-cursor-rule.mdc` with `skills/conversation-transcript` → `../../../rules/cursor-conversation-transcript` and `skills/create-cursor-rule` → `../../../rules/cursor-create-rule` (preserve short ruleset-local names; targets use a16n/skill directory names)
       - `rulesets/authoring`: `visual-planning` → `skills/`
       - `rulesets/niko`: `visual-planning` → `skills/`
     - Commit: `refactor(rulesets): point converted members at skills`
@@ -193,6 +193,6 @@ No new technology — validation not required. Uses existing `npx a16n` (already
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA
