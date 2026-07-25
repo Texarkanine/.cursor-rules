@@ -1,11 +1,11 @@
 # Active Context
 
 ## Current Task: description-rules-and-commands-to-skills
-**Phase:** PREFLIGHT - COMPLETE (PASS)
+**Phase:** BUILD - IN-PROGRESS
 
 ## What Was Done
-- Plan locked: a16n IR round-trip for 10 description rules; hand-wrap 2 commands as ManualPrompt skills (operator decision).
-- Preflight validated TDD encoding, ai-rizz layout conventions, selective-staging invariant, ruleset symlink impact list; amended meta skill link naming explicitly.
+- Preflight PASS; entered build with clean tree on `skillify`.
+- No creative-phase docs (none exist for this task).
 
 ## Next Step
-- Operator runs `/niko-build` to execute the migration.
+- Execute implementation plan step 1: fail-first verify harness, then a16n convert / hand-wrap / ruleset rewrite.

@@ -40,3 +40,14 @@ Migrate agent-selected description rules and any remaining commands in `rules/` 
     - No rearchitecture; proceed to build on operator `/niko-build`
 * Insights
     - Eight ruleset symlinks will break if sources are deleted before rewrite — step 5 ordering is load-bearing
+
+## 2026-07-25 - BUILD - IN-PROGRESS
+
+* Work completed
+    - Wrote `scripts/verify-skillify.py` encoding B1–B8/I2; confirmed FAIL on clean tree (43 assertions)
+    - Baseline inventory (SimpleAgentSkill `.mdc`): bash-style, cursor-conversation-transcript, cursor-create-rule, github-open-a-pull-request-gh, how-to-script-it-instead, planning-execution, shell-posix-style, shell-tdd, task-list-management, visual-planning
+    - Command ManualPrompt targets: pr-feedback-judge, wiggum-niko-coderabbit-pr
+* Decisions made
+    - Keep verify script in-repo through QA
+* Insights
+    - Classifier matched plan: exactly those 10 residual SimpleAgentSkill `.mdc`; B4/B5 already green
