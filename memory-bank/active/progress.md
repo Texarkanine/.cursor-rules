@@ -27,3 +27,14 @@ Add local `make test` and PR GitHub Actions CI that verify (1) all symlinks unde
     - Brief root README documentation of `make test`
 * Insights
     - Shell ruleset’s shunit2 guidance does not apply when the “tests” are disk-layout assertions
+
+## 2026-07-25 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Validated plan against empty greenfield tooling surface and rulesets layout
+    - Amended plan for explicit RED→GREEN per check and optional rulesets-root CLI arg
+    - Wrote `.preflight-status` = PASS
+* Decisions made
+    - Treat check scripts themselves as the layout assertions (no shunit2)
+* Insights
+    - Optional root arg keeps negative confirmation off the real `rulesets/` tree

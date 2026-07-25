@@ -35,30 +35,35 @@ Add POSIX check scripts + Makefile + GitHub Actions PR CI that verify (1) every 
 
 ## Implementation Plan
 
-1. **Add symlink check script**
-   - Files: `scripts/check-ruleset-symlinks.sh`
-   - Changes: POSIX `sh`; resolve repo root; find symlinks under `rulesets/`; fail and list any whose target does not exist (`test -e`); entry-point protection / `main` pattern per shell-posix-style + shell-tdd sourcing hygiene where applicable; executable bit
+TDD note: there is no unit-test framework. Each check script *is* the assertion over on-disk layout. Per unit: establish a failing Make entrypoint (RED), then implement the script until the current `rulesets/` tree passes (GREEN), then confirm a deliberate local breakage fails (not committed).
 
-2. **Add README internal-link check script**
-   - Files: `scripts/check-ruleset-readme-links.sh`
-   - Changes: find `README*` under `rulesets/`; extract Markdown inline links `[text](url)`; skip external/`mailto:`/`#…`; strip `#fragment`; resolve relative to the README’s directory; fail and report missing targets
+1. **Symlink check (RED → GREEN)**
+   - Files: `Makefile` (target `test-symlinks`), `scripts/check-ruleset-symlinks.sh`
+   - RED: Add `test-symlinks` Make target invoking the script path; run it and observe failure (missing/stub script).
+   - GREEN: Implement POSIX `sh` script — resolve repo root; scan a rulesets root (default `rulesets/`, overridable by optional CLI arg for fixture/negative checks); find symlinks; fail and list any whose target does not exist (`test -e`); entry-point/`main` per shell-posix-style; executable bit. Re-run until exit 0 on current tree.
+   - Negative confirm (uncommitted): run against a temp fixture tree with a dangling symlink; observe non-zero exit.
 
-3. **Wire Makefile**
+2. **README internal-link check (RED → GREEN)**
+   - Files: `Makefile` (target `test-readme-links`), `scripts/check-ruleset-readme-links.sh`
+   - RED: Add `test-readme-links` Make target; run and observe failure (missing/stub script).
+   - GREEN: Implement — scan rulesets root (same default/optional-arg convention); find `README*`; extract Markdown inline links `[text](url)`; skip external/`mailto:`/`#…`; strip `#fragment`; resolve relative to the README’s directory; fail and report missing targets. Re-run until exit 0 on current tree.
+   - Negative confirm (uncommitted): run against a temp fixture tree with a broken relative link; observe non-zero exit.
+
+3. **Aggregate `make test`**
    - Files: `Makefile`
-   - Changes: phony targets `test`, `test-symlinks`, `test-readme-links`; `test` depends on both check targets; each check target invokes the corresponding script
+   - Changes: phony `test` depending on `test-symlinks` and `test-readme-links`; run `make test` and confirm exit 0 on current tree.
 
-4. **Add GitHub Actions PR workflow (two separate checks)**
-   - Files: `.github/workflows/rulesets-links.yml` (name flexible; keep clear)
-   - Changes: `on: pull_request`; two jobs (e.g. `ruleset-symlinks`, `ruleset-readme-links`) each checking out the repo and running the matching `make` target — separate status checks on the PR
+4. **GitHub Actions PR workflow (two separate checks)**
+   - Files: `.github/workflows/rulesets-links.yml`
+   - Changes: `on: pull_request`; two jobs (`ruleset-symlinks`, `ruleset-readme-links`) each checkout + matching Make target only (no duplicated check logic).
 
 5. **Document local entrypoint**
    - Files: `README.md` (root)
-   - Changes: short note that `make test` validates `rulesets/` symlinks and README internal links (same checks as PR CI)
+   - Changes: short note that `make test` validates `rulesets/` symlinks and README internal links (same checks as PR CI).
 
 6. **REUSE / licensing**
-   - Files: `REUSE.toml` only if new paths need overrides; otherwise default `**/*` AGPL applies to Makefile/scripts/workflow
-   - Changes: confirm no prompt-license override incorrectly covers scripts; leave as AGPL unless planning finds a conflict
-
+   - Files: `REUSE.toml` only if needed; else default `**/*` AGPL for Makefile/scripts/workflow
+   - Changes: confirm scripts are not swept into LicenseRef-PPL-S overrides; leave AGPL.
 ## Technology Validation
 
 No new technology - validation not required. Uses stock POSIX `sh`, `make`, and GitHub Actions `ubuntu-latest` (or equivalent) with checkout + `make`.
@@ -90,6 +95,11 @@ No new technology - validation not required. Uses stock POSIX `sh`, `make`, and 
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA
+
+## Preflight Amendments
+
+- Encoded explicit RED→GREEN ordering per check unit (no unit framework; scripts are the layout assertions).
+- Scripts accept optional rulesets-root argument (default `rulesets/`) so negative confirms use temp fixtures without mutating the real tree.
