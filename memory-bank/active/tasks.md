@@ -26,16 +26,16 @@ Rewrite the root `README.md` as a tight, value-forward pitch that positions the 
 
 ## Implementation Plan
 
-1. RED demonstration (preflight amendment)
+1. ✅ RED demonstration (preflight amendment)
     - Files: none
     - Changes: run the scoped one-off link check asserting the existence of `rulesets/script-it/README.md` and the intended root-README link targets — expect FAIL on the missing script-it README (RED)
-2. Create `rulesets/script-it/README.md`
+2. ✅ Create `rulesets/script-it/README.md`
     - Files: `rulesets/script-it/README.md` (new)
     - Changes: sibling-style README (per `authoring`/`shell` pattern): H1 + one-paragraph intro on the ruleset's purpose (stop paying inference cost for mechanical tool-call loops), then Purpose/Scope entries for:
         - `script-it-instead` (link `./script-it-instead.mdc`) — always-apply tripwire; third structurally-similar tool call stops the loop
         - `how-to-script-it-instead` (link `./skills/how-to-script-it-instead/SKILL.md`) — the batch-scripting how-to: discover runtimes/CLIs, choose approach, collect→compress→one tool call
     - Verify: re-run the RED check → GREEN; `make test` passes (links + symlinks)
-3. Rewrite root `README.md`
+3. ✅ Rewrite root `README.md`
     - Files: `README.md`
     - Changes:
         - New opening: what this repo is (canonical, composable agent customizations — rules, skills, rulesets) and why to care
@@ -44,7 +44,7 @@ Rewrite the root `README.md` as a tight, value-forward pitch that positions the 
         - Refresh Structure section: mention both rules (`.mdc`) and skills (`<name>/SKILL.md`) tiers post-migration; rulesets = symlink groupings
         - Keep Checks section (`make test`) and Big Thanks list as-is
     - Verify: one-off link-extraction check over `README.md` confirms all relative targets exist
-4. Full verification
+4. ✅ Full verification
     - Files: none
     - Changes: run `make test`; run the one-off root-README link check; cross-read pitch lines against source docs
 
@@ -85,5 +85,5 @@ No new technology - validation not required.
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight - PASS (with advisory)
-- [ ] Build
+- [x] Build - COMPLETE
 - [ ] QA

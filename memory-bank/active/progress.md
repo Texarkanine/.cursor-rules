@@ -36,3 +36,14 @@ Refresh the repo's public face after the `cleanup-old` retirements: rewrite the 
     - Advisory not applied (scope deviation): extending `check-ruleset-readme-links.sh` to cover root README left for operator consideration
 * Insights
     - Sibling README link conventions differ (`authoring` → `../../rules/`, `shell` → `./skills/`); script-it uses both shapes since it ships a rule symlink and a skill directory
+
+## 2026-07-25 - BUILD - COMPLETE
+
+* Work completed
+    - RED→GREEN: scoped link check failed on missing script-it README, passed after creation
+    - Created `rulesets/script-it/README.md` (sibling-style Purpose/Scope entries)
+    - Rewrote root `README.md` as value-forward pitch: four ruleset doors, refreshed Structure (rules + skills tiers), preserved Checks and Big Thanks
+    - Verified: `make test` green; root README link check 5/5; no lints
+* Decisions made
+    - Install guidance consolidated into the opening paragraph rather than its own section
+    - Preserved owner's voice; every value prop traceable to linked source docs
