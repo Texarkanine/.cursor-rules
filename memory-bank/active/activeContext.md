@@ -1,11 +1,12 @@
 # Active Context
 
 ## Current Task: description-rules-and-commands-to-skills
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Intent clarified and approved: convert description rules + commands → Cursor skills via a16n IR round-trip with `--delete-source`, starting from `discover`, working in `rules/`, committing liberally.
-- Complexity determined: **Level 3** — multi-component migration (rules inventory, a16n conversion pipeline, ruleset/symlink coherence, docs/layout constraints); design choices needed before build; bounded architectural impact (not full-system redesign). Prior similar migration (`manual-rules-to-skill-resources`) was also L3.
+- Planned Level 3 migration: stage-only a16n IR round-trip for 10 description rules → `rules/<name>/SKILL.md`; keep GlobalPrompts + FileRules.
+- Operator decision: hand-wrap `pr-feedback-judge` and `wiggum-niko-coderabbit-pr` as ManualPrompt skills (`disable-model-invocation: true`); **reject** `@`-neutralize workaround.
+- Empirical discover: staged `rules/*.mdc` → 10 simple-agent-skill, 5 global-prompt, 2 file-rule; commands skipped by a16n on `@`.
 
 ## Next Step
-- Load Level 3 workflow and execute the Plan phase.
+- Preflight phase to validate the plan before build.

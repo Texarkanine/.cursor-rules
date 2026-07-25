@@ -15,3 +15,17 @@ Migrate agent-selected description rules and any remaining commands in `rules/` 
 * Insights
     - `.cursor/commands/shared` is currently empty; discover will confirm whether any commands remain in conversion scope
     - Several `rules/*.mdc` already have non-empty `description:` and `alwaysApply: false` (likely SimpleAgentSkill candidates); always-apply and glob file-rules should stay rules unless discover says otherwise
+
+## 2026-07-25 - PLAN - COMPLETE
+
+* Work completed
+    - Staged `rules/*.mdc` and ran `a16n discover` / IR round-trip dry-runs
+    - Wrote full L3 plan in `tasks.md` (components, TDD behaviors, ordered steps, pre-mortem)
+    - Dropped `@`-neutralize approach after operator pushback
+* Decisions made
+    - Description rules (10): a16n cursor → IR → cursor via selective staging + harvest into `rules/<name>/SKILL.md`
+    - Commands (2): hand-wrap ManualPrompt skills with `disable-model-invocation: true` (operator: go 1)
+    - FileRules/GlobalPrompts: out of scope
+* Insights
+    - Full-tree convert renames FileRules to `cursor-rules-*` — selective staging is load-bearing
+    - a16n `--delete-source` cleans stage/IR only; canonical `git rm` of `rules/` sources is still required
