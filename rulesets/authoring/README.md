@@ -17,7 +17,7 @@ This ruleset collects guidance for authoring things in their various forms inclu
 - **Purpose**: How to author a prompt to maximize the chances of an agent adhering to its instructions. Focuses on semantics; the meaning and narrative structure.
 - **Scope**: Any prompt-like artifact (workflow, reference, personality, or a mix).
 
-## 📈 [visual-planning](../../rules/visual-planning.mdc)
+## 📈 [visual-planning](../../rules/visual-planning/SKILL.md)
 
 - **Purpose**: How to use [Mermaid](https://mermaid.js.org/) diagrams to illustrate concepts. Given a topic, helps select the right diagram type and structure it clearly.
 - **Scope**: Any document that attempts to communicate complex concepts.
