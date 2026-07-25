@@ -1,11 +1,11 @@
 # Active Context
 
 ## Current Task: rulesets-link-ci
-**Phase:** QA - COMPLETE
+**Phase:** REFLECT COMPLETE
 
 ## What Was Done
-- QA PASS
-- Cleanup: `scripts/rulesets-check-common.sh`; tempfile failure flag in readme-links check
+- Reflection written to `memory-bank/active/reflection/reflection-rulesets-link-ci.md`
+- Persistent files: `techContext.md` already carried Testing Process from build; no further reconciliation needed
 
 ## Next Step
-- Reflect phase
+- Run `/niko-archive` to archive and finalize

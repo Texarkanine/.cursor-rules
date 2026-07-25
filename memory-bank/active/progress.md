@@ -63,3 +63,13 @@ Add local `make test` and PR GitHub Actions CI that verify (1) all symlinks unde
     - Keep two executable check scripts; share only path-resolution helpers
 * Insights
     - POSIX pipelines without `pipefail` push failure signaling onto the filesystem or careful pipeline tail status
+
+## 2026-07-25 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `reflection/reflection-rulesets-link-ci.md`
+    - Reconciled persistent files (techContext already updated; others unchanged)
+* Decisions made
+    - None new
+* Insights
+    - Layout-property checks still need RED→GREEN encoding for preflight TDD gate
