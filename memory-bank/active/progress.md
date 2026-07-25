@@ -82,3 +82,12 @@ Migrate agent-selected description rules and any remaining commands in `rules/` 
     - productContext left unchanged (still accurate at briefing altitude)
 * Insights
     - See reflection doc (dangling-symlink exists() gotcha; a16n discover field shapes)
+
+## 2026-07-25 - ARCHIVE - IN-PROGRESS
+
+* Work completed
+    - Leaving REFLECT; proceeding to archive
+* Decisions made
+    - Archive category: systems (customization-layout migration)
+* Insights
+    - Local `.cursor/` visual-planning rule→skill churn left unstaged (generated tree; out of task scope)
