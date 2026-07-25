@@ -73,3 +73,12 @@ Add local `make test` and PR GitHub Actions CI that verify (1) all symlinks unde
     - None new
 * Insights
     - Layout-property checks still need RED→GREEN encoding for preflight TDD gate
+
+## 2026-07-25 - ARCHIVE - IN-PROGRESS
+
+* Work completed
+    - Leaving Reflect; starting Level 2 archive for `rulesets-link-ci`
+* Decisions made
+    - Archive category: `features/` (new local/`make test` + PR CI capability)
+* Insights
+    - None yet

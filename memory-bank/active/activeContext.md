@@ -1,11 +1,11 @@
 # Active Context
 
 ## Current Task: rulesets-link-ci
-**Phase:** REFLECT COMPLETE
+**Phase:** ARCHIVE - IN-PROGRESS
 
 ## What Was Done
-- Reflection written to `memory-bank/active/reflection/reflection-rulesets-link-ci.md`
-- Persistent files: `techContext.md` already carried Testing Process from build; no further reconciliation needed
+- Reflect complete; reflection inlined into upcoming archive
+- Persistent files already reconciled in Reflect
 
 ## Next Step
-- Run `/niko-archive` to archive and finalize
+- Create archive document, clear ephemeral memory-bank files, commit
