@@ -47,3 +47,14 @@ Refresh the repo's public face after the `cleanup-old` retirements: rewrite the 
 * Decisions made
     - Install guidance consolidated into the opening paragraph rather than its own section
     - Preserved owner's voice; every value prop traceable to linked source docs
+
+## 2026-07-25 - QA - PASS
+
+* Work completed
+    - Semantic review against plan: KISS/DRY/YAGNI/Completeness/Regression/Integrity/Documentation all clean; no fixes required
+    - Accuracy spot-checks: niko archive claim, script-it zero-install claim, `alwaysApply` frontmatter, shunit2 — all traceable to sources
+    - Final `make test` run green; `.qa-validation-status` written (PASS)
+* Decisions made
+    - None required — build shipped to plan
+* Insights
+    - Grounding each pitch sentence in a quotable source line made QA's accuracy check mechanical rather than judgment-heavy
