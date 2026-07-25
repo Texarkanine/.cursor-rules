@@ -41,7 +41,7 @@ Migrate agent-selected description rules and any remaining commands in `rules/` 
 * Insights
     - Eight ruleset symlinks will break if sources are deleted before rewrite — step 5 ordering is load-bearing
 
-## 2026-07-25 - BUILD - IN-PROGRESS
+## 2026-07-25 - BUILD - COMPLETE (PASS)
 
 * Work completed
     - Wrote `scripts/verify-skillify.py` encoding B1–B8/I2; confirmed FAIL on clean tree (43 assertions)
@@ -51,3 +51,13 @@ Migrate agent-selected description rules and any remaining commands in `rules/` 
     - Keep verify script in-repo through QA
 * Insights
     - Classifier matched plan: exactly those 10 residual SimpleAgentSkill `.mdc`; B4/B5 already green
+
+## 2026-07-25 - BUILD - COMPLETE (PASS) — summary
+
+* Work completed
+    - Migrated 10 description rules + 2 commands to skills; ruleset symlinks/docs updated
+    - Verify harness PASS; I1/I2 PASS
+* Decisions made
+    - Batched a16n convert for all 10 description rules in one commit
+* Insights
+    - Dangling symlink detection needs `is_symlink()` — `Path.exists()` is false for broken links

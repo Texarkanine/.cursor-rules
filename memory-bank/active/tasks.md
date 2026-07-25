@@ -194,5 +194,11 @@ No new technology — validation not required. Uses existing `npx a16n` (already
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight
-- [ ] Build
+- [x] Build
+  - [x] Verify harness (fail-first → green)
+  - [x] Convert 10 description rules via a16n + land
+  - [x] Hand-wrap 2 commands as ManualPrompt skills
+  - [x] Rewrite ruleset symlinks
+  - [x] Update docs (`rulesets/*/README.md`, `systemPatterns.md`)
+  - [x] Final verify B1–B9 + I1–I2
 - [ ] QA
