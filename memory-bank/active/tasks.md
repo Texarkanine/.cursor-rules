@@ -26,13 +26,16 @@ Rewrite the root `README.md` as a tight, value-forward pitch that positions the 
 
 ## Implementation Plan
 
-1. Create `rulesets/script-it/README.md`
+1. RED demonstration (preflight amendment)
+    - Files: none
+    - Changes: run the scoped one-off link check asserting the existence of `rulesets/script-it/README.md` and the intended root-README link targets — expect FAIL on the missing script-it README (RED)
+2. Create `rulesets/script-it/README.md`
     - Files: `rulesets/script-it/README.md` (new)
     - Changes: sibling-style README (per `authoring`/`shell` pattern): H1 + one-paragraph intro on the ruleset's purpose (stop paying inference cost for mechanical tool-call loops), then Purpose/Scope entries for:
         - `script-it-instead` (link `./script-it-instead.mdc`) — always-apply tripwire; third structurally-similar tool call stops the loop
         - `how-to-script-it-instead` (link `./skills/how-to-script-it-instead/SKILL.md`) — the batch-scripting how-to: discover runtimes/CLIs, choose approach, collect→compress→one tool call
-    - Verify: `make test` passes (links + symlinks)
-2. Rewrite root `README.md`
+    - Verify: re-run the RED check → GREEN; `make test` passes (links + symlinks)
+3. Rewrite root `README.md`
     - Files: `README.md`
     - Changes:
         - New opening: what this repo is (canonical, composable agent customizations — rules, skills, rulesets) and why to care
@@ -41,7 +44,7 @@ Rewrite the root `README.md` as a tight, value-forward pitch that positions the 
         - Refresh Structure section: mention both rules (`.mdc`) and skills (`<name>/SKILL.md`) tiers post-migration; rulesets = symlink groupings
         - Keep Checks section (`make test`) and Big Thanks list as-is
     - Verify: one-off link-extraction check over `README.md` confirms all relative targets exist
-3. Full verification
+4. Full verification
     - Files: none
     - Changes: run `make test`; run the one-off root-README link check; cross-read pitch lines against source docs
 
@@ -69,6 +72,11 @@ No new technology - validation not required.
 - Link rot at the wrong layer — links written relative to the wrong base (root vs ruleset dir): plan response — Build verifies with the actual checker (`make test`) for the ruleset README and the scoped one-off check for root; already covered by Challenge 1 for root.
 - Markdown-style violation (hard-wrapped prose) slips in: plan response — final pass against `markdown-style.mdc` before QA.
 
+## Preflight Findings
+
+- PASS with one plan amendment: explicit RED step (run scoped link check before creating the script-it README) inserted as Implementation Plan step 1.
+- Advisory (not applied — scope deviation): extend `scripts/check-ruleset-readme-links.sh` to also cover the root `README.md`, making the one-off root link check a permanent CI guarantee.
+
 ## Status
 
 - [x] Initialization complete
@@ -76,6 +84,6 @@ No new technology - validation not required.
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight - PASS (with advisory)
 - [ ] Build
 - [ ] QA

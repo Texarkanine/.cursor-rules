@@ -1,0 +1,6 @@
+PASS
+task: readme-refresh-sales-pitch
+date: 2026-07-25
+result: PASS with advisory
+amendments: explicit RED step inserted as Implementation Plan step 1 (scoped link check fails before script-it README exists)
+advisory: extend scripts/check-ruleset-readme-links.sh to cover root README.md (scope deviation; operator decision)

@@ -16,3 +16,23 @@ Refresh the repo's public face after the `cleanup-old` retirements: rewrite the 
     - Scope limited to two canonical files: root `README.md` + new `rulesets/script-it/README.md`
 * Insights
     - The skills-migration archive (20260725) had already flagged root README terminology as stale follow-up work; this task closes that item
+
+## 2026-07-25 - PLAN - COMPLETE
+
+* Work completed
+    - Full Level 2 plan written to `tasks.md`: 4 implementation steps, 6 verifiable behaviors, challenges, pre-mortem
+    - Verified test infrastructure (`make test` + checker scripts) and REUSE coverage for the new README
+* Decisions made
+    - Root README link integrity asserted via scoped one-off check (root is outside CI's `rulesets/` link-check scope)
+    - Every ruleset value prop must be traceable to the linked README/rule content
+
+## 2026-07-25 - PREFLIGHT - PASS
+
+* Work completed
+    - Validated TDD encoding, conventions, dependency impact, conflicts, completeness
+    - Amended plan: explicit RED step (scoped link check before creating the script-it README)
+    - Wrote `.preflight-status` (PASS with advisory)
+* Decisions made
+    - Advisory not applied (scope deviation): extending `check-ruleset-readme-links.sh` to cover root README left for operator consideration
+* Insights
+    - Sibling README link conventions differ (`authoring` → `../../rules/`, `shell` → `./skills/`); script-it uses both shapes since it ships a rule symlink and a skill directory
