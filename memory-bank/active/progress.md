@@ -38,3 +38,15 @@ Add local `make test` and PR GitHub Actions CI that verify (1) all symlinks unde
     - Treat check scripts themselves as the layout assertions (no shunit2)
 * Insights
     - Optional root arg keeps negative confirmation off the real `rulesets/` tree
+
+## 2026-07-25 - BUILD - COMPLETE
+
+* Work completed
+    - Implemented both check scripts with RED→GREEN via Make targets
+    - Wired `make test`, two-job GHA workflow, README Checks section, techContext Testing Process
+    - Confirmed pass on live tree and fail on temp negative fixtures
+* Decisions made
+    - Inline Markdown links only via POSIX awk; FAIL markers across pipelines for exit status without `pipefail`
+    - REUSE defaults sufficient (AGPL for scripts/Makefile/workflow)
+* Insights
+    - Nested `find|while` pipelines need an explicit failure channel when `set -o pipefail` is unavailable

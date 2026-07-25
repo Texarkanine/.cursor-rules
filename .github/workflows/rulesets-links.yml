@@ -1,0 +1,21 @@
+name: Rulesets links
+
+on:
+  pull_request:
+
+jobs:
+  ruleset-symlinks:
+    name: ruleset-symlinks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check ruleset symlink targets
+        run: make test-symlinks
+
+  ruleset-readme-links:
+    name: ruleset-readme-links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check ruleset README internal links
+        run: make test-readme-links

@@ -8,6 +8,10 @@ A repository of Cursor customizations authored here as canonical source and dist
 - **a16n** converts Cursor customizations to other harnesses (e.g. Claude Code). It accepts `--from-dir` / `--to-dir` to operate on arbitrary trees rather than the in-repo `.cursor/` / `.claude/`.
 - Rules can also be viewed rendered as Markdown on GitHub via `client-side-mdc-render` (linked from the README).
 
+## Testing Process
+
+`make test` runs rulesets layout checks (symlink targets and README internal links) via scripts in `scripts/`. Pull request CI is `.github/workflows/rulesets-links.yml` and invokes the same Make targets.
+
 ## Platform
 
 Cross-platform: any rule content or script must hold up under both Windows PowerShell and Mac/Linux Bash.
