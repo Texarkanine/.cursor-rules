@@ -58,3 +58,13 @@ Refresh the repo's public face after the `cleanup-old` retirements: rewrite the 
     - None required — build shipped to plan
 * Insights
     - Grounding each pitch sentence in a quotable source line made QA's accuracy check mechanical rather than judgment-heavy
+
+## 2026-07-25 - REFLECT - COMPLETE
+
+* Work completed
+    - Reflection document written (`reflection-readme-refresh-sales-pitch.md`)
+    - Persistent files scanned per reconcile contract — nothing invalidated; no updates
+* Decisions made
+    - Preflight advisory (extend link checker to root README) carried forward as the reflection's standing-gap insight
+* Insights
+    - Clean L2 run end-to-end: one preflight amendment, zero build deviations, zero QA fixes
