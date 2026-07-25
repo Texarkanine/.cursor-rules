@@ -1,8 +1,9 @@
 ---
-description: Required style guidelines for writing shell scripts where POSIX-compliance is REQUIRED
-globs: 
-alwaysApply: false
+name: "shell-posix-style"
+description: "Required style guidelines for writing shell scripts where POSIX-compliance is REQUIRED"
 ---
+
+
 # POSIX Shell Script Style Guide
 
 ## When to Use POSIX Shell
@@ -1042,3 +1043,4 @@ my_func() {
 # Instead of: arr=( one two three )
 set -- one two three
 ```
+

@@ -1,8 +1,9 @@
 ---
-description: Template for creating a new Cursor rule - a rule to guide the behavior of AI assistants
-globs: 
-alwaysApply: false
+name: "cursor-create-rule"
+description: "Template for creating a new Cursor rule - a rule to guide the behavior of AI assistants"
 ---
+
+
 # Creating Effective Cursor Project Rules
 
 This meta-rule provides comprehensive guidance on creating effective Cursor Project Rules. These are `.mdc` files stored in your project's `.cursor/rules` directory that help the AI understand your specific codebase, conventions, and preferences. Following these guidelines will help you create rules that are easily understood by both humans and the AI, leading to more consistent and helpful AI interactions.
@@ -370,3 +371,4 @@ alwaysApply: false
 * [Common mistake 2]
 
 ```
+

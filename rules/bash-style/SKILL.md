@@ -1,8 +1,9 @@
 ---
-description: Required style guidelines for writing shell scripts where POSIX-compliance is not an explicit requirement
-globs: 
-alwaysApply: false
+name: "bash-style"
+description: "Required style guidelines for writing shell scripts where POSIX-compliance is not an explicit requirement"
 ---
+
+
 # Bash Script Style Guide
 
 ## When to Use Shell
@@ -935,3 +936,4 @@ local var="$(command_that_might_fail)"
 local var
 var="$(command_that_might_fail)"
 ```
+

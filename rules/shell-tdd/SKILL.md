@@ -1,8 +1,9 @@
 ---
-description: Required test-driven development practice for writing shell scripts
-globs: 
-alwaysApply: false
+name: "shell-tdd"
+description: "Required test-driven development practice for writing shell scripts"
 ---
+
+
 # Test-Driven Development (TDD) for Shell Scripts
 
 This rule defines best practices for AI assistants to follow when writing shell scripts using test-driven development (TDD). The AI should create shell scripts that are testable with shunit2, separate concerns, avoid side effects when being sourced, and allow functions to be tested in isolation. Following these guidelines ensures scripts can be reliably tested and maintained.
@@ -416,3 +417,4 @@ test_backup_file() {
 # Load and run shunit2
 . "$(dirname "${0}")/../../shunit2"
 ```
+
