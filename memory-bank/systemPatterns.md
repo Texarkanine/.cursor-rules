@@ -7,13 +7,12 @@ This repo is the *canonical source* for a set of Cursor customizations. External
 The repo is also self-hosting: it both *defines* the Niko memory-bank system (under `rulesets/niko/`) and *uses* Niko to manage its own work (the `memory-bank/` at the repo root). A change to Niko's rules therefore changes how this very repo is developed. Because the Niko rules are in effect while working here, these persistent files must not restate what those rules already say — point at the canonical rule instead of copying it, or it will drift.
 
 ## File Organization
-Source content in `rulesets/` and `rules/` is the source of truth. Three tiers, distinguished by semantics:
+Source content in `rulesets/` and `rules/` is the source of truth. Two active tiers, distinguished by semantics:
 
-1. **Rules** (`.mdc`) — Cursor auto-injects based on `alwaysApply` or `globs` frontmatter.
-2. **Commands** (`.md`) — Cursor slash-commands.
-3. **Skills** (`<name>/SKILL.md` directory) — invoked by the agent. Rich skills with `references/` subdirectories live under `rules/` and are symlinked into the appropriate ruleset's `skills/` directory.
+1. **Rules** (`.mdc`) — Cursor auto-injects based on `alwaysApply` (GlobalPrompt) or `globs` (FileRule) frontmatter.
+2. **Skills** (`<name>/SKILL.md` directory) — agent-selected SimpleAgentSkill and slash-invoked ManualPrompt (`disable-model-invocation: true`). Rich skills with `references/` subdirectories live under `rules/` and are symlinked into the appropriate ruleset's `skills/` directory.
 
-`.cursor/` and `.claude/` contain active copies produced by `ai-rizz` / `a16n`. Never edit those trees — only `rulesets/` and `rules/`.
+Standalone frontmatter-less Commands (`.md`) are no longer an authoring tier in this repo; former commands are ManualPrompt skills. `.cursor/` and `.claude/` contain active copies produced by `ai-rizz` / `a16n`. Never edit those trees — only `rulesets/` and `rules/`.
 
 ## Workflow Invocation is Explicit Consent
 

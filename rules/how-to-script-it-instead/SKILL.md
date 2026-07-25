@@ -1,6 +1,8 @@
 ---
-description: Guidance for writing batch scripts to replace repetitive tool call loops — covers discovering available runtimes and CLI tools, choosing the right scripting approach, and structuring efficient collect-then-reason workflows
+name: "how-to-script-it-instead"
+description: "Guidance for writing batch scripts to replace repetitive tool call loops — covers discovering available runtimes and CLI tools, choosing the right scripting approach, and structuring efficient collect-then-reason workflows"
 ---
+
 
 # Batch Scripting Instead of Tool Call Loops
 
@@ -71,3 +73,4 @@ These situations all share the same structure — a loop that should be a script
 - **Filtering logs or output** by reading large files into context and scanning, instead of letting a filter tool extract matches
 
 In every case, the diagnostic question is the same: **between step N and step N+1, does the agent need to understand language to decide what to do next?** If the next step is mechanically derivable from the current step's output — if it's just incrementing through a list — it's a for-loop, and it belongs in a script.
+

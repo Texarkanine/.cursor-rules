@@ -1,3 +1,9 @@
+---
+name: "pr-feedback-judge"
+description: "Invoke with /pr-feedback-judge"
+disable-model-invocation: true
+---
+
 # PR Feedback Judge
 
 Evaluate one or more pieces of GitHub PR review feedback against the standard "valid? worth fixing? in scope for this PR?" rubric and emit a per-item verdict with an explicit disposition.

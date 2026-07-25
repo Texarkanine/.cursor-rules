@@ -1,8 +1,8 @@
 ---
-description: Comprehensive visual planning and structured execution tracking for complex multi-component implementations, system architecture changes, user flow designs, API integrations, and feature development requiring coordinated task management
-globs: 
-alwaysApply: false
+name: "planning-execution"
+description: "Comprehensive visual planning and structured execution tracking for complex multi-component implementations, system architecture changes, user flow designs, API integrations, and feature development requiring coordinated task management"
 ---
+
 
 # Planning and Execution Management
 
@@ -131,3 +131,4 @@ Create task list with these core sections:
 		- Update the task list with the current status and the specific blocking issue
 		- Reference the original diagram to identify alternative approaches
 		- If unable to resolve autonomously, clearly document the problem and request guidance
+

@@ -1,8 +1,9 @@
 ---
-description: Guidelines for creating detailed conversation transcripts between humans and AI assistants, preserving full context and tool call outputs for future reference
-globs: 
-alwaysApply: false
+name: "cursor-conversation-transcript"
+description: "Guidelines for creating detailed conversation transcripts between humans and AI assistants, preserving full context and tool call outputs for future reference"
 ---
+
+
 # Conversation Transcript Creation
 
 This rule defines how to create comprehensive conversation transcripts between humans and AI assistants that capture not just the dialogue, but also the full context of tool usage, decision-making processes, and implementation details.

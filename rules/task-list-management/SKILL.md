@@ -1,8 +1,9 @@
 ---
-description: Guidelines for creating and managing task lists in markdown files to track project progress
-globs: 
-alwaysApply: false
+name: "task-list-management"
+description: "Guidelines for creating and managing task lists in markdown files to track project progress"
 ---
+
+
 # Task List Management
 
 Guidelines for creating and managing task lists in markdown files to track project progress.
@@ -105,3 +106,4 @@ Should become:
 - [x] Configure environment variables
 - [x] Implement database schema
 ```
+

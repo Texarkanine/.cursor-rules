@@ -1,8 +1,9 @@
 ---
-description: The one and only correct way to open a GitHub Pull Request with the `gh` command-line tool
-globs: 
-alwaysApply: false
+name: "github-open-a-pull-request-gh"
+description: "The one and only correct way to open a GitHub Pull Request with the `gh` command-line tool"
 ---
+
+
 # Opening a Pull Request
 
 This rule guides you through the process of opening a pull request.
@@ -89,3 +90,4 @@ This rule guides you through the process of opening a pull request.
 	```markdown
 	PR Opened: [feat(auth): implement OAuth2 authentication](https://github.com/<owner>/<repo>/pull/<pr_number>)
 	```
+
