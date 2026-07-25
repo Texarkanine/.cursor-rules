@@ -201,4 +201,4 @@ No new technology — validation not required. Uses existing `npx a16n` (already
   - [x] Rewrite ruleset symlinks
   - [x] Update docs (`rulesets/*/README.md`, `systemPatterns.md`)
   - [x] Final verify B1–B9 + I1–I2
-- [ ] QA
+- [x] QA — PASS (trivial: drop unused `stale` local in verifier)

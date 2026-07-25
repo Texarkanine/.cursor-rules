@@ -174,7 +174,6 @@ def main() -> int:
                     f"B6: {link.relative_to(ROOT)} → {link.resolve()} != {expected}",
                     errors,
                 )
-        stale = RULESETS / ruleset / f"{local}.mdc"
         # meta used short names; shell/script-it/authoring/niko used same stem as target
         if ruleset == "meta":
             stale_candidates = [

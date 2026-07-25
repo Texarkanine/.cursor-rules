@@ -61,3 +61,14 @@ Migrate agent-selected description rules and any remaining commands in `rules/` 
     - Batched a16n convert for all 10 description rules in one commit
 * Insights
     - Dangling symlink detection needs `is_symlink()` — `Path.exists()` is false for broken links
+
+## 2026-07-25 - QA - COMPLETE (PASS)
+
+* Work completed
+    - Reviewed migration against plan (KISS/DRY/YAGNI/completeness/regression/integrity/docs)
+    - Removed unused `stale` local in verify-skillify.py
+    - Wrote `.qa-validation-status` = PASS
+* Decisions made
+    - Root README remains high-level "rules" wording — not factually wrong; out of B9 scope
+* Insights
+    - Installed `.cursor/` tree may contain dangling links until consumers re-sync via ai-rizz (explicitly out of build scope)
