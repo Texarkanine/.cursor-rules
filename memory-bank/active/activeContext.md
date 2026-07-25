@@ -1,11 +1,12 @@
 # Active Context
 
 ## Current Task: rulesets-link-ci
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Intent clarified and approved: PR CI + local `make test` for `rulesets/` symlink targets and README internal links; two separate checks; shell scripts must follow `rules/shell-posix-style.mdc`
-- Complexity determined: Level 2 (simple enhancement — self-contained addition of Makefile/scripts + GHA workflow)
+- Operator decision: no test framework — checks assert on-disk layout properties via simple scripts + Makefile
+- Planned: `scripts/check-ruleset-symlinks.sh`, `scripts/check-ruleset-readme-links.sh`, `Makefile` (`test` / per-check targets), `.github/workflows/` with two PR jobs calling Make, brief root README note
+- Current tree baseline: 16 symlinks, 3 READMEs, no dangling symlinks observed; links are simple relative + external inline form
 
 ## Next Step
-- Load Level 2 workflow and execute Plan phase
+- Preflight validation

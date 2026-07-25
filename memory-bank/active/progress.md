@@ -14,3 +14,16 @@ Add local `make test` and PR GitHub Actions CI that verify (1) all symlinks unde
     - Level 2: self-contained enhancement (new scripts/Makefile/workflow; no architectural change to rulesets packaging)
 * Insights
     - Repo currently has no `.github/workflows/`; CI and local test tooling are greenfield for this task
+
+## 2026-07-25 - PLAN - COMPLETE
+
+* Work completed
+    - Surveyed repo: no existing Makefile/scripts/test/.github; 16 rulesets symlinks + 3 READMEs with simple inline links
+    - Operator clarified: no test framework; layout property checks via scripts + Makefile
+    - Wrote Level 2 implementation plan in `tasks.md`
+* Decisions made
+    - Two scripts + Makefile targets; GHA two jobs each calling a Make target
+    - Ignore external/`mailto:`/`#fragment-only` links; strip fragments before path checks
+    - Brief root README documentation of `make test`
+* Insights
+    - Shell ruleset’s shunit2 guidance does not apply when the “tests” are disk-layout assertions
