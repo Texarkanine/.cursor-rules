@@ -8,23 +8,9 @@
 
 set -eu
 
-script_dir() {
-	# Resolve the directory containing this script.
-	CDPATH= cd -- "$(dirname -- "$0")" && pwd
-}
-
-repo_root() {
-	CDPATH= cd -- "$(script_dir)/.." && pwd
-}
-
-resolve_rulesets_dir() {
-	# Prefer an explicit argument; otherwise use <repo>/rulesets.
-	if [ "$#" -ge 1 ] && [ -n "$1" ]; then
-		printf '%s\n' "$1"
-		return 0
-	fi
-	printf '%s\n' "$(repo_root)/rulesets"
-}
+# Shared path helpers (script_dir / repo_root / resolve_rulesets_dir).
+# shellcheck disable=SC1091
+. "$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)/rulesets-check-common.sh"
 
 check_symlinks() {
 	rulesets_dir=$1

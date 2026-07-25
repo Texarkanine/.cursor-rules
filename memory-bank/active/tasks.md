@@ -66,7 +66,11 @@ No new technology - validation not required.
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [ ] QA
+- [x] QA
+
+## QA Results
+
+- PASS after trivial cleanup: extracted shared path helpers to `scripts/rulesets-check-common.sh`; replaced FAIL-marker pipeline with a temp failure file for clearer exit status without `pipefail`.
 
 ## Preflight Amendments
 

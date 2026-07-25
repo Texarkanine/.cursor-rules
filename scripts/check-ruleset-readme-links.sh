@@ -13,21 +13,9 @@
 
 set -eu
 
-script_dir() {
-	CDPATH= cd -- "$(dirname -- "$0")" && pwd
-}
-
-repo_root() {
-	CDPATH= cd -- "$(script_dir)/.." && pwd
-}
-
-resolve_rulesets_dir() {
-	if [ "$#" -ge 1 ] && [ -n "$1" ]; then
-		printf '%s\n' "$1"
-		return 0
-	fi
-	printf '%s\n' "$(repo_root)/rulesets"
-}
+# Shared path helpers (script_dir / repo_root / resolve_rulesets_dir).
+# shellcheck disable=SC1091
+. "$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)/rulesets-check-common.sh"
 
 # Return 0 if the target should not be checked on the filesystem.
 is_skippable_target() {
@@ -65,11 +53,16 @@ extract_link_targets() {
 
 check_readme_links() {
 	rulesets_dir=$1
+	fail_marker=
 
 	if [ ! -d "${rulesets_dir}" ]; then
 		printf 'error: not a directory: %s\n' "${rulesets_dir}" >&2
 		return 1
 	fi
+
+	fail_marker=$(mktemp)
+	# Clean up the marker file when the shell exits.
+	trap 'rm -f "${fail_marker}"' EXIT HUP INT TERM
 
 	# Find README files (regular or symlink). Empty tree is success.
 	find "${rulesets_dir}" \( -name 'README' -o -name 'README.*' \) \
@@ -101,20 +94,16 @@ check_readme_links() {
 				if [ ! -e "${path}" ]; then
 					printf 'broken link: %s -> %s\n' \
 						"${readme}" "${target}" >&2
-					# Marker for the collector (stderr is the report).
-					printf 'FAIL\n'
+					# Subshell-safe failure flag (no pipefail in POSIX).
+					printf 'x\n' >> "${fail_marker}"
 				fi
 			done
-		done \
-		| {
-			failed=0
-			while IFS= read -r line; do
-				if [ "${line}" = "FAIL" ]; then
-					failed=1
-				fi
-			done
-			[ "${failed}" -eq 0 ]
-		}
+		done
+
+	if [ -s "${fail_marker}" ]; then
+		return 1
+	fi
+	return 0
 }
 
 main() {

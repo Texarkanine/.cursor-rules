@@ -50,3 +50,16 @@ Add local `make test` and PR GitHub Actions CI that verify (1) all symlinks unde
     - REUSE defaults sufficient (AGPL for scripts/Makefile/workflow)
 * Insights
     - Nested `find|while` pipelines need an explicit failure channel when `set -o pipefail` is unavailable
+
+## 2026-07-25 - QA - COMPLETE
+
+* Work completed
+    - Semantic review against plan/brief; requirements complete
+    - DRY: shared `scripts/rulesets-check-common.sh`
+    - KISS: readme-check failure flag via temp file instead of FAIL-marker pipe
+    - Re-verified `make test` and negative fixtures
+    - Wrote `.qa-validation-status` = PASS
+* Decisions made
+    - Keep two executable check scripts; share only path-resolution helpers
+* Insights
+    - POSIX pipelines without `pipefail` push failure signaling onto the filesystem or careful pipeline tail status
