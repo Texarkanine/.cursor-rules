@@ -1,0 +1,27 @@
+---
+alwaysApply: true
+---
+
+# Conserve Context
+
+Everything you put in context is re-read on every subsequent model call in the turn — on the order of 20x. A 2,000-token file you didn't need costs 40,000. Read narrow, and don't read the same thing twice.
+
+## Read Only the Range You Need
+
+A bare read of a whole file is a default worth overriding. Locate with a search tool first, then read the range you found using offset and limit. Read a file whole when it is genuinely small (under ~200 lines), when you are about to rewrite it, or when you need its full structure to reason about it.
+
+## Don't Re-Read Data You Can Still See
+
+When a file's contents are still visible in context, reading it again duplicates it and tells you nothing new. Read it again when it changed — because you edited it, or because something else did — or when its contents are no longer in front of you. A note that you read a file is not the same as having it; if you need a detail and can only find a summary, read the file.
+
+## Instructions Are Not Data
+
+Re-reading a rule, workflow, or context file to bring it back to the front of context is a deliberate trade: identical bytes, better adherence. That is not duplication, and this rule does not discourage it. For data, position in context does not matter — you can look back at what you already read. For instructions, position is the payload.
+
+## Bound Output You Won't Read Whole
+
+Use the terse form of any command whose full output you are not going to read: `git status --porcelain`, `git diff --stat`, `git log --oneline`, `ls -1`, `find … | head`. If nothing has changed since a command last ran, don't run it again for an answer that is already in context.
+
+This does not govern test output.
+
+**Boundaries**: This is about not paying for the same information twice. It is never a reason to skip a read you need, guess at a file's contents, work from a stale memory of what a file said, or truncate output you are actually going to use. When correctness is in question, read it — being wrong costs more than the tokens.
