@@ -68,3 +68,12 @@ Refresh the repo's public face after the `cleanup-old` retirements: rewrite the 
     - Preflight advisory (extend link checker to root README) carried forward as the reflection's standing-gap insight
 * Insights
     - Clean L2 run end-to-end: one preflight amendment, zero build deviations, zero QA fixes
+
+## 2026-07-25 - ARCHIVE - IN-PROGRESS
+
+* Work completed
+    - Leaving REFLECT; proceeding to archive
+* Decisions made
+    - Archive category: enhancements (docs/pitch refresh of existing public face)
+* Insights
+    - Standing gap carried forward: root README remains outside CI link-check scope
