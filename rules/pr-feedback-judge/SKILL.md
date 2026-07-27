@@ -16,16 +16,35 @@ Evaluate one or more pieces of GitHub PR review feedback against the standard "v
 
 ## URL shape → GitHub endpoint
 
-Classify each input URL by its fragment, then dispatch:
+Classify each input URL by its fragment, then dispatch. Each shape **fetches candidates**; only candidates that pass the [Feedback gate](#feedback-gate) become Items.
 
-| URL fragment | Shape | API path (under `https://api.github.com`) | Yields |
+| URL fragment | Shape | API path (under `https://api.github.com`) | Fetches (candidates) |
 |---|---|---|---|
-| (none) — `…/pull/N` | Whole PR | `/repos/{o}/{r}/pulls/{N}/comments` + `/repos/{o}/{r}/issues/{N}/comments` + `/repos/{o}/{r}/pulls/{N}/reviews` (all paginated) | Every inline review comment, every conversation comment, every review body |
-| `#pullrequestreview-<rid>` | PR review | `/repos/{o}/{r}/pulls/{N}/reviews/<rid>` + `/repos/{o}/{r}/pulls/{N}/reviews/<rid>/comments` | Review body + every inline comment in that review |
-| `#discussion_r<cid>` | Inline review comment | `/repos/{o}/{r}/pulls/comments/<cid>` | Single inline comment (incl. `diff_hunk`, `path`, `in_reply_to_id`) |
-| `#issuecomment-<cid>` | Conversation comment | `/repos/{o}/{r}/issues/comments/<cid>` | Single conversation comment |
+| (none) — `…/pull/N` | Whole PR | `/repos/{o}/{r}/pulls/{N}/comments` + `/repos/{o}/{r}/issues/{N}/comments` + `/repos/{o}/{r}/pulls/{N}/reviews` (all paginated) | Inline review comments, conversation comments, and review bodies — then gate |
+| `#pullrequestreview-<rid>` | PR review | `/repos/{o}/{r}/pulls/{N}/reviews/<rid>` + `/repos/{o}/{r}/pulls/{N}/reviews/<rid>/comments` | Review body + inline comments in that review — then gate |
+| `#discussion_r<cid>` | Inline review comment | `/repos/{o}/{r}/pulls/comments/<cid>` | Single inline comment (incl. `diff_hunk`, `path`, `in_reply_to_id`) — then gate |
+| `#issuecomment-<cid>` | Conversation comment | `/repos/{o}/{r}/issues/comments/<cid>` | Single conversation comment — then gate |
 
 If a URL doesn't match any of these shapes: emit "could not classify URL: `<url>`" for that item and continue with the rest. Do not crash, do not guess.
+
+## Feedback gate
+
+**Only assess feedback.** After fetch (and reply-context resolution), run every candidate through this gate. Candidates that fail are dropped silently — no Item block, no triage-table row. Count them for the tail as skipped.
+
+A candidate is **feedback** when it asserts something about the PR's code, tests, docs, config, or behavior that a reviewer wants addressed, questioned, or changed.
+
+**Not feedback** — drop, do not evaluate:
+
+- Auto-generated walkthroughs, change stacks, pre-merge dashboards, finishing-touch checklists
+- Rate-limit, billing, or "could not start a review" notices
+- Coverage / CI status posts with no concrete claim about the diff
+- Pure acknowledgments or author chatter ("LGTM", "works on my machine", "ship it", "CI green", "thanks")
+- Empty review entries (empty body and no associated inline comments)
+- Review bodies or conversation comments whose actionable content is entirely a restatement or rollup of inline comments already in this invocation's candidate set
+
+**Unique findings in a review body or conversation comment:** if the text contains actionable finding(s) that are *not* already covered by an inline comment in the candidate set, emit **one Item per distinct unique finding** — not one Item for the whole summary. Prefer the inline comment when both exist; never double-count.
+
+When the user pointed at a specific `#discussion_r…`, `#issuecomment-…`, or `#pullrequestreview-…` URL and that candidate fails the gate, emit a one-line skip for that URL (`skipped — not feedback: <brief reason>`) instead of a full Item, so the user sees why nothing was judged. Whole-PR bulk skips stay silent aside from the tail count.
 
 ## Tier detection (in priority order)
 
@@ -122,7 +141,9 @@ For 5 or fewer items, skip the table — the per-item blocks alone are clearer a
 
 ## Tail (always emit, after all per-item blocks)
 
-> N items evaluated · X to fix in this PR · Y deferred · Z dismissed.
+> N items evaluated · S skipped (not feedback) · X to fix in this PR · Y deferred · Z dismissed.
+
+Omit the `S skipped` clause when S is 0.
 
 Then add this one-line tip with a minimal body template:
 
@@ -152,8 +173,8 @@ For each invocation:
 
      For T2 (MCP), batching is per-tool — make the minimum number of distinct MCP calls (e.g., one `get_review_comments` for the whole PR, then filter locally to all the requested `cid`s).
 4. **Resolve reply context.** If a fetched inline comment has a non-null `in_reply_to_id`, make one extra call to fetch the parent thread (cheap — single comment). The parent provides the context the reviewer was responding to.
-5. **Skip empty review entries.** A PR review with an empty body and no associated inline comments contributes nothing — drop it silently.
-6. **Render.** Emit the intro, then (if items > 5) the triage table, then per-item blocks in input order, then the tail.
+5. **Apply the feedback gate.** Drop every candidate that is not feedback (see [Feedback gate](#feedback-gate)). Expand review bodies / conversation comments that carry unique findings into one Item per distinct finding; prefer inlines over summary echoes. Record the skip count for the tail. For a user-supplied single-URL candidate that fails the gate, emit the one-line skip note.
+6. **Render.** Emit the intro, then (if gated items > 5) the triage table, then per-item blocks in input order, then the tail. Triage and Item numbering use only gated feedback — skipped candidates do not get numbers.
 
 ## Failure modes
 
