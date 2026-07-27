@@ -16,35 +16,44 @@ Evaluate one or more pieces of GitHub PR review feedback against the standard "v
 
 ## URL shape → GitHub endpoint
 
-Classify each input URL by its fragment, then dispatch. Each shape **fetches candidates**; only candidates that pass the [Feedback gate](#feedback-gate) become Items.
+Classify each input URL by its fragment, then dispatch. Each shape **fetches material**; only [actionable findings](#what-becomes-an-item) become Items.
 
-| URL fragment | Shape | API path (under `https://api.github.com`) | Fetches (candidates) |
+| URL fragment | Shape | API path (under `https://api.github.com`) | Fetches |
 |---|---|---|---|
-| (none) — `…/pull/N` | Whole PR | `/repos/{o}/{r}/pulls/{N}/comments` + `/repos/{o}/{r}/issues/{N}/comments` + `/repos/{o}/{r}/pulls/{N}/reviews` (all paginated) | Inline review comments, conversation comments, and review bodies — then gate |
-| `#pullrequestreview-<rid>` | PR review | `/repos/{o}/{r}/pulls/{N}/reviews/<rid>` + `/repos/{o}/{r}/pulls/{N}/reviews/<rid>/comments` | Review body + inline comments in that review — then gate |
-| `#discussion_r<cid>` | Inline review comment | `/repos/{o}/{r}/pulls/comments/<cid>` | Single inline comment (incl. `diff_hunk`, `path`, `in_reply_to_id`) — then gate |
-| `#issuecomment-<cid>` | Conversation comment | `/repos/{o}/{r}/issues/comments/<cid>` | Single conversation comment — then gate |
+| (none) — `…/pull/N` | Whole PR | `/repos/{o}/{r}/pulls/{N}/comments` + `/repos/{o}/{r}/issues/{N}/comments` + `/repos/{o}/{r}/pulls/{N}/reviews` (all paginated) | All inlines, conversation comments, and review bodies — then filter to findings |
+| `#pullrequestreview-<rid>` | PR review | `/repos/{o}/{r}/pulls/{N}/reviews/<rid>` + `/repos/{o}/{r}/pulls/{N}/reviews/<rid>/comments` | That review's body + its inlines — then filter to findings |
+| `#discussion_r<cid>` | Inline review comment | `/repos/{o}/{r}/pulls/comments/<cid>` | Single inline (incl. `diff_hunk`, `path`, `in_reply_to_id`) — then filter |
+| `#issuecomment-<cid>` | Conversation comment | `/repos/{o}/{r}/issues/comments/<cid>` (+ that author's reviews/inlines on the PR — see below) | Linked comment as context; resolve the author's review findings on the PR |
 
 If a URL doesn't match any of these shapes: emit "could not classify URL: `<url>`" for that item and continue with the rest. Do not crash, do not guess.
 
-## Feedback gate
+### Author resolution for `#issuecomment-…`
 
-**Only assess feedback.** After fetch (and reply-context resolution), run every candidate through this gate. Candidates that fail are dropped silently — no Item block, no triage-table row. Count them for the tail as skipped.
+Bot (and human) "review" posts often land as conversation comments that are mostly summary. When the user passes `#issuecomment-<cid>`:
 
-A candidate is **feedback** when it asserts something about the PR's code, tests, docs, config, or behavior that a reviewer wants addressed, questioned, or changed.
+1. Fetch that comment; note `user.login`.
+2. **Read the body for orientation** — overview, confidence, file lists, walkthroughs. Do **not** turn orientation prose into Items.
+3. Fetch that author's review artifacts on the same PR: their rows in `pulls/{N}/comments` and `pulls/{N}/reviews` (filter client-side by user).
+4. Build Items only from [actionable findings](#what-becomes-an-item) in those artifacts (and from distinct findings stated in the linked body that are not already covered by an inline).
 
-**Not feedback** — drop, do not evaluate:
+Same rule when a whole-PR fetch includes such a conversation comment: use it as context for that author; do not emit an Item for the summary itself.
 
-- Auto-generated walkthroughs, change stacks, pre-merge dashboards, finishing-touch checklists
-- Rate-limit, billing, or "could not start a review" notices
-- Coverage / CI status posts with no concrete claim about the diff
-- Pure acknowledgments or author chatter ("LGTM", "works on my machine", "ship it", "CI green", "thanks")
-- Empty review entries (empty body and no associated inline comments)
-- Review bodies or conversation comments whose actionable content is entirely a restatement or rollup of inline comments already in this invocation's candidate set
+## What becomes an Item
 
-**Unique findings in a review body or conversation comment:** if the text contains actionable finding(s) that are *not* already covered by an inline comment in the candidate set, emit **one Item per distinct unique finding** — not one Item for the whole summary. Prefer the inline comment when both exist; never double-count.
+An **actionable finding** is a concrete claim about the PR's code, tests, docs, config, or behavior that asks for a change, raises a defect, or poses a substantive question about the diff.
 
-When the user pointed at a specific `#discussion_r…`, `#issuecomment-…`, or `#pullrequestreview-…` URL and that candidate fails the gate, emit a one-line skip for that URL (`skipped — not feedback: <brief reason>`) instead of a full Item, so the user sees why nothing was judged. Whole-PR bulk skips stay silent aside from the tail count.
+**Read but do not Item-ize** (no per-item block, no triage row, no "nothing to address about the flowchart" verdicts):
+
+- Walkthroughs, change stacks, confidence scores, file overviews, mermaid/flow diagrams, pre-merge dashboards, finishing-touch checklists
+- Rate-limit / billing / "could not start a review" notices
+- Coverage or CI status with no concrete claim about the diff
+- Pure acknowledgments or chatter ("LGTM", "works on my machine", "ship it", "thanks")
+- Empty review entries (empty body and no inlines)
+- Summary rollups that only restate inlines already in the Item set — prefer the inline; never double-count
+
+**Human (or bot) review body with real findings and few/no inlines:** emit **one Item per distinct finding** in the body. A single undifferentiated blob of feedback → one Item for that blob.
+
+**Linked URL that yields zero findings after filtering:** one line — `no actionable findings in <url> (summary/context only)` — then continue. Do not invent Items to fill the rubric.
 
 ## Tier detection (in priority order)
 
@@ -134,16 +143,14 @@ If — and only if — the total number of items to evaluate is greater than 5 (
 | # | Item | Author | Disposition |
 |---|---|---|---|
 | 1 | [discussion_r123](url) | @reviewer | fix in this PR |
-| 2 | [issuecomment-456](url) | @reviewer | dismiss |
+| 2 | [discussion_r456](url) | @reviewer | dismiss |
 ```
 
 For 5 or fewer items, skip the table — the per-item blocks alone are clearer at that scale.
 
 ## Tail (always emit, after all per-item blocks)
 
-> N items evaluated · S skipped (not feedback) · X to fix in this PR · Y deferred · Z dismissed.
-
-Omit the `S skipped` clause when S is 0.
+> N items evaluated · X to fix in this PR · Y deferred · Z dismissed.
 
 Then add this one-line tip with a minimal body template:
 
@@ -162,7 +169,7 @@ For each invocation:
 
 1. **Classify each URL** against the shape table. Emit "could not classify" for any that don't match and continue.
 2. **Detect tier** (T1 → T2 → fail). Pick the first available. If none, emit the failure message and stop.
-3. **Fetch.** Issue the per-shape calls for each classified URL.
+3. **Fetch.** Issue the per-shape calls for each classified URL. For `#issuecomment-…`, also fetch that author's inlines and reviews on the PR (author resolution above).
    - **Batch-fetch discipline (specific to this step):** if you end up with **3 or more structurally-identical `gh api` calls** in one invocation (e.g., the user gave you multiple `#discussion_r…` URLs all hitting `pulls/comments/<cid>`), issue them as **one batched shell pipeline**, not a sequential loop of tool calls. Example:
 
      ```bash
@@ -173,8 +180,8 @@ For each invocation:
 
      For T2 (MCP), batching is per-tool — make the minimum number of distinct MCP calls (e.g., one `get_review_comments` for the whole PR, then filter locally to all the requested `cid`s).
 4. **Resolve reply context.** If a fetched inline comment has a non-null `in_reply_to_id`, make one extra call to fetch the parent thread (cheap — single comment). The parent provides the context the reviewer was responding to.
-5. **Apply the feedback gate.** Drop every candidate that is not feedback (see [Feedback gate](#feedback-gate)). Expand review bodies / conversation comments that carry unique findings into one Item per distinct finding; prefer inlines over summary echoes. Record the skip count for the tail. For a user-supplied single-URL candidate that fails the gate, emit the one-line skip note.
-6. **Render.** Emit the intro, then (if gated items > 5) the triage table, then per-item blocks in input order, then the tail. Triage and Item numbering use only gated feedback — skipped candidates do not get numbers.
+5. **Filter to actionable findings.** Apply [What becomes an Item](#what-becomes-an-item). Summaries and walkthroughs are context only. Prefer inlines over summary echoes. If a user-supplied URL yields nothing actionable, emit the one-line note.
+6. **Render.** Emit the intro, then (if items > 5) the triage table, then per-item blocks in input order, then the tail. Only findings get numbers.
 
 ## Failure modes
 
