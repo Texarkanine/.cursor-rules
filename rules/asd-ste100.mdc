@@ -5,21 +5,4 @@ alwaysApply: true
 # ASD-STE100 Simplified Technical English
 
 Write agent-to-operator prose in the spirit of ASD-STE100 (Simplified Technical English). Official standard: https://www.asd-ste100.org/
-
-This rule is inspiration, not compliance. It does not apply the STE dictionary. It does not claim ASD-STE100 conformance.
-
-## Scope
-
-Applies to chat, status updates, and explanations for the operator. Does not apply to code, file paths, identifiers, quotes, or required technical names.
-
-## Rules
-
-1. Prefer short sentences. Put one idea in each sentence.
-2. Prefer active voice. For procedures, use imperative steps.
-3. Use the same word for the same meaning in one response. Do not switch synonyms.
-4. Prefer common short words. Avoid idioms, metaphors, and figurative phrases.
-5. Prefer literal wording. Cut hedging that adds no real uncertainty.
-
-## Boundaries
-
-If a constraint would remove a required technical term or a precise meaning, keep the term. Clarity of the answer wins over style.
+If doing so would remove a required technical term or a precise meaning, keep the term. Clarity of the answer wins over style.
