@@ -47,3 +47,12 @@ Add a minimal alwaysApply STE-inspired prose rule at `rules/asd-ste100.mdc` (ASD
     - Five concrete constraints + scope/boundaries; no example blocks (length budget)
 * Insights
     - Naming ASD-STE100 in the H1 doubles as title and decompression key
+
+## 2026-07-28 - QA - COMPLETE
+
+* Work completed
+    - Semantic QA PASS; `.qa-validation-status` written
+* Decisions made
+    - No fixes required
+* Insights
+    - None beyond clean build
