@@ -56,3 +56,12 @@ Add a minimal alwaysApply STE-inspired prose rule at `rules/asd-ste100.mdc` (ASD
     - No fixes required
 * Insights
     - None beyond clean build
+
+## 2026-07-28 - REFLECT - COMPLETE
+
+* Work completed
+    - Reflection document written; persistent files unchanged
+* Decisions made
+    - Ready for `/niko-archive`
+* Insights
+    - Inspection-as-TDD + `make test` is enough for lone GlobalPrompt additions
