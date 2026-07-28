@@ -27,11 +27,11 @@ Classify each input URL by its fragment, then dispatch:
 
 If a URL doesn't match any of these shapes: emit "could not classify URL: `<url>`" for that item and continue with the rest. Do not crash, do not guess.
 
-## Tier detection (in priority order)
+## Tier Detection Order
 
 Evaluate tiers in this exact order. Use the first one available; do not fall through to a lower tier if a higher one is present.
 
-### T1 — `gh` CLI (preferred)
+### T1 — `gh` CLI
 
 Detection:
 
@@ -60,7 +60,7 @@ gh api "repos/{o}/{r}/pulls/comments/{cid}"
 gh api "repos/{o}/{r}/issues/comments/{cid}"
 ```
 
-### T2 — GitHub MCP server (fallback)
+### T2 — GitHub MCP Server
 
 Detection: scan the harness's **registered-MCP-servers list** (the same block of MCP metadata exposed to you at invocation time) for any server whose **name, identifier, or description** contains `github` (case-insensitive substring). If one matches, use its read-only PR/issue tools.
 
@@ -74,7 +74,7 @@ If neither T1 nor T2 is available, emit verbatim:
 
 Do not attempt anonymous `curl`. Do not scrape HTML. Do not pre-fetch the URL via any other path. Stop and surface the message.
 
-## The intro (always emit, before any items)
+## Intro Block
 
 Emit the following block verbatim before evaluating any items:
 
@@ -86,7 +86,7 @@ Emit the following block verbatim before evaluating any items:
 >
 > The three answers compose into a disposition. Feedback can be valid but not worth fixing, or valid and worth fixing but out of scope for *this* PR — I'll spell each one out.
 
-## The per-item block (emit for every item, in order)
+## Per-Item Block
 
 ```markdown
 ### Item N — [link to comment](url) by @author
@@ -107,7 +107,7 @@ Emit the following block verbatim before evaluating any items:
 
 Disposition vocabulary is fixed (4 values). Pick exactly one per item. Use the emoji set ✅ / ❌ / 🕒 only.
 
-## Triage table (conditional — only when item count > 5)
+## Conditional Triage Table
 
 If — and only if — the total number of items to evaluate is greater than 5 (e.g., a whole-PR URL on a busy PR), emit a compact triage table **before** the per-item blocks:
 
@@ -120,7 +120,7 @@ If — and only if — the total number of items to evaluate is greater than 5 (
 
 For 5 or fewer items, skip the table — the per-item blocks alone are clearer at that scale.
 
-## Tail (always emit, after all per-item blocks)
+## Tail Block
 
 > N items evaluated · X to fix in this PR · Y deferred · Z dismissed.
 
