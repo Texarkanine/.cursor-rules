@@ -35,9 +35,10 @@ Add a minimal alwaysApply GlobalPrompt at `rules/asd-ste100.mdc` that steers age
 3. [x] Commit implementation
    - Files: `rules/asd-ste100.mdc`, memory-bank updates
    - Changes: conventional commit `feat(rules): add always-on ASD-STE100 prose rule` (or similar)
-4. [ ] Push feature branch and open PR
+4. [x] Push feature branch and open PR
    - Files: none (git/gh)
    - Changes: `git push -u origin HEAD`; `gh pr create` with summary + test plan
+   - Result: draft PR https://github.com/Texarkanine/.cursor-rules/pull/94
 
 ## Technology Validation
 
@@ -69,7 +70,7 @@ No new technology - validation not required
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight
-- [ ] Build
+- [x] Build
 - [ ] QA
 
 ## Preflight Findings

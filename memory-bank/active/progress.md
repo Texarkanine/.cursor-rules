@@ -36,3 +36,14 @@ Add a minimal alwaysApply STE-inspired prose rule at `rules/asd-ste100.mdc` (ASD
     - No re-level; plan stays Level 2 single-file
 * Insights
     - TDD for prose GlobalPrompts here is inspection criteria + `make test` + QA, not a new harness
+
+## 2026-07-28 - BUILD - COMPLETE
+
+* Work completed
+    - Added `rules/asd-ste100.mdc` (alwaysApply, 25 lines)
+    - B1–B5 inspection + `make test` passed
+    - Pushed `feat/asd-ste100-rule`; opened draft PR #94
+* Decisions made
+    - Five concrete constraints + scope/boundaries; no example blocks (length budget)
+* Insights
+    - Naming ASD-STE100 in the H1 doubles as title and decompression key
