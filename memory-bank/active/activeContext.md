@@ -1,12 +1,12 @@
 # Active Context
 
 ## Current Task: asd-ste100-rule
-**Phase:** PLAN - COMPLETE
+**Phase:** BUILD - IN-PROGRESS
 
 ## What Was Done
-- Level 2 plan written: single new file `rules/asd-ste100.mdc`, alwaysApply, STE-inspired constraints, ASD-STE100 + Simplified Technical English decompression key
-- Packaging follows #90 (`conserve-context`): no ruleset symlink; `make test` as regression gate; content verified in QA
-- Feature branch `feat/asd-ste100-rule` already created
+- Created `/home/mobaxterm/git/.cursor-rules/rules/asd-ste100.mdc` (25 lines, alwaysApply)
+- B1–B5 inspection passed; `make test` passed
+- Scope: agent→operator prose; ASD-STE100 + Simplified Technical English named; inspiration not compliance
 
 ## Next Step
-- Preflight validation (automatic per L2 workflow)
+- Commit feat, push, open draft PR, then QA

@@ -26,16 +26,16 @@ Add a minimal alwaysApply GlobalPrompt at `rules/asd-ste100.mdc` that steers age
 
 ## Implementation Plan
 
-1. Author `rules/asd-ste100.mdc` (TDD: assert B1–B5 by inspection against brief, then write file)
+1. [x] Author `rules/asd-ste100.mdc` (TDD: assert B1–B5 by inspection against brief, then write file)
    - Files: `rules/asd-ste100.mdc` (new)
    - Changes: frontmatter `alwaysApply: true`; short body naming ASD-STE100 / Simplified Technical English; link or point to https://www.asd-ste100.org/; STE-inspired constraints; explicit non-compliance boundary; apply to agent→operator prose (not code, paths, or identifiers); follow `markdown-style` + `prompt-authoring` prose style
-2. Run regression gate
+2. [x] Run regression gate
    - Files: none
    - Changes: run `make test`; fix only if this change broke layout/links (unexpected)
-3. Commit implementation
+3. [x] Commit implementation
    - Files: `rules/asd-ste100.mdc`, memory-bank updates
    - Changes: conventional commit `feat(rules): add always-on ASD-STE100 prose rule` (or similar)
-4. Push feature branch and open PR
+4. [ ] Push feature branch and open PR
    - Files: none (git/gh)
    - Changes: `git push -u origin HEAD`; `gh pr create` with summary + test plan
 
