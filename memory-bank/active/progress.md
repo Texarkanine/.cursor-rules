@@ -26,3 +26,13 @@ Add a minimal alwaysApply STE-inspired prose rule at `rules/asd-ste100.mdc` (ASD
     - Content behaviors verified in QA; `make test` for layout regression only
 * Insights
     - Risk is a vague "write simply" no-op; each bullet must change default posture
+
+## 2026-07-28 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Preflight PASS; `.preflight-status` written
+    - Absorbed advisory: scope to agent→operator prose; exempt code/paths/identifiers
+* Decisions made
+    - No re-level; plan stays Level 2 single-file
+* Insights
+    - TDD for prose GlobalPrompts here is inspection criteria + `make test` + QA, not a new harness

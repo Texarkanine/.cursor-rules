@@ -28,7 +28,7 @@ Add a minimal alwaysApply GlobalPrompt at `rules/asd-ste100.mdc` that steers age
 
 1. Author `rules/asd-ste100.mdc` (TDD: assert B1–B5 by inspection against brief, then write file)
    - Files: `rules/asd-ste100.mdc` (new)
-   - Changes: frontmatter `alwaysApply: true`; short body naming ASD-STE100 / Simplified Technical English; link or point to https://www.asd-ste100.org/; STE-inspired constraints; explicit non-compliance boundary; follow `markdown-style` + `prompt-authoring` prose style
+   - Changes: frontmatter `alwaysApply: true`; short body naming ASD-STE100 / Simplified Technical English; link or point to https://www.asd-ste100.org/; STE-inspired constraints; explicit non-compliance boundary; apply to agent→operator prose (not code, paths, or identifiers); follow `markdown-style` + `prompt-authoring` prose style
 2. Run regression gate
    - Files: none
    - Changes: run `make test`; fix only if this change broke layout/links (unexpected)
@@ -68,6 +68,11 @@ No new technology - validation not required
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA
+
+## Preflight Findings
+
+- PASS (2026-07-28): TDD encoding OK (inspection criteria before authoring; `make test` regression). Packaging matches #90. Completeness maps all brief requirements to steps.
+- Advisory absorbed: scope the rule to agent→operator prose; exempt code/paths/identifiers.
