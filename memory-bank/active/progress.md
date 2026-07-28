@@ -26,3 +26,13 @@ Sync `pr-feedback-judgier` with `main`, resolve the `pr-feedback-judge` skill co
     - Prefer main's short Title-Case section headings (no parentheticals)
 * Insights
     - No automated tests cover skill markdown content; verification is conflict-marker absence + semantic review
+
+## 2026-07-28 - QA - COMPLETE
+
+* Work completed
+    - Semantic QA against project brief: all acceptance criteria met
+    - Wrote `.qa-validation-status` = PASS
+* Decisions made
+    - No substantive issues; no return to Build
+* Insights
+    - Merge + push completed before QA bookkeeping; final completion commit still needs push

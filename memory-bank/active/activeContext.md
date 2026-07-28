@@ -1,12 +1,11 @@
 # Active Context
 
 ## Current Task: sync-pr-feedback-judgier-with-main
-**Phase:** BUILD - COMPLETE
+**Phase:** QA - COMPLETE
 
 ## What Was Done
-- Merged `origin/main` into `pr-feedback-judgier` and pushed to origin (PR #91)
-- Resolved sole conflict in `rules/pr-feedback-judge/SKILL.md`: kept gating semantics, took main's `## Tier Detection Order`
-- `make test` passed
+- Merged `main`, resolved skill conflict (gating + main headings), pushed to update PR #91
+- QA PASS; persistent files unchanged (no system-level impact)
 
 ## Next Step
-- Level 1 QA
+- Level 1 complete — operator may clean up `memory-bank/active/` when satisfied
