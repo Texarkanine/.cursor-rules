@@ -13,3 +13,16 @@ Sync `pr-feedback-judgier` with `main`, resolve the `pr-feedback-judge` skill co
     - Level 1: skip plan/creative/preflight; go straight to build then QA
 * Insights
     - Only file changed on both sides is `rules/pr-feedback-judge/SKILL.md`
+
+## 2026-07-28 - BUILD - COMPLETE
+
+* Work completed
+    - Merged `origin/main` into `pr-feedback-judgier`
+    - Resolved conflict in `rules/pr-feedback-judge/SKILL.md`: kept author-resolution + Item gating; adopted main's `## Tier Detection Order`
+    - Clean auto-merges for always-tdd, niko-core, test-running-practices
+    - `make test` passed
+* Decisions made
+    - Prefer gating semantics from this branch over main's pre-gating skill body
+    - Prefer main's short Title-Case section headings (no parentheticals)
+* Insights
+    - No automated tests cover skill markdown content; verification is conflict-marker absence + semantic review

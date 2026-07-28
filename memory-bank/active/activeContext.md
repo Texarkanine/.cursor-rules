@@ -4,9 +4,9 @@
 **Phase:** BUILD - COMPLETE
 
 ## What Was Done
-- Merged `origin/main` into `pr-feedback-judgier`
-- Resolved sole conflict in `rules/pr-feedback-judge/SKILL.md`: kept gating semantics, took main's `## Tier Detection Order` heading
-- No skill test suite exists; verified no conflict markers remain
+- Merged `origin/main` into `pr-feedback-judgier` and pushed to origin (PR #91)
+- Resolved sole conflict in `rules/pr-feedback-judge/SKILL.md`: kept gating semantics, took main's `## Tier Detection Order`
+- `make test` passed
 
 ## Next Step
-- Commit merge, push to origin, then Level 1 QA
+- Level 1 QA
