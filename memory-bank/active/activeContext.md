@@ -1,11 +1,12 @@
 # Active Context
 
 ## Current Task: sync-pr-feedback-judgier-with-main
-**Phase:** BUILD - READY
+**Phase:** BUILD - COMPLETE
 
 ## What Was Done
-- Classified as Level 1: single-file merge conflict resolution + push; low risk, mechanical sync
-- Confirmed sole both-sides change is `rules/pr-feedback-judge/SKILL.md`
+- Merged `origin/main` into `pr-feedback-judgier`
+- Resolved sole conflict in `rules/pr-feedback-judge/SKILL.md`: kept gating semantics, took main's `## Tier Detection Order` heading
+- No skill test suite exists; verified no conflict markers remain
 
 ## Next Step
-- Merge `origin/main`, resolve skill conflict, verify, push
+- Commit merge, push to origin, then Level 1 QA
