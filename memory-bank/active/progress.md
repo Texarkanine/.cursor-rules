@@ -15,3 +15,14 @@ Add a minimal alwaysApply STE-inspired prose rule at `rules/asd-ste100.mdc` (ASD
     - STE-inspired constraints only; no full dictionary / compliance claim
 * Insights
     - Prior art: `feat(rules): add always-on conserve-context rule (#90)` touched only `rules/conserve-context.mdc`
+
+## 2026-07-28 - PLAN - COMPLETE
+
+* Work completed
+    - Level 2 implementation plan and TDD behavior list written to `tasks.md`
+    - Feature branch `feat/asd-ste100-rule` created
+* Decisions made
+    - Match #90 packaging: only `rules/asd-ste100.mdc`; no ruleset wiring
+    - Content behaviors verified in QA; `make test` for layout regression only
+* Insights
+    - Risk is a vague "write simply" no-op; each bullet must change default posture
