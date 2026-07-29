@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: tdd-prose-carveout
-**Phase:** PLAN - COMPLETE
+**Phase:** PREFLIGHT - PASS
 
 ## What Was Done
 - Read the three persistent memory bank files at the operator's instruction; confirmed `rules/` and `rulesets/` are the source of truth and the `.cursor/` and `.claude/` trees are generated copies that must not be edited.
@@ -15,6 +15,10 @@
 - **No automated tests for this change**, which is the carve-out applied to itself. The existing `make test` structural suite still runs, because it covers the ruleset symlink and README-link contract that both edited files are reachable from.
 - **No change to `rulesets/niko/README.md`** line 24. The carve-out sharpens what counts as code rather than contradicting that one-line summary.
 - **Known verification limit:** the only live preflight evidence available is this task's own run, which exercises requirement 4 (do not fail correct prose-only plans) and leaves requirement 3 (fail plans proposing prose tests) unexercised. QA reads the FAIL condition against the issue's `test_pr_template_and_title_ci.py` example instead.
+- **Preflight passed the blocking TDD check under a recorded ambiguity.** The current FAIL condition targets implementation-only steps "under a 'we follow TDD' disclaimer"; this plan is implementation-only but argues its units are out of TDD scope and states the gate. Those differ, and whether the present wording distinguishes them is the defect being repaired. Resolved toward the intent of the change. Had it failed, the only compliant repair would have been to invent the prose tests the task prohibits.
+- **Do not touch the tracked `.cursor/` copies.** They are tracked, but feature commits here touch `rules/` alone and the generated tree is re-synced under separate `chore(dev): ai-rizz sync` commits.
+- **Heading renamed** to `## What TDD Governs`, avoiding collision with the existing `## 1. Determine Scope`.
+- **Gate named `change-detector`** in both files, so review and future rules can cite it without restating the definition.
 
 ## Next Step
-- Invoke the `niko-preflight` skill.
+- Execute the Level 2 Build phase.

@@ -17,3 +17,29 @@ Add an executable-versus-prose scope carve-out to `always-tdd.mdc` so TDD stops 
 * Insights
     - `niko-preflight` step 6 "Completeness Precheck" is a second source of prose-test pressure that issue #95 does not mention. Amending only step 2 would leave the guard contradicting a sibling check in the same file.
     - This task is a live test of its own deliverable: it is a prose-only change that must pass the very preflight guard it installs. If the wording is too loose, preflight will not catch a bad plan; if too strict, preflight will fail this task's own correct plan.
+
+## 2026-07-29 - PLAN - COMPLETE
+
+* Work completed
+    - Surveyed TDD pressure across the niko skills and confirmed the sibling TDD rules need no carve-out, being globbed to `*Test.java` and to shell scripts.
+    - Read `rules/prompt-authoring/SKILL.md` to author the rule prose against the repo's own standard.
+    - Wrote a 5-step plan across 2 files into `tasks.md`, with behaviors, challenges, and pre-mortem.
+* Decisions made
+    - The boundary is behavioral, not a file taxonomy: the decisive gate asks what makes a test go red, because a taxonomy is what the prior agent relabeled its way around.
+    - Preflight step 6 must be amended alongside step 2, or the guard contradicts a sibling check in the same file.
+    - No automated tests, which is the carve-out applied to itself; the existing structural suite still runs.
+* Insights
+    - The prior failure's rationalization, "structural markers not prose," is an argument against artifact-kind boundaries in general. Only a rule about the test's failure mode survives relabeling.
+
+## 2026-07-29 - PREFLIGHT - PASS
+
+* Work completed
+    - Ran all seven preflight checks against the plan; wrote `PASS` to `.preflight-status`.
+    - Amended the plan twice: renamed the new heading to `## What TDD Governs`, and corrected the generated-tree dependency note with evidence.
+* Decisions made
+    - Passed the blocking TDD Plan Encoding check while recording that its current wording cannot cleanly authorize the pass. The FAIL condition targets a pretext, and this plan instead argues its units are out of scope and says why. The ambiguity between those two is the defect under repair, and it was resolved toward the intent of the change.
+    - Do not touch the tracked `.cursor/` copies. Feature commits here touch `rules/` alone; the generated tree is re-synced under separate `chore(dev): ai-rizz sync` commits, and `ai-rizz` reads the remote anyway.
+    - Applied one advisory: name the gate **change-detector** in both files so it can be cited without restating it.
+* Insights
+    - Fixing a rule while governed by it produces a real deadlock, not just an awkward moment: had preflight failed this plan, the only compliant repair would have been to invent the very prose tests the task prohibits. That is the strongest available evidence that issue #95 describes a genuine defect.
+    - The `.cursor/` copies of the target files are tracked, but staleness between a feature commit and the next sync commit is the repo's normal state, not a defect.

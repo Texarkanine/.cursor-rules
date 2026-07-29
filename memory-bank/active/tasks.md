@@ -16,6 +16,8 @@ The carve-out therefore rests on what makes a test go red, which no relabeling c
 
 The artifact-kind list still appears, because it makes the common cases fast to recognize. But the change-detector question is the decisive gate, and the wording says so, so an agent that argues its way past the list still lands on the gate. The rule also names the relabeling attempt directly and closes the reverse loophole: executable install contracts stay in scope even though they live in metadata files.
 
+Preflight amendment: give the gate a name, **change-detector**, and use that name in both edited files. A named gate can be cited in review and in a future rule without restating its definition, and it gives an agent a term to reason with instead of a paragraph to reinterpret.
+
 ## Test Plan (TDD)
 
 ### Test Infrastructure
@@ -52,7 +54,7 @@ Verified by reading the changed prose against the scenarios it governs, during Q
 
 1. Add the scope boundary to `always-tdd.mdc`
    - Files: `rules/always-tdd.mdc`
-   - Changes: insert a `## Scope` section between the opening paragraph and `## 1. Determine Scope`, stating what TDD governs (executable behavior: code, schemas, parsers, CLIs, and configuration or workflows the product executes), what it does not govern (human-facing prose and policy artifacts, naming docs content, PR and issue templates, CONTRIBUTING, instructional comments, memory-bank narrative, and rule or skill wording), the change-detector gate as the decisive question, an explicit statement that recasting headings or checklists as structural markers does not bring them into scope, the executable-install-contract clause that keeps packaging tests in scope, and the alternatives for out-of-scope artifacts: review, a purpose-built gate, or nothing. Adjust the opening paragraph so its "all code changes" claim reads against the new scope section instead of ahead of it.
+   - Changes: insert a `## What TDD Governs` section between the opening paragraph and `## 1. Determine Scope`, stating what TDD governs (executable behavior: code, schemas, parsers, CLIs, and configuration or workflows the product executes), what it does not govern (human-facing prose and policy artifacts, naming docs content, PR and issue templates, CONTRIBUTING, instructional comments, memory-bank narrative, and rule or skill wording), the change-detector gate as the decisive question, an explicit statement that recasting headings or checklists as structural markers does not bring them into scope, the executable-install-contract clause that keeps packaging tests in scope, and the alternatives for out-of-scope artifacts: review, a purpose-built gate, or nothing. Adjust the opening paragraph so its "all code changes" claim reads against the new scope section instead of ahead of it.
 2. Add the prose-lock FAIL condition to the preflight TDD check
    - Files: `rulesets/niko/skills/niko-preflight/SKILL.md`
    - Changes: in step 2 "TDD Plan Encoding", add a FAIL condition for plans that schedule tests asserting on prose, policy, or markdown content, phrased with the change-detector gate so it is self-contained rather than dependent on the rule being installed. Add a clause stating that a unit whose artifact is non-executable is not subject to the test-before-code ordering requirement, so correctly omitting tests for it is not an implementation-only failure.
@@ -74,7 +76,7 @@ No new technology - validation not required.
 
 - `rules/always-tdd.mdc` is distributed standalone by `ai-rizz`, so the carve-out cannot depend on Niko or preflight being installed.
 - `rulesets/niko/always-tdd.mdc` is a symlink to the edited rule; editing the target keeps it valid and adds no symlink work.
-- `.cursor/` and `.claude/` are generated copies and are not edited. They regenerate from the source of truth by `ai-rizz` and `a16n`, and `ai-rizz` reads the git remote, so the change is invisible to consumers until pushed.
+- `.cursor/` and `.claude/` are generated copies and are not edited. Preflight established the detail the plan first got vague: the `.cursor/` copies of both target files *are* tracked, while `.claude/` is excluded locally via `.git/info/exclude`. Tracked-but-stale is nonetheless correct here, because the repo's convention is that feature commits touch `rules/` alone and the generated tree is re-synced separately under `chore(dev): ai-rizz sync`. Evidence: `f78180f` edited `rules/niko-core.mdc` only despite a tracked `.cursor` copy, and `369d523` touched `.cursor/rules` only. This also cannot be done inside this task, since `ai-rizz` reads the git remote rather than the working tree, so the change must be pushed before it can be synced.
 - `rulesets/niko/README.md` line 24 describes the rule as forcing TDD "for all code changes". Decided: no change. The carve-out sharpens what counts as code rather than contradicting that summary, and rewriting a one-line catalog entry adds churn without accuracy.
 
 ## Challenges & Mitigations
