@@ -5,7 +5,21 @@ alwaysApply: true
 ---
 # Test-Driven Development (TDD) Requirement
 
-All code changes must be made according to this test-driven development process: **tests get written first**. Strictly follow the four steps laid out below, in order, for every code change. Never skip ahead to making code changes without following this process.
+All changes to **executable behavior**, as defined in the next section, must be made according to this test-driven development process: **tests get written first**. Strictly follow the four steps laid out below, in order, for every such change. Never skip ahead to making code changes without following this process.
+
+## What TDD Governs
+
+Executable behavior is in scope: code, schemas, parsers, CLIs, and the configuration or workflows that the product runs. If something executes it, it is in scope, whatever its file extension. Executable install contracts are in scope too — packaging manifests, entry-point declarations, version lockstep — because the installer executes them.
+
+Human-facing prose and policy artifacts are out of scope: documentation content, pull request and issue templates, CONTRIBUTING files, instructional comments, project narrative, and the wording of rules and skills. Do not invent string, heading, or checklist assertions on these to satisfy this rule.
+
+When it is unclear which side an artifact falls on, ask what would make the test fail:
+
+> If the only way to turn the test red is for someone to deliberately edit the artifact it asserts on, it is a **change-detector**, not a test. It has no regression value, because it fires on intended edits and stays silent when the product breaks.
+
+Delete change-detectors and do not write new ones. This question decides the case, not the artifact's format: recasting a document's headings, link presence, or checklist items as "structural markers" rather than prose does not bring them into scope, because the assertion still only fails when someone edits the document.
+
+Out of scope does not mean unenforceable. Use code review, or build a gate that gets the semantics right, such as a commit-title linter, a link checker, or a schema validator. Choosing none of these is also a legitimate outcome; a test that treats prose as behavior is not.
 
 ## 1. Determine Scope
 

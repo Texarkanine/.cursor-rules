@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: tdd-prose-carveout
-**Phase:** PREFLIGHT - PASS
+**Phase:** BUILD - COMPLETE
 
 ## What Was Done
 - Read the three persistent memory bank files at the operator's instruction; confirmed `rules/` and `rulesets/` are the source of truth and the `.cursor/` and `.claude/` trees are generated copies that must not be edited.
@@ -20,5 +20,15 @@
 - **Heading renamed** to `## What TDD Governs`, avoiding collision with the existing `## 1. Determine Scope`.
 - **Gate named `change-detector`** in both files, so review and future rules can cite it without restating the definition.
 
+## Files Modified
+- `/home/mobaxterm/git/.cursor-rules/rules/always-tdd.mdc` - added `## What TDD Governs`; opening paragraph rescoped to executable behavior.
+- `/home/mobaxterm/git/.cursor-rules/rulesets/niko/skills/niko-preflight/SKILL.md` - steps 2, 6, and 9 amended.
+
+## Build Outcome
+- 21 insertions, 5 deletions across 2 files. No deviations from plan beyond the two amendments preflight recorded.
+- `make test` passes. Confirmed the suite is not vacuous: `check-ruleset-symlinks.sh` fails on unresolvable symlink targets and is silent on success.
+- Self-consistency confirmed. The amended preflight step 2 explicitly names "rule and skill wording" as carrying no test-before-code obligation, which is exactly this task's own deliverable, so the guard now passes this plan unambiguously rather than by the judgment call preflight had to make.
+- Requirement 3 confirmed against the issue's example: `test_pr_template_and_title_ci.py` asserted markdown headings, a CONTRIBUTING link, and absence of checklists. The new FAIL condition names heading, link-presence, and checklist assertions on a document, and closes the "structural markers" relabeling.
+
 ## Next Step
-- Execute the Level 2 Build phase.
+- Invoke the `niko-qa` skill.

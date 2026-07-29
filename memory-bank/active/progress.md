@@ -43,3 +43,16 @@ Add an executable-versus-prose scope carve-out to `always-tdd.mdc` so TDD stops 
 * Insights
     - Fixing a rule while governed by it produces a real deadlock, not just an awkward moment: had preflight failed this plan, the only compliant repair would have been to invent the very prose tests the task prohibits. That is the strongest available evidence that issue #95 describes a genuine defect.
     - The `.cursor/` copies of the target files are tracked, but staleness between a feature commit and the next sync commit is the repo's normal state, not a defect.
+
+## 2026-07-29 - BUILD - COMPLETE
+
+* Work completed
+    - Added `## What TDD Governs` to `rules/always-tdd.mdc` and rescoped the opening paragraph from "all code changes" to changes in executable behavior.
+    - Amended `rulesets/niko/skills/niko-preflight/SKILL.md` at step 2 (scope clause, executable-scoped ordering FAIL, new change-detector FAIL), step 6 (executable qualifier), and step 9 (fix instruction for both directions).
+    - Ran `make test`: passes. Verified the suite is not vacuous by reading `check-ruleset-symlinks.sh`. No linter errors.
+* Decisions made
+    - Used a single `## What TDD Governs` section with no leaf sub-headings, keeping **change-detector** greppable through bold at its definition rather than through a heading. `markdown-style.mdc` warns against leaf headings where paragraphs suffice.
+    - Kept the pre-existing `.cursor/rules/shared/always-tdd.mdc` pointer at preflight line 27 and made the new FAIL condition self-contained instead, so the guard holds even where that path does not resolve.
+* Insights
+    - The build closed the ambiguity preflight had to judge around. The amended step 2 now names "rule and skill wording" as carrying no test-before-code obligation, so a future task shaped like this one gets a clean pass instead of a reasoned override.
+    - Rescoping the opening sentence mattered more than adding the new section. An agent that reads "All code changes" first will carry that framing into a section that contradicts it.

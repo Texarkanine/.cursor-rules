@@ -93,6 +93,16 @@ No new technology - validation not required.
 - The whole premise is wrong, and heading assertions on a PR template do carry regression value in a repo where CI parses the template. Plan response: none needed, the executable-install-contract clause already routes that case back into scope. The distinguishing question is whether something executes the artifact, not whether the artifact is markdown.
 - Preflight cannot actually be verified, because the only evidence the guard works is this task's own preflight run, which is a plan with no prose tests in it. That confirms requirement 4 and leaves requirement 3 unexercised. Plan response: accept, and note it as a known verification limit rather than claim coverage. QA reads the FAIL condition against the issue's `test_pr_template_and_title_ci.py` example instead of against a live run.
 
+## Build Record
+
+- [x] Step 1 - `## What TDD Governs` added to `rules/always-tdd.mdc`; opening paragraph now scopes the requirement to executable behavior.
+- [x] Step 2 - prose-lock FAIL condition and the non-executable non-FAIL clause added to preflight step 2.
+- [x] Step 3 - preflight step 6 qualified to executable behavior.
+- [x] Step 4 - preflight step 9 fix instruction extended to both failure directions.
+- [x] Step 5 - `make test` passes; both files re-read end to end and found consistent; no linter errors.
+
+Built to plan, with no deviations beyond the two amendments preflight had already recorded.
+
 ## Status
 
 - [x] Initialization complete
@@ -100,6 +110,6 @@ No new technology - validation not required.
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
-- [ ] Build
+- [x] Preflight
+- [x] Build
 - [ ] QA
