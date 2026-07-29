@@ -69,3 +69,14 @@ Add an executable-versus-prose scope carve-out to `always-tdd.mdc` so TDD stops 
     - Leave `rulesets/niko/README.md` and all three persistent memory-bank files unchanged. The carve-out narrows what counts as code rather than contradicting the README summary, and nothing in the persistent files was made factually wrong.
 * Insights
     - The DRY constraint and the prompt-authoring guidance against cross-references pull in opposite directions for prompt content. `systemPatterns.md` already resolves it: duplication that a grep can verify is the enforcement mechanism, not a smell.
+
+## 2026-07-29 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `memory-bank/active/reflection/reflection-tdd-prose-carveout.md`.
+    - Reconciled the persistent files: updated `systemPatterns.md`; left `productContext.md` and `techContext.md` untouched.
+* Decisions made
+    - Recorded the generated-tree sync convention in `systemPatterns.md`. It passed the inclusion bar because a developer who does not know it either hand-edits a generated file or believes their feature commit is incomplete, and this task had to reconstruct the convention from git history rather than read it.
+    - Corrected "the `.cursor/` and `.claude/` trees committed here" to drop "committed": only `.cursor/` is tracked, and `.claude/` is excluded locally.
+* Insights
+    - Recorded in the reflection document. The transferable one is that boundaries drawn around categories get relabeled, while boundaries drawn around consequences do not.

@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: tdd-prose-carveout
-**Phase:** QA - PASS
+**Phase:** REFLECT COMPLETE
 
 ## What Was Done
 - Read the three persistent memory bank files at the operator's instruction; confirmed `rules/` and `rulesets/` are the source of truth and the `.cursor/` and `.claude/` trees are generated copies that must not be edited.
@@ -34,5 +34,10 @@
 - PASS across all seven constraints. One trivial fix applied: the opening sentence now names "What TDD Governs" instead of pointing at "the next section".
 - Deliberate holds: duplicated change-detector definition, preflight step 6's redundant guard clause, no `rulesets/niko/README.md` change, no persistent memory-bank updates.
 
+## Reflection Outcome
+- Written to `memory-bank/active/reflection/reflection-tdd-prose-carveout.md`.
+- Headline insight: a boundary written as a taxonomy of artifact kinds invites relabeling; a boundary written as a question about failure modes does not. When an agent keeps evading a rule, check whether the rule is drawn around categories instead of consequences.
+- Persistent reconciliation: `systemPatterns.md` updated surgically to record that the tracked `.cursor/` tree is expected to lag behind feature commits and is re-synced separately, a fact this task had to reconstruct from git history. `productContext.md` and `techContext.md` needed nothing.
+
 ## Next Step
-- Execute the Level 2 Reflect phase.
+- Run `/niko-archive` to create the archive document and finalize the current project.

@@ -2,7 +2,7 @@
 
 ## How This System Works
 
-This repo is the *canonical source* for a set of Cursor customizations. External tools compile and distribute them: `ai-rizz` installs them into consumer `.cursor/` trees, and `a16n` converts them to other harnesses. The `.cursor/` and `.claude/` trees committed here are *generated copies* — never edit them; edit only `rules/` and `rulesets/`.
+This repo is the *canonical source* for a set of Cursor customizations. External tools compile and distribute them: `ai-rizz` installs them into consumer `.cursor/` trees, and `a16n` converts them to other harnesses. The `.cursor/` and `.claude/` trees here are *generated copies* — never edit them; edit only `rules/` and `rulesets/`. The in-repo `.cursor/` tree is tracked and is *expected to lag*: a feature commit touches `rules/` and `rulesets/` alone, and the generated tree is re-synced in a separate `chore(dev): ai-rizz sync` commit. That sync cannot happen in the same task, because `ai-rizz` reads the git remote rather than the working tree, so the source change has to be pushed first.
 
 The repo is also self-hosting: it both *defines* the Niko memory-bank system (under `rulesets/niko/`) and *uses* Niko to manage its own work (the `memory-bank/` at the repo root). A change to Niko's rules therefore changes how this very repo is developed. Because the Niko rules are in effect while working here, these persistent files must not restate what those rules already say — point at the canonical rule instead of copying it, or it will drift.
 
