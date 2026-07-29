@@ -112,4 +112,10 @@ Built to plan, with no deviations beyond the two amendments preflight had alread
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [ ] QA
+- [x] QA
+
+## QA Record
+
+PASS. One trivial fix applied: the opening sentence of `always-tdd.mdc` referred to "the next section" positionally and now names "What TDD Governs" instead. `make test` re-run after the fix; passes.
+
+Deliberate holds, each recorded with rationale in the QA report: the change-detector definition stays duplicated across both files rather than cross-referenced; preflight step 6 keeps its slightly redundant guard clause; `rulesets/niko/README.md` is unchanged; no persistent memory-bank file is updated, because none was invalidated.

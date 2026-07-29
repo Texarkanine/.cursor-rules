@@ -56,3 +56,16 @@ Add an executable-versus-prose scope carve-out to `always-tdd.mdc` so TDD stops 
 * Insights
     - The build closed the ambiguity preflight had to judge around. The amended step 2 now names "rule and skill wording" as carrying no test-before-code obligation, so a future task shaped like this one gets a clean pass instead of a reasoned override.
     - Rescoping the opening sentence mattered more than adding the new section. An agent that reads "All code changes" first will carry that framing into a section that contradicts it.
+
+## 2026-07-29 - QA - PASS
+
+* Work completed
+    - Reviewed the diff against all seven QA constraints; wrote `PASS` to `.qa-validation-status`.
+    - Applied one trivial fix: replaced the positional "next section" pointer with the section's name. Re-ran `make test`; passes.
+    - Confirmed no paragraph was hard-wrapped and that em-dash and heading style match the surrounding files.
+* Decisions made
+    - Keep the change-detector definition duplicated across both files rather than cross-referencing, per the load-bearing-duplication pattern and the guidance against inter-prompt references.
+    - Keep preflight step 6's redundant guard clause, since the documented failure mode is an agent padding a plan to satisfy an unqualified checklist demand.
+    - Leave `rulesets/niko/README.md` and all three persistent memory-bank files unchanged. The carve-out narrows what counts as code rather than contradicting the README summary, and nothing in the persistent files was made factually wrong.
+* Insights
+    - The DRY constraint and the prompt-authoring guidance against cross-references pull in opposite directions for prompt content. `systemPatterns.md` already resolves it: duplication that a grep can verify is the enforcement mechanism, not a smell.

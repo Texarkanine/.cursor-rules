@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: tdd-prose-carveout
-**Phase:** BUILD - COMPLETE
+**Phase:** QA - PASS
 
 ## What Was Done
 - Read the three persistent memory bank files at the operator's instruction; confirmed `rules/` and `rulesets/` are the source of truth and the `.cursor/` and `.claude/` trees are generated copies that must not be edited.
@@ -30,5 +30,9 @@
 - Self-consistency confirmed. The amended preflight step 2 explicitly names "rule and skill wording" as carrying no test-before-code obligation, which is exactly this task's own deliverable, so the guard now passes this plan unambiguously rather than by the judgment call preflight had to make.
 - Requirement 3 confirmed against the issue's example: `test_pr_template_and_title_ci.py` asserted markdown headings, a CONTRIBUTING link, and absence of checklists. The new FAIL condition names heading, link-presence, and checklist assertions on a document, and closes the "structural markers" relabeling.
 
+## QA Outcome
+- PASS across all seven constraints. One trivial fix applied: the opening sentence now names "What TDD Governs" instead of pointing at "the next section".
+- Deliberate holds: duplicated change-detector definition, preflight step 6's redundant guard clause, no `rulesets/niko/README.md` change, no persistent memory-bank updates.
+
 ## Next Step
-- Invoke the `niko-qa` skill.
+- Execute the Level 2 Reflect phase.

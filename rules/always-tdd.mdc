@@ -5,7 +5,7 @@ alwaysApply: true
 ---
 # Test-Driven Development (TDD) Requirement
 
-All changes to **executable behavior**, as defined in the next section, must be made according to this test-driven development process: **tests get written first**. Strictly follow the four steps laid out below, in order, for every such change. Never skip ahead to making code changes without following this process.
+All changes to **executable behavior**, as defined under "What TDD Governs" below, must be made according to this test-driven development process: **tests get written first**. Strictly follow the four steps laid out below, in order, for every such change. Never skip ahead to making code changes without following this process.
 
 ## What TDD Governs
 
