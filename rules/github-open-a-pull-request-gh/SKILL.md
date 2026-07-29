@@ -21,27 +21,10 @@ This rule guides you through the process of opening a pull request.
 2. Extract ticket or issue ID if present:
 	- Parse current branch name for ticket/issue patterns (e.g., `feature/ABC-123`, `fix/issue-456`).
 	- If the branch is ahead of default, check the new commits' messages for ticket/issue references: `git --no-pager log --oneline main..HEAD`
-3. Check for a pull request template at `.github/PULL_REQUEST_TEMPLATE.md` (capitalization may vary). If no template exists, use this default:
-	```markdown
-	# Summary
-	[Summarize the important changes made in this pull request: A short numbered list sorted from "most impactful" to "least impactful"]
-
-	# Description
-
-	[Briefly explain any of the more-complex changes listed in the summary section]
-
-	# Related Issue(s)
-	[Reference any related issues using #issue-number; remove the "Related Issues" section entirely if no issues]
-
-	# Testing
-	[Describe how these changes were tested]
-
-	# Checklist
-	- [ ] Code follows project style guidelines
-	- [ ] Documentation updated if necessary
-	- [ ] Tests added or updated
-	- [ ] All tests pass
-	```
+3. Resolve the pull request template. Read **only** the template you will use — do not load the others into context:
+	1. Look in this repository first (`.github/pull_request_template.md` or `.github/PULL_REQUEST_TEMPLATE.md`; capitalization may vary). If found, use it.
+	2. If none, fetch the repository **owner's** community-health default from their `.github` repository at the same paths (e.g. `gh api "repos/<owner>/.github/contents/.github/pull_request_template.md" --jq .content`, base64-decode; try common capitalizations on 404). If found, use it.
+	3. If that is also missing, read `references/pull_request_template.md` next to this skill and use that.
 
 ## Preparation
 
