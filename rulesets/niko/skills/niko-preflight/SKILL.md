@@ -25,7 +25,7 @@ Read:
 
 2. **TDD Plan Encoding** *(blocking)*
    - The test-first process lives in `.cursor/rules/shared/always-tdd.mdc`
-   - This check governs units that change executable behavior. A unit delivering user-facing prose or policy (docs content, PR/issue templates, CONTRIBUTING, instructional comments, rule/skill wording, etc.) owes no tests; omitting them passes this check
+   - This check governs units that change executable behavior. A unit delivering user-facing prose or policy (docs content, PR/issue templates, CONTRIBUTING, instructional comments, rule/skill wording, etc.) owes no tests for those artifacts; omitting tests for those artifacts passes this check
    - For each implementable unit of executable work (function, slice, milestone — whatever granularity the plan uses), confirm the ordered substeps place test-writing before production code, explicitly enough that a reasonable implementer cannot follow the plan by coding first
    - FAIL when the numbered steps for an executable unit are implementation-only under a "we follow TDD" disclaimer; when any step explicitly orders implementation before tests; or when TDD ordering lives only in the plan's preamble rather than per-unit
    - FAIL when the plan schedules a test that can only go red when someone deliberately edits the artifact it asserts on — heading, phrase, link, or checklist assertions on a document. That is a change-detector, not a test.
