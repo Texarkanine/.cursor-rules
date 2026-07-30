@@ -1,0 +1,50 @@
+PREFLIGHT: PASS (with advisory)
+Task: pr-feedback-judge-retrieval
+Complexity: Level 2
+Date: 2026-07-30
+
+TDD Plan Encoding: PASS
+  Validated against the canonical rulesets/niko/skills/niko-preflight/SKILL.md, not the
+  stale generated copy. The canonical check governs units that change executable behavior
+  and states that a unit delivering rule/skill wording owes no tests, so omitting them
+  passes. It also FAILS plans that schedule change-detector tests; this plan schedules
+  none and says why. Both conditions satisfied.
+
+Convention Compliance: PASS
+  Edits the canonical rules/pr-feedback-judge/SKILL.md only; generated .cursor/ and
+  .claude/ trees left alone per systemPatterns.md. Skill tier and frontmatter unchanged.
+  Build step 11 runs the prompt-authoring self-check and markdown-style conventions.
+
+Dependency Impact: PASS
+  Single source file, no rulesets/ symlink. scripts/verify-skillify.py constrains
+  structure only. make test touches symlinks and README links, neither of which changes.
+  Generated trees re-sync separately after push.
+
+Conflict Detection: PASS
+  The Tier/T1/T2 naming collision was caught at plan time (Challenge 1) and is resolved
+  by naming code-access rungs after their condition. The disposition vocabulary widening
+  from four values to five is an intended, additive output-contract change.
+
+Completeness Precheck: PASS
+  All 8 requirements and all 6 acceptance criteria map to concrete steps:
+  R1-R3 -> step 1; R4-R5 -> step 2; R6 -> step 6; R7 -> step 3; R8 -> steps 2 and 9.
+  AC1 -> 1; AC2 -> 2; AC3 -> 6,7; AC4 -> 3; AC5 -> 8,9; AC6 -> 11.
+  Every element of the creative doc's Decision and Implementation Notes is covered.
+
+Radical Innovation: CHANGE ADOPTED
+  Compute anchor state inside the --jq projection instead of per-item derivation.
+  Validated against PR #91. Amended into steps 1 and 3. Within Level 2 and within the
+  project brief, so applied rather than merely flagged.
+
+ADVISORY (non-blocking):
+  1. Pre-existing heading "## (warning) Load-bearing instruction: fetch first, never judge
+     from the URL alone" is long and carries a subordinate clause, against markdown-style's
+     portable-heading guidance. Out of scope; do not fix opportunistically.
+  2. Keep emphasis density low in new prose. Recent rules in this repo run 0-4 bold per
+     1k characters; the existing file is older and heavier.
+  3. Do not restate batching discipline when adding projections. The file already defers
+     to it in the orchestration step.
+  4. Do not edit memory-bank/archive/features/20260503-pr-feedback-judge.md. Archives are
+     self-contained historical snapshots, not live documentation.
+
+Gate: /niko-build may proceed.

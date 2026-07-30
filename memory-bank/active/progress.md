@@ -53,3 +53,20 @@ Rework `rules/pr-feedback-judge/SKILL.md` so its verdicts rest on the current st
 * Insights
     - `git grep` works against a bare ref, which was not anticipated in the creative phase. Tree-wide search therefore stops being a reason to clone whenever the objects are already local, narrowing Tier D to the genuinely remote case.
     - The pre-mortem surfaced a failure mode the challenge register missed: the plan can succeed at retrieval and still be a null result if no verdict actually changes. Instrumentation is not the deliverable; different dispositions are.
+
+## 2026-07-30 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Validated the plan against the canonical `rulesets/niko/skills/niko-preflight/SKILL.md` after discovering the generated copy was stale and lacked the prose carve-out.
+    - Ran all six blocking checks plus the advisory innovation step. All six pass.
+    - Mapped every requirement and acceptance criterion to a concrete step; no gaps.
+    - Validated an anchor-computing `--jq` projection against PR #91 and adopted it into steps 1 and 3.
+    - Read `rules/prompt-authoring/SKILL.md` to fix the authoring conventions build must satisfy; recorded four non-blocking advisories.
+    - Wrote `memory-bank/active/.preflight-status`.
+* Decisions made
+    - TDD Plan Encoding passes on both limbs of the canonical check: skill wording owes no tests, and the plan schedules no change-detector.
+    - Adopted the preflight innovation rather than merely flagging it, since it sits inside Level 2 and inside the project brief.
+    - Left the pre-existing over-long heading alone; fixing it opportunistically is out of scope.
+* Insights
+    - The generated-tree lag changed agent behavior twice in one task, on `always-tdd` and then on `niko-preflight`. In both cases the stale copy would have produced the wrong call — the first would have demanded tests the carve-out excuses, the second would have failed to reject change-detectors. This is a sharper consequence than "the tree is merely behind" and is worth carrying to reflection.
+    - Computing anchor state in the projection converts the plan's biggest risk from an adherence problem into a mechanical one. Prefer moving a policy into a transform over restating it as an instruction whenever the transform already exists.

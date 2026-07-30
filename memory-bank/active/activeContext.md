@@ -1,30 +1,20 @@
 # Active Context
 
 ## Current Task: pr-feedback-judge-retrieval
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** BUILD - IN-PROGRESS
 
 ## What Was Done
-- Standalone creative exploration answered the operator's open questions about how the skill reaches the diff. Measured this repository's corpus: 86 PRs, 293 inline comments, only 49 (17%) with anchors safe to read at face value; 119 (41%) outdated, 125 (43%) drifted.
-- Established that the skill's unstated "working tree is the PR head" assumption is the real defect, and that it made the skill judge the wrong text most of the time.
-- Decision recorded in `memory-bank/active/creative/creative-pr-feedback-judge-retrieval.md`: anchor-state model, need-gated four-tier code-access ladder, `already addressed` disposition, plus `--jq` field projection.
-- Operator declined a standalone transport rule and a PR-review skill; both are out of scope.
-- Operator approved the intent restatement.
-- Complexity determined: **Level 2**. One self-contained component (`rules/pr-feedback-judge/SKILL.md`), design decisions already resolved by the creative phase, moderate and contained risk, no architectural implications.
-- Confirmed `always-tdd` does not govern this change: its carve-out names "rule and skill wording" as out of scope, and a test asserting on `SKILL.md` contents would be a change-detector.
-- Confirmed `scripts/verify-skillify.py` asserts only that `pr-feedback-judge` is a command-skill by structure, so content edits keep it green.
+- Creative, complexity analysis, plan, and preflight all complete for Level 2.
+- Preflight PASS (with advisory). Six blocking checks passed; Radical Innovation adopted: compute `anchor` in the `--jq` projection.
+- Preflight status written to `memory-bank/active/.preflight-status`.
+- Entering build: implement the 11 steps in `rules/pr-feedback-judge/SKILL.md` per the plan.
 
 ## Decisions Recorded From Operator Input
 - Scope limited to cleaning up `/pr-feedback-judge`; no new transport rule, no PR-review skill.
 - `already addressed` disposition explicitly wanted.
-- Worktree is the safe way to obtain local code when not already on the PR head; clone is a genuine last resort because of very large repositories.
-- Operator edited the creative doc's Tier B to question orchestrating `git worktree remove`, preferring a `mktemp` worktree left to clean up naturally. **Resolved:** neither. Read against the fetched ref instead — `git show FETCH_HEAD:{path}`, `git ls-tree`, `git grep {pattern} FETCH_HEAD` — all read-only, no checkout, no cleanup. A worktree is materialized only to *run* something, and is then removed explicitly. Verified working in this repository against `pull/99/head`, working tree confirmed untouched.
-- Consequence of that verification: `git grep` searching a bare ref means tree-wide search is no longer a reason to escalate to a clone whenever Tier B applies. Tier D narrowed accordingly.
-
-## Planning Outcome
-- Plan written to `memory-bank/active/tasks.md`: 13 behaviors to verify, 11 implementation steps, all in `rules/pr-feedback-judge/SKILL.md`. No new dependencies.
-- Surveyed verification: `make test` (symlink + README-link gates, CI `.github/workflows/rulesets-links.yml`) is green at baseline; `scripts/verify-skillify.py` constrains structure only. No content-assertion suite exists, by design.
-- Found a naming collision to avoid: the skill already uses `Tier`/`T1`/`T2` for *fetch* access, so the code-access ladder is named by condition rather than lettered. Deliberate wording deviation from the creative doc's "Tier A–D".
-- Pre-mortem's sharpest finding: the plan could succeed at retrieval and still be a null result if no verdict changes. The live acceptance run against PR #91's outdated comment (`#discussion_r3653815924`, `line == null`) is therefore promoted to the gating check.
+- Code-access rungs named by condition (not lettered); Tier/T1/T2 reserved for fetch access.
+- Read against fetched ref rather than worktree checkout for the in-repo off-head rung.
+- No content-assertion tests; `always-tdd` carve-out governs.
 
 ## Next Step
-- Preflight validation, per the Level 2 workflow.
+- Execute implementation steps 1–11 in `memory-bank/active/tasks.md`, then verify and transition to QA.

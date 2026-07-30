@@ -40,13 +40,13 @@ Concepts are defined before the sections that reference them, so no step require
 
 1. Add the anchor-state model
    - Files: `rules/pr-feedback-judge/SKILL.md`
-   - Changes: new `## Anchor State` section after `## URL shape → GitHub endpoint`. Defines three states from `subject_type`, `line`, `commit_id` — current, outdated, file-scoped. States that `original_line` and `original_commit_id` address the historical blob only and are retained for reporting. States that a current `line` is trustworthy only when the code source is verified at the PR head.
+   - Changes: new `## Anchor State` section after `## URL shape → GitHub endpoint`. Defines three states — current, outdated, file-scoped — and their consequences for judgment. States that `original_line` and `original_commit_id` address the historical blob only and are retained for reporting. States that a current `line` is trustworthy only when the code source is verified at the PR head. Per the preflight amendment, the state arrives pre-computed in the `anchor` field from step 3's projection, so this section defines what each value *means* rather than asking the agent to derive it; it also gives the derivation once, for T2, where no `--jq` runs.
 2. Add the code-access ladder
    - Files: `rules/pr-feedback-judge/SKILL.md`
    - Changes: new `## Reading the Code Under Review` section. Opens with the need gate (`diff_hunk` plus reviewer text is the default). Four rungs named by condition, not lettered — see Challenge 1: at the PR head; in the repository off-head (`git fetch origin pull/{N}/head`, then `git show FETCH_HEAD:{path}` / `git ls-tree` / `git grep … FETCH_HEAD`, all read-only, worktree only to run something and then removed); not in the repository (raw `contents` fetches); clone as last resort behind `gh api repos/{o}/{r} --jq .size`. Requires declaring the rung used.
 3. Add field projection to the fetch recipes
    - Files: `rules/pr-feedback-judge/SKILL.md`
-   - Changes: `--jq` projections on the T1 `gh api` recipes under `### T1 — gh CLI`, retaining every field the anchor model needs. Note the measured savings and the explicit prohibition on stripping anchor fields. Add the diff-transport note: `gh pr diff {N} -R {o}/{r}` or `Accept: application/vnd.github.diff`; never bare `pulls/{N}` JSON for diff purposes; never the `.patch` media type. Mirror the projection instruction for T2 as filter-locally guidance.
+   - Changes: `--jq` projections on the T1 `gh api` recipes under `### T1 — gh CLI`, retaining every field the anchor model needs and **computing the `anchor` field mechanically** (`if .subject_type == "file" then "file" elif .line == null then "outdated" else "current" end`), per the preflight amendment. Note the measured savings and the explicit prohibition on stripping anchor fields. Add the diff-transport note: `gh pr diff {N} -R {o}/{r}` or `Accept: application/vnd.github.diff`; never bare `pulls/{N}` JSON for diff purposes; never the `.patch` media type. Mirror the projection instruction for T2 as filter-locally guidance.
 4. Extend the URL-shape table
    - Files: `rules/pr-feedback-judge/SKILL.md`
    - Changes: `Fetches` column notes the anchor fields now retrieved for inline shapes.
@@ -82,6 +82,13 @@ No new dependencies. Every mechanic the plan relies on was validated during the 
 - `gh api repos/{o}/{r} --jq .size` distinguished 769 KB from 62.5 GB before any transfer.
 - `gh pr diff {N} -R {o}/{r}` works from outside any checkout.
 - `make test` green at baseline.
+- The anchor-computing `--jq` projection ran against PR #91 and correctly labelled `3653815924` as `outdated` and the two live comments as `current`. Cost is 15,059 bytes versus 14,805 for a projection that omits the computed field, against 20,543 unprojected.
+
+## Preflight Amendment
+
+Preflight's Radical Innovation step produced one change, adopted into steps 1 and 3: **compute the anchor state in the `--jq` projection rather than asking the agent to derive it per item.** The projection already exists, so the marginal cost is 254 bytes, and the state arrives in the data as an `anchor` field.
+
+This matters because it converts the single largest risk in the plan — Pre-Mortem finding 1, that a longer skill gets followed less — from an adherence problem into a mechanical one. An agent cannot forget to classify an anchor that is already labelled. The skill body still defines what each value means and gives the derivation once for T2, where no `--jq` runs.
 
 ## Dependencies
 
@@ -114,6 +121,6 @@ No new dependencies. Every mechanic the plan relies on was validated during the 
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA
