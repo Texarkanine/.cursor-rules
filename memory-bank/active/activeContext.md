@@ -1,11 +1,11 @@
 # Active Context
 
 ## Current Task: pr-feedback-judge-retrieval
-**Phase:** QA - COMPLETE
+**Phase:** REFLECT - COMPLETE
 
 ## What Was Done
-- Build implemented all 11 steps in `rules/pr-feedback-judge/SKILL.md`.
-- QA PASS: KISS/DRY/YAGNI/Completeness/Regression/Integrity/Documentation all clear. Status in `memory-bank/active/.qa-validation-status`.
+- Level 2 task complete through Reflect: skill reworked, QA PASS, reflection written.
+- Surgical update to `memory-bank/systemPatterns.md`: generated-tree lag can flip mid-task agent decisions; prefer canonical `rules/` / `rulesets/` for load-bearing policy.
 
 ## Next Step
-- Reflect phase (`/niko-reflect` / Level 2 reflect).
+- Operator: run `/niko-archive` to archive and finalize.

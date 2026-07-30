@@ -90,3 +90,14 @@ Rework `rules/pr-feedback-judge/SKILL.md` so its verdicts rest on the current st
     - Accepted four-way duplication of the inline `--jq` expression as deliberate recipe surface for agent copy-paste, not a DRY defect to "fix."
 * Insights
     - None beyond build; the implementation matches the plan without debris.
+
+## 2026-07-30 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `memory-bank/active/reflection/reflection-pr-feedback-judge-retrieval.md`.
+    - Reconciled persistent files: surgical note in `systemPatterns.md` on generated-tree lag affecting mid-task decisions; productContext and techContext unchanged.
+* Decisions made
+    - Left the four-way `--jq` duplication alone as recipe surface.
+* Insights
+    - Moving policy into an existing transform beats restating it as instruction.
+    - Stale generated alwaysApply copies are a decision risk, not just a sync inconvenience.
