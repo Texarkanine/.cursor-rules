@@ -1,10 +1,11 @@
 # Active Context
 
 ## Current Task: mb-init-agents-bootstrap
-**Phase:** QA - COMPLETE
+**Phase:** REFLECT COMPLETE
 
 ## What Was Done
-- QA PASS against issue #101 ACs and plan non-goals
+- Reflection written; persistent files unchanged (nothing invalidated)
+- Canonical init + README shipped for issue #101
 
 ## Next Step
-- Reflect phase
+- Run `/niko-archive` to archive and clear ephemeral state

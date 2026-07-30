@@ -51,3 +51,12 @@ Extend uninitialized memory-bank init so that, after persistent files are create
     - No QA fixes required
 * Insights
     - none
+
+## 2026-07-30 - REFLECT - COMPLETE
+
+* Work completed
+    - Reflection documented; persistent-file reconcile: no updates
+* Decisions made
+    - Issue-as-design-of-record was sufficient; no creative needed
+* Insights
+    - When the issue already holds the decision table, L2 can skip creative without losing fidelity
