@@ -94,3 +94,12 @@ Add an executable-versus-prose scope carve-out to `always-tdd.mdc` so TDD stops 
     - Item 5 fix uses "Before writing a test that asserts on a document's contents" rather than Greptile's always-on "To confirm which side."
 * Insights
     - Remaining open review items: Item 3 (name memory-bank narrative explicitly in both lists).
+
+## 2026-07-29 - ARCHIVE - IN-PROGRESS
+
+* Work completed
+    - Operator invoked `/niko-archive` with reflect complete and PR #98 open; proceeding to Level 2 archive.
+* Decisions made
+    - Leave PR #98 review Item 3 (explicit "memory-bank narrative" in both out-of-scope lists) as a follow-up on the open PR rather than blocking archive.
+* Insights
+    - None beyond what reflection and post-reflect already recorded.
