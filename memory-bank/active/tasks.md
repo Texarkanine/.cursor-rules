@@ -124,4 +124,4 @@ This matters because it converts the single largest risk in the plan — Pre-Mor
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [ ] QA
+- [x] QA

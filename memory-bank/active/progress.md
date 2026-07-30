@@ -80,3 +80,13 @@ Rework `rules/pr-feedback-judge/SKILL.md` so its verdicts rest on the current st
     - Treated pre-existing `verify-skillify.py` failures (4 unrelated missing skills) as out of scope; asserted `pr-feedback-judge` command-skill structure directly instead of requiring a green whole-script exit that the baseline never had.
 * Insights
     - Current L47 of the edited skill is Anchor State table prose — exactly the wrong text a naive `original_line` read would quote. The live acceptance made the defect concrete rather than hypothetical.
+
+## 2026-07-30 - QA - COMPLETE
+
+* Work completed
+    - Semantic review against project brief (8 requirements, 6 acceptance criteria) and the 11-step plan.
+    - Wrote `memory-bank/active/.qa-validation-status` with PASS.
+* Decisions made
+    - Accepted four-way duplication of the inline `--jq` expression as deliberate recipe surface for agent copy-paste, not a DRY defect to "fix."
+* Insights
+    - None beyond build; the implementation matches the plan without debris.
