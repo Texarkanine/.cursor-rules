@@ -66,7 +66,7 @@ Read:
    - **On PASS with ADVISORY**: Allow transition to `/niko-build`, but document advisory findings for the operator's consideration
    - **On FAIL (rearchitect needed)**: Operator decision required.
    - **On FAIL (conflict/convention)**: Provide specific fix instructions, block `/niko-build`; Operator decision required.
-   - **On FAIL (TDD plan encoding)**: Block `/niko-build`; re-run `/niko-plan`. Cite executable units lacking test-before-code ordering, and any scheduled change-detector tests with the instruction to remove them (keeping any purpose-built CI gate).
+   - **On FAIL (TDD plan encoding)**: Block `/niko-build`; cite executable units lacking test-before-code ordering, and any scheduled change-detector tests with the instruction to remove them (keeping any purpose-built CI gate); then re-run `/niko-plan` to restructure.
 
 ## Step 3: Log Progress
 
