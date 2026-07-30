@@ -13,7 +13,7 @@ In scope: executable behavior — code, schemas, parsers, CLIs, and any configur
 
 Out of scope: user-facing prose and policy — docs content, PR and issue templates, CONTRIBUTING, instructional comments, project narrative, rule and skill wording, etc.
 
-When unsure which side an artifact falls on, ask what makes the test fail:
+Before writing a test that asserts on a document's contents, ask what makes the test fail:
 
 > If it can only go red when someone deliberately edits the artifact it asserts on, it is a **change-detector**, not a test: it fires on intended edits and stays silent when the product breaks.
 
