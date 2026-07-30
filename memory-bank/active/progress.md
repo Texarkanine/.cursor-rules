@@ -70,3 +70,13 @@ Rework `rules/pr-feedback-judge/SKILL.md` so its verdicts rest on the current st
 * Insights
     - The generated-tree lag changed agent behavior twice in one task, on `always-tdd` and then on `niko-preflight`. In both cases the stale copy would have produced the wrong call — the first would have demanded tests the carve-out excuses, the second would have failed to reject change-detectors. This is a sharper consequence than "the tree is merely behind" and is worth carrying to reflection.
     - Computing anchor state in the projection converts the plan's biggest risk from an adherence problem into a mechanical one. Prefer moving a policy into a transform over restating it as an instruction whenever the transform already exists.
+
+## 2026-07-30 - BUILD - COMPLETE
+
+* Work completed
+    - Implemented steps 1–10 in `rules/pr-feedback-judge/SKILL.md`: Anchor State, code-access ladder, `--jq` projections with computed `anchor`, URL-table Fetches notes, item-filter wording, five dispositions, intro/triage/tail updates, gate-and-escalate orchestration step, failure modes, header prose.
+    - Step 11 verification: `make test` green; live acceptance on `#discussion_r3653815924` confirmed outdated classification, no `original_line` indexing, hunk content locate, clean off-head fetch.
+* Decisions made
+    - Treated pre-existing `verify-skillify.py` failures (4 unrelated missing skills) as out of scope; asserted `pr-feedback-judge` command-skill structure directly instead of requiring a green whole-script exit that the baseline never had.
+* Insights
+    - Current L47 of the edited skill is Anchor State table prose — exactly the wrong text a naive `original_line` read would quote. The live acceptance made the defect concrete rather than hypothetical.

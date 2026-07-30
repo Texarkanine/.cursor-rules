@@ -38,39 +38,40 @@ Rework `rules/pr-feedback-judge/SKILL.md` so its verdicts rest on the current st
 
 Concepts are defined before the sections that reference them, so no step requires backtracking.
 
-1. Add the anchor-state model
+1. [x] Add the anchor-state model
    - Files: `rules/pr-feedback-judge/SKILL.md`
    - Changes: new `## Anchor State` section after `## URL shape → GitHub endpoint`. Defines three states — current, outdated, file-scoped — and their consequences for judgment. States that `original_line` and `original_commit_id` address the historical blob only and are retained for reporting. States that a current `line` is trustworthy only when the code source is verified at the PR head. Per the preflight amendment, the state arrives pre-computed in the `anchor` field from step 3's projection, so this section defines what each value *means* rather than asking the agent to derive it; it also gives the derivation once, for T2, where no `--jq` runs.
-2. Add the code-access ladder
+2. [x] Add the code-access ladder
    - Files: `rules/pr-feedback-judge/SKILL.md`
    - Changes: new `## Reading the Code Under Review` section. Opens with the need gate (`diff_hunk` plus reviewer text is the default). Four rungs named by condition, not lettered — see Challenge 1: at the PR head; in the repository off-head (`git fetch origin pull/{N}/head`, then `git show FETCH_HEAD:{path}` / `git ls-tree` / `git grep … FETCH_HEAD`, all read-only, worktree only to run something and then removed); not in the repository (raw `contents` fetches); clone as last resort behind `gh api repos/{o}/{r} --jq .size`. Requires declaring the rung used.
-3. Add field projection to the fetch recipes
+3. [x] Add field projection to the fetch recipes
    - Files: `rules/pr-feedback-judge/SKILL.md`
    - Changes: `--jq` projections on the T1 `gh api` recipes under `### T1 — gh CLI`, retaining every field the anchor model needs and **computing the `anchor` field mechanically** (`if .subject_type == "file" then "file" elif .line == null then "outdated" else "current" end`), per the preflight amendment. Note the measured savings and the explicit prohibition on stripping anchor fields. Add the diff-transport note: `gh pr diff {N} -R {o}/{r}` or `Accept: application/vnd.github.diff`; never bare `pulls/{N}` JSON for diff purposes; never the `.patch` media type. Mirror the projection instruction for T2 as filter-locally guidance.
-4. Extend the URL-shape table
+4. [x] Extend the URL-shape table
    - Files: `rules/pr-feedback-judge/SKILL.md`
    - Changes: `Fetches` column notes the anchor fields now retrieved for inline shapes.
-5. Wire anchor state into item filtering
+5. [x] Wire anchor state into item filtering
    - Files: `rules/pr-feedback-judge/SKILL.md`
    - Changes: in `## What becomes an Item`, state explicitly that anchor state is not a filter — an outdated anchor whose finding still stands is still an Item. Anchor state informs the verdict, never item-ness.
-6. Extend the disposition vocabulary and per-item block
+6. [x] Extend the disposition vocabulary and per-item block
    - Files: `rules/pr-feedback-judge/SKILL.md`
    - Changes: `## Per-Item Block` gains anchor state and code source on the `**Where**` line; disposition list becomes five values; `already addressed` defined as valid-when-written and satisfied on the current head, requiring code evidence. Question 1 is judged as of when the comment was written; `already addressed` resolves question 3. Emoji set stays ✅/❌/🕒 — see Challenge 2.
-7. Update the emitted blocks
+7. [x] Update the emitted blocks
    - Files: `rules/pr-feedback-judge/SKILL.md`
    - Changes: `## Intro Block` gains a clause covering already-satisfied feedback; `## Conditional Triage Table` example shows the new disposition; `## Tail Block` gains the already-addressed count.
-8. Add the gate-and-escalate step to orchestration
+8. [x] Add the gate-and-escalate step to orchestration
    - Files: `rules/pr-feedback-judge/SKILL.md`
    - Changes: new step in `## Orchestration walkthrough` between fetching and filtering — classify anchors, decide whether code is needed, select and declare a rung.
-9. Extend failure modes
+9. [x] Extend failure modes
    - Files: `rules/pr-feedback-judge/SKILL.md`
    - Changes: entries for unreachable code source (degrade loudly to hunk-only), oversized repository (stay on raw fetches, say why), and foreign repository (author-stance dispositions inapplicable).
-10. Update the header prose
+10. [x] Update the header prose
     - Files: `rules/pr-feedback-judge/SKILL.md`
     - Changes: `**Access requirements.**` gains the code-access dependency; the load-bearing instruction extends to require checking whether the anchor still describes current code.
-11. Verify
+11. [x] Verify
     - Files: none
     - Changes: run `make test` and `python3 scripts/verify-skillify.py`; read the whole file for internal consistency and dead cross-references; confirm markdown-style compliance (headings not bold, no heading parentheticals, no hard wrapping); execute the live acceptance run against PR #91's outdated comment.
+    - Results: `make test` green. `verify-skillify.py` fails baseline on 4 unrelated missing skills (same before and after this edit); targeted check confirms `pr-feedback-judge` remains a valid command-skill. Live acceptance on `#discussion_r3653815924`: `anchor=outdated`, declines `original_line=47`, locates via `diff_hunk`, off-head rung leaves status and worktree list clean. Emphasis density ~2.6 bold/1k.
 
 ## Technology Validation
 
@@ -122,5 +123,5 @@ This matters because it converts the single largest risk in the plan — Pre-Mor
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight
-- [ ] Build
+- [x] Build
 - [ ] QA
