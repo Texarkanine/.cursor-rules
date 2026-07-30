@@ -33,6 +33,8 @@ Niko will create **many** files in your repo, mostly in the `memory-bank/` direc
 
 Some memory-bank files are long-lived, "persistent" files that serve as [AGENTS.md](https://agents.md/) but [better](https://blog.cani.ne.jp/2026/02/12/stop-doing-agents-md.html) - purpose-separated high-level indices to crucial information that your agents need to know about.
 
+On first (uninitialized) memory-bank init, when neither root `AGENTS.md` nor `CLAUDE.md` exists, Niko also writes a thin pair that points harnesses at `memory-bank/`. If either file already exists, init leaves both alone.
+
 | File                | Kind       | Purpose                                                                                                          |
 |---------------------|------------|------------------------------------------------------------------------------------------------------------------|
 | `productContext.md` | Persistent | Business context: target users, use cases, success criteria, constraints.                                        |
