@@ -66,6 +66,11 @@ No new technology - validation not required
 - Plan failed because someone added change-detector tests on template wording: Test plan explicitly forbids; verify via AC checklist + `make test` only.
 - Plan failed because edits landed in `.cursor/` / `.claude/` and drifted from canonical: Step 5 + systemPatterns; touch `rulesets/` only.
 
+## Preflight Findings
+
+- PASS with advisory: this repo has neither root bootstrap file today, but the uninitialized-only gate means shipping the procedure will not install them here. One-time dogfood after merge (manual create of the thin pair, or a future migration path) is operator choice — out of this brief.
+- No plan amendments.
+
 ## Status
 
 - [x] Initialization complete
@@ -73,6 +78,6 @@ No new technology - validation not required
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA

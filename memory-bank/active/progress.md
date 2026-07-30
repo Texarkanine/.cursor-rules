@@ -23,3 +23,13 @@ Extend uninitialized memory-bank init so that, after persistent files are create
     - Do not dogfood-create root AGENTS/CLAUDE in this repo during build (uninitialized gate only)
 * Insights
     - Prior agents-awareness/conflicts creatives superseded; not loaded into plan
+
+## 2026-07-30 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Validated plan against always-tdd prose carve-out, canonical `rulesets/` paths, issue ACs
+    - Wrote `.preflight-status` = PASS
+* Decisions made
+    - No plan amendments; dogfood install on this repo left as advisory
+* Insights
+    - All implementable units are skill/README prose — omitting new tests is correct under preflight TDD encoding
