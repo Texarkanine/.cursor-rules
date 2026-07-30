@@ -80,3 +80,17 @@ Add an executable-versus-prose scope carve-out to `always-tdd.mdc` so TDD stops 
     - Corrected "the `.cursor/` and `.claude/` trees committed here" to drop "committed": only `.cursor/` is tracked, and `.claude/` is excluded locally.
 * Insights
     - Recorded in the reflection document. The transferable one is that boundaries drawn around categories get relabeled, while boundaries drawn around consequences do not.
+
+## 2026-07-29 - POST-REFLECT - PR #98 + review feedback
+
+* Work completed
+    - Opened draft PR [#98](https://github.com/Texarkanine/.cursor-rules/pull/98) for issue #95.
+    - Tightened carve-out and preflight prose; restored block→cite→replan order on TDD FAIL handling.
+    - Operator reworked packaging wording away from "in scope for TDD" toward "not a change-detector."
+    - Judged PR feedback; applied Item 4 (artifact-scoped exemption) and Item 5 (document-assert gate cue).
+    - `/nk-save`: flushed post-reflect state; fixed Item 1 (relative paths in activeContext) and Item 2 (reflection QA timing claim) as part of the flush.
+* Decisions made
+    - Rejected CodeRabbit Item 4 "solely" as must-fix; kept operator alternate that scopes the exemption to tests for those artifacts.
+    - Item 5 fix uses "Before writing a test that asserts on a document's contents" rather than Greptile's always-on "To confirm which side."
+* Insights
+    - Remaining open review items: Item 3 (name memory-bank narrative explicitly in both lists).

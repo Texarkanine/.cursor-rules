@@ -8,7 +8,7 @@ complexity_level: 2
 
 ## Summary
 
-Added a scope boundary to `always-tdd.mdc` so the TDD requirement governs executable behavior rather than all changes, and amended `niko-preflight` so its blocking TDD check rejects plans that schedule assertions on prose. Delivered as specified in issue #95, in 21 insertions across 2 files, with QA passing on the first pass.
+Added a scope boundary to `always-tdd.mdc` so the TDD requirement governs executable behavior rather than all changes, and amended `niko-preflight` so its blocking TDD check rejects plans that schedule assertions on prose. Delivered as specified in issue #95, in 21 insertions across 2 files, with QA passing after one trivial fix.
 
 ## Requirements vs Outcome
 
