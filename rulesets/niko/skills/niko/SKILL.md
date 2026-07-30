@@ -18,7 +18,15 @@ Load: .cursor/skills/shared/niko/references/core/memory-bank-init.md
 
 If any persistent file (`productContext.md`, `systemPatterns.md`, `techContext.md`) does not exist, initialize immediately per `memory-bank-init.md`.
 
-If the user's only input was to initialize the memory bank, you are done — exit and do nothing else. Otherwise, proceed to the state machine.
+If the user's only input was to initialize the memory bank, you are done — exit and do nothing else. Otherwise, read the following files:
+
+```
+Load: memory-bank/active/productContext.md
+Load: memory-bank/active/systemPatterns.md
+Load: memory-bank/active/techContext.md
+```
+
+Then, proceed to the state machine.
 
 ## State Machine
 
