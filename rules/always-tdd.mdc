@@ -9,15 +9,15 @@ All changes to **executable behavior** (defined below) must be made according to
 
 ## What TDD Governs
 
-In scope: executable behavior — code, schemas, parsers, CLIs, and any configuration or workflow the product runs. If something executes it, it is in scope, whatever its file extension. That includes install contracts (packaging manifests, entry points, version lockstep): the installer executes them.
+In scope: executable behavior — code, schemas, parsers, CLIs, and any configuration or workflow the product runs, etc. If something executes it, it is in scope, whatever its file extension.
 
-Out of scope: human-facing prose and policy — docs content, PR and issue templates, CONTRIBUTING, instructional comments, project narrative, rule and skill wording. Do not invent string, heading, or checklist assertions on these to satisfy this rule.
+Out of scope: human-facing prose and policy — docs content, PR and issue templates, CONTRIBUTING, instructional comments, project narrative, rule and skill wording, etc.
 
 When unsure which side an artifact falls on, ask what makes the test fail:
 
 > If it can only go red when someone deliberately edits the artifact it asserts on, it is a **change-detector**, not a test: it fires on intended edits and stays silent when the product breaks.
 
-Delete change-detectors; write none. The failure mode decides, not the format — calling a document's headings or checklists "structural markers" changes nothing. Enforce out-of-scope artifacts with review, a purpose-built gate (commit-title lint, link checker, schema validator), or nothing at all.
+Delete change-detectors; write none. The failure mode decides, not the format. A test that locks a contract across files (manifest/version lockstep, dual plugin manifests, etc.) is not a change-detector: it goes red when the contract breaks for a user, not when content is merely edited. Enforce out-of-scope artifacts with review, a purpose-built gate (commit-title lint, link checker, schema validator), or nothing at all.
 
 ## 1. Determine Scope
 
