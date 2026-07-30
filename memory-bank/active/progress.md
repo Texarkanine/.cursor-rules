@@ -33,3 +33,12 @@ Extend uninitialized memory-bank init so that, after persistent files are create
     - No plan amendments; dogfood install on this repo left as advisory
 * Insights
     - All implementable units are skill/README prose — omitting new tests is correct under preflight TDD encoding
+
+## 2026-07-30 - BUILD - COMPLETE
+
+* Work completed
+    - Bootstrap gate + templates in canonical `memory-bank-init.md`; README note; `make test` green
+* Decisions made
+    - Templates inlined as copy-exact fences (not separate reference files)
+* Insights
+    - none

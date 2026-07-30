@@ -28,19 +28,19 @@ Deliverable is skill/procedure prose under the `always-tdd` carve-out (user-faci
 
 ## Implementation Plan
 
-1. Extend uninitialized section of canonical init procedure
+1. [x] Extend uninitialized section of canonical init procedure
    - Files: `rulesets/niko/skills/niko/references/core/memory-bank-init.md`
    - Changes: After persistent files are created (before "partially initialized / ready for new work"), add bootstrap gate: if both root `AGENTS.md` and `CLAUDE.md` are absent → write the pair from the in-doc template; else create neither, do not follow symlinks to edit, optionally print advisory. Keep anti-duplication scan unchanged. Do not touch Partially Initialized ephemeral-file guidance.
-2. Embed install templates in that same file
+2. [x] Embed install templates in that same file
    - Files: `rulesets/niko/skills/niko/references/core/memory-bank-init.md`
    - Changes: Fenced copy-targets for (a) generic thin `AGENTS.md` (memory-bank pointer, one-line purpose each for the three persistent files, archive layout, brief `active/` awareness, conditional load; paths in backticks) and (b) one-line `CLAUDE.md` = `@AGENTS.md`. No `@`-import of persistent bodies.
-3. Document the behavior for operators
+3. [x] Document the behavior for operators
    - Files: `rulesets/niko/README.md`
    - Changes: Short note under Persistent Files that fresh (uninitialized) init also installs the thin root pair when both are absent; point at the better-than-AGENTS.md framing already in the README — do not restate the full decision table.
-4. Regression gate
+4. [x] Regression gate
    - Files: none
    - Changes: Run `make test`; fix any link/symlink breakage introduced by README edits.
-5. Do not edit generated trees; do not create root bootstrap files in this repo as part of build (gate is uninitialized-only; this repo is already partially initialized)
+5. [x] Do not edit generated trees; do not create root bootstrap files in this repo as part of build (gate is uninitialized-only; this repo is already partially initialized)
 
 ## Technology Validation
 
@@ -79,5 +79,5 @@ No new technology - validation not required
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight
-- [ ] Build
+- [x] Build
 - [ ] QA
