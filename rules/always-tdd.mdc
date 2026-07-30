@@ -11,7 +11,7 @@ All changes to **executable behavior** (defined below) must be made according to
 
 In scope: executable behavior — code, schemas, parsers, CLIs, and any configuration or workflow the product runs, etc. If something executes it, it is in scope, whatever its file extension.
 
-Out of scope: human-facing prose and policy — docs content, PR and issue templates, CONTRIBUTING, instructional comments, project narrative, rule and skill wording, etc.
+Out of scope: user-facing prose and policy — docs content, PR and issue templates, CONTRIBUTING, instructional comments, project narrative, rule and skill wording, etc.
 
 When unsure which side an artifact falls on, ask what makes the test fail:
 
