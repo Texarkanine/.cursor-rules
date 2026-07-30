@@ -37,3 +37,19 @@ Rework `rules/pr-feedback-judge/SKILL.md` so its verdicts rest on the current st
     - The `always-tdd` copy injected into context came from the lagging generated `.cursor/` tree and lacked the prose carve-out. Reading the canonical `rules/always-tdd.mdc` changed the TDD determination — a live instance of the "generated tree is expected to lag" pattern.
 * Open questions
     - Tier B cleanup: the operator questioned orchestrating `git worktree remove` and suggested a `mktemp` worktree left to clean up naturally. To be resolved in the plan phase.
+
+## 2026-07-30 - PLAN - COMPLETE
+
+* Work completed
+    - Resolved the open Tier B question with the operator and updated the creative doc's Tier B and Tier D accordingly.
+    - Verified the replacement recipes in this repository against `pull/99/head`: `git show FETCH_HEAD:{path}`, `git ls-tree FETCH_HEAD`, and `git grep {pattern} FETCH_HEAD` all read the PR head with no checkout, and the working tree stayed clean.
+    - Surveyed verification infrastructure: `make test` runs symlink and README-link gates, CI is `.github/workflows/rulesets-links.yml`, `scripts/verify-skillify.py` checks structure only. Confirmed green at baseline.
+    - Wrote the full plan to `memory-bank/active/tasks.md`: 13 behaviors, 11 ordered implementation steps, 6 challenges, 5 pre-mortem findings.
+* Decisions made
+    - Tier B obtains code by reading against the fetched ref rather than by checking out. A worktree is materialized only to run something, and is then removed explicitly. Leaving a deleted `mktemp` worktree unremoved was rejected: it strands an entry under `.git/worktrees/` and leaves the repository dirty while the filesystem looks clean.
+    - Code-access rungs are named by condition, not lettered, because the skill already uses `Tier`/`T1`/`T2` for fetch access and `Failure modes` references those by name.
+    - No tests written, and none stubbed. The `always-tdd` carve-out governs: skill wording is out of scope, and a content assertion here would be a change-detector.
+    - The live acceptance run against PR #91's outdated comment is the gating check, promoted from a nice-to-have by the pre-mortem.
+* Insights
+    - `git grep` works against a bare ref, which was not anticipated in the creative phase. Tree-wide search therefore stops being a reason to clone whenever the objects are already local, narrowing Tier D to the genuinely remote case.
+    - The pre-mortem surfaced a failure mode the challenge register missed: the plan can succeed at retrieval and still be a null result if no verdict actually changes. Instrumentation is not the deliverable; different dispositions are.

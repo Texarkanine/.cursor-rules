@@ -17,7 +17,14 @@
 - Scope limited to cleaning up `/pr-feedback-judge`; no new transport rule, no PR-review skill.
 - `already addressed` disposition explicitly wanted.
 - Worktree is the safe way to obtain local code when not already on the PR head; clone is a genuine last resort because of very large repositories.
-- Operator edited the creative doc's Tier B to question orchestrating `git worktree remove`, preferring a `mktemp` worktree left to clean up naturally. **Unresolved — carried into the plan phase.**
+- Operator edited the creative doc's Tier B to question orchestrating `git worktree remove`, preferring a `mktemp` worktree left to clean up naturally. **Resolved:** neither. Read against the fetched ref instead — `git show FETCH_HEAD:{path}`, `git ls-tree`, `git grep {pattern} FETCH_HEAD` — all read-only, no checkout, no cleanup. A worktree is materialized only to *run* something, and is then removed explicitly. Verified working in this repository against `pull/99/head`, working tree confirmed untouched.
+- Consequence of that verification: `git grep` searching a bare ref means tree-wide search is no longer a reason to escalate to a clone whenever Tier B applies. Tier D narrowed accordingly.
+
+## Planning Outcome
+- Plan written to `memory-bank/active/tasks.md`: 13 behaviors to verify, 11 implementation steps, all in `rules/pr-feedback-judge/SKILL.md`. No new dependencies.
+- Surveyed verification: `make test` (symlink + README-link gates, CI `.github/workflows/rulesets-links.yml`) is green at baseline; `scripts/verify-skillify.py` constrains structure only. No content-assertion suite exists, by design.
+- Found a naming collision to avoid: the skill already uses `Tier`/`T1`/`T2` for *fetch* access, so the code-access ladder is named by condition rather than lettered. Deliberate wording deviation from the creative doc's "Tier A–D".
+- Pre-mortem's sharpest finding: the plan could succeed at retrieval and still be a null result if no verdict changes. The live acceptance run against PR #91's outdated comment (`#discussion_r3653815924`, `line == null`) is therefore promoted to the gating check.
 
 ## Next Step
-- Load the Level 2 workflow and execute the plan phase. Resolve the open Tier B cleanup question there.
+- Preflight validation, per the Level 2 workflow.
