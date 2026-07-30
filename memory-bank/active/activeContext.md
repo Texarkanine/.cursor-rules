@@ -1,11 +1,12 @@
 # Active Context
 
 ## Current Task: mb-init-agents-bootstrap
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Intent clarified and approved against [issue #101](https://github.com/Texarkanine/.cursor-rules/issues/101)
-- Classified as Level 2: self-contained enhancement to the uninitialized `memory-bank-init` path (both-absent create pair; otherwise skip)
+- Level 2 plan written: extend `rulesets/niko/skills/niko/references/core/memory-bank-init.md` (gate + templates) + short `rulesets/niko/README.md` note
+- TDD: prose carve-out — no content tests; verify via AC checklist + `make test`
+- Explicit non-goals preserved: no append/sidecar/migration; no root bootstrap install on this already-initialized repo
 
 ## Next Step
-- Load Level 2 workflow and enter Plan phase
+- Preflight validation (autonomous)
