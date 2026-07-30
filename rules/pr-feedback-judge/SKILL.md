@@ -45,7 +45,7 @@ Every inline carries an `anchor` value — computed by the T1 `--jq` projection,
 | Value | When | Consequence for judgment |
 |---|---|---|
 | `current` | `line` is non-null | Read current code at `line` only when the code source is verified at the PR head SHA |
-| `outdated` | `subject_type` is `line` and `line` is null | Do not read current code at any line number. Locate the referenced text by searching the current file for the content of `diff_hunk` |
+| `outdated` | `subject_type` is `line` and `line` is null | Do not read current code at any line number. Locate the referenced text by searching the current file for the content of `diff_hunk`. Require exactly one match; if zero or many, report the anchor unresolved and do not judge against a guessed occurrence |
 | `file` | `subject_type` is `file` | A null `line` is expected; it carries no staleness meaning |
 
 Derivation when no `--jq` runs: `file` if `subject_type == "file"`; else `outdated` if `line == null`; else `current`.
@@ -77,12 +77,12 @@ Default: judge from `diff_hunk` plus the reviewer's text. Escalate only when the
 
 Choose the first sufficient rung. Declare which rung you used.
 
-1. **At the PR head.** `git rev-parse HEAD` equals the PR's `head.sha`. Read files in the working tree. This is the only rung where a `current` `line` can be trusted verbatim.
-2. **In the repository, off-head.** `git fetch origin pull/{N}/head` (additive: sets `FETCH_HEAD`, does not touch the index, working tree, or any branch). Then read against the ref — `git show FETCH_HEAD:{path}`, `git ls-tree FETCH_HEAD`, `git grep {pattern} FETCH_HEAD`. All read-only; no checkout. Materialize a worktree only to run something (`git worktree add --detach` into `mktemp -d`), then `git worktree remove`.
+1. **At the PR head.** Obtain the PR head with `gh api "repos/{o}/{r}/pulls/{N}" --jq .head.sha` (or equivalent). If `git rev-parse HEAD` equals that SHA, read files in the working tree. This is the only rung where a `current` `line` can be trusted verbatim. Do not use a comment's `commit_id` as a stand-in for the PR head.
+2. **In the repository, off-head.** From `git remote -v`, pick the remote whose URL matches `{o}/{r}`; if none matches, fall through to rung 3. Then `git fetch {remote} pull/{N}/head` (additive: sets `FETCH_HEAD`, does not touch the index, working tree, or any branch). Read against the ref — `git show FETCH_HEAD:{path}`, `git ls-tree FETCH_HEAD`, `git grep {pattern} FETCH_HEAD`. All read-only; no checkout. Materialize a worktree only to run something (`git worktree add --detach` into `mktemp -d`), then `git worktree remove`.
 3. **Not in the repository.** Fetch only needed files raw: `gh api "repos/{o}/{r}/contents/{path}?ref={sha}" -H "Accept: application/vnd.github.raw"`.
 4. **Clone, last resort.** Only when a prior rung cannot answer — tree-wide search when objects are not local, or running tests. Tree-wide search is not a reason to clone when rung 2 applies. Check `gh api repos/{o}/{r} --jq .size` first (KB). Above tolerance, stay on raw fetches and say why. When cloning: `--filter=blob:none --depth 1 --single-branch` into `mktemp -d`.
 
-When no code source is reachable, state that the verdict rests on `diff_hunk` alone.
+When no code source is reachable, or an outdated anchor is unresolved, state that the verdict rests on `diff_hunk` alone.
 
 ## Tier Detection Order
 
@@ -214,7 +214,7 @@ For each invocation:
 
      For T2 (MCP), batching is per-tool — make the minimum number of distinct MCP calls (e.g., one `get_review_comments` for the whole PR, then filter locally to all the requested `cid`s).
 4. **Resolve reply context.** If a fetched inline comment has a non-null `in_reply_to_id`, make one extra call to fetch the parent thread (cheap — single comment). The parent provides the context the reviewer was responding to.
-5. **Gate and escalate.** For each inline, note its `anchor`. Decide whether code beyond `diff_hunk` is needed. If so, select and declare a rung from [Reading the Code Under Review](#reading-the-code-under-review).
+5. **Gate and escalate.** For each inline, note its `anchor`. Decide whether code beyond `diff_hunk` is needed. If so, obtain the PR `head.sha` (see rung 1), select and declare a rung from [Reading the Code Under Review](#reading-the-code-under-review).
 6. **Filter to actionable findings.** Apply [What becomes an Item](#what-becomes-an-item). Summaries and walkthroughs are context only. Prefer inlines over summary echoes. If a user-supplied URL yields nothing actionable, emit the one-line note.
 7. **Render.** Emit the intro, then (if items > 5) the triage table, then per-item blocks in input order, then the tail. Only findings get numbers.
 
@@ -225,5 +225,6 @@ For each invocation:
 - **No tier available** → see the failure message in the tier-detection section above. Stop.
 - **`gh` rate-limit error** → surface `gh`'s message verbatim. Do not retry blindly. Stop.
 - **Unreachable code source** → degrade to hunk-only judgment and say so in the Item's `code:` field and the verdict prose. Do not invent file contents.
+- **Unresolved outdated anchor** → zero or many `diff_hunk` matches in the current file → same as hunk-only: say the anchor is unresolved; do not pick an occurrence at random.
 - **Oversized repository** → when the size check rules out a clone, stay on raw fetches and state that reason. Do not clone anyway.
-- **Foreign repository** → when the operator cannot push, author-stance dispositions (`fix in this PR`, `already addressed`, `defer to follow-up`) are inapplicable; say so and prefer dismiss-family dispositions or a clear "not actionable by this operator" note.
+- **Foreign repository** → when the operator cannot push, author-action dispositions (`fix in this PR`, `defer to follow-up`) are inapplicable — say so and prefer dismiss-family wording or "not actionable by this operator." `already addressed` still applies: it is a factual claim about the current head, not a prescription for the author to act.

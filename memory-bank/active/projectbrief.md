@@ -46,4 +46,4 @@ I point the skill at a PR URL from a temporary directory. Fetching works; the sk
 3. The disposition vocabulary is five values, with `already addressed` defined and evidence-gated; the triage table and tail counts include it.
 4. Fetch recipes carry `--jq` projections that retain `subject_type`, `line`, `original_line`, `commit_id`, `original_commit_id`, `side`, `in_reply_to_id`, `body`, and `diff_hunk`.
 5. `Orchestration walkthrough` has a gate-and-escalate step between fetching and filtering; `Failure modes` covers an unreachable code source.
-6. `scripts/verify-skillify.py` still passes, and the repository's link CI still passes.
+6. `make test` still passes, and the repository's link CI still passes.

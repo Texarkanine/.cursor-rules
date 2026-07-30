@@ -32,7 +32,7 @@ Rework `rules/pr-feedback-judge/SKILL.md` so its verdicts rest on the current st
 - Test location: no test directory exists; this repository has no content-assertion suite by design.
 - Conventions: correctness of rule and skill prose is enforced by review plus purpose-built gates, per the `always-tdd` carve-out.
 - New test files: none. Adding one would be the change-detector the rule forbids.
-- Additional checks: `python3 scripts/verify-skillify.py` (asserts `pr-feedback-judge` remains a structurally valid command-skill), and the live acceptance run against PR #91 described above.
+- Additional checks: the live acceptance run against PR #91 described above.
 
 ## Implementation Plan
 
@@ -70,8 +70,8 @@ Concepts are defined before the sections that reference them, so no step require
     - Changes: `**Access requirements.**` gains the code-access dependency; the load-bearing instruction extends to require checking whether the anchor still describes current code.
 11. [x] Verify
     - Files: none
-    - Changes: run `make test` and `python3 scripts/verify-skillify.py`; read the whole file for internal consistency and dead cross-references; confirm markdown-style compliance (headings not bold, no heading parentheticals, no hard wrapping); execute the live acceptance run against PR #91's outdated comment.
-    - Results: `make test` green. `verify-skillify.py` fails baseline on 4 unrelated missing skills (same before and after this edit); targeted check confirms `pr-feedback-judge` remains a valid command-skill. Live acceptance on `#discussion_r3653815924`: `anchor=outdated`, declines `original_line=47`, locates via `diff_hunk`, off-head rung leaves status and worktree list clean. Emphasis density ~2.6 bold/1k.
+    - Changes: run `make test`; read the whole file for internal consistency and dead cross-references; confirm markdown-style compliance (headings not bold, no heading parentheticals, no hard wrapping); execute the live acceptance run against PR #91's outdated comment.
+    - Results: `make test` green. Live acceptance on `#discussion_r3653815924`: `anchor=outdated`, declines `original_line=47`, locates via `diff_hunk`, off-head rung leaves status and worktree list clean. Emphasis density ~2.6 bold/1k. Post-review: deleted stale `scripts/verify-skillify.py` (migration-era change-detector; retired skills still listed after #89).
 
 ## Technology Validation
 
