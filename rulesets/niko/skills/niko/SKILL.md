@@ -20,11 +20,9 @@ If any persistent file (`productContext.md`, `systemPatterns.md`, `techContext.m
 
 If the user's only input was to initialize the memory bank, you are done — exit and do nothing else. Otherwise, read the following files:
 
-```
-Load: memory-bank/active/productContext.md
-Load: memory-bank/active/systemPatterns.md
-Load: memory-bank/active/techContext.md
-```
+- `memory-bank/productContext.md`
+- `memory-bank/systemPatterns.md`
+- `memory-bank/techContext.md`
 
 Then, proceed to the state machine.
 
