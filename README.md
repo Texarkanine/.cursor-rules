@@ -1,5 +1,7 @@
 # Cursor Rules
 
+[![REUSE status](https://api.reuse.software/badge/github.com/Texarkanine/.cursor-rules)](https://api.reuse.software/info/github.com/Texarkanine/.cursor-rules)
+
 Canonical, composable customizations for AI coding agents: rules, skills, and the rulesets that bundle them. Each behavior is authored once, here, and installed wherever it's needed — so your agents act the same way across every project, and improvements land everywhere at once.
 
 You could use them on your own, or install and manage them with the [ai-rizz](https://github.com/texarkanine/ai-rizz) tool. You might also enjoy being able to [see them rendered as Markdown on GitHub](https://github.com/Texarkanine/client-side-mdc-render). If you don't use Cursor, maybe you can convert them to the tool you *do* use (like Claude Code) with [a16n](https://npmjs.com/a16n).
