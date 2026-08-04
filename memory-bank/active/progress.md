@@ -57,3 +57,13 @@ Tighten the persistent memory-bank reconciliation contract so standing contracts
     - Treated probe scope ambiguity as trivial QA fix (preserves anti-pollution; no design fork)
 * Insights
     - Per-file loop + task-global probe needs an explicit “belongs in this file” gate
+
+## 2026-08-04 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote reflection-standing-contract-reconcile-guard.md
+    - Reconciled persistent MB: systemPatterns updated; productContext/techContext skipped with receipts
+* Decisions made
+    - Point at reconcile-persistent for procedure; keep systemPatterns at briefing altitude
+* Insights
+    - Dogfooding the new probe on this task itself surfaced the correct systemPatterns update

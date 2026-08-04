@@ -20,6 +20,8 @@ Invoking a Niko workflow or skill (e.g. `/niko-build`, `/nk-save`) is itself the
 
 Verbatim duplication as a grep-verifiable tripwire is a recurring technique here, not a one-off: the persistent-file update contract uses it too ("factually wrong or materially incomplete", shared between the memory-bank guidance rules and `reconcile-persistent.md`). Before consolidating repeated phrasing in rule content, check whether the repetition is the mechanism.
 
+Persistent-file reconciliation also runs a standing-contract probe (shared error/oracle/path contracts) and requires a one-line skip receipt when nothing changes; details in `reconcile-persistent.md`. The three persistent files stay a deliberately incomplete high-level subset — omission is expected; content that does not belong is not.
+
 ## Archive Pattern
 
 Archives live at `memory-bank/archive/<kind>/YYYYMMDD-<task-id>.md` and must be self-contained: ephemeral content is inlined rather than linked, so nothing breaks once the active state is cleared.
