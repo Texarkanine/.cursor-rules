@@ -48,3 +48,12 @@ Tighten the persistent memory-bank reconciliation contract so standing contracts
     - Generic “typed-error helper” wording instead of repo-specific ScriptError path in shipped ruleset
 * Insights
     - Kept “When in doubt, don't” on techContext; systemPatterns prefer-omission carries the same skip bias without the false “cheap later” rationalization
+
+## 2026-08-04 - QA - COMPLETE
+
+* Work completed
+    - Semantic review against plan/brief; clarified probe scoping so a contract does not force updates on non-matching persistent files
+* Decisions made
+    - Treated probe scope ambiguity as trivial QA fix (preserves anti-pollution; no design fork)
+* Insights
+    - Per-file loop + task-global probe needs an explicit “belongs in this file” gate
