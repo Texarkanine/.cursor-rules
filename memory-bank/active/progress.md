@@ -26,3 +26,13 @@ Tighten the persistent memory-bank reconciliation contract so standing contracts
     - No change-detector content tests; verify with rg + QA checklist + make test
 * Insights
     - Failure mode to avoid: “deliberately incomplete” misread as never-update — probe is the standing-contract exception path
+
+## 2026-08-04 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Validated plan against conventions, consumers (L1/L2/L3 reflect load paths), TDD carve-out for prose, tripwire retention
+    - Amended plan: probe yes must not be short-circuited by creation-time Avoid “if unsure, don’t document”
+* Decisions made
+    - PASS WITH ADVISORY — proceed to build
+* Insights
+    - `.cursor/` lag expected and out of scope; live agents on this repo may still see old injected copies until ai-rizz sync

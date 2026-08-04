@@ -45,6 +45,7 @@ Tighten the persistent memory-bank update contract so agents catch new standing 
      - Renumber / adjust steps 4–5 so skip path requires receipts; update path notes what changed
      - Guardrails: replace “Skip confidently / Under-updating is safe” with asymmetric risk — skip only when absence is harmless; under-updating safe for narrative/history; **not** safe for new standing contracts; when unsure which case, print skip reason (do not skip silently). Preserve: selective, surgical, system-level scope
      - Encode design color briefly: these files are a high-level incomplete subset by design; they must never contain content that does not belong
+     - Clarify probe vs guidance Avoid lists: Avoid items govern *altitude/shape of content when writing*; a **yes** on the standing-contract probe still requires a surgical update — creation-time “if unsure, don’t document” must not short-circuit the probe
 
 2. Soften `systemPatterns.mdc` When to Update
    - Files: `rulesets/niko/niko/memory-bank/systemPatterns.mdc`
@@ -97,6 +98,10 @@ No new technology - validation not required
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight (PASS WITH ADVISORY)
 - [ ] Build
 - [ ] QA
+
+## Preflight Amendments
+
+- Added: probe outcome overrides creation-time Avoid “if unsure, don’t document” for the update decision (Avoid still governs altitude when writing)
