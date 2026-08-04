@@ -99,8 +99,16 @@ No new technology - validation not required
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight (PASS WITH ADVISORY)
-- [ ] Build
+- [x] Build
 - [ ] QA
+
+## Build Checklist
+
+- [x] Step 1: rewrite reconcile-persistent.md
+- [x] Step 2: soften systemPatterns.mdc When to Update
+- [x] Step 3: extend techContext.mdc When to Update
+- [x] Step 4: productContext.mdc untouched
+- [x] Step 5: verification (26/26 checks + make test)
 
 ## Preflight Amendments
 

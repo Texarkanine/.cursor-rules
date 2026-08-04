@@ -1,12 +1,19 @@
 # Active Context
 
 ## Current Task: standing-contract-reconcile-guard
-**Phase:** PLAN - COMPLETE
+**Phase:** BUILD - COMPLETE
 
 ## What Was Done
-- Level 2 plan written: rewrite `reconcile-persistent.md` (probe + asymmetric skip + receipts), soften `systemPatterns.mdc` When to Update, extend `techContext.mdc` process/oracle examples
-- Design constraints locked: skip-biased for noise; deliberate incompleteness; never pollute; no write-when-unsure; canonical `rulesets/` only
-- Verification via review gates + `rg` + `make test` (no prose change-detector tests)
+- Rewrote `rulesets/niko/skills/niko/references/core/reconcile-persistent.md` (probe, asymmetric skip, skip receipts, deliberate incompleteness)
+- Softened `rulesets/niko/niko/memory-bank/systemPatterns.mdc` When to Update (contract carve-out + damage test; prefer omission)
+- Extended `rulesets/niko/niko/memory-bank/techContext.mdc` When to Update (process/oracle changes vs catalog)
+- Left `productContext.mdc` untouched
+- Verification: 26/26 prose checks; `make test` passed
+
+## Files Modified
+- `/home/mobaxterm/git/.cursor-rules/rulesets/niko/skills/niko/references/core/reconcile-persistent.md`
+- `/home/mobaxterm/git/.cursor-rules/rulesets/niko/niko/memory-bank/systemPatterns.mdc`
+- `/home/mobaxterm/git/.cursor-rules/rulesets/niko/niko/memory-bank/techContext.mdc`
 
 ## Next Step
-- Preflight validation
+- QA semantic review

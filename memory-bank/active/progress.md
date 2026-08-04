@@ -36,3 +36,15 @@ Tighten the persistent memory-bank reconciliation contract so standing contracts
     - PASS WITH ADVISORY — proceed to build
 * Insights
     - `.cursor/` lag expected and out of scope; live agents on this repo may still see old injected copies until ai-rizz sync
+
+## 2026-08-04 - BUILD - COMPLETE
+
+* Work completed
+    - reconcile-persistent.md: standing-contract probe, skip receipts, asymmetric risk, deliberate-incompleteness guardrail
+    - systemPatterns.mdc: contract carve-out + damage-test gating; removed “cheap to add later” / “never record what you just built”
+    - techContext.mdc: process/oracle update examples vs catalog escape hatch
+* Decisions made
+    - Numbered probe as step 4 (clearer than 3b for workflow ordering)
+    - Generic “typed-error helper” wording instead of repo-specific ScriptError path in shipped ruleset
+* Insights
+    - Kept “When in doubt, don't” on techContext; systemPatterns prefer-omission carries the same skip bias without the false “cheap later” rationalization
