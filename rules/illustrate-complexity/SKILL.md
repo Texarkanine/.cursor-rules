@@ -8,7 +8,7 @@ description: "Decide whether an explanation needs a diagram, pick the right Merm
 
 **Use a Mermaid diagram whenever it communicates structure, flow, or relationships more clearly than prose.** The test: if the structure takes more than a paragraph to explain, and you keep wanting to say "and then" or "which connects to" or "if ...", it should be a diagram. Don't diagram for the sake of diagramming - use diagrams when they earn their keep.
 
-This applies wherever you are explaining something, not only when you are planning. Documentation, a README, an architecture note, a design doc, a prompt, a plan, and an answer in chat all qualify.
+This applies wherever you are explaining something, not only when you are planning.
 
 ## When to Diagram
 

@@ -54,3 +54,14 @@ Rename the `visual-planning` skill to `illustrate-complexity` and rewrite it so 
     - Reordered the authoring README so the new entry keeps the list alphabetical.
 * Insights
     - The step 12 diff earned its place. It proved the emoji block, the five syntax rules, and all five diagram examples were untouched, which is exactly the pre-mortem risk it was written to control.
+
+## 2026-08-05 - QA - COMPLETE
+
+* Work completed
+    - Reviewed the build against the plan on all seven QA constraints. Result: PASS with one trivial fix applied.
+    - Trimmed the duplicate artifact enumeration from the body opening.
+    - Confirmed `README.md` and `.github/` hold no reference to the old name, and that `systemPatterns.md` and `productContext.md` need no update.
+* Decisions made
+    - `systemPatterns.md` stays unchanged. It describes the skill-plus-symlink pattern generically and never named this skill, so the rename did not invalidate it.
+* Insights
+    - The same list appeared in three places: the description, the body opening, and the destinations section. Only the description has to carry it, because that is the one an agent reads before deciding to load the skill.
