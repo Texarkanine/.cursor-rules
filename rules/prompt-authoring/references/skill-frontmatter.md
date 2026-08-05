@@ -1,6 +1,6 @@
 # Skill Frontmatter
 
-The rest of this guidance covers what a prompt says. This file covers the container a skill ships in: the `SKILL.md` frontmatter and the file layout around it. The upstream authority is [Best practices for skill creators](https://agentskills.io/skill-creation/best-practices) and [Optimizing skill descriptions](https://agentskills.io/skill-creation/optimizing-descriptions). Read those for the limits and the numbers, which change; the facts below do not.
+This file covers the container a skill ships in: the `SKILL.md` frontmatter and the file layout around it. The upstream authority is [Best practices for skill creators](https://agentskills.io/skill-creation/best-practices) and [Optimizing skill descriptions](https://agentskills.io/skill-creation/optimizing-descriptions). Read those for the limits and the numbers, which change; the facts below do not.
 
 ## The Description Is the Trigger
 
@@ -12,7 +12,7 @@ There is a hard character limit on `description`. The [specification](https://ag
 
 ## Re-derive the Description When the Skill Changes Shape
 
-A description describes an arrangement, and arrangements change. When a skill is split, absorbed, or left behind by the retirement of the skills it used to work alongside, its description usually still describes the old arrangement and will keep triggering on the old occasions.
+A description describes an arrangement, and arrangements change. When a skill is split, absorbed, refactored, reworked, or left behind by the retirement of the skills it used to work alongside, its description usually still describes the old arrangement and will keep triggering on the old occasions.
 
 So treat any structural change to a skill as a reason to re-derive its description from what the skill now does, rather than editing the old wording. Check the body at the same time: a description that promises a broader scope than the body delivers gives the agent contradictory instructions at the moment it is deciding whether to comply.
 
