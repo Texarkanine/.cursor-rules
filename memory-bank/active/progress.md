@@ -67,3 +67,14 @@ Tighten the persistent memory-bank reconciliation contract so standing contracts
     - Point at reconcile-persistent for procedure; keep systemPatterns at briefing altitude
 * Insights
     - Dogfooding the new probe on this task itself surfaced the correct systemPatterns update
+
+## 2026-08-04 - POST-REFLECT TUNE - COMPLETE
+
+* Work completed
+    - Ponytail-review pass on the diff at operator request; stockroom history search of prior reconciliations informed the tune
+    - Probe compressed to one sentence with generic examples (dropped ScriptError-specific parentheticals); guardrails cut from 5 to 4; net -14 lines
+    - Removed "omissions are expected by design" flavor from reconcile guardrails, systemPatterns.mdc, and the repo systemPatterns.md note — it read as a skip license for maintainers
+* Decisions made
+    - Kept the hard rule (never contain content that does not belong) and the asymmetry (skip fine for narrative, not for probe-caught contracts)
+* Insights
+    - Corpus check: past reconciliations already use terse per-file verdicts, and "under-updating is safe per the rule" appears verbatim as a skip rationalization — confirming both the receipt format and the phrase kill
