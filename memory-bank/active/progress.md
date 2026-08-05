@@ -65,3 +65,16 @@ Rename the `visual-planning` skill to `illustrate-complexity` and rewrite it so 
     - `systemPatterns.md` stays unchanged. It describes the skill-plus-symlink pattern generically and never named this skill, so the rename did not invalidate it.
 * Insights
     - The same list appeared in three places: the description, the body opening, and the destinations section. Only the description has to carry it, because that is the one an agent reads before deciding to load the skill.
+
+## 2026-08-05 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `memory-bank/active/reflection/reflection-illustrate-complexity.md`.
+    - Reconciled persistent files: `productContext` skip, `systemPatterns` skip, `techContext` updated with a `## Skill Format` section.
+* Decisions made
+    - Skipped `systemPatterns`. The probe's one candidate - diagram guidance must not prescribe a type or order - is a relationship between two skills inside the authoring ruleset, not knowledge a developer elsewhere would do damage without.
+    - Added the `## Skill Format` pointer to `techContext`. This task made the Agent Skills specification an acknowledged upstream authority for artifacts this repo produces, and nothing recorded that.
+    - Left the retirement-path gap open. Nothing enforces re-deriving a survivor's description; building process for it needs a second instance first.
+* Insights
+    - Removing a trailing Markdown section eats the file's EOF newline, and neither `make test` target catches it. Commit `a3a5437` once fixed EOF newlines repo-wide, so the hazard recurs.
+    - The human-facing READMEs had already moved on from "planning" while the machine-facing `description` had not. Docs drifting ahead of a frontmatter field is a detectable signal worth checking elsewhere.

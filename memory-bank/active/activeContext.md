@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: illustrate-complexity
-**Phase:** BUILD - COMPLETE
+**Phase:** REFLECT COMPLETE
 
 ## What Was Done
 - Traced the history of `rules/visual-planning/`. It is the surviving Phase 1 of `planning-execution`, which superseded `task-list-management` in `9fc8675` (#15). Both siblings were deleted in `f6fc916` (#89). The description was never re-derived after that, so it still says "Apply when planning non-trivial work".
@@ -45,5 +45,11 @@ Deviations from plan:
 - Dropped a planned sentence from the "Plans and design notes" block that would have restated `prompt-authoring`'s separate-the-map-from-the-procedure rule. `prompt-authoring` forbids restating a sibling, so the duplication would have drifted.
 - Restored a trailing newline in `rulesets/authoring/README.md` that the section-removal edit had stripped.
 
+## Reflection Outcome
+
+- Reflection written to `memory-bank/active/reflection/reflection-illustrate-complexity.md`.
+- Persistent reconciliation: `productContext` skip, `systemPatterns` skip, `techContext` updated with a `## Skill Format` section pointing at the Agent Skills specification. The `Diagrams` line in `techContext` was already fixed during build.
+- Open gap, deliberately not closed: the repo has no formal skill-retirement path where "re-derive the survivors' descriptions" could live. `skill-frontmatter.md` states the rule; nothing enforces it. Not worth building process for until a second instance appears.
+
 ## Next Step
-- QA review runs automatically.
+- Run `/niko-archive` to create the archive document and finalize the current project.

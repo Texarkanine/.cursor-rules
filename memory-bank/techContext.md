@@ -8,6 +8,10 @@ A repository of Cursor customizations authored here as canonical source and dist
 - **a16n** converts Cursor customizations to other harnesses (e.g. Claude Code). It accepts `--from-dir` / `--to-dir` to operate on arbitrary trees rather than the in-repo `.cursor/` / `.claude/`.
 - Rules can also be viewed rendered as Markdown on GitHub via `client-side-mdc-render` (linked from the README).
 
+## Skill Format
+
+Skills follow the [Agent Skills specification](https://agentskills.io/specification). `rules/prompt-authoring/references/skill-frontmatter.md` orients on the container; the spec holds the limits.
+
 ## Testing Process
 
 `make test` runs rulesets layout checks (symlink targets and README internal links) via scripts in `scripts/`. Pull request CI is `.github/workflows/rulesets-links.yml` and invokes the same Make targets.
