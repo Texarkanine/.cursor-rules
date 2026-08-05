@@ -89,3 +89,10 @@ Tighten the persistent memory-bank reconciliation contract so standing contracts
     - Kept wording minimal; used “absent or no longer accurate” over the longer reviewer’s proposed phrase
 * Insights
     - Mixed-update path (update one file, skip others) is the load-bearing case for skip receipts — task-scoped “if you update nothing” wording breaks it
+
+## 2026-08-04 - ARCHIVE - READY
+
+* Work completed
+    - Reflect complete; PR #104 review fixes landed; entering archive
+* Decisions made
+    - Archive kind: enhancements (extends existing persistent-file update contract)
