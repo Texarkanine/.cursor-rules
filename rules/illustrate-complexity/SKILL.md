@@ -57,7 +57,7 @@ These prevent rendering failures:
 2. **Escape special characters** - use `#quot;` for quotes inside labels, `#amp;` for ampersands. The `#` instead of `&` on-purpose and important: because Mermaid often renders within HTML documents, it uses its own entity format to ensure that the HTML renderer does NOT process it - only the Mermaid renderer.
 3. **Use `subgraph` blocks** to group related nodes - label them clearly
 4. **Use `classDef` + `:::className`** for styling - never inline `style` statements
-5. **Keep diagrams focused.** If a single diagram exceeds ~15-20 nodes, split it into multiple diagrams with clear titles explaining what each one covers.
+5. **Keep diagrams focused.** If a single diagram exceeds ~15-20 nodes, consider if it should be split into multiple diagrams with clear titles explaining what each one covers. Do not split when this reduces clarity - sometimes you really do need a big diagram.
 
 ## Flowcharts
 
@@ -160,7 +160,7 @@ Pick the type from the table above. Then size the diagram for the place a reader
 
 **Documentation and READMEs.** A large diagram is fine here, and usually better than a trimmed one. Rendered on the web, the reader can expand it and pan around, so completeness beats brevity.
 
-**Plans and design notes.** The diagram is the artifact's backbone, not decoration. Refer to it from the prose that follows, so the reader knows it carries weight.
+**Plans and design notes.** The diagram is the artifact's backbone, not decoration. High detail and completeness are paramount. Refer to it from the prose that follows, so the reader knows it carries weight.
 
 **Answers in chat.** Keep it small. Most chat interfaces render Mermaid poorly or not at all, and a wide diagram is unreadable in a narrow column. Split a large one, or diagram only the part that carries the confusion and write the rest as prose.
 
