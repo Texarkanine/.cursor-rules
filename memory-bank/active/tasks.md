@@ -10,15 +10,22 @@ Rename `rules/visual-planning/` to `rules/illustrate-complexity/` and rewrite it
 
 `always-tdd.mdc` carves out "rule and skill wording" as prose. A test that asserts on this content could only go red when someone edits the artifact, which makes it a change-detector. So no new test files. The rename does touch real layout contracts, and the repo already has a purpose-built gate for them.
 
-### Behaviors to Verify
+### Committed Gates
 
-- Symlink integrity: run `make test-symlinks` → both ruleset symlinks resolve to `rules/illustrate-complexity`.
-- README link integrity: run `make test-readme-links` → every internal link in the two ruleset READMEs resolves.
-- Rename completeness: run `rg 'visual-planning' rules/ rulesets/` → no matches.
-- Persistent file accuracy: run `rg 'illustrate-complexity' memory-bank/techContext.md` → one match.
+These already exist and run in CI. They go red when a link or symlink actually breaks for a consumer.
+
+- Symlink integrity: `make test-symlinks` → both ruleset symlinks resolve to `rules/illustrate-complexity`.
+- README link integrity: `make test-readme-links` → every internal link in the two ruleset READMEs resolves.
+
+### One-Time Build Checks
+
+Run once at step 12 to confirm the edit landed. **Do not commit any of these as tests.** Each asserts on document content, so as a persisted test it would only go red when someone edits the artifact — a change-detector.
+
+- Rename completeness: `rg 'visual-planning' rules/ rulesets/` → no matches.
+- Persistent file accuracy: `rg 'illustrate-complexity' memory-bank/techContext.md` → one match.
 - Description limit: measure the `description:` value → under 1024 characters.
-- Framing removed: run `rg 'Planning Workflow' rules/illustrate-complexity/SKILL.md` → no matches.
-- No regression in the diagram reference: diff the five diagram examples, the syntax rules, and the emoji block → byte-identical to the pre-rename file.
+- Framing removed: `rg 'Planning Workflow' rules/illustrate-complexity/SKILL.md` → no matches.
+- No regression in the diagram reference: diff the five diagram examples, the syntax rules, and the emoji block against the pre-rename file → byte-identical.
 
 ### Test Infrastructure
 
@@ -47,6 +54,7 @@ Rename `rules/visual-planning/` to `rules/illustrate-complexity/` and rewrite it
 6. Replace `## Planning Workflow` with a three-use section.
    - Files: `rules/illustrate-complexity/SKILL.md`
    - Changes: one short block each for planning, documenting, and answering a question. State the size rule: keep chat diagrams small, because most chat UIs render them badly; a large diagram is correct on a web page, because Mermaid gives the reader a lightbox.
+   - Constraint from preflight: no block may prescribe a diagram type or a fixed order of diagrams. `rules/architecture-docs/SKILL.md` line 46 explicitly rejects "Always open with a control-flow Mermaid flowchart" and warns that mandating one type teaches mimicry. Type selection stays with the table at step 5. These blocks carry only size and rendering context.
 7. Update the authoring ruleset README.
    - Files: `rulesets/authoring/README.md`
    - Changes: rename the heading and path on line 20. Restate Purpose and Scope. Add the agentskills.io best-practices link.
@@ -59,6 +67,7 @@ Rename `rules/visual-planning/` to `rules/illustrate-complexity/` and rewrite it
 10. Add the skill-frontmatter reference.
     - Files: `rules/prompt-authoring/references/skill-frontmatter.md` (new)
     - Changes: short file covering what this repo omits — `description` drives triggering, the 1024-character limit, and when to split into `references/`. It links the agentskills best-practices and optimizing-descriptions pages. It points at upstream rather than restating it.
+    - Added by preflight: two sentences saying that when a skill is split, or when its siblings are retired, the survivor's description must be re-derived. This is the root cause of the present task, and nothing in the repo currently prompts that check.
 11. Point `prompt-authoring` at the new reference.
     - Files: `rules/prompt-authoring/SKILL.md`
     - Changes: one line in the existing references list at lines 21-25, stating the condition for reading it.
@@ -74,6 +83,7 @@ No new technology - validation not required. All four external URLs were verifie
 
 - `make test` must pass before the task is complete.
 - The generated `.cursor/` and `.claude/` trees are re-synced in a later, separate `chore(dev): ai-rizz sync` commit. That sync cannot happen in this task, because `ai-rizz` reads the git remote.
+- Verified in preflight, no action needed: `REUSE.toml` licenses by glob (`rules/**/*.md`), so the rename needs no REUSE edit and the new reference file is covered as PPL-S. `ai-rizz.skbd` lists directories only, with no per-skill entries, so the rename does not touch it.
 
 ## Challenges & Mitigations
 
@@ -98,6 +108,6 @@ No new technology - validation not required. All four external URLs were verifie
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA
