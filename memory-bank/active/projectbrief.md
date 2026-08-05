@@ -43,7 +43,7 @@ An agent edits a `SKILL.md`. It must know that `description` drives triggering, 
 ## Acceptance Criteria
 
 1. `make test` passes.
-2. No file outside `memory-bank/archive/` refers to `visual-planning`.
+2. No file under `rules/` or `rulesets/` refers to `visual-planning`, and `memory-bank/techContext.md` names the new skill. The generated `.cursor/` and `.claude/` trees are excluded; they lag by design.
 3. The new description is under 1024 characters and names no planning-only trigger.
 4. No section of the skill body frames the skill as a step inside a planning workflow.
 5. `rules/prompt-authoring/SKILL.md` grows by no more than a few lines.
