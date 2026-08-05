@@ -1,6 +1,6 @@
 # Reconcile Persistent Files
 
-> **TL;DR:** Quick scan of persistent memory bank files against the work just completed. Update what this task invalidated or the standing-contract probe flags. If you update nothing, print a one-line skip receipt per file.
+> **TL;DR:** Quick scan of persistent memory bank files against the work just completed. Update what this task invalidated or the standing-contract probe flags. For each file that needs no update, print a one-line skip receipt.
 
 ## Persistent Files to Check
 
@@ -17,7 +17,7 @@ For each persistent file listed above:
 1. **Load** its guidance rule - this defines what belongs in the file and how to write it.
 2. **Read** the file's current contents.
 3. **Compare** against the work just completed: with the guidance rule's definition in mind, does the file contain anything that is now **factually wrong** or **materially incomplete** because of the changes made in this task?
-4. **Standing-contract probe**: did this task introduce or change a standing contract — a convention future contributors would otherwise reinvent incompatibly (error identity, test oracles, path layers, build invariants)? If yes, and the contract belongs in *this* file per its guidance rule, the file is materially incomplete. A yes here is not a doubt case. The contract is in scope; a catalog of the helpers that implement it is not.
+4. **Standing-contract probe**: did this task introduce or change a standing contract — a convention future contributors would otherwise reinvent incompatibly (error identity, test oracles, path layers, build invariants) — that is absent or no longer accurate in *this* file? If yes, and the contract belongs here per its guidance rule, the file is materially incomplete. A yes here is not a doubt case. The contract is in scope; a catalog of the helpers that implement it is not.
 5. **If neither**: leave the file alone and print one line: `[productContext|systemPatterns|techContext]: skip — <reason>`, where the reason covers the probe, not only "not invalidated."
 6. **If either**: make a **surgical update** following the guidance rule's conventions, and briefly note what changed and why in your output to the operator.
 
