@@ -109,5 +109,5 @@ No new technology - validation not required. All four external URLs were verifie
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight
-- [ ] Build
+- [x] Build
 - [ ] QA

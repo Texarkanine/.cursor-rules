@@ -40,3 +40,17 @@ Rename the `visual-planning` skill to `illustrate-complexity` and rewrite it so 
     - Took the advisory in scope: `skill-frontmatter.md` gains two sentences on re-deriving a survivor's description after a skill is split or its siblings retired.
 * Insights
     - The retired `## Planning Workflow` ritual ("start with a flowchart, then add...") directly contradicted `architecture-docs`. Deleting it resolves a live conflict rather than only removing stale framing.
+
+## 2026-08-05 - BUILD - COMPLETE
+
+* Work completed
+    - Renamed the skill directory and repointed both ruleset symlinks. `make test-symlinks` passed immediately after.
+    - Rewrote the frontmatter, the body opening, added the chart-type escape hatch, and replaced `## Planning Workflow` with `## Where the Diagram Will Be Read`.
+    - Updated both ruleset READMEs and `memory-bank/techContext.md`.
+    - Created `rules/prompt-authoring/references/skill-frontmatter.md` and pointed `prompt-authoring/SKILL.md` at it conditionally.
+    - Ran all checks: `make test` passes, no `visual-planning` reference remains under `rules/` or `rulesets/`, description is 306 characters, and the diff against the pre-rename file shows exactly four hunks.
+* Decisions made
+    - Dropped a planned sentence about separating the map from the procedure. `prompt-authoring` already states that rule, and it forbids restating a sibling.
+    - Reordered the authoring README so the new entry keeps the list alphabetical.
+* Insights
+    - The step 12 diff earned its place. It proved the emoji block, the five syntax rules, and all five diagram examples were untouched, which is exactly the pre-mortem risk it was written to control.

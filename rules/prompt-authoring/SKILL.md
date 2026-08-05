@@ -24,6 +24,8 @@ Deeper guidance for each kind lives next to this file:
 - `references/reference-prompts.md`
 - `references/personality-prompts.md`
 
+When the artifact you are writing is a skill, also read `references/skill-frontmatter.md` - the frontmatter and file layout are a separate contract from the prose.
+
 ## When It Is None of These
 
 The three kinds are a lens, not a gate. Plenty of good documents are a deliberate mix *or* something else entirely, and forcing a mixed document into one box makes it worse. Write what the document needs; use the kinds to check that each part is doing its job, not to amputate the parts that don't fit.
