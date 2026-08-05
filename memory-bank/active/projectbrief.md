@@ -21,7 +21,7 @@ An agent finishes ordinary work that invalidated nothing lasting. It prints a on
 3. In `systemPatterns.mdc`: soften “never record what you just built” so task-shipped system-wide contracts can still get a briefing paragraph; keep damage-test gating — do not invent write-when-unsure.
 4. In `techContext.mdc`: extend When to Update so process/oracle/assertion-contract changes count, with explicit contrast vs listing every helper.
 5. Preserve anti-noise invariants: surgical edits only; no feature dumps; no cataloging every script/module.
-6. Encode the design color: persistent MB files are deliberately incomplete high-level overviews of a subset of important things — they will always miss some truths; they must never contain things that do not belong. Noise is worse than omission; the fix targets false “implementation detail” skips of standing contracts, not completeness.
+6. Noise is worse than omission: the fix targets false “implementation detail” skips of standing contracts, not completeness. Hard rule remains that persistent files must never contain content that does not belong. Do not encode “omissions are expected by design” as a standing skip license for maintainers (operator flavor, not a rule).
 
 ## Out of Scope
 

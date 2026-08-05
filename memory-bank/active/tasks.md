@@ -4,7 +4,7 @@
 * Complexity: Level 2
 * Type: simple enhancement
 
-Tighten the persistent memory-bank update contract so agents catch new standing contracts on reconcile, without inviting changelog noise or a completeness hunt. Persistent MB files remain a deliberately incomplete high-level subset: omission is expected; pollution is forbidden.
+Tighten the persistent memory-bank update contract so agents catch new standing contracts on reconcile, without inviting changelog noise or a completeness hunt. Pollution is forbidden; noise is worse than omission — but do not treat omission as a standing skip license.
 
 ## Test Plan (TDD)
 
@@ -12,7 +12,7 @@ Tighten the persistent memory-bank update contract so agents catch new standing 
 
 - [B1 standing-contract probe]: Agent completes a task that introduced a shared contract (typed errors, oracles, path layers) → compare path treats matching persistent file as materially incomplete and updates surgically
 - [B2 asymmetric skip]: Agent completes narrative-only / no-contract work → skip remains correct; guardrails no longer claim under-updating is universally “safe”
-- [B3 skip receipt]: Agent updates nothing → operator output includes one line per file `[productContext|systemPatterns|techContext]: skip — <reason>` citing the standing-contract probe
+- [B3 skip receipt]: For each file that needs no update (including mixed updates), operator output includes one line `[productContext|systemPatterns|techContext]: skip — <reason>` citing the standing-contract probe
 - [B4 systemPatterns contract carve-out]: Task ships a system-wide contract → guidance allows a briefing paragraph; task history / feature dump still forbidden
 - [B5 techContext process change]: New required assert/signal convention → When to Update examples cover process/oracle changes; listing every helper still out of scope
 - [B6 anti-noise invariant]: Doubt / incompleteness language still prefers skip over inventing content when the probe is “no”; no write-when-unsure default

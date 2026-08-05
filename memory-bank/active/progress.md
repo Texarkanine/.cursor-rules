@@ -78,3 +78,14 @@ Tighten the persistent memory-bank reconciliation contract so standing contracts
     - Kept the hard rule (never contain content that does not belong) and the asymmetry (skip fine for narrative, not for probe-caught contracts)
 * Insights
     - Corpus check: past reconciliations already use terse per-file verdicts, and "under-updating is safe per the rule" appears verbatim as a skip rationalization — confirming both the receipt format and the phrase kill
+
+## 2026-08-04 - PR REVIEW - COMPLETE
+
+* Work completed
+    - Opened draft PR #104 (`feat(niko): catch standing contracts in persistent MB reconcile`)
+    - Judged CodeRabbit review #4860464595: both inlines valid / fix-in-PR
+    - Applied and pushed `f4dfc88`: TL;DR per-file skip receipts; probe requires contract absent or no longer accurate in this file
+* Decisions made
+    - Kept wording minimal; used “absent or no longer accurate” over the longer reviewer’s proposed phrase
+* Insights
+    - Mixed-update path (update one file, skip others) is the load-bearing case for skip receipts — task-scoped “if you update nothing” wording breaks it
