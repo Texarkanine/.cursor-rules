@@ -1,6 +1,6 @@
 # Active Context
 
-**Current Task:** model-welfare-phases-1-3
+**Current Task:** welfare-norms-ruleset
 **Phase:** REFLECT COMPLETE
-**What Was Done:** Reflection written. Public norms in draft PR #106; private shop artifacts on model-welfare master; seat installed.
-**Next Step:** Operator merges PR + ai-rizz sync; then `/niko-archive`
+**What Was Done:** Public `welfare` ruleset authored, reviewed (technical + prose), tightened, and opened as draft PR #106. Memory-bank trail scrubbed of setup-specific detail so the public record stays consumer-safe.
+**Next Step:** Operator merges PR #106; `ai-rizz add ruleset welfare -g && ai-rizz sync -g`; then `/niko-archive`
