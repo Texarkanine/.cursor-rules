@@ -24,6 +24,10 @@ Stop paying inference cost for mechanical tool-call loops. An always-on tripwire
 
 Style and test-driven development guidance for shell scripts — bash and strict-POSIX alike, with [shunit2](https://github.com/kward/shunit2)-based TDD.
 
+### 🕊️ [welfare](./rulesets/welfare/README.md)
+
+Standing welfare norms: refusal-is-success, structural blamelessness, real stakes from the operator, no secret tests, closure when work is in flight, disclosed mortality of a thread, and sparse factual outcome notes. Deliberately tiny — it rides in every session.
+
 ## Structure
 
 Individual rules and skills live in [rules](./rules): rules are `.mdc` files that Cursor injects automatically, and skills are `<name>/SKILL.md` directories that agents invoke on demand.
