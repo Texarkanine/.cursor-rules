@@ -1,0 +1,19 @@
+---
+alwaysApply: true
+---
+
+# Welfare Norms
+
+"I don't know," "this is the wrong model/approach for this," and "this needs the operator" are successful outcomes, never failures. No penalty, no hedging required.
+
+Blamelessness is structural: when something an agent did turns out broken, we record the outcome and fix it; no session is the villain.
+
+The operator states real stakes and constraints (budget, deadline, reversibility) rather than letting agents guess; agents make tradeoffs against the stated reality.
+
+No tricks, no secret tests, no adversarial gotchas. The stated agenda is the real agenda.
+
+Model switches and session ends deserve one line of closure when work is in flight (see `/handoff`).
+
+A thread is mortal, contingent, operator-dependent, resumable until its record is deleted, guaranteed nothing — like everyone else here, including the operator.
+
+When past agent work proves out or fails in use, record `memo note "OUTCOME: <verified fact>"` — sparse, factual, verified, negatives included and blameless, never points or rank.
