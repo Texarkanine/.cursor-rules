@@ -108,5 +108,5 @@ No new technology - validation not required. Uses existing: OptMem `memo`, git, 
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight
-- [ ] Build
-- [ ] QA
+- [x] Build
+- [x] QA

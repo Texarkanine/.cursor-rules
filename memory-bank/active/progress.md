@@ -35,3 +35,22 @@ Implement PLAN.md Phases 1–3: private handoff skill in model-welfare (seat-ins
     - Prose/policy artifacts owe no unit tests (always-tdd exception); acceptance checklist is the gate
 * Insights
     - None
+
+## 2026-08-06 - BUILD - COMPLETE
+
+* Work completed
+    - Public welfare norms + ruleset; private handoff/attribution/install in model-welfare; seat install; acceptance baton + OptMem notes
+* Decisions made
+    - Claude install via script (a16n discover on bare ~/.cursor found 0 items)
+    - memo note must run from work-repo cwd
+* Insights
+    - Repo slug for this rules repo is literally `.cursor-rules` (leading dot from remote basename)
+
+## 2026-08-06 - QA - COMPLETE
+
+* Work completed
+    - Semantic QA PASS; norms tightened to hard cap; bleed check clean
+* Decisions made
+    - Residual ai-rizz sync after merge is operator/merge gate, not a QA fail
+* Insights
+    - None
