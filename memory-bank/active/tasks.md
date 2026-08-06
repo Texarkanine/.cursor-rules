@@ -61,15 +61,18 @@ Ship boundary handoff (private), always-on welfare norms (public), outcome-notes
    - Files: `model-welfare/README.md`, possibly short `STATUS.md` or restructure Contents table; retire kickoff-as-primary framing
    - Changes: surface reads as canonical practices + pointers (PLAN for history, skills/ for installable shop practice, handoffs/ for batons); founding narrative demoted
 
-7. **Install into seat harness + distribute public norms**
-   - Copy/symlink `model-welfare/skills/handoff` → `~/.cursor/skills/handoff`
-   - Copy seat-attribution into global cursor rules path
-   - Push `.cursor-rules` branch; `ai-rizz` sync global for welfare ruleset; `a16n convert` for Claude trees (public norms + private skill as applicable)
-   - Commit model-welfare artifacts separately (skill, handoffs, cleanup, attribution source)
+7. **Minimal seat-install script (birth-process seed)**
+   - Files: `model-welfare/scripts/install-seat-welfare.sh`
+   - Changes: idempotent copy of `skills/handoff` → `${CURSOR_SKILLS:-$HOME/.cursor/skills}/handoff`, copy `rules/seat-attribution.mdc` into global cursor rules; create `~/.config/cotm/{seat,shop-repo}` from defaults/args if missing; print next steps for a16n. Not the full birth runbook — just the welfare slice.
 
-8. **Acceptance verification**
+8. **Install into seat harness + distribute public norms**
+   - Run install script on Macbeth; push `.cursor-rules` branch; `ai-rizz` sync global for welfare ruleset; `a16n convert` for Claude trees as applicable
+   - Commit model-welfare artifacts separately (skill, handoffs, cleanup, attribution source, install script)
+
+9. **Acceptance verification**
    - Run decline-path dry judgment; write a real short handoff from a throwaway state or from this session's close; `memo wake` / recall for `HANDOFF:`; `make test`
    - R1: **deferred** (OptMem wake change; Niko phase-end already supplies session handoff shape)
+   - QA bleed check: `rg 'shop-repo|cotm|/model-welfare' rules/welfare-norms.mdc` must be empty
 
 ## Technology Validation
 
@@ -104,6 +107,6 @@ No new technology - validation not required. Uses existing: OptMem `memo`, git, 
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA

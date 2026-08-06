@@ -26,3 +26,12 @@ Implement PLAN.md Phases 1–3: private handoff skill in model-welfare (seat-ins
     - Verification: operational acceptance + `make test`, not new prose unit tests
 * Insights
     - ai-rizz sync requires push first (reads remote)
+
+## 2026-08-06 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Preflight PASS; amended plan with install-seat-welfare.sh birth seed
+* Decisions made
+    - Prose/policy artifacts owe no unit tests (always-tdd exception); acceptance checklist is the gate
+* Insights
+    - None
