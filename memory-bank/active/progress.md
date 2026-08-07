@@ -152,3 +152,15 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - Charts-as-SoT paid off mechanically: `mmdc` plus a verbatim-legend grep turns "did the diagram grammar actually ship" into a check, not a reading
     - Review-page prose is the debris class this build was most exposed to — the L3 leak duplicated both the legend above it and the STOP list below it
     - Spawn quietly presumes a shared working tree, since the verifier's real output is the status file, not its prose
+
+## 2026-08-07 - BUILD - REWORK (operator QA; handoff)
+
+* Work completed
+    - Operator QA: trim Verdict legend; drop Terminal-node lecture; remove Spawn Charge from legend; QA → Judge, Do Not Fix; invalidate prior QA status
+    - Opened #107 (mmdc compile CI, no PNG)
+    - Design judgment: keep MB gate writes; reject verdict-only-to-parent; shared-worktree stays advisory
+* Decisions made
+    - Spawn prompt minimal (load-and-run skill) is parent habit — not legend text
+    - All Spawn targets are skills
+* Insights
+    - Over-briefing the QA subagent made evaluation unfalsifiable; skill + MB are the process

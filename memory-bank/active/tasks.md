@@ -15,8 +15,8 @@ Preflight and QA run in forked subagents. **Charts are source of truth** (C.2a S
 | `--Spawn-->` | Parent forks a subagent to run that phase; do not run the skill in this conversation |
 | Subagent → `Verdict` | Subagent ends here; outbound edges taken by the **parent** |
 | **Terminal node** | Only dashed outs (e.g. Reflect → Archive) |
-| Spawn charge | Load and run that skill — nothing else (no task briefing) |
 | QA contract | Judge only: status/findings/Phase writes; never edit implementation |
+| Spawn prompt | Minimal — load and run the skill; no task briefing (parent habit, not legend) |
 | README long | Ideology bands (Planning / Execution / Learning) get light wash; subagent boxes unstyled; Preflight⊂Planning, QA⊂Execution |
 
 **Historical only (do not follow for build):** `creative-verification-orchestration.md` (`run-verification.md`), Fable wording blocks as drop-in prose, `creative-l1-verification-diagram.md` options A–G / C.2b. Prefer review-page charts + tight Step 4 / Spawn phase-mapping lines below.

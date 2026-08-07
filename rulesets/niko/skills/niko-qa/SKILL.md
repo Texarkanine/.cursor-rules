@@ -40,7 +40,7 @@ Read:
      - Record every issue as a finding. FAIL when something must change before acceptance; PASS only when the implementation is acceptable as-is (advisories allowed).
 
 4. **Generate QA Report**
-    - Summarize findings (no corrections — QA does not apply fixes)
+    - Summarize findings
     - Write validation status to `memory-bank/active/.qa-validation-status`
     - Update `memory-bank/active/tasks.md` with QA results
 
