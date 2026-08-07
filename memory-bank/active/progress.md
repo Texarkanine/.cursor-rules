@@ -339,6 +339,20 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - The generated `.cursor/` copy of `niko-qa` still says "apply trivial fixes directly" while canonical says "Judge, Do Not Fix" — the lag changed verifier behavior live until the canonical file was read
     - Judge-only makes the fixable/rearchitect question moot for cosmetics: an unplanned but harmless edit becomes a PASS advisory rather than a Build round-trip
 
+## 2026-08-07 - REFLECT - COMPLETE (rework pass 2)
+
+* Work completed
+    - Wrote `reflection/reflection-verification-subagents-preflight-qa-rework-pass-2.md`
+    - Disposed QA advisories: L1 `🧑‍💻` legend drop = operator intentional; creative SVG section de-dangling
+    - Reconciled persistent files (skip receipts below)
+* Decisions made
+    - productContext: skip — no standing-contract / product-picture change
+    - systemPatterns: skip — nine-site Spawn stem still accurate (QA-status clear prefixes it); `.cursor/` lag already documented
+    - techContext: skip — no tooling/test-process change
+* Insights
+    - Template-encoded test-first beats special preflight self-heal species
+    - Stale verification status and lagging `.cursor/` skill copies are the same class of hazard: read canonical / re-validate for *this* plan
+
 ## 2026-08-07 - BUILD - REWORK (six Texarkanine inlines)
 
 * Work completed
