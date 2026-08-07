@@ -11,4 +11,4 @@
 
 ## Next Step
 
-Operator reviews that page in Cursor preview; then apply winning charts to level workflows + README and percolate prose.
+Operator reviews updated README long abridgment (preflight nested in Planning; Spawn = edges only). Pins: QA ideology placement; creative-as-subagent = no for now.

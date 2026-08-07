@@ -154,31 +154,32 @@ graph LR
 
 ### Long version (abridged)
 
-Keep the existing Planning / Execution / Learning subgraphs; only change how Preflight and QA attach:
+Ideology subgraphs stay: **Planning / Execution / Learning**. Subagent boxes are a second kind of subgraph — nest them *inside* the ideology they belong to rather than floating beside a fake `SpawnPF` node. Spawn is an **edge label** only (`--Spawn-->`), same as the level charts.
+
+**This pass:** Preflight lives under **Planning** (plan validation before build). QA still hangs off Build as before — whether it belongs inside Execution (or Learning) is the next question; left alone for now.
 
 ```mermaid
 flowchart LR
 	Niko(("🧑‍💻 /niko"))
-	Plan["Plan"]
-	Creative["Creative"]
 	Archive["Archive"]
 
 	subgraph Planning
+		Plan["Plan"]
+		Creative["Creative"]
 		Niko -- "Level 2 & 3" --> Plan
 		Plan -- "Level 3 (Feature)" --> Creative
+		Plan -- "Level 2 (Enhance)" --> PF
+		Creative --Spawn--> PF
+		Plan --Spawn--> PF
+		subgraph PFSA["Preflight subagent"]
+			direction LR
+			PF{"Preflight"} --> PFV(("Verdict"))
+		end
+		PFV -.->|"Fail"| Plan
 	end
 
 	Niko -- "Level 1 (Fix)" --> Build
-	Plan -- "Level 2 (Enhance)" --> SpawnPF
-	Creative --> SpawnPF
-
-	SpawnPF --Spawn--> PF
-	subgraph PFSA["Preflight subagent"]
-		direction LR
-		PF{"Preflight"} --> PFV(("Verdict"))
-	end
 	PFV -->|"Pass"| Build
-	PFV -.->|"Fail"| Plan
 
 	subgraph Execution
 		Build["Build"]
@@ -201,6 +202,10 @@ flowchart LR
 		Reflect --> Archive
 	end
 ```
+
+**Pin — QA ideology:** Is QA part of Execution (with Build), or its own band, or Learning? Not decided this pass.
+
+**Pin — Creative as subagent?** Intuition: **no** — creative should stay in the parent context so exploration colors the continuing plan work; parent is no longer the judge for verification, but creative is not a judgment gate in that sense. Revisit later; not in scope for this verification change.
 
 ### Per-level README details
 
@@ -228,5 +233,5 @@ graph TD
 1. Does Spawn + Verdict + subgraph read clearly in Cursor preview at L2 and L3 side by side?  
 2. Is L3’s double-dashed preflight Verdict acceptable next to L2’s solid PASS?  
 3. Is L4’s single Spawn preflight enough, with QA only inside sub-run charts?  
-4. Are README short/long abridgments worth the subgraph noise for newcomers, or should README stay flatter with one legend line?  
+4. README long version: does nesting Preflight subagent inside Planning fix the two-kinds-of-subgraph clash? (QA nesting still open.)  
 5. Confirm: never list Spawn phases under “terminal nodes” / STOP lists — only Reflect-style only-dashed nodes (plus L3 preflight PASS→build as operator wait, worded as today without calling the phase “terminal”).  
