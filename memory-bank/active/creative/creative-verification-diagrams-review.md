@@ -154,9 +154,13 @@ graph LR
 
 ### Long version (abridged)
 
-Ideology subgraphs stay: **Planning / Execution / Learning**. Subagent boxes are a second kind of subgraph — nest them *inside* the ideology they belong to rather than floating beside a fake `SpawnPF` node. Spawn is an **edge label** only (`--Spawn-->`), same as the level charts.
+Ideology subgraphs: **Planning / Execution / Learning**. Subagent boxes nest inside them. Spawn is an **edge label** only (`--Spawn-->`).
 
-**This pass:** Preflight lives under **Planning** (plan validation before build). QA still hangs off Build as before — whether it belongs inside Execution (or Learning) is the next question; left alone for now.
+- Preflight → inside **Planning**
+- QA → inside **Execution** (with Build)
+- Ideology bands get a light wash (`classDef ideology`); **subagent subgraphs stay unstyled** (Mermaid default) so they read as the sharp inner boxes
+
+Fill is a soft gray wash — custom Mermaid fills do **not** reliably flip for GitHub/Cursor dark mode; if dark preview looks wrong, tune the wash later rather than styling the subagent boxes.
 
 ```mermaid
 flowchart LR
@@ -182,12 +186,11 @@ flowchart LR
 
 	subgraph Execution
 		Build["Build"]
-	end
-
-	Build --Spawn--> QA
-	subgraph QASA["QA subagent"]
-		direction LR
-		QA{"QA"} --> QAV(("Verdict"))
+		Build --Spawn--> QA
+		subgraph QASA["QA subagent"]
+			direction LR
+			QA{"QA"} --> QAV(("Verdict"))
+		end
 	end
 
 	QAV -->|"Level 1<br>Fail"| Build
@@ -200,11 +203,14 @@ flowchart LR
 		Reflect -.->|"Rework"| Plan
 		Reflect --> Archive
 	end
+
+	classDef ideology fill:#eceff4,stroke:#9aa0a6,color:#333
+	class Planning,Execution,Learning ideology
 ```
 
-**Pin — QA ideology:** Is QA part of Execution (with Build), or its own band, or Learning? Not decided this pass.
+**Pin — Creative as subagent?** Intuition: **no** — creative stays in parent context. Revisit later.
 
-**Pin — Creative as subagent?** Intuition: **no** — creative should stay in the parent context so exploration colors the continuing plan work; parent is no longer the judge for verification, but creative is not a judgment gate in that sense. Revisit later; not in scope for this verification change.
+**Pin — Spawn emoji?** No obvious diminutive-cat emoji (🐱 is already “autonomous phase”). Could label edges `🐾` / `Spawn` later; not blocking.
 
 ### Per-level README details
 
@@ -232,5 +238,5 @@ graph TD
 1. Does Spawn + Verdict + subgraph read clearly in Cursor preview at L2 and L3 side by side?  
 2. Is L3’s double-dashed preflight Verdict acceptable next to L2’s solid PASS?  
 3. Is L4’s single Spawn preflight enough, with QA only inside sub-run charts?  
-4. README long version: does nesting Preflight subagent inside Planning fix the two-kinds-of-subgraph clash? (QA nesting still open.)  
+4. README long version: ideology wash + nested Preflight (Planning) / QA (Execution) — do the bands read distinct from default subagent boxes in preview (light and dark)?  
 5. Confirm: never list Spawn phases under “terminal nodes” / STOP lists — only Reflect-style only-dashed nodes (plus L3 preflight PASS→build as operator wait, worded as today without calling the phase “terminal”).  
