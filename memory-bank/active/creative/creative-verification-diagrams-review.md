@@ -1,6 +1,7 @@
 # Review Page: C.2a Spawn / Verdict Charts
 
 **Status:** ✅ LOCKED (operator-approved 2026-08-07) — apply to `rulesets/` at build. This page is the chart source of truth for the task.  
+**Superseded for live charts:** PR #108 rework updated `rulesets/niko/` node names and added `FAIL (TDD)` edges; treat `rulesets/niko/` as live authority. This page remains the C.2a Spawn/Verdict grammar record.  
 **Grammar:** C.2a + Spawn vocabulary. Exploration trail: `creative-l1-verification-diagram.md` (historical).  
 **Renderer:** Cursor markdown preview.
 

@@ -266,3 +266,15 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - PASS — no Build or Plan rerun is required
 * Insights
     - The one-line Spawn charge remains a mechanically verifiable shared tripwire across its varied list contexts
+
+## 2026-08-07 - REFLECT - COMPLETE (rework)
+
+* Work completed
+    - Wrote `reflection/reflection-verification-subagents-preflight-qa-rework.md`
+    - Bannered creative review page as superseded for live charts (F8)
+    - Reconciled persistent files (skip receipts below)
+* Decisions made
+    - systemPatterns: skip — nine-site line tripwire still accurate; skill-name span is the only substitution
+    - productContext / techContext: skip — no standing-contract change
+* Insights
+    - STOP lists must move with solid edges or self-heal never fires
