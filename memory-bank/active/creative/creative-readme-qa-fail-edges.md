@@ -167,13 +167,7 @@ flowchart LR
 
 ## Rendered SVGs
 
-If preview is noisy, open these side by side:
-
-- `creative-readme-qa-fail-current.svg`
-- `creative-readme-qa-fail-option-a.svg`
-- `creative-readme-qa-fail-option-b.svg`
-
-(same directory as this file; produced by `mmdc`)
+Scratch SVGs were generated for side-by-side compare during the Option A/B decision and then deleted (not committed). The mermaid blocks above are the durable comparison.
 
 ---
 

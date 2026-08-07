@@ -331,10 +331,24 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - Judged all five plan steps against the build diff: 12 `FAIL (TDD)` sites gone with every sibling dashed rearchitect edge intact; `- Tests first:` correctly placed with the always-tdd hatch; all four cheap fixups plus README Option A landed
     - Confirmed build guards were verify-only, L4 correctly needs neither a QA-status clear nor a `- Tests first:` template, and the nine-site Spawn tripwire is still verbatim nine times
     - `make test` green; all 10 mermaid blocks compile on `mmdc` 11.14.0; inspected the README long-chart render
-    - Recorded two non-blocking advisories: the unplanned L1 legend deletion and the dangling scratch-SVG pointers in the new creative doc
+    - Recorded two non-blocking advisories: L1 legend deletion and dangling scratch-SVG pointers (both disposed in Reflect)
 * Decisions made
     - PASS — no Build or Plan rerun; both advisories route to Reflect
     - Reverted two fixes this session started making: the canonical `rulesets/` skill is judge-only, and QA may not edit the work under review
 * Insights
     - The generated `.cursor/` copy of `niko-qa` still says "apply trivial fixes directly" while canonical says "Judge, Do Not Fix" — the lag changed verifier behavior live until the canonical file was read
     - Judge-only makes the fixable/rearchitect question moot for cosmetics: an unplanned but harmless edit becomes a PASS advisory rather than a Build round-trip
+
+## 2026-08-07 - REFLECT - COMPLETE (rework pass 2)
+
+* Work completed
+    - Wrote `reflection/reflection-verification-subagents-preflight-qa-rework-pass-2.md`
+    - Disposed QA advisories: L1 `🧑‍💻` legend drop = operator intentional; creative SVG section de-dangling
+    - Reconciled persistent files (skip receipts below)
+* Decisions made
+    - productContext: skip — no standing-contract / product-picture change
+    - systemPatterns: skip — nine-site Spawn stem still accurate (QA-status clear prefixes it); `.cursor/` lag already documented
+    - techContext: skip — no tooling/test-process change
+* Insights
+    - Template-encoded test-first beats special preflight self-heal species
+    - Stale verification status and lagging `.cursor/` skill copies are the same class of hazard: read canonical / re-validate for *this* plan
