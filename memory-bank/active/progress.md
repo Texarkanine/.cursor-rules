@@ -153,14 +153,25 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - Review-page prose is the debris class this build was most exposed to — the L3 leak duplicated both the legend above it and the STOP list below it
     - Spawn quietly presumes a shared working tree, since the verifier's real output is the status file, not its prose
 
-## 2026-08-07 - BUILD - REWORK (operator QA; handoff)
+## 2026-08-07 - BUILD - REWORK - COMPLETE
 
 * Work completed
     - Operator QA: trim Verdict legend; drop Terminal-node lecture; remove Spawn Charge from legend; QA → Judge, Do Not Fix; invalidate prior QA status
     - Opened #107 (mmdc compile CI, no PNG)
     - Design judgment: keep MB gate writes; reject verdict-only-to-parent; shared-worktree stays advisory
+    - Flushed WT (`74afebb`, `b42a899`); `.qa-validation-status` cleared for re-Spawn
 * Decisions made
     - Spawn prompt minimal (load-and-run skill) is parent habit — not legend text
     - All Spawn targets are skills
+    - Re-Spawn QA on GPT Terra (operator request)
 * Insights
     - Over-briefing the QA subagent made evaluation unfalsifiable; skill + MB are the process
+
+## 2026-08-07 - QA - IN PROGRESS (re-Spawn, GPT Terra)
+
+* Work completed
+    - Leaving BUILD rework; entering QA re-run with minimal Spawn charge
+* Decisions made
+    - Model: GPT Terra (`gpt-5.6-terra-medium`); charge = load-and-run `niko-qa` only
+* Insights
+    - Prior Opus PASS invalidated by operator rework; status file is the resume signal
