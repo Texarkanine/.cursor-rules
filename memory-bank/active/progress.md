@@ -293,13 +293,27 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - Special TDD chart edge was a misclassification of rearchitect, not a third forever-species
     - Auto-heal for TDD fought “operator must see plan amendments”; Plan quality is the real lever
 
-## 2026-08-07 - PREFLIGHT - IN PROGRESS (rework pass 2)
+## 2026-08-07 - PREFLIGHT - COMPLETE (PASS WITH ADVISORY, rework pass 2)
 
 * Work completed
-    - Operator invoked `/niko-build`; Build Step 2 refused — pass-2 plan has no validating preflight
-    - Cleared stale pass-1 `.preflight-status` (`PASS WITH ADVISORY`)
-    - Leaving PLAN; spawning preflight for the pass-2 gospel plan
+    - Operator `/niko-build` refused on stale pass-1 status; cleared and Spawned preflight (Claude Opus)
+    - Validated the pass-2 plan against `rulesets/niko/`: enumerated all 12 `FAIL (TDD)` lines by file and line, confirmed each of the five chart edges has a sibling dashed `FAIL` edge so no deletion orphans the rearchitect route
+    - Amended the plan in place: exact edit sites for step 2, concrete template design for step 3, resolved paths for step 4, ad-hoc-not-committed framing for the step 5 `rg` sweep
+    - Confirmed build guards already accept only `PASS` / `PASS WITH ADVISORY` — CodeRabbit item 8 needs no edit, only verification
 * Decisions made
-    - Stale status from a prior plan is not a build gate for a new plan
+    - Step 3's target is the `tasks.md` output template in `level2-plan.md` / `level3-plan.md`, not another prose instruction — the existing "maps to one TDD cycle" line already occupies that slot
+    - The new `- Tests first:` substep ships with a prose/policy escape hatch, or the template would manufacture change-detector tests
+    - Step 1 (stockroom archaeology) is advisory input, not a gate on step 3
 * Insights
-    - L2 chart still requires Preflight→Build; operator slash-command does not skip the gate
+    - Plan-quality fixes belong in the artifact template, not the instruction prose: agents fill in the shape they are handed and skim the paragraph above it
+    - The generated `.cursor/` / `.claude/` trees never received the pass-1 `FAIL (TDD)` vocabulary, so removing it from `rulesets/` converges the trees instead of widening the lag
+    - `.cursor/` lag on preflight Step 4 (phase-transition vs stop) showed up live; canonical `rulesets/` won
+
+## 2026-08-07 - BUILD - IN PROGRESS (rework pass 2)
+
+* Work completed
+    - Leaving PREFLIGHT; entering BUILD against amended pass-2 plan
+* Decisions made
+    - Follow tasks.md order; mermaid single-line deletes OK without operator; multi-line mermaid still gated
+* Insights
+    - Stockroom archaeology is advisory input to step 3, not a hard gate
