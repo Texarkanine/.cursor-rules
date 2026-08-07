@@ -243,3 +243,15 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
 * Insights
     - The self-heal edge is only half the fix: the L2/L3 STOP lists and narrative sentences state the opposite, and an agent reading them would stop instead of re-planning
     - The locked creative chart page now diverges from the live `rulesets/` charts in both node names and edges — worth a superseded banner at reflect
+
+
+## 2026-08-07 - BUILD - COMPLETE (rework)
+
+* Work completed
+    - Shipped nine review fixes (+ preflight amendments F1–F3/F6) under `rulesets/niko/`
+    - Verified: `make test` green; 10/10 mermaid compiles; stem counts 6+3; no abbrev leftovers
+* Decisions made
+    - Kept preflight one-line Spawn stem (not fenced block)
+    - Status vocabulary now documents `PASS` / `PASS WITH ADVISORY` / `FAIL` / `FAIL (TDD)`
+* Insights
+    - STOP-list narrowing was required for TDD self-heal to be reachable

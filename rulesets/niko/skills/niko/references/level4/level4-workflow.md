@@ -9,13 +9,13 @@ Level 4 tasks are too large to plan and execute in one pass. They are decomposed
 ```mermaid
 graph TD
     Start(("Complexity Analysis")) --> NikoPlan["🐱 plan<br>(generate milestones)"]
-    NikoPlan --Spawn--> PF
-    subgraph PFSA["Preflight subagent"]
+    NikoPlan --Spawn--> NikoPreflight
+    subgraph PreflightSubagent["Preflight subagent"]
         direction LR
-        PF{"🐱 preflight"} --> PFV("Verdict")
+        NikoPreflight{"🐱 preflight"} --> PreflightVerdict("Verdict")
     end
-    PFV -->|"FAIL"| NikoPlan
-    PFV -.->|"PASS"| ManualReview["🧑‍💻 review plan"]
+    PreflightVerdict -->|"FAIL"| NikoPlan
+    PreflightVerdict -.->|"PASS"| ManualReview["🧑‍💻 review plan"]
     ManualReview -.->|"🧑‍💻 /niko"| Niko
     subgraph SubWorkflow["L1-L3 Workflow"]
         Niko(("Milestone Execution"))
@@ -33,8 +33,6 @@ graph TD
 > - Subagent ends at `Verdict`; outbound edges from `Verdict` are taken by the **parent**
 > - **Terminal node** = only dashed outs (e.g. Reflect → Archive)
 
-Milestone bodies inherit Spawn/QA from whichever L1/L2/L3 chart applies — L4 chart does not redraw them.
-
 After the initial plan is reviewed, `/niko` manages the milestone lifecycle: checking off completed sub-runs, cleaning inter-run state, classifying the next milestone, and routing to the capstone archive when all milestones are done.
 
 ## Phase Mappings
@@ -47,5 +45,5 @@ To execute a phase for a level 4 task:
 2. 🚨 ***CRITICAL:*** Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: saving work before [phase] phase`.
 3. Read and follow the instructions in the appropriate locations:
     - **Level 4 Plan Phase**: Load `.cursor/skills/shared/niko/references/level4/level4-plan.md`
-    - **Level 4 Preflight Phase**: Spawn a subagent at least as capable as you (smarter / different family if possible) to run the `niko-preflight` skill — do not run the skill in this conversation.
+    - **Level 4 Preflight Phase**: Spawn a subagent (prefer smarter / different family if available); the only instruction you add is `` Run the `/niko-preflight` skill ``. Do not run the skill in this conversation.
     - **Level 4 Archive Phase**: Load `.cursor/skills/shared/niko/references/level4/level4-archive.md`

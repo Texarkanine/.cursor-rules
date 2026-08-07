@@ -35,7 +35,7 @@ Read:
     - **Documentation**: Project docs that should have been updated with the code changes and were not.
 
 3. **Judge, Do Not Fix**
-     - Surface and judge. Never modify product/ruleset/implementation files.
+     - Surface and judge. Never modify the work under review.
      - Allowed writes only: `memory-bank/active/.qa-validation-status`, QA findings in `tasks.md` / `progress.md`, and (at Step 4) the `**Phase:**` field in `activeContext.md`.
      - Record every issue as a finding. FAIL when something must change before acceptance; PASS only when the implementation is acceptable as-is (advisories allowed).
 

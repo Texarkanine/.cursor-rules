@@ -90,4 +90,4 @@ Preflight will now validate the milestone list.
 
 ## Step 7: Phase Transition
 
-Spawn a subagent at least as capable as you (smarter / different family if possible) to run the `niko-preflight` skill — do not run the skill in this conversation.
+Spawn a subagent (prefer smarter / different family if available); the only instruction you add is `` Run the `/niko-preflight` skill ``. Do not run the skill in this conversation.

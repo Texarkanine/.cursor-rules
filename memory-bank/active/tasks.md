@@ -145,3 +145,12 @@ TDD Plan Encoding: **PASS** — every unit delivers rule/skill wording and docum
 - [x] Preflight (PASS WITH ADVISORY)
 - [ ] Build
 - [ ] QA
+
+
+## Build Progress
+
+- [x] Step 1: preflight Handle Results + `preflight-status.mdc` vocabulary
+- [x] Step 2: QA forbid line (Items 4–6 verified already present)
+- [x] Step 3: nine-site Spawn stem (one-line form)
+- [x] Step 4: node renames, `FAIL (TDD)` edges, L2/L3 STOP/narrative, L4 inherit delete, README charts
+- [x] Step 5: `make test` green; 10/10 mermaid blocks compile; no leftover abbrevs / forbidden phrases

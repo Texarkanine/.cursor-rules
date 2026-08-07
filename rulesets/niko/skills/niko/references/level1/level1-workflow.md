@@ -9,13 +9,13 @@ Level 1 tasks are isolated bug fixes affecting a single component. Prioritize sp
 ```mermaid
 graph LR
     Start(("Complexity Analysis")) --> NikoBuild["🐱 Build"]
-    NikoBuild --Spawn--> QA
-    subgraph QASA["QA subagent"]
+    NikoBuild --Spawn--> NikoQA
+    subgraph QASubagent["QA subagent"]
         direction LR
-        QA{"🐱 QA"} --> QAV("Verdict")
+        NikoQA{"🐱 QA"} --> QAVerdict("Verdict")
     end
-    QAV -->|"PASS"| Done("Done")
-    QAV -->|"FAIL"| NikoBuild
+    QAVerdict -->|"PASS"| Done("Done")
+    QAVerdict -->|"FAIL"| NikoBuild
 ```
 
 > Legend:
@@ -37,7 +37,7 @@ To execute a phase for a level 1 task:
 2. 🚨 ***CRITICAL:*** Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: saving work before [phase] phase`.
 3. Read and follow the instructions in the appropriate locations:
     - **Level 1 Build Phase**: Load `.cursor/skills/shared/niko/references/level1/level1-build.md`
-    - **Level 1 QA Phase**: Spawn a subagent at least as capable as you (smarter / different family if possible) to run the `niko-qa` skill — do not run the skill in this conversation.
+    - **Level 1 QA Phase**: Spawn a subagent (prefer smarter / different family if available); the only instruction you add is `` Run the `/niko-qa` skill ``. Do not run the skill in this conversation.
 
 ## Wrap-Up
 

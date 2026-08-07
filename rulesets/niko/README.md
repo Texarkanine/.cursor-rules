@@ -68,21 +68,21 @@ The short version is:
 ```mermaid
 graph LR
 	Start(("🧑‍💻 /niko")) --> NikoPlan["🐱 plan"]
-	NikoPlan --Spawn--> PF
-	subgraph PFSA["Preflight subagent"]
+	NikoPlan --Spawn--> NikoPreflight
+	subgraph PreflightSubagent["Preflight subagent"]
 		direction LR
-		PF{"🐱 preflight"} --> PFV("Verdict")
+		NikoPreflight{"🐱 preflight"} --> PreflightVerdict("Verdict")
 	end
-	PFV -->|"PASS"| NikoBuild["🐱 build"]
-	PFV -->|"FAIL"| NikoPlan
-	NikoBuild --Spawn--> QA
-	subgraph QASA["QA subagent"]
+	PreflightVerdict -->|"PASS"| NikoBuild["🐱 build"]
+	PreflightVerdict -->|"FAIL"| NikoPlan
+	NikoBuild --Spawn--> NikoQA
+	subgraph QASubagent["QA subagent"]
 		direction LR
-		QA{"🐱 qa"} --> QAV("Verdict")
+		NikoQA{"🐱 qa"} --> QAVerdict("Verdict")
 	end
-	QAV -->|"PASS"| NikoReflect["🐱 reflect"]
+	QAVerdict -->|"PASS"| NikoReflect["🐱 reflect"]
 	NikoReflect --> ManualArchive[/"🧑‍💻 /niko-archive"/]
-	QAV -->|"FAIL"| NikoBuild
+	QAVerdict -->|"FAIL"| NikoBuild
 ```
 
 The long version shows all the paths Niko can take, depending on the complexity of the task, with more details about phase transitions:
@@ -100,31 +100,32 @@ flowchart LR
 		Creative["Creative"]
 		Niko -- "Level 2 & 3" --> Plan
 		Plan -- "Level 3 (Feature)" --> Creative
-		Plan --Spawn--> PF
-		Creative --Spawn--> PF
-		subgraph PFSA["Preflight subagent"]
+		Plan --Spawn--> NikoPreflight
+		Creative --Spawn--> NikoPreflight
+		subgraph PreflightSubagent["Preflight subagent"]
 			direction LR
-			PF{"Preflight"} --> PFV("Verdict")
+			NikoPreflight{"Preflight"} --> PreflightVerdict("Verdict")
 		end
-		PFV -.->|"Fail"| Plan
+		PreflightVerdict -->|"FAIL (TDD)"| Plan
+		PreflightVerdict -.->|"Fail"| Plan
 	end
 
 	Niko -- "Level 1 (Fix)" --> Build
-	PFV -->|"Pass"| Build
+	PreflightVerdict -->|"Pass"| Build
 
 	subgraph Execution
 		Build["Build"]
-		Build --Spawn--> QA
-		subgraph QASA["QA subagent"]
+		Build --Spawn--> NikoQA
+		subgraph QASubagent["QA subagent"]
 			direction LR
-			QA{"QA"} --> QAV("Verdict")
+			NikoQA{"QA"} --> QAVerdict("Verdict")
 		end
 	end
 
-	QAV -->|"Level 1<br>Fail"| Build
-	QAV -.->|"Level 2+<br>Fail"| Plan
-	QAV -->|"Level1<br>Pass"| Done("Done")
-	QAV -->|"Level2+<br>Pass"| Reflect
+	QAVerdict -->|"Level 1<br>Fail"| Build
+	QAVerdict -.->|"Level 2+<br>Fail"| Plan
+	QAVerdict -->|"Level1<br>Pass"| Done("Done")
+	QAVerdict -->|"Level2+<br>Pass"| Reflect
 
 	subgraph Learning
 		Reflect["Reflect"]
@@ -156,19 +157,19 @@ In case you want the "Long Version" but for just a single complexity level:
 ```mermaid
 graph LR
 	Start(("🧑‍💻 /niko<br>Complexity Analysis")) --> NikoBuild["🐱 Build"]
-	NikoBuild --Spawn--> QA
-	subgraph QASA["QA subagent"]
+	NikoBuild --Spawn--> NikoQA
+	subgraph QASubagent["QA subagent"]
 		direction LR
-		QA{"🐱 QA"} --> QAV("Verdict")
+		NikoQA{"🐱 QA"} --> QAVerdict("Verdict")
 	end
-	QAV -->|"FAIL"| NikoBuild
+	QAVerdict -->|"FAIL"| NikoBuild
 
 	ManBuild[/"🧑‍💻 /niko-build"/]
 
 	PR{"🧑‍💻 Open Pull Request"}
 	PR -."Rework PR".-> ManBuild
 
-	QAV -.->|"PASS"| PR
+	QAVerdict -.->|"PASS"| PR
 
 	ManBuild --> NikoBuild
 	PR -."Ready".-> MergePR("Merge PR")
@@ -187,23 +188,24 @@ graph LR
 ```mermaid
 flowchart TD
 	Start(("🧑‍💻 /niko<br>Complexity Analysis")) --> NikoPlan["🐱 plan"]
-	NikoPlan --Spawn--> PF
-	subgraph PFSA["Preflight subagent"]
+	NikoPlan --Spawn--> NikoPreflight
+	subgraph PreflightSubagent["Preflight subagent"]
 		direction LR
-		PF{"🐱 preflight"} --> PFV("Verdict")
+		NikoPreflight{"🐱 preflight"} --> PreflightVerdict("Verdict")
 	end
-	PFV -->|"PASS"| NikoBuild["🐱 build"]
-	PFV -.->|"FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
+	PreflightVerdict -->|"PASS"| NikoBuild["🐱 build"]
+	PreflightVerdict -->|"FAIL (TDD)"| NikoPlan
+	PreflightVerdict -.->|"FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
 
-	NikoBuild --Spawn--> QA
-	subgraph QASA["QA subagent"]
+	NikoBuild --Spawn--> NikoQA
+	subgraph QASubagent["QA subagent"]
 		direction LR
-		QA{"🐱 qa"} --> QAV("Verdict")
+		NikoQA{"🐱 qa"} --> QAVerdict("Verdict")
 	end
-	QAV -->|"PASS"| NikoReflect["🐱 reflect"]
+	QAVerdict -->|"PASS"| NikoReflect["🐱 reflect"]
 	NikoReflect -.-> ManualArchive[/"🧑‍💻 /niko-archive"/]
-	QAV -->|"FAIL (fixable)"| NikoBuild
-	QAV -.->|"FAIL (rearchitect)"| ManualPlan
+	QAVerdict -->|"FAIL (fixable)"| NikoBuild
+	QAVerdict -.->|"FAIL (rearchitect)"| ManualPlan
 
 	ManualPlan -.-> NikoPlan
 
@@ -230,27 +232,28 @@ flowchart TD
 ```mermaid
 graph TD
 	Start(("🧑‍💻 /niko<br>Complexity Analysis")) --> NikoPlan["🐱 plan"]
-	NikoPlan --Spawn--> PF
-	subgraph PFSA["Preflight subagent"]
+	NikoPlan --Spawn--> NikoPreflight
+	subgraph PreflightSubagent["Preflight subagent"]
 		direction LR
-		PF{"🐱 preflight"} --> PFV("Verdict")
+		NikoPreflight{"🐱 preflight"} --> PreflightVerdict("Verdict")
 	end
-	PFV -.->|"PASS"| ManualBuild[/"🧑‍💻 /niko-build"/]
-	PFV -.->|"FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
+	PreflightVerdict -.->|"PASS"| ManualBuild[/"🧑‍💻 /niko-build"/]
+	PreflightVerdict -->|"FAIL (TDD)"| NikoPlan
+	PreflightVerdict -.->|"FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
 
 	NikoPlan -->|"Open Questions"| NikoCreative{"🐱 creative"}
 	NikoCreative -->|"High Confidence"| NikoPlan
 	NikoCreative -.->|"Low Confidence"| ManualPlan[/"🧑‍💻 /niko-plan"/]
 
-	ManualBuild --Spawn--> QA
-	subgraph QASA["QA subagent"]
+	ManualBuild --Spawn--> NikoQA
+	subgraph QASubagent["QA subagent"]
 		direction LR
-		QA{"🐱 qa"} --> QAV("Verdict")
+		NikoQA{"🐱 qa"} --> QAVerdict("Verdict")
 	end
-	QAV -->|"PASS"| NikoReflect["🐱 reflect"]
+	QAVerdict -->|"PASS"| NikoReflect["🐱 reflect"]
 	NikoReflect -.-> ManualArchive[/"🧑‍💻 /niko-archive"/]
-	QAV -->|"FAIL (fixable)"| ManualBuild
-	QAV -.->|"FAIL (rearchitect)"| ManualPlan
+	QAVerdict -->|"FAIL (fixable)"| ManualBuild
+	QAVerdict -.->|"FAIL (rearchitect)"| ManualPlan
 
 	ManualPlan -.-> NikoPlan
 
@@ -285,13 +288,13 @@ graph TD
     subgraph Init["First L4 Run"]
         NikoPlan["😺 plan<br>(generate milestones)"]
         ManualReview["🧑‍💻 review plan"]
-        NikoPlan --Spawn--> PF
-        subgraph PFSA["Preflight subagent"]
+        NikoPlan --Spawn--> NikoPreflight
+        subgraph PreflightSubagent["Preflight subagent"]
             direction LR
-            PF{"😺 preflight"} --> PFV("Verdict")
+            NikoPreflight{"😺 preflight"} --> PreflightVerdict("Verdict")
         end
-        PFV -->|"FAIL"| NikoPlan
-        PFV -.->|"PASS"| ManualReview
+        PreflightVerdict -->|"FAIL"| NikoPlan
+        PreflightVerdict -.->|"PASS"| ManualReview
     end
 
     subgraph ReEntry["L4 Milestone Management"]

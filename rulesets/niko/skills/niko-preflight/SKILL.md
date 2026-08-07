@@ -58,15 +58,15 @@ Read:
 
 8. **Generate Preflight Report**
    - Create comprehensive findings report
-   - Write validation status to `memory-bank/active/.preflight-status`
+   - Write validation status to `memory-bank/active/.preflight-status` — exactly one of: `PASS`, `PASS WITH ADVISORY`, `FAIL`, `FAIL (TDD)`
    - Update `memory-bank/active/tasks.md` with any plan amendments or findings
 
 9. **Handle Results**
    - **On PASS**: Good job!
-   - **On PASS with ADVISORY**: Document advisory findings for the operator's consideration (report only — not a transition grant)
+   - **On PASS with ADVISORY**: Document advisory findings for the operator's consideration; still a valid build/transition gate (status file: `PASS WITH ADVISORY`)
    - **On FAIL (rearchitect needed)**: Operator decision required; tell the operator in the report that `/niko-plan` must rerun.
    - **On FAIL (conflict/convention)**: Provide specific fix instructions, block `/niko-build`; Operator decision required.
-   - **On FAIL (TDD plan encoding)**: Block `/niko-build`; cite executable units lacking test-before-code ordering, and any scheduled change-detector tests with the instruction to remove them (keeping any purpose-built CI gate); tell the operator in the report that `/niko-plan` must rerun to restructure.
+   - **On FAIL (TDD plan encoding)**: Block `/niko-build`; write status `FAIL (TDD)`; cite executable units lacking test-before-code ordering, and any scheduled change-detector tests with the instruction to remove them (keeping any purpose-built CI gate); parent re-enters Plan immediately to restructure (do not wait for operator).
 
 ## Step 3: Log Progress
 
@@ -104,6 +104,7 @@ Print the appropriate block:
 
 ## Next Steps
 
+- **On FAIL (TDD)**: Parent re-enters Plan immediately to restructure.
 - **On FAIL (rearchitect)**: Run `/niko-plan` when ready to revise the approach.
 - **On FAIL (fixable)**: Address the findings and re-run `/niko-preflight`.
 ~~~
