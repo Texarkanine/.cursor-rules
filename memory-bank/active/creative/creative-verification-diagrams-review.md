@@ -1,7 +1,8 @@
 # Review Page: C.2a Spawn / Verdict Charts
 
-**Status:** ✅ LOCKED (operator-approved 2026-08-07) — apply to `rulesets/` at build. This page is the chart source of truth for the task.  
-**Superseded for live charts:** PR #108 rework updated `rulesets/niko/` node names and added `FAIL (TDD)` edges; treat `rulesets/niko/` as live authority. This page remains the C.2a Spawn/Verdict grammar record.  
+**Status:** Exploration / historical (operator-approved grammar sketch 2026-08-07). **Not gospel.**  
+**Authority:** `memory-bank/active/tasks.md` is the task plan. Live shipped charts are under `rulesets/niko/`. This page is design exploration for C.2a Spawn/Verdict — do not treat it as charts-to-ship or as overriding the plan.  
+**Note:** Pass-2 rework folds `FAIL (TDD)` into rearchitect; any `FAIL (TDD)` edges drawn here are obsolete exploration.  
 **Grammar:** C.2a + Spawn vocabulary. Exploration trail: `creative-l1-verification-diagram.md` (historical).  
 **Renderer:** Cursor markdown preview.
 

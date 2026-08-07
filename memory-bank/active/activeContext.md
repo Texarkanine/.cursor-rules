@@ -2,14 +2,16 @@
 
 ## Current Task: verification-subagents-preflight-qa
 
-**Phase:** REFLECT COMPLETE
+**Phase:** PLAN - COMPLETE (rework pass 2) — ready to execute from tasks.md
 
 ## What Was Done
 
-- PR #108 rework reflected; creative review page bannered as superseded for live charts
-- Persistent reconcile: systemPatterns tripwire description still accurate (one-line shared stem); productContext/techContext unchanged
+- Operator closed the TDD-routing design: fold into `FAIL (rearchitect)` → Plan; tighten Plan authorship; creative = exploration, `tasks.md` = gospel
+- Rewrote brief Authority + Rework pass 2; replaced tasks.md with pass-2 plan
+- Creative review page bannered as exploration (not live SoT)
 
 ## Next Step
 
-- Run `/niko-archive` to create the archive document and finalize the current project
-- Branch is ready to push (operator requested)
+1. `/sr-search` archaeology: prior preflight TDD catches → what the fixer used
+2. With operator: remove `FAIL (TDD)` chart/status species; tighten level plan docs
+3. One-line fixups (`/niko-archive`, progress summary) anytime

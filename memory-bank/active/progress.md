@@ -278,3 +278,17 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - productContext / techContext: skip — no standing-contract change
 * Insights
     - STOP lists must move with solid edges or self-heal never fires
+
+## 2026-08-07 - REWORK PASS 2 - PLAN RECORDED
+
+* Work completed
+    - Operator closed TDD-routing design after CodeRabbit review discussion
+    - Rewrote brief Authority + Rework pass 2; replaced tasks.md with pass-2 gospel plan
+    - Creative review page demoted to exploration (not live SoT / not gospel)
+* Decisions made
+    - TDD plan-encoding failure = `FAIL (rearchitect)` → Plan (operator); remove `FAIL (TDD)` species
+    - Durable fix = tighten Plan authorship (stockroom archaeology of past preflight TDD catches); repeated fails → postmortem
+    - Creative = exploration; `tasks.md` = what we build; `rulesets/niko/` = live charts
+* Insights
+    - Special TDD chart edge was a misclassification of rearchitect, not a third forever-species
+    - Auto-heal for TDD fought “operator must see plan amendments”; Plan quality is the real lever
