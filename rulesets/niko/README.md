@@ -68,13 +68,21 @@ The short version is:
 ```mermaid
 graph LR
 	Start(("🧑‍💻 /niko")) --> NikoPlan["🐱 plan"]
-	NikoPlan --> NikoPreflight{"🐱 preflight"}
-	NikoPreflight -->|"PASS"| NikoBuild["🐱 build"]
-	NikoPreflight -->|"FAIL"| NikoPlan
-	NikoBuild --> NikoQA{"🐱 qa"}
-	NikoQA -->|"PASS"| NikoReflect["🐱 reflect"]
+	NikoPlan --Spawn--> NikoPreflight
+	subgraph PreflightSubagent["Preflight subagent"]
+		direction LR
+		NikoPreflight{"🐱 preflight"} --> PreflightVerdict("Verdict")
+	end
+	PreflightVerdict -->|"PASS"| NikoBuild["🐱 build"]
+	PreflightVerdict -->|"FAIL"| NikoPlan
+	NikoBuild --Spawn--> NikoQA
+	subgraph QASubagent["QA subagent"]
+		direction LR
+		NikoQA{"🐱 qa"} --> QAVerdict("Verdict")
+	end
+	QAVerdict -->|"PASS"| NikoReflect["🐱 reflect"]
 	NikoReflect --> ManualArchive[/"🧑‍💻 /niko-archive"/]
-	NikoQA -->|"FAIL"| NikoBuild
+	QAVerdict -->|"FAIL"| NikoBuild
 ```
 
 The long version shows all the paths Niko can take, depending on the complexity of the task, with more details about phase transitions:
@@ -84,48 +92,48 @@ The long version shows all the paths Niko can take, depending on the complexity 
 
 ```mermaid
 flowchart LR
-
-	%% Nodes
 	Niko(("🧑‍💻 /niko"))
-	Plan["Plan"]
-	Creative["Creative"]
-	Preflight{"Preflight"}
-	QA{"QA"}
 	Archive["Archive"]
 
-	%% Paths
 	subgraph Planning
-        Niko -- "Level 2 & 3" --> Plan
-
-        Plan -- "Level 3 (Feature)" --> Creative
-
-        
+		Plan["Plan"]
+		Creative["Creative"]
+		Niko -- "Level 2 & 3" --> Plan
+		Plan -- "Level 3 (Feature)" --> Creative
+		Plan --Spawn--> NikoPreflight
+		Creative --Spawn--> NikoPreflight
+		subgraph PreflightSubagent["Preflight subagent"]
+			direction LR
+			NikoPreflight{"Preflight"} --> PreflightVerdict("Verdict")
+		end
+		PreflightVerdict -.->|"Fail"| Plan
 	end
 
-    Creative --> Preflight
-    Niko -- "Level 1 (Fix)" --> Build
-    Plan -- "Level 2 (Enhance)" --> Preflight
-
-	Preflight -->|"Pass"| Build
-    Preflight -.->|"Fail"| Plan
+	Niko -- "Level 1 (Fix)" --> Build
+	PreflightVerdict -->|"Pass"| Build
 
 	subgraph Execution
-        Build["Build"]
+		Build["Build"]
+		Build --Spawn--> NikoQA
+		subgraph QASubagent["QA subagent"]
+			direction LR
+			NikoQA{"QA"} --> QAVerdict("Verdict")
+		end
 	end
 
-    Build --> QA
-    
-	QA -->|"Level 1<br>Fail"| Build
-    QA -.->|"Level 2+<br>Fail"| Plan
-	QA -->|"Level1<br>Pass"| Done("Done")
-    QA -->|"Level2+<br>Pass"| Reflect
-	
+	QAVerdict -->|"L1 Fail /<br>L2+ fixable"| Build
+	QAVerdict -.->|"L2+ rearchitect"| Plan
+	QAVerdict -->|"Level1<br>Pass"| Done("Done")
+	QAVerdict -->|"Level2+<br>Pass"| Reflect
+
 	subgraph Learning
-        Reflect["Reflect"]
-        Reflect -.->|"Rework"| Plan
-
-        Reflect --> Archive
+		Reflect["Reflect"]
+		Reflect -.->|"Rework"| Plan
+		Reflect --> Archive
 	end
+
+	classDef ideology fill:#eceff4,stroke:#9aa0a6,color:#333
+	class Planning,Execution,Learning ideology
 ```
 
 </details>
@@ -136,8 +144,12 @@ In case you want the "Long Version" but for just a single complexity level:
 **Legend:**
 - 🐱 = Phase executed autonomously
 - 🧑‍💻 = Phase initiated by operator with explicit command
-- Solid edge = Transition does not require operator input
-- Dashed edge = Transition requires operator input
+- Solid edge = Transition does not require operator input (parent continues)
+- Dashed edge = Transition requires operator input (STOP and wait)
+- `--Spawn-->` = Parent forks a subagent to run that phase; do not run it in this conversation
+
+Subagent ends at `Verdict`; outbound edges from `Verdict` are taken by the parent.
+A **terminal node** has only dashed outs (e.g. Reflect → Archive).
 
 <details>
 <summary>Level 1: Quick Fix</summary>
@@ -145,19 +157,22 @@ In case you want the "Long Version" but for just a single complexity level:
 ```mermaid
 graph LR
 	Start(("🧑‍💻 /niko<br>Complexity Analysis")) --> NikoBuild["🐱 Build"]
-	NikoBuild --> NikoQA{"🐱 QA"}
-	NikoQA -->|"FAIL"| NikoBuild
+	NikoBuild --Spawn--> NikoQA
+	subgraph QASubagent["QA subagent"]
+		direction LR
+		NikoQA{"🐱 QA"} --> QAVerdict("Verdict")
+	end
+	QAVerdict -->|"FAIL"| NikoBuild
 
 	ManBuild[/"🧑‍💻 /niko-build"/]
 
 	PR{"🧑‍💻 Open Pull Request"}
 	PR -."Rework PR".-> ManBuild
 
-	NikoQA -.->|"PASS"| PR
-	
+	QAVerdict -.->|"PASS"| PR
+
 	ManBuild --> NikoBuild
 	PR -."Ready".-> MergePR("Merge PR")
-	
 ```
 </details>
 
@@ -168,20 +183,28 @@ graph LR
 
 1. "Preflight" phase to validate plan
 2. "Reflect" phase to capture insights before opening PR, may run multiple times depending on PR feedback/rework cycle
-3. "Archive" phase to condense & record all Reflection insights 
+3. "Archive" phase to condense & record all Reflection insights
 
 ```mermaid
 flowchart TD
 	Start(("🧑‍💻 /niko<br>Complexity Analysis")) --> NikoPlan["🐱 plan"]
-	NikoPlan --> NikoPreflight{"🐱 preflight"}
-	NikoPreflight -->|"PASS"| NikoBuild["🐱 build"]
-	NikoPreflight -.->|"FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
+	NikoPlan --Spawn--> NikoPreflight
+	subgraph PreflightSubagent["Preflight subagent"]
+		direction LR
+		NikoPreflight{"🐱 preflight"} --> PreflightVerdict("Verdict")
+	end
+	PreflightVerdict -->|"PASS"| NikoBuild["🐱 build"]
+	PreflightVerdict -.->|"FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
 
-	NikoBuild --> NikoQA{"🐱 qa"}
-	NikoQA -->|"PASS"| NikoReflect["🐱 reflect"]
+	NikoBuild --Spawn--> NikoQA
+	subgraph QASubagent["QA subagent"]
+		direction LR
+		NikoQA{"🐱 qa"} --> QAVerdict("Verdict")
+	end
+	QAVerdict -->|"PASS"| NikoReflect["🐱 reflect"]
 	NikoReflect -.-> ManualArchive[/"🧑‍💻 /niko-archive"/]
-	NikoQA -->|"FAIL (fixable)"| NikoBuild
-	NikoQA -.->|"FAIL (rearchitect)"| ManualPlan
+	QAVerdict -->|"FAIL (fixable)"| NikoBuild
+	QAVerdict -.->|"FAIL (rearchitect)"| ManualPlan
 
 	ManualPlan -.-> NikoPlan
 
@@ -191,7 +214,7 @@ flowchart TD
 
 	PR -."Ready".-> ManualArchive
 	PR -."Rework PR".-> ManualPlan
-	
+
 	ManualArchive -.-> MergePR("Merge PR")
 ```
 
@@ -208,19 +231,27 @@ flowchart TD
 ```mermaid
 graph TD
 	Start(("🧑‍💻 /niko<br>Complexity Analysis")) --> NikoPlan["🐱 plan"]
-	NikoPlan --> NikoPreflight{"🐱 preflight"}
-	NikoPreflight -.->|"PASS"| ManualBuild[/"🧑‍💻 /niko-build"/]
-	NikoPreflight -.->|"FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
+	NikoPlan --Spawn--> NikoPreflight
+	subgraph PreflightSubagent["Preflight subagent"]
+		direction LR
+		NikoPreflight{"🐱 preflight"} --> PreflightVerdict("Verdict")
+	end
+	PreflightVerdict -.->|"PASS"| ManualBuild[/"🧑‍💻 /niko-build"/]
+	PreflightVerdict -.->|"FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
 
 	NikoPlan -->|"Open Questions"| NikoCreative{"🐱 creative"}
 	NikoCreative -->|"High Confidence"| NikoPlan
 	NikoCreative -.->|"Low Confidence"| ManualPlan[/"🧑‍💻 /niko-plan"/]
 
-	ManualBuild --> NikoQA{"🐱 qa"}
-	NikoQA -->|"PASS"| NikoReflect["🐱 reflect"]
+	ManualBuild --Spawn--> NikoQA
+	subgraph QASubagent["QA subagent"]
+		direction LR
+		NikoQA{"🐱 qa"} --> QAVerdict("Verdict")
+	end
+	QAVerdict -->|"PASS"| NikoReflect["🐱 reflect"]
 	NikoReflect -.-> ManualArchive[/"🧑‍💻 /niko-archive"/]
-	NikoQA -.->|"FAIL (fixable)"| ManualBuild
-	NikoQA -.->|"FAIL (rearchitect)"| ManualPlan
+	QAVerdict -->|"FAIL (fixable)"| ManualBuild
+	QAVerdict -.->|"FAIL (rearchitect)"| ManualPlan
 
 	ManualPlan -.-> NikoPlan
 
@@ -254,8 +285,14 @@ graph TD
 
     subgraph Init["First L4 Run"]
         NikoPlan["😺 plan<br>(generate milestones)"]
-        NikoPreflight{"😺 preflight"}
         ManualReview["🧑‍💻 review plan"]
+        NikoPlan --Spawn--> NikoPreflight
+        subgraph PreflightSubagent["Preflight subagent"]
+            direction LR
+            NikoPreflight{"😺 preflight"} --> PreflightVerdict("Verdict")
+        end
+        PreflightVerdict -->|"FAIL"| NikoPlan
+        PreflightVerdict -.->|"PASS"| ManualReview
     end
 
     subgraph ReEntry["L4 Milestone Management"]
@@ -273,10 +310,7 @@ graph TD
     Start --> CheckIfMilestones
 
     CheckIfMilestones -->|"No"| NikoPlan
-    NikoPlan --> NikoPreflight
-    NikoPreflight -->|"FAIL"| NikoPlan
 
-    NikoPreflight -.->|"PASS"| ManualReview
     ManualReview --> Start
 
     CheckIfMilestones -->|"Yes"| CheckMilestoneCompletion
