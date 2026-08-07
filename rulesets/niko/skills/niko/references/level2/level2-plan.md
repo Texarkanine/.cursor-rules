@@ -96,9 +96,11 @@ After Challenges & Mitigations are recorded, run Pre-Mortem on the whole plan:
 
 1. [Step 1 - maps to TDD cycle]
    - Files: [file paths]
+   - Tests first: [test file + case(s) to write and watch fail; or `N/A — prose/policy artifact per always-tdd`]
    - Changes: [specific changes]
 2. [Step 2]
    - Files: [file paths]
+   - Tests first: [test file + case(s) to write and watch fail; or `N/A — prose/policy artifact per always-tdd`]
    - Changes: [specific changes]
 
 ## Technology Validation

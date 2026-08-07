@@ -43,5 +43,4 @@ Creative overbuild → preflight invalidated → leaner plan → clean build. Op
 
 ### Deferred (not fixed this task)
 - L1 shared legend documents symbols the L1 chart lacks (verbatim-shared was the plan).
-- `level2-workflow.md` archive node still says `/archive` not `/niko-archive`.
 - L3 `QA FAIL (fixable)` is solid into an operator-command node.

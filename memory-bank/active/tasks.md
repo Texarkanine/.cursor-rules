@@ -26,7 +26,7 @@ Prose/policy — always-tdd carve-out. No change-detector tests.
 
 ## Implementation Plan
 
-1. **Stockroom archaeology (before chart edits)** ← next
+1. **Stockroom archaeology (before chart edits)**
    - `/sr-search` (semantic + query as needed): sessions where preflight found TDD plan-encoding problems and how the fix was executed (what it read, what it changed in `tasks.md`)
    - Distill: checklist of Plan requirements that would have prevented those fails
    - Files: notes in this `tasks.md` or a short `memory-bank/active/creative/` exploration doc if helpful — **not** gospel until folded into step 3
@@ -36,6 +36,7 @@ Prose/policy — always-tdd carve-out. No change-detector tests.
      - `5c63e90b-6214-42ca-af9a-93c12d65f27a#23`
      - `dd70d758-8bb8-4047-b16c-b942bcad584d#33`
      - High-signal preview class: “TDD plan encoding (blocking, fixed) — Implementation steps lacked per-unit …”
+   - **Distill (2026-08-07 build):** Confirmed across three seed sessions + semantic neighbors. Preflight always failed the same shape: preamble/disclaimer said “TDD cycle” while numbered steps were `Files:`/`Changes:` only (or put helpers/constants before tests, or parked verification last). The in-phase fix was always the same: rewrite each unit with explicit test-before-code substeps (failing baseline first, then implement). That is exactly what step 3’s template `- Tests first:` encodes — no additional Plan liturgy needed beyond the template + escape hatch.
 
 2. **Remove `FAIL (TDD)` species (with operator on any mermaid >1 line)**
    - **Mermaid edges — five single-line deletions** (each chart keeps its sibling dashed `FAIL` edge, so the rearchitect path survives; all five are 1-line deletes, so no operator gate is triggered):
@@ -87,8 +88,8 @@ Prose/policy — always-tdd carve-out. No change-detector tests.
 - [x] Pass-1 rework shipped (most of nine review items)
 - [x] Pass-2 decisions recorded (brief + this plan)
 - [x] Preflight (PASS WITH ADVISORY — plan amended)
-- [ ] Stockroom archaeology
-- [ ] Remove `FAIL (TDD)` species
-- [ ] Tighten Plan TDD authorship
-- [ ] Cheap fixups
-- [ ] Verify
+- [x] Stockroom archaeology
+- [x] Remove `FAIL (TDD)` species
+- [x] Tighten Plan TDD authorship
+- [~] Cheap fixups — one-liners done; **blocked on operator** for `.qa-validation-status` wording + README long QA split
+- [x] Verify (`make test` green; 8/8 mmdc OK on touched charts; `rg 'FAIL \(TDD\)'` clean under `rulesets/niko/`; build guards verify-only confirmed)

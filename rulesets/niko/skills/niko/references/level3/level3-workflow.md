@@ -15,7 +15,6 @@ graph TD
         NikoPreflight{"🐱 preflight"} --> PreflightVerdict("Verdict")
     end
     PreflightVerdict -.->|"PASS"| ManualBuild[/"🧑‍💻 /niko-build"/]
-    PreflightVerdict -->|"FAIL (TDD)"| NikoPlan
     PreflightVerdict -.->|"FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
 
     NikoPlan -->|"Open Questions"| NikoCreative{"🐱 creative"}
@@ -48,7 +47,7 @@ The following phase transitions require operator input; if you have arrived at o
 
 - Creative (Low Confidence) -> Plan
 - Reflect -> Archive
-- Preflight FAIL -> Plan (not `FAIL (TDD)` — that edge is solid; parent re-enters Plan immediately)
+- Preflight FAIL -> Plan
 - Preflight PASS -> Build
 - QA FAIL (rearchitect) -> Plan
 

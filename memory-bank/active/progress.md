@@ -1,6 +1,6 @@
 # Progress
 
-Orchestrate Niko preflight and QA as portable verification subagents: parent forks/waits/continues; child stops via spawn instructions; manual skill recovery verifies only and does not auto-advance; mermaid unchanged; minimal prose under `rulesets/niko/`.
+Orchestrate Niko preflight and QA as portable verification subagents: parent forks/waits/continues; child stops via spawn instructions; manual skill recovery verifies only and does not auto-advance; minimal prose under `rulesets/niko/`.
 
 **Complexity:** Level 2
 
@@ -194,7 +194,7 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - Reconciled persistent files: registered nine-site Spawn tripwire in `systemPatterns.md`
 * Decisions made
     - productContext / techContext: skip (no standing-contract change)
-    - Deferred advisories stay deferred (L1 legend, L2 `/archive`, L3 FAIL edge)
+    - Deferred advisories stay deferred (L1 legend, L3 FAIL edge)
 * Insights
     - Minimal Spawn charge + judge-only QA made the second pass falsifiable; charts-as-SoT made it cheap
 
@@ -207,7 +207,7 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - Rework rather than archive; apply all nine review fixes on this branch
     - PASS with ADVISORY remains a valid build gate (not “non-transition”)
     - TDD plan-encoding FAIL restores self-heal in a Spawn-compatible way (parent/report routing, not child continuing)
-    - Spawn charge: parent adds only `Run the `/niko-…` skill`; no “exactly entire prompt”
+    - Spawn charge: parent adds only `` Run the `/niko-…` skill ``; no “exactly entire prompt”
 * Insights
     - Handle Results over-corrected when Step 4 stopped auto-continue; advisory/TDD semantics drifted from build gates and prior self-heal
 
@@ -313,7 +313,12 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
 
 * Work completed
     - Leaving PREFLIGHT; entering BUILD against amended pass-2 plan
+    - Stockroom archaeology: seeds `#19`/`#23`/`#33` + semantic neighbors — same failure shape (implementation-only steps); same fix (per-unit test-first substeps)
+    - Removed `FAIL (TDD)` species across charts/skill/status/STOP lists; TDD encoding → rearchitect/`FAIL` → operator `/niko-plan`
+    - L2/L3 plan templates gained `- Tests first:` (with always-tdd N/A hatch) before `- Changes:`
+    - Cheap one-liners landed; verify green (`make test`, mmdc×8, rg clean)
 * Decisions made
     - Follow tasks.md order; mermaid single-line deletes OK without operator; multi-line mermaid still gated
+    - Build paused for operator on step-4 gated items (QA-status clear wording; README long QA split)
 * Insights
-    - Stockroom archaeology is advisory input to step 3, not a hard gate
+    - Stockroom archaeology is advisory input to step 3, not a hard gate — and it ratified the template fix without inventing new liturgy

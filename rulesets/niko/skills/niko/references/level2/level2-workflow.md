@@ -15,7 +15,6 @@ graph TD
         NikoPreflight{"🐱 preflight"} --> PreflightVerdict("Verdict")
     end
     PreflightVerdict -->|"PASS"| NikoBuild["🐱 build"]
-    PreflightVerdict -->|"FAIL (TDD)"| NikoPlan
     PreflightVerdict -.->|"FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
 
     NikoBuild --Spawn--> NikoQA
@@ -24,7 +23,7 @@ graph TD
         NikoQA{"🐱 qa"} --> QAVerdict("Verdict")
     end
     QAVerdict -->|"PASS"| NikoReflect["🐱 reflect"]
-    NikoReflect -.-> ManualArchive[/"🧑‍💻 /archive"/]
+    NikoReflect -.-> ManualArchive[/"🧑‍💻 /niko-archive"/]
     QAVerdict -->|"FAIL (fixable)"| NikoBuild
     QAVerdict -.->|"FAIL (rearchitect)"| ManualPlan
 
@@ -40,12 +39,12 @@ graph TD
 > - Subagent ends at `Verdict`; outbound edges from `Verdict` are taken by the **parent**
 > - **Terminal node** = only dashed outs (e.g. Reflect → Archive)
 
-Parent auto-continues on solid Verdict→build / Verdict→reflect, and on solid Preflight `FAIL (TDD)`→plan. Reflect remains a **terminal node** (only dashed out).
+Parent auto-continues on solid Verdict→build / Verdict→reflect. Reflect remains a **terminal node** (only dashed out).
 
 The following phase transitions require operator input; if you have arrived at one of these transitions, STOP and wait! You're done for now.
 
 - Reflect -> Archive
-- Preflight FAIL -> Plan (not `FAIL (TDD)` — that edge is solid; parent re-enters Plan immediately)
+- Preflight FAIL -> Plan
 - QA FAIL (rearchitect) -> Plan
 
 ## Phase Mappings

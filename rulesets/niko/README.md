@@ -106,7 +106,6 @@ flowchart LR
 			direction LR
 			NikoPreflight{"Preflight"} --> PreflightVerdict("Verdict")
 		end
-		PreflightVerdict -->|"FAIL (TDD)"| Plan
 		PreflightVerdict -.->|"Fail"| Plan
 	end
 
@@ -194,7 +193,6 @@ flowchart TD
 		NikoPreflight{"🐱 preflight"} --> PreflightVerdict("Verdict")
 	end
 	PreflightVerdict -->|"PASS"| NikoBuild["🐱 build"]
-	PreflightVerdict -->|"FAIL (TDD)"| NikoPlan
 	PreflightVerdict -.->|"FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
 
 	NikoBuild --Spawn--> NikoQA
@@ -238,7 +236,6 @@ graph TD
 		NikoPreflight{"🐱 preflight"} --> PreflightVerdict("Verdict")
 	end
 	PreflightVerdict -.->|"PASS"| ManualBuild[/"🧑‍💻 /niko-build"/]
-	PreflightVerdict -->|"FAIL (TDD)"| NikoPlan
 	PreflightVerdict -.->|"FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
 
 	NikoPlan -->|"Open Questions"| NikoCreative{"🐱 creative"}
