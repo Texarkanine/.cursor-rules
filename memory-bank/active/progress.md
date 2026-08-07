@@ -230,3 +230,16 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - Spawn charge: shared stem + fenced Run skill; no “entire prompt exactly”
 * Insights
     - L4 already solids all preflight FAIL → Plan; L2/L3 need the new TDD edge
+
+## 2026-08-07 - PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
+
+* Work completed
+    - Validated the nine-fix rework plan against the current `rulesets/niko/` tree; recorded findings F1–F8 in `tasks.md`
+    - Amended the plan in place: added `preflight-status.mdc` to step 1, added the invalidated L2/L3 prose and STOP-list sites to step 4, collapsed the Spawn stem to one line
+* Decisions made
+    - Spawn stem becomes a single line with a double-backtick charge span; the fenced block could not stay byte-identical across the four indentation contexts the nine sites live in
+    - `preflight-status.mdc` must gain both `FAIL (TDD)` and the previously undocumented `PASS WITH ADVISORY`
+    - Items 4–6 already landed in `74afebb`; build verifies and skips rather than rewriting them
+* Insights
+    - The self-heal edge is only half the fix: the L2/L3 STOP lists and narrative sentences state the opposite, and an agent reading them would stop instead of re-planning
+    - The locked creative chart page now diverges from the live `rulesets/` charts in both node names and edges — worth a superseded banner at reflect
