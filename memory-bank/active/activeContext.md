@@ -2,15 +2,15 @@
 
 ## Current Task: verification-subagents-preflight-qa
 
-## Phase: CREATIVE - COMPLETE (diagram locked) → PLAN ready for preflight
+## Phase: PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
 
 ## What Was Done
 
-- Graph design **LOCKED**: C.2a Spawn / Verdict — `creative/creative-verification-diagrams-review.md`
-- Verdict shape **LOCKED**: `("Verdict")` = same rounded end as `Done`
-- Vocabulary: Spawn phases ≠ terminal nodes; parent follows Verdict edges
-- Preflight status: STALE (re-run required)
+- Re-ran preflight after C.2a Spawn/Verdict lock
+- Plan validated: nine call sites + charts/README/skills; prose TDD carve-out OK
+- Small plan amendments: verbatim Spawn tripwire; L4 plan Step 7 uses phase-mapping shape; Step 4 Phase example; parent continuation owned by chart/legend
+- `.preflight-status` = PASS WITH ADVISORY
 
 ## Next Step
 
-Operator: `/niko-preflight`, then `/niko-build`.
+Operator: `/niko-build` (L3 — do not auto-continue from this conversation).

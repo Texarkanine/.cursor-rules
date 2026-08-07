@@ -93,11 +93,17 @@ No new technology - validation not required.
 
 ## Build-source wording
 
+Paste **verbatim** at every call site of that kind (grep-verifiable tripwire — same technique as the consent header). Do not paraphrase across levels.
+
 ### Phase mapping (preflight; QA swaps skill name)
+
+Nine sites total: L1 QA, L2 PF, L2 QA, L3 PF, L3 QA, L4 PF (phase mappings); L2/L3 build missing-preflight; L4 plan Step 7 (use phase-mapping shape below, not the build-guard shape).
 
 ~~~markdown
 - **Level N Preflight Phase**: Spawn a subagent at least as capable as you (smarter / different family if possible) to run the `niko-preflight` skill — do not run the skill in this conversation.
 ~~~
+
+Parent post-Spawn behavior is **not** in this line — it lives in the chart + legend (outbound edges from `Verdict` are the parent’s). Ship legends in the same edit as the Spawn call sites.
 
 ### Secondary (build missing-preflight)
 
@@ -110,7 +116,7 @@ No new technology - validation not required.
 ~~~markdown
 ## Step 4: End of Verification
 
-Update `memory-bank/active/activeContext.md` so `**Phase:**` records this phase complete with PASS or FAIL. Do not load a level workflow or begin another phase. Stop.
+Update `memory-bank/active/activeContext.md` so `**Phase:**` records this phase complete with PASS or FAIL (e.g. `**Phase:** PREFLIGHT - COMPLETE (PASS)` / `**Phase:** QA - COMPLETE (FAIL)`). Do not load a level workflow or begin another phase. Stop.
 ~~~
 
 ### Handle Results
@@ -118,6 +124,12 @@ Update `memory-bank/active/activeContext.md` so `**Phase:**` records this phase 
 - preflight “Allow transition to `/niko-build`” → result/advisory only, not a transition grant  
 - preflight “re-run `/niko-plan`” → tell the operator in the report  
 - qa “Return to the Build/Plan phase” → record that Build/Plan must rerun  
+
+## Preflight Findings (2026-08-07 re-run)
+
+- **PASS** — plan maps all nine call sites + charts/README/skills; TDD carve-out (prose); review page is SoT; superseded creatives bannered
+- **Amended** — verbatim Spawn tripwire; L4 plan Step 7 uses phase-mapping shape; Step 4 Phase example; parent continuation = chart/legend
+- **Advisory** — at build, treat `creative-verification-orchestration.md` / wording / L1 options as historical only (banners already present); do not edit generated `.cursor/`
 
 ## Status
 
@@ -128,7 +140,7 @@ Update `memory-bank/active/activeContext.md` so `**Phase:**` records this phase 
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Creative (diagram) complete
-- [ ] Preflight (re-run after this lock)
+- [x] Preflight (PASS with advisory)
 - [ ] Build
 - [ ] QA
 - [ ] Reflect

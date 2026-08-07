@@ -103,3 +103,16 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - No `run-verification.md`; no C.2b all-dashed Verdict
 * Insights
     - Pattern match on “terminal node” must stay tied to only-dashed-outs or L2 parents will stop after Spawn
+
+## 2026-08-07 - PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
+
+* Work completed
+    - Re-validated amended plan against `rulesets/niko/` after C.2a lock: nine call sites still “Invoke”/inline; skill Step 4 still continues; README/workflows still pre-Spawn charts
+    - Confirmed TDD carve-out (prose/skill wording); dry-reads are walkthroughs, not change-detectors
+    - Confirmed convention: edit `rulesets/niko/` only; `.cursor/` lags by design
+    - Amended Build-source wording: verbatim Spawn tripwire, L4 plan Step 7 shape, Step 4 Phase example, parent continuation = chart/legend
+    - Wrote `.preflight-status` PASS WITH ADVISORY
+* Decisions made
+    - No rearchitect; plan ready for `/niko-build`
+* Insights
+    - Parent post-Spawn continuation must not creep back into the one-liner as fork/wait liturgy — legend + Verdict edges carry it
