@@ -167,5 +167,5 @@ Update `memory-bank/active/activeContext.md` so `**Phase:**` records this phase 
 - [x] Preflight (PASS with advisory)
 - [x] Build (operator QA rework: legend trim, Spawn charge, QA judge-only)
 - [x] QA (PASS — re-Spawn after operator rework)
-- [ ] Reflect
+- [x] Reflect
 - [ ] Archive

@@ -186,3 +186,14 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - PASS — no Build or Plan rerun required
 * Insights
     - The verifier's status and memory-bank writes still assume parent and child share a working tree; retain this as a Reflect advisory, not a block on the locked design
+
+## 2026-08-07 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `reflection/reflection-verification-subagents-preflight-qa.md`
+    - Reconciled persistent files: registered nine-site Spawn tripwire in `systemPatterns.md`
+* Decisions made
+    - productContext / techContext: skip (no standing-contract change)
+    - Deferred advisories stay deferred (L1 legend, L2 `/archive`, L3 FAIL edge)
+* Insights
+    - Minimal Spawn charge + judge-only QA made the second pass falsifiable; charts-as-SoT made it cheap
