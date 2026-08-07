@@ -12,7 +12,7 @@ As an operator running Niko across harnesses, I want preflight and QA to run as 
 4. **Parent advances** — After Spawn returns, parent follows the chart edges (including L2 solid preflight→build / QA→reflect).
 5. **No orchestration file** — No `run-verification.md`. Model heuristic lives in the Spawn phase-mapping line.
 6. **Manual recovery is fully manual** — Operator may run the skill in a new conversation; PASS must not auto-continue; resume via `/niko` or the next slash command per chart.
-7. **README long** — Ideology subgraphs (Planning / Execution / Learning) lightly washed; subagent subgraphs default; Preflight�README long** — Ideology subgraphs (Planning / Execution / Learning) lightly washed; subagent subgraphs default; Preflight⊂Planning; QA⊂Execution.
+7. **README long** — Ideology subgraphs (Planning / Execution / Learning) lightly washed; subagent subgraphs default; Preflight⊂Planning; QA⊂Execution.
 8. **Minimal direct prose** — Match existing Niko voice.
 
 ## Out of Scope
