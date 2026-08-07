@@ -13,9 +13,10 @@ Preflight and QA run in forked subagents. **Charts are source of truth** (C.2a S
 | Concept | Meaning |
 | --- | --- |
 | `--Spawn-->` | Parent forks a subagent to run that phase; do not run the skill in this conversation |
-| Subagent → `Verdict` | Subagent ends here; shape `("Verdict")` same rounded end as `Done` — not start circle, not stadium |
-| Edges out of `Verdict` | Taken by the **parent** (solid = auto, dashed = operator) |
-| **Terminal node** | Only dashed outs (e.g. Reflect → Archive). Spawn/Verdict phases are **not** terminal nodes |
+| Subagent → `Verdict` | Subagent ends here; outbound edges taken by the **parent** |
+| **Terminal node** | Only dashed outs (e.g. Reflect → Archive) |
+| Spawn charge | Load and run that skill — nothing else (no task briefing) |
+| QA contract | Judge only: status/findings/Phase writes; never edit implementation |
 | README long | Ideology bands (Planning / Execution / Learning) get light wash; subagent boxes unstyled; Preflight⊂Planning, QA⊂Execution |
 
 **Historical only (do not follow for build):** `creative-verification-orchestration.md` (`run-verification.md`), Fable wording blocks as drop-in prose, `creative-l1-verification-diagram.md` options A–G / C.2b. Prefer review-page charts + tight Step 4 / Spawn phase-mapping lines below.
@@ -157,7 +158,7 @@ Update `memory-bank/active/activeContext.md` so `**Phase:**` records this phase 
 - [x] Pre-Mortem complete
 - [x] Creative (diagram) complete
 - [x] Preflight (PASS with advisory)
-- [x] Build
-- [x] QA (PASS)
+- [x] Build (operator QA rework: legend trim, Spawn charge, QA judge-only)
+- [ ] QA (prior Opus PASS invalidated — re-Spawn after rework)
 - [ ] Reflect
 - [ ] Archive

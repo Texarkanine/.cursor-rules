@@ -2,32 +2,17 @@
 
 ## Current Task: verification-subagents-preflight-qa
 
-**Phase:** QA - COMPLETE (PASS)
+**Phase:** BUILD - IN PROGRESS (operator QA rework)
 
 ## What Was Done
 
-- Applied C.2a Spawn/Verdict charts + shared legends to L1–L4 `*-workflow.md` under `rulesets/niko/`
-- Updated README short / long (ideology wash) / per-level / L4 init Spawn pattern; PR ornaments kept
-- Replaced all nine verification call sites with verbatim Spawn tripwire (phase mappings + L2/L3 build guards + L4 plan Step 7)
-- Skills: Step 4 → End of Verification (stop + `activeContext` Phase); Handle Results report-only
-- Dry-reads 1–6 PASS (L3 STOP “terminal” script hit was a false positive on legend text)
-- QA PASS: charts compiled with `mmdc` + renders inspected; legend verbatim 5/5; two trivial fixes (L3 review-voice prose, `**Phase:**` field normalization)
-
-## Files Modified
-
-- `rulesets/niko/skills/niko/references/level{1,2,3,4}/level*-workflow.md`
-- `rulesets/niko/README.md`
-- `rulesets/niko/skills/niko/references/level2/level2-build.md`
-- `rulesets/niko/skills/niko/references/level3/level3-build.md`
-- `rulesets/niko/skills/niko/references/level4/level4-plan.md`
-- `rulesets/niko/skills/niko-preflight/SKILL.md`
-- `rulesets/niko/skills/niko-qa/SKILL.md`
-- `memory-bank/active/tasks.md`, `activeContext.md`, `progress.md`
-
-## Deviations from Plan
-
-None — built to plan (review page SoT; `.cursor/` left lagging by design).
+- Build shipped C.2a charts + nine Spawn sites + Step 4 stop
+- Opus Spawn QA: PASS (also edited `level3-workflow.md` — contract violation under new judge-only rule)
+- Operator QA: strip Verdict legend throat-clearing; Spawn charge = load-and-run only; QA must judge-not-fix
+- Opened https://github.com/Texarkanine/.cursor-rules/issues/107 (mmdc compile on PR; no PNG)
 
 ## Next Step
 
-QA passed. Parent continues per the L3 chart: `QAV -->|"PASS"| NikoReflect` (solid).
+- Finish operator-QA rework (legend + Spawn charge + QA skill judge-only)
+- Re-Spawn QA with charge only: load and run `niko-qa` (plus seat-local OptMem line if required)
+- Then Reflect

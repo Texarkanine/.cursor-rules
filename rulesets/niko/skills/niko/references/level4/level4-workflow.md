@@ -29,9 +29,9 @@ graph TD
 > - 🧑‍💻 = Phase initiated by operator with explicit command
 > - Solid edge = Transition does not require operator input (parent continues)
 > - Dashed edge = Transition requires operator input (STOP and wait)
-> - `--Spawn-->` = Parent forks a subagent to run that phase; do not run it in this conversation
-> - Subagent ends at `Verdict` (same rounded end shape as `Done` — `("Verdict")`, not the start circle `((…))`); outbound edges from `Verdict` are taken by the **parent**
-> - **Terminal node** = only dashed outs (e.g. Reflect → Archive). Spawn/Verdict phases are **not** terminal nodes
+> - `--Spawn-->` = Parent forks a subagent to run that phase; do not run it in this conversation. Charge: load and run that skill — nothing else.
+> - Subagent ends at `Verdict`; outbound edges from `Verdict` are taken by the **parent**
+> - **Terminal node** = only dashed outs (e.g. Reflect → Archive)
 
 Milestone bodies inherit Spawn/QA from whichever L1/L2/L3 chart applies — L4 chart does not redraw them.
 
