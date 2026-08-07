@@ -2,7 +2,7 @@
 
 ## Current Task: verification-subagents-preflight-qa
 
-**Phase:** QA - IN PROGRESS (re-Spawn on GPT Terra)
+**Phase:** QA - COMPLETE (PASS)
 
 ## What Was Done
 
@@ -12,6 +12,5 @@
 
 ## Next Step
 
-1. Await QA Spawn verdict (status file, not returned prose)
-2. On PASS → Reflect (solid edge); Reflect is terminal → wait for `/niko-archive`
-3. On FAIL (fixable) → Build; on FAIL (rearchitect) → wait for `/niko-plan`
+1. Reflect (solid edge from QA PASS)
+2. Reflect is terminal → wait for `/niko-archive`

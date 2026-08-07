@@ -148,6 +148,13 @@ Update `memory-bank/active/activeContext.md` so `**Phase:**` records this phase 
 - Pre-existing, untouched by this build: `level2-workflow.md` labels the archive node `/archive` rather than `/niko-archive`; L3's `QA FAIL (fixable)` edge is solid into the operator-command node `🧑‍💻 /niko-build`.
 - `systemPatterns.md` line 21 lists the verbatim-tripwire technique's instances; the nine-site Spawn line is now a third instance. Registering it belongs to Reflect's `reconcile-persistent` pass, not QA.
 
+## QA Findings (2026-08-07 re-Spawn)
+
+- **PASS** — the operator QA rework preserves the locked C.2a Spawn/Verdict design and all six implementation-plan steps.
+- **Verified** — all 10 changed Mermaid blocks compile with `mmdc` 11.14.0; nine Spawn call sites are present and no residual `Invoke the niko-preflight/qa skill` wording remains.
+- **Verified** — both verification skills stop after recording their result; QA is explicitly judge-only and its permitted writes are constrained to the memory-bank verdict artifacts.
+- **Advisory (non-blocking)** — Spawn presumes a shared working tree because verifier outputs are status and memory-bank files; this remains a deliberate portability tradeoff recorded for Reflect.
+
 ## Status
 
 - [x] Component analysis complete
@@ -159,6 +166,6 @@ Update `memory-bank/active/activeContext.md` so `**Phase:**` records this phase 
 - [x] Creative (diagram) complete
 - [x] Preflight (PASS with advisory)
 - [x] Build (operator QA rework: legend trim, Spawn charge, QA judge-only)
-- [ ] QA (prior Opus PASS invalidated — re-Spawn after rework)
+- [x] QA (PASS — re-Spawn after operator rework)
 - [ ] Reflect
 - [ ] Archive

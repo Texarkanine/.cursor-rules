@@ -175,3 +175,14 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - Model: GPT Terra (`gpt-5.6-terra-medium`); charge = load-and-run `niko-qa` only
 * Insights
     - Prior Opus PASS invalidated by operator rework; status file is the resume signal
+
+## 2026-08-07 - QA - COMPLETE (PASS)
+
+* Work completed
+    - Independently reviewed the operator QA rework against the locked Spawn/Verdict charts, project brief, and all six plan steps
+    - Confirmed all ten changed Mermaid blocks compile with `mmdc` 11.14.0
+    - Confirmed nine Spawn call sites, no residual verification-skill invocations, and both skills' stop-after-verification contract
+* Decisions made
+    - PASS — no Build or Plan rerun required
+* Insights
+    - The verifier's status and memory-bank writes still assume parent and child share a working tree; retain this as a Reflect advisory, not a block on the locked design
