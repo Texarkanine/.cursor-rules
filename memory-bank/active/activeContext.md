@@ -2,13 +2,14 @@
 
 ## Current Task: verification-subagents-preflight-qa
 
-## Phase: PREFLIGHT - COMPLETE (PASS)
+## Phase: PLAN - AMENDED (preflight stale)
 
 ## What Was Done
 
-- Plan finalized from Opus + Fable creatives
-- Preflight PASS: call sites, core path conventions, TDD carve-out, and completeness checked; no plan amendments
+- Operator amended design: no `run-verification.md`; parent = fork one-liner; harnesses own wait; skills stop directly
+- Breadth gaps listed in `tasks.md` (Step 4, activeContext Phase, secondary sites, Handle Results verbs, L4 plan, L1 QA)
+- Prior preflight PASS invalidated (`.preflight-status` = STALE)
 
 ## Next Step
 
-Operator: run `/niko-build` to implement (L3 does not auto-enter build after preflight).
+Re-run `/niko-preflight`, then `/niko-build`.

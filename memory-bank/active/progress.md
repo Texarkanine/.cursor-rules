@@ -70,3 +70,14 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - No plan amendments required
 * Insights
     - L3 build missing-preflight line lacks L2's "proceed as instructed there" but is still a secondary call site — replacement must match each site's current phrasing
+
+## 2026-08-07 - PLAN - AMENDED
+
+* Work completed
+    - Dropped `run-verification.md` and rigid fork/wait/read/fallback liturgy
+    - Parent = one-liner; skill Step 4 = tight stop + `activeContext` Phase; invalidated preflight
+    - Breadth walk: listed gaps enthusiasm can miss (Step 4, Phase write, secondary sites, Handle Results verbs, L4 plan, L1 QA)
+* Decisions made
+    - Prompting not process-control; match Niko directness; creative docs historical only
+* Insights
+    - Opus failure mode here was system design overbuild + throat-clearing prose, not inability to write the skill stop
