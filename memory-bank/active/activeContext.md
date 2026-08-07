@@ -2,13 +2,13 @@
 
 ## Current Task: verification-subagents-preflight-qa
 
-## Phase: CREATIVE - IN PROGRESS (diagram grammar)
+## Phase: CREATIVE - IN PROGRESS (diagram review)
 
 ## What Was Done
 
-- Pivot: flowcharts first; QA/preflight terminal; prose percolates after
-- Creative (unresolved): `creative/creative-l1-verification-diagram.md` — renditions A–G for L1, T1 vs T2 semantic fork, soft recommendations, all mermaid parse-checked
+- C.2a + Spawn (not “terminal node”) vocabulary preferred
+- Review page: `creative/creative-verification-diagrams-review.md` — L1–L4 C.2a charts + README short/long/L4 abridgments (not applied to rulesets yet)
 
 ## Next Step
 
-Operator: pick or refine a L1 chart grammar (and T1 vs T2). You may hand-edit `level1-workflow.md`. Then we mirror to L2–L4 and percolate prose across the interreferential surface.
+Operator reviews that page in Cursor preview; then apply winning charts to level workflows + README and percolate prose.
