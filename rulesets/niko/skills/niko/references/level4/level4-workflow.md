@@ -9,9 +9,13 @@ Level 4 tasks are too large to plan and execute in one pass. They are decomposed
 ```mermaid
 graph TD
     Start(("Complexity Analysis")) --> NikoPlan["🐱 plan<br>(generate milestones)"]
-    NikoPlan --> NikoPreflight{"🐱 preflight"}
-    NikoPreflight -->|"FAIL"| NikoPlan
-    NikoPreflight -.->|"PASS"| ManualReview["🧑‍💻 review plan"]
+    NikoPlan --Spawn--> PF
+    subgraph PFSA["Preflight subagent"]
+        direction LR
+        PF{"🐱 preflight"} --> PFV("Verdict")
+    end
+    PFV -->|"FAIL"| NikoPlan
+    PFV -.->|"PASS"| ManualReview["🧑‍💻 review plan"]
     ManualReview -.->|"🧑‍💻 /niko"| Niko
     subgraph SubWorkflow["L1-L3 Workflow"]
         Niko(("Milestone Execution"))
@@ -23,8 +27,13 @@ graph TD
 > Legend:
 > - 🐱 = Phase executed autonomously
 > - 🧑‍💻 = Phase initiated by operator with explicit command
-> - Solid edge = Transition does not require operator input
-> - Dashed edge = Transition requires operator input
+> - Solid edge = Transition does not require operator input (parent continues)
+> - Dashed edge = Transition requires operator input (STOP and wait)
+> - `--Spawn-->` = Parent forks a subagent to run that phase; do not run it in this conversation
+> - Subagent ends at `Verdict` (same rounded end shape as `Done` — `("Verdict")`, not the start circle `((…))`); outbound edges from `Verdict` are taken by the **parent**
+> - **Terminal node** = only dashed outs (e.g. Reflect → Archive). Spawn/Verdict phases are **not** terminal nodes
+
+Milestone bodies inherit Spawn/QA from whichever L1/L2/L3 chart applies — L4 chart does not redraw them.
 
 After the initial plan is reviewed, `/niko` manages the milestone lifecycle: checking off completed sub-runs, cleaning inter-run state, classifying the next milestone, and routing to the capstone archive when all milestones are done.
 
@@ -38,5 +47,5 @@ To execute a phase for a level 4 task:
 2. 🚨 ***CRITICAL:*** Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: saving work before [phase] phase`.
 3. Read and follow the instructions in the appropriate locations:
     - **Level 4 Plan Phase**: Load `.cursor/skills/shared/niko/references/level4/level4-plan.md`
-    - **Level 4 Preflight Phase**: Invoke the `niko-preflight` skill
+    - **Level 4 Preflight Phase**: Spawn a subagent at least as capable as you (smarter / different family if possible) to run the `niko-preflight` skill — do not run the skill in this conversation.
     - **Level 4 Archive Phase**: Load `.cursor/skills/shared/niko/references/level4/level4-archive.md`

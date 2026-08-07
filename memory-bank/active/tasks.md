@@ -68,12 +68,12 @@ Prose only (`always-tdd` carve-out). Dry-read after charts+prose:
 
 ## Implementation Plan
 
-1. **Apply charts** from review page to `level1`–`level4` `*-workflow.md` (mermaid + shared legend language)
-2. **Apply README** short / long / per-level / L4 slices from review page (ideology `classDef`; subagents default)
-3. **Phase mappings** — Spawn one-liner per verification phase
-4. **Secondary sites** — `level2-build.md`, `level3-build.md`, `level4-plan.md` Step 7
-5. **Skills** — Step 4 End of Verification + Handle Results micro-edits
-6. **Dry-read** walkthroughs 1–6
+1. [x] **Apply charts** from review page to `level1`–`level4` `*-workflow.md` (mermaid + shared legend language)
+2. [x] **Apply README** short / long / per-level / L4 slices from review page (ideology `classDef`; subagents default)
+3. [x] **Phase mappings** — Spawn one-liner per verification phase
+4. [x] **Secondary sites** — `level2-build.md`, `level3-build.md`, `level4-plan.md` Step 7
+5. [x] **Skills** — Step 4 End of Verification + Handle Results micro-edits
+6. [x] **Dry-read** walkthroughs 1–6
 
 ## Technology Validation
 
@@ -141,7 +141,7 @@ Update `memory-bank/active/activeContext.md` so `**Phase:**` records this phase 
 - [x] Pre-Mortem complete
 - [x] Creative (diagram) complete
 - [x] Preflight (PASS with advisory)
-- [ ] Build
+- [x] Build
 - [ ] QA
 - [ ] Reflect
 - [ ] Archive

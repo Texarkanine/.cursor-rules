@@ -52,8 +52,8 @@ Read:
 
 5. **Handle Results**
     - **On PASS (clean or all issues fixed)**: Good job!
-    - **On FAIL (issues requiring build changes)**: Return to the Build phase to fix the issues.
-    - **On FAIL (fundamental plan issue discovered)**: Return to the Plan phase to revise the plan.
+    - **On FAIL (issues requiring build changes)**: Record that Build must rerun to fix the issues.
+    - **On FAIL (fundamental plan issue discovered)**: Record that Plan must rerun to revise the plan.
 
 ## Step 3: Log Progress
 
@@ -88,7 +88,6 @@ When QA review is complete, print:
 (the next command, if any, based on the current complexity-level's workflow & QA result)
 ~~~
 
-## Step 4: Phase Transition
+## Step 4: End of Verification
 
-- If operator input is required: stop and wait for them.
-- If operator input is not required: load the appropriate complexity level-specific Niko workflow file, then use its Phase Mappings to execute the next phase.
+Update `memory-bank/active/activeContext.md` so `**Phase:**` records this phase complete with PASS or FAIL (e.g. `**Phase:** PREFLIGHT - COMPLETE (PASS)` / `**Phase:** QA - COMPLETE (FAIL)`). Do not load a level workflow or begin another phase. Stop.

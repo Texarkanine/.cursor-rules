@@ -18,7 +18,7 @@ Read:
 - Confirm `memory-bank/active/.preflight-status` exists and contains `PASS` or `PASS WITH ADVISORY`
 - Confirm `memory-bank/active/tasks.md` contains a complete implementation plan with component analysis, resolved open questions, test plan, and ordered implementation steps
 - Confirm all open questions in the plan are marked resolved (or explicitly deferred by the operator)
-- 🚨 If preflight has not passed: STOP - invoke the `niko-preflight` skill.
+- 🚨 If preflight has not passed: STOP — Spawn a subagent at least as capable as you (smarter / different family if possible) to run the `niko-preflight` skill; do not run it in this conversation. Re-check `memory-bank/active/.preflight-status` before continuing.
 - 🚨 If the implementation plan is missing or incomplete: STOP - invoke the `niko-plan` skill.
 - 🚨 If unresolved open questions remain: STOP - inform the operator.
 

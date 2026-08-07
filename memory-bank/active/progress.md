@@ -125,3 +125,14 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - Charts SoT; edit `rulesets/niko/` only; historical creatives not build sources
 * Insights
     - Nine Spawn call sites + Step 4 stop are the prose tripwires; legends ship with charts
+
+## 2026-08-07 - BUILD - COMPLETE
+
+* Work completed
+    - Charts + legends on L1–L4 workflows; README short/long/per-level/L4 Spawn slices
+    - Nine verbatim Spawn call sites; skill Step 4 End of Verification; Handle Results report-only
+    - Dry-read walkthroughs 1–6 PASS
+* Decisions made
+    - No deviations; `.cursor/` not edited (lags by design)
+* Insights
+    - Parent continuation stays in chart/legend — one-liner must not grow fork/wait liturgy

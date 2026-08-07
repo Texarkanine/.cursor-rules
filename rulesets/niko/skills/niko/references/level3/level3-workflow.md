@@ -9,19 +9,27 @@ Level 3 tasks are intermediate features that require a structured approach with 
 ```mermaid
 graph TD
     Start(("Complexity Analysis")) --> NikoPlan["🐱 plan"]
-    NikoPlan --> NikoPreflight{"🐱 preflight"}
-    NikoPreflight -.->|"PASS"| ManualBuild[/"🧑‍💻 /niko-build"/]
-    NikoPreflight -.->|"FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
+    NikoPlan --Spawn--> PF
+    subgraph PFSA["Preflight subagent"]
+        direction LR
+        PF{"🐱 preflight"} --> PFV("Verdict")
+    end
+    PFV -.->|"PASS"| ManualBuild[/"🧑‍💻 /niko-build"/]
+    PFV -.->|"FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
 
     NikoPlan -->|"Open Questions"| NikoCreative{"🐱 creative"}
     NikoCreative -->|"High Confidence"| NikoPlan
-    NikoCreative -.->|"Low Confidence"| ManualPlan[/"🧑‍💻 /niko-plan"/]
+    NikoCreative -.->|"Low Confidence"| ManualPlan
 
-    ManualBuild --> NikoQA{"🐱 qa"}
-    NikoQA -->|"PASS"| NikoReflect["🐱 reflect"]
+    ManualBuild --Spawn--> QA
+    subgraph QASA["QA subagent"]
+        direction LR
+        QA{"🐱 qa"} --> QAV("Verdict")
+    end
+    QAV -->|"PASS"| NikoReflect["🐱 reflect"]
     NikoReflect -.-> ManualArchive[/"🧑‍💻 /niko-archive"/]
-    NikoQA -->|"FAIL (fixable)"| ManualBuild
-    NikoQA -.->|"FAIL (rearchitect)"| ManualPlan
+    QAV -->|"FAIL (fixable)"| ManualBuild
+    QAV -.->|"FAIL (rearchitect)"| ManualPlan
 
     ManualPlan -.-> NikoPlan
 ```
@@ -29,8 +37,13 @@ graph TD
 > Legend:
 > - 🐱 = Phase executed autonomously
 > - 🧑‍💻 = Phase initiated by operator with explicit command
-> - Solid edge = Transition does not require operator input
-> - Dashed edge = Transition requires operator input
+> - Solid edge = Transition does not require operator input (parent continues)
+> - Dashed edge = Transition requires operator input (STOP and wait)
+> - `--Spawn-->` = Parent forks a subagent to run that phase; do not run it in this conversation
+> - Subagent ends at `Verdict` (same rounded end shape as `Done` — `("Verdict")`, not the start circle `((…))`); outbound edges from `Verdict` are taken by the **parent**
+> - **Terminal node** = only dashed outs (e.g. Reflect → Archive). Spawn/Verdict phases are **not** terminal nodes
+
+Both Verdict outs from preflight are dashed → preflight’s *Verdict* is terminal-shaped in the old sense, but we still call the phase a **Spawn**, not a “terminal node,” so vocabulary stays consistent with L2. The STOP list still includes Preflight PASS → Build.
 
 The following phase transitions require operator input; if you have arrived at one of these transitions, STOP and wait! You're done for now.
 
@@ -48,8 +61,8 @@ To execute a phase for a level 3 task:
 2. 🚨 ***CRITICAL:*** Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: saving work before [phase] phase`.
 3. Read and follow the instructions in the appropriate locations:
     - **Level 3 Plan Phase**: Load `.cursor/skills/shared/niko/references/level3/level3-plan.md`
-    - **Level 3 Preflight Phase**: Invoke the `niko-preflight` skill
+    - **Level 3 Preflight Phase**: Spawn a subagent at least as capable as you (smarter / different family if possible) to run the `niko-preflight` skill — do not run the skill in this conversation.
     - **Level 3 Build Phase**: Load `.cursor/skills/shared/niko/references/level3/level3-build.md`
-    - **Level 3 QA Phase**: Invoke the `niko-qa` skill
+    - **Level 3 QA Phase**: Spawn a subagent at least as capable as you (smarter / different family if possible) to run the `niko-qa` skill — do not run the skill in this conversation.
     - **Level 3 Reflect Phase**: Load `.cursor/skills/shared/niko/references/level3/level3-reflect.md`
     - **Level 3 Archive Phase**: Load `.cursor/skills/shared/niko/references/level3/level3-archive.md`

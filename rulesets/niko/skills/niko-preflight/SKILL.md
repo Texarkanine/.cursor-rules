@@ -63,10 +63,10 @@ Read:
 
 9. **Handle Results**
    - **On PASS**: Good job!
-   - **On PASS with ADVISORY**: Allow transition to `/niko-build`, but document advisory findings for the operator's consideration
-   - **On FAIL (rearchitect needed)**: Operator decision required.
+   - **On PASS with ADVISORY**: Document advisory findings for the operator's consideration (report only — not a transition grant)
+   - **On FAIL (rearchitect needed)**: Operator decision required; tell the operator in the report that `/niko-plan` must rerun.
    - **On FAIL (conflict/convention)**: Provide specific fix instructions, block `/niko-build`; Operator decision required.
-   - **On FAIL (TDD plan encoding)**: Block `/niko-build`; cite executable units lacking test-before-code ordering, and any scheduled change-detector tests with the instruction to remove them (keeping any purpose-built CI gate); then re-run `/niko-plan` to restructure.
+   - **On FAIL (TDD plan encoding)**: Block `/niko-build`; cite executable units lacking test-before-code ordering, and any scheduled change-detector tests with the instruction to remove them (keeping any purpose-built CI gate); tell the operator in the report that `/niko-plan` must rerun to restructure.
 
 ## Step 3: Log Progress
 
@@ -108,7 +108,6 @@ Print the appropriate block:
 - **On FAIL (fixable)**: Address the findings and re-run `/niko-preflight`.
 ~~~
 
-## Step 4: Phase Transition
+## Step 4: End of Verification
 
-- If operator input is required: stop and wait for them.
-- If operator input is not required: load the appropriate complexity level-specific Niko workflow file, then use its Phase Mappings to execute the next phase.
+Update `memory-bank/active/activeContext.md` so `**Phase:**` records this phase complete with PASS or FAIL (e.g. `**Phase:** PREFLIGHT - COMPLETE (PASS)` / `**Phase:** QA - COMPLETE (FAIL)`). Do not load a level workflow or begin another phase. Stop.

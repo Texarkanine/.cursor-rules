@@ -9,10 +9,23 @@ Level 1 tasks are isolated bug fixes affecting a single component. Prioritize sp
 ```mermaid
 graph LR
     Start(("Complexity Analysis")) --> NikoBuild["🐱 Build"]
-    NikoBuild --> NikoQA{"🐱 QA"}
-    NikoQA -->|"PASS"| Done("Done")
-    NikoQA -->|"FAIL"| NikoBuild
+    NikoBuild --Spawn--> QA
+    subgraph QASA["QA subagent"]
+        direction LR
+        QA{"🐱 QA"} --> QAV("Verdict")
+    end
+    QAV -->|"PASS"| Done("Done")
+    QAV -->|"FAIL"| NikoBuild
 ```
+
+> Legend:
+> - 🐱 = Phase executed autonomously
+> - 🧑‍💻 = Phase initiated by operator with explicit command
+> - Solid edge = Transition does not require operator input (parent continues)
+> - Dashed edge = Transition requires operator input (STOP and wait)
+> - `--Spawn-->` = Parent forks a subagent to run that phase; do not run it in this conversation
+> - Subagent ends at `Verdict` (same rounded end shape as `Done` — `("Verdict")`, not the start circle `((…))`); outbound edges from `Verdict` are taken by the **parent**
+> - **Terminal node** = only dashed outs (e.g. Reflect → Archive). Spawn/Verdict phases are **not** terminal nodes
 
 Level 1 tasks skip `/niko-plan`, `/niko-creative`, and `/niko-preflight`. Go straight to build.
 Level 1 tasks are *simple* so there's no `/niko-reflect` or `/niko-archive` after building, either. A commit message & description are sufficient record.
@@ -25,7 +38,7 @@ To execute a phase for a level 1 task:
 2. 🚨 ***CRITICAL:*** Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: saving work before [phase] phase`.
 3. Read and follow the instructions in the appropriate locations:
     - **Level 1 Build Phase**: Load `.cursor/skills/shared/niko/references/level1/level1-build.md`
-    - **Level 1 QA Phase**: Invoke the `niko-qa` skill
+    - **Level 1 QA Phase**: Spawn a subagent at least as capable as you (smarter / different family if possible) to run the `niko-qa` skill — do not run the skill in this conversation.
 
 ## Wrap-Up
 
