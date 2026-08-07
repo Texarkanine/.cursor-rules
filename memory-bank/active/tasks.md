@@ -4,101 +4,76 @@
 * Complexity: Level 3
 * Type: orchestration / prompt authorship
 
-Run Niko preflight and QA via a forked subagent that runs the existing skill. Parent one-liner forks; skill ends without continuing the workflow. No new orchestration file.
+Preflight and QA run in forked subagents. **Charts are source of truth** (C.2a Spawn / Verdict grammar). Prose percolates from charts. No `run-verification.md`.
 
-## Plan Amendment (2026-08-07)
+## Locked design
 
-Operator rejected `run-verification.md` and rigid fork/wait liturgy. Further pivot: **workflow mermaid is source of truth**; QA/preflight become terminal (grammar TBD in creative); prose percolates after charts land.
+**Authoritative chart + legend:** `memory-bank/active/creative/creative-verification-diagrams-review.md` (operator-approved).
 
-- Drop `run-verification.md`
-- **Blocked on** `creative/creative-l1-verification-diagram.md` (operator picks L1 grammar + T1 vs T2)
-- Then: mirror charts L2–L4 → phase mappings / skills / secondary sites / README
-- Preflight remains stale until plan stabilizes post-diagram
-## Pinned Info
+| Concept | Meaning |
+| --- | --- |
+| `--Spawn-->` | Parent forks a subagent to run that phase; do not run the skill in this conversation |
+| Subagent → `Verdict` | Subagent ends here; does not advance the workflow |
+| Edges out of `Verdict` | Taken by the **parent** (solid = auto, dashed = operator) |
+| **Terminal node** | Only dashed outs (e.g. Reflect → Archive). Spawn/Verdict phases are **not** terminal nodes |
+| README long | Ideology bands (Planning / Execution / Learning) get light wash; subagent boxes unstyled; Preflight⊂Planning, QA⊂Execution |
 
-### Verification handoff
+**Historical only (do not follow for build):** `creative-verification-orchestration.md` (`run-verification.md`), Fable wording blocks as drop-in prose, `creative-l1-verification-diagram.md` options A–G / C.2b. Prefer review-page charts + tight Step 4 / Spawn phase-mapping lines below.
 
-```mermaid
-sequenceDiagram
-    participant P as Parent
-    participant V as Verifier
-    participant MB as memory-bank/active
-
-    Note over P: one-liner forks subagent to run skill
-    P->>V: run niko-preflight / niko-qa
-    V->>MB: status + activeContext Phase
-    V-->>P: stop
-    Note over P: continue flowchart edges
-```
+**Pins (out of this task):** creative-exploration as subagent → no; Spawn edge emoji → later.
 
 ## Component Analysis
 
 ### Affected Components
 
-- `niko-preflight` / `niko-qa`: Step 4 stop + `activeContext` Phase; strip transition verbs in Handle Results
-- Level 1–4 workflow Phase Mappings (6 lines): invoke → fork one-liner
-- Secondary sites: `level2-build.md`, `level3-build.md`, `level4-plan.md` Step 7
-- **Not** adding `run-verification.md`
+- Level 1–4 `*-workflow.md`: mermaid + legend (+ STOP lists: do not call Spawn phases “terminal”)
+- `rulesets/niko/README.md`: short / long / per-level / L4 abridgments per review page
+- Phase mappings + secondary call sites: Spawn one-liner (not “Invoke the skill”)
+- `niko-preflight` / `niko-qa`: Step 4 stop + `activeContext` Phase; Handle Results report-only
 
 ### Boundary Changes
 
-- Direct skill invoke (manual recovery): PASS does not continue the workflow
-- Status-file gates unchanged; mermaid unchanged
+- Manual skill invoke: PASS does not continue the workflow in that conversation
+- Status-file gates unchanged
+- Mermaid **does** change (charts first)
 
 ## Open Questions
 
-- [x] Q1 Placement → **Amended:** no shared reference; one-liner at each call site
-- [x] Q2 Step 4 → Unconditional stop + `activeContext` Phase (kept; wording tightened)
-- [x] Q3 Model → Kept as short heuristic inside the one-liner (no separate procedure)
+- [x] Diagram grammar → **LOCKED** C.2a Spawn/Verdict (`creative-verification-diagrams-review.md`)
+- [x] No `run-verification.md`; Spawn edge + skill stop
+- [x] “Terminal node” reserved; Spawn phases use Spawn vocabulary
+- [x] README long: ideology wash; QA in Execution; Preflight in Planning
 
-## Breadth gaps (enthusiasm checklist)
+## Breadth gaps
 
-Things easy to skip if you only picture the happy-path one-liner — all in scope for build:
-
-| Gap | Why it matters | Plan response |
-| --- | --- | --- |
-| Skill Step 4 still continues today | Forked child on L2 PASS walks into build | Rewrite Step 4 to stop |
-| `activeContext` `**Phase:**` | `/niko` Step 6 resumes phase; without a write, recovery + `/niko` re-enters verification | Step 4 writes phase complete + result |
-| “Do not run the skill in this conversation” | Without it, parent helpfully runs inline | On every call-site line |
-| Secondary sites (`level2-build` especially) | “proceed as instructed there” is the old single-context path | Same fork one-liner, then re-check status |
-| Handle Results transition verbs | “Return to Build”, “Allow transition to `/niko-build`” contradict stop | Report-only wording |
-| L4 plan Step 7 | Direct “Invoke preflight to execute” bypasses workflow mapping | Same one-liner |
-| L1 QA | Only gate on L1; same rubber-stamp risk | Same one-liner (no exception) |
-| Over-specified child lifecycle | Not needed; harness forks/waits | Omitted on purpose |
-| In-process fallback essay | User: don’t rigidify; prohibition is enough | No fallback novella; if fork impossible, operator recovers manually (already designed) |
+| Gap | Plan response |
+| --- | --- |
+| Skill Step 4 still continues | Rewrite to stop; write `activeContext` Phase |
+| Parent runs skill inline | “Do not run the skill in this conversation” on Spawn call sites |
+| Secondary sites “proceed as instructed” | Same Spawn one-liner; re-check status |
+| Handle Results transition verbs | Report-only |
+| Calling QA/preflight “terminal” in STOP lists | Don’t — Reflect-style only-dashed nodes only |
+| Reintroducing `run-verification.md` / wait liturgy | Reject |
 
 ## Test Plan
 
-Prose only (`always-tdd` carve-out). Dry-read:
+Prose only (`always-tdd` carve-out). Dry-read after charts+prose:
 
-1. L2 parent PASS → fork → parent continues to build
-2. L3 parent PASS → fork → parent waits for `/niko-build`
-3. Manual `/niko-preflight` PASS → stop; `/niko` resumes from recorded phase
-4. Skills have no path that loads a level workflow after verification
-5. No call site still says invoke-and-proceed in-process
+1. L2: Spawn preflight → solid Verdict→build; Spawn QA → solid Verdict→reflect  
+2. L3: Spawn preflight → dashed Verdict→`/niko-build`; Spawn QA → reflect  
+3. Manual `/niko-preflight` PASS → stop; `/niko` resumes from recorded phase  
+4. Skills never load a level workflow after verification  
+5. No invoke-and-proceed-in-process call sites  
+6. README long: ideology wash; nested subagents; no orphan Spawn nodes  
 
 ## Implementation Plan
 
-1. **Six Phase Mapping one-liners**
-    - Files: `level1-workflow.md`, `level2-workflow.md`, `level3-workflow.md`, `level4-workflow.md`
-    - Changes: replace `Invoke the niko-* skill` with the parent one-liner (skill name only differs)
-
-2. **Three secondary sites**
-    - Files: `level2-build.md`, `level3-build.md`, `level4-plan.md`
-    - Changes: same fork one-liner; build guards re-check status before continuing; no “proceed as instructed”
-
-3. **`niko-preflight` Step 4 + Handle Results**
-    - File: `rulesets/niko/skills/niko-preflight/SKILL.md`
-    - Changes: End of Verification (tight); PASS WITH ADVISORY / TDD-fail lines stop routing the workflow
-
-4. **`niko-qa` Step 4 + Handle Results**
-    - File: `rulesets/niko/skills/niko-qa/SKILL.md`
-    - Changes: same; FAIL lines report Build/Plan must rerun — do not “Return to” those phases
-
-5. **README**
-    - Confirm no false same-conversation claim; edit only if needed
-
-6. **Dry-read** walkthroughs 1–5 after edits
+1. **Apply charts** from review page to `level1`–`level4` `*-workflow.md` (mermaid + shared legend language)
+2. **Apply README** short / long / per-level / L4 slices from review page (ideology `classDef`; subagents default)
+3. **Phase mappings** — Spawn one-liner per verification phase
+4. **Secondary sites** — `level2-build.md`, `level3-build.md`, `level4-plan.md` Step 7
+5. **Skills** — Step 4 End of Verification + Handle Results micro-edits
+6. **Dry-read** walkthroughs 1–6
 
 ## Technology Validation
 
@@ -106,31 +81,31 @@ No new technology - validation not required.
 
 ## Challenges & Mitigations
 
-- Parent runs skill inline despite prohibition: Step 4 still stops (independence lost, flow OK)
-- Missing Phase write: resume re-verifies — must land in Step 4
-- Prose bloat: match existing Niko directness; do not paste Fable A1/Opus skeletal verbatim
+- Drift back to “QA is a terminal node” → breaks solid Verdict edges; use Spawn vocabulary only
+- Dark-mode ideology wash → tune fill later; don’t style subagent boxes
+- Step 4 soft wording → child continues; must be unconditional stop
 
 ## Pre-Mortem
 
-- Over-orchestration creeps back at build → reject any new reference file or wait/read liturgy
-- Step 4 left soft (“prefer stop”) → child continues; must be unconditional
-- Secondary sites forgotten → L2 build still single-contexts preflight
+- Build from orchestration creative → wrong design; review page is SoT  
+- Charts ship without phase-mapping/skill percolation → agents ignore mermaid  
+- C.2b (all-dashed Verdict) creeps back → parent STOPs after Spawn  
 
 ## Build-source wording
 
-### Parent one-liner (preflight; QA swaps skill name)
+### Phase mapping (preflight; QA swaps skill name)
 
 ~~~markdown
-- **Level N Preflight Phase**: Fork a subagent at least as capable as you (smarter / different family if possible) to run the `niko-preflight` skill — do not run the skill in this conversation.
+- **Level N Preflight Phase**: Spawn a subagent at least as capable as you (smarter / different family if possible) to run the `niko-preflight` skill — do not run the skill in this conversation.
 ~~~
 
 ### Secondary (build missing-preflight)
 
 ~~~markdown
-🚨 If preflight has not passed: STOP — fork a subagent at least as capable as you (smarter / different family if possible) to run the `niko-preflight` skill; do not run it in this conversation. Re-check `memory-bank/active/.preflight-status` before continuing.
+🚨 If preflight has not passed: STOP — Spawn a subagent at least as capable as you (smarter / different family if possible) to run the `niko-preflight` skill; do not run it in this conversation. Re-check `memory-bank/active/.preflight-status` before continuing.
 ~~~
 
-### Skill Step 4 (preflight; QA: `.qa-validation-status` / “reflect” if a punch line is needed — prefer none)
+### Skill Step 4
 
 ~~~markdown
 ## Step 4: End of Verification
@@ -138,21 +113,22 @@ No new technology - validation not required.
 Update `memory-bank/active/activeContext.md` so `**Phase:**` records this phase complete with PASS or FAIL. Do not load a level workflow or begin another phase. Stop.
 ~~~
 
-### Handle Results micro-edits (direction)
+### Handle Results
 
-- preflight “Allow transition to `/niko-build`” → keep PASS WITH ADVISORY as a result, not a transition grant
-- preflight “re-run `/niko-plan`” → tell the operator in the report
-- qa “Return to the Build/Plan phase” → record that Build/Plan must rerun
+- preflight “Allow transition to `/niko-build`” → result/advisory only, not a transition grant  
+- preflight “re-run `/niko-plan`” → tell the operator in the report  
+- qa “Return to the Build/Plan phase” → record that Build/Plan must rerun  
 
 ## Status
 
 - [x] Component analysis complete
-- [x] Open questions resolved (amended)
+- [x] Open questions resolved (diagram locked)
 - [x] Test planning complete
-- [x] Implementation plan complete (amended)
+- [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight (re-run required after amendment)
+- [x] Creative (diagram) complete
+- [ ] Preflight (re-run after this lock)
 - [ ] Build
 - [ ] QA
 - [ ] Reflect

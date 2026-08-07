@@ -1,7 +1,7 @@
 # Review Page: C.2a Spawn / Verdict Charts
 
-**Status:** For operator review — not applied to `rulesets/` yet.  
-**Grammar:** C.2a + Spawn vocabulary (see `creative-l1-verification-diagram.md`).  
+**Status:** ✅ LOCKED (operator-approved 2026-08-07) — apply to `rulesets/` at build. This page is the chart source of truth for the task.  
+**Grammar:** C.2a + Spawn vocabulary. Exploration trail: `creative-l1-verification-diagram.md` (historical).  
 **Renderer:** Cursor markdown preview.
 
 ## Shared legend

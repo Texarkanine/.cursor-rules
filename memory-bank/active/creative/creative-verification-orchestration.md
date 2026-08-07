@@ -1,5 +1,7 @@
 # Architecture Decision: Verification Orchestration
 
+> ⚠️ **SUPERSEDED.** Operator rejected `run-verification.md` and rigid fork/wait liturgy. Locked design: charts in `creative-verification-diagrams-review.md` + Spawn phase-mapping lines + skill Step 4 stop. Keep this file as history only.
+
 **Task:** verification-subagents-preflight-qa
 **Scope of this document:** Q1 (placement factoring), Q2 (skill Step 4 contract), Q3 (portable spawn / model heuristic). Structure and rules only. Final prose lives in `creative-verification-wording.md`, whose blocks were written against an undecided structure; this document picks the structure and says which of those blocks land where, plus the additions they still need.
 

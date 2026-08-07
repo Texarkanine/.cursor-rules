@@ -1,6 +1,6 @@
 # Decision: L1 Workflow Diagram — Verification as Terminal Subagent
 
-**Status:** ⚠️ UNRESOLVED — operator lean is C.2a + Spawn vocabulary. **Side-by-side L1–L4 + README abridgments:** `creative-verification-diagrams-review.md`.
+**Status:** Historical exploration. **LOCKED decision:** C.2a Spawn / Verdict in `creative-verification-diagrams-review.md`. Do not build from options below.
 
 **Approach:** Generic creative (process / visual grammar for Niko level workflows)
 

@@ -1,5 +1,7 @@
 # Creative: Verification Wording Candidates
 
+> ⚠️ **Not build-authoritative.** Prefer tight Spawn / Step 4 wording in `memory-bank/active/tasks.md` (Locked design). This file is historical Fable candidates; do not reintroduce `run-verification.md` or Block B liturgy.
+
 **Task:** verification-subagents-preflight-qa
 **Scope of this document:** prose candidates only. Q1–Q3 (placement factoring, contract structure, spawn mechanics) are **not decided here** — wording candidates pending Opus structure. Every block below is written to be portable: it works whether Opus chooses a shared reference, verbatim duplication per call site, or thin phase-mapping edits.
 

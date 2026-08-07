@@ -91,3 +91,15 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - Charts are source of truth; brief updated; awaiting operator selection (low confidence by design)
 * Insights
     - “Like Reflect / L3 preflight” (T2 dashed) and “parent solid-continues after fork” (T1) are different terminals — diagram choice should pick one
+
+## 2026-08-07 - CREATIVE - COMPLETE (diagram locked)
+
+* Work completed
+    - Operator approved C.2a Spawn/Verdict review page (L1–L4 + README long with ideology wash, Preflight⊂Planning, QA⊂Execution)
+    - Scrubbed `tasks.md` / `projectbrief.md` / `activeContext.md` to match lock; marked superseded creatives
+* Decisions made
+    - Charts SoT: `creative-verification-diagrams-review.md`
+    - Spawn ≠ terminal node; solid Verdict edges = parent auto-continue
+    - No `run-verification.md`; no C.2b all-dashed Verdict
+* Insights
+    - Pattern match on “terminal node” must stay tied to only-dashed-outs or L2 parents will stop after Spawn
