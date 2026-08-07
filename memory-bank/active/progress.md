@@ -116,3 +116,12 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - No rearchitect; plan ready for `/niko-build`
 * Insights
     - Parent post-Spawn continuation must not creep back into the one-liner as fork/wait liturgy — legend + Verdict edges carry it
+
+## 2026-08-07 - BUILD - IN PROGRESS
+
+* Work completed
+    - Leaving PREFLIGHT; entering BUILD against locked C.2a review page
+* Decisions made
+    - Charts SoT; edit `rulesets/niko/` only; historical creatives not build sources
+* Insights
+    - Nine Spawn call sites + Step 4 stop are the prose tripwires; legends ship with charts
