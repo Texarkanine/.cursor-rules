@@ -197,3 +197,16 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - Deferred advisories stay deferred (L1 legend, L2 `/archive`, L3 FAIL edge)
 * Insights
     - Minimal Spawn charge + judge-only QA made the second pass falsifiable; charts-as-SoT made it cheap
+
+## 2026-08-07 - REWORK - INITIATED
+
+* Work completed
+    - Operator reviewed draft PR #108 with `/pr-feedback-judge`; agreed all nine dispositions (fix in this PR)
+    - Refined Item 4 (closed QA write allowlist) and Item 7 (parent-authored charge only; harness/OptMem injection allowed)
+* Decisions made
+    - Rework rather than archive; apply all nine review fixes on this branch
+    - PASS with ADVISORY remains a valid build gate (not “non-transition”)
+    - TDD plan-encoding FAIL restores self-heal in a Spawn-compatible way (parent/report routing, not child continuing)
+    - Spawn charge: parent adds only `Run the `/niko-…` skill`; no “exactly entire prompt”
+* Insights
+    - Handle Results over-corrected when Step 4 stopped auto-continue; advisory/TDD semantics drifted from build gates and prior self-heal
