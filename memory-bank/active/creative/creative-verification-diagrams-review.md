@@ -168,9 +168,8 @@ flowchart LR
 		Creative["Creative"]
 		Niko -- "Level 2 & 3" --> Plan
 		Plan -- "Level 3 (Feature)" --> Creative
-		Plan -- "Level 2 (Enhance)" --> PF
-		Creative --Spawn--> PF
 		Plan --Spawn--> PF
+		Creative --Spawn--> PF
 		subgraph PFSA["Preflight subagent"]
 			direction LR
 			PF{"Preflight"} --> PFV(("Verdict"))
