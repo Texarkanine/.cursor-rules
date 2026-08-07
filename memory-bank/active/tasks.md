@@ -158,7 +158,7 @@ Tell the operator: the result is recorded in `memory-bank/active/.preflight-stat
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA
 - [ ] Reflect

@@ -58,3 +58,15 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - No further creative; proceed to preflight
 * Insights
     - Opus addition of `activeContext` Phase write closes the silent re-verify gap on manual recovery + `/niko`
+
+## 2026-08-07 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Validated nine call sites and two skill Step 4 continue paths against `rulesets/niko/`
+    - Confirmed `references/core/` is the right home for `run-verification.md`; Phase Mapping `Load` path shape matches siblings
+    - TDD carve-out holds (prose/skill wording); dry-read walkthroughs are the verification plan, not change-detectors
+    - Wrote `.preflight-status` PASS
+* Decisions made
+    - No plan amendments required
+* Insights
+    - L3 build missing-preflight line lacks L2's "proceed as instructed there" but is still a secondary call site — replacement must match each site's current phrasing
