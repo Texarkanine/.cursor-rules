@@ -292,3 +292,14 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
 * Insights
     - Special TDD chart edge was a misclassification of rearchitect, not a third forever-species
     - Auto-heal for TDD fought “operator must see plan amendments”; Plan quality is the real lever
+
+## 2026-08-07 - PREFLIGHT - IN PROGRESS (rework pass 2)
+
+* Work completed
+    - Operator invoked `/niko-build`; Build Step 2 refused — pass-2 plan has no validating preflight
+    - Cleared stale pass-1 `.preflight-status` (`PASS WITH ADVISORY`)
+    - Leaving PLAN; spawning preflight for the pass-2 gospel plan
+* Decisions made
+    - Stale status from a prior plan is not a build gate for a new plan
+* Insights
+    - L2 chart still requires Preflight→Build; operator slash-command does not skip the gate
