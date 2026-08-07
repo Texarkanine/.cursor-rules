@@ -64,7 +64,7 @@ When QA review is complete, print:
 
 ✅ PASS
 
-1. **Findings** - bulleted list of each semantic finding (and why it does or does not block)
+1. **Findings** - bulleted list of each semantic finding and why it does or does not block
 
 ~~~
 
@@ -75,7 +75,7 @@ When QA review is complete, print:
 
 ❌ FAIL
 
-1. **Findings** - bulleted list of each semantic finding (and why it blocks)
+1. **Findings** - bulleted list of each semantic finding and why it blocks
 
 ## Next Steps
 
