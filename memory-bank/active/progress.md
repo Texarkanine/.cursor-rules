@@ -255,3 +255,14 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - Status vocabulary now documents `PASS` / `PASS WITH ADVISORY` / `FAIL` / `FAIL (TDD)`
 * Insights
     - STOP-list narrowing was required for TDD self-heal to be reachable
+
+## 2026-08-07 - QA - COMPLETE (PASS, rework)
+
+* Work completed
+    - Reviewed the nine agreed PR #108 fixes and preflight amendments against the Level 2 plan and project brief
+    - Confirmed all nine shared Spawn charge sites, the four-value preflight status vocabulary, full indicative Mermaid node names, and aligned L2/L3 TDD self-heal routing
+    - Ran `make test` and compiled all ten affected Mermaid blocks successfully
+* Decisions made
+    - PASS — no Build or Plan rerun is required
+* Insights
+    - The one-line Spawn charge remains a mechanically verifiable shared tripwire across its varied list contexts

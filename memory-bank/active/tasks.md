@@ -143,8 +143,8 @@ TDD Plan Encoding: **PASS** — every unit delivers rule/skill wording and docum
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight (PASS WITH ADVISORY)
-- [ ] Build
-- [ ] QA
+- [x] Build
+- [x] QA (PASS)
 
 
 ## Build Progress
@@ -154,3 +154,8 @@ TDD Plan Encoding: **PASS** — every unit delivers rule/skill wording and docum
 - [x] Step 3: nine-site Spawn stem (one-line form)
 - [x] Step 4: node renames, `FAIL (TDD)` edges, L2/L3 STOP/narrative, L4 inherit delete, README charts
 - [x] Step 5: `make test` green; 10/10 mermaid blocks compile; no leftover abbrevs / forbidden phrases
+
+## QA Results
+
+- PASS — all nine agreed fixes and the preflight amendments are present and consistent with the Level 2 workflow.
+- Verified `make test`, compilation of all ten affected Mermaid blocks, the nine shared Spawn charge sites, status vocabulary, and absence of deprecated node identifiers and invocation wording.
