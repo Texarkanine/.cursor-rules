@@ -324,3 +324,17 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - Scratch comparison kept under `creative/creative-readme-qa-fail-edges.md`
 * Insights
     - Long-chart overview wants glanceable solid/dashed contrast; per-level charts keep short single-purpose Fail labels
+
+## 2026-08-07 - QA - COMPLETE (PASS, rework pass 2)
+
+* Work completed
+    - Judged all five plan steps against the build diff: 12 `FAIL (TDD)` sites gone with every sibling dashed rearchitect edge intact; `- Tests first:` correctly placed with the always-tdd hatch; all four cheap fixups plus README Option A landed
+    - Confirmed build guards were verify-only, L4 correctly needs neither a QA-status clear nor a `- Tests first:` template, and the nine-site Spawn tripwire is still verbatim nine times
+    - `make test` green; all 10 mermaid blocks compile on `mmdc` 11.14.0; inspected the README long-chart render
+    - Recorded two non-blocking advisories: the unplanned L1 legend deletion and the dangling scratch-SVG pointers in the new creative doc
+* Decisions made
+    - PASS — no Build or Plan rerun; both advisories route to Reflect
+    - Reverted two fixes this session started making: the canonical `rulesets/` skill is judge-only, and QA may not edit the work under review
+* Insights
+    - The generated `.cursor/` copy of `niko-qa` still says "apply trivial fixes directly" while canonical says "Judge, Do Not Fix" — the lag changed verifier behavior live until the canonical file was read
+    - Judge-only makes the fixable/rearchitect question moot for cosmetics: an unplanned but harmless edit becomes a PASS advisory rather than a Build round-trip

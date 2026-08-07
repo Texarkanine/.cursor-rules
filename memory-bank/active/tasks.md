@@ -77,6 +77,24 @@ Prose/policy — always-tdd carve-out. No change-detector tests.
 - **Completeness — amended.** Two underspecified step-4 targets resolved to exact paths; the "optional" items reclassified as operator-gated; step 1 marked advisory so unavailable stockroom cannot block step 3.
 - **Advisory (no action needed):** brief item 4 (postmortem if TDD keeps failing) is a conditional future policy with no build action this pass. Belongs in reflection, not the plan.
 
+## QA Findings (2026-08-07, rework pass 2)
+
+✅ **PASS.** Two non-blocking advisories; no Build or Plan rerun required.
+
+### Verified
+
+- **Step 2 — complete.** All 12 `FAIL (TDD)` sites gone; `rg` clean under `rulesets/niko/` and repo-wide outside `memory-bank/`. Each of the five deleted mermaid edges retains its sibling dashed `FAIL` edge, so the rearchitect route survives on L2, L3, and all three README charts. Build guards confirmed verify-only: L2 and L3 gate on `PASS` / `PASS WITH ADVISORY` alone.
+- **Step 3 — complete.** `- Tests first:` sits between `- Files:` and `- Changes:` in both plan templates, carries the always-tdd `N/A` hatch, matches each file's indentation, and adds no parallel prose instruction — the existing "maps to one TDD cycle" lines are untouched. L4 needs no equivalent: its plan doc has no per-step implementation template. This satisfies preflight's "TDD ordering lives only in the preamble" FAIL condition per-unit.
+- **Step 4 — complete.** `/niko-archive`, progress summary, satisfied `/archive` deferral bullet, double-backtick Spawn spans, README Option A, and `.qa-validation-status` clear at all three QA phase-mapping sites. L4 correctly has none — it has no QA phase.
+- **Convention.** Only `rulesets/` and `memory-bank/` touched; `.cursor/` and `.claude/` untouched.
+- **Nine-site Spawn tripwire intact.** The shared span still appears exactly nine times; the QA-status clear is prefixed *before* it rather than rewriting it, so `systemPatterns.md` stays accurate and needs no update.
+- **Mechanical.** `make test` green; all 10 mermaid blocks compile (`mmdc` 11.14.0); README long-chart render inspected — `L1 Fail / L2+ fixable` solid to Build, dashed `L2+ rearchitect` to Plan, no orphan edges.
+
+### Advisories (non-blocking, for Reflect)
+
+- **Unplanned legend edit.** `level1-workflow.md` lost the legend line `🧑‍💻 = Phase initiated by operator with explicit command`. The plan does not authorize it and `activeContext.md` records "Deviations: None material". Non-behavioral, and arguably correct since the L1 chart has no `🧑‍💻` node — but it half-applies a design call pass 1 explicitly deferred: the legend still documents dashed edges, which the L1 chart also lacks. Reflect should either finish the tailoring (drop the dashed-edge line too) or restore the line, then reconcile the `### Deferred` bullet in `reflection-verification-subagents-preflight-qa.md` accordingly.
+- **Dangling scratch pointers.** `creative/creative-readme-qa-fail-edges.md` has a "Rendered SVGs" section naming three SVGs that were never committed and do not exist. Cosmetic now, but `systemPatterns.md` requires archives be self-contained, so drop the section before archive.
+
 ## Out of scope this pass
 
 - Restoring solid auto Plan re-entry for TDD
@@ -94,3 +112,4 @@ Prose/policy — always-tdd carve-out. No change-detector tests.
 - [x] Cheap fixups (incl. QA-status clear + README Option A)
 - [x] Verify (`make test` green; mmdc OK; `rg 'FAIL \(TDD\)'` clean under `rulesets/niko/`; build guards verify-only confirmed)
 - [x] Build phase complete
+- [x] QA (PASS — two advisories for Reflect; no Build/Plan rerun)
