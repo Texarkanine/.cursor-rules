@@ -219,6 +219,32 @@ graph TD
 
 **Recommendation while you look at L2:** prefer **C.2a** (or C.2c if you want a verb). Keep **solid/dashed = auto vs operator**. Let the **subgraph + Verdict + Spawn** do the subagent storytelling — don’t spend the stroke channel on “returns,” or you have to rewrite the whole legend.
 
+#### C.2 — “Terminal node” vs Spawn (operator concern)
+
+Established Niko pattern: a **terminal node** is one whose *only* outbound edges are dashed (operator must continue) — Reflect → Archive, L3 Preflight → `/niko-build`.
+
+| Chart | Looks good? | “Terminal node” honesty | Parent-driver risk |
+| --- | --- | --- | --- |
+| **C.2a** | Yes — solid PASS shows auto-continue | If we call QA/preflight terminal, we **lie**: solid lines leave Verdict | Low — solid means continue |
+| **C.2b** | Weaker — PASS and operator edges same stroke | Can call Verdict terminal (only dotted outs) | **High** — parent pattern-matches dashed → STOP and wait |
+
+Trying C.2b “to keep the word terminal” burns the stroke legend and may halt L2 after preflight/QA. Trying C.2a while still saying “QA is a terminal node” in parent-facing prose is the dealbreaker you suspect.
+
+**Prose fix (keep C.2a, don’t overload terminal):**
+
+- **Parent POV:** these are **Spawn** phases, not terminal nodes. Parent forks, receives Verdict, follows the edge (solid = go, dashed = stop for operator). Parent does *not* terminate when it Spawns.
+- **Subagent POV:** the subgraph ends at **Verdict** — that agent stops; it never takes the outbound edge into build/reflect. Skill Step 4 can say stop / end of verification without the parent-workflow phrase “terminal node.”
+- **Reserve “terminal node”** for nodes that still match the old definition (only dashed outs): Reflect, and any 🧑‍💻 handoff targets’ predecessors that already use that list.
+
+Legend sketch:
+
+> - `--Spawn-->` = parent forks a subagent to run that phase; do not run it in this conversation  
+> - Subagent ends at `Verdict`; outbound edges from `Verdict` are taken by the **parent**  
+> - Solid / dashed keep their meaning: auto vs operator  
+> - **Terminal node** = only dashed outs (unchanged); Spawn/Verdict phases are not terminal nodes
+
+That keeps pattern matching for “terminal,” keeps C.2a’s look, and puts the subagent stop where it belongs (child + Spawn wording), not in the parent’s STOP list.
+
 ### D — Dual subgraph (parent vs verifier) — clearest ownership
 
 ```mermaid
