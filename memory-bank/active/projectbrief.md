@@ -6,15 +6,16 @@ As an operator running Niko across harnesses, I want preflight and QA to run as 
 
 ## Requirements
 
-1. **Subagent verification** — Preflight and QA execute as forked verification agents; parent waits, reads status/report, then continues existing PASS/FAIL edges.
-2. **Child stop via spawn, not skill identity** — The forked agent must stop after one verification pass. That stop is enforced by how the parent invokes the subagent, not by baking “I am a child” into `niko-preflight` / `niko-qa`. Skills remain valid when the operator invokes them directly.
-3. **Manual recovery is fully manual** — If a verification subagent never launches, the operator may open a new conversation and run `/niko-preflight` or `/niko-qa` to accomplish verification. On PASS, that recovery path must **not** auto-continue into the next phase. Resume of the normal workflow is a separate new conversation with the normal model selection.
-4. **Parent owns phase transitions** — Solid edges (e.g. L2 preflight PASS → build) remain the parent’s job after reading verification results. Mermaid flowcharts stay as-is; subagent is an implementation detail, not a new visual subgraph.
-5. **Portable model selection** — Prefer a model at least as capable as the parent, smarter if available, different family if possible. No Composer/vendor SKU hardcoding; must work across Cursor, Claude Code, and unknown harnesses/model menus.
-6. **Minimal prose** — Placement of orchestration text must be precise, concise, and maximally efficient. Prefer tiny edits in the right spots (level phase mappings / spawn instructions; skills only if unavoidable) under `rulesets/niko/`.
+1. **Charts are source of truth** — Level-N workflow mermaid diagrams define process semantics. Prose (phase mappings, skills, secondary call sites, README) percolates from chart+legend changes; not the other way around.
+2. **Verification is terminal** — QA and preflight are terminal in the sense chosen in creative (subagent-terminal T1 and/or phase-terminal T2 like Reflect / L3 preflight). The agent that runs verification does not advance the workflow.
+3. **Parent (or operator) advances** — Outbound progress after verification is not performed inside the verifier.
+4. **Subagent invoke** — Parent forks a subagent (model ≥ self, smarter / different family if possible) to run `niko-preflight` / `niko-qa`; do not run the skill in the parent conversation. No separate `run-verification.md` orchestration file.
+5. **Manual recovery is fully manual** — Operator may run the skill in a new conversation; PASS must not auto-continue; resume is a separate conversation (`/niko` or next slash command per chart).
+6. **Portable model selection** — Capability heuristic, no vendor SKU hardcoding.
+7. **Minimal direct prose** — Match existing Niko voice; no throat-clearing.
 
 ## Out of Scope
 
-- Redrawing workflow mermaid to depict subagents
-- Changing what preflight/QA *check* (semantic content of validation), except as needed for orchestration/stop behavior
-- Loading OptMem in verification subagents (explicitly not loaded; treated as desirable independence)
+- Changing what preflight/QA *check* semantically (review criteria), except stop/transition wording
+- Loading OptMem in verification subagents
+- Programming Niko as a real AST/state machine (intentional prompt-portable tradeoff)

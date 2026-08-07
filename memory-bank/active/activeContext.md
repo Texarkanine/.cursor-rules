@@ -2,14 +2,13 @@
 
 ## Current Task: verification-subagents-preflight-qa
 
-## Phase: PLAN - AMENDED (preflight stale)
+## Phase: CREATIVE - IN PROGRESS (diagram grammar)
 
 ## What Was Done
 
-- Operator amended design: no `run-verification.md`; parent = fork one-liner; harnesses own wait; skills stop directly
-- Breadth gaps listed in `tasks.md` (Step 4, activeContext Phase, secondary sites, Handle Results verbs, L4 plan, L1 QA)
-- Prior preflight PASS invalidated (`.preflight-status` = STALE)
+- Pivot: flowcharts first; QA/preflight terminal; prose percolates after
+- Creative (unresolved): `creative/creative-l1-verification-diagram.md` — renditions A–G for L1, T1 vs T2 semantic fork, soft recommendations, all mermaid parse-checked
 
 ## Next Step
 
-Re-run `/niko-preflight`, then `/niko-build`.
+Operator: pick or refine a L1 chart grammar (and T1 vs T2). You may hand-edit `level1-workflow.md`. Then we mirror to L2–L4 and percolate prose across the interreferential surface.

@@ -8,13 +8,12 @@ Run Niko preflight and QA via a forked subagent that runs the existing skill. Pa
 
 ## Plan Amendment (2026-08-07)
 
-Operator rejected `run-verification.md` and the rigid fork/wait/read/fallback procedure. Harnesses already know how to fork and wait; this is prompting, not process control. Creative docs remain historical; **this amended plan is authoritative for build.**
+Operator rejected `run-verification.md` and rigid fork/wait liturgy. Further pivot: **workflow mermaid is source of truth**; QA/preflight become terminal (grammar TBD in creative); prose percolates after charts land.
 
-- Drop new file `references/core/run-verification.md`
-- Parent call sites: one-liner (fork + model heuristic + named skill + do-not-run-here)
-- Skills: direct End of Verification (stop; record resume signal) — less flourish than Fable A1
-- Prior preflight PASS invalidated → re-run `/niko-preflight` before build
-
+- Drop `run-verification.md`
+- **Blocked on** `creative/creative-l1-verification-diagram.md` (operator picks L1 grammar + T1 vs T2)
+- Then: mirror charts L2–L4 → phase mappings / skills / secondary sites / README
+- Preflight remains stale until plan stabilizes post-diagram
 ## Pinned Info
 
 ### Verification handoff

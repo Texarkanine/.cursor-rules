@@ -81,3 +81,13 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - Prompting not process-control; match Niko directness; creative docs historical only
 * Insights
     - Opus failure mode here was system design overbuild + throat-clearing prose, not inability to write the skill stop
+
+## 2026-08-07 - CREATIVE - IN PROGRESS (diagram grammar)
+
+* Work completed
+    - Opened L1-first creative: how to show QA as subagent-terminal / phase-terminal in mermaid
+    - Documented options A–G + T1 vs T2; `mmdc` OK on B–G
+* Decisions made
+    - Charts are source of truth; brief updated; awaiting operator selection (low confidence by design)
+* Insights
+    - “Like Reflect / L3 preflight” (T2 dashed) and “parent solid-continues after fork” (T1) are different terminals — diagram choice should pick one
