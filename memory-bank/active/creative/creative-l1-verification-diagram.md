@@ -90,7 +90,7 @@ graph LR
     NikoBuild --> Fork["fork"]
     subgraph SA["QA subagent"]
         direction LR
-        QA{"🐱 QA"} --> Halt(["stop"])
+        QA{"🐱 QA"} --> Halt("stop")
     end
     Fork --> QA
     Halt -.->|"PASS"| Done("Done")
@@ -113,7 +113,7 @@ graph LR
     NikoBuild --Spawn--> QA
     subgraph SA["QA subagent"]
         direction LR
-        QA{"🐱 QA"} --> Verdict(["Verdict"])
+        QA{"🐱 QA"} --> Verdict("Verdict")
     end
     Verdict -->|"PASS"| Done("Done")
     Verdict -->|"FAIL"| NikoBuild
@@ -133,7 +133,7 @@ graph TD
     NikoPlan --Spawn--> PF
     subgraph PFSA["Preflight subagent"]
         direction LR
-        PF{"🐱 preflight"} --> PFV(["Verdict"])
+        PF{"🐱 preflight"} --> PFV("Verdict")
     end
     PFV -->|"PASS"| NikoBuild["🐱 build"]
     PFV -.->|"FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
@@ -141,7 +141,7 @@ graph TD
     NikoBuild --Spawn--> QA
     subgraph QASA["QA subagent"]
         direction LR
-        QA{"🐱 qa"} --> QAV(["Verdict"])
+        QA{"🐱 qa"} --> QAV("Verdict")
     end
     QAV -->|"PASS"| NikoReflect["🐱 reflect"]
     NikoReflect -.-> ManualArchive[/"🧑‍💻 /archive"/]
@@ -161,7 +161,7 @@ graph TD
     NikoPlan --Spawn--> PF
     subgraph PFSA["Preflight subagent"]
         direction LR
-        PF{"🐱 preflight"} --> PFV(["Verdict"])
+        PF{"🐱 preflight"} --> PFV("Verdict")
     end
     PFV -.->|"returns PASS"| NikoBuild["🐱 build"]
     PFV -.->|"returns FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
@@ -169,7 +169,7 @@ graph TD
     NikoBuild --Spawn--> QA
     subgraph QASA["QA subagent"]
         direction LR
-        QA{"🐱 qa"} --> QAV(["Verdict"])
+        QA{"🐱 qa"} --> QAV("Verdict")
     end
     QAV -.->|"returns PASS"| NikoReflect["🐱 reflect"]
     NikoReflect -.-> ManualArchive[/"🧑‍💻 /archive"/]
@@ -189,7 +189,7 @@ graph TD
     NikoPlan --Spawn--> PF
     subgraph PFSA["Preflight subagent"]
         direction LR
-        PF{"🐱 preflight"} --> PFV(["Verdict"])
+        PF{"🐱 preflight"} --> PFV("Verdict")
     end
     PFV -->|"reports PASS"| NikoBuild["🐱 build"]
     PFV -.->|"reports FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
@@ -197,7 +197,7 @@ graph TD
     NikoBuild --Spawn--> QA
     subgraph QASA["QA subagent"]
         direction LR
-        QA{"🐱 qa"} --> QAV(["Verdict"])
+        QA{"🐱 qa"} --> QAV("Verdict")
     end
     QAV -->|"reports PASS"| NikoReflect["🐱 reflect"]
     NikoReflect -.-> ManualArchive[/"🧑‍💻 /archive"/]
@@ -256,7 +256,7 @@ graph LR
         Gate -->|"FAIL"| NikoBuild
     end
     subgraph V["QA subagent"]
-        QA{"🐱 QA"} --> Halt(["stop"])
+        QA{"🐱 QA"} --> Halt("stop")
     end
     Fork -.-> QA
     Halt -.-> Gate
