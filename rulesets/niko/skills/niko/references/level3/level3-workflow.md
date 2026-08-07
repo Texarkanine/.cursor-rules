@@ -40,8 +40,9 @@ graph TD
 > - Solid edge = Transition does not require operator input (parent continues)
 > - Dashed edge = Transition requires operator input (STOP and wait)
 > - `--Spawn-->` = Parent forks a subagent to run that phase; do not run it in this conversation
-> - Subagent ends at `Verdict`; outbound edges from `Verdict` are taken by the **parent**
-> - **Terminal node** = only dashed outs (e.g. Reflect → Archive)
+
+Subagent ends at `Verdict`; outbound edges from `Verdict` are taken by the parent.
+A **terminal node** has only dashed outs (e.g. Reflect → Archive). Reflect is terminal.
 
 The following phase transitions require operator input; if you have arrived at one of these transitions, STOP and wait! You're done for now.
 

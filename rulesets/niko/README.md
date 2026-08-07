@@ -147,8 +147,9 @@ In case you want the "Long Version" but for just a single complexity level:
 - Solid edge = Transition does not require operator input (parent continues)
 - Dashed edge = Transition requires operator input (STOP and wait)
 - `--Spawn-->` = Parent forks a subagent to run that phase; do not run it in this conversation
-- Subagent ends at `Verdict`; outbound edges from `Verdict` are taken by the **parent**
-- **Terminal node** = only dashed outs (e.g. Reflect → Archive)
+
+Subagent ends at `Verdict`; outbound edges from `Verdict` are taken by the parent.
+A **terminal node** has only dashed outs (e.g. Reflect → Archive).
 
 <details>
 <summary>Level 1: Quick Fix</summary>

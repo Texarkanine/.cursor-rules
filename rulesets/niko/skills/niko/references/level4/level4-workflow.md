@@ -30,8 +30,9 @@ graph TD
 > - Solid edge = Transition does not require operator input (parent continues)
 > - Dashed edge = Transition requires operator input (STOP and wait)
 > - `--Spawn-->` = Parent forks a subagent to run that phase; do not run it in this conversation
-> - Subagent ends at `Verdict`; outbound edges from `Verdict` are taken by the **parent**
-> - **Terminal node** = only dashed outs (e.g. Reflect → Archive)
+
+Subagent ends at `Verdict`; outbound edges from `Verdict` are taken by the parent.
+A **terminal node** has only dashed outs (e.g. Reflect → Archive).
 
 After the initial plan is reviewed, `/niko` manages the milestone lifecycle: checking off completed sub-runs, cleaning inter-run state, classifying the next milestone, and routing to the capstone archive when all milestones are done.
 

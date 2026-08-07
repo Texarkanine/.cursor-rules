@@ -2,14 +2,12 @@
 
 ## Current Task: verification-subagents-preflight-qa
 
-**Phase:** REFLECT - COMPLETE (rework pass 2)
+**Phase:** BUILD - REWORK (six Texarkanine inlines after Reflect)
 
 ## What Was Done
 
-- Pass-2 build + QA PASS; Reflect written
-- L1 legend `🧑‍💻` drop confirmed operator-intentional; creative SVG pointers cleaned
-- Persistent reconcile: all three skip (receipts in Reflect Result)
+- Fixed all six judged findings on PR #108: FAIL parenthetical; status enum → pointer to `preflight-status.mdc`; TDD cite text under Plan Encoding not Handle Results; L1 legend trimmed to chart glyphs; Tests-first hatch self-describing + carve-out path in plan prose; legend = glyphs only, Verdict/terminal as reading notes (L2–L4 + README)
 
 ## Next Step
 
-Run `/niko-archive` to create the archive document and finalize the current project.
+Verify (`make test`) → commit → operator: re-Spawn QA or continue to `/niko-archive`
