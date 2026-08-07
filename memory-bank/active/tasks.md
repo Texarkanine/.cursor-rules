@@ -13,7 +13,7 @@ Preflight and QA run in forked subagents. **Charts are source of truth** (C.2a S
 | Concept | Meaning |
 | --- | --- |
 | `--Spawn-->` | Parent forks a subagent to run that phase; do not run the skill in this conversation |
-| Subagent → `Verdict` | Subagent ends here; does not advance the workflow |
+| Subagent → `Verdict` | Subagent ends here; shape `("Verdict")` same rounded end as `Done` — not start circle, not stadium |
 | Edges out of `Verdict` | Taken by the **parent** (solid = auto, dashed = operator) |
 | **Terminal node** | Only dashed outs (e.g. Reflect → Archive). Spawn/Verdict phases are **not** terminal nodes |
 | README long | Ideology bands (Planning / Execution / Learning) get light wash; subagent boxes unstyled; Preflight⊂Planning, QA⊂Execution |
