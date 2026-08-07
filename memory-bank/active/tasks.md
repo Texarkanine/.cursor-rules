@@ -60,7 +60,7 @@ Prose/policy — always-tdd carve-out. No change-detector tests.
    - `level2-workflow.md:27` `/archive` → `/niko-archive`; then update the now-satisfied bullet under `### Deferred (not fixed this task)` in `memory-bank/active/reflection/reflection-verification-subagents-preflight-qa.md:44` (and the matching `progress.md:197` line)
    - Progress summary: drop “mermaid unchanged” (`memory-bank/active/progress.md:3`)
    - Double-backtick Spawn charge spans in progress (`progress.md:210`, `:230` — nested single backticks render broken); brief already rewritten
-   - **Operator-gated, not optional — ask rather than skip silently:** clear `.qa-validation-status` before QA spawn (no such instruction exists in `rulesets/` today; wording needed); README long-chart QA split (`README.md:126` is a single combined `Level 2+ Fail` edge — splitting it *adds* mermaid lines)
+   - **Operator-gated — done:** clear `.qa-validation-status` before QA spawn (L1/L2/L3 QA Phase Mapping lines). README long-chart Fail fork: **Option A** — expand Build-edge label to `L1 Fail / L2+ fixable`, rename Plan edge to `L2+ rearchitect` (no new edge geometry).
 
 5. **Verify** — `make test`, `mmdc` on the touched charts, `rg 'FAIL \(TDD\)'` clean under `rulesets/niko/`
    - The `rg` sweep is an **ad-hoc verification command**, not a test to commit. Do not add a script or CI check asserting the absence of a phrase — that would be the change-detector the always-tdd carve-out forbids.
@@ -91,5 +91,6 @@ Prose/policy — always-tdd carve-out. No change-detector tests.
 - [x] Stockroom archaeology
 - [x] Remove `FAIL (TDD)` species
 - [x] Tighten Plan TDD authorship
-- [~] Cheap fixups — one-liners done; **blocked on operator** for `.qa-validation-status` wording + README long QA split
-- [x] Verify (`make test` green; 8/8 mmdc OK on touched charts; `rg 'FAIL \(TDD\)'` clean under `rulesets/niko/`; build guards verify-only confirmed)
+- [x] Cheap fixups (incl. QA-status clear + README Option A)
+- [x] Verify (`make test` green; mmdc OK; `rg 'FAIL \(TDD\)'` clean under `rulesets/niko/`; build guards verify-only confirmed)
+- [x] Build phase complete

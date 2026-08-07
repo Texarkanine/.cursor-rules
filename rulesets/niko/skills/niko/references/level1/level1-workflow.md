@@ -20,7 +20,6 @@ graph LR
 
 > Legend:
 > - 🐱 = Phase executed autonomously
-> - 🧑‍💻 = Phase initiated by operator with explicit command
 > - Solid edge = Transition does not require operator input (parent continues)
 > - Dashed edge = Transition requires operator input (STOP and wait)
 > - `--Spawn-->` = Parent forks a subagent to run that phase; do not run it in this conversation
@@ -37,7 +36,7 @@ To execute a phase for a level 1 task:
 2. 🚨 ***CRITICAL:*** Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: saving work before [phase] phase`.
 3. Read and follow the instructions in the appropriate locations:
     - **Level 1 Build Phase**: Load `.cursor/skills/shared/niko/references/level1/level1-build.md`
-    - **Level 1 QA Phase**: Spawn a subagent (prefer smarter / different family if available); the only instruction you add is `` Run the `/niko-qa` skill ``. Do not run the skill in this conversation.
+    - **Level 1 QA Phase**: Delete `memory-bank/active/.qa-validation-status` if it exists. Spawn a subagent (prefer smarter / different family if available); the only instruction you add is `` Run the `/niko-qa` skill ``. Do not run the skill in this conversation.
 
 ## Wrap-Up
 

@@ -121,8 +121,8 @@ flowchart LR
 		end
 	end
 
-	QAVerdict -->|"Level 1<br>Fail"| Build
-	QAVerdict -.->|"Level 2+<br>Fail"| Plan
+	QAVerdict -->|"L1 Fail /<br>L2+ fixable"| Build
+	QAVerdict -.->|"L2+ rearchitect"| Plan
 	QAVerdict -->|"Level1<br>Pass"| Done("Done")
 	QAVerdict -->|"Level2+<br>Pass"| Reflect
 

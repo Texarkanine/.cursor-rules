@@ -309,16 +309,18 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - The generated `.cursor/` / `.claude/` trees never received the pass-1 `FAIL (TDD)` vocabulary, so removing it from `rulesets/` converges the trees instead of widening the lag
     - `.cursor/` lag on preflight Step 4 (phase-transition vs stop) showed up live; canonical `rulesets/` won
 
-## 2026-08-07 - BUILD - IN PROGRESS (rework pass 2)
+## 2026-08-07 - BUILD - COMPLETE (rework pass 2)
 
 * Work completed
-    - Leaving PREFLIGHT; entering BUILD against amended pass-2 plan
-    - Stockroom archaeology: seeds `#19`/`#23`/`#33` + semantic neighbors — same failure shape (implementation-only steps); same fix (per-unit test-first substeps)
-    - Removed `FAIL (TDD)` species across charts/skill/status/STOP lists; TDD encoding → rearchitect/`FAIL` → operator `/niko-plan`
-    - L2/L3 plan templates gained `- Tests first:` (with always-tdd N/A hatch) before `- Changes:`
-    - Cheap one-liners landed; verify green (`make test`, mmdc×8, rg clean)
+    - Stockroom archaeology: seeds ratified per-unit test-first as the durable Plan fix
+    - Removed `FAIL (TDD)` species; TDD encoding → rearchitect/`FAIL` → operator `/niko-plan`
+    - L2/L3 plan templates: `- Tests first:` before `- Changes:` with always-tdd N/A hatch
+    - Cheap fixups: `/niko-archive`, progress summary, deferred bullets, Spawn-charge backticks
+    - Clear `.qa-validation-status` before QA Spawn (L1/L2/L3 phase maps)
+    - README long-chart Fail: Option A (`L1 Fail / L2+ fixable` → Build; `L2+ rearchitect` → Plan)
+    - Verify green (`make test`, mmdc, rg clean under `rulesets/niko/`)
 * Decisions made
-    - Follow tasks.md order; mermaid single-line deletes OK without operator; multi-line mermaid still gated
-    - Build paused for operator on step-4 gated items (QA-status clear wording; README long QA split)
+    - Operator: Option A by a long shot (expand shared Build-edge label; no second Fail→Build arc)
+    - Scratch comparison kept under `creative/creative-readme-qa-fail-edges.md`
 * Insights
-    - Stockroom archaeology is advisory input to step 3, not a hard gate — and it ratified the template fix without inventing new liturgy
+    - Long-chart overview wants glanceable solid/dashed contrast; per-level charts keep short single-purpose Fail labels
