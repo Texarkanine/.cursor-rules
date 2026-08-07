@@ -105,6 +105,120 @@ graph LR
 
 **Legend fix if chosen:** dashed from a `stop` node = “return to parent / operator,” not “QA executes Done.”
 
+#### C.1 - Operator Tweaks
+
+```mermaid
+graph LR
+    Start(("Complexity Analysis")) --> NikoBuild["🐱 Build"]
+    NikoBuild --Spawn--> QA
+    subgraph SA["QA subagent"]
+        direction LR
+        QA{"🐱 QA"} --> Verdict(("Verdict"))
+    end
+    Verdict -->|"PASS"| Done("Done")
+    Verdict -->|"FAIL"| NikoBuild
+```
+
+Operator lean: subgraph makes the subagent obvious; `Spawn` edge into the diamond; `Verdict` (not `stop`) is what leaves the box. Open: edge labels (`returns` / `reports` / bare PASS) and stroke (solid vs `-.->`).
+
+#### C.2 — Same grammar on Level 2 (continuation visible)
+
+L2 is where PASS actually goes somewhere (preflight → build, QA → reflect). Three label/stroke variants; structure identical.
+
+**C.2a — Bare PASS/FAIL, solid = auto, dashed = operator (keeps today’s legend)**
+
+```mermaid
+graph TD
+    Start(("Complexity Analysis")) --> NikoPlan["🐱 plan"]
+    NikoPlan --Spawn--> PF
+    subgraph PFSA["Preflight subagent"]
+        direction LR
+        PF{"🐱 preflight"} --> PFV(("Verdict"))
+    end
+    PFV -->|"PASS"| NikoBuild["🐱 build"]
+    PFV -.->|"FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
+
+    NikoBuild --Spawn--> QA
+    subgraph QASA["QA subagent"]
+        direction LR
+        QA{"🐱 qa"} --> QAV(("Verdict"))
+    end
+    QAV -->|"PASS"| NikoReflect["🐱 reflect"]
+    NikoReflect -.-> ManualArchive[/"🧑‍💻 /archive"/]
+    QAV -->|"FAIL (fixable)"| NikoBuild
+    QAV -.->|"FAIL (rearchitect)"| ManualPlan
+
+    ManualPlan -.-> NikoPlan
+```
+
+Automatic continuation reads clearly: solid out of `Verdict` into `build` / `reflect`. The subgraph still says those edges are *results leaving the subagent*, not the QA diamond walking into reflect. Dashed stays “needs operator” (FAIL rearchitect, archive, replan).
+
+**C.2b — Label `returns` + dotted stroke on all Verdict outs**
+
+```mermaid
+graph TD
+    Start(("Complexity Analysis")) --> NikoPlan["🐱 plan"]
+    NikoPlan --Spawn--> PF
+    subgraph PFSA["Preflight subagent"]
+        direction LR
+        PF{"🐱 preflight"} --> PFV(("Verdict"))
+    end
+    PFV -.->|"returns PASS"| NikoBuild["🐱 build"]
+    PFV -.->|"returns FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
+
+    NikoBuild --Spawn--> QA
+    subgraph QASA["QA subagent"]
+        direction LR
+        QA{"🐱 qa"} --> QAV(("Verdict"))
+    end
+    QAV -.->|"returns PASS"| NikoReflect["🐱 reflect"]
+    NikoReflect -.-> ManualArchive[/"🧑‍💻 /archive"/]
+    QAV -->|"FAIL (fixable)"| NikoBuild
+    QAV -.->|"returns FAIL (rearchitect)"| ManualPlan
+
+    ManualPlan -.-> NikoPlan
+```
+
+`returns` stresses handoff. Cost: if every Verdict edge is dotted, you **lose** solid = autonomous vs dashed = operator — PASS and FAIL look the same stroke, and Reflect→Archive no longer unique. (C.2b above accidentally keeps FAIL fixable solid — that’s the tension.)
+
+**C.2c — Label `reports` + keep solid/dashed legend**
+
+```mermaid
+graph TD
+    Start(("Complexity Analysis")) --> NikoPlan["🐱 plan"]
+    NikoPlan --Spawn--> PF
+    subgraph PFSA["Preflight subagent"]
+        direction LR
+        PF{"🐱 preflight"} --> PFV(("Verdict"))
+    end
+    PFV -->|"reports PASS"| NikoBuild["🐱 build"]
+    PFV -.->|"reports FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
+
+    NikoBuild --Spawn--> QA
+    subgraph QASA["QA subagent"]
+        direction LR
+        QA{"🐱 qa"} --> QAV(("Verdict"))
+    end
+    QAV -->|"reports PASS"| NikoReflect["🐱 reflect"]
+    NikoReflect -.-> ManualArchive[/"🧑‍💻 /archive"/]
+    QAV -->|"reports FAIL (fixable)"| NikoBuild
+    QAV -.->|"reports FAIL (rearchitect)"| ManualPlan
+
+    ManualPlan -.-> NikoPlan
+```
+
+### Edge vocabulary note
+
+| Choice | Reading | Risk |
+| --- | --- | --- |
+| Bare `PASS` / `FAIL` | Outcome only; subgraph+Verdict carry “from subagent” | Least ink; relies on shape |
+| `returns PASS` | Handoff / control back to parent | Sounds like a call stack; fine |
+| `reports PASS` | Subagent’s output artifact | Slightly more “status file” flavored; also fine |
+| Solid Verdict→next | Parent auto-continues (T1) | Same as today’s legend |
+| Dotted all Verdict outs | “Not the subagent advancing” | Collides with dashed = operator input |
+
+**Recommendation while you look at L2:** prefer **C.2a** (or C.2c if you want a verb). Keep **solid/dashed = auto vs operator**. Let the **subgraph + Verdict + Spawn** do the subagent storytelling — don’t spend the stroke channel on “returns,” or you have to rewrite the whole legend.
+
 ### D — Dual subgraph (parent vs verifier) — clearest ownership
 
 ```mermaid
