@@ -44,8 +44,6 @@ graph TD
 > - Subagent ends at `Verdict`; outbound edges from `Verdict` are taken by the **parent**
 > - **Terminal node** = only dashed outs (e.g. Reflect → Archive)
 
-Unlike Level 2, preflight PASS and non-TDD FAIL are dashed (parent stops; PASS included). Solid Preflight `FAIL (TDD)`→plan is the exception — parent re-enters Plan immediately. QA’s Verdict→reflect stays solid, so the parent auto-continues there.
-
 The following phase transitions require operator input; if you have arrived at one of these transitions, STOP and wait! You're done for now.
 
 - Creative (Low Confidence) -> Plan
