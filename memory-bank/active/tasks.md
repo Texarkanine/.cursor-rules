@@ -131,6 +131,22 @@ Update `memory-bank/active/activeContext.md` so `**Phase:**` records this phase 
 - **Amended** — verbatim Spawn tripwire; L4 plan Step 7 uses phase-mapping shape; Step 4 Phase example; parent continuation = chart/legend
 - **Advisory** — at build, treat `creative-verification-orchestration.md` / wording / L1 options as historical only (banners already present); do not edit generated `.cursor/`
 
+## QA Findings (2026-08-07)
+
+- **PASS** — all six plan steps implemented; nine verbatim Spawn sites (7 phase-mapping shape + 2 build-guard shape) and zero residual `Invoke the niko-preflight/qa skill`; both skills' Step 4 = End of Verification with the `**Phase:**` write; Handle Results report-only
+- **Charts verified against SoT** — all 10 changed mermaid blocks (README ×6, L1–L4 ×1) compile under `mmdc` 11.14.0; README long renders ideology wash on Planning/Execution/Learning with default-fill subagent boxes nested inside, `Build` inside Execution, no orphan Spawn nodes; L4 README preflight subagent nests correctly inside `First L4 Run`
+- **Shared legend is verbatim** across README + all four workflows (5/5 on every new legend line) — a grep-verifiable tripwire like the consent header
+- **Dry-reads 1–6 re-run independently** — L2 solid Verdict→build / Verdict→reflect; L3 dashed preflight Verdict, solid QA→reflect, STOP list retains `Preflight PASS -> Build`; skills stop and never load a workflow; `/niko` Step 6 resumes from the recorded `**Phase:**`
+- **Fixed (trivial)** — `level3-workflow.md` shipped review-page voice ("terminal-shaped in the old sense… vocabulary stays consistent with L2… The STOP list still includes…"), duplicating both the legend above it and the STOP list below it. Rewritten as one operational line in L2/L4's voice.
+- **Fixed (trivial)** — `activeContext.md` used a `## Phase:` heading instead of the `**Phase:**` field that `/niko` Step 6 and `activeContext.mdc` require; normalized while writing the QA verdict. Pre-existing drift in this repo's own memory bank, not a build defect.
+
+### Advisory (non-blocking, for Reflect)
+
+- L1's shared legend documents 🧑‍💻, dashed edges, and `Reflect → Archive` in a chart that has none of them and a file that says L1 has no reflect/archive. Verbatim-shared legend was the plan's choice; tailoring it per level is a design call, not a QA fix.
+- Verification subagents write `tasks.md` / `progress.md` / `activeContext.md` / status files, so Spawn presumes a **shared working tree**. Harnesses that fork into a separate worktree would silently break the status-file gate. The amended plan deliberately dropped this precondition from the one-liner.
+- Pre-existing, untouched by this build: `level2-workflow.md` labels the archive node `/archive` rather than `/niko-archive`; L3's `QA FAIL (fixable)` edge is solid into the operator-command node `🧑‍💻 /niko-build`.
+- `systemPatterns.md` line 21 lists the verbatim-tripwire technique's instances; the nine-site Spawn line is now a third instance. Registering it belongs to Reflect's `reconcile-persistent` pass, not QA.
+
 ## Status
 
 - [x] Component analysis complete
@@ -142,6 +158,6 @@ Update `memory-bank/active/activeContext.md` so `**Phase:**` records this phase 
 - [x] Creative (diagram) complete
 - [x] Preflight (PASS with advisory)
 - [x] Build
-- [ ] QA
+- [x] QA (PASS)
 - [ ] Reflect
 - [ ] Archive

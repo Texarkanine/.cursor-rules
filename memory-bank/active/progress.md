@@ -136,3 +136,19 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - No deviations; `.cursor/` not edited (lags by design)
 * Insights
     - Parent continuation stays in chart/legend — one-liner must not grow fork/wait liturgy
+
+## 2026-08-07 - QA - COMPLETE (PASS)
+
+* Work completed
+    - Verified all six plan steps against the build commit: nine verbatim Spawn sites, zero residual "Invoke the skill", both Step 4s stop and write `**Phase:**`, Handle Results report-only
+    - Compiled all 10 changed mermaid blocks with `mmdc` and inspected the README long / README L4 / L2 renders: ideology wash correct, subagent boxes nested and default-filled, no orphan Spawn nodes
+    - Re-ran dry-reads 1–6 independently; confirmed the shared legend is verbatim across README + four workflows
+    - Trivial fixes: stripped review-page meta-commentary from `level3-workflow.md`; normalized `activeContext.md` to the `**Phase:**` field
+    - Wrote `.qa-validation-status` PASS
+* Decisions made
+    - PASS — no substantive findings; no Build or Plan rerun required
+    - L1's over-broad shared legend left as-is: tailoring per level is a design call, not a QA fix
+* Insights
+    - Charts-as-SoT paid off mechanically: `mmdc` plus a verbatim-legend grep turns "did the diagram grammar actually ship" into a check, not a reading
+    - Review-page prose is the debris class this build was most exposed to — the L3 leak duplicated both the legend above it and the STOP list below it
+    - Spawn quietly presumes a shared working tree, since the verifier's real output is the status file, not its prose

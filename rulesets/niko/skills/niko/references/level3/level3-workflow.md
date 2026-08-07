@@ -43,7 +43,7 @@ graph TD
 > - Subagent ends at `Verdict` (same rounded end shape as `Done` — `("Verdict")`, not the start circle `((…))`); outbound edges from `Verdict` are taken by the **parent**
 > - **Terminal node** = only dashed outs (e.g. Reflect → Archive). Spawn/Verdict phases are **not** terminal nodes
 
-Both Verdict outs from preflight are dashed → preflight’s *Verdict* is terminal-shaped in the old sense, but we still call the phase a **Spawn**, not a “terminal node,” so vocabulary stays consistent with L2. The STOP list still includes Preflight PASS → Build.
+Unlike Level 2, both of preflight’s Verdict outs are dashed: the parent stops after preflight, PASS included. QA’s Verdict→reflect stays solid, so the parent auto-continues there.
 
 The following phase transitions require operator input; if you have arrived at one of these transitions, STOP and wait! You're done for now.
 
