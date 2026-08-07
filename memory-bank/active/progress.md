@@ -2,7 +2,7 @@
 
 Orchestrate Niko preflight and QA as portable verification subagents: parent forks/waits/continues; child stops via spawn instructions; manual skill recovery verifies only and does not auto-advance; mermaid unchanged; minimal prose under `rulesets/niko/`.
 
-**Complexity:** Level 3
+**Complexity:** Level 2
 
 ## 2026-08-07 - COMPLEXITY-ANALYSIS - COMPLETE
 
@@ -210,3 +210,23 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - Spawn charge: parent adds only `Run the `/niko-…` skill`; no “exactly entire prompt”
 * Insights
     - Handle Results over-corrected when Step 4 stopped auto-continue; advisory/TDD semantics drifted from build gates and prior self-heal
+
+## 2026-08-07 - COMPLEXITY-ANALYSIS - COMPLETE (rework)
+
+* Work completed
+    - Classified PR #108 rework as Level 2
+* Decisions made
+    - Level 2: bug/correction across multiple Niko components; fix shapes already agreed — plan then build, no creative
+* Insights
+    - Original feature was L3; this pass is contained remediation on the open draft PR
+
+## 2026-08-07 - PLAN - COMPLETE (rework)
+
+* Work completed
+    - Wrote Level 2 implementation plan for nine PR #108 review fixes
+    - Locked TDD self-heal design: status `FAIL (TDD)` + solid chart edge + parent re-enters Plan; skill still stops
+* Decisions made
+    - Node renames: NikoPreflight / PreflightVerdict / NikoQA / QAVerdict / PreflightSubagent / QASubagent
+    - Spawn charge: shared stem + fenced Run skill; no “entire prompt exactly”
+* Insights
+    - L4 already solids all preflight FAIL → Plan; L2/L3 need the new TDD edge
