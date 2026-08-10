@@ -21,15 +21,14 @@ graph TD
 ```
 
 > Legend:
-> - 🐱 = Phase executed autonomously (parent)
-> - 🐈 + `[[ ]]` = Verification subagent (subprocess node)
+> - 🐱 = Phase executed autonomously
+> - 🐈 = Phase executed autonomously in a sub-agent
 > - 🧑‍💻 = Phase initiated by operator with explicit command
-> - Solid edge = Transition does not require operator input (parent continues)
+> - Solid edge = Transition does not require operator input
 > - Dashed edge = Transition requires operator input (STOP and wait)
-> - `==Spawn==>` = Parent forks that subagent; do not run it in this conversation
 
-Outbound edges from the 🐈 subprocess are taken by the parent.
-A **terminal node** has only dashed outs (e.g. Reflect → Archive).
+Outbound edges from a 🐈 sub-agent are taken by the parent once the sub-agent completes.
+A node with no outbound solid edges is a **terminal node**.
 
 After the initial plan is reviewed, `/niko` manages the milestone lifecycle: checking off completed sub-runs, cleaning inter-run state, classifying the next milestone, and routing to the capstone archive when all milestones are done.
 

@@ -15,12 +15,12 @@ graph LR
 ```
 
 > Legend:
-> - 🐱 = Phase executed autonomously (parent)
-> - 🐈 + `[[ ]]` = Verification subagent (subprocess node)
-> - Solid edge = Transition does not require operator input (parent continues)
-> - `==Spawn==>` = Parent forks that subagent; do not run it in this conversation
+> - 🐱 = Phase executed autonomously
+> - 🐈 = Phase executed autonomously in a sub-agent
+> - Solid edge = Transition does not require operator input
 
-Outbound edges from the 🐈 subprocess are taken by the parent.
+Outbound edges from a 🐈 sub-agent are taken by the parent once the sub-agent completes.
+A node with no outbound solid edges is a **terminal node**.
 
 Level 1 tasks skip `/niko-plan`, `/niko-creative`, and `/niko-preflight`. Go straight to build.
 Level 1 tasks are *simple* so there's no `/niko-reflect` or `/niko-archive` after building, either. A commit message & description are sufficient record.

@@ -23,15 +23,14 @@ graph TD
 ```
 
 > Legend:
-> - 🐱 = Phase executed autonomously (parent)
-> - 🐈 + `[[ ]]` = Verification subagent (subprocess node)
+> - 🐱 = Phase executed autonomously
+> - 🐈 = Phase executed autonomously in a sub-agent
 > - 🧑‍💻 = Phase initiated by operator with explicit command
-> - Solid edge = Transition does not require operator input (parent continues)
+> - Solid edge = Transition does not require operator input
 > - Dashed edge = Transition requires operator input (STOP and wait)
-> - `==Spawn==>` = Parent forks that subagent; do not run it in this conversation
 
-Outbound edges from the 🐈 subprocess are taken by the parent.
-A **terminal node** has only dashed outs (e.g. Reflect → Archive). Parent auto-continues on solid Preflight→build / QA→reflect; Reflect is terminal.
+Outbound edges from a 🐈 sub-agent are taken by the parent once the sub-agent completes.
+A node with no outbound solid edges is a **terminal node**.
 
 The following phase transitions require operator input; if you have arrived at one of these transitions, STOP and wait! You're done for now.
 

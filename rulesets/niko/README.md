@@ -92,7 +92,7 @@ flowchart LR
 		Creative["Creative"]
 		Niko -- "Level 2 & 3" --> Plan
 		Plan -- "Level 3 (Feature)" --> Creative
-		Plan ==Spawn==> NikoPreflight[["🐈 Preflight"]]
+		Plan ==Spawn==> NikoPreflight[["Preflight"]]
 		Creative ==Spawn==> NikoPreflight
 		NikoPreflight -.->|"Fail"| Plan
 	end
@@ -102,7 +102,7 @@ flowchart LR
 
 	subgraph Execution
 		Build["Build"]
-		Build ==Spawn==> NikoQA[["🐈 QA"]]
+		Build ==Spawn==> NikoQA[["QA"]]
 	end
 
 	NikoQA -->|"L1 Fail /<br>L2+ fixable"| Build
@@ -126,15 +126,14 @@ flowchart LR
 In case you want the "Long Version" but for just a single complexity level:
 
 **Legend:**
-- 🐱 = Phase executed autonomously (parent)
-- 🐈 + `[[ ]]` = Verification subagent (subprocess node)
+- 🐱 = Phase executed autonomously
+- 🐈 = Phase executed autonomously in a sub-agent
 - 🧑‍💻 = Phase initiated by operator with explicit command
-- Solid edge = Transition does not require operator input (parent continues)
+- Solid edge = Transition does not require operator input
 - Dashed edge = Transition requires operator input (STOP and wait)
-- `==Spawn==>` = Parent forks that subagent; do not run it in this conversation
 
-Outbound edges from the 🐈 subprocess are taken by the parent.
-A **terminal node** has only dashed outs (e.g. Reflect → Archive).
+Outbound edges from a 🐈 sub-agent are taken by the parent once the sub-agent completes.
+A node with no outbound solid edges is a **terminal node**.
 
 <details>
 <summary>Level 1: Quick Fix</summary>
