@@ -1,8 +1,8 @@
 # Progress
 
-Orchestrate Niko preflight and QA as portable verification subagents: parent forks/waits/continues; child stops via spawn instructions; manual skill recovery verifies only and does not auto-advance; minimal prose under `rulesets/niko/`.
+Make Spawn/Verdict Mermaid charts human-readable on GitHub / mermaid.live (ditch nested subagent subgraph failure mode; preserve semantics). Pass 3 rework on verification-subagents-preflight-qa.
 
-**Complexity:** Level 2
+**Complexity:** Level 3
 
 ## 2026-08-07 - COMPLEXITY-ANALYSIS - COMPLETE
 
@@ -378,3 +378,12 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - Spawn/Verdict semantics preserved; visual encoding open (creative)
 * Insights
     - Nested filled subgraphs with cross-boundary edges are the failure class; ideology-only clusters may still be viable
+
+## 2026-08-10 - COMPLEXITY-ANALYSIS - COMPLETE
+
+* Work completed
+    - Classified Mermaid layout rework as Level 3
+* Decisions made
+    - Level 3: bug across many chart files, but visual encoding of subagents is an open design question (operator candidate: subprocess `[[ ]]`; alternatives: flat phase+Verdict nodes, SVG, split charts); creative required before build
+* Insights
+    - Mermaid docs: subgraph `direction` ignored when any interior node links outside — matches observed border-attached / under-fill edges
