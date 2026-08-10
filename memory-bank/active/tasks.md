@@ -74,24 +74,24 @@ Prose/policy — always-tdd carve-out. No change-detector tests locking diagram 
 
 ## Implementation Plan
 
-1. **README short chart → subprocess encoding**
+1. **README short chart → subprocess encoding** ✅
     - Files: `rulesets/niko/README.md` (short mermaid block ~L69–86)
     - Tests first: `N/A for prose & policy artifacts`
     - Changes: replace nested Preflight/QA subgraphs with `[["🐈 Preflight"]]` / `[["🐈 QA"]]`; thick `==Spawn==>` edges; Pass/Fail from those nodes; update legend + reading note (🐈+`[[ ]]`+thick Spawn = subagent; outbound edges are parent's)
     - Creative ref: Option A + operator polish
 
-2. **README long chart → subprocess + ideology fallback**
+2. **README long chart → subprocess + ideology fallback** ✅
     - Files: `rulesets/niko/README.md` (long block ~L93–137)
     - Tests first: `N/A for prose & policy artifacts`
     - Changes: Preflight/QA as subprocess; keep Planning/Execution/Learning washes; validate on mermaid.live; if unreadable, remove ideology subgraphs (fallback). Drop nested subagent clusters either way.
     - Creative ref: Option A + long fallback
 
-3. **README per-level charts (L1–L4 details)**
+3. **README per-level charts (L1–L4 details)** ✅
     - Files: same README.md detail blocks
     - Tests first: `N/A for prose & policy artifacts`
     - Changes: same subprocess encoding; preserve each level’s edge labels (PASS/FAIL fixable/rearchitect, operator parallelograms)
 
-4. **Level workflow charts L1–L4**
+4. **Level workflow charts L1–L4** ✅
     - Files: `rulesets/niko/skills/niko/references/level1/level1-workflow.md`, `level2/level2-workflow.md`, `level3/level3-workflow.md`, `level4/level4-workflow.md`
     - Tests first: `N/A for prose & policy artifacts`
     - Changes: same encoding; update legends/reading notes under each chart to match (glyphs only / subprocess note)

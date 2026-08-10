@@ -22,7 +22,7 @@ Cross-platform: any rule content or script must hold up under both Windows Power
 
 ## Diagrams
 
-Mermaid, per the `illustrate-complexity` skill.
+Mermaid, per the `illustrate-complexity` skill. Consumer-facing charts (README, published docs) must be checked on mermaid.live / GitHub — Cursor preview is not layout SoT.
 
 ## Licensing
 

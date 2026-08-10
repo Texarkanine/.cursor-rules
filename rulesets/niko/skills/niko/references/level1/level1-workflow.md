@@ -9,21 +9,18 @@ Level 1 tasks are isolated bug fixes affecting a single component. Prioritize sp
 ```mermaid
 graph LR
     Start(("Complexity Analysis")) --> NikoBuild["🐱 Build"]
-    NikoBuild --Spawn--> NikoQA
-    subgraph QASubagent["QA subagent"]
-        direction LR
-        NikoQA{"🐱 QA"} --> QAVerdict("Verdict")
-    end
-    QAVerdict -->|"PASS"| Done("Done")
-    QAVerdict -->|"FAIL"| NikoBuild
+    NikoBuild ==Spawn==> NikoQA[["🐈 QA"]]
+    NikoQA -->|"PASS"| Done("Done")
+    NikoQA -->|"FAIL"| NikoBuild
 ```
 
 > Legend:
-> - 🐱 = Phase executed autonomously
+> - 🐱 = Phase executed autonomously (parent)
+> - 🐈 + `[[ ]]` = Verification subagent (subprocess node)
 > - Solid edge = Transition does not require operator input (parent continues)
-> - `--Spawn-->` = Parent forks a subagent to run that phase; do not run it in this conversation
+> - `==Spawn==>` = Parent forks that subagent; do not run it in this conversation
 
-Subagent ends at `Verdict`; outbound edges from `Verdict` are taken by the parent.
+Outbound edges from the 🐈 subprocess are taken by the parent.
 
 Level 1 tasks skip `/niko-plan`, `/niko-creative`, and `/niko-preflight`. Go straight to build.
 Level 1 tasks are *simple* so there's no `/niko-reflect` or `/niko-archive` after building, either. A commit message & description are sufficient record.
