@@ -17,15 +17,16 @@ See `memory-bank/active/creative/creative-subagent-visual-encoding.md`. Short-fo
 ```mermaid
 graph LR
   Start(("🧑‍💻 /niko")) --> Plan["🐱 plan"]
-  Plan --Spawn--> Preflight[["🐱 Preflight subagent"]]
+  Plan ==Spawn==> Preflight[["🐈 Preflight"]]
   Preflight -->|"PASS"| Build["🐱 build"]
   Preflight -->|"FAIL"| Plan
-  Build --Spawn--> QA[["🐱 QA subagent"]]
+  Build ==Spawn==> QA[["🐈 QA"]]
   QA -->|"PASS"| Reflect["🐱 reflect"]
   QA -->|"FAIL"| Build
   Reflect --> Archive[/"🧑‍💻 /niko-archive"/]
 ```
 
+**Operator polish (locked into creative 2026-08-10):** drop word “subagent” from labels; 🐈 on subprocess nodes (🐱 stays on parent phases); `==Spawn==>` thick edges; legends decode shape+emoji+thick Spawn. Done/stop node shapes deferred.
 ## Component Analysis
 
 ### Affected Components
@@ -60,8 +61,8 @@ Prose/policy — always-tdd carve-out. No change-detector tests locking diagram 
 ### Behaviors to Verify
 
 - [Dry-read]: no `subgraph PreflightSubagent` / `subgraph QASubagent` under `rulesets/niko/`
-- [Dry-read]: Preflight/QA phases use `[[...]]` subprocess nodes; Pass/Fail(/rearchitect) edges leave those nodes
-- [Dry-read]: shared reading note states parent takes outbound edges from the subprocess (former Verdict)
+- [Dry-read]: Preflight/QA use `[["🐈 …"]]` subprocess nodes (no word “subagent” in label); Spawn edges are thick `==Spawn==>`; Pass/Fail(/rearchitect) leave those nodes
+- [Dry-read]: legends document 🐱 vs 🐈, `[[ ]]`, and `==Spawn==>` as the subagent triple cue; reading note covers parent-owned outbound edges
 - [mermaid.live]: every touched chart loads and is human-traceable (no edges buried under fills)
 - [make test]: existing rulesets link checks still green
 
@@ -76,8 +77,8 @@ Prose/policy — always-tdd carve-out. No change-detector tests locking diagram 
 1. **README short chart → subprocess encoding**
     - Files: `rulesets/niko/README.md` (short mermaid block ~L69–86)
     - Tests first: `N/A for prose & policy artifacts`
-    - Changes: replace nested Preflight/QA subgraphs with `[[ ]]` nodes; Pass/Fail from those nodes; update adjacent reading note if present
-    - Creative ref: Option A
+    - Changes: replace nested Preflight/QA subgraphs with `[["🐈 Preflight"]]` / `[["🐈 QA"]]`; thick `==Spawn==>` edges; Pass/Fail from those nodes; update legend + reading note (🐈+`[[ ]]`+thick Spawn = subagent; outbound edges are parent's)
+    - Creative ref: Option A + operator polish
 
 2. **README long chart → subprocess + ideology fallback**
     - Files: `rulesets/niko/README.md` (long block ~L93–137)
@@ -130,6 +131,6 @@ No new technology - validation not required (`mmdc` / mermaid.live already in us
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA

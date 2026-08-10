@@ -46,12 +46,44 @@ Key insights:
 
 ## Implementation Notes
 
-- Syntax: `id[["label"]]` for subagents; prefer quoted labels with emoji as today.
-- Edge pattern: `Plan --Spawn--> Preflight` then `Preflight -->|"PASS"| Build` / `Preflight -->|"FAIL"| Plan` (and QA analogues; dashed where operator-gated).
-- Update reading note: e.g. `[[subagent]]` = parent-spawned verification skill; outbound edges from that node are taken by the parent (former Verdict outs).
-- Legend: drop any “yellow box = subagent” implication; add subprocess shape if legends list glyphs.
-- Validation: every touched chart must be pasted/loaded on mermaid.live before considering Build done; Cursor preview is not acceptance.
-- Scratch sources used: `/tmp/niko-mermaid-opts/{a,b,c}.mmd` (not committed). Browser left on Option C for operator optional eyeball.
+### Operator polish (2026-08-10, post-preflight)
+
+Locked under Option A — same structure, clearer glance/token cues:
+
+1. **Drop the word “subagent” from the node label** — e.g. `[["🐈 Preflight"]]`, `[["🐈 QA"]]` (phase name only).
+2. **🐈 on subagent subprocess nodes** — distinct from parent autonomous phases that keep 🐱.
+3. **Update legends** so humans and agents both decode the triple cue: shape + emoji + Spawn edge.
+4. **Thick Spawn edges** — use Mermaid heavy arrow with label: `Plan ==Spawn==> Preflight` (not thin `--Spawn-->`). Compiles on mmdc 11.14 / mermaid.live. Reinforces “this edge forks a subagent” in ink and in source tokens.
+
+Canonical short pattern:
+
+```mermaid
+graph LR
+  Start(("🧑‍💻 /niko")) --> Plan["🐱 plan"]
+  Plan ==Spawn==> Preflight[["🐈 Preflight"]]
+  Preflight -->|"PASS"| Build["🐱 build"]
+  Preflight -->|"FAIL"| Plan
+  Build ==Spawn==> QA[["🐈 QA"]]
+  QA -->|"PASS"| Reflect["🐱 reflect"]
+  QA -->|"FAIL"| Build
+  Reflect --> Archive[/"🧑‍💻 /niko-archive"/]
+```
+
+**Legend cues (shared idea; tailor per chart):**
+- 🐱 = Phase executed autonomously (parent)
+- 🐈 + `[[ ]]` = Verification subagent (subprocess node)
+- `==Spawn==>` = Parent forks that subagent; do not run it in this conversation
+- Solid / dashed = operator gating (unchanged)
+- Reading note: outbound edges from the 🐈 subprocess are taken by the parent (former Verdict outs)
+
+### Deferred this pass
+
+- **Done / MergePR node shapes:** today often plain stadium/rounded rects, neither Mermaid [stop / double-circle](https://mermaid.ai/open-source/syntax/flowchart.html#stop-double-circle) nor [terminal / stadium](https://mermaid.ai/open-source/syntax/flowchart.html#event). Nice consistency fix; **out of scope unless operator expands** — newer `@{ shape: … }` forms need a GitHub-version check and aren’t required to fix the subgraph failure class.
+
+### Still in force
+
+- Validation: every touched chart on mermaid.live / GitHub before Build done; Cursor preview non-authoritative.
+- Long-chart ideology fallback unchanged.
 
 ## Mermaid.live Evidence
 

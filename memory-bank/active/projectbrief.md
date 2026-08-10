@@ -52,7 +52,8 @@ Operator decisions 2026-08-07 after breakfast:
 **Operator direction (2026-08-10):**
 1. Fix live charts under `rulesets/niko/` (README short/long/per-level + L1–L4 workflow charts) so they are human-readable on GitHub / mermaid.live.
 2. Keep Spawn/Verdict *semantics* (parent forks; subagent stops at Verdict; outbound edges are parent's). Visual encoding may change.
-3. Strong candidate: **ditch nested subagent subgraphs**; mark subagents with Mermaid **subprocess** nodes (`id[["label"]]`) instead of yellow cluster boxes. Ideology washes (Planning/Execution/Learning) may stay if they still layout cleanly without nested subagent clusters — creative/plan decides.
-4. Layout acceptance SoT = **mermaid.live / GitHub**, not Cursor preview. Agent may drive mermaid.live for drafts; if visual confidence is low, leave the tab open for operator eyeball before locking.
-5. Prior C.2a creative page remains exploration only; live charts are authority once this pass ships.
-6. Six Texarkanine PR #108 inlines (legend/status/TDD prose) were mid-flight in MB; fold any still-unshipped residue into this pass only if still missing from `rulesets/` — do not re-litigate closed dispositions.
+5. **Strong candidate encoding (locked + polished):** ditch nested subagent subgraphs; Mermaid **subprocess** nodes with **🐈** and phase name only (no word “subagent”); thick **`==Spawn==>`** edges; legends decode the triple cue. Ideology washes may stay if they still layout cleanly — creative/plan decides with readability fallback.
+6. Layout acceptance SoT = **mermaid.live / GitHub**, not Cursor preview. Agent may drive mermaid.live for drafts; if visual confidence is low, leave the tab open for operator eyeball before locking.
+7. Prior C.2a creative page remains exploration only; live charts are authority once this pass ships.
+8. Six Texarkanine PR #108 inlines (legend/status/TDD prose) were mid-flight in MB; fold any still-unshipped residue into this pass only if still missing from `rulesets/` — do not re-litigate closed dispositions.
+9. **Deferred:** Done/MergePR → Mermaid stop (double-circle) / terminal (stadium) shapes — nice, not required for the subgraph fix.

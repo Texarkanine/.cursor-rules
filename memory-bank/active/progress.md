@@ -409,11 +409,24 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
 * Insights
     - On-chart Verdict removal is intentional; reading note carries the doctrine
 
-## 2026-08-10 - PREFLIGHT - IN PROGRESS
+## 2026-08-10 - PREFLIGHT - COMPLETE
 
 * Work completed
     - Leaving PLAN; Spawning preflight (gemini-3.1-pro)
+    - Validated plan against constraints and conventions (mermaid layout changes, TDD exemption correctly applied)
 * Decisions made
     - Model: gemini-3.1-pro; charge = load-and-run niko-preflight only
+    - Status: PASS
 * Insights
-    - none yet
+    - The task correctly identifies that always-tdd exempts prose and policy artifacts.
+
+## 2026-08-10 - PLAN - AMENDED (operator polish after preflight PASS)
+
+* Work completed
+    - Operator: drop “subagent” from labels; 🐈 on subprocess nodes; legend update; thick `==Spawn==>` (verified mmdc + mermaid.live)
+    - Creative + plan + brief updated; Done/stop shapes deferred
+* Decisions made
+    - Triple cue locked: `[[ ]]` + 🐈 + thick Spawn; 🐱 remains parent autonomous phases
+    - Preflight PASS still stands for structure; polish is within Option A
+* Insights
+    - Thick labeled edges (`==Spawn==>`) are the mechanical token that matches the legend without nesting

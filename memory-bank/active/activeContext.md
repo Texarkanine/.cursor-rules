@@ -2,12 +2,13 @@
 
 ## Current Task: verification-subagents-preflight-qa
 
-**Phase:** PREFLIGHT - IN PROGRESS
+**Phase:** PREFLIGHT - COMPLETE (PASS) — awaiting `/niko-build`
 
 ## What Was Done
 
-- Plan complete; creative locked subprocess encoding
+- Preflight PASS (gemini-3.1-pro)
+- Operator polish folded into creative/plan: 🐈 labels, no “subagent” word, thick `==Spawn==>`, legend triple cue; Done shapes deferred
 
 ## Next Step
 
-Await preflight subagent status file
+Operator: `/niko-build` (L3 dashed gate)
