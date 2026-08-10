@@ -2,13 +2,13 @@
 
 ## Current Task: verification-subagents-preflight-qa
 
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** PLAN - COMPLETE
 
 ## What Was Done
 
-- Rework pass 3 initiated (Mermaid layout for GitHub / mermaid.live)
-- Complexity: Level 3 — multi-file chart surface; visual encoding of subagents is an open design choice (subprocess nodes vs other flattenings); prior C.2a nested-subgraph look must be re-decided for dagre-safe rendering
+- Creative locked subprocess encoding for Preflight/QA; nested subagent subgraphs out
+- Full L3 plan written (README + L1–L4 workflows; mermaid.live acceptance)
 
 ## Next Step
 
-Load Level 3 workflow → Plan phase (expect Creative for subagent visual encoding)
+Preflight — Spawn `/niko-preflight` (do not run in this conversation)

@@ -387,3 +387,24 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - Level 3: bug across many chart files, but visual encoding of subagents is an open design question (operator candidate: subprocess `[[ ]]`; alternatives: flat phase+Verdict nodes, SVG, split charts); creative required before build
 * Insights
     - Mermaid docs: subgraph `direction` ignored when any interior node links outside — matches observed border-attached / under-fill edges
+
+## 2026-08-10 - CREATIVE - COMPLETE (subagent visual encoding)
+
+* Work completed
+    - Explored A subprocess / B flat diamond+Verdict / C ideology+subprocess on mermaid.live + mmdc
+    - Wrote `creative/creative-subagent-visual-encoding.md`
+* Decisions made
+    - **A:** subprocess `[[ ]]` replaces nested Preflight/QA subgraphs; on-chart Verdict node removed; reading note carries parent-owns-outbound-edges
+    - Long chart: try ideology washes + subprocess; if still unreadable on mermaid.live, flatten ideology too
+* Insights
+    - Short subprocess chart is clearly good on mermaid.live; long ideology still fights dagre — readability beats wash requirement
+
+## 2026-08-10 - PLAN - COMPLETE
+
+* Work completed
+    - Integrated creative lock into full L3 implementation plan (6 steps)
+    - Acceptance = mermaid.live/GitHub; nested Preflight/QA subgraphs forbidden
+* Decisions made
+    - Build order: README short → long (w/ ideology fallback) → per-level → workflows → audit → verify
+* Insights
+    - On-chart Verdict removal is intentional; reading note carries the doctrine
