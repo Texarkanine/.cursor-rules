@@ -478,3 +478,14 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - Standalone task → archive after Reflect (no milestones.md)
 * Insights
     - Solid QA→Reflect; Reflect remains terminal (dashed to Archive)
+
+## 2026-08-10 - REFLECT - COMPLETE (pass 3)
+
+* Work completed
+    - Wrote `reflection/reflection-verification-subagents-preflight-qa-rework-pass-3.md`
+    - Reconciled persistent files (receipts below)
+* Decisions made
+    - systemPatterns: add subprocess/thick-Spawn chart encoding + GitHub layout failure class
+    - productContext / techContext: skip
+* Insights
+    - Layout SoT discipline (mermaid.live/GitHub over Cursor/`mmdc` glance) is the durable process fix behind the ink change

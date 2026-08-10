@@ -20,6 +20,8 @@ Invoking a Niko workflow or skill (e.g. `/niko-build`, `/nk-save`) is itself the
 
 Verbatim duplication as a grep-verifiable tripwire is a recurring technique here, not a one-off: the persistent-file update contract uses it ("factually wrong or materially incomplete", shared between the memory-bank guidance rules and `reconcile-persistent.md`), and so does the nine-site Spawn phase-mapping line (same wording at every preflight/QA fork site so a drift grep can catch a lone rewrite). Before consolidating repeated phrasing in rule content, check whether the repetition is the mechanism.
 
+Niko workflow charts encode Preflight/QA forks as Mermaid subprocess nodes (`[["🐈 …"]]`) with thick `==Spawn==>` edges — never nested Preflight/QA subgraphs. Cross-boundary edges out of filled nested clusters break human layout on GitHub / mermaid.live even when Cursor preview and `mmdc` look fine.
+
 Persistent-file reconciliation also runs a standing-contract probe and requires a one-line skip receipt per file; details in `reconcile-persistent.md`.
 
 ## Archive Pattern

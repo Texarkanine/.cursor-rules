@@ -2,13 +2,13 @@
 
 ## Current Task: verification-subagents-preflight-qa
 
-**Phase:** REFLECT - IN PROGRESS (pass 3: Mermaid layout)
+**Phase:** REFLECT - COMPLETE (pass 3: Mermaid layout)
 
 ## What Was Done
 
-- BUILD + QA PASS ([QA](b563d8a0-864e-475b-8404-b9c24345a248), gemini-3.1-pro): subprocess encoding shipped
-- Entering Reflect
+- Reflection: `reflection/reflection-verification-subagents-preflight-qa-rework-pass-3.md`
+- Reconciled persistent files (systemPatterns: chart encoding contract; productContext/techContext skip)
 
 ## Next Step
 
-Write reflection; reconcile persistent files; stop for `/niko-archive`
+Run `/niko-archive` to archive and clear active MB
