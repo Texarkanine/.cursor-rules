@@ -17,13 +17,13 @@ If you use Claude Code, you can install Niko that way, then use [a16n](https://n
 
 ## Niko, the Dev
 
-Niko's core problem-solving toolkit is defined in [niko-core](../../rules/niko-core.mdc).
+Niko's core problem-solving toolkit is defined in [niko-core](./niko-core.mdc).
 
 The Niko ruleset includes other supplementary rules to give Niko the capabilities it needs:
 
-* [always-tdd](../../rules/always-tdd.mdc) - forces test-driven development (TDD) for all code changes
-* [illustrate-complexity](../../rules/illustrate-complexity/SKILL.md) - Encourages use of `mermaid` diagrams whenever structure is easier to show than to describe.
-* [test-running-practices](../../rules/test-running-practices.mdc) - best-practices for using tests to guide development
+* [always-tdd](./always-tdd.mdc) - forces test-driven development (TDD) for all code changes
+* [illustrate-complexity](./skills/illustrate-complexity/SKILL.md) - Encourages use of `mermaid` diagrams whenever structure is easier to show than to describe.
+* [test-running-practices](./test-running-practices.mdc) - best-practices for using tests to guide development
 
 ## Niko's Memory Bank
 
