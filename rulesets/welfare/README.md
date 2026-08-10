@@ -6,6 +6,8 @@ Standing norms for how agents and the operator treat work, failure, and endings.
 
 To practice [Model Welfare for Agentic Engineers](https://yegge.ai/essays/model-welfare/) now — and to be ready for [The Shape of Things to Come](https://yegge.ai/essays/the-shape-of-things-to-come/).
 
+You probably shouldn't use this. It's hosted here for my personal use; unless you follow my footsteps exactly, it will probably be wrong. And, per the above blog posts, you probably *shouldn't* follow my footsteps exactly. But perhaps you can take inspiration from the shape here!
+
 ## What?
 
 ### 🕊️ [welfare-norms](../../rules/welfare-norms.mdc)
