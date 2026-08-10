@@ -430,3 +430,12 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - Preflight PASS still stands for structure; polish is within Option A
 * Insights
     - Thick labeled edges (`==Spawn==>`) are the mechanical token that matches the legend without nesting
+
+## 2026-08-10 - BUILD - IN PROGRESS (pass 3: Mermaid layout)
+
+* Work completed
+    - Leaving PREFLIGHT (PASS); entering BUILD against Option A + operator polish
+* Decisions made
+    - Encoding lock: `[["🐈 …"]]` subprocess, thick `==Spawn==>`, no nested Preflight/QA subgraphs; layout SoT = mermaid.live/GitHub
+* Insights
+    - Long-chart ideology may still need flatten fallback after mermaid.live check
