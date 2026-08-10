@@ -489,3 +489,12 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - productContext / techContext: skip
 * Insights
     - Layout SoT discipline (mermaid.live/GitHub over Cursor/`mmdc` glance) is the durable process fix behind the ink change
+
+## 2026-08-10 - ARCHIVE - IN PROGRESS
+
+* Work completed
+    - Leaving REFLECT; entering Archive (operator: long-chart no-emoji intentional — blends levels)
+* Decisions made
+    - Category: features/; archive covers full active arc (original + reworks 1–3); prior 20260807 archive not on this branch
+* Insights
+    - Operator legend polish post-Reflect is part of the shipped surface to archive
