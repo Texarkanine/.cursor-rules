@@ -1,7 +1,8 @@
 #!/bin/sh
 #
 # Fail if any internal Markdown link in rulesets README files
-# points at a path that does not exist.
+# points at a path that does not exist, or at a symlink stub inside
+# rulesets/ (README links must target canonical paths under rules/).
 #
 # Usage: check-ruleset-readme-links.sh [rulesets_dir]
 #   rulesets_dir defaults to <repo>/rulesets
@@ -54,11 +55,14 @@ extract_link_targets() {
 check_readme_links() {
 	rulesets_dir=$1
 	fail_marker=
+	rulesets_abs=
 
 	if [ ! -d "${rulesets_dir}" ]; then
 		printf 'error: not a directory: %s\n' "${rulesets_dir}" >&2
 		return 1
 	fi
+
+	rulesets_abs=$(CDPATH= cd -- "${rulesets_dir}" && pwd)
 
 	fail_marker=$(mktemp)
 	# Clean up the marker file when the shell exits.
@@ -96,6 +100,21 @@ check_readme_links() {
 						"${readme}" "${target}" >&2
 					# Subshell-safe failure flag (no pipefail in POSIX).
 					printf 'x\n' >> "${fail_marker}"
+					continue
+				fi
+
+				# Ruleset READMEs link canonical rules/, not symlink stubs.
+				path_abs=$(CDPATH= cd -- "$(dirname -- "${path}")" \
+					&& pwd)/$(basename -- "${path}")
+				if [ -L "${path_abs}" ]; then
+					case "${path_abs}" in
+						"${rulesets_abs}"/*)
+							printf 'symlink link: %s -> %s ' \
+								"${readme}" "${target}" >&2
+							printf '(point at rules/ canonical path)\n' >&2
+							printf 'x\n' >> "${fail_marker}"
+							;;
+					esac
 				fi
 			done
 		done
