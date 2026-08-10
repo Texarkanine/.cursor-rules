@@ -125,12 +125,12 @@ flowchart LR
 <br>
 In case you want the "Long Version" but for just a single complexity level:
 
-**Legend:**
-- 🐱 = Phase executed autonomously
-- 🐈 = Phase executed autonomously in a sub-agent
-- 🧑‍💻 = Phase initiated by operator with explicit command
-- Solid edge = Transition does not require operator input
-- Dashed edge = Transition requires operator input (STOP and wait)
+> Legend:
+> - 🐱 = Phase executed autonomously
+> - 🐈 = Phase executed autonomously in a sub-agent
+> - 🧑‍💻 = Phase initiated by operator with explicit command
+> - Solid edge = Transition does not require operator input
+> - Dashed edge = Transition requires operator input (STOP and wait)
 
 Outbound edges from a 🐈 sub-agent are taken by the parent once the sub-agent completes.
 A node with no outbound solid edges is a **terminal node**.
