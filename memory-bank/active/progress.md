@@ -408,3 +408,12 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - Build order: README short → long (w/ ideology fallback) → per-level → workflows → audit → verify
 * Insights
     - On-chart Verdict removal is intentional; reading note carries the doctrine
+
+## 2026-08-10 - PREFLIGHT - IN PROGRESS
+
+* Work completed
+    - Leaving PLAN; Spawning preflight (gemini-3.1-pro)
+* Decisions made
+    - Model: gemini-3.1-pro; charge = load-and-run niko-preflight only
+* Insights
+    - none yet

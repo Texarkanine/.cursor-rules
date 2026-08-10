@@ -2,13 +2,12 @@
 
 ## Current Task: verification-subagents-preflight-qa
 
-**Phase:** PLAN - COMPLETE
+**Phase:** PREFLIGHT - IN PROGRESS
 
 ## What Was Done
 
-- Creative locked subprocess encoding for Preflight/QA; nested subagent subgraphs out
-- Full L3 plan written (README + L1–L4 workflows; mermaid.live acceptance)
+- Plan complete; creative locked subprocess encoding
 
 ## Next Step
 
-Preflight — Spawn `/niko-preflight` (do not run in this conversation)
+Await preflight subagent status file
