@@ -36,7 +36,7 @@ A "ruleset" is a directory full of symlinks to rules. Rulesets group logical, we
 
 ## Checks
 
-Run `make test` to verify that every symlink under `rulesets/` has an existing target and that every internal link in `rulesets/**/README*` documents points at an existing path. Pull request CI runs the same checks as two separate GitHub Actions jobs.
+Run `make test` to verify that every symlink under `rulesets/` has an existing target and that every internal link in `rulesets/**/README*` documents points at an existing path — canonical `rules/` paths for symlink-backed entries, not symlink stubs in the ruleset tree. Pull request CI runs the same checks as two separate GitHub Actions jobs.
 
 ## Big Thanks
 
