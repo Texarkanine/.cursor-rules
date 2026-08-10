@@ -9,13 +9,9 @@ Level 4 tasks are too large to plan and execute in one pass. They are decomposed
 ```mermaid
 graph TD
     Start(("Complexity Analysis")) --> NikoPlan["🐱 plan<br>(generate milestones)"]
-    NikoPlan --Spawn--> NikoPreflight
-    subgraph PreflightSubagent["Preflight subagent"]
-        direction LR
-        NikoPreflight{"🐱 preflight"} --> PreflightVerdict("Verdict")
-    end
-    PreflightVerdict -->|"FAIL"| NikoPlan
-    PreflightVerdict -.->|"PASS"| ManualReview["🧑‍💻 review plan"]
+    NikoPlan ==Spawn==> NikoPreflight[["🐈 Preflight"]]
+    NikoPreflight -->|"FAIL"| NikoPlan
+    NikoPreflight -.->|"PASS"| ManualReview["🧑‍💻 review plan"]
     ManualReview -.->|"🧑‍💻 /niko"| Niko
     subgraph SubWorkflow["L1-L3 Workflow"]
         Niko(("Milestone Execution"))
@@ -26,13 +22,13 @@ graph TD
 
 > Legend:
 > - 🐱 = Phase executed autonomously
+> - 🐈 = Phase executed autonomously in a sub-agent
 > - 🧑‍💻 = Phase initiated by operator with explicit command
-> - Solid edge = Transition does not require operator input (parent continues)
+> - Solid edge = Transition does not require operator input
 > - Dashed edge = Transition requires operator input (STOP and wait)
-> - `--Spawn-->` = Parent forks a subagent to run that phase; do not run it in this conversation
 
-Subagent ends at `Verdict`; outbound edges from `Verdict` are taken by the parent.
-A **terminal node** has only dashed outs (e.g. Reflect → Archive).
+Outbound edges from a 🐈 sub-agent are taken by the parent once the sub-agent completes.
+A node with no outbound solid edges is a **terminal node**.
 
 After the initial plan is reviewed, `/niko` manages the milestone lifecycle: checking off completed sub-runs, cleaning inter-run state, classifying the next milestone, and routing to the capstone archive when all milestones are done.
 
