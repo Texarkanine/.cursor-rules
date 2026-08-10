@@ -96,12 +96,12 @@ Prose/policy — always-tdd carve-out. No change-detector tests locking diagram 
     - Tests first: `N/A for prose & policy artifacts`
     - Changes: same encoding; update legends/reading notes under each chart to match (glyphs only / subprocess note)
 
-5. **Audit `/niko` entry chart + optional techContext pointer**
+5. **Audit `/niko` entry chart + optional techContext pointer** ✅
     - Files: `rulesets/niko/skills/niko/SKILL.md`; optionally `memory-bank/techContext.md` Diagrams bullet
     - Tests first: `N/A for prose & policy artifacts`
     - Changes: confirm no nested subagent pattern; only edit if needed. techContext: one line that consumer-facing Mermaid must be checked on mermaid.live/GitHub — only if standing-contract incomplete
 
-6. **Verify**
+6. **Verify** ✅
     - Files: touched charts only
     - Tests first: `N/A for prose & policy artifacts`
     - Changes: `make test`; `rg 'subgraph PreflightSubagent|subgraph QASubagent'` clean under `rulesets/niko/`; mermaid.live eyeball (agent draft + operator if low confidence on long)
@@ -132,5 +132,5 @@ No new technology - validation not required (`mmdc` / mermaid.live already in us
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight
-- [ ] Build
+- [x] Build
 - [ ] QA

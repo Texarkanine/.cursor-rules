@@ -439,3 +439,25 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - Encoding lock: `[["🐈 …"]]` subprocess, thick `==Spawn==>`, no nested Preflight/QA subgraphs; layout SoT = mermaid.live/GitHub
 * Insights
     - Long-chart ideology may still need flatten fallback after mermaid.live check
+
+## 2026-08-10 - BUILD - COMPLETE (pass 3: Mermaid layout)
+
+* Work completed
+    - README short/long/per-level + L1–L4 workflow charts: subprocess encoding + thick Spawn + legend triple cue
+    - Dropped on-chart Verdict nodes; reading note carries parent-owns-outbound-edges
+    - techContext Diagrams: consumer-facing Mermaid checked on mermaid.live/GitHub
+    - Verify: `make test` green; 10/10 mmdc; no nested Preflight/QA subgraphs; short+long human-traceable (ideology kept)
+* Decisions made
+    - Long chart: kept Planning/Execution/Learning washes (fallback not needed)
+    - `/niko` entry chart unchanged (no nested subagent pattern)
+* Insights
+    - Thick `==Spawn==>` + 🐈 subprocess is enough glyph without nested fills; ideology washes alone did not reproduce the under-fill failure class
+
+## 2026-08-10 - QA - IN PROGRESS (pass 3)
+
+* Work completed
+    - Leaving BUILD; Spawning QA
+* Decisions made
+    - Model: gemini-3.1-pro; charge = load-and-run niko-qa only
+* Insights
+    - Layout acceptance already eyeballed on mermaid.live + mmdc PNG in Build; QA judges plan fit
