@@ -366,3 +366,15 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
     - Operator accepted the six dispositions and the described fix shapes
 * Insights
     - Legend decodes ink; doctrine (Verdict ownership, terminal node) lives under the chart
+
+## 2026-08-10 - REWORK - INITIATED (pass 3: Mermaid layout)
+
+* Work completed
+    - Operator: charts render unreadable on GitHub / mermaid.live (edges under fills, cluster-border attachments, spaghetti); Cursor preview lied
+    - Disposition: rework on same task `verification-subagents-preflight-qa` (colossal docs/chart visual rework)
+    - Design candidate from operator: ditch nested subagent subgraphs; use Mermaid subprocess nodes (`[[ ]]`) — Mermaid ignores subgraph `direction` when nodes link outside
+* Decisions made
+    - Layout SoT = mermaid.live / GitHub, not Cursor / casual mmdc glance
+    - Spawn/Verdict semantics preserved; visual encoding open (creative)
+* Insights
+    - Nested filled subgraphs with cross-boundary edges are the failure class; ideology-only clusters may still be viable

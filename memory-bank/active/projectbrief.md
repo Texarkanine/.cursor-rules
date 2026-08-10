@@ -42,3 +42,17 @@ Operator decisions 2026-08-07 after breakfast:
 4. **If TDD keeps failing after Plan is tightened** — postmortem: why does Plan keep emitting bad TDD structure? Treat repeated preflight→rearchitect loops as signal, not as a reason to restore a special auto edge.
 5. **Remaining cheap CodeRabbit fixups** (one-liners / non-TDD): `/archive`→`/niko-archive` on L2 chart; progress “mermaid unchanged”; Spawn-charge double-backticks in brief/progress; clear `.qa-validation-status` before QA spawn (wording with operator if >1 line); README long QA split fixable/rearchitect (mermaid — with operator). **Do not** implement CodeRabbit’s L4 “split FAIL (TDD)” recommendation — superseded by (1).
 6. **Authority reminder** — creative = exploration; `tasks.md` = what we build next.
+
+## Rework (pass 3 — Mermaid layout for GitHub)
+
+**Problem:** Spawn/Verdict charts shipped in #108 render unreadable on GitHub.com and mermaid.live (edges attach to subgraph borders, paths draw *under* filled subgraph rects, nested boxes stretch/spaghetti). Cursor markdown preview and local `mmdc` glances looked fine — wrong SoT. Consumers read these on GitHub (`productContext.md`).
+
+**Root cause (Mermaid):** When any node inside a subgraph links outside, subgraph `direction` is ignored and the cluster inherits the parent graph direction. Cross-boundary edges + filled nested clusters are a known dagre/SVG failure mode.
+
+**Operator direction (2026-08-10):**
+1. Fix live charts under `rulesets/niko/` (README short/long/per-level + L1–L4 workflow charts) so they are human-readable on GitHub / mermaid.live.
+2. Keep Spawn/Verdict *semantics* (parent forks; subagent stops at Verdict; outbound edges are parent's). Visual encoding may change.
+3. Strong candidate: **ditch nested subagent subgraphs**; mark subagents with Mermaid **subprocess** nodes (`id[["label"]]`) instead of yellow cluster boxes. Ideology washes (Planning/Execution/Learning) may stay if they still layout cleanly without nested subagent clusters — creative/plan decides.
+4. Layout acceptance SoT = **mermaid.live / GitHub**, not Cursor preview. Agent may drive mermaid.live for drafts; if visual confidence is low, leave the tab open for operator eyeball before locking.
+5. Prior C.2a creative page remains exploration only; live charts are authority once this pass ships.
+6. Six Texarkanine PR #108 inlines (legend/status/TDD prose) were mid-flight in MB; fold any still-unshipped residue into this pass only if still missing from `rulesets/` — do not re-litigate closed dispositions.
