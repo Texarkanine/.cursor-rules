@@ -133,4 +133,4 @@ No new technology - validation not required (`mmdc` / mermaid.live already in us
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [ ] QA
+- [x] QA

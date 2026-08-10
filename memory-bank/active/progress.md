@@ -453,11 +453,28 @@ Two parallel creative efforts: prose candidates (`creative-verification-wording.
 * Insights
     - Thick `==Spawn==>` + 🐈 subprocess is enough glyph without nested fills; ideology washes alone did not reproduce the under-fill failure class
 
-## 2026-08-10 - QA - IN PROGRESS (pass 3)
+## 2026-08-10 - QA - COMPLETE (pass 3)
 
 * Work completed
     - Leaving BUILD; Spawning QA
+    - Reviewed the code just implemented against the original plan.
+    - Verified that all nested subagent clusters were removed and replaced with `[["🐈 Preflight"]]` and `[["🐈 QA"]]` subprocess nodes.
+    - Verified that thick `==Spawn==>` edges were used.
+    - Verified that legends and reading notes were updated to reflect the new visual encoding.
+    - Verified that `techContext.md` was updated with the layout SoT line.
+    - Ran `make test` and confirmed it passes.
 * Decisions made
     - Model: gemini-3.1-pro; charge = load-and-run niko-qa only
+    - PASS — no Build or Plan rerun required.
 * Insights
-    - Layout acceptance already eyeballed on mermaid.live + mmdc PNG in Build; QA judges plan fit
+    - Layout acceptance already eyeballed on mermaid.live + mmdc PNG in Build; QA judges plan fit.
+    - The implementation perfectly matches the plan and creative lock.
+
+## 2026-08-10 - REFLECT - IN PROGRESS (pass 3)
+
+* Work completed
+    - Leaving QA (PASS); entering Reflect
+* Decisions made
+    - Standalone task → archive after Reflect (no milestones.md)
+* Insights
+    - Solid QA→Reflect; Reflect remains terminal (dashed to Archive)
