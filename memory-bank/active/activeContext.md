@@ -1,13 +1,12 @@
 # Active Context
 
 ## Current Task: iso-24495-decompression-key
-**Phase:** PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
+**Phase:** BUILD - COMPLETE
 
 ## What Was Done
-- Intent approved: fill `rules/iso-24495.mdc` as a short always-on decompression key, series-wide, IPL Federation URL, same shape as `asd-ste100.mdc`.
-- Complexity: Level 2.
-- Plan: one prose write of `rules/iso-24495.mdc`, then `make test`. TDD N/A. No ruleset, no README listing, no generated-tree edit.
-- Preflight passed with advisory: inline comma-separated principle names preferred over bullets for always-on brevity.
+- Filled `rules/iso-24495.mdc`: always-on decompression key naming ISO 24495, the four Part 1 principles inline, Parts 2 and 3 by role, IPL Federation URL, precision exception.
+- `make test` PASS (symlink + README-link checks). No new tests (prose/policy).
+- No ruleset, no README listing, no `.cursor/` copy.
 
 ## Next Step
-- Build (`/niko-build`).
+- QA review (spawn `/niko-qa`).

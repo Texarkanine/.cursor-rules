@@ -26,7 +26,7 @@ Fill the stub `rules/iso-24495.mdc` as a short always-on decompression key for I
 
 ## Implementation Plan
 
-1. Write the ISO 24495 decompression key
+1. [x] Write the ISO 24495 decompression key
    - Files: `rules/iso-24495.mdc`
    - Tests first: N/A for prose & policy artifacts
    - Changes: keep `alwaysApply: true`. Add a short title and body in the shape of `rules/asd-ste100.mdc`:
@@ -38,7 +38,7 @@ Fill the stub `rules/iso-24495.mdc` as a short always-on decompression key for I
      - Stay short. Do not copy ISO clause text. Do not add a ruleset, README listing, or generated `.cursor/` copy (sync is a later `chore(dev): ai-rizz sync` after push)
      - Preflight amendment: prefer inline comma-separated principle names over a bulleted list to minimize always-on context cost (matches asd-ste100 brevity)
 
-2. Regression check
+2. [x] Regression check
    - Files: none new
    - Tests first: N/A for prose & policy artifacts
    - Changes: run `make test` and confirm PASS
@@ -73,5 +73,5 @@ No new technology - validation not required
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight
-- [ ] Build
+- [x] Build
 - [ ] QA

@@ -39,3 +39,14 @@ Fill in `rules/iso-24495.mdc` as a short always-on ISO 24495 decompression key, 
     - Plan amendment: prefer inline comma-separated principle names over bullets for always-on brevity
 * Insights
     - A la carte `rules/iso-24495.mdc` does not touch ruleset symlink or README-link checks; `make test` regression is sufficient
+
+## 2026-08-13 - BUILD - COMPLETE
+
+* Work completed
+    - Wrote `rules/iso-24495.mdc` in the asd-ste100 shape
+    - Ran `make test`: PASS
+* Decisions made
+    - Inline the four principles in the first sentence; Part 2/3 roles and the IPL URL in the same paragraph; precision exception as the second paragraph
+    - No deviations from the preflight-amended plan
+* Insights
+    - Two-paragraph body matches `asd-ste100.mdc`; the extra clause is the series map (Part 1 / 2 / 3)
