@@ -27,3 +27,15 @@ Fill in `rules/iso-24495.mdc` as a short always-on ISO 24495 decompression key, 
     - No ruleset, no root README listing, no `.cursor/` sync in this task
 * Insights
     - ASD-STE100 and ISO 24495 can both stay always-on: different layers, same precision exception
+
+## 2026-08-13 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Validated plan against codebase: conventions, dependencies, conflicts, completeness
+    - TDD check: prose/policy artifact; N/A for test-first ordering; no change-detector tests scheduled
+    - Verified IPL Federation canonical URL is live and names the four Part 1 principles plus Parts 2 and 3 by role
+* Decisions made
+    - Status: PASS WITH ADVISORY
+    - Plan amendment: prefer inline comma-separated principle names over bullets for always-on brevity
+* Insights
+    - A la carte `rules/iso-24495.mdc` does not touch ruleset symlink or README-link checks; `make test` regression is sufficient

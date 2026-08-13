@@ -36,6 +36,7 @@ Fill the stub `rules/iso-24495.mdc` as a short always-on decompression key for I
      - Link only to https://www.iplfederation.org/iso-standard/
      - Keep the same precision exception as ASD-STE100 (required technical terms and precise meaning win)
      - Stay short. Do not copy ISO clause text. Do not add a ruleset, README listing, or generated `.cursor/` copy (sync is a later `chore(dev): ai-rizz sync` after push)
+     - Preflight amendment: prefer inline comma-separated principle names over a bulleted list to minimize always-on context cost (matches asd-ste100 brevity)
 
 2. Regression check
    - Files: none new
@@ -71,6 +72,6 @@ No new technology - validation not required
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA
