@@ -62,3 +62,13 @@ Fill in `rules/iso-24495.mdc` as a short always-on ISO 24495 decompression key, 
     - Status: PASS
 * Insights
     - The implementation is concise and meets all requirements without over-engineering or copying standard text
+
+## 2026-08-13 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `memory-bank/active/reflection/reflection-iso-24495-decompression-key.md`
+    - Reconciled persistent files: no updates
+* Decisions made
+    - Keep ASD-STE100 and ISO 24495 as sibling a la carte keys, not a merge
+* Insights
+    - A paid standard's decompression key should point at a free series-level summary, not a one-part sample PDF

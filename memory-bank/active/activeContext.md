@@ -1,12 +1,12 @@
 # Active Context
 
 ## Current Task: iso-24495-decompression-key
-**Phase:** QA - COMPLETE (PASS)
+**Phase:** REFLECT COMPLETE
 
 ## What Was Done
-- Performed semantic review of `rules/iso-24495.mdc` against the original plan and project brief.
-- Verified the implementation is concise, matches the `asd-ste100.mdc` shape, includes the four principles, Part 2/3 roles, IPL Federation URL, and precision exception.
-- QA passed with no blocking issues.
+- Filled `rules/iso-24495.mdc` as an always-on ISO 24495 decompression key (four Part 1 principles inline; Parts 2 and 3 by role; IPL Federation URL; precision exception).
+- Preflight PASS WITH ADVISORY; Build matched plan; QA PASS; no rework.
+- Persistent files: no updates (skip receipts below in the reflect result).
 
 ## Next Step
-- Reflect phase (spawn `/niko-reflect`).
+- Run `/niko-archive` to archive this standalone task.
