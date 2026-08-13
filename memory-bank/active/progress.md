@@ -15,3 +15,15 @@ Fill in `rules/iso-24495.mdc` as a short always-on ISO 24495 decompression key, 
     - No ruleset in scope unless the operator asks later
 * Insights
     - Operator named this a decompression key: name the four principles; do not copy the standard
+
+## 2026-08-13 - PLAN - COMPLETE
+
+* Work completed
+    - Wrote Level 2 plan: one prose file (`rules/iso-24495.mdc`), then `make test`
+    - Marked TDD N/A for prose & policy; no new test files
+* Decisions made
+    - Shape = `asd-ste100.mdc` plus the four Part 1 principle names and a Part 2/3 one-liner
+    - Canonical URL = IPL Federation page only
+    - No ruleset, no root README listing, no `.cursor/` sync in this task
+* Insights
+    - ASD-STE100 and ISO 24495 can both stay always-on: different layers, same precision exception
