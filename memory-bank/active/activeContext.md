@@ -1,12 +1,12 @@
 # Active Context
 
 ## Current Task: iso-24495-decompression-key
-**Phase:** BUILD - COMPLETE
+**Phase:** QA - COMPLETE (PASS)
 
 ## What Was Done
-- Filled `rules/iso-24495.mdc`: always-on decompression key naming ISO 24495, the four Part 1 principles inline, Parts 2 and 3 by role, IPL Federation URL, precision exception.
-- `make test` PASS (symlink + README-link checks). No new tests (prose/policy).
-- No ruleset, no README listing, no `.cursor/` copy.
+- Performed semantic review of `rules/iso-24495.mdc` against the original plan and project brief.
+- Verified the implementation is concise, matches the `asd-ste100.mdc` shape, includes the four principles, Part 2/3 roles, IPL Federation URL, and precision exception.
+- QA passed with no blocking issues.
 
 ## Next Step
-- QA review (spawn `/niko-qa`).
+- Reflect phase (spawn `/niko-reflect`).
