@@ -14,3 +14,13 @@ Expand the two existing writing-style decompression keys into a four-style famil
     - Do not harvest `claude -p` samples by moving `~/.claude` trees
 * Insights
     - Same shape as the ISO 24495 L2: decompression keys plus layout checks; this task adds a ruleset and rename
+
+## 2026-08-16 - PLAN - COMPLETE
+
+* Work completed
+    - Wrote Level 2 plan: 7 implementation steps, existing `make test` as the executable gate, no new test files
+* Decisions made
+    - `git mv` the two existing keys; skills-only ruleset with `../../../rules/<slug>-style` symlinks
+    - README sample cells stay placeholders; root README door is a required step (outside the link checker)
+* Insights
+    - Authoring/shell already define the assembly contract the new ruleset must match

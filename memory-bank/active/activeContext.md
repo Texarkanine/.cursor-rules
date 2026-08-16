@@ -1,11 +1,12 @@
 # Active Context
 
 ## Current Task: writing-styles-ruleset
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Intent approved: four slugs × three flavors; ruleset `writing-styles` ships ManualPrompt skills only; always-on pair stays a la carte; Thomas and Turner book credit; `disable-model-invocation: true`.
-- Classified Level 2: self-contained enhancement of the existing ASD-STE100 / ISO 24495 key pattern plus one new ruleset assembled the same way as `authoring` / `shell`. No architectural fork.
+- Level 2 plan written: 7 steps (rename two keys, add two respond keys, four write keys, four skills, ruleset + README placeholders, root door, `make test`).
+- No new test files; existing ruleset symlink + README-link checkers are the executable gate. Rule/skill wording is prose/policy.
+- Confirmed ruleset assembly matches `authoring` / `shell` (`skills/<name>` → `../../../rules/<name>`).
 
 ## Next Step
-- Load the Level 2 workflow and execute the Plan phase.
+- Preflight validation (spawn `/niko-preflight`).
