@@ -1,12 +1,12 @@
 # Active Context
 
 ## Current Task: writing-styles-ruleset
-**Phase:** PLAN - COMPLETE
+**Phase:** PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
 
 ## What Was Done
-- Level 2 plan written: 7 steps (rename two keys, add two respond keys, four write keys, four skills, ruleset + README placeholders, root door, `make test`).
-- No new test files; existing ruleset symlink + README-link checkers are the executable gate. Rule/skill wording is prose/policy.
-- Confirmed ruleset assembly matches `authoring` / `shell` (`skills/<name>` → `../../../rules/<name>`).
+- Preflight validated plan against codebase: TDD boundary correct (prose N/A; structural gate via existing `make test`); conventions match `authoring`/`shell`; no conflicts or missing requirements.
+- Advisory: keep keys short (inline principles, no bullets); optional README style-selection blurb; run `make test` after ruleset assembly, not only step 7.
+- Plan step 5 amended for verification wording and optional README guide.
 
 ## Next Step
-- Preflight validation (spawn `/niko-preflight`).
+- Proceed to `/niko-build`.

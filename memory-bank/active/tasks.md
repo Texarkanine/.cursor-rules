@@ -52,8 +52,8 @@ Expand the two existing always-on writing-style keys into a four-slug family (al
 
 5. Assemble the `writing-styles` ruleset
    - Files: `rulesets/writing-styles/skills/{asd-ste100-style,iso-24495-style,turner-truth-style,orwell-6-style}` (symlinks), `rulesets/writing-styles/README.md`
-   - Tests first: existing `make test` is the gate (no new test files). Create skill dirs in step 4 first so symlink targets exist.
-   - Changes: `ln -s ../../../rules/<slug>-style` for each skill (same relative depth as `rulesets/authoring/skills/`). README: short intro; state that always-on `always-respond-*` / `always-write-*` files live a la carte under `rules/` and are **not** in this ruleset; four skill entries with Purpose/Scope linking `../../rules/<slug>-style/SKILL.md`; one shared prompt (`explain what nodejs is`) and a four-row sample table whose cells are explicit placeholders for an operator-filled stripped Opus 5 `claude -p` run. Do not invent sample outputs. Do not add always-on `.mdc` files to this tree.
+   - Verification: existing `make test` is the gate (no new test files). Create skill dirs in step 4 first so symlink targets exist; run `make test` after symlinks + README land (full regression again in step 7).
+   - Changes: `ln -s ../../../rules/<slug>-style` for each skill (same relative depth as `rulesets/authoring/skills/`). README: short intro; optional one-paragraph "when to use which style" guide (decompression pointers only — no expanded manuals); state that always-on `always-respond-*` / `always-write-*` files live a la carte under `rules/` and are **not** in this ruleset; four skill entries with Purpose/Scope linking `../../rules/<slug>-style/SKILL.md`; one shared prompt (`explain what nodejs is`) and a four-row sample table whose cells are explicit placeholders for an operator-filled stripped Opus 5 `claude -p` run. Do not invent sample outputs. Do not add always-on `.mdc` files to this tree.
 
 6. Add the root README door
    - Files: `README.md`
@@ -99,6 +99,6 @@ No new technology - validation not required
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight (PASS WITH ADVISORY)
 - [ ] Build
 - [ ] QA

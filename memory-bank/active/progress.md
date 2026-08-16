@@ -24,3 +24,16 @@ Expand the two existing writing-style decompression keys into a four-style famil
     - README sample cells stay placeholders; root README door is a required step (outside the link checker)
 * Insights
     - Authoring/shell already define the assembly contract the new ruleset must match
+
+## 2026-08-16 - PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
+
+* Work completed
+    - Validated prerequisites, TDD plan encoding, conventions, dependencies, conflicts, and completeness against `rules/`, `rulesets/`, and existing checkers
+    - Baseline `make test` PASS on current tree
+    - Wrote `.preflight-status` = `PASS WITH ADVISORY`; amended step 5 verification wording
+* Decisions made
+    - No rearchitect needed; existing symlink + README-link checkers suffice as the executable gate
+    - Optional README style-selection paragraph added to plan (decompression pointers only)
+* Insights
+    - ISO 24495 archive lesson applies: always-on keys stay short; inline principle names beat bullets for token budget
+    - Rename of `asd-ste100` / `iso-24495` is intentional clean break; generated `.cursor/` sync remains a separate post-push chore
