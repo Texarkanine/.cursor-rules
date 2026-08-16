@@ -1,6 +1,6 @@
 ---
 name: asd-ste100-style
-description: Invoke with /asd-ste100-style
+description: Use when writing or explaining procedures, safety-critical steps, aerospace or other technical instructions, or when a reader is stuck on a concept and needs one meaning per word. Fits replies and written how-tos, runbooks, and install steps, including non-native-English audiences. Prefer this when ambiguity is the failure mode, even if nobody says STE or Simplified Technical English. Do not use for legal argument, literary or classical prose, or merely punching up bloated sentences.
 disable-model-invocation: true
 ---
 
