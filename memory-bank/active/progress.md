@@ -37,3 +37,13 @@ Expand the two existing writing-style decompression keys into a four-style famil
 * Insights
     - ISO 24495 archive lesson applies: always-on keys stay short; inline principle names beat bullets for token budget
     - Rename of `asd-ste100` / `iso-24495` is intentional clean break; generated `.cursor/` sync remains a separate post-push chore
+
+## 2026-08-16 - BUILD - COMPLETE
+
+* Work completed
+    - 12 style files (8 always-on + 4 ManualPrompt skills); `writing-styles` ruleset with 4 skill symlinks and placeholder sample table; root README door
+    - `make test` PASS; old `rules/asd-ste100.mdc` / `rules/iso-24495.mdc` gone
+* Decisions made
+    - Built to the amended plan; Turner/Orwell keys not expanded
+* Insights
+    - Shared qualifier copied verbatim across all 12 files

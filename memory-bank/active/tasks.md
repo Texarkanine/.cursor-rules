@@ -28,39 +28,39 @@ Expand the two existing always-on writing-style keys into a four-slug family (al
 
 ## Implementation Plan
 
-1. Rename and retitle the two existing always-respond keys
+1. [x] Rename and retitle the two existing always-respond keys
    - Files: `rules/asd-ste100.mdc` → `rules/always-respond-asd-ste100.mdc`; `rules/iso-24495.mdc` → `rules/always-respond-iso-24495.mdc`
    - Tests first: N/A for prose & policy artifacts
    - Changes: `git mv` both. Heading becomes `Always Respond in ASD-STE100` / `Always Respond in ISO 24495`. Keep the existing key sentence (standard name + public URL + ISO part map). Replace the last sentence with: `If doing so would remove a required technical term or a precise meaning, keep the term. Clarity and accuracy trump style.` Keep `alwaysApply: true`.
 
-2. Add the two new always-respond keys
+2. [x] Add the two new always-respond keys
    - Files: `rules/always-respond-turner-truth.mdc`, `rules/always-respond-orwell-6.mdc`
    - Tests first: N/A for prose & policy artifacts
    - Changes: Same frontmatter and qualifier. Headings: `Always Respond in Turner Truth` / `Always Respond in Orwell 6`. Bodies stay decompression keys — do not expand Pinker, Thomas and Turner, or Orwell's six rules.
      - turner-truth: use classical style as mentioned by Steven Pinker and according to [Thomas and Turner's *Clear and Simple as the Truth*](https://press.princeton.edu/books/hardcover/9780691654744/clear-and-simple-as-the-truth), using plain English.
      - orwell-6: Use Orwell's 6 rules for writing.
 
-3. Add the four always-write keys
+3. [x] Add the four always-write keys
    - Files: `rules/always-write-asd-ste100.mdc`, `rules/always-write-iso-24495.mdc`, `rules/always-write-turner-truth.mdc`, `rules/always-write-orwell-6.mdc`
    - Tests first: N/A for prose & policy artifacts
    - Changes: `alwaysApply: true`. Headings: `Always Write Prose in <Style>`. Same keys and qualifier as the matching always-respond file; the lead clause is writing prose, not agent-to-operator replies.
 
-4. Add the four ManualPrompt skills
+4. [x] Add the four ManualPrompt skills
    - Files: `rules/asd-ste100-style/SKILL.md`, `rules/iso-24495-style/SKILL.md`, `rules/turner-truth-style/SKILL.md`, `rules/orwell-6-style/SKILL.md`
    - Tests first: N/A for prose & policy artifacts
    - Changes: Frontmatter `name: <slug>-style` (must match folder), `description: Invoke with /<slug>-style`, `disable-model-invocation: true`. Heading: `<Style> Style`. Body is the key plus qualifier only — no respond/write domain, no "when to use" section.
 
-5. Assemble the `writing-styles` ruleset
+5. [x] Assemble the `writing-styles` ruleset
    - Files: `rulesets/writing-styles/skills/{asd-ste100-style,iso-24495-style,turner-truth-style,orwell-6-style}` (symlinks), `rulesets/writing-styles/README.md`
    - Verification: existing `make test` is the gate (no new test files). Create skill dirs in step 4 first so symlink targets exist; run `make test` after symlinks + README land (full regression again in step 7).
    - Changes: `ln -s ../../../rules/<slug>-style` for each skill (same relative depth as `rulesets/authoring/skills/`). README: short intro; optional one-paragraph "when to use which style" guide (decompression pointers only — no expanded manuals); state that always-on `always-respond-*` / `always-write-*` files live a la carte under `rules/` and are **not** in this ruleset; four skill entries with Purpose/Scope linking `../../rules/<slug>-style/SKILL.md`; one shared prompt (`explain what nodejs is`) and a four-row sample table whose cells are explicit placeholders for an operator-filled stripped Opus 5 `claude -p` run. Do not invent sample outputs. Do not add always-on `.mdc` files to this tree.
 
-6. Add the root README door
+6. [x] Add the root README door
    - Files: `README.md`
    - Tests first: N/A for prose & policy artifacts (root README is outside `check-ruleset-readme-links.sh`)
    - Changes: New What's Inside entry for [writing-styles](./rulesets/writing-styles/README.md), sibling tone to authoring/shell/welfare. One or two sentences: four decompression-key styles, ManualPrompt call-ins in the ruleset, always-on respond/write variants a la carte.
 
-7. Verify layout
+7. [x] Verify layout
    - Files: none new
    - Tests first: run `make test` (whole suite)
    - Changes: fix any broken symlink or README-link failure. Confirm old `rules/asd-ste100.mdc` / `rules/iso-24495.mdc` paths are gone and `rulesets/writing-styles/` has no always-on `.mdc`.
@@ -100,5 +100,5 @@ No new technology - validation not required
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight (PASS WITH ADVISORY)
-- [ ] Build
+- [x] Build
 - [ ] QA

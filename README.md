@@ -16,6 +16,10 @@ The big one. Structured workflows and expert prompts that turn your AI assistant
 
 How to write things that humans, agents, *and* rendering engines all honor: prompts that agents actually follow, Markdown that never breaks, architecture docs grounded in [Diátaxis](https://diataxis.fr/), and [Mermaid](https://mermaid.js.org/) diagrams that clarify instead of decorate.
 
+### 📝 [writing-styles](./rulesets/writing-styles/README.md)
+
+Four decompression-key prose styles — ASD-STE100, ISO 24495, Thomas and Turner's classical style, and Orwell's six rules. The ruleset ships ManualPrompt call-ins; always-on respond and write variants stay a la carte under `rules/`.
+
 ### ⚡ [script-it](./rulesets/script-it/README.md)
 
 Stop paying inference cost for mechanical tool-call loops. An always-on tripwire catches the agent at its third structurally-similar tool call; a companion skill shows it how to collapse the whole iteration into one scripted call.
