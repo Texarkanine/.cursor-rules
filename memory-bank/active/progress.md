@@ -75,3 +75,18 @@ Expand the two existing writing-style decompression keys into a four-style famil
     - Renamed `turner-truth` → `thomas-turner-truth`; list label is TTT
 * Decisions made
     - Credit both authors in the slug; keep TTT as the short name on the available-styles list
+
+## 2026-08-16 - POST-REFLECT POLISH
+
+* Work completed
+    - Generic always-on H1s (`Required Writing Style for Responses` / `for Prose`); skill H1 `Required Writing Style`
+    - Always-respond lead: `Always respond to the operator`; Orwell: `in keeping with`
+    - Skill trigger descriptions written and tightened (no "leans writing", no "cutting cant")
+    - Renamed all files to `style-always-respond-*`, `style-always-write-*`, `style-<slug>/`
+    - Operator filled README sample table; PR #112 body updated to current paths
+* Decisions made
+    - `alwaysApply` is injection only; 🚨 + Required in the H1 is the model-facing must
+    - Heading is obligation/scope; body is the decompression key
+    - Skill `name` is `style-<slug>` so slash invoke matches the folder
+* Insights
+    - Slugs (`thomas-turner-truth`, `orwell-6`) are not keys and must not appear in titles

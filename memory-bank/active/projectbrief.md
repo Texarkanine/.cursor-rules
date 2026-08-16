@@ -50,3 +50,14 @@ Read `rulesets/writing-styles/README.md` to compare the four styles against one 
 4. README links resolve to canonical `rules/` skill paths; sample table cells are explicit placeholders.
 5. Root README lists `writing-styles` as a ruleset door.
 6. `make test` passes.
+
+## Rework
+
+Post-reflect operator refinements (approved in-session):
+
+1. Filenames are `style-` prefixed: `rules/style-always-respond-<slug>.mdc`, `rules/style-always-write-<slug>.mdc`, `rules/style-<slug>/SKILL.md`. Invoke `/style-asd-ste100`, not `/asd-ste100-style`.
+2. Always-on H1s are generic: `# 🚨 Required Writing Style for Responses` / `for Prose`. Skill H1 is `# Required Writing Style`. The body holds the key.
+3. Always-respond lead is `Always respond to the operator`. Orwell uses `in keeping with`, not `with`/`using`.
+4. Skills have trigger descriptions (as if an agent could pick them). `disable-model-invocation: true` stays. Descriptions name when to use and a near neighbor they do not cover; no "leans writing" jargon.
+5. Ruleset README sample table was filled by the operator (Opus 5, `Explain what NodeJS is.`).
+6. Draft PR: https://github.com/Texarkanine/.cursor-rules/pull/112
