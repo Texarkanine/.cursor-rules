@@ -8,7 +8,7 @@ Pick one. They are siblings, not a stack.
 
 - **ASD-STE100** — Simplified Technical English. Official standard: https://www.asd-ste100.org/
 - **ISO 24495** — Plain language: relevant, findable, understandable, usable. Public summary: https://www.iplfederation.org/iso-standard/
-- **Turner Truth** — Classical style as Pinker describes it, per Thomas and Turner's *Clear and Simple as the Truth*. Book: https://press.princeton.edu/books/hardcover/9780691654744/clear-and-simple-as-the-truth
+- **TTT** — Classical style as Pinker describes it, per Thomas and Turner's *Clear and Simple as the Truth*. Book: https://press.princeton.edu/books/hardcover/9780691654744/clear-and-simple-as-the-truth
 - **Orwell 6** — Orwell's six rules for writing.
 
 ## Skills
@@ -23,10 +23,10 @@ Pick one. They are siblings, not a stack.
 - **Purpose**: Apply ISO 24495 plain language for the invoked task.
 - **Scope**: Whatever the operator points at (`/iso-24495-style rewrite some-doc.md`).
 
-### ✒️ [turner-truth-style](../../rules/turner-truth-style/SKILL.md)
+### ✒️ [thomas-turner-truth-style](../../rules/thomas-turner-truth-style/SKILL.md)
 
 - **Purpose**: Apply Thomas and Turner's classical style for the invoked task.
-- **Scope**: Whatever the operator points at (`/turner-truth-style rewrite some-doc.md`).
+- **Scope**: Whatever the operator points at (`/thomas-turner-truth-style rewrite some-doc.md`).
 
 ### 📰 [orwell-6-style](../../rules/orwell-6-style/SKILL.md)
 
@@ -43,5 +43,5 @@ Fill each cell from a stripped Opus 5 `claude -p` run (no other rules, skills, o
 | --- | --- |
 | ASD-STE100 | _placeholder — paste stripped Opus 5 `claude -p` output_ |
 | ISO 24495 | _placeholder — paste stripped Opus 5 `claude -p` output_ |
-| Turner Truth | _placeholder — paste stripped Opus 5 `claude -p` output_ |
+| TTT | _placeholder — paste stripped Opus 5 `claude -p` output_ |
 | Orwell 6 | _placeholder — paste stripped Opus 5 `claude -p` output_ |

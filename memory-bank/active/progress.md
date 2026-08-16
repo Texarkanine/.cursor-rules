@@ -68,3 +68,10 @@ Expand the two existing writing-style decompression keys into a four-style famil
     - 3-flavor split stays a writing-styles convention, not a systemPatterns standing contract
 * Insights
     - Rulesets that mix always-on and call-in flavors should ship only the call-ins
+
+## 2026-08-16 - REWORK - SLUG RENAME
+
+* Work completed
+    - Renamed `turner-truth` → `thomas-turner-truth`; list label is TTT
+* Decisions made
+    - Credit both authors in the slug; keep TTT as the short name on the available-styles list
