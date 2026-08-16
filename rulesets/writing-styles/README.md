@@ -2,7 +2,7 @@
 
 Short decompression keys for prose writing styles. This ruleset ships only the manual directives as Skills that the agent cannot choose to invoke.
 
-The always-on `always-respond-*` and `always-write-*` rules live a la carte under `rules/` and are **not** in this ruleset — install one of those if **and only if** you want the style on every reply or every prose write.
+The always-on `style-always-respond-*` and `style-always-write-*` rules live a la carte under `rules/` and are **not** in this ruleset — install one of those if **and only if** you want the style on every reply or every prose write.
 
 ## The Styles
 
@@ -15,10 +15,10 @@ The always-on `always-respond-*` and `always-write-*` rules live a la carte unde
 
 These skills are *not* invokable by the agent. Invoke them yourself, command-style, when you want one of the writing styles applied to a task.
 
-1. ✈️ [asd-ste100-style](../../rules/asd-ste100-style/SKILL.md)
-2. 📄 [iso-24495-style](../../rules/iso-24495-style/SKILL.md)
-3. ✒️ [thomas-turner-truth-style](../../rules/thomas-turner-truth-style/SKILL.md)
-4. 📰 [orwell-6-style](../../rules/orwell-6-style/SKILL.md)
+1. ✈️ [style-asd-ste100](../../rules/style-asd-ste100/SKILL.md)
+2. 📄 [style-iso-24495](../../rules/style-iso-24495/SKILL.md)
+3. ✒️ [style-thomas-turner-truth](../../rules/style-thomas-turner-truth/SKILL.md)
+4. 📰 [style-orwell-6](../../rules/style-orwell-6/SKILL.md)
 
 ## Rules
 
@@ -28,19 +28,19 @@ These rules are *not* included in this ruleset - but you might be interested. Mi
 
 Change how your agent responds to you:
 
-1. ✈️ [always-respond-asd-ste100.mdc](../../rules/always-respond-asd-ste100.mdc)
-2. 📄 [always-respond-iso-24495.mdc](../../rules/always-respond-iso-24495.mdc)
-3. ✒️ [always-respond-thomas-turner-truth.mdc](../../rules/always-respond-thomas-turner-truth.mdc)
-4. 📰 [always-respond-orwell-6.mdc](../../rules/always-respond-orwell-6.mdc)
+1. ✈️ [style-always-respond-asd-ste100.mdc](../../rules/style-always-respond-asd-ste100.mdc)
+2. 📄 [style-always-respond-iso-24495.mdc](../../rules/style-always-respond-iso-24495.mdc)
+3. ✒️ [style-always-respond-thomas-turner-truth.mdc](../../rules/style-always-respond-thomas-turner-truth.mdc)
+4. 📰 [style-always-respond-orwell-6.mdc](../../rules/style-always-respond-orwell-6.mdc)
 
 ### Authorship Rules
 
 Change how your agent writes prose, including documents and code comments, etc:
 
-1. ✈️ [always-write-asd-ste100.mdc](../../rules/always-write-asd-ste100.mdc)
-2. 📄 [always-write-iso-24495.mdc](../../rules/always-write-iso-24495.mdc)
-3. ✒️ [always-write-thomas-turner-truth.mdc](../../rules/always-write-thomas-turner-truth.mdc)
-4. 📰 [always-write-orwell-6.mdc](../../rules/always-write-orwell-6.mdc)
+1. ✈️ [style-always-write-asd-ste100.mdc](../../rules/style-always-write-asd-ste100.mdc)
+2. 📄 [style-always-write-iso-24495.mdc](../../rules/style-always-write-iso-24495.mdc)
+3. ✒️ [style-always-write-thomas-turner-truth.mdc](../../rules/style-always-write-thomas-turner-truth.mdc)
+4. 📰 [style-always-write-orwell-6.mdc](../../rules/style-always-write-orwell-6.mdc)
 
 ## Sample
 

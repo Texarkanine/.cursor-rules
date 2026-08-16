@@ -1,5 +1,5 @@
 ---
-name: iso-24495-style
+name: style-iso-24495
 description: Use when the reader must find, understand, and act on the text: public-facing docs, legal or policy communication, science writing for non-specialists, UI copy, and answers that explain a finding or a right. Prefer this when structure and findability matter. Do not use for controlled procedures or for classical essay prose.
 disable-model-invocation: true
 ---

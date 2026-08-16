@@ -12,7 +12,7 @@ Install one `always-respond-<slug>.mdc` (or one `always-write-<slug>.mdc`) from 
 
 ### Use-Case 2
 
-Install the `writing-styles` ruleset and invoke `/asd-ste100-style rewrite some-doc.md` (or the sibling slugs) so the agent applies that style for the invoked task only.
+Install the `writing-styles` ruleset and invoke `/style-asd-ste100 rewrite some-doc.md` (or the sibling slugs) so the agent applies that style for the invoked task only.
 
 ### Use-Case 3
 
