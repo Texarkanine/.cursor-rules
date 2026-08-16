@@ -18,7 +18,7 @@ How to write things that humans, agents, *and* rendering engines all honor: prom
 
 ### 📝 [writing-styles](./rulesets/writing-styles/README.md)
 
-Four decompression-key prose styles — ASD-STE100, ISO 24495, Thomas and Turner's classical style, and Orwell's six rules. The ruleset ships ManualPrompt call-ins; always-on respond and write variants stay a la carte under `rules/`.
+Four decompression-key prose styles — ASD-STE100, ISO 24495, Thomas and Turner's classical style, and Orwell's six rules. The ruleset ships skills the agent can pick; always-on respond and write variants stay a la carte under `rules/`.
 
 ### ⚡ [script-it](./rulesets/script-it/README.md)
 

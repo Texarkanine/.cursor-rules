@@ -1,7 +1,6 @@
 ---
 name: style-thomas-turner-truth
 description: Use when writing general prose that should present a truth to an equal: design notes, architecture explanations, essays, reviews, and replies that show rather than perform. Do not use for safety procedures, aerospace technical instructions, legal or science plain-language documents, or when the reader is confused and the prose just needs to be simpler.
-disable-model-invocation: true
 ---
 
 # Required Writing Style

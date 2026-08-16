@@ -1,6 +1,6 @@
 # Writing Styles Ruleset
 
-Short decompression keys for prose writing styles. This ruleset ships only the manual directives as Skills that the agent cannot choose to invoke.
+Short decompression keys for prose writing styles. This ruleset ships skills the agent can pick when the task fits, and that you can invoke yourself.
 
 The always-on `style-always-respond-*` and `style-always-write-*` rules live a la carte under `rules/` and are **not** in this ruleset — install one of those if **and only if** you want the style on every reply or every prose write.
 
@@ -13,7 +13,7 @@ The always-on `style-always-respond-*` and `style-always-write-*` rules live a l
 
 ## Skills
 
-These skills are *not* invokable by the agent. Invoke them yourself, command-style, when you want one of the writing styles applied to a task.
+The agent may pick these when the task fits. You can also invoke them yourself (`/style-asd-ste100 rewrite some-doc.md`).
 
 1. ✈️ [style-asd-ste100](../../rules/style-asd-ste100/SKILL.md)
 2. 📄 [style-iso-24495](../../rules/style-iso-24495/SKILL.md)
