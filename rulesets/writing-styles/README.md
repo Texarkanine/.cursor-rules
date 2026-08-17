@@ -44,10 +44,7 @@ Change how your agent writes prose, including documents and code comments, etc:
 
 ## Sample
 
-Shared prompt:
-
-> Explain what NodeJS is.
-
+### Explain what NodeJS is.
 
 | Style | Claude Opus 5 |
 | --- | --- |
@@ -212,4 +209,87 @@ JavaScript began as a language for making web pages interactive, and for years i
 **What people build with it.** Web backends (Express, Fastify, NestJS), the tooling behind nearly every front-end project (bundlers, test runners, linters), desktop apps through Electron, and small scripts that would once have been shell or Python.
 
 **The neighbors.** Deno and Bun are newer runtimes that do the same job with different trade-offs. Node remains the default.
+</details>
+
+### Why is the sky blue?
+
+| Style | Claude Opus 5 |
+| --- | --- |
+| (no guidance) | Sunlight contains all colors, and as it passes through the atmosphere it scatters off air molecules — nitrogen and oxygen — that are far smaller than the light's wavelength. This is Rayleigh scattering, and its strength scales as 1/λ⁴, so short wavelengths scatter much more strongly than long ones. Blue light (~450 nm) scatters roughly five to six times more than red (~700 nm).<br><br>... |
+| ASD-STE100 | Sunlight contains all colors. Each color has a different wavelength. Blue light has a short wavelength; red light has a long wavelength.<br><br>... |
+| ISO 24495 | Sunlight looks white, but it is a mix of all colors. Each color travels as a wave, and blue and violet waves are shorter than red ones.<br><br>... |
+| TTT | Sunlight looks white, but it carries every color. When it enters the atmosphere it runs into air molecules — nitrogen and oxygen — that are far smaller than the waves of light themselves. Such small particles scatter short wavelengths much more strongly than long ones: the effect grows as the fourth power of the frequency, so blue light near 450 nm is scattered roughly four or five times as much as red light near 650 nm.<br><br>... |
+| Orwell 6 | Sunlight is a mix of all colors, and air scatters the short-wavelength ones — blue and violet — far more strongly than the long ones. The effect is called Rayleigh scattering: molecules of nitrogen and oxygen, being much smaller than the wavelength of light, deflect it at a rate that rises steeply as wavelength shrinks (roughly as 1/λ⁴). Blue light is scattered about five times as much as red.<br><br>... |
+
+Full responses:
+
+<details><summary>(No Guidance)</summary>
+
+Sunlight contains all colors, and as it passes through the atmosphere it scatters off air molecules — nitrogen and oxygen — that are far smaller than the light's wavelength. This is Rayleigh scattering, and its strength scales as 1/λ⁴, so short wavelengths scatter much more strongly than long ones. Blue light (~450 nm) scatters roughly five to six times more than red (~700 nm).
+
+So when you look at any patch of sky away from the sun, you're seeing sunlight that was redirected toward you, and that redirected light is dominated by the short wavelengths.
+
+Two natural follow-ups:
+
+**Why not violet?** Violet scatters even more, but there's less of it in sunlight to begin with, some is absorbed in the upper atmosphere, and human eyes have three cone types whose combined response to the sky's spectrum reads as blue rather than violet. The sky's color is as much about your retina as the physics.
+
+**Why are sunsets red?** Near the horizon, sunlight travels a much longer path through the atmosphere. The blue is scattered out sideways along the way, leaving the direct beam depleted of short wavelengths — so what reaches you is orange and red.
+
+</details>
+
+<details><summary>ASD-STE100</summary>
+
+Sunlight contains all colors. Each color has a different wavelength. Blue light has a short wavelength; red light has a long wavelength.
+
+The air holds many small gas molecules. These molecules are much smaller than the wavelength of light. When light hits them, the molecules scatter it in all directions. This is Rayleigh scattering.
+
+Rayleigh scattering is much stronger for short wavelengths. The effect changes with the inverse fourth power of the wavelength. Thus blue light scatters approximately 5 to 10 times more than red light.
+
+The scattered blue light comes to your eyes from all parts of the sky. Therefore the sky looks blue.
+
+Two related effects:
+
+- **The sky is not violet.** Violet light has an even shorter wavelength, but the sun emits less violet, and your eyes have low sensitivity to it.
+- **Sunsets are red.** At sunset, the light moves through more air. The air removes the blue light before the light gets to you. Only the red and orange light stays.
+
+</details>
+
+<details><summary>ISO 24495</summary>
+
+Sunlight looks white, but it is a mix of all colors. Each color travels as a wave, and blue and violet waves are shorter than red ones.
+
+As sunlight passes through the air, it bumps into gas molecules — mostly nitrogen and oxygen. These molecules scatter short waves far more strongly than long ones. The effect is called Rayleigh scattering, and it is very steep: scattering rises as the wavelength shrinks, roughly by a factor of 16 between red light and blue light.
+
+So blue light gets bounced around the sky in every direction. When you look up, away from the sun, the light reaching your eyes is mostly this scattered blue.
+
+Two follow-ups worth noting:
+
+- **Why not violet?** Violet scatters even more than blue, but the sun emits less violet, and your eyes are much less sensitive to it. The mix your brain reads comes out blue.
+- **Why are sunsets red?** Near the horizon, sunlight travels a much longer path through the atmosphere. Most of the blue has scattered away before the light reaches you, leaving the reds and oranges.
+
+</details>
+
+<details><summary>Thomas and Turner's Truth</summary>
+
+Sunlight looks white, but it carries every color. When it enters the atmosphere it runs into air molecules — nitrogen and oxygen — that are far smaller than the waves of light themselves. Such small particles scatter short wavelengths much more strongly than long ones: the effect grows as the fourth power of the frequency, so blue light near 450 nm is scattered roughly four or five times as much as red light near 650 nm.
+
+The consequence is that red and yellow light mostly travels straight through to your eye from the direction of the sun, while blue light gets bounced around the sky and arrives at you from every direction at once. You look up away from the sun, and what reaches you is that scattered blue.
+
+Two refinements. Violet is scattered even more than blue, yet the sky is not violet: sunlight contains less violet to begin with, some is absorbed high in the atmosphere, and our eyes respond weakly to it. What we see is the mixture, which reads as pale blue. And near the horizon the sky whitens, because the light has crossed so much air that it has been scattered many times over, mixing the colors back together.
+
+The same physics explains sunsets. With the sun low, its light takes a long slanting path through the atmosphere, the blue is scattered away before it reaches you, and what remains is red.
+
+</details>
+
+<details><summary>Orwell's 6</summary>
+
+Sunlight is a mix of all colors, and air scatters the short-wavelength ones — blue and violet — far more strongly than the long ones. The effect is called Rayleigh scattering: molecules of nitrogen and oxygen, being much smaller than the wavelength of light, deflect it at a rate that rises steeply as wavelength shrinks (roughly as 1/λ⁴). Blue light is scattered about five times as much as red.
+
+So when you look at any patch of sky away from the sun, what reaches your eye is sunlight that bounced off the air. That light is dominated by blue.
+
+Two footnotes:
+
+- Violet scatters even harder than blue, but the sun emits less of it, and our eyes are far less sensitive to it. The mix we perceive comes out blue.
+- At sunset the light travels a long slant through the atmosphere. The blue is scattered out of the beam before it reaches you, leaving the red and orange — the same physics, seen from the other end.
+
 </details>
