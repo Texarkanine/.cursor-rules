@@ -1,6 +1,8 @@
 # Writing Styles Ruleset
 
-Short decompression keys for prose writing styles. This ruleset ships skills the agent can pick when the task fits, and that you can invoke yourself.
+Short [decompression keys](https://daz.is/blog/decompression-keys/) for prose writing styles. Humanity has defined many writing styles. Agents have read all of those instructions. You need but to ask them to adhere to any of the styles, and they will.
+
+This ruleset ships skills for some common and useful styles for agents to pick from on a task-by-task basis. You can also manually invoke them yourself to apply a style to a task.
 
 The always-on `style-always-respond-*` and `style-always-write-*` rules live a la carte under `rules/` and are **not** in this ruleset — install one of those if **and only if** you want the style on every reply or every prose write.
 
