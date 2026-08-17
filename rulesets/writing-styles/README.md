@@ -9,7 +9,7 @@ The always-on `style-always-respond-*` and `style-always-write-*` rules live a l
 - **ASD-STE100** — [Simplified Technical English](https://www.asd-ste100.org/).
 - **ISO 24495** — [Plain language: relevant, findable, understandable, usable](https://www.iplfederation.org/iso-standard/).
 - **TTT** — Classical style as [Steven Pinker](https://en.wikipedia.org/wiki/Steven_Pinker) describes it, per Thomas and Turner's book [*Clear and Simple as the Truth*](https://press.princeton.edu/books/hardcover/9780691654744/clear-and-simple-as-the-truth).
-- **Orwell 6** — [George Orwell's six rules for writing]().
+- **Orwell 6** — [George Orwell's six rules for writing](https://www.orwell.ru/library/essays/politics/english/e_polit/).
 
 ## Skills
 
