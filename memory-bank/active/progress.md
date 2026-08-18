@@ -106,3 +106,12 @@ Make Niko Plan emit per-unit always-tdd (stub → red → green) ordering for ex
     - B (explicit load) is in, by operator. Build does not restate always-tdd. Leave L1 Build alone.
 * Insights
     - Path once, at the load. Name the rule after that. Do not patch Build for a Plan defect.
+
+## 2026-08-18 - L3 BUILD PARITY
+
+* Work completed
+    - L3 Build Step 4.1 now uses L2 Build's stub → red → green line.
+* Decisions made
+    - Operator: L2 parity is cheap and removes the Plan-vs-Build split this change introduced. L1 still untouched.
+* Insights
+    - Aligning L3 to L2 is not "Build was the defect." It is not leaving L3 as the only level whose Plan and Build name two sequences.

@@ -45,4 +45,4 @@ The task exists because agents copy the template harder than the instruction. Pr
 
 ## Addendum — Operator review (2026-08-18)
 
-Operator cut carve-out/path repetition. Plan now loads `.cursor/rules/shared/always-tdd.mdc` once in Step 1 (B). L3 Build restored — it was not the defect; restating always-tdd there is unnecessary.
+Operator cut carve-out/path repetition. Plan now loads `.cursor/rules/shared/always-tdd.mdc` once in Step 1 (B). L3 Build was first restored, then matched to L2 Build's stub → red → green line so Plan and Build name one sequence. L1 Build left alone.
