@@ -87,7 +87,7 @@ Live exercise of the new schedule is the next Niko task that changes executable 
 3. In the `tasks.md` template's Implementation Plan, replace the `Files` / `Tests first` / `Changes` sibling fields with typed unit headings and numbered substeps matching the creative sketch (stub tests, stub interface, write tests and run red, write code and run green — names only, no doctrine copy).
 4. In the `tasks.md` template's `### Behaviors to Verify`, add the prose/policy alternative alongside the behavior bullets, so a prose/policy-only task has a slot for declaring exemption instead of inventing behaviors.
 
-### 2. L3 Plan instructions — prose/policy
+### 2. L3 Plan instructions — prose/policy ← done
 
 - Files: `rulesets/niko/skills/niko/references/level3/level3-plan.md`
 - No tests: prose/policy artifact
