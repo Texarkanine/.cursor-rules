@@ -35,7 +35,7 @@ This step exists because creative decisions may have been made during planning, 
 
 Work through the implementation plan in `memory-bank/active/tasks.md` **in order**, grouped by component/module as specified in the plan. For each step:
 
-1. Follow the defined TDD process: stub tests → stub interface → write tests → run tests (expect red) → write code → run tests (expect green)
+1. **TDD cycle**: Write failing tests first → implement to pass → refactor
 2. If a step references a creative phase decision, verify the implementation conforms to that decision
 3. If a step fails in a way the plan did not anticipate:
     - **Recoverable** (typo, minor API misunderstanding): fix and continue

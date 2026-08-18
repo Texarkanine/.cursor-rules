@@ -42,3 +42,7 @@ The task exists because agents copy the template harder than the instruction. Pr
 - When two phases must name one ritual, search the phrase in both. The L2 copy being right does not mean the L3 copy is.
 - Completeness checks should read the template the agent fills, not only the instruction that describes it.
 - Do not add a second salience instrument in the same diff as D. B is the follow-on if the next executable Plan still fails encoding.
+
+## Addendum — Operator review (2026-08-18)
+
+Operator cut carve-out/path repetition. Plan now loads `.cursor/rules/shared/always-tdd.mdc` once in Step 1 (B). L3 Build restored — it was not the defect; restating always-tdd there is unnecessary.

@@ -97,3 +97,12 @@ Make Niko Plan emit per-unit always-tdd (stub → red → green) ordering for ex
     - Stop for `/niko-archive`. B (explicit load) stays in reserve until a live executable Plan fails encoding.
 * Insights
     - Sibling fields encode membership; numbered substeps encode order. Completeness checks must read the template, not only the instruction.
+
+## 2026-08-18 - OPERATOR REVIEW
+
+* Work completed
+    - Plan Step 1 loads `.cursor/rules/shared/always-tdd.mdc` once. Dropped extra carve-out/path lines. Classify, not "type." Restored L3 Build.
+* Decisions made
+    - B (explicit load) is in, by operator. Build does not restate always-tdd. Leave L1 Build alone.
+* Insights
+    - Path once, at the load. Name the rule after that. Do not patch Build for a Plan defect.
