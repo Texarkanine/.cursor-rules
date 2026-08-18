@@ -53,7 +53,7 @@ flowchart LR
 
 ## Open Questions
 
-- [ ] How should Plan activate always-tdd? → Unresolved: decompression-key naming vs explicit load vs making numbered substeps the work. Stockroom shows naming already failed; load may only be salience; copying the four steps drifts. See Creative.
+- [x] How should Plan activate always-tdd? → Resolved: template-as-schedule (numbered per-unit substeps are the work; closed-stack pointer to always-tdd; no doctrine copy; explicit load held in reserve). See `memory-bank/active/creative/creative-plan-tdd-activation.md`.
 
 ## Test Plan (TDD)
 

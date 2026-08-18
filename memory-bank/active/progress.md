@@ -27,3 +27,13 @@ Make Niko Plan emit per-unit always-tdd (stub → red → green) ordering for ex
     - Treat L2 and L3 plan docs as the change surface; do not widen into Preflight, always-tdd, or Build unless Creative forces it.
 * Insights
     - Build already numbers the four-step process; Plan still bullets a TDD gloss. The phases disagree.
+
+## 2026-08-18 - CREATIVE - COMPLETE
+
+* Work completed
+    - Explored plan-tdd-activation (generic creative). High confidence: D template-as-schedule; B load in reserve.
+* Decisions made
+    - Plan's output contract is numbered always-tdd stages per executable unit, not a TDD label or `Tests first:` field.
+    - Do not paste always-tdd's body. Do not add a Read step in this change.
+* Insights
+    - `always-tdd` is not a daz.is decompression key (local policy). The pretrained key Plan already used ("TDD red-green-refactor") is the wrong ritual and Daz flags it. Structure has to carry order.
