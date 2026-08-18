@@ -87,3 +87,13 @@ Make Niko Plan emit per-unit always-tdd (stub → red → green) ordering for ex
     - Keep explicit rule loading and the preflight-rubric pointer in reserve until a live executable Plan demonstrates that template structure alone is insufficient.
 * Insights
     - The remaining uncertainty is adoption effectiveness in a future executable Plan, not an implementation defect in this prose/policy change.
+
+## 2026-08-18 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `memory-bank/active/reflection/reflection-niko-plan-always-tdd.md`.
+    - Persistent-file probe: no updates.
+* Decisions made
+    - Stop for `/niko-archive`. B (explicit load) stays in reserve until a live executable Plan fails encoding.
+* Insights
+    - Sibling fields encode membership; numbered substeps encode order. Completeness checks must read the template, not only the instruction.
