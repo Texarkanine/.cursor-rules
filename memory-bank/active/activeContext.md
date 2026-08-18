@@ -1,12 +1,11 @@
 # Active Context
 
 ## Current Task: niko-plan-always-tdd
-**Phase:** PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
+**Phase:** BUILD - implementing unit 2
 
 ## What Was Done
-- Six preflight checks run against the plan. TDD Plan Encoding passes (three prose/policy units, no change-detectors).
-- Three amendments applied to `tasks.md`: installed-path form for `always-tdd` pointers; prose/policy exemption slot added to the `Behaviors to Verify` template (Units 1.4 / 2.4); Unit 3.2 rewritten from a conditional dry-read into the confirmed `level3-build.md:38` clash with a one-line fix.
-- Advisory recorded and deliberately not applied: pointing Plan at Preflight's TDD FAIL clauses would contaminate the creative's single-variable test (D alone, B in reserve).
+- Unit 1: `level2-plan.md` now types each unit executable vs prose/policy; executable substeps are always-tdd stages in order; template dropped `Tests first` / `Changes`; Behaviors to Verify has a prose/policy exemption slot.
 
 ## Next Step
-- Preflight gate is open. Run `/niko-build`.
+- Unit 2: same encoding on `level3-plan.md` (keep L3 extras).
+- Unit 3: dry-read non-goals; one-line L3 Build clash fix.

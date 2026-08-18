@@ -77,7 +77,7 @@ Live exercise of the new schedule is the next Niko task that changes executable 
 
 ## Implementation Plan
 
-### 1. L2 Plan instructions — prose/policy
+### 1. L2 Plan instructions — prose/policy ← done
 
 - Files: `rulesets/niko/skills/niko/references/level2/level2-plan.md`
 - No tests: prose/policy artifact
