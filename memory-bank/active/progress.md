@@ -37,3 +37,15 @@ Make Niko Plan emit per-unit always-tdd (stub → red → green) ordering for ex
     - Do not paste always-tdd's body. Do not add a Read step in this change.
 * Insights
     - `always-tdd` is not a daz.is decompression key (local policy). The pretrained key Plan already used ("TDD red-green-refactor") is the wrong ritual and Daz flags it. Structure has to carry order.
+
+## 2026-08-18 - PLAN - COMPLETE
+
+* Work completed
+    - Test plan: no new tests (prose/policy); `make test` still required.
+    - Implementation plan: L2 then L3 plan docs get typed units + numbered always-tdd substeps; non-goals dry-read for router/preflight/always-tdd/build/L4.
+    - Challenges and pre-mortem recorded.
+* Decisions made
+    - This task's own `tasks.md` uses the target schedule shape (prose/policy units) so preflight judges the new contract.
+    - Load step is not in the implementation plan.
+* Insights
+    - The first live test of executable encoding is the next Niko task that changes code, not this diff.

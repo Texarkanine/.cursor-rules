@@ -57,8 +57,83 @@ flowchart LR
 
 ## Test Plan (TDD)
 
-(pending Creative, then Test Planning)
+### Behaviors to Verify
+
+No new executable behavior. Both plan docs are skill wording (prose/policy). Inventing heading/phrase assertions on them would be change-detectors banned by always-tdd.
+
+Live exercise of the new schedule is the next Niko task that changes executable behavior — not this one.
+
+### Test Infrastructure
+
+- Framework: `make test` (ruleset symlink targets + README internal links via `scripts/`)
+- Test location: `scripts/` plus `.github/workflows/rulesets-links.yml`
+- Conventions: no prompt-content snapshot tests
+- New test files: none
+
+### Integration Tests
+
+- None. After the edits, `make test` must still pass (layout/links only).
 
 ## Implementation Plan
 
-(pending Creative)
+### 1. L2 Plan instructions — prose/policy
+
+- Files: `rulesets/niko/skills/niko/references/level2/level2-plan.md`
+- No tests: prose/policy artifact
+
+1. In Step 3 (Test Planning), state that behaviors to verify are executable only; prose/policy units do not get invented tests (carve-out in `always-tdd.mdc`).
+2. In Step 5, replace the "maps to roughly one TDD cycle: write failing test → implement to pass → refactor" gloss and the `Tests first` carve-out line with: each step is one unit typed **executable** or **prose/policy**; executable numbered substeps are the stages of `always-tdd.mdc` in order; a step whose substeps could be reordered and still read correctly is not planned yet; prose/policy units use ordered work steps plus `No tests: prose/policy artifact` and never schedule a change-detector.
+3. In the `tasks.md` template's Implementation Plan, replace the `Files` / `Tests first` / `Changes` sibling fields with typed unit headings and numbered substeps matching the creative sketch (stub tests, stub interface, write tests and run red, write code and run green — names only, no doctrine copy).
+
+### 2. L3 Plan instructions — prose/policy
+
+- Files: `rulesets/niko/skills/niko/references/level3/level3-plan.md`
+- No tests: prose/policy artifact
+
+1. Same Test Planning qualifier as L2, on Step 6 (include component-boundary executable behaviors; still no invented prose tests).
+2. Same Step 7 replacement as L2 Step 5, keeping L3 extras (group by component, creative refs, diagrams).
+3. Same Implementation Plan template replacement as L2, keeping L3 fields (`Creative ref` where applicable).
+
+### 3. Confirm non-goals — prose/policy
+
+- Files: `rulesets/niko/skills/niko-plan/SKILL.md`, `rulesets/niko/skills/niko-preflight/SKILL.md`, `rules/always-tdd.mdc`, `rulesets/niko/skills/niko/references/level2/level2-build.md`, `rulesets/niko/skills/niko/references/level3/level3-build.md`, `rulesets/niko/skills/niko/references/level4/level4-plan.md`
+- No tests: prose/policy artifact
+
+1. Dry-read: router stays a router; preflight TDD gate unchanged in role; always-tdd unchanged; Build already numbers the same sequence (no edit unless a clash appears); L4 stays a milestone list.
+2. If a clash appears (Plan's new stage names contradict Build's one-liner), make the smallest closed-stack pointer on Build — do not expand this step speculatively.
+
+## Technology Validation
+
+No new technology - validation not required
+
+## Dependencies
+
+- Creative decision: `memory-bank/active/creative/creative-plan-tdd-activation.md`
+- Doctrine: `rules/always-tdd.mdc` (always-on; do not copy)
+- Gate: `rulesets/niko/skills/niko-preflight/SKILL.md` TDD Plan Encoding (do not change)
+
+## Challenges & Mitigations
+
+- Agents copy the example harder than the instruction: change Step 5/7 *and* the template; leave no `Tests first` / `Changes` sibling example behind.
+- Four stage names look like restating always-tdd: names plus "in order, per `always-tdd.mdc`" only — no stubbing commentary, no change-detector paragraph.
+- Next executable Plan still fails encoding: do not add a load step in this change; B is the recorded follow-on, not a preflight self-heal.
+
+## Pre-Mortem
+
+- This plan failed because we rewrote the template but left "maps to one TDD cycle" in the instruction, so agents still emitted a disclaimer plus implementation list: already covered by Challenge 1 (edit both).
+- This plan failed because we pasted always-tdd's how-to into Plan and it drifted at the next always-tdd edit: already covered by Challenge 2 (names only).
+- This plan failed because structure-alone was not enough salience and we had no recorded next instrument: already covered by Challenge 3 (B in reserve, not this diff).
+- This plan failed because we added markdown tests that lock heading strings, violating the carve-out this repo just shipped: Test Plan above forbids it; QA should reject any such tests.
+
+## Status
+
+- [x] Initialization complete
+- [x] Component analysis complete
+- [x] Open questions resolved
+- [x] Test planning complete (TDD)
+- [x] Implementation plan complete
+- [x] Technology validation complete
+- [x] Pre-Mortem complete
+- [ ] Preflight
+- [ ] Build
+- [ ] QA

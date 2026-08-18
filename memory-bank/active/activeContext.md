@@ -1,10 +1,10 @@
 # Active Context
 
 ## Current Task: niko-plan-always-tdd
-**Phase:** CREATIVE - COMPLETE (plan-tdd-activation RESOLVED)
+**Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Creative: template-as-schedule wins. Numbered substeps are the work; pointer to always-tdd; no load step in this change.
+- Creative locked template-as-schedule. Plan written: edit L2/L3 plan docs only; no new tests; load held in reserve.
 
 ## Next Step
-- Resume Plan: test planning, implementation steps, pre-mortem.
+- Spawn Preflight. On PASS, stop for `/niko-build`.
