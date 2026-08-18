@@ -18,3 +18,12 @@ Make Niko Plan emit per-unit always-tdd (stub → red → green) ordering for ex
     - Bundling always-tdd did not fail because the file was missing from context. It failed because Plan compressed it into a disclaimer and the template's sibling fields (`Tests first` next to `Changes`) told the agent order did not matter.
     - `level2-build.md` already numbers stub → red → green; Plan still bullets a TDD cycle gloss. The two phases disagree.
     - Daz: named keys unpack pretrained knowledge; they are "not a replacement for explicit instructions when you need something specific or novel." always-tdd's stubbing ritual is that novel part.
+
+## 2026-08-18 - PLAN - IN-PROGRESS
+
+* Work completed
+    - Component analysis written to `tasks.md`. One open question: how Plan activates always-tdd.
+* Decisions made
+    - Treat L2 and L3 plan docs as the change surface; do not widen into Preflight, always-tdd, or Build unless Creative forces it.
+* Insights
+    - Build already numbers the four-step process; Plan still bullets a TDD gloss. The phases disagree.
