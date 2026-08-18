@@ -62,3 +62,15 @@ Make Niko Plan emit per-unit always-tdd (stub → red → green) ordering for ex
 * Insights
     - The dry-read in Unit 3 would probably have missed the clash it was written to catch: `level3-build.md` carries the same red-green-refactor gloss this task deletes from `level3-plan.md`, while `level2-build.md` already names the full sequence. Only L3 disagrees with itself.
     - The plan fixed the artifact for implementation steps but left the Test Plan section instruction-only — the exact instruction-loses-to-template failure this task exists to fix, reappearing one section up.
+
+## 2026-08-18 - BUILD - COMPLETE
+
+* Work completed
+    - L2 and L3 Plan docs: typed units; executable numbered always-tdd stages; prose/policy `No tests:` line; Behaviors to Verify exemption slot.
+    - L3 Build Step 4.1 now names the same stub → red → green sequence as L2 Build.
+    - Dry-read with no edits: niko-plan router, preflight TDD gate, always-tdd, L4 plan.
+    - `make test` passed (symlink + README-link checks).
+* Decisions made
+    - Built D (template-as-schedule) only. No Read-always-tdd step. Preflight advisory (point Plan at FAIL clauses) left unapplied.
+* Insights
+    - Instruction and template had to change together; leaving `Tests first` / `Changes` in either file would have kept the FAIL shape.

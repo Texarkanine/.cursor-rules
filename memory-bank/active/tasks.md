@@ -97,7 +97,7 @@ Live exercise of the new schedule is the next Niko task that changes executable 
 3. Same Implementation Plan template replacement as L2, keeping L3 fields (`Creative ref` where applicable).
 4. Same `### Behaviors to Verify` prose/policy alternative as L2 substep 4.
 
-### 3. Non-goals, plus the one confirmed Build clash — prose/policy
+### 3. Non-goals, plus the one confirmed Build clash — prose/policy ← done
 
 - Files: `rulesets/niko/skills/niko-plan/SKILL.md`, `rulesets/niko/skills/niko-preflight/SKILL.md`, `rules/always-tdd.mdc`, `rulesets/niko/skills/niko/references/level2/level2-build.md`, `rulesets/niko/skills/niko/references/level3/level3-build.md`, `rulesets/niko/skills/niko/references/level4/level4-plan.md`
 - No tests: prose/policy artifact
@@ -161,5 +161,5 @@ Status: **PASS WITH ADVISORY**. Three plan amendments applied above; no rearchit
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight (PASS WITH ADVISORY)
-- [ ] Build
+- [x] Build
 - [ ] QA
