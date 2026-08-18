@@ -49,3 +49,16 @@ Make Niko Plan emit per-unit always-tdd (stub → red → green) ordering for ex
     - Load step is not in the implementation plan.
 * Insights
     - The first live test of executable encoding is the next Niko task that changes code, not this diff.
+
+## 2026-08-18 - PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
+
+* Work completed
+    - Ran all six checks against the plan. TDD Plan Encoding passes: three prose/policy units, no change-detectors scheduled.
+    - Applied three plan amendments: installed-path form for `always-tdd` pointers; a prose/policy exemption slot in the `Behaviors to Verify` template; Unit 3's conditional Build clause rewritten as a confirmed one-line fix.
+    - Verified no downstream consumer (`niko-qa`, `nk-save`, `niko-archive`, `niko-plan`, `level4-plan`) depends on the `Files` / `Tests first` / `Changes` field names.
+* Decisions made
+    - All three findings are amendments, not rearchitect: none changes the locked creative decision or the brief's scope.
+    - Advisory "point Plan at Preflight's FAIL clauses" is recorded but not applied — it would contaminate the single-variable test the creative set up (D alone, B in reserve).
+* Insights
+    - The dry-read in Unit 3 would probably have missed the clash it was written to catch: `level3-build.md` carries the same red-green-refactor gloss this task deletes from `level3-plan.md`, while `level2-build.md` already names the full sequence. Only L3 disagrees with itself.
+    - The plan fixed the artifact for implementation steps but left the Test Plan section instruction-only — the exact instruction-loses-to-template failure this task exists to fix, reappearing one section up.
