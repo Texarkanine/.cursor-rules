@@ -151,6 +151,16 @@ Status: **PASS WITH ADVISORY**. Three plan amendments applied above; no rearchit
 - **Give Plan the grader's rubric.** The strongest remaining lever is one line in L2 Step 5 / L3 Step 7 telling Plan to check its Implementation Plan against the FAIL clauses in `niko-preflight`'s TDD Plan Encoding check before writing the report. Closed-stack pointer, no doctrine copy, no complexity change. **Deliberately not applied:** the creative decision locked D alone with B (explicit load) held in reserve precisely so the next executable plan measures whether structure-alone suffices. Adding a second salience instrument in the same diff destroys that measurement. If the next executable Plan still fails encoding, this competes with B as the follow-on.
 - **Pre-existing, out of scope** — both Build docs say to "check off the completed step," but the Implementation Plan template has never used checkboxes. This change does not introduce the mismatch and arguably widens it (headings instead of a numbered list). Worth a separate task.
 
+## QA Findings
+
+Status: **PASS**.
+
+- **KISS / YAGNI** — The implementation changes only the two Plan instruction/template pairs and the one confirmed L3 Build clash. No explicit rule load, preflight rewrite, content tests, or speculative mechanism was added.
+- **DRY / integrity** — Plan names the four schedule stages and points to `.cursor/rules/shared/always-tdd.mdc` for doctrine; it does not copy the rule's procedure. L2 and L3 use the same vocabulary, and L3 Build now matches L2 Build exactly.
+- **Completeness** — Executable units are typed and ordered stub tests → stub interface → red → green; prose/policy units have an explicit no-tests form in both the test-plan and implementation-plan templates. The old `Tests first` / `Changes` sibling shape and red-green-refactor gloss are gone from both Plan documents.
+- **Regression** — Canonical sources under `rulesets/` are the only product files changed. The preflight gate, `always-tdd`, Plan router, and L4 Plan remain unchanged. `make test` passes.
+- **Advisory** — Whether structure alone is sufficiently salient remains an intentional live-use experiment. Validate it on the next executable Niko Plan; add the reserved explicit load only if that plan still fails TDD encoding.
+
 ## Status
 
 - [x] Initialization complete
@@ -162,4 +172,4 @@ Status: **PASS WITH ADVISORY**. Three plan amendments applied above; no rearchit
 - [x] Pre-Mortem complete
 - [x] Preflight (PASS WITH ADVISORY)
 - [x] Build
-- [ ] QA
+- [x] QA (PASS)

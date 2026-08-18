@@ -74,3 +74,16 @@ Make Niko Plan emit per-unit always-tdd (stub → red → green) ordering for ex
     - Built D (template-as-schedule) only. No Read-always-tdd step. Preflight advisory (point Plan at FAIL clauses) left unapplied.
 * Insights
     - Instruction and template had to change together; leaving `Tests first` / `Changes` in either file would have kept the FAIL shape.
+
+## 2026-08-18 - QA - COMPLETE (PASS)
+
+* Work completed
+    - Reviewed the implementation against the brief, plan, creative decision, and canonical `always-tdd` doctrine.
+    - Verified the L2/L3 Plan instruction and template pairs encode typed per-unit stub → red → green order without copying doctrine.
+    - Verified L3 Build now matches L2 Build, while preflight, `always-tdd`, the Plan router, and L4 Plan remain unchanged.
+    - Ran `make test`; all repository checks passed.
+* Decisions made
+    - PASS: no build changes are required before acceptance.
+    - Keep explicit rule loading and the preflight-rubric pointer in reserve until a live executable Plan demonstrates that template structure alone is insufficient.
+* Insights
+    - The remaining uncertainty is adoption effectiveness in a future executable Plan, not an implementation defect in this prose/policy change.

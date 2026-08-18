@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: niko-plan-always-tdd
-**Phase:** BUILD - COMPLETE
+**Phase:** QA - COMPLETE (PASS)
 
 ## What Was Done
 - Files modified:
@@ -13,6 +13,8 @@
 - Dry-read with no edits: `niko-plan` router, preflight TDD gate, `always-tdd.mdc`, L4 plan.
 - Deviations from plan: none.
 - `make test` passed (symlink + README-link checks). No new tests (prose/policy).
+- QA passed: implementation matches the brief, locked creative decision, and canonical patterns; no build rework required.
+- QA advisory: use the next executable Plan as the live validation of structure-only activation; explicit loading remains the reserved follow-on.
 
 ## Next Step
-- QA review.
+- Run `/niko-reflect`.
