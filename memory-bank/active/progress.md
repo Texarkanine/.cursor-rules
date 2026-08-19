@@ -142,6 +142,19 @@ Tighten `/niko-preflight` to judge-only, with one carve-out: re-sequence already
 * Insights
     - A safe sequencing-only carve-out needs a one-to-one eligibility gate: every existing item maps to a required stage, and missing or ambiguous mappings remain FAIL
 
+## 2026-08-19 - PLAN - COMPLETE (plan 3)
+
+* Work completed
+    - Tightened the brief to swap-only (Use-Case 1)
+    - Planned a few-sentence skill exception; no eligibility machine
+* Decisions made
+    - Historic preflight TDD heals are the reference: reorder existing steps
+    - “Write the four always-tdd labels” is out — it adds steps
+    - After a swap: `PASS WITH ADVISORY`
+* Insights
+    - Plan 2 failed by over-specifying the prescribed stage template
+
+
 
 
 

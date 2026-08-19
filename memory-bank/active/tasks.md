@@ -2,9 +2,11 @@
 
 * Task ID: preflight-analyze-and-report
 * Complexity: Level 2
-* Type: simple enhancement (rework, plan 2)
+* Type: simple enhancement (rework, plan 3)
 
-Layer one plan write onto shipped judge-only preflight: re-sequence already-enumerated TDD steps into the prescribed always-tdd order. Bookkeeping stays. No other plan edits. Status file stays the one-line enum.
+Restore the historic TDD-order amendment as one short exception on the shipped judge-only skill. Swap existing numbered steps. Do not invent a sequencing machine.
+
+Reference: pre-judge-only `niko-preflight` invited “plan amendments”; stockroom heals that worked were test-before-code swaps of steps already in the unit. The old TDD check’s FAIL-rearchitect line stays for “no test steps.”
 
 ## Test Plan (TDD)
 
@@ -14,28 +16,32 @@ No new executable behavior.
 
 ### Test Infrastructure
 
-- Framework: `make test` (ruleset symlink + README link checks in `scripts/`)
+- Framework: `make test`
 - Test location: `scripts/`
-- Conventions: layout/link gates, not skill-prose assertions
+- Conventions: layout/link gates
 - New test files: none
 
 ## Implementation Plan
 
-### 1. Brief contract matches the layering — prose/policy
+### 1. Brief is swap-only — prose/policy
 
 - Files: `memory-bank/active/projectbrief.md`
 - No tests: prose/policy artifact
 
-1. Already applied in this plan-pass: first-pass lines that forbade all TDD self-heal are retracted. Live requirements, use-cases, and acceptance criteria state the TDD re-order exception and keep every other plan write forbidden. Status-file findings schema is explicitly out of scope.
+1. Already applied this plan-pass. Live contract is Use-Case 1 (swap). Stage-label emission is out.
 
-### 2. TDD re-order in the preflight skill — prose/policy
+### 2. Short TDD-order exception in the skill — prose/policy
 
 - Files: `rulesets/niko/skills/niko-preflight/SKILL.md`
 - No tests: prose/policy artifact
 
-1. **TDD Plan Encoding:** If an executable unit already names test work (cases, stubs, suite, or test files) but sequences it after or mixed with production work — including TDD only in a preamble while those names live in Files/Changes — re-sequence into the prescribed always-tdd stages: stub tests, stub interface, write tests and run red, write code and run green. Use only names already in the unit. Writing those four stage labels around those names is the allowed form. If an executable unit has no test steps to re-sequence, FAIL (rearchitect). Change-detectors stay FAIL with the existing remove instruction.
-2. **Judge, Do Not Fix:** Exclusive allowlist: `.preflight-status`, findings in `tasks.md` / `progress.md`, `**Phase:**` in `activeContext.md`, and the TDD re-sequence in step 1. The re-sequence may change Implementation Plan numbered steps only to put already-enumerated test work before already-enumerated production work in always-tdd order. It must not add steps, cases, files, stubs, or behaviors. All other plan text stays read-only. Do not write findings into `.preflight-status` beyond the one allowed enum value.
-3. **Handle Results:** After a successful TDD re-sequence, write `PASS WITH ADVISORY` and record the finding. Do not leave `FAIL` solely because an order fix was applied. Missing-test and change-detector FAILs still do not patch.
+Write the smallest wording that does all of this. Do not add eligibility algorithms, one-to-one mappings, or before/after schemas.
+
+1. **TDD Plan Encoding:** Keep the current checks. Add: if a unit already has test steps and production steps and they are in the wrong order, put the test steps first (same steps). Then continue. If there are no test steps, FAIL (rearchitect) as now. Change-detectors unchanged.
+2. **Judge, Do Not Fix:** Keep the exclusive allowlist. Add that one swap to allowed writes. Still: no new steps, cases, files, stubs, behaviors; no other plan edits; status file stays the enum.
+3. **Handle Results:** After that swap, `PASS WITH ADVISORY` and a finding. Do not `FAIL` for the swap itself.
+
+Target length: a few sentences across those three sites, not a new subsection of policy.
 
 ## Technology Validation
 
@@ -43,25 +49,23 @@ No new technology - validation not required
 
 ## Dependencies
 
-- Shipped judge-only block in the same skill
-- `preflight-status.mdc` allowed values unchanged
-- `niko-qa` deliberately unchanged — do not copy the TDD carve-out there
+- Current judge-only skill text
+- Pre-judge-only amendment behavior (historic), not its open-ended “make the change” / “plan amendments” license
+- `niko-qa` unchanged
 
 ## Challenges & Mitigations
 
-- **Ambiguous which lines are tests:** if the subagent cannot point at existing test steps, FAIL (rearchitect). Do not guess.
-- **Four stage labels look like synthesis:** they are allowed only as the expression of already-named tests. A new `Behaviors to Verify` entry or a new test file is still synthesis and forbidden.
-- **Findings durability:** `tasks.md` + `progress.md` already outlive the subagent session. Expanding `.preflight-status` would change a standing one-line contract; leave it.
+- **Prose bloat:** if a sentence is only there to prevent a clever misread, cut it; the allowlist already forbids synthesis.
+- **“Prescribed always-tdd order” creep:** that phrase is how plan 2 added stages. This plan says “test steps first.”
 
 ## Pre-Mortem
 
-- **Brief and skill drift again:** unit 1 is the retracted contract; unit 2 must not reintroduce "no TDD self-heal" without the exception.
-- **Subagents invent a suite and call it re-order:** already covered — no names → rearchitect; no added cases/files.
-- **Status-file findings creep:** Requirement 4 and skill step 2 say the enum only.
+- **Plan 2 again:** if step 2 mentions writing stub/red/green labels, it has failed.
+- **Skill stays mute on the swap:** then historic TDD heals stay unofficial. The add in TDD Plan Encoding is the load-bearing sentence.
 
-## Prior Preflight (plan 1)
+## Prior Preflights
 
-FAIL 2026-08-19: brief contradiction (F1), encode-stages not in a numbered step (F2). Addressed in this plan. Advisories F3 (PASS WITH ADVISORY after re-sequence) and F4 (QA out of scope) folded in. Radical Innovation (before/after step receipt) not taken — a recorded finding is enough; a formal before/after schema is extra.
+Plan 1 FAIL: brief still forbade all self-heal. Plan 2 FAIL: stage labels vs “must not add steps.” This plan takes the swap-only cut.
 
 ## Status
 
@@ -70,14 +74,6 @@ FAIL 2026-08-19: brief contradiction (F1), encode-stages not in a numbered step 
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [x] Preflight
+- [ ] Preflight
 - [ ] Build
 - [ ] QA
-
-## Preflight Findings
-
-### Plan 2 — 2026-08-19
-
-- **F1 — BLOCKING — Rewrite boundary is internally contradictory.** Unit 2 says Preflight may recover TDD names that live only in `Files/Changes` by writing the four prescribed stage labels, but the next numbered step says the rewrite may change numbered steps only and “must not add steps.” Moving metadata-only names into an ordered numbered sequence necessarily adds scheduled step content. `/niko-plan` must choose and state one consistent boundary.
-- **F2 — BLOCKING — The self-heal eligibility test is weaker than the prescribed TDD contract.** Unit 2 permits a rewrite whenever a unit names any test work, even when it does not already enumerate stub tests, a stub interface, a red run, and green implementation work. Adding missing stages would violate the brief’s ban on new steps and stubs; omitting them would leave the plan noncompliant with `always-tdd.mdc`. `/niko-plan` must require a one-to-one mapping from already-enumerated work to every required stage, with missing stages remaining FAIL.
-- **A1 — ADVISORY — Make the rewrite mechanically auditable.** Structure the carve-out as an eligibility gate followed by a stable partition: map each existing scheduled item to exactly one prescribed TDD stage, reject missing or ambiguous mappings, preserve item wording and within-stage order, then record the before/after order in the finding. This stays within the brief’s sequencing-only boundary, but it must be evaluated during replanning because the current plan forbids Preflight from applying design amendments.
