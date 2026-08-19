@@ -10,8 +10,7 @@ Level 3 tasks are intermediate features that require a structured approach with 
 graph TD
     Start(("Complexity Analysis")) --> NikoPlan["🐱 plan"]
     NikoPlan ==Spawn==> NikoPreflight[["🐈 Preflight"]]
-    NikoPreflight -.->|"PASS"| ManualBuild[/"🧑‍💻 /niko-build"/]
-    NikoPreflight -.->|"PASS WITH ADVISORY"| ManualBuild
+    NikoPreflight -.->|"PASS / PASS WITH ADVISORY"| ManualBuild[/"🧑‍💻 /niko-build"/]
     NikoPreflight -->|"FAIL (fixable)"| NikoPlan
     NikoPreflight -.->|"FAIL (blocking)"| ManualPlan[/"🧑‍💻 /niko-plan"/]
 
@@ -43,8 +42,7 @@ The following phase transitions require operator input; if you have arrived at o
 - Creative (Low Confidence) -> Plan
 - Reflect -> Archive
 - Preflight FAIL (blocking) -> Plan
-- Preflight PASS -> Build
-- Preflight PASS WITH ADVISORY -> Build
+- Preflight PASS / PASS WITH ADVISORY -> Build
 - QA FAIL (rearchitect) -> Plan
 
 ## Phase Mappings

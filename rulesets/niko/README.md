@@ -69,8 +69,7 @@ The short version is:
 graph LR
 	Start(("🧑‍💻 /niko")) --> NikoPlan["🐱 plan"]
 	NikoPlan ==Spawn==> NikoPreflight[["🐈 Preflight"]]
-	NikoPreflight -->|"PASS"| NikoBuild["🐱 build"]
-	NikoPreflight -->|"PASS WITH ADVISORY"| NikoBuild
+	NikoPreflight -->|"PASS / PASS WITH ADVISORY"| NikoBuild["🐱 build"]
 	NikoPreflight -->|"FAIL (fixable)"| NikoPlan
 	NikoPreflight -.->|"FAIL (blocking)"| ManualPlan[/"🧑‍💻 /niko-plan"/]
 	NikoBuild ==Spawn==> NikoQA[["🐈 QA"]]
@@ -100,8 +99,7 @@ flowchart LR
 	end
 
 	Niko -- "Level 1 (Fix)" --> Build
-	NikoPreflight -->|"PASS"| Build
-	NikoPreflight -->|"PASS WITH ADVISORY"| Build
+	NikoPreflight -->|"PASS / PASS WITH ADVISORY"| Build
 	NikoPreflight -->|"FAIL (fixable)"| Plan
 	NikoPreflight -.->|"FAIL (blocking)"| ManualPlan[/"🧑‍💻 /niko-plan"/]
 	ManualPlan -.-> Plan
@@ -175,8 +173,7 @@ graph LR
 flowchart TD
 	Start(("🧑‍💻 /niko<br>Complexity Analysis")) --> NikoPlan["🐱 plan"]
 	NikoPlan ==Spawn==> NikoPreflight[["🐈 Preflight"]]
-	NikoPreflight -->|"PASS"| NikoBuild["🐱 build"]
-	NikoPreflight -->|"PASS WITH ADVISORY"| NikoBuild
+	NikoPreflight -->|"PASS / PASS WITH ADVISORY"| NikoBuild["🐱 build"]
 	NikoPreflight -->|"FAIL (fixable)"| NikoPlan
 	NikoPreflight -.->|"FAIL (blocking)"| ManualPlan[/"🧑‍💻 /niko-plan"/]
 
@@ -212,8 +209,7 @@ flowchart TD
 graph TD
 	Start(("🧑‍💻 /niko<br>Complexity Analysis")) --> NikoPlan["🐱 plan"]
 	NikoPlan ==Spawn==> NikoPreflight[["🐈 Preflight"]]
-	NikoPreflight -.->|"PASS"| ManualBuild[/"🧑‍💻 /niko-build"/]
-	NikoPreflight -.->|"PASS WITH ADVISORY"| ManualBuild
+	NikoPreflight -.->|"PASS / PASS WITH ADVISORY"| ManualBuild[/"🧑‍💻 /niko-build"/]
 	NikoPreflight -->|"FAIL (fixable)"| NikoPlan
 	NikoPreflight -.->|"FAIL (blocking)"| ManualPlan[/"🧑‍💻 /niko-plan"/]
 
@@ -261,8 +257,7 @@ graph TD
         NikoPlan["😺 plan<br>(generate milestones)"]
         ManualReview["🧑‍💻 review plan"]
         NikoPlan ==Spawn==> NikoPreflight[["🐈 Preflight"]]
-        NikoPreflight -.->|"PASS"| ManualReview
-        NikoPreflight -.->|"PASS WITH ADVISORY"| ManualReview
+        NikoPreflight -.->|"PASS / PASS WITH ADVISORY"| ManualReview
         NikoPreflight -->|"FAIL (fixable)"| NikoPlan
         NikoPreflight -.->|"FAIL (blocking)"| ManualPlan[/"🧑‍💻 /niko-plan"/]
         ManualPlan -.-> NikoPlan

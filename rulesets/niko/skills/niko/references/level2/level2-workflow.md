@@ -10,8 +10,7 @@ Level 2 tasks are simple enhancements that require a structured approach with mo
 graph TD
     Start(("Complexity Analysis")) --> NikoPlan["🐱 plan"]
     NikoPlan ==Spawn==> NikoPreflight[["🐈 Preflight"]]
-    NikoPreflight -->|"PASS"| NikoBuild["🐱 build"]
-    NikoPreflight -->|"PASS WITH ADVISORY"| NikoBuild
+    NikoPreflight -->|"PASS / PASS WITH ADVISORY"| NikoBuild["🐱 build"]
     NikoPreflight -->|"FAIL (fixable)"| NikoPlan
     NikoPreflight -.->|"FAIL (blocking)"| ManualPlan[/"🧑‍💻 /niko-plan"/]
 
