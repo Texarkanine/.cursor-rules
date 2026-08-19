@@ -58,3 +58,48 @@ Bookkeeping: `.preflight-status` first line is one of the four result strings; t
 ## Prior rework
 
 Judge-only shipped, then TDD swap-only. This pass is https://github.com/Texarkanine/.cursor-rules/issues/114: four-way outs plus change-detector strike. Supersedes the earlier “change-detectors stay FAIL and do not patch.”
+
+## Rework
+
+Cut Handle Results (step 10) from `niko-preflight`. Preflight reports and stops.
+
+### User Story
+
+As the operator, I want Preflight to write the result it already judged and stop, so parent routing is not restated inside the skill.
+
+### Use-Case(s)
+
+#### Use-Case 1
+
+Checks finish. Write Status copies the already-chosen first line from the mdc allowed values, then this run’s findings. No Handle Results step.
+
+#### Use-Case 2
+
+TDD missing-tests fails. The TDD bullet writes `FAIL (blocking)`. It does not point at Handle Results.
+
+#### Use-Case 3
+
+A swap or strike records a finding and continues. That does not pick an out. If Judge still PASSes, the first line is `PASS WITH ADVISORY` because advisories exist, not because a Write Status override said so.
+
+### Requirements
+
+1. Delete step 10 Handle Results.
+2. TDD missing-tests: write `FAIL (blocking)`; do not say “Route as … (Handle Results)”.
+3. Write Status stays: one allowed value from `preflight-status.mdc`, then this run’s findings. Do not add “PASS WITH ADVISORY unless another check fails”.
+4. Drop the FAIL print Next Steps menu (parent routing). Keep the PASS / FAIL print blocks otherwise.
+5. Step 4 still copies the first line into `**Phase:**` and stops.
+
+### Constraints
+
+1. Canonical edits under `rulesets/` only.
+2. `niko-qa` unchanged.
+3. Do not revert README/L3 chart aesthetics.
+4. Do not grow a second glossary in the skill.
+5. Status is determined upstream; Write Status serializes it.
+
+### Acceptance Criteria
+
+1. `niko-preflight` has no Handle Results step.
+2. The skill does not tell the Preflight agent to invoke Plan or `/niko-plan`.
+3. The skill does not contain “PASS WITH ADVISORY unless another check fails”.
+4. FAIL print has no Next Steps subsection.

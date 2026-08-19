@@ -298,3 +298,14 @@ Finish the Preflight contract: four-way results (PASS / PASS WITH ADVISORY / FAI
     - Operator chart aesthetics on README/L3 (`504d4f3`) stay; do not revert.
 * Insights
     - Two copies of the enum already drifted while the `.mdc` wording was still moving.
+
+## 2026-08-19 - REWORK INITIATED
+
+* Work completed
+    - Operator invoked `/niko rework to cut step 10 from preflight`
+* Decisions made
+    - Cut Handle Results; Preflight reports and stops; parent routing stays on charts, Build gates, and `preflight-status.mdc`
+    - Status is determined upstream during checks; do not keep “PASS WITH ADVISORY unless another check fails” in the skill
+    - FAIL print Next Steps go with Handle Results
+* Insights
+    - Handle Results was leftover dispatch from before judge-only isolation
