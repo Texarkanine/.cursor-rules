@@ -75,5 +75,5 @@ Plan 1 FAIL: brief still forbade all self-heal. Plan 2 FAIL: stage labels vs “
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight - PASS
-- [ ] Build
+- [x] Build
 - [ ] QA

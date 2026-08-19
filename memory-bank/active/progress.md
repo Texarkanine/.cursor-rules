@@ -164,6 +164,18 @@ Tighten `/niko-preflight` to judge-only, with one carve-out: re-sequence already
 * Insights
     - The plan is ready for the Build phase
 
+## 2026-08-19 - BUILD - COMPLETE (rework)
+
+* Work completed
+    - Added the TDD step-swap exception to `rulesets/niko/skills/niko-preflight/SKILL.md` (three short sites)
+    - `make test` pass
+* Decisions made
+    - Split the old “implementation before tests” FAIL into a swap; no-test-steps stays FAIL
+    - No stage labels, no eligibility algorithm
+* Insights
+    - The load-bearing sentence is “put the test steps first. Same steps.”
+
+
 
 
 

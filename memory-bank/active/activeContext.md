@@ -1,11 +1,11 @@
 # Active Context
 
 ## Current Task: preflight-analyze-and-report
-**Phase:** PREFLIGHT - COMPLETE (PASS)
+**Phase:** BUILD - COMPLETE
 
 ## What Was Done
-- Validated the implementation plan against the brief, canonical source layout, and TDD boundary
-- Recorded PASS status in `.preflight-status`
+- Plan 3 PASS; built a few-sentence TDD step-swap exception on the judge-only skill
+- `make test` green
 
 ## Next Step
-- Run `/niko-build`
+- QA
