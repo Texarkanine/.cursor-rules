@@ -69,9 +69,9 @@ Read:
 
 10. **Handle Results**
    - **On PASS**: Good job!
-   - **On PASS WITH ADVISORY**: After a TDD step swap or a change-detector strike, write `PASS WITH ADVISORY` unless another check fails.
+   - **On PASS WITH ADVISORY**: Good job! After a TDD step swap or a change-detector strike, write `PASS WITH ADVISORY` unless another check fails.
    - **On FAIL (fixable)**: Parent → Plan. Do not patch the plan.
-   - **On FAIL (blocking)**: Operator `/niko-plan`. Do not patch the plan.
+   - **On FAIL (blocking)**: Operator provides guidance, then `/niko-plan`. Do not patch the plan.
 
 ## Step 3: Log Progress
 
@@ -110,7 +110,7 @@ Print the appropriate block:
 ## Next Steps
 
 - **On FAIL (fixable)**: Parent → Plan.
-- **On FAIL (blocking)**: `/niko-plan`.
+- **On FAIL (blocking)**: Operator provides guidance, then `/niko-plan`.
 ~~~
 
 ## Step 4: End of Verification

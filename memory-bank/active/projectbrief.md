@@ -16,11 +16,11 @@ A numbered step is a scheduled change-detector. Preflight deletes that step. Kee
 
 ### Use-Case 3
 
-Known fix, but the planner must rewrite. Preflight writes `FAIL (fixable)`. Parent → Plan, no operator. May loop.
+Plan has issues with known fixes. Preflight writes `FAIL (fixable)`. Planner re-plans. Parent → Plan, no operator. May loop.
 
 ### Use-Case 4
 
-Addressing the finding would materially change the plan. Preflight writes `FAIL (blocking)`. Operator reviews and invokes `/niko-plan`.
+The plan has issues that require materially changing it. Preflight writes `FAIL (blocking)`. Operator provides guidance, then invokes `/niko-plan`.
 
 ### Use-Case 5
 
@@ -31,8 +31,8 @@ Bookkeeping: `.preflight-status` first line is one of the four result strings; t
 1. Judge and report. The only in-phase plan writes are the TDD step-swap and striking scheduled change-detector steps.
 2. Four outs, exact strings: `PASS`, `PASS WITH ADVISORY`, `FAIL (fixable)`, `FAIL (blocking)`.
 3. `PASS` and `PASS WITH ADVISORY` unblock build. Proceed if that level allows autonomy (L2 solid → build; L3 still dashed `/niko-build`).
-4. `FAIL (fixable)`: known fix; the planner rewrites; parent → Plan; no operator; may loop.
-5. `FAIL (blocking)`: addressing it would materially change the plan; operator invokes `/niko-plan`. That line is enough; do not over-define it.
+4. `FAIL (fixable)`: plan has issues with known fixes; planner re-plans; parent → Plan; no operator; may loop.
+5. `FAIL (blocking)`: plan has issues that require materially changing the plan; operator provides guidance, then `/niko-plan`. Meanings live in `preflight-status.mdc`; do not grow a second glossary in the skill.
 6. Missing tests on an executable unit, a convention/conflict that needs a different approach, and brief-level scope change are not in-phase.
 7. Bookkeeping writes stay. `.preflight-status` first line is the four-value enum (no bare `FAIL`). Findings for this run follow in the same file.
 8. `FAIL (fixable)` name reuse with QA is intentional. Do not rename. Different checks, different semaphore files.
@@ -51,7 +51,7 @@ Bookkeeping: `.preflight-status` first line is one of the four result strings; t
 
 1. The skill forbids design amendments, synthesized tests, and applying Radical Innovation. In-phase writes are only the TDD swap and change-detector strike.
 2. After a TDD swap or a change-detector strike: `PASS WITH ADVISORY` and a finding, unless another check fails.
-3. Handle Results and the status file use the four strings. `FAIL (fixable)` → Plan. `FAIL (blocking)` → operator `/niko-plan`. Not “re-run `/niko-preflight`” as the fixable next step.
+3. Handle Results and the status file use the four strings. `FAIL (fixable)` → Plan. `FAIL (blocking)` → operator provides guidance, then `/niko-plan`. Not “re-run `/niko-preflight`” as the fixable next step.
 4. L2/L3 STOP lists treat only `FAIL (blocking)` (and L3 PASS / PASS WITH ADVISORY → build) as operator gates. `FAIL (fixable)` is not a STOP.
 5. The brief does not require writing missing always-tdd stages.
 
