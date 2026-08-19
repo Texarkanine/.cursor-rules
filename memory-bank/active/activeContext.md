@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: preflight-analyze-and-report
-**Phase:** BUILD - COMPLETE
+**Phase:** QA - COMPLETE (PASS)
 
 ## What Was Done
 - Deleted Handle Results (step 10) from `niko-preflight`
@@ -10,4 +10,4 @@
 - Did not add “PASS WITH ADVISORY unless another check fails” to Write Status
 
 ## Next Step
-- Level 1 QA
+- Level 1 wrap-up: wait for operator to clean `memory-bank/active/` when satisfied

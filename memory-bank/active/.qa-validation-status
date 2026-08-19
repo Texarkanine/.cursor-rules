@@ -1,0 +1,3 @@
+PASS
+
+- No blocking findings or advisories. The rework removes Preflight's parent-routing step and FAIL next-step menu, writes `FAIL (blocking)` directly for missing tests, and leaves status selection to the checks plus the canonical status vocabulary.

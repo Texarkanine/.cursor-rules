@@ -335,3 +335,15 @@ Rework: cut Handle Results (step 10) from `niko-preflight`. Report and stop; sta
 * Insights
     - Parent routing never belonged in this skill after Step 4 already stops
 
+## 2026-08-19 - QA - COMPLETE (PASS, rework: cut Handle Results)
+
+* Work completed
+    - Reviewed the canonical `niko-preflight` change against the rework brief, acceptance criteria, and repository patterns
+    - Verified the skill has no Handle Results step, Plan dispatch, Write Status override, or FAIL Next Steps subsection
+    - Ran the complete `make test` suite successfully
+* Decisions made
+    - PASS with no blocking findings or advisories
+    - The canonical status rule supplies the four-value semantics; the skill now judges, serializes, reports, and stops
+* Insights
+    - Removing the dispatch copy leaves a single routing authority without weakening status selection
+
