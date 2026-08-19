@@ -27,9 +27,11 @@ Read:
    - The test-first process lives in `.cursor/rules/shared/always-tdd.mdc`
    - This check governs units that change executable behavior. A unit delivering user-facing prose or policy (docs content, PR/issue templates, CONTRIBUTING, instructional comments, rule/skill wording, etc.) owes no tests for those artifacts; omitting tests for those artifacts passes this check
    - For each implementable unit of executable work (function, slice, milestone — whatever granularity the plan uses), confirm the ordered substeps place test-writing before production code, explicitly enough that a reasonable implementer cannot follow the plan by coding first
-   - FAIL when the numbered steps for an executable unit are implementation-only under a "we follow TDD" disclaimer; when any step explicitly orders implementation before tests; or when TDD ordering lives only in the plan's preamble rather than per-unit
-   - FAIL when the plan schedules a test that can only go red when someone deliberately edits the artifact it asserts on — heading, phrase, link, or checklist assertions on a document. That is a change-detector, not a test.
-   - On FAIL: cite the executable units lacking test-before-code ordering, and any scheduled change-detector tests with the instruction to remove them (keeping any purpose-built CI gate). Route as rearchitect (Handle Results).
+   - When a numbered step is a scheduled change-detector (a test that can only go red when someone deliberately edits the artifact it asserts on — heading, phrase, link, or checklist assertions on a document), delete that step. Keep the other steps. Record the finding and continue.
+   - When a unit already has both test steps and production steps and they are in the wrong order, put the test steps first. Same steps. Record the finding and continue.
+   - Do not invent tests. Do not emit always-tdd stages.
+   - FAIL when the numbered steps for an executable unit have no test steps (implementation-only under a "we follow TDD" disclaimer, or TDD only in the preamble). This still applies after a change-detector strike.
+   - On FAIL: cite the executable units lacking test steps. Write `FAIL (blocking)`.
 
 3. **Convention Compliance**
    - Verify the plan's proposed file locations, naming conventions, and patterns align with established codebase conventions documented in `memory-bank/systemPatterns.md`
@@ -54,25 +56,22 @@ Read:
 7. **Radical Innovation** *(advisory - not blocking)*
     - What's the single smartest and most radically innovative and accretive and useful and compelling change you could make to the plan at this point?
     - Describe the change concretely - not as a vague suggestion, but as a specific structural sketch the operator can evaluate against the cost of redesign.
-    - If the change can be made within the current workflow's complexity level and within the current Project Brief's scope, make the change to the plan.
-    - If the change would change the complexity level of the task *or* if the change would significantly deviate from the current Project Brief's scope, flag it as an advisory finding for operator consideration but do not make the change.
+    - Record that idea as an advisory finding. Do not make the change to the plan, even if the idea fits the brief.
 
-8. **Generate Preflight Report**
-   - Create comprehensive findings report
-   - Write validation status to `memory-bank/active/.preflight-status` — exactly one allowed value from `.cursor/rules/shared/niko/memory-bank/active/preflight-status.mdc`
-   - Update `memory-bank/active/tasks.md` with any plan amendments or findings
+8. **Judge, Do Not Fix**
+   - Surface and judge. Never modify the plan under review, except the TDD step swap and change-detector strike above.
+   - Allowed writes only: `memory-bank/active/.preflight-status`, the `**Phase:**` field in `activeContext.md` (under **End of Verification**), `progress.md`, and those two in-phase plan edits on `tasks.md`.
+   - Do not rewrite Implementation Plan units, behavior lists, or other scheduled work except that swap and that strike.
+   - Record every issue as a finding. FAIL when the plan must change before build (`FAIL (fixable)` or `FAIL (blocking)`); PASS only when the plan is acceptable as-is (advisories allowed).
 
-9. **Handle Results**
-   - **On PASS**: Good job!
-   - **On PASS with ADVISORY**: Document advisory findings for the operator's consideration; still a valid build/transition gate (status file: `PASS WITH ADVISORY`)
-   - **On FAIL (rearchitect needed)**: Operator decision required; write status `FAIL`; tell the operator `/niko-plan` must rerun.
-   - **On FAIL (conflict/convention)**: Provide specific fix instructions, block `/niko-build`; Operator decision required.
+9. **Write Status**
+   - Overwrite `memory-bank/active/.preflight-status`. First line is exactly one allowed value from `.cursor/rules/shared/niko/memory-bank/active/preflight-status.mdc`. After a blank line, write this run's findings.
 
 ## Step 3: Log Progress
 
 > 🚨 **Printing this notice is NOT the end of this phase.** After printing, continue immediately to the next step - do not stop.
 
-Update `memory-bank/active/progress.md` to record completion of the preflight phase.
+Update `memory-bank/active/progress.md` to record that Preflight completed and what the first line of `.preflight-status` was.
 
 Print the appropriate block:
 
@@ -102,12 +101,8 @@ Print the appropriate block:
 1. **Findings** - bulleted list of each finding with severity
 2. **Advisory items** (if any) - concrete recommendations the operator can evaluate
 
-## Next Steps
-
-- **On FAIL (rearchitect)**: Run `/niko-plan` when ready to revise the approach.
-- **On FAIL (fixable)**: Address the findings and re-run `/niko-preflight`.
 ~~~
 
 ## Step 4: End of Verification
 
-Update `memory-bank/active/activeContext.md` so `**Phase:**` records this phase complete with PASS or FAIL (e.g. `**Phase:** PREFLIGHT - COMPLETE (PASS)` / `**Phase:** QA - COMPLETE (FAIL)`). Do not load a level workflow or begin another phase. Stop.
+Update `memory-bank/active/activeContext.md` so `**Phase:**` records Preflight complete with the first line of `.preflight-status` (e.g. `**Phase:** PREFLIGHT - COMPLETE (PASS)`). Do not load a level workflow or begin another phase. Stop.
