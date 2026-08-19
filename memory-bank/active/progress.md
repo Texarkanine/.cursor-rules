@@ -1,8 +1,8 @@
 # Progress
 
-Tighten `/niko-preflight` to judge-only, with one carve-out: re-sequence already-enumerated TDD steps. Bookkeeping writes stay. Other plan amendments stay forbidden.
+Finish the Preflight contract: four-way results (PASS / PASS WITH ADVISORY / FAIL (fixable) / FAIL (blocking)) and in-phase strike of scheduled change-detector tests, as specified in https://github.com/Texarkanine/.cursor-rules/issues/114.
 
-**Complexity:** Level 2
+**Complexity:** Level 3
 
 ## 2026-08-19 - COMPLEXITY-ANALYSIS - COMPLETE
 
@@ -209,3 +209,16 @@ Tighten `/niko-preflight` to judge-only, with one carve-out: re-sequence already
     - `FAIL (fixable)` name reuse with QA is intentional (different check, different semaphore)
 * Insights
     - First-pass Requirement 5 / Use-Case 3 (change-detectors stay FAIL, report only) is superseded; missing tests and material plan change stay FAIL
+
+## 2026-08-19 - COMPLEXITY-ANALYSIS - COMPLETE (rework, issue #114)
+
+* Work completed
+    - Classified four-way Preflight outs plus change-detector strike as Level 3
+    - Stubbed `tasks.md` and `activeContext.md` after clearing stale plan/QA/preflight state
+* Decisions made
+    - Not Level 2: the agreed touch list is the preflight skill, L2/L3 workflow charts and STOP lists, README charts, and `preflight-status.mdc` — not a self-contained skill tighten
+    - Not Level 4: no new subsystem; the issue specifies the outs, chart, name-reuse, and in-phase vs FAIL line
+    - L4 workflow split is conditional (only if blocking vs fixable is needed); L1 has no Preflight
+* Insights
+    - Live L2/L3 charts still have a single Preflight FAIL (dashed → operator `/niko-plan`); L4 is already solid FAIL → plan
+    - `preflight-status.mdc` still allows only `PASS` / `PASS WITH ADVISORY` / `FAIL`
