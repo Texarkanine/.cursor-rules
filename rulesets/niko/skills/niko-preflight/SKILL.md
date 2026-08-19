@@ -69,9 +69,9 @@ Read:
 
 10. **Handle Results**
    - **On PASS**: Good job!
-   - **On PASS WITH ADVISORY**: Document advisory findings for the operator's consideration; still a valid build/transition gate (status file: `PASS WITH ADVISORY`). After a TDD step swap or a change-detector strike: write `PASS WITH ADVISORY` and a finding unless another check fails.
-   - **On FAIL (fixable)**: Known fix; the planner rewrites. Parent → Plan. Do not patch the plan.
-   - **On FAIL (blocking)**: Addressing the finding would materially change the plan. Operator `/niko-plan`. Do not patch the plan.
+   - **On PASS WITH ADVISORY**: After a TDD step swap or a change-detector strike, write `PASS WITH ADVISORY` unless another check fails.
+   - **On FAIL (fixable)**: Parent → Plan. Do not patch the plan.
+   - **On FAIL (blocking)**: Operator `/niko-plan`. Do not patch the plan.
 
 ## Step 3: Log Progress
 
@@ -115,4 +115,4 @@ Print the appropriate block:
 
 ## Step 4: End of Verification
 
-Update `memory-bank/active/activeContext.md` so `**Phase:**` records this phase complete with the result (e.g. `**Phase:** PREFLIGHT - COMPLETE (PASS)` / `PASS WITH ADVISORY` / `FAIL (fixable)` / `FAIL (blocking)`; `**Phase:** QA - COMPLETE (FAIL)`). Do not load a level workflow or begin another phase. Stop.
+Update `memory-bank/active/activeContext.md` so `**Phase:**` records Preflight complete with the first line of `.preflight-status` (e.g. `**Phase:** PREFLIGHT - COMPLETE (PASS)`). Do not load a level workflow or begin another phase. Stop.

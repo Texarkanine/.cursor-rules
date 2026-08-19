@@ -285,3 +285,16 @@ Finish the Preflight contract: four-way results (PASS / PASS WITH ADVISORY / FAI
     - Left `level{2,3}-build.md` re-spawn wording as a follow-up (QA advisory, out of this plan)
 * Insights
     - Gate checks and the remediation text on a failed gate are different sites; splitting an enum only updates the sites you listed
+
+## 2026-08-19 - PR #115 follow-up
+
+* Work completed
+    - Four-way result strings live only in `preflight-status.mdc`
+    - `.preflight-status` is first-line enum plus this run's findings; Build reads the first line exactly
+    - `niko-preflight` Handle Results is routing only; End of Verification writes `**Phase:**` from that first line
+* Decisions made
+    - Do not duplicate the four-string glossary in the skill (Handle Results or End of Verification). The `.mdc` is the spec; it globs onto the status file at write time.
+    - Keep in the skill only the workflow rule the `.mdc` cannot run: after a TDD swap or strike, write `PASS WITH ADVISORY` unless another check fails.
+    - Operator chart aesthetics on README/L3 (`504d4f3`) stay; do not revert.
+* Insights
+    - Two copies of the enum already drifted while the `.mdc` wording was still moving.

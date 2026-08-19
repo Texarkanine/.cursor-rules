@@ -10,9 +10,7 @@ The preflight status file is the ephemeral result of one Preflight run. It lives
 
 - `PASS` — checks passed with no advisories
 - `PASS WITH ADVISORY` — checks passed; advisory findings recorded; still a valid build/transition gate; includes in-phase plan edits
-- `FAIL (fixable)` — known fix; planner rewrites; parent → Plan
-- `FAIL (blocking)` — material plan change; operator `/niko-plan`
+- `FAIL (fixable)` — plan has issues but the issues have known fixes; planner re-plans.
+- `FAIL (blocking)` — plan has issues that require materially changing the plan; operator must provide guidance then invoke `/niko-plan`.
 
-Parents and Build read that first line only.
-
-After a blank line, the rest of the file is this run's findings (prose). No required headings.
+After a blank line, the rest of the file is this run's findings, in prose. No required headings.
