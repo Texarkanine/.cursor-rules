@@ -38,3 +38,15 @@ Tighten `/niko-preflight` so it analyzes the plan and reports findings without r
     - Kept an idempotent findings-section convention as advisory rather than amending the plan
 * Insights
     - A single dedicated findings section would make repeated Preflight runs cleaner without broadening the verifier's write authority
+
+## 2026-08-19 - BUILD - COMPLETE
+
+* Work completed
+    - Rewrote preflight steps 7–10 in `rulesets/niko/skills/niko-preflight/SKILL.md`
+    - Ran `make test` (symlink + README link checks) — pass
+* Decisions made
+    - Inserted Judge, Do Not Fix as new step 8 so TDD stays step 2
+    - Did not apply the preflight advisory (idempotent findings replace); built the plan's append-only boundary
+* Insights
+    - The invite to DO is gone; remaining "make the change" text is the negation
+

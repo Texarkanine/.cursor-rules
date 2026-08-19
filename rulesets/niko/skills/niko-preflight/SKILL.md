@@ -54,19 +54,24 @@ Read:
 7. **Radical Innovation** *(advisory - not blocking)*
     - What's the single smartest and most radically innovative and accretive and useful and compelling change you could make to the plan at this point?
     - Describe the change concretely - not as a vague suggestion, but as a specific structural sketch the operator can evaluate against the cost of redesign.
-    - If the change can be made within the current workflow's complexity level and within the current Project Brief's scope, make the change to the plan.
-    - If the change would change the complexity level of the task *or* if the change would significantly deviate from the current Project Brief's scope, flag it as an advisory finding for operator consideration but do not make the change.
+    - Record that idea as an advisory finding. Do not make the change to the plan — in-scope or out-of-scope.
 
-8. **Generate Preflight Report**
+8. **Judge, Do Not Fix**
+   - Surface and judge. Never modify the plan under review.
+   - Allowed writes only: `memory-bank/active/.preflight-status`, Preflight findings in `tasks.md` / `progress.md`, and (at Step 4) the `**Phase:**` field in `activeContext.md`.
+   - Findings go in an appended `## Preflight Findings` section. Do not rewrite Implementation Plan units, behavior lists, or other scheduled work.
+   - Record every issue as a finding. FAIL when the plan must change before build; PASS only when the plan is acceptable as-is (advisories allowed).
+
+9. **Generate Preflight Report**
    - Create comprehensive findings report
    - Write validation status to `memory-bank/active/.preflight-status` — exactly one allowed value from `.cursor/rules/shared/niko/memory-bank/active/preflight-status.mdc`
-   - Update `memory-bank/active/tasks.md` with any plan amendments or findings
+   - Update `memory-bank/active/tasks.md` with findings only
 
-9. **Handle Results**
+10. **Handle Results**
    - **On PASS**: Good job!
    - **On PASS with ADVISORY**: Document advisory findings for the operator's consideration; still a valid build/transition gate (status file: `PASS WITH ADVISORY`)
-   - **On FAIL (rearchitect needed)**: Operator decision required; write status `FAIL`; tell the operator `/niko-plan` must rerun.
-   - **On FAIL (conflict/convention)**: Provide specific fix instructions, block `/niko-build`; Operator decision required.
+   - **On FAIL (rearchitect needed)**: Operator decision required; write status `FAIL`; tell the operator `/niko-plan` must rerun. Do not patch the plan.
+   - **On FAIL (conflict/convention)**: Provide specific fix instructions, block `/niko-build`; Operator decision required. Do not patch the plan.
 
 ## Step 3: Log Progress
 
