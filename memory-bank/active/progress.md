@@ -274,3 +274,14 @@ Finish the Preflight contract: four-way results (PASS / PASS WITH ADVISORY / FAI
 * Insights
     - Splitting a result enum finer exposes every place that branched on the coarse value; the gate check was updated, but the remediation text attached to a failed gate is a separate site that scope analysis can miss
     - Edge *style* is the real contract in these charts: a new label must inherit the style of the edge it rides, or the STOP list and the chart disagree
+
+## 2026-08-19 - REFLECT - COMPLETE (rework, issue #114)
+
+* Work completed
+    - Wrote `memory-bank/active/reflection/reflection-preflight-analyze-and-report.md` covering all three passes
+    - Reconciled persistent files (all skip)
+* Decisions made
+    - One reflection file for the whole task, including this L3 pass
+    - Left `level{2,3}-build.md` re-spawn wording as a follow-up (QA advisory, out of this plan)
+* Insights
+    - Gate checks and the remediation text on a failed gate are different sites; splitting an enum only updates the sites you listed
