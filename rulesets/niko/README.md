@@ -67,16 +67,22 @@ The short version is:
 
 ```mermaid
 graph LR
-	Start(("🧑‍💻 /niko")) --> NikoPlan["🐱 plan"]
-	NikoPlan ==Spawn==> NikoPreflight[["🐈 Preflight"]]
-	NikoPreflight -->|"PASS / PASS WITH ADVISORY"| NikoBuild["🐱 build"]
-	NikoPreflight -->|"FAIL (fixable)"| NikoPlan
-	NikoPreflight -.->|"FAIL (blocking)"| ManualPlan[/"🧑‍💻 /niko-plan"/]
+	Start(("🧑‍💻 /niko"))
+    NikoPlan["🐱 plan"]
+    NikoPreflight[["🐈 Preflight"]]
+    NikoBuild["🐱 build"]
+    NikoReflect["🐱 reflect"]
+    ManualArchive[/"🧑‍💻 /niko-archive"/]
+    
+    Start --> NikoPlan
+	NikoPlan ==Spawn==> NikoPreflight
+	NikoPreflight -->|"PASS"| NikoBuild
+	NikoPreflight -->|"FAIL"| NikoPlan
 	NikoBuild ==Spawn==> NikoQA[["🐈 QA"]]
-	NikoQA -->|"PASS"| NikoReflect["🐱 reflect"]
-	NikoReflect --> ManualArchive[/"🧑‍💻 /niko-archive"/]
+	NikoQA -->|"PASS"| NikoReflect
+	NikoReflect --> ManualArchive
 	NikoQA -->|"FAIL"| NikoBuild
-	ManualPlan -.-> NikoPlan
+
 ```
 
 The long version shows all the paths Niko can take, depending on the complexity of the task, with more details about phase transitions:
@@ -100,8 +106,7 @@ flowchart LR
 
 	Niko -- "Level 1 (Fix)" --> Build
 	NikoPreflight -->|"PASS / PASS WITH ADVISORY"| Build
-	NikoPreflight -->|"FAIL (fixable)"| Plan
-	NikoPreflight -.->|"FAIL (blocking)"| ManualPlan[/"🧑‍💻 /niko-plan"/]
+	NikoPreflight -->|"FAIL"| Plan
 	ManualPlan -.-> Plan
 
 	subgraph Execution
@@ -171,28 +176,37 @@ graph LR
 
 ```mermaid
 flowchart TD
-	Start(("🧑‍💻 /niko<br>Complexity Analysis")) --> NikoPlan["🐱 plan"]
-	NikoPlan ==Spawn==> NikoPreflight[["🐈 Preflight"]]
-	NikoPreflight -->|"PASS / PASS WITH ADVISORY"| NikoBuild["🐱 build"]
-	NikoPreflight -->|"FAIL (fixable)"| NikoPlan
-	NikoPreflight -.->|"FAIL (blocking)"| ManualPlan[/"🧑‍💻 /niko-plan"/]
+	Start(("🧑‍💻 /niko<br>Complexity Analysis"))
+    NikoPlan["🐱 plan"]
+    NikoPreflight[["🐈 Preflight"]]
+    NikoBuild["🐱 build"]
+    ManualPlan[/"🧑‍💻 /niko-plan"/]
+    NikoQA[["🐈 QA"]]
+    NikoReflect["🐱 reflect"]
+    ManualArchive[/"🧑‍💻 /niko-archive"/]
+    PR{"🧑‍💻 Open Pull Request"}
+    MergePR("Merge PR")
 
-	NikoBuild ==Spawn==> NikoQA[["🐈 QA"]]
-	NikoQA -->|"PASS"| NikoReflect["🐱 reflect"]
-	NikoReflect -.-> ManualArchive[/"🧑‍💻 /niko-archive"/]
+    Start --> NikoPlan
+	NikoPreflight -->|"FAIL (fixable)"| NikoPlan
+    NikoPlan ==Spawn==> NikoPreflight
+	NikoPreflight -->|"PASS / PASS WITH ADVISORY"| NikoBuild
+	NikoPreflight -.->|"FAIL (blocking)"| ManualPlan
+
+	NikoBuild ==Spawn==> NikoQA
+	NikoQA -->|"PASS"| NikoReflect
+	NikoReflect -.-> ManualArchive
 	NikoQA -->|"FAIL (fixable)"| NikoBuild
 	NikoQA -.->|"FAIL (rearchitect)"| ManualPlan
 
 	ManualPlan -.-> NikoPlan
-
-	PR{"🧑‍💻 Open Pull Request"}
 
 	NikoReflect -.-> PR
 
 	PR -."Ready".-> ManualArchive
 	PR -."Rework PR".-> ManualPlan
 
-	ManualArchive -.-> MergePR("Merge PR")
+	ManualArchive -.-> MergePR
 ```
 
 </details>
@@ -207,32 +221,43 @@ flowchart TD
 
 ```mermaid
 graph TD
-	Start(("🧑‍💻 /niko<br>Complexity Analysis")) --> NikoPlan["🐱 plan"]
-	NikoPlan ==Spawn==> NikoPreflight[["🐈 Preflight"]]
-	NikoPreflight -.->|"PASS / PASS WITH ADVISORY"| ManualBuild[/"🧑‍💻 /niko-build"/]
-	NikoPreflight -->|"FAIL (fixable)"| NikoPlan
-	NikoPreflight -.->|"FAIL (blocking)"| ManualPlan[/"🧑‍💻 /niko-plan"/]
+	Start(("🧑‍💻 /niko<br>Complexity Analysis"))
+    NikoPlan["🐱 plan"]
+    NikoPreflight[["🐈 Preflight"]]
+    ManualBuild[/"🧑‍💻 /niko-build"/]
+    ManualPlan[/"🧑‍💻 /niko-plan"/]
+    NikoCreative{"🐱 creative"}
+    ManualPlan[/"🧑‍💻 /niko-plan"/]
+    NikoQA[["🐈 QA"]]
+    NikoReflect["🐱 reflect"]
+    ManualArchive[/"🧑‍💻 /niko-archive"/]
+    PR{"🧑‍💻 Open Pull Request"}
+    MergePR("Merge PR")
 
-	NikoPlan -->|"Open Questions"| NikoCreative{"🐱 creative"}
+    NikoPlan -->|"Open Questions"| NikoCreative
 	NikoCreative -->|"High Confidence"| NikoPlan
-	NikoCreative -.->|"Low Confidence"| ManualPlan[/"🧑‍💻 /niko-plan"/]
+	NikoCreative -.->|"Low Confidence"| ManualPlan
+    
+    Start --> NikoPlan
+	NikoPlan ==Spawn==> NikoPreflight
+	NikoPreflight -.->|"PASS / PASS WITH ADVISORY"| ManualBuild
+    NikoPreflight -->|"FAIL (fixable)"| NikoPlan
+	NikoPreflight -.->|"FAIL (blocking)"| ManualPlan
 
-	ManualBuild ==Spawn==> NikoQA[["🐈 QA"]]
-	NikoQA -->|"PASS"| NikoReflect["🐱 reflect"]
-	NikoReflect -.-> ManualArchive[/"🧑‍💻 /niko-archive"/]
+	ManualBuild ==Spawn==> NikoQA
+	NikoQA -->|"PASS"| NikoReflect
+	
 	NikoQA -->|"FAIL (fixable)"| ManualBuild
 	NikoQA -.->|"FAIL (rearchitect)"| ManualPlan
 
 	ManualPlan -.-> NikoPlan
 
-	PR{"🧑‍💻 Open Pull Request"}
-
 	NikoReflect -.-> PR
-
-	PR -."Ready".-> ManualArchive
 	PR -."Rework PR".-> ManualPlan
-
-	ManualArchive -.-> MergePR("Merge PR")
+    PR -."Ready".-> ManualArchive
+    
+    NikoReflect -.-> ManualArchive
+	ManualArchive -.-> MergePR
 ```
 
 </details>
@@ -256,11 +281,11 @@ graph TD
     subgraph Init["First L4 Run"]
         NikoPlan["😺 plan<br>(generate milestones)"]
         ManualReview["🧑‍💻 review plan"]
-        NikoPlan ==Spawn==> NikoPreflight[["🐈 Preflight"]]
-        NikoPreflight -.->|"PASS / PASS WITH ADVISORY"| ManualReview
+		NikoPlan ==Spawn==> NikoPreflight[["🐈 Preflight"]]
+        NikoPreflight -.->|"PASS<br>PASS WITH ADVISORY<br>FAIL (blocking)"| ManualReview
         NikoPreflight -->|"FAIL (fixable)"| NikoPlan
-        NikoPreflight -.->|"FAIL (blocking)"| ManualPlan[/"🧑‍💻 /niko-plan"/]
-        ManualPlan -.-> NikoPlan
+        ManualReview -.->|FAIL addressed| NikoPlan
+        
     end
 
     subgraph ReEntry["L4 Milestone Management"]
