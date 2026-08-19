@@ -130,6 +130,17 @@ Tighten `/niko-preflight` to judge-only, with one carve-out: re-sequence already
 * Insights
     - Findings in `tasks.md` / `progress.md` already survive the subagent session
 
+## 2026-08-19 - PREFLIGHT - COMPLETE (FAIL, plan 2)
+
+* Work completed
+    - Validated plan 2 against the revised brief, canonical `niko-preflight` source, `always-tdd.mdc`, repository source-of-truth conventions, and the one-line status contract
+    - Recorded two blocking findings and one advisory without modifying the Implementation Plan
+* Decisions made
+    - FAIL (rearchitect): the plan simultaneously authorizes moving TDD names out of `Files/Changes` into four ordered stages and forbids adding numbered step content
+    - FAIL (rearchitect): naming any test work is not enough to establish that all required TDD stages already exist and can be re-ordered without synthesizing missing stubs or steps
+    - Kept `.preflight-status` as the exact one-line `FAIL` enum
+* Insights
+    - A safe sequencing-only carve-out needs a one-to-one eligibility gate: every existing item maps to a required stage, and missing or ambiguous mappings remain FAIL
 
 
 

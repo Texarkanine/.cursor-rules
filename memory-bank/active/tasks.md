@@ -70,6 +70,14 @@ FAIL 2026-08-19: brief contradiction (F1), encode-stages not in a numbered step 
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA
+
+## Preflight Findings
+
+### Plan 2 — 2026-08-19
+
+- **F1 — BLOCKING — Rewrite boundary is internally contradictory.** Unit 2 says Preflight may recover TDD names that live only in `Files/Changes` by writing the four prescribed stage labels, but the next numbered step says the rewrite may change numbered steps only and “must not add steps.” Moving metadata-only names into an ordered numbered sequence necessarily adds scheduled step content. `/niko-plan` must choose and state one consistent boundary.
+- **F2 — BLOCKING — The self-heal eligibility test is weaker than the prescribed TDD contract.** Unit 2 permits a rewrite whenever a unit names any test work, even when it does not already enumerate stub tests, a stub interface, a red run, and green implementation work. Adding missing stages would violate the brief’s ban on new steps and stubs; omitting them would leave the plan noncompliant with `always-tdd.mdc`. `/niko-plan` must require a one-to-one mapping from already-enumerated work to every required stage, with missing stages remaining FAIL.
+- **A1 — ADVISORY — Make the rewrite mechanically auditable.** Structure the carve-out as an eligibility gate followed by a stable partition: map each existing scheduled item to exactly one prescribed TDD stage, reject missing or ambiguous mappings, preserve item wording and within-stage order, then record the before/after order in the finding. This stays within the brief’s sequencing-only boundary, but it must be evaluated during replanning because the current plan forbids Preflight from applying design amendments.
