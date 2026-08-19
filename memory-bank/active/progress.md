@@ -61,3 +61,14 @@ Tighten `/niko-preflight` so it analyzes the plan and reports findings without r
 * Insights
     - Implementation matches QA's `Judge, Do Not Fix` structure successfully, and effectively negates previous text authorizing in-place edits.
 
+## 2026-08-19 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `memory-bank/active/reflection/reflection-preflight-analyze-and-report.md`
+    - Reconciled persistent files (all skip)
+* Decisions made
+    - Left the idempotent-findings advisory out of the skill; archive can note it as optional follow-up
+* Insights
+    - Exclusive allowlist is the fence; "update tasks.md" without it is a rewrite license
+
+
