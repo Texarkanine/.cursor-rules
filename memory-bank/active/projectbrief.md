@@ -2,45 +2,46 @@
 
 ## User Story
 
-As the operator, I want `/niko-preflight` to analyze the plan and report findings without rewriting it, so a verifier cannot silently become the planner.
+As the operator, I want `/niko-preflight` to judge the plan and report, and to put already-enumerated TDD steps into the prescribed always-tdd order when they are out of order, so a verifier cannot become the planner except for that one sequencing fix.
 
 ## Use-Case(s)
 
 ### Use-Case 1
 
-A preflight subagent finds a TDD-encoding hole, a change-detector, or an in-scope Radical Innovation. It records findings and a PASS/FAIL status. It does not rewrite implementation units in `tasks.md`.
+An executable unit names tests but lists them after (or mixed with) production work. Preflight re-sequences those names into always-tdd order (stub tests → stub interface → write tests and run red → write code and run green), records the finding, and writes `PASS WITH ADVISORY`.
 
 ### Use-Case 2
 
-A preflight subagent still writes the bookkeeping it owns: `.preflight-status`, phase in `activeContext.md`, a progress note, and (if needed) a findings section that does not change the plan.
+Preflight keeps its own bookkeeping: `.preflight-status` (exactly one allowed value), a progress note, the `**Phase:**` field, and a `## Preflight Findings` section in `tasks.md`. It does not grow the status file into a findings store.
+
+### Use-Case 3
+
+An executable unit has no test steps, or a change-detector is scheduled, or Radical Innovation suggests a design change. Preflight reports. It does not invent tests, remove change-detectors itself, or apply the innovation.
 
 ## Requirements
 
-1. Preflight analyzes the plan and reports judgments only.
-2. Preflight must not amend the implementation plan in `tasks.md` (no TDD self-heal, no in-place unit rewrites, no applying Radical Innovation).
-3. Status, progress, and phase bookkeeping remain allowed writes.
-4. Findings may be recorded without changing planned units.
+1. Preflight analyzes the plan and reports judgments.
+2. The only allowed plan write is TDD re-order: already-enumerated test work moved ahead of already-enumerated production work, expressed as the prescribed always-tdd stages. No new cases, files, stubs, or behaviors.
+3. Bookkeeping writes stay: `.preflight-status`, `progress.md`, `**Phase:**` in `activeContext.md`, findings appended in `tasks.md`.
+4. `.preflight-status` remains the one-line enum in `preflight-status.mdc`. Findings stay in `tasks.md` / `progress.md` — do not invent a findings schema in the status file.
+5. Missing tests on an executable unit, and change-detectors, stay FAIL. Those paths do not patch.
 
 ## Constraints
 
 1. Canonical edits under `rulesets/` only. Do not edit generated `.cursor/` or `.claude/` trees.
-2. TDD Plan Encoding stays a blocking rearchitect gate. This task does not reopen self-heal.
-3. QA's judge-only shape is the existing pattern to match, not a second feature.
+2. `niko-qa` stays judge-only with no TDD-reorder carve-out.
+3. Do not reopen general plan amendment or Radical Innovation apply.
 
 ## Acceptance Criteria
 
-1. The live `/niko-preflight` skill no longer instructs the agent to make in-scope plan changes or to update `tasks.md` with plan amendments.
-2. Allowed writes are enumerated and do not include rewriting implementation-plan units.
-3. Radical Innovation may still describe a change; it must not apply one.
-4. A FAIL still tells the operator to fix via `/niko-plan` or a re-run after they change the plan — preflight itself does not patch.
+1. The live skill forbids in-scope design amendments, synthesized tests, and applying Radical Innovation.
+2. The live skill tells the subagent to re-sequence already-enumerated TDD steps into the prescribed always-tdd order and to treat that as in-phase work.
+3. After a successful re-sequence the status is `PASS WITH ADVISORY`, with the finding recorded. Status is not left `FAIL` solely because an order fix was applied.
+4. Allowed writes are enumerated: bookkeeping plus that one TDD re-sequence. Implementation Plan units are otherwise read-only.
+5. This brief no longer contains a live requirement that forbids TDD re-order.
 
 ## Rework
 
-Operator 2026-08-19: keep judge-only for design amendments. Carve out **TDD ordering only**.
+First pass shipped judge-only (no plan writes except bookkeeping). Operator 2026-08-19: layer TDD re-order on top of that. Preflight FAIL: the first-pass requirements still forbade self-heal. This plan-pass retracts those lines so the contract matches the layering.
 
-A preflight subagent that finds test steps already enumerated but sequenced after (or mixed with) production steps must treat that as a **fixable** fail and **re-sequence those steps itself** — tests before code — then continue. That is inside preflight's purview.
-
-It must **not** invent tests. If a unit has no test steps (no named cases, stubs, or suite), that stays **FAIL (rearchitect)**. Preflight cannot turn "write X, write Y, write Z" into a TDD schedule.
-
-Historic modal heal (encode stub → red → green around **already-named** tests) is the allowed generalization of a swap. New behaviors, new test files, or missing coverage stay report-only / rearchitect.
-
+Operator on this `/niko-plan`: the whole purpose is authorizing TDD reorder into the prescribed order. Everything else stays judge-and-report plus bookkeeping. Status-file-as-findings-store is out of scope.

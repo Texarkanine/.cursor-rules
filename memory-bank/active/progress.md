@@ -116,6 +116,21 @@ Tighten `/niko-preflight` to judge-only, with one carve-out: re-sequence already
     - Appending a Rework paragraph without retracting the superseded requirements leaves the acceptance contract measuring the opposite of the intent
     - The carve-out's weak point is auditability: "I only re-sequenced" is self-reported unless the finding records the before/after ordering
 
+## 2026-08-19 - PLAN - COMPLETE (plan 2)
+
+* Work completed
+    - Retracted the first-pass brief lines that forbade all TDD self-heal
+    - Planned two prose/policy units: brief contract + skill TDD re-order
+* Decisions made
+    - The one allowed plan write is re-sequence into prescribed always-tdd order using names already in the unit
+    - After that fix: `PASS WITH ADVISORY`
+    - `.preflight-status` stays the one-line enum; do not store findings there
+    - QA skill unchanged
+    - Formal before/after step receipt not in scope
+* Insights
+    - Findings in `tasks.md` / `progress.md` already survive the subagent session
+
+
 
 
 
