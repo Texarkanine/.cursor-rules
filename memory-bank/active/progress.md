@@ -71,4 +71,16 @@ Tighten `/niko-preflight` so it analyzes the plan and reports findings without r
 * Insights
     - Exclusive allowlist is the fence; "update tasks.md" without it is a rewrite license
 
+## 2026-08-19 - REWORK INITIATED
+
+* Work completed
+    - Operator chose rework instead of archive
+* Decisions made
+    - TDD re-order becomes a fixable preflight fail that the preflight subagent applies itself
+    - Re-sequence already-enumerated test steps only; do not synthesize missing tests, stubs, or suites
+    - A unit with no test steps still FAIL (rearchitect)
+* Insights
+    - Stockroom sample (~11/16 TDD heals) was re-order/encode of named tests; synthesizing missing tests was the minority
+
+
 

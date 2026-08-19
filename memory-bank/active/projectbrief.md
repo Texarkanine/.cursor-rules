@@ -33,3 +33,14 @@ A preflight subagent still writes the bookkeeping it owns: `.preflight-status`, 
 2. Allowed writes are enumerated and do not include rewriting implementation-plan units.
 3. Radical Innovation may still describe a change; it must not apply one.
 4. A FAIL still tells the operator to fix via `/niko-plan` or a re-run after they change the plan — preflight itself does not patch.
+
+## Rework
+
+Operator 2026-08-19: keep judge-only for design amendments. Carve out **TDD ordering only**.
+
+A preflight subagent that finds test steps already enumerated but sequenced after (or mixed with) production steps must treat that as a **fixable** fail and **re-sequence those steps itself** — tests before code — then continue. That is inside preflight's purview.
+
+It must **not** invent tests. If a unit has no test steps (no named cases, stubs, or suite), that stays **FAIL (rearchitect)**. Preflight cannot turn "write X, write Y, write Z" into a TDD schedule.
+
+Historic modal heal (encode stub → red → green around **already-named** tests) is the allowed generalization of a swap. New behaviors, new test files, or missing coverage stay report-only / rearchitect.
+
