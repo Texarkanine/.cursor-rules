@@ -258,3 +258,19 @@ Finish the Preflight contract: four-way results (PASS / PASS WITH ADVISORY / FAI
     - Missing-tests after a strike still `FAIL (blocking)`; do not invent tests
 * Insights
     - L3 STOP now lists PASS / PASS WITH ADVISORY → build and only FAIL (blocking) → plan, so a fixable fail will not halt the parent
+
+## 2026-08-19 - QA - COMPLETE (PASS, rework, issue #114)
+
+* Work completed
+    - Reviewed all four built units against the plan, the brief, and repository patterns
+    - Verified invariants: nine-site Spawn stem (9 occurrences), QA edges unchanged, `niko-qa` untouched, no nested subgraphs, one-line status file, canonical edits confined to `rulesets/`
+    - Rendered all nine Mermaid charts in the four changed files with `mmdc` — all clean; `make test` pass
+    - Recorded PASS in `.qa-validation-status` and findings in `tasks.md`
+* Decisions made
+    - PASS with two advisories, neither blocking
+    - Advisory: the strike bullet dropped the old "(keeping any purpose-built CI gate)" parenthetical while upgrading authority from report to delete; not blocking because the bullet's own "can only go red when someone deliberately edits" clause and `always-tdd.mdc`'s cross-file-contract carve-out both still fence it
+    - Advisory: `level{2,3}-build.md` still say to re-spawn Preflight on a non-passing status, which is the superseded remediation for `FAIL (fixable)`; pre-existing, off-chart, fails safe, and the plan deliberately scoped the Build gate as already correct
+    - Did not fail the build for a pre-existing defect outside the plan's touch list
+* Insights
+    - Splitting a result enum finer exposes every place that branched on the coarse value; the gate check was updated, but the remediation text attached to a failed gate is a separate site that scope analysis can miss
+    - Edge *style* is the real contract in these charts: a new label must inherit the style of the edge it rides, or the STOP list and the chart disagree

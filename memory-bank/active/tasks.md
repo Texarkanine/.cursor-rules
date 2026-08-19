@@ -138,6 +138,26 @@ No new technology - validation not required
 - Skill over-defines “materially change the plan” into a taxonomy: do not add one; the issue line is the rule.
 - README long chart breaks GitHub layout: already covered by Challenge 2.
 
+## QA Findings
+
+**Result: PASS** (two advisories, neither blocking)
+
+### Verified
+
+- All four plan units built as specified. Status vocabulary is exactly the four strings with bare `FAIL` dropped; skill has the change-detector strike, the retained TDD swap, the four-out Handle Results, and the rewritten FAIL print template; L2/L3/L4 charts and STOP lists match the pinned chart; all five in-scope README charts spliced with L1 untouched.
+- Invariants hold: nine-site Spawn stem intact (9 occurrences), QA edges unchanged, `niko-qa` untouched, no nested Preflight/QA subgraphs, status file still one line, canonical edits confined to `rulesets/`.
+- Chart semantics correct per the legend: `FAIL (fixable)` solid (no operator) at every level; `FAIL (blocking)` dashed to operator `/niko-plan`; `PASS WITH ADVISORY` rides the same edge style its level already uses for `PASS` (L2 solid → build, L3 dashed → `/niko-build`, L4 dashed → review). L3 STOP list correctly adds `PASS WITH ADVISORY -> Build` because that edge is dashed; L2 correctly omits it because that edge is solid. L4 gained no STOP list, matching the plan.
+- `ManualPlan -.-> NikoPlan` added in `level4-workflow.md` is not scope creep: L2/L3 workflow files and the README L2/L3 charts already carry that edge, and the new terminal node reads wrong without it. Dashed-only outbound keeps `ManualPlan` a terminal node.
+- All nine Mermaid charts in the four changed files render cleanly under `mmdc`. `make test` passes (symlink + README link checks).
+
+### Advisory 1 — purpose-built-gate carve-out dropped from the strike bullet
+
+The superseded change-detector FAIL text carried the parenthetical "(keeping any purpose-built CI gate)". The rewritten strike bullet drops it while upgrading the authority from *report* to *delete*, so the carve-out is more load-bearing now than it was. Not blocking: the bullet's own gating clause ("can only go red when someone deliberately edits the artifact it asserts on") excludes a real gate by construction, and the fuller carve-out ("A test that locks a contract across files ... is not a change-detector") lives in the always-applied `always-tdd.mdc` that the same step's first bullet points at. The plan did not ask for the parenthetical to be kept or dropped.
+
+### Advisory 2 — stale "re-spawn Preflight" remediation in the build-phase gates
+
+`level2-build.md` and `level3-build.md` both say, on a non-passing `.preflight-status`, to spawn a Preflight subagent. Under the four-out contract the remediation for `FAIL (fixable)` is Plan, not another Preflight run, which would re-read an unchanged plan and re-fail. Not blocking, and not introduced here: the wording predates this task, the plan examined the Build gate and correctly cleared it (both FAIL variants do block Build), the path is reachable only by invoking `/niko-build` directly against a failing status, and it fails safe by stopping rather than building against a bad plan. Worth a follow-up so the last "re-run `/niko-preflight`" instruction in the system matches the contract.
+
 ## Status
 
 - [x] Component analysis complete
@@ -148,4 +168,4 @@ No new technology - validation not required
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [ ] QA
+- [x] QA

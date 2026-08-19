@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: preflight-analyze-and-report
-**Phase:** BUILD - COMPLETE (PASS)
+**Phase:** QA - COMPLETE (PASS)
 
 ## What Was Done
 - Four-unit #114 rework under `rulesets/niko/` only: status vocabulary, preflight skill (strike + four outs), L2/L3/L4 workflow charts and STOP lists, README Preflight charts
