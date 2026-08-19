@@ -93,6 +93,17 @@ Tighten `/niko-preflight` to judge-only, with one carve-out: re-sequence already
 * Insights
     - The first-pass brief forbade all TDD self-heal; this rework reopens ordering only
 
+## 2026-08-19 - PLAN - COMPLETE (rework)
+
+* Work completed
+    - Wrote a one-unit prose/policy plan for the TDD re-order carve-out
+* Decisions made
+    - After a successful re-sequence, status is PASS / PASS WITH ADVISORY, not a lingering FAIL
+    - Encoding always-tdd stage labels is allowed only around already-named tests
+* Insights
+    - Ambiguous "which lines are tests" routes to rearchitect, not a guess
+
+
 
 
 

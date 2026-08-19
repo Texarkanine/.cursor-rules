@@ -1,11 +1,11 @@
 # Active Context
 
 ## Current Task: preflight-analyze-and-report
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Rework initiated: TDD re-order is a fixable preflight fail the subagent applies
-- Classified Level 2 again: still one skill, one carve-out
+- Rework: TDD re-order is in-phase fixable; missing tests stay rearchitect
+- Planned one prose/policy unit on `niko-preflight/SKILL.md` (split TDD FAIL, allowlist exception, Handle Results)
 
 ## Next Step
-- Plan the TDD re-order exception in `niko-preflight/SKILL.md`
+- Preflight, then build if PASS
