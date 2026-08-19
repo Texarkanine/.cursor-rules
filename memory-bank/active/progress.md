@@ -2,7 +2,9 @@
 
 Finish the Preflight contract: four-way results (PASS / PASS WITH ADVISORY / FAIL (fixable) / FAIL (blocking)) and in-phase strike of scheduled change-detector tests, as specified in https://github.com/Texarkanine/.cursor-rules/issues/114.
 
-**Complexity:** Level 3
+Rework: cut Handle Results (step 10) from `niko-preflight`. Report and stop; status is determined upstream.
+
+**Complexity:** Level 1
 
 ## 2026-08-19 - COMPLEXITY-ANALYSIS - COMPLETE
 
@@ -309,3 +311,14 @@ Finish the Preflight contract: four-way results (PASS / PASS WITH ADVISORY / FAI
     - FAIL print Next Steps go with Handle Results
 * Insights
     - Handle Results was leftover dispatch from before judge-only isolation
+
+## 2026-08-19 - COMPLEXITY-ANALYSIS - COMPLETE (rework: cut Handle Results)
+
+* Work completed
+    - Classified Level 1
+    - Wrote ephemeral files for this rework pass
+* Decisions made
+    - Error correction in one skill: leftover parent dispatch after report-only isolation
+    - Not Level 2: no new behavior; design already decided; one file
+* Insights
+    - Status is judged during checks; Write Status serializes it
