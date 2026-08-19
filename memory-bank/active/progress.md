@@ -246,3 +246,15 @@ Finish the Preflight contract: four-way results (PASS / PASS WITH ADVISORY / FAI
     - Passed the build gate because the plan is complete, convention-aligned, and correctly treats the skill wording as prose/policy with no tests
 * Insights
     - The plan is ready for the Build phase
+
+## 2026-08-19 - BUILD - COMPLETE (rework, issue #114)
+
+* Work completed
+    - Four-way Preflight outs and in-phase change-detector strike under `rulesets/niko/`
+    - Status vocabulary, preflight skill Handle Results, L2/L3/L4 charts and STOP lists, README short/long/L2/L3/L4 Init charts
+    - `make test` pass (symlink + README link checks)
+* Decisions made
+    - Built to plan: two edges for PASS and PASS WITH ADVISORY; `FAIL (fixable)` solid → plan; `FAIL (blocking)` dashed → `/niko-plan`
+    - Missing-tests after a strike still `FAIL (blocking)`; do not invent tests
+* Insights
+    - L3 STOP now lists PASS / PASS WITH ADVISORY → build and only FAIL (blocking) → plan, so a fixable fail will not halt the parent

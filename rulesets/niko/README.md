@@ -70,11 +70,14 @@ graph LR
 	Start(("🧑‍💻 /niko")) --> NikoPlan["🐱 plan"]
 	NikoPlan ==Spawn==> NikoPreflight[["🐈 Preflight"]]
 	NikoPreflight -->|"PASS"| NikoBuild["🐱 build"]
-	NikoPreflight -->|"FAIL"| NikoPlan
+	NikoPreflight -->|"PASS WITH ADVISORY"| NikoBuild
+	NikoPreflight -->|"FAIL (fixable)"| NikoPlan
+	NikoPreflight -.->|"FAIL (blocking)"| ManualPlan[/"🧑‍💻 /niko-plan"/]
 	NikoBuild ==Spawn==> NikoQA[["🐈 QA"]]
 	NikoQA -->|"PASS"| NikoReflect["🐱 reflect"]
 	NikoReflect --> ManualArchive[/"🧑‍💻 /niko-archive"/]
 	NikoQA -->|"FAIL"| NikoBuild
+	ManualPlan -.-> NikoPlan
 ```
 
 The long version shows all the paths Niko can take, depending on the complexity of the task, with more details about phase transitions:
@@ -94,11 +97,14 @@ flowchart LR
 		Plan -- "Level 3 (Feature)" --> Creative
 		Plan ==Spawn==> NikoPreflight[["Preflight"]]
 		Creative ==Spawn==> NikoPreflight
-		NikoPreflight -.->|"Fail"| Plan
 	end
 
 	Niko -- "Level 1 (Fix)" --> Build
-	NikoPreflight -->|"Pass"| Build
+	NikoPreflight -->|"PASS"| Build
+	NikoPreflight -->|"PASS WITH ADVISORY"| Build
+	NikoPreflight -->|"FAIL (fixable)"| Plan
+	NikoPreflight -.->|"FAIL (blocking)"| ManualPlan[/"🧑‍💻 /niko-plan"/]
+	ManualPlan -.-> Plan
 
 	subgraph Execution
 		Build["Build"]
@@ -170,7 +176,9 @@ flowchart TD
 	Start(("🧑‍💻 /niko<br>Complexity Analysis")) --> NikoPlan["🐱 plan"]
 	NikoPlan ==Spawn==> NikoPreflight[["🐈 Preflight"]]
 	NikoPreflight -->|"PASS"| NikoBuild["🐱 build"]
-	NikoPreflight -.->|"FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
+	NikoPreflight -->|"PASS WITH ADVISORY"| NikoBuild
+	NikoPreflight -->|"FAIL (fixable)"| NikoPlan
+	NikoPreflight -.->|"FAIL (blocking)"| ManualPlan[/"🧑‍💻 /niko-plan"/]
 
 	NikoBuild ==Spawn==> NikoQA[["🐈 QA"]]
 	NikoQA -->|"PASS"| NikoReflect["🐱 reflect"]
@@ -205,7 +213,9 @@ graph TD
 	Start(("🧑‍💻 /niko<br>Complexity Analysis")) --> NikoPlan["🐱 plan"]
 	NikoPlan ==Spawn==> NikoPreflight[["🐈 Preflight"]]
 	NikoPreflight -.->|"PASS"| ManualBuild[/"🧑‍💻 /niko-build"/]
-	NikoPreflight -.->|"FAIL"| ManualPlan[/"🧑‍💻 /niko-plan"/]
+	NikoPreflight -.->|"PASS WITH ADVISORY"| ManualBuild
+	NikoPreflight -->|"FAIL (fixable)"| NikoPlan
+	NikoPreflight -.->|"FAIL (blocking)"| ManualPlan[/"🧑‍💻 /niko-plan"/]
 
 	NikoPlan -->|"Open Questions"| NikoCreative{"🐱 creative"}
 	NikoCreative -->|"High Confidence"| NikoPlan
@@ -251,8 +261,11 @@ graph TD
         NikoPlan["😺 plan<br>(generate milestones)"]
         ManualReview["🧑‍💻 review plan"]
         NikoPlan ==Spawn==> NikoPreflight[["🐈 Preflight"]]
-        NikoPreflight -->|"FAIL"| NikoPlan
         NikoPreflight -.->|"PASS"| ManualReview
+        NikoPreflight -.->|"PASS WITH ADVISORY"| ManualReview
+        NikoPreflight -->|"FAIL (fixable)"| NikoPlan
+        NikoPreflight -.->|"FAIL (blocking)"| ManualPlan[/"🧑‍💻 /niko-plan"/]
+        ManualPlan -.-> NikoPlan
     end
 
     subgraph ReEntry["L4 Milestone Management"]

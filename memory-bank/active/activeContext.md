@@ -1,12 +1,13 @@
 # Active Context
 
 ## Current Task: preflight-analyze-and-report
-**Phase:** BUILD - IN-PROGRESS
+**Phase:** BUILD - COMPLETE (PASS)
 
 ## What Was Done
-- Rework for https://github.com/Texarkanine/.cursor-rules/issues/114 (four-way outs + change-detector strike); same task, not archived
-- Classified Level 3; brief retracted; four prose/policy units planned; no creative
-- Preflight PASS (Gemini 3.1 Pro). `.preflight-status` is `PASS`
+- Four-unit #114 rework under `rulesets/niko/` only: status vocabulary, preflight skill (strike + four outs), L2/L3/L4 workflow charts and STOP lists, README Preflight charts
+- Files: `rulesets/niko/niko/memory-bank/active/preflight-status.mdc`, `rulesets/niko/skills/niko-preflight/SKILL.md`, `rulesets/niko/skills/niko/references/level{2,3,4}/level{2,3,4}-workflow.md`, `rulesets/niko/README.md`
+- `make test` pass (symlink + README link checks)
+- No creative decisions. No deviations from the plan. No new tests (prose/policy)
 
 ## Next Step
-- Implement the four-unit plan: status vocabulary, preflight skill, L2–L4 workflows, README charts
+- QA (L3 Spawn)

@@ -27,10 +27,11 @@ Read:
    - The test-first process lives in `.cursor/rules/shared/always-tdd.mdc`
    - This check governs units that change executable behavior. A unit delivering user-facing prose or policy (docs content, PR/issue templates, CONTRIBUTING, instructional comments, rule/skill wording, etc.) owes no tests for those artifacts; omitting tests for those artifacts passes this check
    - For each implementable unit of executable work (function, slice, milestone — whatever granularity the plan uses), confirm the ordered substeps place test-writing before production code, explicitly enough that a reasonable implementer cannot follow the plan by coding first
+   - When a numbered step is a scheduled change-detector (a test that can only go red when someone deliberately edits the artifact it asserts on — heading, phrase, link, or checklist assertions on a document), delete that step. Same remaining steps. Record the finding and continue.
    - When a unit already has both test steps and production steps and they are in the wrong order, put the test steps first. Same steps. Record the finding and continue.
-   - FAIL when the numbered steps for an executable unit have no test steps (implementation-only under a "we follow TDD" disclaimer, or TDD only in the preamble).
-   - FAIL when the plan schedules a test that can only go red when someone deliberately edits the artifact it asserts on — heading, phrase, link, or checklist assertions on a document. That is a change-detector, not a test.
-   - On FAIL: cite the executable units lacking test steps, and any scheduled change-detector tests with the instruction to remove them (keeping any purpose-built CI gate). Route as rearchitect (Handle Results).
+   - Do not invent tests. Do not emit always-tdd stages.
+   - FAIL when the numbered steps for an executable unit have no test steps (implementation-only under a "we follow TDD" disclaimer, or TDD only in the preamble). This still applies after a change-detector strike.
+   - On FAIL: cite the executable units lacking test steps. Route as `FAIL (blocking)` (Handle Results).
 
 3. **Convention Compliance**
    - Verify the plan's proposed file locations, naming conventions, and patterns align with established codebase conventions documented in `memory-bank/systemPatterns.md`
@@ -58,10 +59,10 @@ Read:
     - Record that idea as an advisory finding. Do not make the change to the plan — in-scope or out-of-scope.
 
 8. **Judge, Do Not Fix**
-   - Surface and judge. Never modify the plan under review, except the TDD step swap above.
-   - Allowed writes only: `memory-bank/active/.preflight-status`, Preflight findings in `tasks.md` / `progress.md`, the `**Phase:**` field in `activeContext.md` (Step 4), and that swap.
-   - Findings go in an appended `## Preflight Findings` section. Do not rewrite Implementation Plan units, behavior lists, or other scheduled work except that swap.
-   - Record every issue as a finding. FAIL when the plan must change before build; PASS only when the plan is acceptable as-is (advisories allowed).
+   - Surface and judge. Never modify the plan under review, except the TDD step swap and change-detector strike above.
+   - Allowed writes only: `memory-bank/active/.preflight-status`, Preflight findings in `tasks.md` / `progress.md`, the `**Phase:**` field in `activeContext.md` (Step 4), and those two in-phase plan edits.
+   - Findings go in an appended `## Preflight Findings` section. Do not rewrite Implementation Plan units, behavior lists, or other scheduled work except that swap and that strike.
+   - Record every issue as a finding. FAIL when the plan must change before build (`FAIL (fixable)` or `FAIL (blocking)`); PASS only when the plan is acceptable as-is (advisories allowed).
 
 9. **Generate Preflight Report**
    - Create comprehensive findings report
@@ -70,10 +71,9 @@ Read:
 
 10. **Handle Results**
    - **On PASS**: Good job!
-   - **On PASS with ADVISORY**: Document advisory findings for the operator's consideration; still a valid build/transition gate (status file: `PASS WITH ADVISORY`)
-   - **After a TDD step swap**: write `PASS WITH ADVISORY` and a finding. Do not FAIL for the swap itself.
-   - **On FAIL (rearchitect needed)**: Operator decision required; write status `FAIL`; tell the operator `/niko-plan` must rerun. Do not patch the plan.
-   - **On FAIL (conflict/convention)**: Provide specific fix instructions, block `/niko-build`; Operator decision required. Do not patch the plan.
+   - **On PASS WITH ADVISORY**: Document advisory findings for the operator's consideration; still a valid build/transition gate (status file: `PASS WITH ADVISORY`). After a TDD step swap or a change-detector strike: write `PASS WITH ADVISORY` and a finding unless another check fails.
+   - **On FAIL (fixable)**: Known fix; the planner rewrites. Parent → Plan. Do not patch the plan.
+   - **On FAIL (blocking)**: Addressing the finding would materially change the plan. Operator `/niko-plan`. Do not patch the plan.
 
 ## Step 3: Log Progress
 
@@ -111,10 +111,10 @@ Print the appropriate block:
 
 ## Next Steps
 
-- **On FAIL (rearchitect)**: Run `/niko-plan` when ready to revise the approach.
-- **On FAIL (fixable)**: Address the findings and re-run `/niko-preflight`.
+- **On FAIL (fixable)**: Parent → Plan.
+- **On FAIL (blocking)**: `/niko-plan`.
 ~~~
 
 ## Step 4: End of Verification
 
-Update `memory-bank/active/activeContext.md` so `**Phase:**` records this phase complete with PASS or FAIL (e.g. `**Phase:** PREFLIGHT - COMPLETE (PASS)` / `**Phase:** QA - COMPLETE (FAIL)`). Do not load a level workflow or begin another phase. Stop.
+Update `memory-bank/active/activeContext.md` so `**Phase:**` records this phase complete with the result (e.g. `**Phase:** PREFLIGHT - COMPLETE (PASS)` / `PASS WITH ADVISORY` / `FAIL (fixable)` / `FAIL (blocking)`; `**Phase:** QA - COMPLETE (FAIL)`). Do not load a level workflow or begin another phase. Stop.
