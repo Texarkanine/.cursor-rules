@@ -175,10 +175,14 @@ Tighten `/niko-preflight` to judge-only, with one carve-out: re-sequence already
 * Insights
     - The load-bearing sentence is “put the test steps first. Same steps.”
 
+## 2026-08-19 - QA - COMPLETE (PASS, rework)
 
-
-
-
-
-
-
+* Work completed
+    - Reviewed the canonical `niko-preflight` skill against plan 3, the project brief, and repository patterns
+    - Verified KISS, DRY, YAGNI, completeness, regression, integrity, and documentation criteria
+    - Ran the complete `make test` suite successfully
+* Decisions made
+    - PASS with no blocking findings or advisories
+    - The three-site exception is concise, swap-only, and preserves the judge-only boundary
+* Insights
+    - “Same steps” plus the exclusive write allowlist prevents the exception from becoming a general amendment license
