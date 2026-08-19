@@ -1,11 +1,13 @@
 # Active Context
 
 ## Current Task: preflight-analyze-and-report
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Rework of `preflight-analyze-and-report` per https://github.com/Texarkanine/.cursor-rules/issues/114
-- Classified Level 3: not a single-skill tighten. Four-way Preflight outs and change-detector strike touch the preflight skill, L2/L3 workflow charts and STOP lists, README charts, and `preflight-status.mdc`
+- Classified issue #114 rework as Level 3
+- Retracted the brief so change-detector strike is in-phase and the four outs are the contract
+- Planned four prose/policy units: status vocabulary, preflight skill, L2/L3/L4 workflows, README charts
+- No open questions; no creative phase
 
 ## Next Step
-- Load the Level 3 workflow and run Plan
+- Preflight

@@ -222,3 +222,17 @@ Finish the Preflight contract: four-way results (PASS / PASS WITH ADVISORY / FAI
 * Insights
     - Live L2/L3 charts still have a single Preflight FAIL (dashed → operator `/niko-plan`); L4 is already solid FAIL → plan
     - `preflight-status.mdc` still allows only `PASS` / `PASS WITH ADVISORY` / `FAIL`
+
+## 2026-08-19 - PLAN - COMPLETE (rework, issue #114)
+
+* Work completed
+    - Retracted the brief so change-detector strike is in-phase and the four outs are the contract
+    - Wrote a four-unit prose/policy plan: status vocabulary, preflight skill, L2/L3/L4 workflows, README charts
+    - No creative phase
+* Decisions made
+    - Drop bare `FAIL` from `.preflight-status`; the two FAIL strings are the semaphore the parent routes on
+    - L4 splits because blocking vs fixable now exists; otherwise a blocking fail would auto-replan
+    - `FAIL (fixable)` is solid → 🐱 plan even at L3; only `FAIL (blocking)` stays dashed
+* Insights
+    - In-phase edits are not a re-plan; the old “re-run `/niko-preflight`” fixable next step is the line to kill
+    - STOP lists that still say “Preflight FAIL” would keep the parent waiting on a fixable fail even after the chart is right
