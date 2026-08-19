@@ -103,6 +103,19 @@ Tighten `/niko-preflight` to judge-only, with one carve-out: re-sequence already
 * Insights
     - Ambiguous "which lines are tests" routes to rearchitect, not a guess
 
+## 2026-08-19 - PREFLIGHT - COMPLETE (FAIL)
+
+* Work completed
+    - Validated the one-unit rework plan against the brief, canonical source layout, workflow charts, status vocabulary, and the QA precedent
+    - Recorded findings in `tasks.md` without modifying any implementation-plan unit
+* Decisions made
+    - FAIL (fixable, not rearchitect): the brief's Requirement 2, Constraint 2, AC 2, and Use-Case 1 still forbid the TDD self-heal the Rework paragraph authorizes, so QA would measure a correct build as an AC-2 violation
+    - Flagged the modal-heal generalization as a completeness gap: it lives in Challenges, not in a numbered step, so the built skill may permit only a literal swap
+    - Left both fixes to the operator rather than patching the plan
+* Insights
+    - Appending a Rework paragraph without retracting the superseded requirements leaves the acceptance contract measuring the opposite of the intent
+    - The carve-out's weak point is auditability: "I only re-sequenced" is self-reported unless the finding records the before/after ordering
+
 
 
 
