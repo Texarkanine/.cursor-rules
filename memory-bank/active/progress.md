@@ -27,3 +27,14 @@ Tighten `/niko-preflight` so it analyzes the plan and reports findings without r
     - Radical Innovation still describes; it never applies
 * Insights
     - The two live invite lines are Radical Innovation "make the change to the plan" and step 8 "plan amendments"
+
+## 2026-08-19 - PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
+
+* Work completed
+    - Validated the one-unit implementation plan against the brief, canonical source layout, QA precedent, TDD boundary, and status vocabulary
+    - Recorded findings without changing any implementation-plan unit
+* Decisions made
+    - Passed the build gate because the plan is complete, convention-aligned, and correctly treats the skill wording as prose/policy with no tests
+    - Kept an idempotent findings-section convention as advisory rather than amending the plan
+* Insights
+    - A single dedicated findings section would make repeated Preflight runs cleaner without broadening the verifier's write authority

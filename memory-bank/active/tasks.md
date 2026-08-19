@@ -59,6 +59,13 @@ No new technology - validation not required
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight - PASS WITH ADVISORY
 - [ ] Build
 - [ ] QA
+
+## Preflight Findings
+
+- **PASS — TDD encoding:** The sole implementation unit changes prose/policy only, explicitly records that no tests are owed, and avoids a document-content change-detector.
+- **PASS — convention and conflict:** The plan targets only the canonical `rulesets/` skill, reuses QA's existing judge-only shape, and does not duplicate or alter a public executable interface.
+- **PASS — completeness and dependency impact:** Every brief requirement maps to a concrete wording change; generated `.cursor/` and `.claude/` copies remain outside this task as required by repository convention.
+- **ADVISORY — idempotent findings bookkeeping:** Consider specifying that reruns replace the contents of one dedicated `## Preflight Findings` section instead of appending duplicate sections. This stays within Level 2 and the brief, but Preflight has not applied it to the plan.
