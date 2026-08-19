@@ -43,3 +43,17 @@ No test steps, or a change-detector, or a design idea. Report only. Do not inven
 ## Rework
 
 Judge-only shipped. Operator: allow TDD reorder of existing steps — what preflight already did in the wild when it “amended for TDD ordering.” Plan 2 failed by also authorizing stage-label emission. This pass is swap-only. Concise skill prose is the build.
+
+## Rework (issue #114)
+
+As described in https://github.com/Texarkanine/.cursor-rules/issues/114. Judge-only plus TDD step-swap already shipped; this pass is the rest of the Preflight contract.
+
+Supersedes Requirement 5 and Use-Case 3 on change-detectors (those stay in-phase, not FAIL). Missing tests on an executable unit, a convention/conflict that needs a different approach, and brief-level scope change are not in-phase — FAIL (fixable or blocking) by the “materially change the plan” line. Do not over-define that line. Do not emit missing always-tdd stages.
+
+Four outs: **PASS** and **PASS WITH ADVISORY** unblock build (proceed if that level allows autonomy). **FAIL (fixable)** — known fix, planner must rewrite; parent → Plan, no operator, may loop. **FAIL (blocking)** — would materially change the plan; operator reviews and invokes `/niko-plan`.
+
+In-phase (not a re-plan), both `PASS WITH ADVISORY`: TDD step-swap (already in the skill); strike scheduled change-detector tests (same steps, one deleted).
+
+`FAIL (fixable)` name reuse with QA is intentional. Different checks, different semaphore files. Do not rename. Nine-site Spawn stem unchanged. QA edge rewrite, status-as-findings-store, and always-tdd stage emission are out of scope unless they fall out.
+
+Likely touch: L2/L3 workflow charts and STOP lists; README charts if they still show a single Preflight FAIL; `niko-preflight` Handle Results plus change-detector strike; `preflight-status.mdc` allowed values. L4 already has solid FAIL → plan; split only if blocking vs fixable is needed. L1 has no Preflight.

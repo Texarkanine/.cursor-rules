@@ -197,3 +197,15 @@ Tighten `/niko-preflight` to judge-only, with one carve-out: re-sequence already
     - The three-site exception is concise, swap-only, and preserves the judge-only boundary
 * Insights
     - “Same steps” plus the exclusive write allowlist prevents the exception from becoming a general amendment license
+
+## 2026-08-19 - REWORK INITIATED (issue #114)
+
+* Work completed
+    - Operator chose rework instead of archive
+* Decisions made
+    - Rest of Preflight contract as described in https://github.com/Texarkanine/.cursor-rules/issues/114
+    - Four-way outs: PASS and PASS WITH ADVISORY unblock build; FAIL (fixable) → Plan (autonomous, may loop); FAIL (blocking) → operator `/niko-plan`
+    - In-phase, both PASS WITH ADVISORY: existing TDD step-swap, plus strike scheduled change-detector tests (same steps, one deleted)
+    - `FAIL (fixable)` name reuse with QA is intentional (different check, different semaphore)
+* Insights
+    - First-pass Requirement 5 / Use-Case 3 (change-detectors stay FAIL, report only) is superseded; missing tests and material plan change stay FAIL
