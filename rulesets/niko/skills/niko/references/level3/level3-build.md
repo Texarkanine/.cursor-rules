@@ -15,7 +15,7 @@ Read:
 
 ## Step 2: Verify Prerequisites
 
-- Confirm `memory-bank/active/.preflight-status` exists and contains `PASS` or `PASS WITH ADVISORY`
+- Confirm `memory-bank/active/.preflight-status` exists and its first line is exactly `PASS` or `PASS WITH ADVISORY`
 - Confirm `memory-bank/active/tasks.md` contains a complete implementation plan with component analysis, resolved open questions, test plan, and ordered implementation steps
 - Confirm all open questions in the plan are marked resolved (or explicitly deferred by the operator)
 - 🚨 If preflight has not passed: STOP — Spawn a subagent (prefer smarter / different family if available); the only instruction you add is `` Run the `/niko-preflight` skill ``. Do not run the skill in this conversation. Re-check `memory-bank/active/.preflight-status` before continuing.

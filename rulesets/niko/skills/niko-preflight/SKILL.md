@@ -27,7 +27,7 @@ Read:
    - The test-first process lives in `.cursor/rules/shared/always-tdd.mdc`
    - This check governs units that change executable behavior. A unit delivering user-facing prose or policy (docs content, PR/issue templates, CONTRIBUTING, instructional comments, rule/skill wording, etc.) owes no tests for those artifacts; omitting tests for those artifacts passes this check
    - For each implementable unit of executable work (function, slice, milestone — whatever granularity the plan uses), confirm the ordered substeps place test-writing before production code, explicitly enough that a reasonable implementer cannot follow the plan by coding first
-   - When a numbered step is a scheduled change-detector (a test that can only go red when someone deliberately edits the artifact it asserts on — heading, phrase, link, or checklist assertions on a document), delete that step. Same remaining steps. Record the finding and continue.
+   - When a numbered step is a scheduled change-detector (a test that can only go red when someone deliberately edits the artifact it asserts on — heading, phrase, link, or checklist assertions on a document), delete that step. Keep the other steps. Record the finding and continue.
    - When a unit already has both test steps and production steps and they are in the wrong order, put the test steps first. Same steps. Record the finding and continue.
    - Do not invent tests. Do not emit always-tdd stages.
    - FAIL when the numbered steps for an executable unit have no test steps (implementation-only under a "we follow TDD" disclaimer, or TDD only in the preamble). This still applies after a change-detector strike.
@@ -56,18 +56,16 @@ Read:
 7. **Radical Innovation** *(advisory - not blocking)*
     - What's the single smartest and most radically innovative and accretive and useful and compelling change you could make to the plan at this point?
     - Describe the change concretely - not as a vague suggestion, but as a specific structural sketch the operator can evaluate against the cost of redesign.
-    - Record that idea as an advisory finding. Do not make the change to the plan — in-scope or out-of-scope.
+    - Record that idea as an advisory finding. Do not make the change to the plan, even if the idea fits the brief.
 
 8. **Judge, Do Not Fix**
    - Surface and judge. Never modify the plan under review, except the TDD step swap and change-detector strike above.
-   - Allowed writes only: `memory-bank/active/.preflight-status`, Preflight findings in `tasks.md` / `progress.md`, the `**Phase:**` field in `activeContext.md` (Step 4), and those two in-phase plan edits.
-   - Findings go in an appended `## Preflight Findings` section. Do not rewrite Implementation Plan units, behavior lists, or other scheduled work except that swap and that strike.
+   - Allowed writes only: `memory-bank/active/.preflight-status`, the `**Phase:**` field in `activeContext.md` (under **End of Verification**), `progress.md`, and those two in-phase plan edits on `tasks.md`.
+   - Do not rewrite Implementation Plan units, behavior lists, or other scheduled work except that swap and that strike.
    - Record every issue as a finding. FAIL when the plan must change before build (`FAIL (fixable)` or `FAIL (blocking)`); PASS only when the plan is acceptable as-is (advisories allowed).
 
-9. **Generate Preflight Report**
-   - Create comprehensive findings report
-   - Write validation status to `memory-bank/active/.preflight-status` — exactly one allowed value from `.cursor/rules/shared/niko/memory-bank/active/preflight-status.mdc`
-   - Update `memory-bank/active/tasks.md` with findings only
+9. **Write Status**
+   - Overwrite `memory-bank/active/.preflight-status`. First line is exactly one allowed value from `.cursor/rules/shared/niko/memory-bank/active/preflight-status.mdc`. After a blank line, write this run's findings.
 
 10. **Handle Results**
    - **On PASS**: Good job!
@@ -79,7 +77,7 @@ Read:
 
 > 🚨 **Printing this notice is NOT the end of this phase.** After printing, continue immediately to the next step - do not stop.
 
-Update `memory-bank/active/progress.md` to record completion of the preflight phase.
+Update `memory-bank/active/progress.md` to record that Preflight completed and what the first line of `.preflight-status` was.
 
 Print the appropriate block:
 

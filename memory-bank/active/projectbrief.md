@@ -12,7 +12,7 @@ Numbered steps say “write X, then write tests for X.” Preflight swaps them t
 
 ### Use-Case 2
 
-A numbered step is a scheduled change-detector. Preflight deletes that step. Same remaining steps. Records the finding, writes `PASS WITH ADVISORY`.
+A numbered step is a scheduled change-detector. Preflight deletes that step. Keep the other steps. Records the finding, writes `PASS WITH ADVISORY`.
 
 ### Use-Case 3
 
@@ -24,7 +24,7 @@ Addressing the finding would materially change the plan. Preflight writes `FAIL 
 
 ### Use-Case 5
 
-Bookkeeping: one-line `.preflight-status` using the four result strings, progress, Phase, findings in `tasks.md`. No findings schema in the status file.
+Bookkeeping: `.preflight-status` first line is one of the four result strings; the rest of that file is this run's findings. `progress.md` logs that Preflight completed. `tasks.md` changes only via in-phase swap/strike.
 
 ## Requirements
 
@@ -34,7 +34,7 @@ Bookkeeping: one-line `.preflight-status` using the four result strings, progres
 4. `FAIL (fixable)`: known fix; the planner rewrites; parent → Plan; no operator; may loop.
 5. `FAIL (blocking)`: addressing it would materially change the plan; operator invokes `/niko-plan`. That line is enough; do not over-define it.
 6. Missing tests on an executable unit, a convention/conflict that needs a different approach, and brief-level scope change are not in-phase.
-7. Bookkeeping writes stay. `.preflight-status` stays a one-line enum (four values, no bare `FAIL`).
+7. Bookkeeping writes stay. `.preflight-status` first line is the four-value enum (no bare `FAIL`). Findings for this run follow in the same file.
 8. `FAIL (fixable)` name reuse with QA is intentional. Do not rename. Different checks, different semaphore files.
 9. Nine-site Spawn stem unchanged (still “run the skill only”).
 10. L2 and L3 workflow charts and STOP lists match the four outs. README charts that still show a single Preflight FAIL match them too. L4 splits FAIL only because blocking vs fixable now exists. L1 has no Preflight.
@@ -44,7 +44,7 @@ Bookkeeping: one-line `.preflight-status` using the four result strings, progres
 1. Canonical edits under `rulesets/` only.
 2. `niko-qa` unchanged. No QA edge rewrite.
 3. No general plan amendment. No emitting missing always-tdd stages.
-4. Status file is not a findings store.
+4. Status file: first line is the semaphore; the body is this run's findings. Not a structured schema.
 5. No nested Preflight/QA subgraphs in Mermaid.
 
 ## Acceptance Criteria

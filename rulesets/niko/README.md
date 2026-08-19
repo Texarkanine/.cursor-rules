@@ -56,7 +56,7 @@ Other memory-bank files are ephemeral, created to track a task and its progress.
 | `tasks.md`               | Ephemeral | Active task tracking: current task details, checklists, component lists. The work to do in the current phase. |
 | `reflection/*.md`        | Ephemeral | Insights from work performed during the current task                                                          |
 | `creative/*.md`          | Ephemeral | Records of exploring & deciding on thorny or ambiguous design decisions for the current task.                 |
-| `.preflight-status`      | Ephemeral | Records the Plan's validation; gates Build                                                                    |
+| `.preflight-status`      | Ephemeral | First line is the Preflight result (gates Build); the rest is this run's findings                             |
 | `.qa-validation-status`  | Ephemeral | Records QA validation; gates completion / Reflect                                                             |
 
 ## Niko's Workflows
@@ -106,8 +106,8 @@ flowchart LR
 
 	Niko -- "Level 1 (Fix)" --> Build
 	NikoPreflight -->|"PASS / PASS WITH ADVISORY"| Build
-	NikoPreflight -->|"FAIL"| Plan
-	ManualPlan -.-> Plan
+	NikoPreflight -->|"FAIL (fixable)"| Plan
+    NikoPreflight -.->|"FAIL (blocking)"| Plan
 
 	subgraph Execution
 		Build["Build"]
@@ -125,7 +125,6 @@ flowchart LR
 		Reflect --> Archive
 	end
 
-	classDef ideology fill:#eceff4,stroke:#9aa0a6,color:#333
 	class Planning,Execution,Learning ideology
 ```
 
