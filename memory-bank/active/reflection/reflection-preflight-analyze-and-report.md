@@ -8,28 +8,28 @@ complexity_level: 2
 
 ## Summary
 
-`/niko-preflight` is now judge-only: exclusive allowlist, Radical Innovation describes and does not apply, findings append only. QA passed; no plan units were rewritten by this task's own preflight.
+Preflight is judge-only plus one swap: existing test steps before existing production steps. Missing tests still FAIL. QA passed on the swap-only wording.
 
 ## Requirements vs Outcome
 
-Delivered as briefed. Bookkeeping writes stay. The preflight advisory (idempotent findings replace on rerun) was left unapplied.
+First pass shipped judge-only. Rework added the TDD-order exception the operator asked for. Plan 2 overbuilt (emit always-tdd stage labels) and FAILed preflight. Plan 3 (swap-only, short prose) shipped.
 
 ## Plan Accuracy
 
-One file, four wording steps, no re-level. The only surprise was this task's preflight (old skill, gpt-5.6-sol-medium) already judging without amending — the leak is an invitation, not a compulsion.
+Plan 2’s “prescribed stages” phrase was the defect. Historic heals were step swaps, not a new template. The brief had to retract first-pass “no self-heal” lines so QA would not fail AC-2.
 
 ## Build & QA Observations
 
-Build was a single skill edit; `make test` green. QA (gemini-3.1-pro) passed with no blockers.
+Build was three short edits in one skill. `make test` green. QA PASS, no advisories.
 
 ## Insights
 
 ### Technical
-- Copying QA's "Allowed writes only" fence is the load-bearing change. Deleting "make the change" without the exclusive list would still leave "update `tasks.md`" as a rewrite license.
+- “Put the test steps first. Same steps.” is the whole carve-out. Naming the four always-tdd stages in the skill is how you accidentally authorize adding steps.
 
 ### Process
-- Historic `tasks.md` edits were common (220/278 Preflight Result sessions). This run did not amend. Tighten the skill anyway: SumMem showed the invitation is enough.
+- Rework that appends a new paragraph without retracting the old acceptance criteria will FAIL the next preflight. Update the live contract.
 
 ### Million-Dollar Question
 
-What we built. A shared include would hide the QA/preflight match; verbatim copy is the same tripwire this repo already uses for Spawn stems.
+What we built. The old open “plan amendments” license produced the useful TDD swaps *and* the SumMem overfit. The exclusive allowlist plus one swap sentence is the split.

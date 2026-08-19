@@ -1,11 +1,11 @@
 # Active Context
 
 ## Current Task: preflight-analyze-and-report
-**Phase:** QA - COMPLETE (PASS)
+**Phase:** REFLECT COMPLETE
 
 ## What Was Done
-- Plan 3 PASS; built a few-sentence TDD step-swap exception on the judge-only skill
-- `make test` green
+- Judge-only plus TDD step-swap; plan 3 shipped; QA PASS
+- Reflected: “same steps” is the fence; stage labels overbuilt
 
 ## Next Step
-- QA
+- Run `/niko-archive`

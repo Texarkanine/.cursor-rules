@@ -175,6 +175,17 @@ Tighten `/niko-preflight` to judge-only, with one carve-out: re-sequence already
 * Insights
     - The load-bearing sentence is “put the test steps first. Same steps.”
 
+## 2026-08-19 - REFLECT - COMPLETE (rework)
+
+* Work completed
+    - Updated `memory-bank/active/reflection/reflection-preflight-analyze-and-report.md`
+    - Persistent files: skip (no product/pattern/tooling change beyond the skill)
+* Decisions made
+    - One reflection file covers first pass and rework
+* Insights
+    - Retract superseded ACs in the brief when reworking, or the next preflight fails the contract
+
+
 ## 2026-08-19 - QA - COMPLETE (PASS, rework)
 
 * Work completed
