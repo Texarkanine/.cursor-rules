@@ -1,6 +1,6 @@
 # Progress
 
-Tighten `/niko-preflight` so it analyzes the plan and reports findings without rewriting implementation units. Bookkeeping writes stay; plan amendments go.
+Tighten `/niko-preflight` to judge-only, with one carve-out: re-sequence already-enumerated TDD steps. Bookkeeping writes stay. Other plan amendments stay forbidden.
 
 **Complexity:** Level 2
 
@@ -81,6 +81,18 @@ Tighten `/niko-preflight` so it analyzes the plan and reports findings without r
     - A unit with no test steps still FAIL (rearchitect)
 * Insights
     - Stockroom sample (~11/16 TDD heals) was re-order/encode of named tests; synthesizing missing tests was the minority
+
+## 2026-08-19 - COMPLEXITY-ANALYSIS - COMPLETE (rework)
+
+* Work completed
+    - Classified the TDD re-order carve-out as Level 2
+    - Stubbed ephemeral files after clearing stale plan/QA/preflight state
+* Decisions made
+    - Not Level 1: this is a policy carve-out, not a one-line bug
+    - Still one file (`niko-preflight/SKILL.md`); QA pattern unchanged
+* Insights
+    - The first-pass brief forbade all TDD self-heal; this rework reopens ordering only
+
 
 
 
