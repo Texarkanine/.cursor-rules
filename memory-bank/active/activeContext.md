@@ -1,11 +1,11 @@
 # Active Context
 
 ## Current Task: preflight-analyze-and-report
-**Phase:** PLAN - COMPLETE
+**Phase:** PREFLIGHT - COMPLETE (PASS)
 
 ## What Was Done
-- Plan 3: swap-only TDD exception; concise skill prose; no stage-label emission
-- Brief retracted the “express as always-tdd stages” requirement
+- Validated the implementation plan against the brief, canonical source layout, and TDD boundary
+- Recorded PASS status in `.preflight-status`
 
 ## Next Step
-- Preflight, then build if PASS
+- Run `/niko-build`
