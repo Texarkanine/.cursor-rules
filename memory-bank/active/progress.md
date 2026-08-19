@@ -322,3 +322,16 @@ Rework: cut Handle Results (step 10) from `niko-preflight`. Report and stop; sta
     - Not Level 2: no new behavior; design already decided; one file
 * Insights
     - Status is judged during checks; Write Status serializes it
+
+## 2026-08-19 - BUILD - COMPLETE (rework: cut Handle Results)
+
+* Work completed
+    - Deleted step 10 from `rulesets/niko/skills/niko-preflight/SKILL.md`
+    - TDD missing-tests writes `FAIL (blocking)`
+    - Dropped FAIL print Next Steps
+* Decisions made
+    - No tests: skill wording is prose/policy
+    - Did not move the “unless another check fails” composition onto Write Status
+* Insights
+    - Parent routing never belonged in this skill after Step 4 already stops
+

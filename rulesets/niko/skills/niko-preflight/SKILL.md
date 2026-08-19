@@ -31,7 +31,7 @@ Read:
    - When a unit already has both test steps and production steps and they are in the wrong order, put the test steps first. Same steps. Record the finding and continue.
    - Do not invent tests. Do not emit always-tdd stages.
    - FAIL when the numbered steps for an executable unit have no test steps (implementation-only under a "we follow TDD" disclaimer, or TDD only in the preamble). This still applies after a change-detector strike.
-   - On FAIL: cite the executable units lacking test steps. Route as `FAIL (blocking)` (Handle Results).
+   - On FAIL: cite the executable units lacking test steps. Write `FAIL (blocking)`.
 
 3. **Convention Compliance**
    - Verify the plan's proposed file locations, naming conventions, and patterns align with established codebase conventions documented in `memory-bank/systemPatterns.md`
@@ -67,12 +67,6 @@ Read:
 9. **Write Status**
    - Overwrite `memory-bank/active/.preflight-status`. First line is exactly one allowed value from `.cursor/rules/shared/niko/memory-bank/active/preflight-status.mdc`. After a blank line, write this run's findings.
 
-10. **Handle Results**
-   - **On PASS**: Good job!
-   - **On PASS WITH ADVISORY**: Good job! After a TDD step swap or a change-detector strike, write `PASS WITH ADVISORY` unless another check fails.
-   - **On FAIL (fixable)**: Parent → Plan. Do not patch the plan.
-   - **On FAIL (blocking)**: Operator provides guidance, then `/niko-plan`. Do not patch the plan.
-
 ## Step 3: Log Progress
 
 > 🚨 **Printing this notice is NOT the end of this phase.** After printing, continue immediately to the next step - do not stop.
@@ -107,10 +101,6 @@ Print the appropriate block:
 1. **Findings** - bulleted list of each finding with severity
 2. **Advisory items** (if any) - concrete recommendations the operator can evaluate
 
-## Next Steps
-
-- **On FAIL (fixable)**: Parent → Plan.
-- **On FAIL (blocking)**: Operator provides guidance, then `/niko-plan`.
 ~~~
 
 ## Step 4: End of Verification

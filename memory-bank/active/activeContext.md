@@ -1,11 +1,13 @@
 # Active Context
 
 ## Current Task: preflight-analyze-and-report
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** BUILD - COMPLETE
 
 ## What Was Done
-- Classified Level 1: leftover Handle Results dispatch in a single skill
-- Rationale: error correction, one component (`rulesets/niko/skills/niko-preflight/SKILL.md`)
+- Deleted Handle Results (step 10) from `niko-preflight`
+- TDD missing-tests writes `FAIL (blocking)` instead of routing through Handle Results
+- FAIL print no longer lists parent Next Steps
+- Did not add “PASS WITH ADVISORY unless another check fails” to Write Status
 
 ## Next Step
-- Load the Level 1 workflow (skip plan/preflight; go to build)
+- Level 1 QA
