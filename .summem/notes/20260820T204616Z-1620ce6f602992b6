@@ -1,0 +1,1 @@
+Category lists in always-tdd get relabeled (lint is a CLI). Scope by 'would a user of the product observe the break' matches the change-detector test; #116 shipped the smaller 'product's executable behavior' prefix instead.

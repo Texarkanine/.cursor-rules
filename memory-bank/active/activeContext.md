@@ -1,19 +1,12 @@
 # Active Context
 
 ## Current Task: tdd-product-scope
-**Phase:** QA - COMPLETE (PASS)
+**Phase:** REFLECT COMPLETE
 
 ## What Was Done
-- Replaced the in-scope paragraph in `/home/mobaxterm/git/.cursor-rules/rules/always-tdd.mdc` with the planned sentence
-- Left out-of-scope, change-detector text, niko-preflight, and generated trees untouched
-- `rulesets/niko/always-tdd.mdc` remains a symlink; `make test` passed
+- Shipped the one-sentence always-tdd steer; Preflight PASS WITH ADVISORY; QA PASS
+- Reflection recorded: category lists get relabeled; the failure-mode test already in the change-detector paragraph is the more foundational steer
+- Persistent files unchanged (see skip receipts)
 
 ## Next Step
-- QA review
-
-## Files Modified
-- `/home/mobaxterm/git/.cursor-rules/rules/always-tdd.mdc`
-
-## Implementation Decisions
-- Built the locked replacement exactly; did not apply Preflight's consequence-test advisory
-- No deviations from the plan
+- Run `/niko-archive` to create the archive document and finalize

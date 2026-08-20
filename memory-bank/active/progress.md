@@ -58,3 +58,13 @@ Tighten TDD / preflight scope so developer-tooling wiring and invoke-only CI are
     - PASS with advisories: the implementation matches the plan; residual phrase-1 tokens and generated-tree lag do not block
 * Insights
     - Faithful build of an accepted one-file bet is not a plan FAIL; the same phrase-1 residual Preflight already recorded stays advisory
+
+## 2026-08-20 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `memory-bank/active/reflection/reflection-tdd-product-scope.md`
+    - Reconciled persistent files; no updates
+* Decisions made
+    - Do not promote the always-tdd sentence into systemPatterns; the rule is the contract
+* Insights
+    - Category lists get relabeled; the change-detector failure-mode test is the more foundational scope rule we did not unify this task
