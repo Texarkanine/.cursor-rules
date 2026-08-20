@@ -9,7 +9,7 @@ All changes to **executable behavior** (defined below) must be made according to
 
 ## What TDD Governs
 
-In scope: executable behavior — code, schemas, parsers, CLIs, and any configuration or workflow the product runs, etc. If something executes it, it is in scope, whatever its file extension.
+In scope: the product's executable behavior — code, schemas, parsers, CLIs, and any configuration or workflow it runs, etc. File extension does not decide.
 
 Out of scope: user-facing prose and policy — docs content, PR and issue templates, CONTRIBUTING, instructional comments, project narrative, rule and skill wording, etc.
 
