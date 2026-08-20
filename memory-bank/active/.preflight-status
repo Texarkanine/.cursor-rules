@@ -1,0 +1,15 @@
+PASS WITH ADVISORY
+
+Prerequisites: PASS. Level 2; planning checkboxes complete; no creative-phase docs required or present. Replacement sentence in tasks.md matches the current in-scope paragraph in rules/always-tdd.mdc. rulesets/niko/always-tdd.mdc is a symlink to that file.
+
+TDD Plan Encoding: PASS. The single implementable unit is rule wording (prose/policy). Omitting tests is correct. No change-detector steps to strike. No test/production order to swap.
+
+Convention Compliance: PASS. Canonical edit path is rules/always-tdd.mdc. Generated .cursor/ and .claude/ copies correctly left alone. That matches systemPatterns (source of truth is rules/ and rulesets/; feature commits do not hand-edit the generated tree).
+
+Dependency Impact: No extra consumers beyond the documented generated-tree lag. After build, in-repo .cursor/rules/shared/always-tdd.mdc will still carry the old sentence until a later chore(dev): ai-rizz sync. Preflight's pointer to that generated path already exists; this plan does not introduce it.
+
+Conflict Detection: PASS. Nothing in-tree already states the planned sentence. The issue's two-paragraph exclusion list is not present and is correctly omitted under the brief (steer; do not encode incidents as a checklist).
+
+Completeness: Requirements map to one scheduled edit. Residual risk (advisory, not blocking): issue #116 lists three independently sufficient misreads. The plan deletes phrase 2 ("If something executes it") and fronts "the product's" on phrase 1, but the em-dash list still says "CLIs, and any configuration or workflow it runs" — the same tokens the a16n lint-script FAIL and the SumMem release-please FAIL quoted. Phrase 3 (out-of-scope list read as exhaustive) is unchanged. Preflight TDD Plan Encoding names always-tdd as the home of the test-first process; it does not say "classify executable using What TDD Governs." The local parenthetical still looks like a closed set. The plan's one-file bet is a closed design choice, not a missing step.
+
+Radical innovation (advisory): Replace the in-scope category list with a consequence test in the same paragraph, e.g. in-scope is behavior a user of the product would observe if it were wrong; file extension does not decide. That is the tdd-prose-carveout lesson applied here: category lists get relabeled (lint is a CLI; release-please.yaml is a workflow); a user-observable-if-wrong gate covers lint wiring, invoke-only CI, and the next unnamed cousin without an exclusion list and without editing niko-preflight. Do not make this change in this run.

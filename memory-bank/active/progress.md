@@ -26,3 +26,15 @@ Tighten TDD / preflight scope so developer-tooling wiring and invoke-only CI are
     - Edit `rules/always-tdd.mdc` only (`rulesets/niko/always-tdd.mdc` is a symlink)
 * Insights
     - The issue's proposed second paragraph is the N-guardrails move the operator asked us not to take
+
+## 2026-08-20 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Validated the one-sentence always-tdd plan against rules/always-tdd.mdc, the niko-preflight TDD check, issue #116 plus the SumMem#20 comment, and systemPatterns
+    - Wrote memory-bank/active/.preflight-status; first line: PASS WITH ADVISORY
+* Decisions made
+    - Plan is acceptable as-is: TDD encoding, conventions, and the one-file bet hold; residual phrase-1 / exhaustive-list risk is advisory
+    - Did not amend tasks.md (no change-detector strike, no TDD step swap)
+* Insights
+    - #116's first listed misread ("CLIs, and any configuration or workflow the product runs") is still in the scheduled replacement, almost verbatim
+    - Preflight points at always-tdd for the test-first process, not for a classification definition
