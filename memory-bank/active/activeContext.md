@@ -1,11 +1,12 @@
 # Active Context
 
 ## Current Task: tdd-product-scope
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Intent confirmed for [#116](https://github.com/Texarkanine/.cursor-rules/issues/116) plus the invoke-only CI widening, with operator constraint: smallest steering tweak, not N incident guardrails
-- Complexity determined: Level 2 (wording bug; more than a single-component typo; design choice on how to steer without listing exclusions)
+- Classified #116 as Level 2
+- Planned a one-sentence rewrite of the in-scope paragraph in `rules/always-tdd.mdc`: TDD governs the product's executable behavior; delete "If something executes it"
+- Deliberately did not add an exclusion list and did not echo new text into niko-preflight
 
 ## Next Step
-- Load the Level 2 workflow and enter the plan phase
+- Preflight validation
