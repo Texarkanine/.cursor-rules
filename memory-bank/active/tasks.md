@@ -26,9 +26,9 @@ No new executable behavior.
 - Files: `rules/always-tdd.mdc`
 - No tests: prose/policy artifact
 
-1. In `## What TDD Governs`, replace only the in-scope paragraph. Current text: `In scope: executable behavior — code, schemas, parsers, CLIs, and any configuration or workflow the product runs, etc. If something executes it, it is in scope, whatever its file extension.` Replacement: `In scope: the product's executable behavior — code, schemas, parsers, CLIs, and any configuration or workflow it runs, etc. File extension does not decide.`
-2. Leave the out-of-scope sentence and the change-detector paragraph unchanged.
-3. Do not add named exclusions (lint, format, typecheck, CI, release-please, or any other tool class). Do not edit `rulesets/niko/skills/niko-preflight/SKILL.md` or generated `.cursor/` / `.claude/` copies. `rulesets/niko/always-tdd.mdc` is a symlink to `rules/always-tdd.mdc`; do not replace the symlink.
+1. [x] In `## What TDD Governs`, replace only the in-scope paragraph. Current text: `In scope: executable behavior — code, schemas, parsers, CLIs, and any configuration or workflow the product runs, etc. If something executes it, it is in scope, whatever its file extension.` Replacement: `In scope: the product's executable behavior — code, schemas, parsers, CLIs, and any configuration or workflow it runs, etc. File extension does not decide.`
+2. [x] Leave the out-of-scope sentence and the change-detector paragraph unchanged.
+3. [x] Do not add named exclusions (lint, format, typecheck, CI, release-please, or any other tool class). Do not edit `rulesets/niko/skills/niko-preflight/SKILL.md` or generated `.cursor/` / `.claude/` copies. `rulesets/niko/always-tdd.mdc` is a symlink to `rules/always-tdd.mdc`; do not replace the symlink.
 
 ## Technology Validation
 
@@ -58,6 +58,6 @@ No new technology - validation not required
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
-- [ ] Build
+- [x] Preflight
+- [x] Build
 - [ ] QA

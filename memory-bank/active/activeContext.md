@@ -1,12 +1,19 @@
 # Active Context
 
 ## Current Task: tdd-product-scope
-**Phase:** PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
+**Phase:** BUILD - COMPLETE
 
 ## What Was Done
-- Classified #116 as Level 2
-- Planned a one-sentence rewrite of the in-scope paragraph in `rules/always-tdd.mdc`: TDD governs the product's executable behavior; delete "If something executes it"
-- Deliberately did not add an exclusion list and did not echo new text into niko-preflight
+- Replaced the in-scope paragraph in `/home/mobaxterm/git/.cursor-rules/rules/always-tdd.mdc` with the planned sentence
+- Left out-of-scope, change-detector text, niko-preflight, and generated trees untouched
+- `rulesets/niko/always-tdd.mdc` remains a symlink; `make test` passed
 
 ## Next Step
-- Preflight validation
+- QA review
+
+## Files Modified
+- `/home/mobaxterm/git/.cursor-rules/rules/always-tdd.mdc`
+
+## Implementation Decisions
+- Built the locked replacement exactly; did not apply Preflight's consequence-test advisory
+- No deviations from the plan

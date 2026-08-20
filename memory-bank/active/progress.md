@@ -38,3 +38,13 @@ Tighten TDD / preflight scope so developer-tooling wiring and invoke-only CI are
 * Insights
     - #116's first listed misread ("CLIs, and any configuration or workflow the product runs") is still in the scheduled replacement, almost verbatim
     - Preflight points at always-tdd for the test-first process, not for a classification definition
+
+## 2026-08-20 - BUILD - COMPLETE
+
+* Work completed
+    - Replaced the in-scope paragraph in `rules/always-tdd.mdc`
+    - Ran `make test` (symlinks + README links): pass
+* Decisions made
+    - Implemented the planned sentence; did not adopt the Preflight consequence-test advisory
+* Insights
+    - The generated `.cursor/rules/shared/always-tdd.mdc` still has the old sentence until a later `chore(dev): ai-rizz sync`
