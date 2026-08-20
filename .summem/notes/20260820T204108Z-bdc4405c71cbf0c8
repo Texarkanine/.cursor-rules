@@ -1,0 +1,1 @@
+always-tdd in-scope is the product's executable behavior; delete 'If something executes it'. Do not list excluded tools or echo a second definition into preflight (#116).

@@ -1,0 +1,1 @@
+TDD/preflight must judge product-delivered or product-runtime behavior, not whatever a package manager or Actions runner executes (#116). Prefer one steering principle over an exclusion list of tools.
