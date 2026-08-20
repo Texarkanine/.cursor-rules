@@ -48,3 +48,13 @@ Tighten TDD / preflight scope so developer-tooling wiring and invoke-only CI are
     - Implemented the planned sentence; did not adopt the Preflight consequence-test advisory
 * Insights
     - The generated `.cursor/rules/shared/always-tdd.mdc` still has the old sentence until a later `chore(dev): ai-rizz sync`
+
+## 2026-08-20 - QA - COMPLETE
+
+* Work completed
+    - Semantic review of the one-sentence `always-tdd` replacement against the locked plan, issue #116, and the brief
+    - Wrote `memory-bank/active/.qa-validation-status`; first line: PASS
+* Decisions made
+    - PASS with advisories: the implementation matches the plan; residual phrase-1 tokens and generated-tree lag do not block
+* Insights
+    - Faithful build of an accepted one-file bet is not a plan FAIL; the same phrase-1 residual Preflight already recorded stays advisory

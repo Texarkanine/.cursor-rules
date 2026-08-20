@@ -1,0 +1,17 @@
+PASS
+
+Prerequisites: PASS. Level 2; Build complete; no creative-phase docs required. Review baseline is the locked one-sentence replacement in tasks.md. Implementation is that sentence in rules/always-tdd.mdc. rulesets/niko/always-tdd.mdc remains a symlink to it.
+
+KISS / DRY / YAGNI: PASS. One paragraph replaced. No extra files, no named exclusion list, no niko-preflight echo, no Preflight consequence-test rewrite.
+
+Completeness: PASS against the plan. The in-scope sentence matches the locked replacement. Out-of-scope and change-detector paragraphs are unchanged. niko-preflight and generated .cursor/ / .claude/ copies were not edited.
+
+Regression: PASS. Canonical path only. Generated-tree lag is the standing systemPatterns contract, not a missed edit.
+
+Integrity: PASS. No placeholders, scaffolding, or extra wording.
+
+Documentation: PASS. No persistent docs were invalidated. systemPatterns still correctly describes source-of-truth and sync lag.
+
+Advisories (do not block):
+- Phrase-1 residual: the em-dash list still contains "CLIs, and any configuration or workflow it runs" — the tokens quoted in a16n#74 and SumMem#20. Phrase 2 ("If something executes it") is deleted. Phrase 3 (out-of-scope as exhaustive) is unchanged. This is the accepted one-file bet, not a missing build step.
+- Until a later chore(dev): ai-rizz sync, .cursor/rules/shared/always-tdd.mdc (the path niko-preflight names) still has the old sentence. Expected; do not hand-edit the generated tree.
