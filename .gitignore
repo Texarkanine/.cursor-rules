@@ -1,2 +1,5 @@
 # Migration tooling: deterministically regenerable audit index.
 scripts/migration-audit.json
+
+# SumMem driver bytecode (the script and store stay tracked).
+**/.summem/__pycache__/
