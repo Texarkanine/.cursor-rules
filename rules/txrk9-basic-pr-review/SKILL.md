@@ -144,7 +144,4 @@ Early abort (body only, after What's In This PR):
 
 Other (inline, or body if it has no line): the same two or three sentences of harm, why, and fix — no 🚨 heading.
 
-If questions 2 and 3 are yes, hunt Other before you approve. Approving because nothing is Critical, without that hunt, is a miss.
-
-If nothing survives and you did review the diff, including that Other hunt: approve the PR.
 If there are critical issues, AND the PR was not opened by `Texarkanine`: ask `Texarkanine` to review.
