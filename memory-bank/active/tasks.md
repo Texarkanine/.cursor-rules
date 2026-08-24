@@ -24,7 +24,7 @@ This change does not add a ruleset or a README link, so `make test` is a no-op r
 
 ## Implementation Plan
 
-### 1. Author `rules/pr-review/SKILL.md` — prose/policy
+### 1. Author `rules/pr-review/SKILL.md` — prose/policy — [x]
 
 - Files: `rules/pr-review/SKILL.md`
 - No tests: prose/policy artifact
@@ -54,7 +54,7 @@ This change does not add a ruleset or a README link, so `make test` is a no-op r
 
 **Calibration (for the author of the skill, not to paste as few-shots):** Other that should survive looks like SumMem#5 recall-past-`WAKE_LINES`, SumMem#10 nap instruction naming `summem` instead of `.summem/summem`, SumMem#18 dropped "keep notes tracked" lockstep. Nits that must still die: formatting, naming, import order, "consider extracting", house patterns, CI-owned issues.
 
-### 2. Layout regression — prose/policy
+### 2. Layout regression — prose/policy — [x]
 
 - Files: none new
 - No tests: prose/policy artifact
@@ -92,6 +92,6 @@ No new technology - validation not required
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
-- [ ] Build
+- [x] Preflight
+- [x] Build
 - [ ] QA

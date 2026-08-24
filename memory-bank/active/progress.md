@@ -38,6 +38,17 @@ Canonicalize the TXRK9 PR Review prompt as a `rules/` skill and raise Other-find
 * Insights
     - Preflight agrees the live miss is cull-and-personality, not missing hunt categories
 
+## 2026-08-24 - BUILD - COMPLETE
+
+* Work completed
+    - Landed `rules/pr-review/SKILL.md`
+    - Ran `make test` (pass)
+* Decisions made
+    - Followed the plan as written, including the second Other pass (did not fold Other into Q3)
+    - Repeated the Other-before-approve duty at the opening, in Hunt Other, and at the approve gate
+* Insights
+    - The blanket "stronger author / prove the claim" omit sat in Filters after Other was added as a class; splitting it is the smallest change that lets Other survive the cull
+
 ## 2026-08-24 - PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
 
 * Work completed

@@ -1,12 +1,14 @@
 # Active Context
 
 ## Current Task: txrk9-pr-review
-**Phase:** PLAN - COMPLETE
+**Phase:** BUILD - COMPLETE
 
 ## What Was Done
-- Level 2 plan locked: `rules/pr-review/SKILL.md`, no ruleset, body is the automation paste payload.
-- Other-sensitivity design (not deferred to Build): retarget silence; closed Other hunt after Q2/Q3 yes; duty before approve; split the "stronger author" omit so it no longer kills Other. No quota, no few-shots, no rewrite of Critical.
-- No new executable behavior; `make test` is layout regression only.
+- Created `/home/mobaxterm/git/.cursor-rules/rules/pr-review/SKILL.md` from the `/niko` prompt, then applied the planned Other-sensitivity edits.
+- Retargeted silence; added Hunt Other (closed list) after Q2/Q3 yes; restated the duty at the approve gate; split Critical vs Other confidence omit.
+- Added a mermaid map of hunt → cull → sort → post. Numbered prose still drives.
+- Frontmatter: trigger description (394 chars), `disable-model-invocation: true`. Neighbor names stay in frontmatter only.
+- `make test` passed (ruleset symlink and README-link checks; no-op for this unaffiliated skill).
 
 ## Next Step
-- Preflight validation (spawn `/niko-preflight`).
+- QA review (spawn `/niko-qa`).
