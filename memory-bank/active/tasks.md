@@ -85,6 +85,16 @@ No new technology - validation not required
 - **The skill is treated as in-IDE-only and the automation keeps the old prompt:** out of scope (operator paste). Acceptance criterion 4 is "pasteable", not "already pasted".
 - **L2 was too thin and Build invents the Other design:** this plan *is* the design. If Build wants a different hunt list or a quota, that is a rework, not improvisation.
 
+## QA Results
+
+**Verdict:** PASS (advisories allowed; implementation acceptable as-is)
+
+- **Packaging** — does not block. Canonical `rules/pr-review/SKILL.md` only; ManualPrompt frontmatter; description names TXRK9, the automation paste-source, and `pr-feedback-judge` / ponytail-review; 394 characters (limit 1024). No ruleset, no `.cursor/` / `.claude/` / `REUSE.toml` edits. Body has no sibling-prompt names and no paste-meta.
+- **Planned Other-sensitivity edits** — does not block. Silence retargeted in the opening; Hunt Other closed list matches the plan; duty restated at Hunt Other and at the approve gate; confidence omit split so the stronger-author rule no longer kills Other. Keep-unchanged cascade, bar, cap, posting shape, templates, and Texarkanine line are intact. No quota, few-shots, nit labels, or merge with `pr-feedback-judge`.
+- **Mermaid Q4-no skips Hunt Other** — advisory, does not block. The chart sends `Best -->|No|` to Candidate → Cull, skipping OtherHunt. Prose requires the hunt whenever Q2 and Q3 are yes, including when Q4 is no. The silent-approve path (all yes) is correct in both views; numbered prose remains the driver.
+- **Mermaid posts before choosing event** — advisory, does not block. The chart posts once, then branches Approve vs Publish. Opening prose requires assembling `event` in the payload before the single post.
+- **Second Other pass vs cascade** — advisory, does not block. Overlap with Q3 is the plan as written; Preflight's fold-into-Q3 redesign was not applied.
+
 ## Status
 
 - [x] Initialization complete
@@ -94,4 +104,5 @@ No new technology - validation not required
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [ ] QA
+- [x] QA
+

@@ -49,6 +49,15 @@ Canonicalize the TXRK9 PR Review prompt as a `rules/` skill and raise Other-find
 * Insights
     - The blanket "stronger author / prove the claim" omit sat in Filters after Other was added as a class; splitting it is the smallest change that lets Other survive the cull
 
+## 2026-08-24 - QA - COMPLETE
+
+* Work completed
+    - Spawned `/niko-qa`; `.qa-validation-status` is `PASS`
+* Decisions made
+    - Mermaid map mismatches (Q4-no skips Hunt Other; post-then-event) treated as advisory; no Build rerun
+* Insights
+    - Numbered prose still requires Hunt Other whenever Q2 and Q3 are yes; the chart is a map that can drift from that driver
+
 ## 2026-08-24 - PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
 
 * Work completed
@@ -60,3 +69,16 @@ Canonicalize the TXRK9 PR Review prompt as a `rules/` skill and raise Other-find
     - Did not apply the fold-Other-into-Q3 redesign (advisory only)
 * Insights
     - A second Other workflow can compete with the cascade the plan is trying to preserve; the blocking live bugs are still the opening silence line and the blanket stronger-author omit
+
+## 2026-08-24 - QA - COMPLETE (PASS)
+
+* Work completed
+    - Semantic review of `rules/pr-review/SKILL.md` against the L2 plan, project brief, original `/niko` prompt, and packaging neighbors
+    - Wrote `memory-bank/active/.qa-validation-status` with `PASS`
+* Decisions made
+    - Implementation is acceptable as-is; mermaid control-flow mismatches are advisories, not a Build rerun
+    - Did not treat Preflight's fold-Other-into-Q3 note as a Build miss
+* Insights
+    - Keep-unchanged sections were copied, not rewritten; the live-bug edits (opening silence, split omit, Hunt Other, approve-gate duty) are all present
+    - The mermaid map disagrees with prose at Q4-no (skips Other hunt) and at post-vs-approve order; neither restores silent approve on the all-yes path
+
