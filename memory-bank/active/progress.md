@@ -58,6 +58,17 @@ Canonicalize the TXRK9 PR Review prompt as a `rules/` skill and raise Other-find
 * Insights
     - Numbered prose still requires Hunt Other whenever Q2 and Q3 are yes; the chart is a map that can drift from that driver
 
+## 2026-08-24 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `memory-bank/active/reflection/reflection-txrk9-pr-review.md`
+    - Reconciled persistent files (no edits)
+* Decisions made
+    - Left mermaid map/prose mismatches as known advisory drift; archive can carry them
+* Insights
+    - The Other class was never missing; the cull and the silence opener were suppressing it
+
+
 ## 2026-08-24 - PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
 
 * Work completed
