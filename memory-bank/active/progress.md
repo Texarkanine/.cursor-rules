@@ -68,6 +68,14 @@ Canonicalize the TXRK9 PR Review prompt as a `rules/` skill and raise Other-find
 * Insights
     - The Other class was never missing; the cull and the silence opener were suppressing it
 
+## 2026-08-24 - POST-REFLECT - POLISH
+
+* Work completed
+    - Replaced Cursor tool names in `rules/pr-review/SKILL.md` with posting actions (one review, assemble then post, replace prior review, ask Texarkanine to review)
+* Decisions made
+    - Prompt names what to do, not which automation tool to call
+
+
 
 ## 2026-08-24 - PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
 
