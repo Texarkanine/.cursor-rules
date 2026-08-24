@@ -1,19 +1,60 @@
 #!/usr/bin/env python3
 
 # Copyright (C) 2026 Texarkanine
-
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published
 # by the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Affero General Public License for more details.
-
+#
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+# Additional permissions under GNU AGPL version 3 section 7:
+#
+# Invocation. Invoking this Program through ordinary process
+# invocation — a shell, a subprocess call, or an AI agent acting on a
+# prompt — does not make this Program a shared library or dynamically
+# linked subprogram that the invoking work is specifically designed
+# to require, and is not intimate data communication or control flow
+# within the meaning of section 1. The invoking program is not a
+# covered work or a work based on the Program by reason of that
+# invocation. For these additional permissions, "your organization"
+# means you and every entity under common control with you, and
+# "your personnel" means persons acting for your organization.
+#
+# Invocation directed by you, by your personnel, or by an agent
+# acting for your organization, including where that direction
+# reaches the Program over a computer network, is not users
+# interacting with the Program remotely within the meaning of
+# section 13.
+#
+# If you make a modified version available to anyone outside your
+# organization — by distributing it, or by offering remote
+# interaction with it — the preceding paragraph does not apply to
+# that modified version: section 13 and the rest of this License do.
+#
+# Prompt template. The agent prompt template this Program emits for
+# insertion into AGENTS.md may be used separately under 0BSD. The
+# following terms apply only to that template:
+#
+# Copyright (C) 2026 Texarkanine
+#
+# Permission to use, copy, modify, and/or distribute this software for
+# any purpose with or without fee is hereby granted.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
+# OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 """SumMem: Recency-biased file-based concurrent write-tolerant memory for AI agents."""
 
@@ -28,6 +69,9 @@ import random
 import re
 import subprocess
 import sys
+if sys.version_info < (3, 11):
+    sys.stderr.write("SumMem needs Python 3.11 or newer\n")
+    raise SystemExit(1)
 import tomllib
 from dataclasses import dataclass, replace
 from datetime import datetime, timezone
@@ -171,6 +215,7 @@ WAKE_LINES = 32
 CLI_NAME = "summem"
 AGENT_BIN = ".summem/summem"
 PROMPT_DOC = "docs/agents-prompt.md"
+__version__ = "0.5.0"  # x-release-please-version
 
 CONFIG_TEMPLATE = """\
 # SumMem per-store settings. Missing values take the script's defaults.
@@ -579,30 +624,24 @@ def write_nap(parent, id_a, id_b, caption, entry_chars: int | None = None):
     return sum_path
 
 
-def _zoom_note_line(text: str) -> str:
-    cid = leafset_id([note_digest(note_file_bytes(text))])
-    return f"{cid}  {text}"
-
-
-def _zoom_kids(tree: Tree) -> str:
+def _zoom_kids(tree: Tree, ids: list[str]) -> str:
+    """Return one-level listing of *tree* using the wake line grammar."""
     lines = []
     for child in tree.kids:
-        if isinstance(child, NoteChild):
-            lines.append(_zoom_note_line(child.text))
-        elif child.sum:
-            lines.append(f"{child.id}  {child.sum}")
-        else:
-            lines.append(child.id)
+        row = _projected_child(child)
+        if row is None:
+            continue
+        lines.append(format_wake_line(row, ids))
     if not lines:
         return ""
     return "\n".join(lines) + "\n"
 
 
-def _find_in_tree(tree: Tree, cid: str) -> NapChild | str | None:
+def _find_in_tree(tree: Tree, cid: str) -> NoteChild | NapChild | None:
     for child in tree.kids:
         if isinstance(child, NoteChild):
             if leafset_id([note_digest(note_file_bytes(child.text))]) == cid:
-                return child.text
+                return child
             continue
         if child.id == cid:
             return child
@@ -619,17 +658,18 @@ def _warn_skipped_pack() -> None:
 
 def zoom_text(parent, token: str) -> str:
     """Return one-level zoom of *token* (full id or unique prefix), or raise ValueError if unknown."""
-    cid = resolve_id(token, named_ids(parent))
+    ids = named_ids(parent)
+    cid = resolve_id(token, ids)
     nodes = list_view(parent)
     for node in nodes:
         if node.id != cid:
             continue
         if node.kind == "note":
-            return f"{node.id}  {node.caption}\n"
+            return format_wake_line(node, ids) + "\n"
         if node.tree_path is None or not node.tree_path.is_file():
             raise ValueError("unknown id")
         try:
-            return _zoom_kids(loads_tree(node.tree_path.read_bytes()))
+            return _zoom_kids(loads_tree(node.tree_path.read_bytes()), ids)
         except _TREE_PARSE_ERRORS:
             raise ValueError("unreadable pack") from None
     for node in nodes:
@@ -642,9 +682,10 @@ def zoom_text(parent, token: str) -> str:
             continue
         if found is None:
             continue
-        if isinstance(found, str):
-            return f"{cid}  {found}\n"
-        return _zoom_kids(found.tree)
+        if isinstance(found, NoteChild):
+            row = _projected_child(found)
+            return format_wake_line(row, ids) + "\n"
+        return _zoom_kids(found.tree, ids)
     raise ValueError("unknown id. Copy an id from wake.")
 
 
@@ -674,7 +715,7 @@ def named_ids(parent) -> list[str]:
         try:
             nested: list[str] = []
             _collect_ids(loads_tree(node.tree_path.read_bytes()), nested)
-        except (OSError, UnicodeDecodeError, ValueError, TypeError, KeyError):
+        except _TREE_PARSE_ERRORS:
             continue
         for cid in nested:
             add(cid)
@@ -799,9 +840,19 @@ def resolve_id(token: str, ids: list[str]) -> str:
     raise ValueError("ambiguous id. Give a longer prefix.")
 
 
+def _day_from_stamp(stamp: str) -> str:
+    """Return YYYY-MM-DD from a 16-character UTC filename stamp."""
+    return f"{stamp[0:4]}-{stamp[4:6]}-{stamp[6:8]}"
+
+
 def format_wake_line(node, ids: list[str]) -> str:
     """Return one wake line for *node* using unique prefixes from *ids*."""
-    if node.kind == "note" or node.leaves <= 1:
+    if node.kind == "note":
+        day = _day_from_stamp(node.stamp)
+        if node.caption:
+            return f"x1 {day}: {node.caption}"
+        return f"x1 {day}:"
+    if node.leaves <= 1:
         return node.caption
     prefix = short_id(node.id, ids)
     if node.caption:
@@ -823,12 +874,20 @@ def wake_text(parent) -> str:
     return "\n".join(lines) + "\n"
 
 
-def equal_grain_pair(nodes: list[ViewNode]) -> tuple[str, str] | None:
-    """Return the oldest adjacent same-leaf-count file ids, or None."""
-    for i in range(len(nodes) - 1):
-        if nodes[i].leaves == nodes[i + 1].leaves:
-            return nodes[i].id, nodes[i + 1].id
-    return None
+def _fold_path_flag(parent) -> str:
+    """Return `` --path REL`` when walk-up from cwd would not select *parent*, else empty.
+
+    *REL* is the path from cwd to *parent*. The fold request's Run: line is
+    meant to be pasted from the same directory that printed it.
+    """
+    try:
+        walked = resolve_parent(Path.cwd())
+    except ValueError:
+        walked = None
+    if walked is not None and Path(walked).resolve() == Path(parent).resolve():
+        return ""
+    rel = os.path.relpath(Path(parent).resolve(), Path.cwd().resolve())
+    return f" --path {Path(rel).as_posix()}"
 
 
 def fold_request(parent, wake_lines: int | None = None) -> str:
@@ -860,29 +919,31 @@ def fold_request(parent, wake_lines: int | None = None) -> str:
         f"  {format_wake_line(left, ids)}\n"
         f"  {format_wake_line(right, ids)}\n"
         "\n"
-        f'Run: {AGENT_BIN} nap {short_id(left.id, ids)} {short_id(right.id, ids)} "<your line>"\n'
+        f'Run: {AGENT_BIN} nap{_fold_path_flag(parent)} {short_id(left.id, ids)} {short_id(right.id, ids)} "<your line>"\n'
         f"{extra}"
     )
 
 
-def _recall_nested(tree: Tree, rx, lines: list[str], seen: set[str]) -> None:
+def _recall_nested(tree: Tree, rx, lines: list[str], seen: set[str], ids: list[str]) -> None:
     """Append recall hits from *tree* (original notes and nested nap captions) to *lines*."""
     for child in tree.kids:
         if isinstance(child, NoteChild):
             if not rx.search(child.text):
                 continue
-            cid = leafset_id([note_digest(note_file_bytes(child.text))])
-            line = f"{cid}  {child.text}"
+            row = _projected_child(child)
+            line = format_wake_line(row, ids)
             if line not in seen:
                 lines.append(line)
                 seen.add(line)
             continue
         if rx.search(child.sum):
-            line = f"{child.id}  {child.sum}"
-            if line not in seen:
-                lines.append(line)
-                seen.add(line)
-        _recall_nested(child.tree, rx, lines, seen)
+            row = _projected_child(child)
+            if row is not None:
+                line = format_wake_line(row, ids)
+                if line not in seen:
+                    lines.append(line)
+                    seen.add(line)
+        _recall_nested(child.tree, rx, lines, seen, ids)
 
 
 def recall_text(parent, pattern: str) -> str:
@@ -891,17 +952,19 @@ def recall_text(parent, pattern: str) -> str:
     lines = []
     seen: set[str] = set()
     nodes = list_view(parent)
-    ids = [node.id for node in nodes]
+    ids = named_ids(parent)
     for node in nodes:
+        if not rx.search(node.caption):
+            continue
         line = format_wake_line(node, ids)
-        if rx.search(line):
+        if line not in seen:
             lines.append(line)
             seen.add(line)
     for node in nodes:
         if node.kind != "nap" or node.tree_path is None or not node.tree_path.is_file():
             continue
         try:
-            _recall_nested(loads_tree(node.tree_path.read_bytes()), rx, lines, seen)
+            _recall_nested(loads_tree(node.tree_path.read_bytes()), rx, lines, seen, ids)
         except _TREE_PARSE_ERRORS:
             _warn_skipped_pack()
             continue
@@ -940,7 +1003,7 @@ Otherwise run `{AGENT_BIN} wake` from the repository root.
 
 ## While Working: Register Memories (Mandatory)
 
-`{AGENT_BIN} note "…"` records one short line. Call it whenever you learn a fact about this project that another contributor would still need: designs, decisions, invariants, and the like. A note must still be true after a fresh clone on another machine. Personal, machine-local, and user preference facts stay out. If `note` asks for a nap, do that nap before your next action.
+`{AGENT_BIN} note "…"` records one short line. Call it whenever you learn a fact about this project that another contributor would still need: designs, decisions, invariants, and the like. It has to belong in a fresh clone on another machine. Personal, machine-local, and user preference facts stay out. If `note` asks for a nap, the note is already stored; the nap is extra work on two older view nodes. Do that nap before your next action.
 
 Do not register redundant memories.
 
@@ -949,7 +1012,7 @@ Never invent filenames, rewrite note bytes, or delete memory files by hand. The 
 ## Other commands
 
 - `{AGENT_BIN} recall <regex>` — search remembered text word for word
-- `{AGENT_BIN} zoom <id>` — any memory with a `x<N> <hash>: …` prefix is a nap that can be zoomed in on.
+- `{AGENT_BIN} zoom <id>` — any memory with a `x<N> <hash>: …` prefix is a nap that can be zoomed in on. A leaf is `x1 YYYY-MM-DD:` and is not a zoom target.
 - `{AGENT_BIN} wake --path <path>` — when you work under a cataloged path, pull that store if its wake is not already in this conversation. Ignore `--path` if the root wake didn't have a catalog.
 """
 
@@ -978,15 +1041,16 @@ SumMem: shared memory for agents in a repository.
   {CLI_NAME} recall  [--path PATH] PATTERN            search remembered text
   {CLI_NAME} start <path>                             create a store in that directory
   {CLI_NAME} init                                     print the agent prompt
+  {CLI_NAME} version                                  print this script's version
 
-Every command except start and init takes optional --path. Omit it to use $PWD.
+Every command except start, init, and version takes optional --path. Omit it to use $PWD.
 --path aims at a file or directory and walks up to the nearest store.
 
 For a command's options: {CLI_NAME} <command> -h
 """
 
 
-_COMMANDS = ("wake", "note", "nap", "zoom", "recall", "start", "init")
+_COMMANDS = ("wake", "note", "nap", "zoom", "recall", "start", "init", "version")
 _HELP_FLAGS = ("-h", "--help")
 
 
@@ -1025,6 +1089,7 @@ def main(argv: list[str] | None = None) -> int:
     start = sub.add_parser("start")
     start.add_argument("dir")
     sub.add_parser("init")
+    sub.add_parser("version")
     for parser_with_path in (wake, note, nap, zoom, recall):
         parser_with_path.add_argument("--path", help="aim at this file or directory")
     try:
@@ -1047,6 +1112,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "init":
         sys.stdout.write(init_text())
         return 0
+    if args.cmd == "version":
+        sys.stdout.write(f"{__version__}\n")
+        return 0
     try:
         parent = resolve_parent(Path.cwd(), args.path)
     except ValueError as exc:
@@ -1055,15 +1123,19 @@ def main(argv: list[str] | None = None) -> int:
     k = knobs(parent)
     if args.cmd == "wake":
         doc = wake_text(parent)
-        cat = catalog_text(find_store_parent(parent), parent)
+        root = find_store_parent(parent)
+        cat = catalog_text(root, parent)
         footer = "You are up to speed.\n"
+        body = ""
         if cat:
-            if doc:
-                sys.stdout.write(cat + "\n== Project-root Memories ==\n" + doc + footer)
-            else:
-                sys.stdout.write(cat + footer)
-        else:
-            sys.stdout.write(doc + footer)
+            body += cat
+        if doc:
+            if Path(parent).resolve() == Path(root).resolve():
+                if body:
+                    body += "\n"
+                body += "== Project-root Memories ==\n"
+            body += doc
+        sys.stdout.write(body + footer)
         return 0
     if args.cmd == "nap":
         for token in (args.id_a, args.id_b):
@@ -1129,7 +1201,10 @@ def main(argv: list[str] | None = None) -> int:
     except ValueError as exc:
         sys.stderr.write(f"{exc}\n")
         return 1
-    sys.stdout.write(out)
+    sys.stdout.write("Saved.\n")
+    if out:
+        sys.stdout.write("\n")
+        sys.stdout.write(out)
     return 0
 
 

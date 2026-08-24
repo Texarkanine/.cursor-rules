@@ -1,6 +1,6 @@
 ---
 name: pr-review
-description: "Review a GitHub pull request as TXRK9 PR Review: name the intent, then should-we / does-it / best-way, and post Critical and Other findings with the 🦮 What's In This PR body. Use when asked to review a PR, run TXRK9 PR Review, or copy the Cursor PR-review automation prompt. Do not use to judge existing review comments (pr-feedback-judge) or for over-engineering-only review (ponytail-review)."
+description: "Basic PR Review - looks for critical blocking issues and a decent attempt to find other high-impact but non-blocking issues near and in the changed code."
 disable-model-invocation: true
 ---
 
@@ -19,16 +19,17 @@ flowchart TD
     Should -->|Yes| Does{"Diff does it?"}
     Does -->|No| Candidate["Candidate and stop that intent"]
     Does -->|Yes| Best{"Best way?"}
-    Best -->|No| Candidate
-    Best -->|Yes| OtherHunt["Hunt Other"]
+    Best -->|No| OtherHunt["Hunt Other"]
+    Best -->|Yes| OtherHunt
     OtherHunt --> Cull["Cull"]
     Candidate --> Cull
-    Abort --> Post["Post once"]
     Cull --> Sort["Sort and cap"]
-    Sort --> Post
-    Post --> Survived{"Findings remain?"}
+    Sort --> Survived{"Findings remain?"}
+    Abort --> Publish["Inline and body"]
     Survived -->|No| Approve["Approve"]
-    Survived -->|Yes| Publish["Inline and body"]
+    Survived -->|Yes| Publish
+    Approve --> Post["Post once"]
+    Publish --> Post
 ```
 
 ## What you post
