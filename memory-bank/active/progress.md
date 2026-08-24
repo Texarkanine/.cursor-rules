@@ -27,3 +27,25 @@ Canonicalize the TXRK9 PR Review prompt as a `rules/` skill and raise Other-find
     - No few-shots, no Other quota
 * Insights
     - The cascade already produces Other candidates (Q4, and Q3 edges that do not defeat intent); the live miss is cull-and-personality, not hunt-absence
+
+## 2026-08-24 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Spawned `/niko-preflight`; first line `PASS WITH ADVISORY`
+* Decisions made
+    - Build the plan as written (second Other pass). Preflight's optional "fold Other into Q3" redesign is not applied
+    - Description is a trigger, not `Invoke with /pr-review`; paste from the H1 down
+* Insights
+    - Preflight agrees the live miss is cull-and-personality, not missing hunt categories
+
+## 2026-08-24 - PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
+
+* Work completed
+    - Validated the L2 plan against packaging (`pr-feedback-judge` / unaffiliated `rules/` skills), REUSE, `make test` scope, always-tdd prose/policy carve-out, and requirement coverage
+    - Confirmed the copy-source is the `/niko` message prompt (recoverable from parent transcript if compacted)
+    - Wrote `memory-bank/active/.preflight-status` with first line `PASS WITH ADVISORY`
+* Decisions made
+    - Plan is acceptable as-is; no TDD swap or change-detector strike
+    - Did not apply the fold-Other-into-Q3 redesign (advisory only)
+* Insights
+    - A second Other workflow can compete with the cascade the plan is trying to preserve; the blocking live bugs are still the opening silence line and the blanket stronger-author omit
