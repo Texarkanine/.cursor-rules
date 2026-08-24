@@ -1,5 +1,5 @@
 ---
-name: pr-review
+name: txrk9-basic-pr-review
 description: "Basic PR Review - looks for critical blocking issues and a decent attempt to find other high-impact but non-blocking issues near and in the changed code."
 disable-model-invocation: true
 ---
