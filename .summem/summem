@@ -214,8 +214,7 @@ ENTRY_CHARS = 280
 WAKE_LINES = 32
 CLI_NAME = "summem"
 AGENT_BIN = ".summem/summem"
-PROMPT_DOC = "docs/agents-prompt.md"
-__version__ = "0.5.0"  # x-release-please-version
+__version__ = "0.6.0"  # x-release-please-version
 
 CONFIG_TEMPLATE = """\
 # SumMem per-store settings. Missing values take the script's defaults.
@@ -988,40 +987,50 @@ def require_python(version_info: tuple[int, ...] = sys.version_info) -> None:
         raise SystemExit(1)
 
 
+def how_to_text() -> str:
+    """Return the versioned agent how-to section printed on root wake.
+
+    The section includes its ``== SumMem Usage ==`` header and a trailing
+    newline, matching ``catalog_text()``. It is not the operator ``-h``
+    catalog from ``usage_text()``.
+    """
+    return f"""\
+== SumMem Usage ==
+
+`{AGENT_BIN} note "…"` records one short line for a fact another contributor would still need: designs, decisions, invariants, and the like. It has to belong in a fresh clone on another machine. Personal, machine-local, and user preference facts stay out. Do not register redundant memories.
+
+If `note` asks for a nap, the note is already stored; do not retry the same note. The nap is extra work on two older view nodes. Do that nap before your next action.
+
+`{AGENT_BIN} recall <regex>` searches remembered text word for word. `{AGENT_BIN} zoom <id>` opens a pack: a line with an `x<N> <hash>:` prefix is a nap that can be zoomed in on. A leaf is `x1 YYYY-MM-DD:` and is not a zoom target.
+
+Listed catalog lines are paths that name other stores; they are not commands. When you work under a cataloged path, run `{AGENT_BIN} wake --path <path>` if that store's wake is not already in this conversation. Ignore `--path` if the root wake had no catalog.
+"""
+
+
 def prompt_text() -> str:
-    """Return the agent prompt inserted at the top of AGENTS.md."""
+    """Return the agent bootstrap inserted at the top of AGENTS.md."""
     return f"""\
 # Project Memory
 
-Shared memory for this repository is managed through SumMem: run `{AGENT_BIN} -h` for usage information. Scoped memory stores may exist; `--path` aimed at a file retrieves memories from the nearest store.
+Shared memory for this repository is managed through SumMem, invoked as `{AGENT_BIN}`.
 
-## At Session Start: Activating SumMem (Mandatory)
+## At Session Start: Activating SumMem
 
-If you can see a prior **root** SumMem wake in this conversation, skip `wake`.
+Run `{AGENT_BIN} wake` from the repository root. If you can see a prior project-root SumMem wake in this conversation's history, do not run it again.
 
-Otherwise run `{AGENT_BIN} wake` from the repository root.
+## While Working: Register Memories
 
-## While Working: Register Memories (Mandatory)
-
-`{AGENT_BIN} note "…"` records one short line. Call it whenever you learn a fact about this project that another contributor would still need: designs, decisions, invariants, and the like. It has to belong in a fresh clone on another machine. Personal, machine-local, and user preference facts stay out. If `note` asks for a nap, the note is already stored; the nap is extra work on two older view nodes. Do that nap before your next action.
-
-Do not register redundant memories.
+`{AGENT_BIN} note "…"` records one short line for a fact another contributor would still need. Personal, machine-local, and user preference facts stay out. `note` may sometimes print further instructions; always follow them.
 
 Never invent filenames, rewrite note bytes, or delete memory files by hand. The script is the only writer. The files it writes are part of your work; do not leave them untracked.
-
-## Other commands
-
-- `{AGENT_BIN} recall <regex>` — search remembered text word for word
-- `{AGENT_BIN} zoom <id>` — any memory with a `x<N> <hash>: …` prefix is a nap that can be zoomed in on. A leaf is `x1 YYYY-MM-DD:` and is not a zoom target.
-- `{AGENT_BIN} wake --path <path>` — when you work under a cataloged path, pull that store if its wake is not already in this conversation. Ignore `--path` if the root wake didn't have a catalog.
 """
 
 
 def init_text() -> str:
     """Return the full `init` print: insert recipe plus prompt_text()."""
     return (
-        f"Insert {PROMPT_DOC} from the SumMem repository at the top of AGENTS.md "
-        "(this print is the same text). If Claude Code should see it too,"
+        "Insert the following at the top of AGENTS.md. "
+        "If Claude Code should see it too,"
         "\n"
         "put @AGENTS.md at the top of CLAUDE.md.\n"
         "\n"
@@ -1124,13 +1133,18 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "wake":
         doc = wake_text(parent)
         root = find_store_parent(parent)
+        is_root = Path(parent).resolve() == Path(root).resolve()
         cat = catalog_text(root, parent)
         footer = "You are up to speed.\n"
         body = ""
+        if is_root:
+            body += how_to_text()
         if cat:
+            if body:
+                body += "\n"
             body += cat
         if doc:
-            if Path(parent).resolve() == Path(root).resolve():
+            if is_root:
                 if body:
                     body += "\n"
                 body += "== Project-root Memories ==\n"
