@@ -60,20 +60,14 @@
 
 from __future__ import annotations
 
-import argparse
-import fcntl
 import hashlib
 import json
 import os
-import random
 import re
-import subprocess
 import sys
 if sys.version_info < (3, 11):
     sys.stderr.write("SumMem needs Python 3.11 or newer\n")
     raise SystemExit(1)
-import tomllib
-from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -103,62 +97,111 @@ def note_digest(file_bytes: bytes) -> str:
 
 
 def leafset_id(digests: list[str]) -> str:
-    """Return lowercase hex SHA-256 of sorted hex digests joined with no delimiter."""
+    """Return the first 16 lowercase hex characters of SHA-256 of sorted digest hex."""
     join = "".join(sorted(digests))
-    return hashlib.sha256(join.encode("ascii")).hexdigest()
+    return hashlib.sha256(join.encode("ascii")).hexdigest()[:16]
 
 
-@dataclass(frozen=True)
+def _replace(obj, **changes):
+    """Return a copy of *obj* with *changes* applied to named fields."""
+    fields = {name: getattr(obj, name) for name in obj.__slots__}
+    fields.update(changes)
+    return type(obj)(**fields)
+
+
+def _eq_by_slots(self, other):
+    if type(other) is not type(self):
+        return NotImplemented
+    return all(getattr(self, name) == getattr(other, name) for name in self.__slots__)
+
+
 class NoteChild:
     """A raw note child in a canonical tree."""
 
-    name: str
-    text: str
+    __slots__ = ("name", "text")
+    __eq__ = _eq_by_slots
+
+    def __init__(self, name: str, text: str) -> None:
+        self.name = name
+        self.text = text
 
 
-@dataclass(frozen=True)
 class Tree:
     """Canonical tree: list of note and nap children."""
 
-    kids: list[NoteChild | NapChild]
+    __slots__ = ("kids",)
+    __eq__ = _eq_by_slots
+
+    def __init__(self, kids: list[NoteChild | NapChild]) -> None:
+        self.kids = kids
 
 
-@dataclass(frozen=True)
 class NapChild:
-    """A nap child. *id* is the leaf-set id of the original notes."""
+    """A nap child. *id* is the 16-hex leaf-set id of the original notes."""
 
-    id: str
-    sum: str
-    tree: Tree
+    __slots__ = ("id", "sum", "tree")
+    __eq__ = _eq_by_slots
+
+    def __init__(self, id: str, sum: str, tree: Tree) -> None:
+        self.id = id
+        self.sum = sum
+        self.tree = tree
 
 
-@dataclass(frozen=True)
 class ViewNode:
     """One wait-free view entry: a loose note or a nap stem."""
 
-    id: str
-    name: str
-    kind: str
-    caption: str
-    leaves: int
-    stamp: str
-    path: Path
-    sum_path: Path | None = None
-    tree_path: Path | None = None
+    __slots__ = ("id", "name", "kind", "caption", "leaves", "stamp", "path", "sum_path", "tree_path")
+    __eq__ = _eq_by_slots
+
+    def __init__(
+        self,
+        id: str,
+        name: str,
+        kind: str,
+        caption: str,
+        leaves: int,
+        stamp: str,
+        path: Path,
+        sum_path: Path | None = None,
+        tree_path: Path | None = None,
+    ) -> None:
+        self.id = id
+        self.name = name
+        self.kind = kind
+        self.caption = caption
+        self.leaves = leaves
+        self.stamp = stamp
+        self.path = path
+        self.sum_path = sum_path
+        self.tree_path = tree_path
 
 
-@dataclass(frozen=True)
 class ProjectedNode:
     """One printed wake row: a view file or an in-memory expanded child."""
 
-    id: str
-    kind: str
-    caption: str
-    leaves: int
-    stamp: str
-    tree: Tree | None = None
-    tree_path: Path | None = None
-    tree_attempted: bool = False
+    __slots__ = ("id", "kind", "caption", "leaves", "stamp", "tree", "tree_path", "tree_attempted")
+    __eq__ = _eq_by_slots
+
+    def __init__(
+        self,
+        id: str,
+        kind: str,
+        caption: str,
+        leaves: int,
+        stamp: str,
+        tree: Tree | None = None,
+        tree_path: Path | None = None,
+        tree_attempted: bool = False,
+    ) -> None:
+        self.id = id
+        self.kind = kind
+        self.caption = caption
+        self.leaves = leaves
+        self.stamp = stamp
+        self.tree = tree
+        self.tree_path = tree_path
+        self.tree_attempted = tree_attempted
 
 
 def _tree_dict(tree: Tree) -> dict:
@@ -214,7 +257,7 @@ ENTRY_CHARS = 280
 WAKE_LINES = 32
 CLI_NAME = "summem"
 AGENT_BIN = ".summem/summem"
-__version__ = "0.7.0"  # x-release-please-version
+__version__ = "0.9.0"  # x-release-please-version
 
 CONFIG_TEMPLATE = """\
 # SumMem per-store settings. Missing values take the script's defaults.
@@ -284,6 +327,8 @@ def ensure_store(parent):
 
 def knobs(parent):
     """Return WAKE_LINES and ENTRY_CHARS for the store under *parent*."""
+    import tomllib
+
     defaults = {"WAKE_LINES": WAKE_LINES, "ENTRY_CHARS": ENTRY_CHARS}
     config = Path(parent) / ".summem" / "config.toml"
     try:
@@ -298,14 +343,32 @@ def knobs(parent):
         return defaults
 
 
-def _ignored_store(git_root: Path, store_dir: Path) -> bool:
-    rel = store_dir.relative_to(git_root).as_posix()
+def started_stores(git_root) -> list[Path]:
+    """Return git-root (if a store) plus parents of other git-visible `/.summem/` trees."""
+    import subprocess
+
+    root = Path(git_root).resolve()
+    found: set[Path] = set()
+    if is_store(root):
+        found.add(root)
     result = subprocess.run(
-        ["git", "check-ignore", "-q", "--", rel],
-        cwd=git_root,
+        ["git", "ls-files", "-z", "--cached", "--others", "--exclude-standard"],
+        cwd=root,
         capture_output=True,
     )
-    return result.returncode == 0
+    if result.returncode != 0:
+        return sorted(found)
+    for raw in result.stdout.split(b"\0"):
+        if not raw:
+            continue
+        rel = raw.decode("utf-8", "surrogateescape")
+        posix = Path(rel).as_posix()
+        marker = "/.summem/"
+        idx = posix.find(marker)
+        if idx < 0:
+            continue
+        found.add(root / posix[:idx])
+    return sorted(found)
 
 
 def catalog_text(git_root, resolved_parent) -> str:
@@ -313,24 +376,11 @@ def catalog_text(git_root, resolved_parent) -> str:
     root = Path(git_root).resolve()
     if Path(resolved_parent).resolve() != root:
         return ""
-    found: list[Path] = []
-    for dirpath, dirnames, _filenames in os.walk(root, followlinks=False):
-        dirnames[:] = [name for name in dirnames if name != ".git"]
-        if ".summem" not in dirnames:
-            continue
-        parent = Path(dirpath)
-        dirnames.remove(".summem")
-        if parent.resolve() == root:
-            continue
-        store_dir = parent / ".summem"
-        if _ignored_store(root, store_dir):
-            continue
-        found.append(parent)
-    found.sort()
-    if not found:
+    others = [parent for parent in started_stores(root) if parent != root]
+    if not others:
         return ""
     lines = ["== Additional SumMem Catalogs =="]
-    for parent in found:
+    for parent in others:
         rel = parent.relative_to(root).as_posix()
         lines.append(f"./{rel}")
     return "\n".join(lines) + "\n"
@@ -357,21 +407,64 @@ def _replace_bytes(dest: Path, data: bytes) -> None:
     os.replace(tmp, dest)
 
 
+def _write_pair(naps_dir, stem, tree_bytes, caption_bytes) -> None:
+    """Temp-replace `{stem}.tree` then `{stem}.summ` with the hashed buffers."""
+    _replace_bytes(naps_dir / f"{stem}.tree", tree_bytes)
+    _replace_bytes(naps_dir / f"{stem}.summ", caption_bytes)
+
+
 def _seq_prefix(name: str) -> str:
     """Return the {stamp}-{rand} order key from a note or nap filename."""
     return "-".join(name.split("-")[:2])
 
 
-def _parse_nap_stem(stem: str) -> tuple[str, str, str, int] | None:
+def variant_tag(tree_bytes: bytes, caption_bytes: bytes) -> str:
+    """Return the 16-hex pair digest used as a nap-stem variant tag."""
+    payload = (
+        b"SumMem nap pair v1\0"
+        + len(tree_bytes).to_bytes(8, "big")
+        + tree_bytes
+        + len(caption_bytes).to_bytes(8, "big")
+        + caption_bytes
+    )
+    return hashlib.sha256(payload).hexdigest()[:16]
+
+
+def nap_stem(
+    seq_prefix: str,
+    leafset: str,
+    grain: int,
+    tree_bytes: bytes,
+    caption_bytes: bytes,
+) -> str:
+    """Return `{seq}-{leafset16}-{grain}-{variant16}` for a nap pair."""
+    tag = variant_tag(tree_bytes, caption_bytes)
+    return f"{seq_prefix}-{leafset}-{grain}-{tag}"
+
+
+def child_nap_stem(child: NapChild) -> tuple[str, bytes, bytes]:
+    """Return ``(stem, tree_bytes, caption_bytes)`` for *child*'s nap pair."""
+    leftmost = next(_note_children(child.tree))
+    leaves = len(_digests_of_tree(child.tree))
+    tree_bytes = dumps_tree(child.tree)
+    caption_bytes = note_file_bytes(child.sum)
+    stem = nap_stem(_seq_prefix(leftmost.name), child.id, leaves, tree_bytes, caption_bytes)
+    return stem, tree_bytes, caption_bytes
+
+
+def _parse_nap_stem(stem: str) -> tuple[str, str, str, int, str] | None:
+    """Return stamp, rand, 16-hex leafset, grain, and variant, or None if not a five-part-16 stem."""
     parts = stem.split("-")
-    if len(parts) != 4:
+    if len(parts) != 5:
         return None
-    stamp, rand, leafset, leaves_s = parts
-    if len(stamp) != 16 or len(rand) != 16 or len(leafset) != 64 or not leaves_s.isdigit():
+    stamp, rand, leafset, leaves_s, variant = parts
+    if len(stamp) != 16 or len(rand) != 16 or len(leafset) != 16 or len(variant) != 16:
         return None
-    if any(c not in "0123456789abcdef" for c in rand + leafset):
+    if not leaves_s.isdigit():
         return None
-    return stamp, rand, leafset, int(leaves_s)
+    if any(c not in "0123456789abcdef" for c in rand + leafset + variant):
+        return None
+    return stamp, rand, leafset, int(leaves_s), variant
 
 
 def _nap_caption(sum_path: Path | None) -> str:
@@ -427,7 +520,7 @@ def list_view(parent) -> list[ViewNode]:
         parsed = _parse_nap_stem(stem)
         if parsed is None:
             continue
-        stamp, _, leafset, leaves = parsed
+        stamp, _, leafset, leaves, _variant = parsed
         sum_path = files.get(".summ")
         tree_path = files.get(".tree")
         nodes.append(
@@ -462,6 +555,22 @@ def _digests_of_tree(tree: Tree) -> list[str]:
     return out
 
 
+def _digests_of_dict(obj: dict) -> list[str]:
+    """Return leaf digests by walking a raw tree-JSON dict. Do not build Tree."""
+    out: list[str] = []
+    for child in obj["c"]:
+        kind = child.get("type")
+        if kind == "note":
+            _name, text = child["name"], child["text"]
+            out.append(note_digest(note_file_bytes(text)))
+        elif kind == "nap":
+            _cid, _caption = child["id"], child["sum"]
+            out.extend(_digests_of_dict(child["tree"]))
+        else:
+            raise ValueError("unknown tree child type")
+    return out
+
+
 def _note_children(tree: Tree):
     for child in tree.kids:
         if isinstance(child, NoteChild):
@@ -480,16 +589,9 @@ def leaf_digests(node: ViewNode) -> set[str] | None:
     if node.tree_path is None or not node.tree_path.is_file():
         return None
     try:
-        return set(_digests_of_tree(loads_tree(node.tree_path.read_bytes())))
+        return set(_digests_of_dict(json.loads(node.tree_path.read_bytes().decode("utf-8"))))
     except _TREE_PARSE_ERRORS:
         return None
-
-
-def _nap_stem(child: NapChild) -> str:
-    """Return `{leftmost-seq}-{child.id}-{leaves}` for a rematerialized NapChild."""
-    leftmost = next(_note_children(child.tree))
-    leaves = len(_digests_of_tree(child.tree))
-    return f"{_seq_prefix(leftmost.name)}-{child.id}-{leaves}"
 
 
 def rematerialize_child(parent, child: NoteChild | NapChild) -> None:
@@ -501,14 +603,13 @@ def rematerialize_child(parent, child: NoteChild | NapChild) -> None:
             return
         _replace_bytes(dest, note_file_bytes(child.text))
         return
-    stem = _nap_stem(child)
+    stem, tree_bytes, caption_bytes = child_nap_stem(child)
     naps = store / "naps"
     tree_path = naps / f"{stem}.tree"
     sum_path = naps / f"{stem}.summ"
-    if not tree_path.exists():
-        _replace_bytes(tree_path, dumps_tree(child.tree))
-    if not sum_path.exists():
-        _replace_bytes(sum_path, note_file_bytes(child.sum))
+    if tree_path.exists() and sum_path.exists():
+        return
+    _write_pair(naps, stem, tree_bytes, caption_bytes)
 
 
 def _first_overlap(
@@ -531,27 +632,34 @@ def _first_overlap(
     return None
 
 
-def heal_view(parent) -> None:
-    """Zipper overlapping view packs until a pass cannot mutate."""
+def heal_view(parent, nodes=None) -> list[ViewNode]:
+    """Zipper overlapping view packs until a pass cannot mutate. Return the final view."""
     while True:
-        found = _first_overlap(list_view(parent))
+        if nodes is None:
+            nodes = list_view(parent)
+        found = _first_overlap(nodes)
         if found is None:
-            return
+            return nodes
         smaller, other, small_set, other_set = found
         if small_set <= other_set:
             _unlink_node(smaller)
+            nodes = None
             continue
         if other_set <= small_set:
             _unlink_node(other)
+            nodes = None
             continue
         child, _digests = _as_child(smaller)
         for kid in child.tree.kids:
             rematerialize_child(parent, kid)
         _unlink_node(smaller)
+        nodes = None
 
 
 def with_store_lock(parent, fn):
     """Run *fn* while holding an exclusive flock on the store's naps/ directory."""
+    import fcntl
+
     store = ensure_store(parent)
     fd = os.open(store / "naps", os.O_RDONLY)
     try:
@@ -599,10 +707,11 @@ def _adjacent_nodes(nodes: list[ViewNode], id_a: str, id_b: str) -> tuple[ViewNo
     raise ValueError("not adjacent. Nap two ids that sit next to each other in wake.")
 
 
-def write_nap(parent, id_a, id_b, caption, entry_chars: int | None = None):
+def write_nap(parent, id_a, id_b, caption, entry_chars: int | None = None, nodes=None):
     """Fold two adjacent view nodes into a nap pair. Return the .summ path."""
     require_entry(caption, entry_chars)
-    nodes = list_view(parent)
+    if nodes is None:
+        nodes = list_view(parent)
     left, right = _adjacent_nodes(nodes, id_a, id_b)
     child_l, digs_l = _as_child(left)
     child_r, digs_r = _as_child(right)
@@ -612,22 +721,21 @@ def write_nap(parent, id_a, id_b, caption, entry_chars: int | None = None):
     digests = digs_l + digs_r
     leafset = leafset_id(digests)
     leaves = len(digests)
-    stem = f"{_seq_prefix(left.name)}-{leafset}-{leaves}"
+    tree_bytes = dumps_tree(tree)
+    caption_bytes = note_file_bytes(caption)
+    stem = nap_stem(_seq_prefix(left.name), leafset, leaves, tree_bytes, caption_bytes)
     naps = ensure_store(parent) / "naps"
-    tree_path = naps / f"{stem}.tree"
-    sum_path = naps / f"{stem}.summ"
-    _replace_bytes(tree_path, dumps_tree(tree))
-    _replace_bytes(sum_path, note_file_bytes(caption))
+    _write_pair(naps, stem, tree_bytes, caption_bytes)
     _unlink_node(left)
     _unlink_node(right)
-    return sum_path
+    return naps / f"{stem}.summ"
 
 
-def _zoom_kids(tree: Tree, ids: list[str]) -> str:
+def _zoom_kids(tree: Tree, ids, child_rows: list[ProjectedNode | None] | None = None) -> str:
     """Return one-level listing of *tree* using the wake line grammar."""
     lines = []
-    for child in tree.kids:
-        row = _projected_child(child)
+    rows = child_rows if child_rows is not None else [_projected_child(child) for child in tree.kids]
+    for row in rows:
         if row is None:
             continue
         lines.append(format_wake_line(row, ids))
@@ -636,71 +744,134 @@ def _zoom_kids(tree: Tree, ids: list[str]) -> str:
     return "\n".join(lines) + "\n"
 
 
-def _find_in_tree(tree: Tree, cid: str) -> NoteChild | NapChild | None:
-    for child in tree.kids:
-        if isinstance(child, NoteChild):
-            if leafset_id([note_digest(note_file_bytes(child.text))]) == cid:
-                return child
-            continue
-        if child.id == cid:
-            return child
-        found = _find_in_tree(child.tree, cid)
-        if found is not None:
-            return found
-    return None
-
-
 def _warn_skipped_pack() -> None:
     """Write one agent-safe line when a sibling children file is unreadable."""
     sys.stderr.write("skipped a pack\n")
 
 
 def zoom_text(parent, token: str) -> str:
-    """Return one-level zoom of *token* (full id or unique prefix), or raise ValueError if unknown."""
-    ids = named_ids(parent)
+    """Return one-level zoom of *token* (16-hex id or unique prefix), or raise ValueError if unknown."""
+    ids, packs = _view_packs(parent)
+    prefixes = unique_prefixes(ids)
     cid = resolve_id(token, ids)
-    nodes = list_view(parent)
-    for node in nodes:
+    pack_by_name = {pack["node"].name: pack for pack in packs}
+    for node in list_view(parent):
         if node.id != cid:
             continue
         if node.kind == "note":
-            return format_wake_line(node, ids) + "\n"
-        if node.tree_path is None or not node.tree_path.is_file():
+            return format_wake_line(node, prefixes) + "\n"
+        pack = pack_by_name.get(node.name)
+        if pack is None or pack["status"] == "missing":
             raise ValueError("unknown id")
-        try:
-            return _zoom_kids(loads_tree(node.tree_path.read_bytes()), ids)
-        except _TREE_PARSE_ERRORS:
-            raise ValueError("unreadable pack") from None
-    for node in nodes:
-        if node.kind != "nap" or node.tree_path is None or not node.tree_path.is_file():
-            continue
-        try:
-            found = _find_in_tree(loads_tree(node.tree_path.read_bytes()), cid)
-        except _TREE_PARSE_ERRORS:
+        if pack["status"] == "unreadable":
+            raise ValueError("unreadable pack")
+        return _zoom_kids(pack["tree"], prefixes, pack["root_kids"])
+    for pack in packs:
+        if pack["status"] == "unreadable":
             _warn_skipped_pack()
             continue
-        if found is None:
+        if pack["status"] != "ok":
             continue
-        if isinstance(found, NoteChild):
-            row = _projected_child(found)
-            return format_wake_line(row, ids) + "\n"
-        return _zoom_kids(found.tree, ids)
+        row = pack["first"].get(cid)
+        if row is not None and row.kind == "note":
+            return format_wake_line(row, prefixes) + "\n"
+        subtree = pack["trees"].get(cid)
+        if subtree is None:
+            continue
+        return _zoom_kids(subtree, prefixes, pack["kids"].get(cid))
     raise ValueError("unknown id. Copy an id from wake.")
 
 
-def _collect_ids(tree: Tree, ids: list[str]) -> None:
-    for child in tree.kids:
-        if isinstance(child, NoteChild):
-            ids.append(leafset_id([note_digest(note_file_bytes(child.text))]))
-        else:
+def _empty_pack(node, status: str) -> dict:
+    return {
+        "node": node,
+        "status": status,
+        "tree": None,
+        "ids": [],
+        "hits": [],
+        "first": {},
+        "trees": {},
+        "kids": {},
+        "root_kids": [],
+    }
+
+
+def _index_tree(tree: Tree) -> dict:
+    """Return nested ids, preorder hits, first row per id, and per-nap children from one walk."""
+    ids: list[str] = []
+    first: dict[str, ProjectedNode] = {}
+    trees: dict[str, Tree] = {}
+    kids: dict[str, list[ProjectedNode | None]] = {}
+
+    def remember(row: ProjectedNode) -> None:
+        if row.id not in first:
+            first[row.id] = row
+
+    def walk(
+        node: Tree,
+    ) -> tuple[list[ProjectedNode], list[ProjectedNode | None], int, str | None]:
+        hits: list[ProjectedNode] = []
+        child_rows: list[ProjectedNode | None] = []
+        leaves = 0
+        stamps: list[str] = []
+        for child in node.kids:
+            if isinstance(child, NoteChild):
+                cid = leafset_id([note_digest(note_file_bytes(child.text))])
+                stamp = child.name.split("-")[0]
+                ids.append(cid)
+                row = ProjectedNode(
+                    id=cid,
+                    kind="note",
+                    caption=child.text,
+                    leaves=1,
+                    stamp=stamp,
+                )
+                remember(row)
+                hits.append(row)
+                child_rows.append(row)
+                leaves += 1
+                stamps.append(stamp)
+                continue
             ids.append(child.id)
-            _collect_ids(child.tree, ids)
+            child_hits, sub_kids, child_leaves, child_stamp = walk(child.tree)
+            if child.id not in trees:
+                trees[child.id] = child.tree
+                kids[child.id] = sub_kids
+            nap_row = None
+            if child_leaves and child_stamp is not None:
+                nap_row = ProjectedNode(
+                    id=child.id,
+                    kind="nap",
+                    caption=child.sum,
+                    leaves=child_leaves,
+                    stamp=child_stamp,
+                    tree=child.tree,
+                )
+                remember(nap_row)
+                hits.append(nap_row)
+                leaves += child_leaves
+                stamps.append(child_stamp)
+            hits.extend(child_hits)
+            child_rows.append(nap_row)
+        if not stamps:
+            return hits, child_rows, 0, None
+        return hits, child_rows, leaves, min(stamps)
 
+    root_hits, root_kids, _, _ = walk(tree)
+    return {
+        "ids": ids,
+        "hits": root_hits,
+        "first": first,
+        "trees": trees,
+        "kids": kids,
+        "root_kids": root_kids,
+    }
 
-def named_ids(parent) -> list[str]:
-    """Return view ids plus nested tree ids that zoom can already name."""
+def _view_packs(parent) -> tuple[list[str], list[dict]]:
+    """Return named ids and one record per view nap, parsing each children file at most once."""
     ids: list[str] = []
     seen: set[str] = set()
+    packs: list[dict] = []
 
     def add(cid: str) -> None:
         if cid not in seen:
@@ -709,24 +880,31 @@ def named_ids(parent) -> list[str]:
 
     for node in list_view(parent):
         add(node.id)
-        if node.kind != "nap" or node.tree_path is None or not node.tree_path.is_file():
+        if node.kind != "nap":
+            continue
+        if node.tree_path is None or not node.tree_path.is_file():
+            packs.append(_empty_pack(node, "missing"))
             continue
         try:
-            nested: list[str] = []
-            _collect_ids(loads_tree(node.tree_path.read_bytes()), nested)
+            tree = loads_tree(node.tree_path.read_bytes())
+            index = _index_tree(tree)
         except _TREE_PARSE_ERRORS:
+            packs.append(_empty_pack(node, "unreadable"))
             continue
-        for cid in nested:
+        for cid in index["ids"]:
             add(cid)
+        packs.append({"node": node, "status": "ok", "tree": tree, **index})
+    return ids, packs
+
+
+def named_ids(parent) -> list[str]:
+    """Return view ids plus nested tree ids that zoom can already name."""
+    ids, _packs = _view_packs(parent)
     return ids
 
 
 def expand_frontier(nodes: list[ViewNode], budget: int) -> list[ProjectedNode]:
-    """Return a printed frontier of *nodes*, expanding naps while shorter than *budget*."""
-    if budget <= 0:
-        return []
-    if len(nodes) >= budget:
-        nodes = nodes[-budget:]
+    """Return every view node, expanding naps only while the frontier is shorter than *budget*."""
     frontier = [
         ProjectedNode(
             id=node.id,
@@ -752,8 +930,6 @@ def expand_frontier(nodes: list[ViewNode], budget: int) -> list[ProjectedNode]:
         if kids is None:
             break
         frontier = [*frontier[:idx], *kids, *frontier[idx + 1 :]]
-    if len(frontier) > budget:
-        frontier = frontier[-budget:]
     return frontier
 
 
@@ -761,14 +937,14 @@ def _prepare_nap(row: ProjectedNode) -> ProjectedNode:
     if row.kind != "nap" or row.tree_attempted:
         return row
     if row.tree is not None:
-        return replace(row, tree_attempted=True)
+        return _replace(row, tree_attempted=True)
     if row.tree_path is None or not row.tree_path.is_file():
-        return replace(row, tree_attempted=True)
+        return _replace(row, tree_attempted=True)
     try:
         tree = loads_tree(row.tree_path.read_bytes())
     except _TREE_PARSE_ERRORS:
-        return replace(row, tree_attempted=True)
-    return replace(row, tree=tree, tree_attempted=True)
+        return _replace(row, tree_attempted=True)
+    return _replace(row, tree=tree, tree_attempted=True)
 
 
 def _split_kids(row: ProjectedNode) -> list[ProjectedNode] | None:
@@ -816,16 +992,32 @@ def write_note(parent, text, now, rng, entry_chars: int | None = None):
     return dest
 
 
+def unique_prefixes(ids: list[str], floor: int = 8) -> dict[str, str]:
+    """Return a unique prefix of each distinct id in *ids*, at least *floor* hex characters."""
+    ordered = sorted(dict.fromkeys(ids))
+    floor = max(floor, 1)
+    table: dict[str, str] = {}
+    last = len(ordered) - 1
+    for i, cid in enumerate(ordered):
+        left = 0
+        if i:
+            prev = ordered[i - 1]
+            limit = min(len(cid), len(prev))
+            while left < limit and cid[left] == prev[left]:
+                left += 1
+        right = 0
+        if i < last:
+            nxt = ordered[i + 1]
+            limit = min(len(cid), len(nxt))
+            while right < limit and cid[right] == nxt[right]:
+                right += 1
+        table[cid] = cid[: min(max(floor, left + 1, right + 1), len(cid))]
+    return table
+
+
 def short_id(cid: str, ids: list[str], floor: int = 8) -> str:
     """Return a unique prefix of *cid* among distinct *ids*, at least *floor* hex characters."""
-    ids = list(dict.fromkeys(ids))
-    n = min(max(floor, 1), len(cid))
-    while n < len(cid):
-        prefix = cid[:n]
-        if sum(1 for item in ids if item.startswith(prefix)) == 1:
-            return prefix
-        n += 1
-    return cid
+    return unique_prefixes([*ids, cid], floor)[cid]
 
 
 def resolve_id(token: str, ids: list[str]) -> str:
@@ -853,7 +1045,7 @@ def format_wake_line(node, ids: list[str]) -> str:
         return f"x1 {day}:"
     if node.leaves <= 1:
         return node.caption
-    prefix = short_id(node.id, ids)
+    prefix = ids[node.id] if isinstance(ids, dict) else short_id(node.id, ids)
     if node.caption:
         return f"x{node.leaves} {prefix}: {node.caption}"
     return f"x{node.leaves} {prefix}:"
@@ -889,11 +1081,14 @@ def _fold_path_flag(parent) -> str:
     return f" --path {Path(rel).as_posix()}"
 
 
-def fold_request(parent, wake_lines: int | None = None) -> str:
+def fold_request(parent, wake_lines: int | None = None, nodes=None, entry_chars: int | None = None) -> str:
     """Return an OptMem-style nap prompt for the oldest equal-grain pair when over *wake_lines*."""
     if wake_lines is None:
         wake_lines = WAKE_LINES
-    nodes = list_view(parent)
+    if entry_chars is None:
+        entry_chars = knobs(parent)["ENTRY_CHARS"]
+    if nodes is None:
+        nodes = list_view(parent)
     if len(nodes) <= wake_lines:
         return ""
     left = right = None
@@ -910,7 +1105,7 @@ def fold_request(parent, wake_lines: int | None = None) -> str:
         extra = "1 compression remains after this one.\n"
     elif remain > 1:
         extra = f"{remain} compressions remain after this one.\n"
-    limit = knobs(parent)["ENTRY_CHARS"]
+    limit = entry_chars
     return (
         f"Compress these two into one line of at most {limit} characters.\n"
         "Keep what has lasting effect, drop what does not. Invent nothing.\n"
@@ -923,50 +1118,34 @@ def fold_request(parent, wake_lines: int | None = None) -> str:
     )
 
 
-def _recall_nested(tree: Tree, rx, lines: list[str], seen: set[str], ids: list[str]) -> None:
-    """Append recall hits from *tree* (original notes and nested nap captions) to *lines*."""
-    for child in tree.kids:
-        if isinstance(child, NoteChild):
-            if not rx.search(child.text):
-                continue
-            row = _projected_child(child)
-            line = format_wake_line(row, ids)
-            if line not in seen:
-                lines.append(line)
-                seen.add(line)
-            continue
-        if rx.search(child.sum):
-            row = _projected_child(child)
-            if row is not None:
-                line = format_wake_line(row, ids)
-                if line not in seen:
-                    lines.append(line)
-                    seen.add(line)
-        _recall_nested(child.tree, rx, lines, seen, ids)
-
-
 def recall_text(parent, pattern: str) -> str:
     """Return matching view lines, nested nap captions, and original notes for *pattern*."""
     rx = re.compile(pattern)
     lines = []
     seen: set[str] = set()
     nodes = list_view(parent)
-    ids = named_ids(parent)
+    ids, packs = _view_packs(parent)
+    prefixes = unique_prefixes(ids)
     for node in nodes:
         if not rx.search(node.caption):
             continue
-        line = format_wake_line(node, ids)
+        line = format_wake_line(node, prefixes)
         if line not in seen:
             lines.append(line)
             seen.add(line)
-    for node in nodes:
-        if node.kind != "nap" or node.tree_path is None or not node.tree_path.is_file():
-            continue
-        try:
-            _recall_nested(loads_tree(node.tree_path.read_bytes()), rx, lines, seen, ids)
-        except _TREE_PARSE_ERRORS:
+    for pack in packs:
+        if pack["status"] == "unreadable":
             _warn_skipped_pack()
             continue
+        if pack["status"] != "ok":
+            continue
+        for row in pack["hits"]:
+            if not rx.search(row.caption):
+                continue
+            line = format_wake_line(row, prefixes)
+            if line not in seen:
+                lines.append(line)
+                seen.add(line)
     if not lines:
         return ""
     return "\n".join(lines) + "\n"
@@ -1082,6 +1261,14 @@ def main(argv: list[str] | None = None) -> int:
             sys.stdout.write(usage_text())
             return 0
         args_list = [args_list[1], "--help", *args_list[2:]]
+    if args_list == ["version"]:
+        sys.stdout.write(f"{__version__}\n")
+        return 0
+    if args_list == ["init"]:
+        sys.stdout.write(init_text())
+        return 0
+    import argparse
+
     parser = argparse.ArgumentParser(prog="summem")
     sub = parser.add_subparsers(dest="cmd", required=True)
     wake = sub.add_parser("wake")
@@ -1163,12 +1350,12 @@ def main(argv: list[str] | None = None) -> int:
             return 1
 
         def nap_locked():
-            heal_view(parent)
-            view_ids = [node.id for node in list_view(parent)]
+            view = heal_view(parent)
+            view_ids = [node.id for node in view]
             id_a = resolve_id(args.id_a, view_ids)
             id_b = resolve_id(args.id_b, view_ids)
-            write_nap(parent, id_a, id_b, args.caption, k["ENTRY_CHARS"])
-            return fold_request(parent, k["WAKE_LINES"])
+            write_nap(parent, id_a, id_b, args.caption, k["ENTRY_CHARS"], nodes=view)
+            return fold_request(parent, k["WAKE_LINES"], entry_chars=k["ENTRY_CHARS"])
 
         try:
             out = with_store_lock(parent, nap_locked)
@@ -1202,13 +1389,17 @@ def main(argv: list[str] | None = None) -> int:
     except ValueError as exc:
         sys.stderr.write(f"{exc}\n")
         return 1
+    import random
+
     now = datetime.now(timezone.utc)
     rng = random.SystemRandom()
 
     def note_locked():
         write_note(parent, args.text, now, rng, k["ENTRY_CHARS"])
-        heal_view(parent)
-        return fold_request(parent, k["WAKE_LINES"])
+        view = heal_view(parent)
+        return fold_request(
+            parent, k["WAKE_LINES"], nodes=view, entry_chars=k["ENTRY_CHARS"]
+        )
 
     try:
         out = with_store_lock(parent, note_locked)
