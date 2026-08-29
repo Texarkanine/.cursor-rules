@@ -257,7 +257,7 @@ ENTRY_CHARS = 280
 WAKE_LINES = 32
 CLI_NAME = "summem"
 AGENT_BIN = ".summem/summem"
-__version__ = "0.9.0"  # x-release-please-version
+__version__ = "0.11.0"  # x-release-please-version
 
 CONFIG_TEMPLATE = """\
 # SumMem per-store settings. Missing values take the script's defaults.
@@ -622,8 +622,6 @@ def _first_overlap(
             left_set, right_set = sets[i], sets[j]
             if left_set is None or right_set is None:
                 continue
-            if left.kind == "note" and right.kind == "note":
-                continue
             if left_set.isdisjoint(right_set):
                 continue
             if left.leaves <= right.leaves:
@@ -715,7 +713,7 @@ def write_nap(parent, id_a, id_b, caption, entry_chars: int | None = None, nodes
     left, right = _adjacent_nodes(nodes, id_a, id_b)
     child_l, digs_l = _as_child(left)
     child_r, digs_r = _as_child(right)
-    if (set(digs_l) & set(digs_r)) and (left.kind == "nap" or right.kind == "nap"):
+    if set(digs_l) & set(digs_r):
         raise ValueError("overlapping packs")
     tree = Tree(kids=[child_l, child_r])
     digests = digs_l + digs_r
@@ -1106,12 +1104,14 @@ def fold_request(parent, wake_lines: int | None = None, nodes=None, entry_chars:
     elif remain > 1:
         extra = f"{remain} compressions remain after this one.\n"
     limit = entry_chars
+    left_src = left.caption
+    right_src = right.caption
     return (
         f"Compress these two into one line of at most {limit} characters.\n"
         "Keep what has lasting effect, drop what does not. Invent nothing.\n"
         "\n"
-        f"  {format_wake_line(left, ids)}\n"
-        f"  {format_wake_line(right, ids)}\n"
+        f"  {left_src}\n"
+        f"  {right_src}\n"
         "\n"
         f'Run: {AGENT_BIN} nap{_fold_path_flag(parent)} {short_id(left.id, ids)} {short_id(right.id, ids)} "<your line>"\n'
         f"{extra}"
@@ -1176,7 +1176,9 @@ def how_to_text() -> str:
     return f"""\
 == SumMem Usage ==
 
-`{AGENT_BIN} note "…"` records one short line for a fact another contributor would still need: designs, decisions, invariants, and the like. It has to belong in this repository's shared history - even when cloned on another machine. Personal, machine-local, and user preference facts stay out. Do not register redundant memories.
+`{AGENT_BIN} note "…"` records one short line.
+
+Never invent filenames, rewrite note bytes, or delete memory files by hand. The script is the only writer. The files it writes are part of your work; do not leave them untracked.
 
 If `note` asks for a nap, the note is already stored; do not retry the same note. The nap is extra work on two older view nodes. Do that nap before your next action.
 
@@ -1197,21 +1199,25 @@ Shared memory for this repository is managed through SumMem, invoked as `{AGENT_
 
 Run `{AGENT_BIN} wake` from the repository root. If you can see a prior project-root SumMem wake in this conversation's history, do not run it again.
 
-## While Working: Register Memories (mandatory)
+## While Working: Register Memories
 
-`{AGENT_BIN} note "…"` records one short line for a fact another contributor would still need. Personal, machine-local, and user preference facts stay out. `note` may sometimes print further instructions; always follow them.
+When something matches the write rule below, record it with SumMem's `note`.
 
-Never invent filenames, rewrite note bytes, or delete memory files by hand. The script is the only writer. The files it writes are part of your work; do not leave them untracked.
+One short line another contributor needs to work on this repository: gotchas, norms, failed approaches, lore and tribal knowledge, etc. Not merely "news" - e.g. that a PR opened, checks passed, or a task completed. Personal, machine-local, and user preference facts stay out. Skip if nothing qualifies or it is already remembered.
 """
 
 
 def init_text() -> str:
     """Return the full `init` print: insert recipe plus prompt_text()."""
     return (
-        "Insert the following at the top of AGENTS.md. "
+        "Insert the following at the top of AGENTS.md as a starting write rule. "
+        "You may edit what this repository remembers. "
+        "Command syntax comes from root wake; do not copy it into this prefix. "
         "If Claude Code should see it too,"
         "\n"
         "put @AGENTS.md at the top of CLAUDE.md.\n"
+        "\n"
+        "---\n"
         "\n"
         f"{prompt_text()}"
     )
@@ -1362,7 +1368,14 @@ def main(argv: list[str] | None = None) -> int:
         except ValueError as exc:
             sys.stderr.write(f"{exc}\n")
             return 1
-        sys.stdout.write(out)
+        # Idle is nap-only. Do not move it into fold_request: note shares that helper.
+        sys.stdout.write("Saved.\n")
+        if out:
+            sys.stdout.write("\n")
+            sys.stdout.write(out)
+        else:
+            sys.stdout.write("\n")
+            sys.stdout.write("Nothing left to compress.\n")
         return 0
     if args.cmd == "zoom":
         if is_range_token(args.id):
