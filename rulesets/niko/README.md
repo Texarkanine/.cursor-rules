@@ -374,3 +374,41 @@ You might use this if you know you want to build something, but you aren't sure 
 `/nk-chat`
 
 A read-only, memory-bank-aware Q&A session. Loads the persistent context (and reads any in-flight ephemeral state without mutating it) so you can ask questions about the codebase, an active task, or a possible future task without committing to a workflow and without producing any artifacts.
+
+### Tips & Tricks
+
+#### Subagent Selection
+
+Niko will spawn subagents for verification passes - **QA** and **Preflight**, when they show up in a workflow. Its guidance is:
+
+> ... Spawn a subagent (prefer smarter / different family if available) ...
+
+Depending on your harness, the models you have available, and what model you started with, this may pick some **very** expensive verifiers. You may wish to consider adding your own rule, either user-scoped or project-scoped or both, to guide selection. Here's mine:
+
+~~~markdown
+# Niko QA & Preflight Model Selection
+
+When selecting a model for Niko QA & Preflight, mix up the family - don't just always choose Claude Opus. This does not remove the requirement that models be AT LEAST as smart as you, if not smarter. It's OK to use Opus sometimes, but do NOT pick Fable - it's too expensive! Think carefully about model selection. This applies **only** when selecting a model for those two specific Niko workflow purposes. For other situations, defer to their own instructions, or, if absent, the defaults.
+
+A one-line shell command to give you a fairly random choice among candidate models is:
+
+```bash
+echo "alpha beta gamma delta" | awk 'BEGIN{srand()} {print $(int(rand()*NF)+1)}'
+```
+~~~
+
+In Cursor, I've actually removed `Fable` from the enabled models so it's not even on the list - I switch it back on when I actually want to use it. In Claude Code, you can't do that.
+
+In a project where I'm primarily developing with faster, cheaper models, I might use this:
+
+~~~markdown
+# Niko QA & Preflight Model Selection
+
+When selecting a model for Niko QA & Preflight, mix up the family by picking from (gemini 3.7 flash, cursor grok 4.6, gpt 5.6 terra, claude sonnet 5). This does not remove the requirement that models be AT LEAST as smart as you, if not smarter. This applies **only** when selecting a model for those two specific Niko workflow purposes. For other situations, defer to their own instructions, or, if absent, the defaults.
+
+A one-line shell command to give you a fairly random choice among candidate models is:
+
+```bash
+echo "alpha beta gamma delta" | awk 'BEGIN{srand()} {print $(int(rand()*NF)+1)}'
+```
+~~~
