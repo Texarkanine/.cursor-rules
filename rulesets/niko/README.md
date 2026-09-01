@@ -388,7 +388,12 @@ Depending on your harness, the models you have available, and what model you sta
 ~~~markdown
 # Niko QA & Preflight Model Selection
 
-When selecting a model for Niko QA & Preflight, mix up the family - don't just always choose Claude Opus. This does not remove the requirement that models be AT LEAST as smart as you, if not smarter. It's OK to use Opus sometimes, but do NOT pick Fable - it's too expensive! Think carefully about model selection. This applies **only** when selecting a model for those two specific Niko workflow purposes. For other situations, defer to their own instructions, or, if absent, the defaults.
+When selecting a model for Niko QA & Preflight, mix up the family - don't just always choose Claude Opus.
+This does not remove the requirement that models be AT LEAST as smart as you, if not smarter.
+It's OK to use Opus sometimes, but do NOT pick Fable - it's too expensive!
+Think carefully about model selection.
+This applies **only** when selecting a model for those two specific Niko workflow purposes.
+For other situations, defer to their own instructions, or, if absent, the defaults.
 
 A one-line shell command to give you a fairly random choice among candidate models is:
 
@@ -404,7 +409,10 @@ In a project where I'm primarily developing with faster, cheaper models, I might
 ~~~markdown
 # Niko QA & Preflight Model Selection
 
-When selecting a model for Niko QA & Preflight, mix up the family by picking from (gemini 3.7 flash, cursor grok 4.6, gpt 5.6 terra, claude sonnet 5). This does not remove the requirement that models be AT LEAST as smart as you, if not smarter. This applies **only** when selecting a model for those two specific Niko workflow purposes. For other situations, defer to their own instructions, or, if absent, the defaults.
+When selecting a model for Niko QA & Preflight, mix up the family by picking from (gemini 3.7 flash, cursor grok 4.6, gpt 5.6 terra, claude sonnet 5).
+This does not remove the requirement that models be AT LEAST as smart as you, if not smarter.
+This applies **only** when selecting a model for those two specific Niko workflow purposes.
+For other situations, defer to their own instructions, or, if absent, the defaults.
 
 A one-line shell command to give you a fairly random choice among candidate models is:
 
