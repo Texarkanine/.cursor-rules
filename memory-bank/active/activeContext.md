@@ -4,13 +4,12 @@
 Compress and deduplicate `rules/niko-core.mdc` while preserving omnipresent core invariants.
 
 ## Phase
-PLAN - COMPLETE
+PLAN - REVISED
 
 ## What Was Done
-- Created detailed Level 2 implementation plan in `memory-bank/active/tasks.md`.
-- Surveyed test infrastructure (no new executable behavior; rules prose/policy validated via `make test`).
-- Defined concrete edits and line-by-line compressions.
-- Completed challenges, mitigations, and pre-mortem.
+- Re-planned following Preflight `FAIL (fixable)` result.
+- Added explicit removal substeps for all 5 bloat bullets named in the project brief (`Propose Enhancements`, `Reusability Mindset`, `Evaluate Strategies`, `Strict Rule Adherence`, `Ensure Production-Ready Quality`).
+- Explicitly scheduled folding `Verification Reporting` into the consolidated communication bullet.
 
 ## Next Step
-Transition to Preflight phase.
+Re-run Preflight validation.

@@ -24,3 +24,9 @@ Refactor and compress `rules/niko-core.mdc` to eliminate internal repetition and
 * Decisions made
     - Retained all non-negotiable core invariants intact.
     - Planned consolidation of safety/approval, error handling, context/ambiguity, and communication sections.
+
+## 2026-09-02 - PLAN - REVISED
+
+* Work completed
+    - Addressed Preflight `FAIL (fixable)` findings by making all deletions explicitly scheduled substeps in `tasks.md`.
+    - Included explicit removal of `Propose Enhancements`, `Reusability Mindset`, `Evaluate Strategies`, `Strict Rule Adherence`, `Ensure Production-Ready Quality`, and folded `Verification Reporting`.

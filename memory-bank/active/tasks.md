@@ -28,16 +28,32 @@ No new executable behavior.
 
 1. Re-read `rules/niko-core.mdc` to verify existing sections and contents.
 2. Update `rules/niko-core.mdc` with compressed sections:
-   - Retain Core Persona paragraph 1 and paragraph 2 (Collaborator Posture & Anti-Sycophancy) intact.
-   - Retain Public Interface Identification and Test Planning under Research & Planning.
-   - Compress Context Mapping and Ambiguity Resolution, removing AWS boilerplate.
-   - Retain TDD and Pre-Edit File Analysis under Execution.
-   - Retain Test Integrity and Proactive Code Verification under Verification & Quality Assurance.
-   - Compress Error Handling (`EH1`–`EH5`) and `V3` into a single "Root-Cause Resolution & Circuit Breaker" bullet.
-   - Compress Safety & Approval bullets (`S1`–`S6`) into a single "Autonomous Execution & Approval Thresholds" standard, retaining Credential Security.
-   - Compress Communication & Reporting into a single "Structured, Low-Overhead Updates" bullet.
-   - Remove standalone `## Error Handling` and `## Proactive Foresight & System Health` sections.
-   - Ensure all prose follows markdown styling rules (no hard-wrapping).
+   - **Retain Bedrock Invariants:**
+     - Retain Core Persona paragraph 1 and paragraph 2 (Collaborator Posture & Anti-Sycophancy) intact.
+     - Retain `Public Interface Identification` under Research & Planning intact.
+     - Retain `Test Planning` (TDD) under Research & Planning intact.
+     - Retain `Pre-Edit File Analysis` under Execution intact.
+     - Retain `Implement the Plan` (TDD) under Execution intact.
+     - Retain `Test Integrity` under Verification & Quality Assurance intact.
+     - Retain `Proactive Code Verification` under Verification & Quality Assurance intact.
+     - Retain `Commitment Completeness` under Verification & Quality Assurance intact.
+     - Retain `Credential Security` under Safety & Approval Guidelines intact.
+   - **Compress Internal Sprawl:**
+     - Consolidate `Context Mapping` and `Ambiguity Resolution` into two lean bullets, removing dated cloud/AWS boilerplate.
+     - Consolidate `Error Handling` (`EH1`–`EH5`) and `V3` into a single "Root-Cause Resolution & Circuit Breaker" bullet under Verification & Quality Assurance.
+     - Consolidate `Safety & Approval` bullets (`S1`–`S6`) into a single "Autonomous Execution & Approval Thresholds" standard under Safety & Approval Guidelines.
+     - Consolidate `Communication` and `Verification Reporting` into a single "Structured, Low-Overhead Updates" bullet under Communication.
+   - **Explicit Removals (Eliminate Internal Bloat):**
+     - Remove `Propose Enhancements` bullet from Research & Planning.
+     - Remove `Reusability Mindset` bullet from Research & Planning.
+     - Remove `Evaluate Strategies` bullet from Research & Planning.
+     - Remove `Strict Rule Adherence` bullet from Execution.
+     - Remove `Ensure Production-Ready Quality` bullet from Verification & Quality Assurance.
+     - Remove `Verification Reporting` bullet from Verification & Quality Assurance (folded into Communication).
+     - Remove standalone `## Error Handling` section (absorbed into Verification circuit breaker).
+     - Remove standalone `## Proactive Foresight & System Health` section.
+   - **Formatting & Style Compliance:**
+     - Ensure all prose adheres to `markdown-style.mdc` (no hard-wrapping).
 3. Run `make test` to verify symlink and ruleset integrity.
 
 ## Technology Validation
