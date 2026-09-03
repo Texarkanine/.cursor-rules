@@ -63,3 +63,11 @@ Refactor and compress `rules/niko-core.mdc` to eliminate internal repetition and
     - Judged the `Test Integrity`/`Credential Security` colon-placement normalization non-blocking: content-preserving and consistent with the rest of the file's convention.
 * Insights
     - The plan's own Pre-Mortem anticipated exactly this failure mode ("Inadvertently omitting or weakening an invariant... Mitigation: Explicitly trace every kept invariant against the original text") - the mitigation was not fully executed for one bullet during Build.
+
+## 2026-09-02 - BUILD - COMPLETE (REWORK)
+
+* Work completed
+    - Restored `Implement the Plan` bullet under `## Execution` to its exact pre-Build wording, fully satisfying the plan requirement.
+    - Re-ran `make test` (all checks pass).
+* Decisions made
+    - Addressed QA finding completely before transitioning back to QA.
