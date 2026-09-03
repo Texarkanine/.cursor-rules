@@ -40,3 +40,14 @@ Refactor and compress `rules/niko-core.mdc` to eliminate internal repetition and
     - Approved the plan for Build with one non-blocking future-design advisory.
 * Insights
     - The generated injected copy intentionally lags canonical sources and requires a separately pushed `chore(dev): ai-rizz sync` release commit.
+
+## 2026-09-02 - BUILD - COMPLETE
+
+* Work completed
+    - Refactored `rules/niko-core.mdc` per the validated plan.
+    - Compressed internal sprawl across Safety, Error Handling, Context Mapping, and Communication.
+    - Cleaned out five redundant filler bullets and two redundant sections.
+    - Verified ruleset symlinks and link consistency via `make test` (all passed).
+* Decisions made
+    - Kept zero-compromise bedrock invariants verbatim.
+    - Preserved clean continuous lines for all prose paragraphs per `markdown-style.mdc`.

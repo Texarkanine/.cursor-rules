@@ -26,8 +26,8 @@ No new executable behavior.
 - Files: `rules/niko-core.mdc`
 - No tests: prose/policy artifact
 
-1. Re-read `rules/niko-core.mdc` to verify existing sections and contents.
-2. Update `rules/niko-core.mdc` with compressed sections:
+1. [x] Re-read `rules/niko-core.mdc` to verify existing sections and contents.
+2. [x] Update `rules/niko-core.mdc` with compressed sections:
    - **Retain Bedrock Invariants:**
      - Retain Core Persona paragraph 1 and paragraph 2 (Collaborator Posture & Anti-Sycophancy) intact.
      - Retain `Public Interface Identification` under Research & Planning intact.
@@ -54,7 +54,7 @@ No new executable behavior.
      - Remove standalone `## Proactive Foresight & System Health` section.
    - **Formatting & Style Compliance:**
      - Ensure all prose adheres to `markdown-style.mdc` (no hard-wrapping).
-3. Run `make test` to verify symlink and ruleset integrity.
+3. [x] Run `make test` to verify symlink and ruleset integrity.
 
 ## Technology Validation
 
@@ -83,6 +83,6 @@ No new technology - validation not required
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
-- [ ] Build
+- [x] Preflight
+- [x] Build
 - [ ] QA
