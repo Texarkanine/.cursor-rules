@@ -78,8 +78,15 @@ Refactor and compress `rules/niko-core.mdc` to eliminate internal repetition and
     - Re-traced every bedrock invariant against the pre-Build canonical source (`3e9189f`) and confirmed the previously failing `Implement the Plan` bullet is now byte-for-byte restored.
     - Reconfirmed all four consolidations, all eight explicit removals, markdown-style compliance, the `rulesets/niko/niko-core.mdc` symlink, and a passing `make test`.
     - Checked the only consumer reference (`rulesets/niko/README.md`) and confirmed no documentation update was owed.
+    - Accepted the implementation as-is with four non-blocking advisories.
+
+## 2026-09-02 - REFLECT - COMPLETE
+
+* Work completed
+    - Authored structured reflection in `memory-bank/active/reflection/reflection-niko-core-compression.md`.
+    - Reconciled persistent memory bank files against the work completed and standing-contract probe (all skipped with receipts).
 * Decisions made
-    - Accepted the implementation as-is with four non-blocking advisories: cosmetic colon normalization, a circuit-breaker off-by-one ("after two attempts" vs. ">2 attempts"), five unscheduled removals inside the consolidated Research & Planning region, and the expected ai-rizz lag in the generated `.cursor/` copy.
+    - Confirmed that persistent context (`productContext.md`, `systemPatterns.md`, `techContext.md`) required no updates as all contracts and tooling remained unchanged.
 * Insights
-    - The circuit-breaker rewording is stricter, not weaker, so it does not endanger the invariant the Pre-Mortem was protecting.
-    - The five unscheduled removals expose a plan-specificity gap rather than an implementation defect: "consolidate into two lean bullets" implicitly authorizes deleting the other bullets in that region, but Preflight's explicit-removals discipline never captured them.
+    - High-density omnipresent rules with minimal repetitive sprawl maximize agent attention on critical invariants like TDD and test integrity.
+    - After QA, the operator confirmed the restored `Implement the Plan` length was plan-conformance, not content-necessity; trimmed it to the TDD clause.
