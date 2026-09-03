@@ -1,0 +1,15 @@
+FAIL (fixable)
+
+QA for `niko-core-compression` (Level 2), run 2026-09-02 against the Build output committed at 1d08457.
+
+Completeness — FAIL. `memory-bank/active/tasks.md` explicitly lists "Retain `Implement the Plan` (TDD) under Execution intact" as a bedrock invariant, and the corresponding checklist item is marked `[x]`. The Build diff shows this bullet was compressed instead of retained verbatim: it dropped the two illustrative examples ("(e.g., multiple valid targets)", "(e.g., checking multiple services)") and the closing clause "Document the process and results to ensure transparency." The core TDD directive ("following TDD - write tests first, then write code") survives, but the bullet as a whole was not kept intact as the plan required. This is exactly the failure mode the plan's own Pre-Mortem anticipated ("Inadvertently omitting or weakening an invariant... Mitigation: Explicitly trace every kept invariant against the original text") and the mitigation was not fully executed for this bullet.
+
+Bedrock Invariant Trace — otherwise PASS. Verified verbatim (byte-for-byte against the pre-Build canonical source, not the lagging generated `.cursor/` copy): Core Persona paragraphs 1–2, Public Interface Identification, Test Planning, Pre-Edit File Analysis, Proactive Code Verification, Commitment Completeness. `Test Integrity` and `Credential Security` retain identical content with only a cosmetic colon-placement fix (`**Label:**` → `**Label**:`) that brings them in line with every other bullet's existing convention in the file — advisory only, not blocking.
+
+Compression & Removal Requirements — PASS. All four "Compress Internal Sprawl" consolidations (Context Mapping/Ambiguity Resolution, Error Handling+circuit breaker, Safety/Approval, Communication) and all eight explicit removals (`Propose Enhancements`, `Reusability Mindset`, `Evaluate Strategies`, `Strict Rule Adherence`, `Ensure Production-Ready Quality`, folded `Verification Reporting`, standalone `## Error Handling`, standalone `## Proactive Foresight & System Health`) are present exactly as scheduled.
+
+Formatting — PASS. No hard-wrapped lines introduced; each bullet remains one continuous line per `markdown-style.mdc`.
+
+Mechanical Verification — PASS. `make test` (symlink + ruleset README link checks) passes on the current tree. `rulesets/niko/niko-core.mdc` remains a symlink to `rules/niko-core.mdc`; no other consumer required updates.
+
+Disposition: Build must rerun to restore the exact original wording of the `Implement the Plan` bullet under `## Execution` in `rules/niko-core.mdc`, then re-run `make test` and return to QA.

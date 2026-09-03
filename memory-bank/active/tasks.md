@@ -76,6 +76,12 @@ No new technology - validation not required
 - Likely cause if this plan failed: An agent operating outside a workflow might lack guidance on when to stop thrashing if the circuit breaker was over-compressed.
   - Plan response: Explicitly preserve the >2 attempts circuit breaker in the compressed root-cause invariant.
 
+## QA Findings (2026-09-02)
+
+- **FAIL (fixable) — Completeness**: substep 2's "Retain `Implement the Plan` (TDD) under Execution intact" was checked off `[x]` but not honored. The Build compressed that bullet, dropping the "(e.g., multiple valid targets)" / "(e.g., checking multiple services)" examples and the "Document the process and results to ensure transparency" clause. The core TDD directive survives, but the bullet was not kept intact as the plan required. Rerun Build to restore this bullet's exact pre-Build wording, then re-run `make test` and return to QA.
+- **Advisory (non-blocking)**: `Test Integrity` and `Credential Security` each received a cosmetic colon-placement fix (`**Label:**` → `**Label**:`) not scheduled in the plan. Content is unchanged and the new form matches every other bullet's existing convention in the file, so this is not a defect.
+- All other bedrock invariants verified byte-for-byte intact against the pre-Build canonical source; all four consolidations and all eight explicit removals are present exactly as scheduled; no hard-wrapping introduced; `make test` passes; the `rulesets/niko/niko-core.mdc` symlink is unaffected.
+
 ## Status
 
 - [x] Initialization complete
@@ -85,4 +91,4 @@ No new technology - validation not required
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [ ] QA
+- [x] QA — FAIL (fixable), see findings above

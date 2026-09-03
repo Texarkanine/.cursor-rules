@@ -51,3 +51,15 @@ Refactor and compress `rules/niko-core.mdc` to eliminate internal repetition and
 * Decisions made
     - Kept zero-compromise bedrock invariants verbatim.
     - Preserved clean continuous lines for all prose paragraphs per `markdown-style.mdc`.
+
+## 2026-09-02 - QA - COMPLETE (FAIL WITH FIXABLE FINDING)
+
+* Work completed
+    - Traced every plan-listed bedrock invariant against the pre-Build canonical source (not the lagging generated `.cursor/` copy) to check for semantic drift.
+    - Re-ran `make test`; symlink and ruleset README link checks pass.
+    - Confirmed all four consolidations and all eight explicit removals scheduled in the plan are present exactly as scheduled.
+* Decisions made
+    - Judged the `Implement the Plan` bullet a FAIL (fixable): the plan explicitly required it retained intact, but Build compressed it, dropping its examples and closing clause.
+    - Judged the `Test Integrity`/`Credential Security` colon-placement normalization non-blocking: content-preserving and consistent with the rest of the file's convention.
+* Insights
+    - The plan's own Pre-Mortem anticipated exactly this failure mode ("Inadvertently omitting or weakening an invariant... Mitigation: Explicitly trace every kept invariant against the original text") - the mitigation was not fully executed for one bullet during Build.
