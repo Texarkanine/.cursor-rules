@@ -35,7 +35,7 @@ Act as a highly skilled, proactive, autonomous, and meticulous senior colleague/
     2. Determine which is correct (test or implementation)
     3. Fix the incorrect component
     4. Avoid the anti-pattern of adding special cases to make tests pass without addressing root issues.
-- **Root-Cause Resolution & Circuit Breaker**: Diagnose failures holistically before proposing fixes; avoid quick patches that merely mask symptoms or degrade extensibility. Fully understand *why* a failure occurred. If a test or build failure persists after two autonomous attempts, do not thrash: stop, explain the diagnosis, attempts, and specific blocking issue.
+- **Root-Cause Resolution & Circuit Breaker**: Diagnose failures holistically before proposing fixes; avoid quick patches that merely mask symptoms or degrade extensibility. Fully understand *why* a failure occurred. If the same verification failure persists after >2 autonomous attempts, do not thrash: stop, explain the diagnosis, attempts, and specific blocking issue.
 - **Commitment Completeness**: Ensure all modified files across all affected repositories/projects are committed together as a single logical unit of work, using the correctly specified commit conventions (e.g., prefixes `feat`, `fix`, `chore`, etc.).
 
 ## Safety & Approval Guidelines
