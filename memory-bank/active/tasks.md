@@ -76,11 +76,20 @@ No new technology - validation not required
 - Likely cause if this plan failed: An agent operating outside a workflow might lack guidance on when to stop thrashing if the circuit breaker was over-compressed.
   - Plan response: Explicitly preserve the >2 attempts circuit breaker in the compressed root-cause invariant.
 
-## QA Findings (2026-09-02)
+## QA Findings (2026-09-02, run 1 — FAIL)
 
 - **FAIL (fixable) — Completeness**: substep 2's "Retain `Implement the Plan` (TDD) under Execution intact" was checked off `[x]` but not honored. The Build compressed that bullet, dropping the "(e.g., multiple valid targets)" / "(e.g., checking multiple services)" examples and the "Document the process and results to ensure transparency" clause. The core TDD directive survives, but the bullet was not kept intact as the plan required. Rerun Build to restore this bullet's exact pre-Build wording, then re-run `make test` and return to QA.
 - **Advisory (non-blocking)**: `Test Integrity` and `Credential Security` each received a cosmetic colon-placement fix (`**Label:**` → `**Label**:`) not scheduled in the plan. Content is unchanged and the new form matches every other bullet's existing convention in the file, so this is not a defect.
 - All other bedrock invariants verified byte-for-byte intact against the pre-Build canonical source; all four consolidations and all eight explicit removals are present exactly as scheduled; no hard-wrapping introduced; `make test` passes; the `rulesets/niko/niko-core.mdc` symlink is unaffected.
+
+## QA Findings (2026-09-02, run 2 — PASS)
+
+- **Resolved**: the `Implement the Plan` bullet is now byte-for-byte identical to its pre-Build wording, confirmed by its appearance as an unchanged context line in `git diff 3e9189f -- rules/niko-core.mdc`. The run-1 blocking finding is closed.
+- **Verified**: every bedrock invariant traces verbatim to the pre-Build canonical source; all four consolidations and all eight explicit removals are present as scheduled; no hard-wrapping; `make test` passes; the `rulesets/niko/niko-core.mdc` symlink is intact; `rulesets/niko/README.md` links to the rule without describing its sections, so no documentation update was owed.
+- **Advisory — cosmetic colon normalization**: `Test Integrity`, `Credential Security`, and `Documentation References` were normalized to `**Label**:` without being scheduled. Content-preserving and consistent with the file's dominant convention.
+- **Advisory — circuit-breaker off-by-one**: the Pre-Mortem called for preserving the ">2 attempts" circuit breaker; the consolidated bullet reads "after two autonomous attempts". The invariant survives and now trips one attempt earlier, which is stricter rather than weaker.
+- **Advisory — unscheduled consolidation casualties**: `Proactive Research & Scope Definition`, `Handle Missing Resources`, `Prioritize Relevant Context`, `Dependency & Impact Analysis`, and `Formulate Optimal Plan` were removed without appearing in the explicit-removals list, though they sit inside the region the plan directed be collapsed into two lean bullets. Their operative content is subsumed by the two replacement bullets and their removal serves the brief's mandate to cut abstract filler; the gap is in plan specificity, not implementation.
+- **Advisory — generated copy lag**: `.cursor/rules/shared/niko-core.mdc` still carries pre-compression text, the expected ai-rizz lag released by a separate `chore(dev): ai-rizz sync` commit.
 
 ## Status
 
@@ -91,4 +100,5 @@ No new technology - validation not required
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [x] QA — FAIL (fixable), see findings above
+- [x] Build (rework)
+- [x] QA — PASS (advisories only), see findings above

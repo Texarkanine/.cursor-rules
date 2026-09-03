@@ -71,3 +71,15 @@ Refactor and compress `rules/niko-core.mdc` to eliminate internal repetition and
     - Re-ran `make test` (all checks pass).
 * Decisions made
     - Addressed QA finding completely before transitioning back to QA.
+
+## 2026-09-02 - QA - COMPLETE (PASS)
+
+* Work completed
+    - Re-traced every bedrock invariant against the pre-Build canonical source (`3e9189f`) and confirmed the previously failing `Implement the Plan` bullet is now byte-for-byte restored.
+    - Reconfirmed all four consolidations, all eight explicit removals, markdown-style compliance, the `rulesets/niko/niko-core.mdc` symlink, and a passing `make test`.
+    - Checked the only consumer reference (`rulesets/niko/README.md`) and confirmed no documentation update was owed.
+* Decisions made
+    - Accepted the implementation as-is with four non-blocking advisories: cosmetic colon normalization, a circuit-breaker off-by-one ("after two attempts" vs. ">2 attempts"), five unscheduled removals inside the consolidated Research & Planning region, and the expected ai-rizz lag in the generated `.cursor/` copy.
+* Insights
+    - The circuit-breaker rewording is stricter, not weaker, so it does not endanger the invariant the Pre-Mortem was protecting.
+    - The five unscheduled removals expose a plan-specificity gap rather than an implementation defect: "consolidate into two lean bullets" implicitly authorizes deleting the other bullets in that region, but Preflight's explicit-removals discipline never captured them.

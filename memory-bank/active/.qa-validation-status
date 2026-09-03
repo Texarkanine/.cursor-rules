@@ -1,15 +1,24 @@
-FAIL (fixable)
+PASS
 
-QA for `niko-core-compression` (Level 2), run 2026-09-02 against the Build output committed at 1d08457.
+QA re-run for `niko-core-compression` (Level 2), 2026-09-02, against the Build rework in the working tree (baseline: pre-Build commit `3e9189f`).
 
-Completeness — FAIL. `memory-bank/active/tasks.md` explicitly lists "Retain `Implement the Plan` (TDD) under Execution intact" as a bedrock invariant, and the corresponding checklist item is marked `[x]`. The Build diff shows this bullet was compressed instead of retained verbatim: it dropped the two illustrative examples ("(e.g., multiple valid targets)", "(e.g., checking multiple services)") and the closing clause "Document the process and results to ensure transparency." The core TDD directive ("following TDD - write tests first, then write code") survives, but the bullet as a whole was not kept intact as the plan required. This is exactly the failure mode the plan's own Pre-Mortem anticipated ("Inadvertently omitting or weakening an invariant... Mitigation: Explicitly trace every kept invariant against the original text") and the mitigation was not fully executed for this bullet.
+Prior Blocking Finding — RESOLVED. The `Implement the Plan` bullet under `## Execution` is now byte-for-byte identical to its pre-Build wording; it appears as an unchanged context line in `git diff 3e9189f -- rules/niko-core.mdc`, confirming full restoration including both illustrative examples and the closing transparency clause.
 
-Bedrock Invariant Trace — otherwise PASS. Verified verbatim (byte-for-byte against the pre-Build canonical source, not the lagging generated `.cursor/` copy): Core Persona paragraphs 1–2, Public Interface Identification, Test Planning, Pre-Edit File Analysis, Proactive Code Verification, Commitment Completeness. `Test Integrity` and `Credential Security` retain identical content with only a cosmetic colon-placement fix (`**Label:**` → `**Label**:`) that brings them in line with every other bullet's existing convention in the file — advisory only, not blocking.
+Bedrock Invariant Trace — PASS. Verified verbatim against the pre-Build canonical source (not the lagging generated `.cursor/` copy): Core Persona paragraphs 1–2, Public Interface Identification, Test Planning, Pre-Edit File Analysis, Implement the Plan, Proactive Code Verification, Commitment Completeness. `Test Integrity` and `Credential Security` retain identical content with only a cosmetic colon-placement normalization.
 
-Compression & Removal Requirements — PASS. All four "Compress Internal Sprawl" consolidations (Context Mapping/Ambiguity Resolution, Error Handling+circuit breaker, Safety/Approval, Communication) and all eight explicit removals (`Propose Enhancements`, `Reusability Mindset`, `Evaluate Strategies`, `Strict Rule Adherence`, `Ensure Production-Ready Quality`, folded `Verification Reporting`, standalone `## Error Handling`, standalone `## Proactive Foresight & System Health`) are present exactly as scheduled.
+Compression & Removal Requirements — PASS. All four scheduled consolidations and all eight explicit removals are present exactly as scheduled. `Test Planning` was relocated within `## Research & Planning` with its text unchanged.
 
-Formatting — PASS. No hard-wrapped lines introduced; each bullet remains one continuous line per `markdown-style.mdc`.
+Formatting — PASS. No hard-wrapping introduced; every bullet remains one continuous line per `markdown-style.mdc`.
 
-Mechanical Verification — PASS. `make test` (symlink + ruleset README link checks) passes on the current tree. `rulesets/niko/niko-core.mdc` remains a symlink to `rules/niko-core.mdc`; no other consumer required updates.
+Mechanical Verification — PASS. `make test` (symlink + ruleset README link checks) passes. `rulesets/niko/niko-core.mdc` remains a symlink to `rules/niko-core.mdc`.
 
-Disposition: Build must rerun to restore the exact original wording of the `Implement the Plan` bullet under `## Execution` in `rules/niko-core.mdc`, then re-run `make test` and return to QA.
+Documentation — PASS. The only consumer reference, `rulesets/niko/README.md`, links to the file without describing its section structure, so no doc update was owed.
+
+Advisories (non-blocking):
+
+1. Cosmetic colon normalization (`**Label:**` → `**Label**:`) on `Test Integrity`, `Credential Security`, and `Documentation References` was not scheduled in the plan. Content is unchanged and the new form matches the file's dominant convention.
+2. Circuit-breaker off-by-one. The plan's Pre-Mortem said to "preserve the >2 attempts circuit breaker"; the consolidated `Root-Cause Resolution & Circuit Breaker` bullet says "persists after two autonomous attempts". The invariant survives and now trips one attempt earlier, which is stricter rather than weaker — flagged for the operator's awareness, not a defect.
+3. Five bullets removed during the Research & Planning consolidation (`Proactive Research & Scope Definition`, `Handle Missing Resources`, `Prioritize Relevant Context`, `Dependency & Impact Analysis`, `Formulate Optimal Plan`) were not named in the plan's explicit-removals list, though they fall inside the region the plan directed be collapsed into two lean bullets. Their operative content is subsumed by `Comprehensive Context Mapping` and `Principled Ambiguity Resolution`, and their removal serves the brief's mandate to cut abstract filler. The gap is in the plan's specificity, not in the implementation.
+4. The generated copy at `.cursor/rules/shared/niko-core.mdc` still carries the pre-compression text. This is the expected ai-rizz lag noted at Preflight and is released by a separate `chore(dev): ai-rizz sync` commit.
+
+Disposition: accepted as-is. Proceed to `/niko-reflect`.
