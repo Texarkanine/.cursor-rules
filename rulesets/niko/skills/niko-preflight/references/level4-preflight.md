@@ -6,7 +6,7 @@ This document validates the L4 milestone list in `memory-bank/active/milestones.
 
 Read:
 
-- `memory-bank/active/milestones.md` (required)
+- `memory-bank/active/milestones.md`
 - `memory-bank/active/projectbrief.md`
 
 ## Checks

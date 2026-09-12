@@ -40,10 +40,12 @@ Rules:
 - Header: `# Milestones: <task-id>` matching the task ID in `memory-bank/active/tasks.md`
 - One GFM checkbox per milestone (`- [ ]` or `- [x]`). No sub-bullets. No second sentence. No file lists.
 - Do not create tickets. If a ticket already exists, put its id or URL on that checkbox line.
-- Only the Execution Order checklist may use `- [ ]` / `- [x]`. `/niko` classifies by those markers.
+- Only the Execution Order checklist may use `- [ ]` / `- [x]`. Those markers are the milestone list.
 - The flowchart is not a milestone.
 
 ## What Makes a Good Milestone
+
+Each milestone must satisfy all of these:
 
 - **Independently deliverable** — plan, build, test, and commit with no need for a later milestone
 - **L1/L2/L3 scoped** — not itself L4
