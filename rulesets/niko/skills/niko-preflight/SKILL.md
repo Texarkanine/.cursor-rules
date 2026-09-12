@@ -17,31 +17,41 @@ Read:
 - `memory-bank/techContext.md`
 - `memory-bank/active/creative/**/*.md` (if any exist)
 
-## Step 2: Preflight Workflow
+## Step 2: Determine Complexity Level
 
-Read `**Complexity:**` in `memory-bank/active/progress.md`. Take exactly one branch:
+If no complexity level is set, or `memory-bank/active/progress.md` does not exist, or Complexity is not Level 2, Level 3, or Level 4: record `FAIL (blocking)`. Skip to Write Status.
 
-- Level 4: load `.cursor/skills/shared/niko-preflight/references/level4-preflight.md`. Follow it. Do not read the other check file.
-- Level 2 or Level 3: load `.cursor/skills/shared/niko-preflight/references/default-preflight.md`. Follow it. Do not read the other check file.
-- Level 1, missing, or unknown: record `FAIL (blocking)`. Do not load a check file. Skip to Write Status.
+## Step 3: Route to Level-Specific Checks
 
-Then:
+Load the matching check file and follow it:
 
-1. **Radical Innovation** *(advisory - not blocking)*
-    - What's the single smartest and most radically innovative and accretive and useful and compelling change you could make to the plan at this point?
-    - Describe the change concretely - not as a vague suggestion, but as a specific structural sketch the operator can evaluate against the cost of redesign.
-    - Record that idea as an advisory finding. Do not make the change to the plan, even if the idea fits the brief.
+- Level 2 or Level 3: `.cursor/skills/shared/niko-preflight/references/default-preflight.md`
+- Level 4: `.cursor/skills/shared/niko-preflight/references/level4-preflight.md`
 
-2. **Judge, Do Not Fix**
-   - Surface and judge. Never modify the plan under review, except the TDD step swap and the strike, and only when the loaded checks performed those edits.
-   - Allowed writes only: `memory-bank/active/.preflight-status`, the `**Phase:**` field in `activeContext.md` (under **End of Verification**), `progress.md`, and those two in-phase plan edits on `tasks.md`.
-   - Do not rewrite Implementation Plan units, behavior lists, or other scheduled work except that swap and that strike.
-   - Record every issue as a finding. FAIL when the plan must change before build (`FAIL (fixable)` or `FAIL (blocking)`); PASS only when the plan is acceptable as-is (advisories allowed).
+## Step 4: Radical Innovation
 
-3. **Write Status**
-   - Overwrite `memory-bank/active/.preflight-status`. First line is exactly one allowed value from `.cursor/rules/shared/niko/memory-bank/active/preflight-status.mdc`. After a blank line, write this run's findings.
+What's the single smartest and most radically innovative and accretive and useful and compelling change you could make to the plan at this point?
 
-## Step 3: Log Progress
+Record that idea as an advisory finding: a specific structural sketch the operator can evaluate against the cost of redesign, not a vague suggestion. Do not make the change to the plan, even if the idea fits the brief. The finding is advisory; it does not block.
+
+## Step 5: Judge, Do Not Fix
+
+Record every issue as a finding. FAIL when the plan must change before build (`FAIL (fixable)` or `FAIL (blocking)`); PASS only when the plan is acceptable as-is (advisories allowed).
+
+Never modify the plan under review, except the TDD step swap and the strike, and only when the loaded checks performed those edits. Do not rewrite Implementation Plan units, behavior lists, or other scheduled work except that swap and that strike.
+
+Allowed writes only:
+
+- `memory-bank/active/.preflight-status`
+- the `**Phase:**` field in `activeContext.md` (under End of Verification)
+- `progress.md`
+- those two in-phase plan edits on `tasks.md`
+
+## Step 6: Write Status
+
+Overwrite `memory-bank/active/.preflight-status`. First line is exactly one allowed value from `.cursor/rules/shared/niko/memory-bank/active/preflight-status.mdc`. After a blank line, write this run's findings.
+
+## Step 7: Log Progress
 
 > 🚨 **Printing this notice is NOT the end of this phase.** After printing, continue immediately to the next step - do not stop.
 
@@ -77,6 +87,6 @@ Print the appropriate block:
 
 ~~~
 
-## Step 4: End of Verification
+## Step 8: End of Verification
 
 Update `memory-bank/active/activeContext.md` so `**Phase:**` records Preflight complete with the first line of `.preflight-status` (e.g. `**Phase:** PREFLIGHT - COMPLETE (PASS)`). Do not load a level workflow or begin another phase. Stop.
