@@ -19,10 +19,11 @@ Read:
 
 ## Step 2: Preflight Workflow
 
-Read `**Complexity:**` in `memory-bank/active/progress.md`. Load exactly one check file and follow it; do not read the other:
+Read `**Complexity:**` in `memory-bank/active/progress.md`. Take exactly one branch:
 
-- Level 4: `.cursor/skills/shared/niko-preflight/references/level4-preflight.md`
-- Otherwise: `.cursor/skills/shared/niko-preflight/references/default-preflight.md`
+- Level 4: load `.cursor/skills/shared/niko-preflight/references/level4-preflight.md`. Follow it. Do not read the other check file.
+- Level 2 or Level 3: load `.cursor/skills/shared/niko-preflight/references/default-preflight.md`. Follow it. Do not read the other check file.
+- Level 1, missing, or unknown: record `FAIL (blocking)`. Do not load a check file. Skip to Write Status.
 
 Then:
 
