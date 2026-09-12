@@ -42,3 +42,9 @@ A lockstep assertion is scheduled only when it is the published contract of **th
 3. Preflight strikes scheduled “contract tests” that do not protect a user of this product.
 4. Product-observable executable behavior remains in TDD scope.
 5. Canonical files carry the change; generated trees wait for a later `chore(dev): ai-rizz sync`.
+
+## Rework
+
+Operator (2026-09-12): **agent-facing prompts** is too broad. `AGENTS.md` / `CLAUDE.md` / copied init text are repository bootstrap and correctly owe no tests. Rules and skills in this repo are the product: today there is no eval framework, so they still owe no tests (change-detectors remain banned). If evals existed that go red when rule text makes agents misbehave, changing rules would be eval-first TDD; changing `AGENTS.md` still would not.
+
+Drop **agent-facing prompts**. Keep the bootstrap role explicit (`AGENTS.md`, `CLAUDE.md`, copied init text, etc.). Do not remove “rule and skill wording” from the prose/policy list. Leave niko-preflight’s invocation classifier as-is unless it repeats the bad phrase.

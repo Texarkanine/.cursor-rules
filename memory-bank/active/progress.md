@@ -70,3 +70,14 @@ Tighten always-tdd and niko-preflight TDD Plan Encoding so TDD and “contract t
 * Insights
     - One-file inheritance bets fail when the judge has a separate FAIL path keyed off a planner label.
 
+## 2026-09-12 - REWORK INITIATED
+
+* Work completed
+    - Operator asked to rework the shipped out-of-scope illustration **agent-facing prompts**.
+* Decisions made
+    - AGENTS.md / CLAUDE.md / copied init text remain bootstrap and owe no tests.
+    - Product rule/skill text must not be classified as “prompts,” so an eval harness (if one existed) would be eval-first TDD; AGENTS.md still would not.
+    - Do not remove “rule and skill wording” from the prose/policy list (#95 change-detector carve-out).
+* Insights
+    - The phrase names the audience (agents) instead of the role (bootstrap vs product), the same relabeling failure as the old in-scope `CLIs` list.
+
