@@ -41,6 +41,8 @@ Rules:
 - One GFM checkbox per milestone (`- [ ]` or `- [x]`). No sub-bullets. No second sentence. No file lists.
 - Do not create tickets. If a ticket already exists, put its id or URL on that checkbox line.
 - Only the Execution Order checklist may use `- [ ]` / `- [x]`. Those markers are the milestone list.
+- The checklist is serial-safe: walking it one at a time never requires a later milestone.
+- When the work is not a straight line, the flowchart shows which milestones may run in parallel. One-at-a-time follows the list. Parallel follows the DAG. The two must agree so a switch mid-project does not conflict.
 - The flowchart is not a milestone.
 
 ## What Makes a Good Milestone

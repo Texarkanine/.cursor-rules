@@ -25,7 +25,8 @@ Read:
    - Each milestone is independently deliverable, L1–L3 scoped (not itself L4), and names a concrete deliverable.
    - Nested L4, future-dependent work, or a vague activity line: write `FAIL (blocking)`.
 5. **Order**
-   - Checklist order is execution order. Milestone N must not require work from milestone N+1. Unsafe order or future-dependency: write `FAIL (blocking)`.
+   - The checklist must be serial-safe: walking it one at a time never requires a later milestone. Milestone N must not require work from milestone N+1. Unsafe order or future-dependency: write `FAIL (blocking)`.
+   - When the work is not a straight line, Execution Order must include a dependency DAG that agrees with the checklist (the list is a valid serial walk of the DAG). Parallel claimed in prose but no DAG: write `FAIL (fixable)`.
 6. **Cross-milestone invariants**
    - A Cross-milestone invariants section must exist. It states properties no milestone may violate — not goals or requirements. Missing section: write `FAIL (fixable)`.
    - When two milestones share an artifact, that section must state a handoff *rule* (who may touch it, and when). Not a file inventory. Missing handoff rule only when a shared artifact exists: write `FAIL (fixable)`. Do not FAIL for a missing handoff rule when no two milestones share an artifact.
