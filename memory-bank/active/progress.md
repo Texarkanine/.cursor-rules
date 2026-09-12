@@ -59,3 +59,14 @@ Tighten always-tdd and niko-preflight TDD Plan Encoding so TDD and “contract t
     - Recorded PASS: no KISS/DRY/YAGNI/completeness/regression/integrity/documentation violations found.
 * Insights
     - The classifier duplication between `always-tdd.mdc` and `niko-preflight/SKILL.md` is the same verbatim-tripwire pattern already documented in `systemPatterns.md`, not new drift risk.
+
+## 2026-09-12 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `memory-bank/active/reflection/reflection-tdd-product-user-scope.md`.
+    - Reconciled persistent files: all three skipped.
+* Decisions made
+    - Did not copy the TDD consequence test into `systemPatterns.md` (canonical rule already holds it).
+* Insights
+    - One-file inheritance bets fail when the judge has a separate FAIL path keyed off a planner label.
+

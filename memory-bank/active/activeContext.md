@@ -1,13 +1,11 @@
 # Active Context
 
 ## Current Task: tdd-product-user-scope
-**Phase:** QA - COMPLETE (PASS)
+**Phase:** REFLECT COMPLETE
 
 ## What Was Done
-- Built both prose/policy units to the locked plan wording. No tests added. No generated-tree edits.
-- Files: `/home/mobaxterm/worktrees/Texarkanine/.cursor-rules/.cursor-rules-over-tdd-ing/rules/always-tdd.mdc`, `/home/mobaxterm/worktrees/Texarkanine/.cursor-rules/.cursor-rules-over-tdd-ing/rulesets/niko/skills/niko-preflight/SKILL.md`
-- `make test` passed (symlink + README-link checks).
-- Deviations: none.
+- Reflection written. Persistent files scanned: no updates (TDD classifier lives in `always-tdd` / niko-preflight; copying it into the memory bank would drift).
+- QA PASS. Build matched locked sentences.
 
 ## Next Step
-- Reflect.
+- Run `/niko-archive` to create the archive document and finalize the current project.
