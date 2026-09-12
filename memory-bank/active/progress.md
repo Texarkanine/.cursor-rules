@@ -14,3 +14,14 @@ Give L4 `/niko-preflight` an L4-altitude bar so valid milestone one-liners are n
 * Insights
     - L3 Creative is the natural home for that options brief; the operator overrode “skip creative at lower levels” explicitly for this task.
     - `milestones.mdc` already forbids notes and sub-bullets on checklist lines, so any new per-milestone fields (links, done, risks) cannot live as checklist sub-bullets without violating constraint 1. That is a design question for Creative, not a classification question.
+
+## 2026-09-12 - CREATIVE - COMPLETE (UNRESOLVED)
+
+* Work completed
+    - Wrote `memory-bank/active/creative/creative-l4-preflight-mechanism.md`: mechanism options A–F with for/against, risks/rewards; fact-placement W1–W4; L4 milestone check catalog from the workflow and Step 2a.
+* Decisions made
+    - None locked. Operator chooses. Agent recommendation (not a decision): D + W4.
+    - Dispatch predicate, if any option is chosen: `progress.md` Complexity is Level 4 — not presence of `milestones.md`.
+* Insights
+    - Sub-runs still have `milestones.md`. File-presence dispatch would skip TDD on every milestone.
+    - Step 2a deletes `tasks.md` and `progress.md`. Done/risks/ticket refs that live only there are gone before later milestones run.

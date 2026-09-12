@@ -1,11 +1,12 @@
 # Active Context
 
 ## Current Task: l4-preflight-altitude
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** CREATIVE - COMPLETE (UNRESOLVED — awaiting operator mechanism choice)
 
 ## What Was Done
-- Intent restated from https://github.com/Texarkanine/.cursor-rules/issues/122 plus operator refinements (L4 checks, ticket reuse without create, options analysis before implementation). Operator approved, then required every mechanism option — theirs and any discovered — presented with for/against, risks, and rewards for them to choose, regardless of classified level.
-- Classified Level 3: enhancement to preflight, not a single-component bugfix; mechanism unknown so the change is not self-contained; multiple Niko components (preflight skill, L4 workflow, possibly a new skill or routing). Design must precede coding. Not L4: one coherent change, not independently deliverable sub-runs.
+- Classified Level 3. Plan identified one open question: L4 preflight mechanism and fact placement.
+- Architecture creative explored operator options A/B/C plus discovered D (extracted reference), E (minimal bugfix), F (dual-write tasks.md). E/F and C2–C4 rejected as inadequate or forbidden.
+- Load-bearing findings: dispatch on `progress.md` Complexity Level 4, never on `milestones.md` presence; per-milestone done/risks/refs must survive Step 2a in `milestones.md` and/or `projectbrief.md`.
 
 ## Next Step
-- Load the Level 3 workflow and enter Plan. Expect Open Questions on mechanism and L4-altitude checks to route into Creative before a plan is locked.
+- Operator chooses mechanism (A/B/C/D) and fact placement (W1–W4). Then `/niko-plan` to lock the implementation plan.
