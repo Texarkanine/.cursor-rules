@@ -2,7 +2,7 @@
 
 Tighten always-tdd and niko-preflight TDD Plan Encoding so TDD and “contract tests” apply only to behavior a user of this product can observe breaking — not vendored tools, agent bootstrap, or gitignore lines ([issue #123](https://github.com/Texarkanine/.cursor-rules/issues/123)).
 
-**Complexity:** Level 2
+**Complexity:** Level 1
 
 ## 2026-09-12 - COMPLEXITY-ANALYSIS - COMPLETE
 
@@ -80,4 +80,14 @@ Tighten always-tdd and niko-preflight TDD Plan Encoding so TDD and “contract t
     - Do not remove “rule and skill wording” from the prose/policy list (#95 change-detector carve-out).
 * Insights
     - The phrase names the audience (agents) instead of the role (bootstrap vs product), the same relabeling failure as the old in-scope `CLIs` list.
+
+## 2026-09-12 - COMPLEXITY-ANALYSIS (REWORK) - COMPLETE
+
+* Work completed
+    - Classified the rework Level 1: single-component wording fix in `rules/always-tdd.mdc`.
+* Decisions made
+    - Not L2: niko-preflight already classifies by invocation and does not say “agent-facing prompts.”
+    - Replace the phrase with bootstrap illustrations (`AGENTS.md`, `CLAUDE.md`, copied init text, etc.); do not name “prompts.”
+* Insights
+    - Original L2 history remains above; this field is the rework’s complexity.
 
