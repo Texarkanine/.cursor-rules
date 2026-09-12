@@ -108,3 +108,8 @@ Give L4 `/niko-preflight` an L4-altitude bar so valid milestone one-liners are n
 * Insights
     - Check-file close sentences that merge two FAILs drop the "when." Write two sentences.
     - Spawned Preflight/QA stay one-line skills; the level split is sibling references, not a workflow load.
+
+## 2026-09-12 - ARCHIVE
+
+* Work completed
+    - Reflect complete. Writing the archive document and clearing ephemeral memory-bank files.
