@@ -1,0 +1,1 @@
+always-tdd out-of-scope is repository bootstrap (AGENTS.md, CLAUDE.md, copied init), not agent-facing prompts; product rules with evals would still be TDD (#123 rework).
