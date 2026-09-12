@@ -87,3 +87,13 @@ Give L4 `/niko-preflight` an L4-altitude bar so valid milestone one-liners are n
     - Qualified `l4-preflight.md` check 6 (handoff rule only when a shared artifact exists). Clarified check 2 (real checklist vs extra checkboxes). Judge TDD edits only when loaded checks performed them.
 * Decisions made
     - Took the two cheap QA advisories that would otherwise cause a literal FAIL of the canonical `milestones.md` example.
+
+## 2026-09-12 - QA - COMPLETE (PASS)
+
+* Work completed
+    - Re-reviewed the canonical `rulesets/` implementation against the approved D + W4 plan after Build rework.
+    - Verified exclusive Complexity-based dispatch, preserved L2/L3 TDD and completeness checks, L4-only milestone design checks, W4 format guidance, classification targeting, and unchanged spawn lines.
+* Decisions made
+    - Status: `PASS`. The implementation is acceptable as-is; `.cursor/` remains intentionally unsynced until the separate post-push sync task.
+* Insights
+    - The corrected conditional handoff rule and Execution Order checklist guard remove the prior QA false positives without relaxing the L4 design requirements.
