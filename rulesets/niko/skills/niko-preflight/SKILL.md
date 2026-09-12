@@ -51,7 +51,7 @@ If dispatch already recorded a terminal `FAIL (blocking)` before loading a check
    - Describe the change concretely - not as a vague suggestion, but as a specific structural sketch the operator can evaluate against the cost of redesign.
    - Record that idea as an advisory finding. Do not make the change to the plan, even if the idea fits the brief.
 2. **Judge, Do Not Fix**
-   - Surface and judge. Never modify the plan under review, except the TDD step swap and the strike performed during the loaded checks.
+   - Surface and judge. Never modify the plan under review, except the TDD step swap and the strike, and only when the loaded checks performed those edits.
    - Allowed writes only: `memory-bank/active/.preflight-status`, the `**Phase:**` field in `activeContext.md` (under **End of Verification**), `progress.md`, and those two in-phase plan edits on `tasks.md`.
    - Do not rewrite Implementation Plan units, behavior lists, or other scheduled work except that swap and that strike.
    - Record every issue as a finding. FAIL when the plan must change before build (`FAIL (fixable)` or `FAIL (blocking)`); PASS only when the plan is acceptable as-is (advisories allowed).

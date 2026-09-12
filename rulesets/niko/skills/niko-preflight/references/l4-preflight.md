@@ -19,7 +19,7 @@ Read:
    - Header must be `# Milestones: <task-id>` matching the active task ID in `memory-bank/active/tasks.md`. Header mismatch: write `FAIL (fixable)`.
 2. **Checklist shape**
    - Each milestone is one GFM checkbox line (`- [ ]` or `- [x]`). No sub-bullets on those lines.
-   - Sections (invariants, DAG, done/risks table or headings) must not contain `- [ ]` or `- [x]`. Extra checkboxes poison `/niko` classify. Any extra checkbox: write `FAIL (blocking)`.
+   - The real checklist is the contiguous GFM checkbox list under Execution Order. Extra `- [ ]` / `- [x]` in Cross-milestone invariants or in Per-milestone done and risks poison `/niko` classify: write `FAIL (blocking)`. Do not FAIL the real checklist for living under Execution Order.
 3. **Coverage**
    - Every requirement in `projectbrief.md` maps to at least one milestone.
    - No two milestones cover the same purpose. Gap or overlap: write `FAIL (blocking)`.
@@ -30,8 +30,8 @@ Read:
    - The checklist order must be safe for serial execution (`/niko` always takes the first unchecked box). Milestone N must not require work from milestone N+1. Unsafe order or future-dependency: write `FAIL (blocking)`.
    - A dependency DAG belongs in the Execution Order section only when the work is not a straight line, and it must match the checklist. Parallel claimed in prose but no DAG: write `FAIL (fixable)`.
 6. **Cross-milestone invariants**
-   - A Cross-milestone invariants section must exist. It states properties no milestone may violate — not goals or requirements.
-   - When two milestones share an artifact, the section states a handoff *rule* (who may touch it, and when). Not a file inventory. Missing section or missing handoff rule: write `FAIL (fixable)`.
+   - A Cross-milestone invariants section must exist. It states properties no milestone may violate — not goals or requirements. Missing section: write `FAIL (fixable)`.
+   - When two milestones share an artifact, that section must state a handoff *rule* (who may touch it, and when). Not a file inventory. Missing handoff rule only when a shared artifact exists: write `FAIL (fixable)`. Do not FAIL for a missing handoff rule when no two milestones share an artifact.
 7. **Done, risks, and refs**
    - Each checkbox has a joinable row or heading block (not a checkbox sub-bullet) with:
      - **Done** — a judgeable definition of done

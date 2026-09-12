@@ -167,3 +167,9 @@ No new technology - validation not required
 - [x] Preflight
 - [x] Build
 - [ ] QA
+
+## QA Results
+
+### 2026-09-12 FAIL then rework
+
+Build reran. Check 6: missing handoff rule FAILs only when two milestones share an artifact. Check 2: real Execution Order checklist is not an extra-checkbox FAIL. Judge: TDD swap/strike only when loaded checks performed those edits.

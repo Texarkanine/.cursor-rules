@@ -70,3 +70,20 @@ Give L4 `/niko-preflight` an L4-altitude bar so valid milestone one-liners are n
     - Left the `systemPatterns.md` references/ overgeneralization for reflect/archive.
 * Insights
     - Runtime paths still point at `.cursor/skills/shared/niko-preflight/references/…`; live L4 dispatch waits on `chore(dev): ai-rizz sync` after this is pushed.
+
+## 2026-09-12 - QA - COMPLETE (FAIL)
+
+* Work completed
+    - Semantic review of the five plan units against `rulesets/` only. Dispatcher, default/L4 split, spawn-line identity, TDD word `milestone` removed from default encoding, Completeness Precheck not left in SKILL.md, W4 format, classify-target + README/workflow altitude all present.
+* Decisions made
+    - Status: `FAIL`. Build must rerun to fix `l4-preflight.md` check 6 (handoff rule FAIL is unconditioned).
+* Insights
+    - The rest of D+W4 is acceptable as-is aside from that sentence and the listed advisories.
+    - Generated `.cursor/` still has the old skill; that was in the plan, not a QA fail.
+
+## 2026-09-12 - BUILD - COMPLETE (QA rework)
+
+* Work completed
+    - Qualified `l4-preflight.md` check 6 (handoff rule only when a shared artifact exists). Clarified check 2 (real checklist vs extra checkboxes). Judge TDD edits only when loaded checks performed them.
+* Decisions made
+    - Took the two cheap QA advisories that would otherwise cause a literal FAIL of the canonical `milestones.md` example.
