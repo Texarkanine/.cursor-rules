@@ -48,3 +48,13 @@ Give L4 `/niko-preflight` an L4-altitude bar so valid milestone one-liners are n
     - Missing/unknown/L1 Complexity fails blocking rather than falling through to default.
 * Insights
     - This plan is entirely prose/policy. This task's Preflight still runs the lagging `.cursor/` copy of the current skill, which is the correct bar for an L3 `tasks.md`.
+
+## 2026-09-12 - PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
+
+* Work completed
+    - Validated the L3 plan against codebase reality: TDD encoding (all units prose/policy, no tests owed), convention compliance (all seven canonical paths verified), dependency impact (six spawn-line sites, level4-plan Step 5 contradiction confirmed real, REUSE.toml glob covers new files), conflict detection, completeness (all requirements/constraints/ACs mapped).
+* Decisions made
+    - Status: `PASS WITH ADVISORY`. Plan is build-ready as-is.
+* Insights
+    - Advisory: `l4-preflight.md` self-verifies its Complexity predicate but `default-preflight.md` has no symmetric wrong-reference guard; one line would make a dispatcher mix-up fail loud instead of mixed-bar.
+    - Advisory: `systemPatterns.md` overgeneralizes that rich-skill `references/` live under `rules/` as symlinks; the niko skill is an in-ruleset counterexample the plan correctly follows.
