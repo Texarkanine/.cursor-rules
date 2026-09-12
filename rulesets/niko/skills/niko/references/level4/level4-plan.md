@@ -62,7 +62,6 @@ Write `memory-bank/active/milestones.md` following the format in `.cursor/rules/
 ### <exact checkbox text>
 - Done: <what shipped looks like>
 - Risks: <what this sub-run must not lose, or "see invariants">
-- Ref: <ticket URL, or a pointer into projectbrief.md>
 ```
 
 Write estimates in the plan result, not on checkbox lines. Do not create tickets. If a ticket exists, put it on the checkbox line.

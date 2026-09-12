@@ -9,7 +9,7 @@ globs: memory-bank/active/milestones.md
 1. **In-flight signal**: its presence tells `/niko` that an L4 project is active.
 2. **State tracker**: the checklist records which milestones are complete.
 
-Put requirements in `memory-bank/active/projectbrief.md`. Put sequence, invariants, done, risks, and refs in this file.
+Put requirements in `memory-bank/active/projectbrief.md`. Put sequence, invariants, done, and risks in this file.
 
 ## File Format
 
@@ -33,7 +33,6 @@ Put requirements in `memory-bank/active/projectbrief.md`. Put sequence, invarian
 ### <exact checkbox text>
 - Done: <what shipped looks like>
 - Risks: <what this sub-run must not lose, or "see invariants">
-- Ref: <ticket URL, or a pointer into projectbrief.md>
 ```
 
 Rules:
@@ -54,7 +53,6 @@ Each milestone must satisfy all of these:
 - **Concrete** — names the deliverable ("Add user authentication flow", not "Work on auth")
 - **Non-overlapping** — no two milestones do the same work to the same files
 - **Done** — the heading block (or a covering invariant) states what shipped looks like
-- **Ref** — existing ticket, or a pointer into `projectbrief.md`
 
 If a milestone fails these, split, merge, or rewrite it before sub-runs begin.
 

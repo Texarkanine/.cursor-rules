@@ -30,10 +30,10 @@ Read:
 6. **Cross-milestone invariants**
    - A Cross-milestone invariants section must exist. It states properties no milestone may violate — not goals or requirements. Missing section: write `FAIL (fixable)`.
    - When two milestones share an artifact, that section must state a handoff *rule* (who may touch it, and when). Not a file inventory. Missing handoff rule only when a shared artifact exists: write `FAIL (fixable)`. Do not FAIL for a missing handoff rule when no two milestones share an artifact.
-7. **Done, risks, and refs**
+7. **Done and risks**
    - Each checkbox has a heading block keyed to the checkbox text (not a checkbox sub-bullet) with:
      - **Done** — a judgeable definition of done
      - **Risks / invariants** — critical risks for that milestone, or an explicit pointer that a cross-milestone invariant covers it
-     - **Ref** — an existing ticket if the brief or issue already has one; otherwise a pointer into `projectbrief.md`. Do not create tickets. Do not FAIL for a missing ticket when none exists.
-   - Missing Done, Risks/invariants, or Ref: write `FAIL (fixable)`.
-   - The checkbox plus that block plus `projectbrief.md` (plus the ticket if linked) must be enough to classify and plan the milestone. Too vague to classify: write `FAIL (blocking)`. Missing pointer only: write `FAIL (fixable)`.
+   - Missing Done or Risks/invariants: write `FAIL (fixable)`.
+   - Do not create tickets. If a ticket already exists, it belongs on the checkbox line. Do not FAIL for a missing ticket when none exists. Do not require a pointer into `projectbrief.md`.
+   - The checkbox plus that block plus `projectbrief.md` (plus the ticket if linked) must be enough to classify and plan the milestone. Too vague to classify: write `FAIL (blocking)`.
