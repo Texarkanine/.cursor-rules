@@ -1,0 +1,11 @@
+PASS WITH ADVISORY
+
+Preflight completed for tdd-product-user-scope.
+
+PASS — Prerequisites: the Level 2 plan is complete; no creative documents are required.
+PASS — TDD Plan Encoding: both planned units are rule/skill prose and policy, not product-observable executable behavior. The plan correctly schedules no tests and does not add change-detectors.
+PASS — Convention compliance: the plan edits only canonical sources under rules/ and rulesets/ and deliberately leaves generated .cursor/ and .claude/ trees for a later sync.
+PASS — Dependency and conflict checks: Unit 2 follows Unit 1 so Preflight's classifier derives from the revised What TDD Governs boundary; no overlapping implementation or public-contract conflict was found.
+PASS — Completeness: each stated requirement has a concrete, locked edit in one of the two planned units. make test passed (ruleset symlink and README-link checks).
+
+ADVISORY — A future, non-production Preflight fixture containing the vendor/bootstrap plan could provide repeatable proof of the classification boundary. It should be a dedicated workflow fixture evaluated by the Niko tooling, not document-content assertions, and is outside this prose-only task.

@@ -26,3 +26,14 @@ Tighten always-tdd and niko-preflight TDD Plan Encoding so TDD and “contract t
     - No in-scope category list (including no “product CLIs”) so vendored CLIs cannot be relabeled in.
 * Insights
     - Inventing tests was the PASS path because FAIL still keyed off the plan’s “executable” label after a strike. The preflight FAIL bullet is the load-bearing echo, not a second copy of What TDD Governs.
+
+## 2026-09-12 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Validated the complete Level 2 plan against the canonical source files, repository conventions, dependencies, and existing test infrastructure.
+    - Ran `make test`; ruleset symlink and README-link checks passed.
+* Decisions made
+    - Recorded `PASS WITH ADVISORY`: both units are prose/policy rather than product-observable executable behavior, so no tests are owed and no in-phase plan mutation was needed.
+* Insights
+    - The planned Preflight classifier and FAIL wording correctly rely on What TDD Governs rather than the plan's “executable” label, preventing the prior invented-test path.
+    - A future dedicated Preflight fixture could make the vendor/bootstrap classification scenario repeatable without introducing document-content change-detectors.
