@@ -1,12 +1,13 @@
 # Active Context
 
 ## Current Task: l4-preflight-altitude
-**Phase:** CREATIVE - COMPLETE (UNRESOLVED — awaiting operator mechanism choice)
+**Phase:** CREATIVE - COMPLETE (RESOLVED — D+W4; awaiting `/niko-plan`)
 
 ## What Was Done
-- Classified Level 3. Plan identified one open question: L4 preflight mechanism and fact placement.
-- Architecture creative explored operator options A/B/C plus discovered D (extracted reference), E (minimal bugfix), F (dual-write tasks.md). E/F and C2–C4 rejected as inadequate or forbidden.
-- Load-bearing findings: dispatch on `progress.md` Complexity Level 4, never on `milestones.md` presence; per-milestone done/risks/refs must survive Step 2a in `milestones.md` and/or `projectbrief.md`.
+- Operator chose **W4** (ticket in the one-liner when one exists; done/risks/invariants as `milestones.md` sections; narrative in `projectbrief.md`).
+- Operator chose **D** with two shape constraints: (1) Preflight stays a spawned skill with a one-line bootstrap — do not convert it into the plan/build "load the workflow, use phase mappings" router; (2) L2 and L3 keep **one** shared copy of today's checks. L4 gets its own reference file. L1 still has no Preflight.
+- File names locked: `niko-preflight` loads exactly one of `references/default-preflight.md` (L2/L3) or `references/l4-preflight.md` (L4), dispatched on Complexity — same split as level plan/build files, but the load happens inside the spawned skill.
+- L2-vs-L3 split does **not** need a second creative: no evidence the shared bar is wrong; copy/paste would dual-glossary.
 
 ## Next Step
-- Operator chooses mechanism (A/B/C/D) and fact placement (W1–W4). Then `/niko-plan` to lock the implementation plan.
+- Operator invokes `/niko-plan` to lock the implementation plan against the creative decision.

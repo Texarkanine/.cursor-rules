@@ -23,4 +23,4 @@ Draft only — implementation plan waits on the operator's mechanism choice.
 
 ## Open Questions
 
-- [ ] **How should L4 preflight be structured?** → Unresolved: awaiting operator choice among A (new skill), B (branch in SKILL.md), C (L4 routing), D (same skill + extracted L4 reference), and placement W1–W4. See `memory-bank/active/creative/creative-l4-preflight-mechanism.md`.
+- [x] **How should L4 preflight be structured?** → Resolved: D + W4. Spawned skill stays; dispatcher loads L4 `references/` vs one shared L2/L3 procedure (today's checks, not two copies). Not a plan/build workflow router. See `memory-bank/active/creative/creative-l4-preflight-mechanism.md`.

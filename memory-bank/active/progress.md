@@ -25,3 +25,14 @@ Give L4 `/niko-preflight` an L4-altitude bar so valid milestone one-liners are n
 * Insights
     - Sub-runs still have `milestones.md`. File-presence dispatch would skip TDD on every milestone.
     - Step 2a deletes `tasks.md` and `progress.md`. Done/risks/ticket refs that live only there are gone before later milestones run.
+
+## 2026-09-12 - CREATIVE - RESOLVED (operator)
+
+* Work completed
+    - Operator locked W4 and D, then constrained D: Preflight remains a one-line spawn skill; L2 and L3 share today's checks; L4 gets its own reference. L2-vs-L3 split declined (no extra creative).
+* Decisions made
+    - D is an internal split inside `/niko-preflight`, not a conversion to the plan/build workflow-router pattern. Preflight and QA stay skills because they are the spawned phases.
+    - Do not copy/paste L2 and L3 preflight files.
+* Insights
+    - Plan/build/archive/reflect: thin skill → workflow → phase mappings. Preflight/QA: fat (or dispatching) skill + `Run the /… skill`. Mixing those would fatten the subagent bootstrap.
+    - File names: `references/default-preflight.md` (L2/L3) and `references/l4-preflight.md` (L4); dispatcher loads exactly one.

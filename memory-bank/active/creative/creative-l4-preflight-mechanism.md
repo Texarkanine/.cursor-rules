@@ -238,28 +238,24 @@ Key insights:
 
 ### Choice Pre-Mortem
 
-- **Wrong dispatch predicate (`milestones.md` exists):** checked — documented above; any chosen option must say Complexity Level 4.
-- **Operator wanted to choose the mechanism, not have the agent pick:** unchecked as a *process* constraint — this is why the result is low confidence even if D looks strongest.
-- **Sections in `milestones.md` get treated as a license to paste TDD into the L4 list:** checked as a format risk — W4 plus an explicit "still no checklist sub-bullets" rule; if the operator forbids any `milestones.mdc` edit, W2+W3 must carry done/risks instead and Preflight will be weaker.
+- **Wrong dispatch predicate (`milestones.md` exists):** checked — dispatch is `progress.md` Complexity Level 4.
+- **Operator wanted to choose the mechanism, not have the agent pick:** checked — operator chose W4 and D, then constrained D so Preflight stays a spawnable skill (not a plan/build workflow router) and L2/L3 keep one shared bar.
+- **Sections in `milestones.md` get treated as a license to paste TDD into the L4 list:** checked — W4 documents sections only; still no checklist sub-bullets or TDD steps.
 
-**Low-Confidence Result:** No winner is locked. The operator asked to review every viable mechanism with for/against, risks, and rewards, and to choose. D is the agent's best guess (below), not a decision.
+**Selected**: D + W4, with two operator constraints on the shape of D.
+**Rationale**: L4 needs a different altitude; L2 and L3 already share a bar that has been fine. Preflight and QA are skills *because* they are the spawned phases — the parent bootstrap stays `Run the /niko-preflight skill`. That is a different pattern from plan/build/archive/reflect (thin skill → load workflow → phase mappings). Converting Preflight into the plan/build router would make the subagent re-enter the workflow or force a fatter spawn prompt. Internal split only: SKILL.md dispatches; L4 checks live in a sibling file; L2 and L3 use one copy of today's checks. Placement is W4 (ticket in the one-liner when one exists; done/risks/invariants as sections in `milestones.md`; narrative in `projectbrief.md`).
+**Tradeoff**: Not a second slash skill (A). Not a more-forgiving L2 Preflight. QA is unchanged.
 
-**Recommendation (caveated):** **D + W4**, with these non-negotiables whichever letter you pick:
-1. Dispatch on `progress.md` `**Complexity:** Level 4` only.
-2. L4 loads `milestones.md` + `projectbrief.md`; does not treat the L4 `tasks.md` stub as the design surface.
-3. Drop "milestone" from the TDD unit list so a future mix-up is less lethal.
-4. Do not create tickets; reference them when present.
-5. Fix `level4-plan.md` Step 5 so L-estimates are not written onto checkbox lines; Preflight does not require them there.
-6. Keep four-string judge-and-report and the L2/L3 bar.
-
-If you prefer maximum isolation and accept a second skill, pick **A** (and still extract the L4 checks so the new skill is not a fork of TDD encoding with find-replace). If you prefer the smallest diff and will accept mixed-bar risk, pick **B** with an exclusive early branch. Do not pick C2/C3/C4/E/F.
+No extra creative for L2 vs L3: there is no second viable bar in evidence, and copy/paste of the current checks would recreate A's dual-glossary drift.
 
 ## Implementation Notes
 
-Wait for the operator's letter (A/B/C/D) and placement (W1–W4). After that, Plan can name files:
-- A: new `rulesets/niko/skills/niko-preflight-l4/SKILL.md`; edit L4 spawn sites; symlink; README.
-- B: branch at top of `rulesets/niko/skills/niko-preflight/SKILL.md`.
-- D: dispatcher in that SKILL.md plus `rulesets/niko/skills/niko-preflight/references/l4-preflight.md`.
-- All: `level4-plan.md`, `level4-workflow.md`, possibly `milestones.mdc` (sections only), drop "milestone" from TDD units.
+- `rulesets/niko/skills/niko-preflight/SKILL.md` stays the spawned skill (workflow spawn line unchanged). It is the router: shared load, dispatch on Complexity, Write Status, Step 4 stop, allowed writes. If somehow invoked at L1: stop (L1 has no Preflight).
+- L2 and L3: load **one** file, `references/default-preflight.md` — today's TDD/completeness/convention checks, not two copies. Drop "milestone" from the TDD unit list. Tiny existing predicates ("if Level 3 and creative was flagged") stay predicates, not a fork.
+- L4: load **one** file, `references/l4-preflight.md`. Loads `milestones.md` + `projectbrief.md`. Judges coverage, serial-safe order / DAG, ticket-or-brief refs, done, risks/invariants, handoff-as-rule, persistent-file sufficiency. Does not judge TDD substeps or file lists on one-liners.
+- Exactly one of those two references is loaded. Do not load the level *workflow* from inside Preflight (that is the plan/build pattern; this is the same *split*, not the same *router*).
+- `milestones.mdc`: document W4 sections; still forbid checklist sub-bullets.
+- `level4-plan.md`: write those sections; stop putting L-estimates on checkbox lines.
+- `niko-qa` out of scope.
 
-No new technology. Entirely prose/policy besides any ruleset symlink for a new skill.
+No new technology. Entirely prose/policy.
