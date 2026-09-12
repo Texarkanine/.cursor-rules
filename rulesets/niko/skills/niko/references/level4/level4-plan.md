@@ -59,12 +59,14 @@ Write `memory-bank/active/milestones.md` following the format in `.cursor/rules/
 
 ## Per-milestone done and risks
 
-| Milestone | Done | Risks / invariants | Ref |
-| --- | --- | --- | --- |
-| <exact checkbox text> | judgeable done | critical risks, or see invariants | ticket URL, or projectbrief pointer |
+### <exact checkbox text>
+- Done: <what shipped looks like>
+- Risks: <what this sub-run must not lose, or "see invariants">
+- Ref: <ticket URL, or a pointer into projectbrief.md>
 ```
 
-Do not put L1/L2/L3 estimates, TDD steps, or file lists on checkbox lines. Do not create tickets; reference one when it already exists.
+Write estimates in the plan result, not on checkbox lines. Do not create tickets. If a ticket exists, put it on the checkbox line.
+
 ## Step 5: Update Memory Bank
 
 Update `memory-bank/active/progress.md` to record completion of the L4 plan phase, including each milestone's advisory L1/L2/L3 estimate and a one-line rationale. Do **not** write those estimates onto checkbox lines in `milestones.md`.
@@ -72,7 +74,7 @@ Update `memory-bank/active/progress.md` to record completion of the L4 plan phas
 Update `memory-bank/active/activeContext.md`:
    - Phase: `PLAN - COMPLETE`
    - What was done: milestone list generated (N milestones)
-   - Next step: preflight judges the L4 design (coverage, order, done, risks, refs) — not sub-run TDD or file paths
+   - Next step: preflight to validate the milestone list
 
 ## Step 6: Log Progress
 
@@ -91,7 +93,7 @@ Record the results by printing a summary in the following format:
 
 ## Next Steps
 
-Preflight will now judge the L4 design: coverage, dependency order, done, risks, and refs. It will not require per-milestone TDD substeps or file paths.
+Preflight will now validate the milestone list.
 ~~~
 
 ## Step 7: Phase Transition

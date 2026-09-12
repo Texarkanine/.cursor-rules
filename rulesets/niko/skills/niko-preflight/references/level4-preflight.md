@@ -1,15 +1,13 @@
-# L4 Preflight Checks
+# Preflight Phase - Level 4: Complex System
 
-L4 milestone-design checks. Load this file only when `memory-bank/active/progress.md` `**Complexity:**` is Level 4. Follow every numbered step below, then return to the skill for Radical Innovation, Judge, Write Status, and stop.
-
-The design surface is `memory-bank/active/milestones.md` plus `memory-bank/active/projectbrief.md`. Do not treat the L4 `tasks.md` stub as the plan. Do not read `references/default-preflight.md`. Do not require numbered test-first substeps, concrete file paths, validation sequences, or L-estimates on checkbox lines.
+This document validates the L4 milestone list in `memory-bank/active/milestones.md` against `memory-bank/active/projectbrief.md`.
 
 ## Additional loads
 
 Read:
 
 - `memory-bank/active/milestones.md` (required)
-- `memory-bank/active/projectbrief.md` (L4 design surface; already in the skill's shared load)
+- `memory-bank/active/projectbrief.md`
 
 ## Checks
 
@@ -33,13 +31,13 @@ Read:
    - A Cross-milestone invariants section must exist. It states properties no milestone may violate — not goals or requirements. Missing section: write `FAIL (fixable)`.
    - When two milestones share an artifact, that section must state a handoff *rule* (who may touch it, and when). Not a file inventory. Missing handoff rule only when a shared artifact exists: write `FAIL (fixable)`. Do not FAIL for a missing handoff rule when no two milestones share an artifact.
 7. **Done, risks, and refs**
-   - Each checkbox has a joinable row or heading block (not a checkbox sub-bullet) with:
+   - Each checkbox has a heading block keyed to the checkbox text (not a checkbox sub-bullet) with:
      - **Done** — a judgeable definition of done
      - **Risks / invariants** — critical risks for that milestone, or an explicit pointer that a cross-milestone invariant covers it
      - **Ref** — an existing ticket if the brief or issue already has one; otherwise a pointer into `projectbrief.md`. Do not create tickets. Do not FAIL for a missing ticket when none exists.
    - Missing Done, Risks/invariants, or Ref: write `FAIL (fixable)`.
 8. **Persistent-file sufficiency**
-   - The checkbox plus its done/risks/ref row plus `projectbrief.md` (plus the ticket if linked) must be enough for a later agent to classify and plan the milestone after `/niko` Step 2a deletes `tasks.md` and `progress.md`.
+   - The checkbox plus its done/risks/ref block plus `projectbrief.md` (plus the ticket if linked) must be enough for a later agent to classify and plan the milestone.
    - Too vague to classify: write `FAIL (blocking)`. Missing pointer only: write `FAIL (fixable)`.
 9. **Convention and conflict at L4 altitude**
    - Flag a decomposition that would edit generated `.cursor/` / `.claude/` trees, or that would break a published contract implied by the brief or invariants.

@@ -4,12 +4,12 @@ globs: memory-bank/active/milestones.md
 
 # L4 Milestone List
 
-`memory-bank/active/milestones.md` is the L4 project's plan and state tracker. It serves two purposes simultaneously:
+`memory-bank/active/milestones.md` is the L4 plan and state tracker.
 
-1. **In-flight signal**: its presence tells `/niko` that an L4 project is active, triggering milestone transition routing instead of normal state handling.
-2. **State tracker**: the checklist records which milestones are complete and which remain.
+1. **In-flight signal**: its presence tells `/niko` that an L4 project is active.
+2. **State tracker**: the checklist records which milestones are complete.
 
-Narrative requirements and most of the definition of done live in `memory-bank/active/projectbrief.md`. This file is sequencing plus enough for a later worker to understand the document after `/niko` Step 2a deletes `tasks.md` and `progress.md`.
+Put requirements in `memory-bank/active/projectbrief.md`. Put sequence, invariants, done, risks, and refs in this file.
 
 ## File Format
 
@@ -18,45 +18,41 @@ Narrative requirements and most of the definition of done live in `memory-bank/a
 
 ## Cross-milestone invariants & constraints
 
-[properties no milestone may violate. When two milestones share an artifact, state the handoff rule: who may touch it, and when.]
+[Properties no milestone may violate. If two milestones share an artifact, state who may touch it and when.]
 
 ## Execution Order
 
-[optional Mermaid flowchart of dependency relationships - omit if all milestones are sequential]
+[Optional Mermaid flowchart. Omit if all milestones are sequential.]
 
-- [ ] <Milestone 1: one-line deliverable, optional existing ticket>
-- [ ] <Milestone 2: one-line deliverable, optional existing ticket>
-- [ ] <Milestone 3: one-line deliverable, optional existing ticket>
+- [ ] <Deliverable. Include an existing ticket id or URL if one exists.>
+- [ ] <Deliverable>
+- [ ] <Deliverable>
 
 ## Per-milestone done and risks
 
-| Milestone | Done | Risks / invariants | Ref |
-| --- | --- | --- | --- |
-| <exact checkbox text> | judgeable done | critical risks, or see invariants | ticket URL, or projectbrief pointer |
+### <exact checkbox text>
+- Done: <what shipped looks like>
+- Risks: <what this sub-run must not lose, or "see invariants">
+- Ref: <ticket URL, or a pointer into projectbrief.md>
 ```
 
 Rules:
-- Header must be `# Milestones: <task-id>` where `task-id` matches the active task's ID in `memory-bank/active/tasks.md`
-- Each milestone is a standard GFM checkbox: `- [ ]` (unchecked) or `- [x]` (complete)
-- One milestone per line — no sub-bullets, no TDD steps, no file lists on the checkbox line
-- An existing ticket id or URL may be part of that one line. Do not create tickets. Do not add a second sentence of notes on the checkbox line
-- Description is a single line: concise, action-oriented, specific enough that a future agent can classify it as L1/L2/L3 together with its done/risks/ref row and the memory bank
-- Only the real checklist may use `- [ ]` / `- [x]`. Sections (invariants, DAG, done/risks table or headings) must not contain checkboxes — complexity analysis identifies milestones by those markers only
-- The optional dependency flowchart (if present) lives under Execution Order and is not a milestone
-- Heading blocks keyed to checkbox text may replace the table. They still must not use checklist markers
+- Header: `# Milestones: <task-id>` matching the task ID in `memory-bank/active/tasks.md`
+- One GFM checkbox per milestone (`- [ ]` or `- [x]`). No sub-bullets. No second sentence. No file lists.
+- Do not create tickets. If a ticket already exists, put its id or URL on that checkbox line.
+- Only the Execution Order checklist may use `- [ ]` / `- [x]`. `/niko` classifies by those markers.
+- The flowchart is not a milestone.
 
 ## What Makes a Good Milestone
 
-Each milestone must satisfy all of these:
+- **Independently deliverable** — plan, build, test, and commit with no need for a later milestone
+- **L1/L2/L3 scoped** — not itself L4
+- **Concrete** — names the deliverable ("Add user authentication flow", not "Work on auth")
+- **Non-overlapping** — no two milestones do the same work to the same files
+- **Done** — the heading block (or a covering invariant) states what shipped looks like
+- **Ref** — existing ticket, or a pointer into `projectbrief.md`
 
-- **Independently deliverable** - can be planned, built, tested, and committed as a self-contained sub-run with no dependency on future milestones
-- **L1/L2/L3 scoped** - small enough to pass through the complexity analysis decision tree without itself being classified L4
-- **Concrete** - the description names what is being built, not the activity ("Add user authentication flow" not "Work on auth")
-- **Non-overlapping** - milestones cover distinct ground; no two milestones should touch the same files for the same purpose
-- **Judgeable done** - the done/risks row (or a covering cross-milestone invariant) states what shipped looks like and what must not be lost
-- **Task-description ref** - an existing ticket if one exists, otherwise a pointer into `projectbrief.md`
-
-If a milestone fails any of these criteria during preflight, it should be split, merged, or rewritten before sub-runs begin.
+If a milestone fails these, split, merge, or rewrite it before sub-runs begin.
 
 ## Lifecycle
 
@@ -68,4 +64,4 @@ If a milestone fails any of these criteria during preflight, it should be split,
 | `/niko` re-entry - all `- [x]` | `/niko` Step 2a | Routes to capstone archive |
 | Capstone archive | `.cursor/skills/shared/niko/references/level4/level4-archive.md` | Deletes `memory-bank/active/milestones.md` |
 
-🚨 **Do not create or modify `memory-bank/active/milestones.md` outside of these lifecycle events.** Its presence is used as a binary signal by `/niko` — creating it manually will cause `/niko` to enter L4 milestone transition routing on the next invocation.
+🚨 **Do not create or modify `memory-bank/active/milestones.md` outside of these lifecycle events.** Its presence is a binary signal for `/niko`. A manual create will send the next `/niko` into L4 routing.

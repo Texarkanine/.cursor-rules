@@ -34,7 +34,7 @@ A node with no outbound solid edges is a **terminal node**.
 
 After the initial plan is reviewed, `/niko` manages the milestone lifecycle: checking off completed sub-runs, cleaning inter-run state, classifying the next milestone, and routing to the capstone archive when all milestones are done.
 
-Level 4 Preflight judges the milestone design at L4 altitude (coverage, order, done, risks, refs) — not per-milestone TDD or file-level implementation plans. The spawn instruction is still only `Run the /niko-preflight skill`; dispatch lives inside that skill.
+Level 4 Preflight validates the milestone list. Spawn with only `Run the /niko-preflight skill`.
 
 ## Phase Mappings
 

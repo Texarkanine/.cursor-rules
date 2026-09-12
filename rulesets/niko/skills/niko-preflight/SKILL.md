@@ -15,7 +15,7 @@ graph TD
 
     Skill["SKILL.md dispatcher"]:::skill -->|"Level 1 or unknown"| Stop["FAIL blocking and stop"]:::skill
     Skill -->|"Level 2 or 3"| Default["references/default-preflight.md"]:::def
-    Skill -->|"Level 4"| L4["references/l4-preflight.md"]:::l4
+    Skill -->|"Level 4"| L4["references/level4-preflight.md"]:::l4
     Default --> Shared["Write Status and stop"]:::skill
     L4 --> Shared
 ```
@@ -40,7 +40,7 @@ Read `**Complexity:**`. Then take exactly one branch. Do not read the other refe
 1. **Missing or unknown Complexity** — record `FAIL (blocking)`. Skip to Step 3 Write Status. Do not load a check file.
 2. **Level 1** — this skill is not used at Level 1. Record `FAIL (blocking)`. Skip to Step 3 Write Status. Do not load `default-preflight.md`.
 3. **Level 2 or Level 3** — load `.cursor/skills/shared/niko-preflight/references/default-preflight.md`. Follow **only** that file. When its checks are done, continue to Step 3.
-4. **Level 4** — load `.cursor/skills/shared/niko-preflight/references/l4-preflight.md`. Follow **only** that file. When its checks are done, continue to Step 3.
+4. **Level 4** — load `.cursor/skills/shared/niko-preflight/references/level4-preflight.md`. Follow **only** that file. When its checks are done, continue to Step 3.
 
 ## Step 3: Shared close
 

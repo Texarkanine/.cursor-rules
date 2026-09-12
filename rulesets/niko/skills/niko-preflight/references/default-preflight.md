@@ -1,8 +1,6 @@
-# Default Preflight Checks
+# Preflight Phase - Level 2 and Level 3
 
-L2 and L3 implementation-plan checks. Load this file only when `memory-bank/active/progress.md` `**Complexity:**` is Level 2 or Level 3. Follow every numbered step below, then return to the skill for Radical Innovation, Judge, Write Status, and stop.
-
-Do not read `references/l4-preflight.md`. Do not treat `memory-bank/active/milestones.md` as the plan under review.
+This document validates an L2 or L3 implementation plan in `memory-bank/active/tasks.md`.
 
 ## Checks
 
