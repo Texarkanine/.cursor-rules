@@ -1,0 +1,1 @@
+always-tdd in-scope is behavior a user of this product can observe breaking (no CLI/workflow category list). Preflight classifies and FAILs on that test, not the plan's executable label (#123).

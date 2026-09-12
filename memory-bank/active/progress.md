@@ -37,3 +37,14 @@ Tighten always-tdd and niko-preflight TDD Plan Encoding so TDD and “contract t
 * Insights
     - The planned Preflight classifier and FAIL wording correctly rely on What TDD Governs rather than the plan's “executable” label, preventing the prior invented-test path.
     - A future dedicated Preflight fixture could make the vendor/bootstrap classification scenario repeatable without introducing document-content change-detectors.
+
+## 2026-09-12 - BUILD - COMPLETE
+
+* Work completed
+    - Replaced always-tdd in-scope category list with the product-user consequence test; appended out-of-scope illustrations with `, etc.`; rewrote the contract-test sentence for this product + semver skip.
+    - Preflight: classification bullet, expanded strike, FAIL on What TDD Governs not the plan label; Completeness and Judge Do Not Fix siblings updated.
+    - `make test` passed.
+* Decisions made
+    - Built to locked sentences. Did not edit generated `.cursor/` copies.
+* Insights
+    - Opening line still says “executable behavior (defined below)”; the definition is now the consequence test, so that pointer still holds.

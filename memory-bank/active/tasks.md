@@ -27,6 +27,7 @@ Live proof is the next L2 plan that vendors a third-party tool and writes agent 
 
 - Files: `rules/always-tdd.mdc` (`rulesets/niko/always-tdd.mdc` is a symlink; do not edit `.cursor/rules/shared/always-tdd.mdc` in this task)
 - No tests: prose/policy artifact
+- [x] Built to locked wording
 
 1. Replace the in-scope sentence. **Do not** restore a category list (`code, schemas, parsers, CLIs, and any configuration or workflow it runs`). Those tokens are how vendored CLIs and agent workflows get relabeled in-scope. Locked replacement for the in-scope paragraph:
 
@@ -46,6 +47,7 @@ Live proof is the next L2 plan that vendors a third-party tool and writes agent 
 
 - Files: `rulesets/niko/skills/niko-preflight/SKILL.md` (do not edit `.cursor/skills/shared/niko-preflight/SKILL.md` in this task)
 - No tests: prose/policy artifact
+- [x] Built to locked wording
 
 `always-tdd` owns the definition. This unit states judge actions. Do not paste What TDD Governs into the skill.
 
@@ -98,5 +100,5 @@ No new technology - validation not required
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight
-- [ ] Build
+- [x] Build
 - [ ] QA

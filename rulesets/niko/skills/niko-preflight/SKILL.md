@@ -26,11 +26,12 @@ Read:
 2. **TDD Plan Encoding** *(blocking)*
    - The test-first process lives in `.cursor/rules/shared/always-tdd.mdc`
    - This check governs units that change executable behavior. A unit delivering user-facing prose or policy (docs content, PR/issue templates, CONTRIBUTING, instructional comments, rule/skill wording, etc.) owes no tests for those artifacts; omitting tests for those artifacts passes this check
+   - Classify a unit as executable only when a user of this product can observe the behavior breaking. An agent or a developer tool invoking it is not enough. The plan's "executable" label is not decisive when it contradicts that test.
    - For each implementable unit of executable work (function, slice, milestone — whatever granularity the plan uses), confirm the ordered substeps place test-writing before production code, explicitly enough that a reasonable implementer cannot follow the plan by coding first
-   - When a numbered step is a scheduled change-detector (a test that can only go red when someone deliberately edits the artifact it asserts on — heading, phrase, link, or checklist assertions on a document), delete that step. Keep the other steps. Record the finding and continue.
+   - When a numbered step is a scheduled change-detector (a test that can only go red when someone deliberately edits the artifact it asserts on — heading, phrase, link, or checklist assertions on a document), or a scheduled contract test that is not the published contract of this product, delete that step. Keep the other steps. Record the finding and continue.
    - When a unit already has both test steps and production steps and they are in the wrong order, put the test steps first. Same steps. Record the finding and continue.
    - Do not invent tests. Do not emit always-tdd stages.
-   - FAIL when the numbered steps for an executable unit have no test steps (implementation-only under a "we follow TDD" disclaimer, or TDD only in the preamble). This still applies after a change-detector strike.
+   - FAIL when the numbered steps for a unit that is executable under What TDD Governs have no test steps (implementation-only under a "we follow TDD" disclaimer, or TDD only in the preamble). This still applies after a strike that left such a unit with no tests. After a strike, a unit that is not executable under that rule owes no tests; omitting them passes.
    - On FAIL: cite the executable units lacking test steps. Write `FAIL (blocking)`.
 
 3. **Convention Compliance**
@@ -51,7 +52,7 @@ Read:
 6. **Completeness Precheck**
    - Verify the plan addresses all stated requirements with concrete implementation steps mapped to each one - not aspirationally, but with specific files, functions, and approaches identified
    - Flag any requirements that are acknowledged but lack a clear implementation path
-   - Verify test coverage is planned for all new executable behavior — not for prose or policy artifacts; the TDD Plan Encoding check governs that boundary
+   - Verify test coverage is planned for all new executable behavior — not for prose or policy artifacts, and not because the plan labeled a unit executable; the TDD Plan Encoding check governs that boundary
 
 7. **Radical Innovation** *(advisory - not blocking)*
     - What's the single smartest and most radically innovative and accretive and useful and compelling change you could make to the plan at this point?
@@ -59,7 +60,7 @@ Read:
     - Record that idea as an advisory finding. Do not make the change to the plan, even if the idea fits the brief.
 
 8. **Judge, Do Not Fix**
-   - Surface and judge. Never modify the plan under review, except the TDD step swap and change-detector strike above.
+   - Surface and judge. Never modify the plan under review, except the TDD step swap and the strike above.
    - Allowed writes only: `memory-bank/active/.preflight-status`, the `**Phase:**` field in `activeContext.md` (under **End of Verification**), `progress.md`, and those two in-phase plan edits on `tasks.md`.
    - Do not rewrite Implementation Plan units, behavior lists, or other scheduled work except that swap and that strike.
    - Record every issue as a finding. FAIL when the plan must change before build (`FAIL (fixable)` or `FAIL (blocking)`); PASS only when the plan is acceptable as-is (advisories allowed).
