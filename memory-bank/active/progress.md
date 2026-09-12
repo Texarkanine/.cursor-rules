@@ -91,3 +91,13 @@ Tighten always-tdd and niko-preflight TDD Plan Encoding so TDD and “contract t
 * Insights
     - Original L2 history remains above; this field is the rework’s complexity.
 
+## 2026-09-12 - BUILD (REWORK) - COMPLETE
+
+* Work completed
+    - Replaced `agent-facing prompts` with `Repository bootstrap (AGENTS.md, CLAUDE.md, copied init text, etc.)` in `rules/always-tdd.mdc`.
+    - `make test` passed.
+* Decisions made
+    - Did not touch niko-preflight or the “rule and skill wording” carve-out.
+* Insights
+    - Bootstrap named by files cannot be relabeled as product prompt evals.
+

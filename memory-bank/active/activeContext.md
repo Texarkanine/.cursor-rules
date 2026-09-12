@@ -1,10 +1,11 @@
 # Active Context
 
 ## Current Task: tdd-product-user-scope
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** BUILD - COMPLETE
 
 ## What Was Done
-- Rework classified Level 1: one-sentence out-of-scope illustration in `rules/always-tdd.mdc`. Preflight does not repeat the phrase.
+- Dropped **agent-facing prompts** from always-tdd. Out-of-scope second sentence is now repository bootstrap (`AGENTS.md`, `CLAUDE.md`, copied init text, etc.), vendored third-party tools, gitignore lines, etc.
+- No niko-preflight edit. No generated-tree edits. `make test` passed.
 
 ## Next Step
-- Level 1 Build.
+- QA.
