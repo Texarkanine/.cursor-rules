@@ -1,6 +1,6 @@
 # Preflight Phase - Level 4: Complex System
 
-This document validates the L4 milestone list in `memory-bank/active/milestones.md` against `memory-bank/active/projectbrief.md`.
+This document validates the L4 milestone list in `memory-bank/active/milestones.md` against `memory-bank/active/projectbrief.md`. It judges decomposition, not implementation steps.
 
 ## Additional loads
 
@@ -17,7 +17,7 @@ Read:
    - Header must be `# Milestones: <task-id>` matching the active task ID in `memory-bank/active/tasks.md`. Header mismatch: write `FAIL (fixable)`.
 2. **Checklist shape**
    - Each milestone is one GFM checkbox line (`- [ ]` or `- [x]`). No sub-bullets on those lines.
-   - The real checklist is the contiguous GFM checkbox list under Execution Order. Extra `- [ ]` / `- [x]` in Cross-milestone invariants or in Per-milestone done and risks poison `/niko` classify: write `FAIL (blocking)`. Do not FAIL the real checklist for living under Execution Order.
+   - The real checklist is the contiguous GFM checkbox list under Execution Order. Extra `- [ ]` / `- [x]` in Cross-milestone invariants or in Per-milestone done and risks are extra milestones: write `FAIL (blocking)`. Do not FAIL the real checklist for living under Execution Order.
 3. **Coverage**
    - Every requirement in `projectbrief.md` maps to at least one milestone.
    - No two milestones cover the same purpose. Gap or overlap: write `FAIL (blocking)`.
@@ -25,8 +25,7 @@ Read:
    - Each milestone is independently deliverable, L1–L3 scoped (not itself L4), and names a concrete deliverable.
    - Nested L4, future-dependent work, or a vague activity line: write `FAIL (blocking)`.
 5. **Order**
-   - The checklist order must be safe for serial execution (`/niko` always takes the first unchecked box). Milestone N must not require work from milestone N+1. Unsafe order or future-dependency: write `FAIL (blocking)`.
-   - A dependency DAG belongs in the Execution Order section only when the work is not a straight line, and it must match the checklist. Parallel claimed in prose but no DAG: write `FAIL (fixable)`.
+   - Checklist order is execution order. Milestone N must not require work from milestone N+1. Unsafe order or future-dependency: write `FAIL (blocking)`.
 6. **Cross-milestone invariants**
    - A Cross-milestone invariants section must exist. It states properties no milestone may violate — not goals or requirements. Missing section: write `FAIL (fixable)`.
    - When two milestones share an artifact, that section must state a handoff *rule* (who may touch it, and when). Not a file inventory. Missing handoff rule only when a shared artifact exists: write `FAIL (fixable)`. Do not FAIL for a missing handoff rule when no two milestones share an artifact.
@@ -36,9 +35,4 @@ Read:
      - **Risks / invariants** — critical risks for that milestone, or an explicit pointer that a cross-milestone invariant covers it
      - **Ref** — an existing ticket if the brief or issue already has one; otherwise a pointer into `projectbrief.md`. Do not create tickets. Do not FAIL for a missing ticket when none exists.
    - Missing Done, Risks/invariants, or Ref: write `FAIL (fixable)`.
-8. **Persistent-file sufficiency**
-   - The checkbox plus its done/risks/ref block plus `projectbrief.md` (plus the ticket if linked) must be enough for a later agent to classify and plan the milestone.
-   - Too vague to classify: write `FAIL (blocking)`. Missing pointer only: write `FAIL (fixable)`.
-9. **Convention and conflict at L4 altitude**
-   - Flag a decomposition that would edit generated `.cursor/` / `.claude/` trees, or that would break a published contract implied by the brief or invariants.
-   - Do not require a per-milestone file list. Do not require numbered test-first substeps or concrete file paths on one-liners.
+   - The checkbox plus that block plus `projectbrief.md` (plus the ticket if linked) must be enough to classify and plan the milestone. Too vague to classify: write `FAIL (blocking)`. Missing pointer only: write `FAIL (fixable)`.
