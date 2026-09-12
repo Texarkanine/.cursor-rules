@@ -92,6 +92,16 @@ No new technology - validation not required
 - **“User of this product” still read as the agent:** Out-of-scope invocation sentence plus preflight “an agent or a developer tool invoking it is not enough” are the disambiguation; do not drop them at build.
 - **This task’s own plan used as live TDD-encoding proof:** This plan is correctly prose/policy, so it cannot exercise the misclassified-executable FAIL path. Live proof remains the next vendor-bootstrap plan, recorded as a verification limit, not a reason to invent tests here.
 
+## QA Findings
+
+- ✅ PASS. Diffed the build commit against the pre-build baseline: `rules/always-tdd.mdc` and `rulesets/niko/skills/niko-preflight/SKILL.md` carry the plan's locked sentences verbatim, in the specified locations, with no extra edits.
+- In-scope sentence, out-of-scope addition, and the rewritten contract-test paragraph in `always-tdd.mdc` match the plan's locked wording character-for-character.
+- Preflight's classification bullet, expanded strike bullet, and rewritten FAIL bullet match the plan's locked wording character-for-character and land in the specified positions; `Do not invent tests...` line untouched; Completeness Precheck and Judge-Do-Not-Fix siblings updated per plan (retitled to "strike", generic enough to cover the expanded strike).
+- No edits to generated `.cursor/` or `.claude/` trees in this task's commits (verified via `git diff` across the task's commit range) — matches the plan's constraint that generated copies lag until a later `ai-rizz sync`.
+- `make test` (symlink + README-link checks) passes.
+- No change-detector tests were invented for the new prose; task correctly has "No new executable behavior."
+- Advisory only: `rulesets/niko/skills/niko/references/level2-plan.md` / `level3-plan.md` still use the generic "executable vs. prose/policy" classification language without restating the new consequence test — not a defect, since they already defer to `always-tdd.mdc`'s definition rather than duplicating it, consistent with the DRY-vs-duplication pattern in `systemPatterns.md`.
+
 ## Status
 
 - [x] Initialization complete
@@ -101,4 +111,4 @@ No new technology - validation not required
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [ ] QA
+- [x] QA

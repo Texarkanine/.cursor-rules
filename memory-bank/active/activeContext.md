@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: tdd-product-user-scope
-**Phase:** BUILD - COMPLETE
+**Phase:** QA - COMPLETE (PASS)
 
 ## What Was Done
 - Built both prose/policy units to the locked plan wording. No tests added. No generated-tree edits.
@@ -10,4 +10,4 @@
 - Deviations: none.
 
 ## Next Step
-- QA review.
+- Reflect.

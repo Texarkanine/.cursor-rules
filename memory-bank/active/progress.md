@@ -48,3 +48,14 @@ Tighten always-tdd and niko-preflight TDD Plan Encoding so TDD and “contract t
     - Built to locked sentences. Did not edit generated `.cursor/` copies.
 * Insights
     - Opening line still says “executable behavior (defined below)”; the definition is now the consequence test, so that pointer still holds.
+
+## 2026-09-12 - QA - COMPLETE (PASS)
+
+* Work completed
+    - Diffed the build commit (`30eba52`) against the pre-plan baseline (`82deba5`) for both changed files; confirmed the plan’s locked sentences landed verbatim, in the specified locations, with no unplanned edits.
+    - Confirmed no generated `.cursor/`/`.claude/` edits occurred within this task’s commit range; the `.cursor` drift found belongs to unrelated prior commits (#121 and its `ai-rizz sync`).
+    - Re-ran `make test`; symlink and README-link checks passed.
+* Decisions made
+    - Recorded PASS: no KISS/DRY/YAGNI/completeness/regression/integrity/documentation violations found.
+* Insights
+    - The classifier duplication between `always-tdd.mdc` and `niko-preflight/SKILL.md` is the same verbatim-tripwire pattern already documented in `systemPatterns.md`, not new drift risk.
