@@ -1,0 +1,1 @@
+L4 milestone Ref is not a projectbrief pointer: briefs are whole-program, not per-slice. Ticket goes on the checkbox when one exists; Done, Risks, and the brief are the spec.
