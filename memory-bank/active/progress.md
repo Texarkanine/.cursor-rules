@@ -101,3 +101,14 @@ Tighten always-tdd and niko-preflight TDD Plan Encoding so TDD and “contract t
 * Insights
     - Bootstrap named by files cannot be relabeled as product prompt evals.
 
+## 2026-09-12 - QA (REWORK) - COMPLETE (PASS)
+
+* Work completed
+    - Reviewed the Level 1 rework against the project brief, task record, canonical rule, and commit-range diff.
+    - Re-ran `make test`; ruleset symlink and README-link checks passed.
+* Decisions made
+    - Recorded PASS: the targeted phrase is removed while bootstrap remains explicitly scoped and the rule-and-skill wording carve-out remains.
+    - Did not require a document-content test because it would be a change-detector.
+* Insights
+    - Naming the bootstrap role and representative files prevents the wording from broadly excluding product rule or skill evaluations that might later demonstrate product-observable behavior.
+

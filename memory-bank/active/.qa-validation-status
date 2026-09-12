@@ -1,0 +1,2 @@
+PASS
+QA reviewed the Level 1 rework against its brief and task record. `agent-facing prompts` is removed only from the canonical `rules/always-tdd.mdc` out-of-scope illustration; explicit repository bootstrap examples are present, the rule-and-skill wording carve-out remains, and `niko-preflight` was correctly left unchanged. `make test` passed.
