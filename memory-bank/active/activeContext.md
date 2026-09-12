@@ -1,10 +1,13 @@
 # Active Context
 
 ## Current Task: l4-preflight-altitude
-**Phase:** PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
+**Phase:** BUILD - COMPLETE
 
 ## What Was Done
-- Locked D + W4 into an L3 implementation plan: dispatcher in `niko-preflight` SKILL.md; `references/default-preflight.md` for L2/L3 (today's checks, drop "milestone"); `references/l4-preflight.md` for W4 altitude; `milestones.mdc` + `level4-plan.md` write sections not checkbox notes; spawn line unchanged; `.cursor/` not edited.
+- Split `/niko-preflight`: SKILL.md dispatches on `progress.md` Complexity; `references/default-preflight.md` holds L2/L3 checks (word `milestone` removed from TDD units); `references/l4-preflight.md` holds W4 altitude checks.
+- Folded the Preflight advisory: `default-preflight.md` FAILs blocking if Complexity is Level 4.
+- W4 format in `milestones.mdc` and `level4-plan.md` (L-estimates off checkbox lines). Classification reads the W4 row. README + `level4-workflow.md` state L4 altitude. Spawn lines unchanged. `.cursor/` not edited.
+- `make test` passed (symlink + README link checks).
 
 ## Next Step
-- Preflight PASS WITH ADVISORY. Run `/niko-build` to implement. Optional: fold the wrong-reference guard into unit 1 (`default-preflight.md` FAILs blocking if Complexity is Level 4).
+- QA review.

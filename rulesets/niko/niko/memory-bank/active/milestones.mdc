@@ -9,24 +9,41 @@ globs: memory-bank/active/milestones.md
 1. **In-flight signal**: its presence tells `/niko` that an L4 project is active, triggering milestone transition routing instead of normal state handling.
 2. **State tracker**: the checklist records which milestones are complete and which remain.
 
+Narrative requirements and most of the definition of done live in `memory-bank/active/projectbrief.md`. This file is sequencing plus enough for a later worker to understand the document after `/niko` Step 2a deletes `tasks.md` and `progress.md`.
+
 ## File Format
 
 ```markdown
 # Milestones: <task-id>
 
-[optional Mermaid flowchart showing dependency relationships between milestones - omit if all milestones are sequential]
+## Cross-milestone invariants & constraints
 
-- [ ] <Milestone 1: one-line description of the deliverable>
-- [ ] <Milestone 2: one-line description of the deliverable>
-- [ ] <Milestone 3: one-line description of the deliverable>
+[properties no milestone may violate. When two milestones share an artifact, state the handoff rule: who may touch it, and when.]
+
+## Execution Order
+
+[optional Mermaid flowchart of dependency relationships - omit if all milestones are sequential]
+
+- [ ] <Milestone 1: one-line deliverable, optional existing ticket>
+- [ ] <Milestone 2: one-line deliverable, optional existing ticket>
+- [ ] <Milestone 3: one-line deliverable, optional existing ticket>
+
+## Per-milestone done and risks
+
+| Milestone | Done | Risks / invariants | Ref |
+| --- | --- | --- | --- |
+| <exact checkbox text> | judgeable done | critical risks, or see invariants | ticket URL, or projectbrief pointer |
 ```
 
 Rules:
 - Header must be `# Milestones: <task-id>` where `task-id` matches the active task's ID in `memory-bank/active/tasks.md`
 - Each milestone is a standard GFM checkbox: `- [ ]` (unchecked) or `- [x]` (complete)
-- One milestone per line - no sub-bullets, no notes inline
-- Description is a single line: concise, action-oriented, specific enough that a future agent can classify it as L1/L2/L3 without additional context
-- The optional dependency flowchart (if present) precedes the checklist and is not a milestone - complexity analysis identifies milestones by the `- [ ]` / `- [x]` markers only
+- One milestone per line — no sub-bullets, no TDD steps, no file lists on the checkbox line
+- An existing ticket id or URL may be part of that one line. Do not create tickets. Do not add a second sentence of notes on the checkbox line
+- Description is a single line: concise, action-oriented, specific enough that a future agent can classify it as L1/L2/L3 together with its done/risks/ref row and the memory bank
+- Only the real checklist may use `- [ ]` / `- [x]`. Sections (invariants, DAG, done/risks table or headings) must not contain checkboxes — complexity analysis identifies milestones by those markers only
+- The optional dependency flowchart (if present) lives under Execution Order and is not a milestone
+- Heading blocks keyed to checkbox text may replace the table. They still must not use checklist markers
 
 ## What Makes a Good Milestone
 
@@ -36,6 +53,8 @@ Each milestone must satisfy all of these:
 - **L1/L2/L3 scoped** - small enough to pass through the complexity analysis decision tree without itself being classified L4
 - **Concrete** - the description names what is being built, not the activity ("Add user authentication flow" not "Work on auth")
 - **Non-overlapping** - milestones cover distinct ground; no two milestones should touch the same files for the same purpose
+- **Judgeable done** - the done/risks row (or a covering cross-milestone invariant) states what shipped looks like and what must not be lost
+- **Task-description ref** - an existing ticket if one exists, otherwise a pointer into `projectbrief.md`
 
 If a milestone fails any of these criteria during preflight, it should be split, merged, or rewritten before sub-runs begin.
 

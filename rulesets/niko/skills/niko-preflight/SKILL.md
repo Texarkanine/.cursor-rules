@@ -1,74 +1,64 @@
 ---
 name: niko-preflight
-description: Niko Memory Bank System - Preflight Phase - Pre-Build Plan Validation
+description: Validate a Niko plan before build. Use for Level 2/3 implementation plans in tasks.md (TDD encoding, completeness) and Level 4 milestone lists (coverage, order, done, risks, refs). Do not use after code is written (niko-qa) or for Level 1 (no preflight).
 ---
 
 # Preflight Phase - Pre-Build Plan Validation
 
-This command validates the implementation plan against codebase reality before any code is written. It catches design oversights, convention conflicts, TDD violations, and integration issues that would otherwise surface during or after the build.
+This command validates the plan against codebase reality before any code is written. A parent spawns it with only `Run the /niko-preflight skill`. It is not a plan/build workflow router: it does not load a level workflow. It loads exactly one sibling check file from Complexity, then writes status and stops.
+
+```mermaid
+graph TD
+    classDef skill fill:#e1f5fe,stroke:#01579b;
+    classDef l4 fill:#fff3e0,stroke:#ef6c00;
+    classDef def fill:#e8f5e9,stroke:#2e7d32;
+
+    Skill["SKILL.md dispatcher"]:::skill -->|"Level 1 or unknown"| Stop["FAIL blocking and stop"]:::skill
+    Skill -->|"Level 2 or 3"| Default["references/default-preflight.md"]:::def
+    Skill -->|"Level 4"| L4["references/l4-preflight.md"]:::l4
+    Default --> Shared["Write Status and stop"]:::skill
+    L4 --> Shared
+```
 
 ## Step 1: Load Memory Bank Files
 
 Read:
+
+- `memory-bank/active/progress.md`
 - `memory-bank/active/tasks.md`
 - `memory-bank/active/projectbrief.md`
 - `memory-bank/systemPatterns.md`
 - `memory-bank/techContext.md`
 - `memory-bank/active/creative/**/*.md` (if any exist)
 
-## Step 2: Preflight Workflow
+`**Complexity:**` in `progress.md` is the dispatch switch. Presence of `milestones.md` is not.
 
-1. **Verify Prerequisites**
-   - Check `memory-bank/active/tasks.md` for planning completion
-   - For Level 3-4: Verify creative phase documents exist (if creative phases were flagged)
-   - Read implementation plan and design decisions
+## Step 2: Dispatch
 
-2. **TDD Plan Encoding** *(blocking)*
-   - The test-first process lives in `.cursor/rules/shared/always-tdd.mdc`
-   - This check governs units that change executable behavior. A unit delivering user-facing prose or policy (docs content, PR/issue templates, CONTRIBUTING, instructional comments, rule/skill wording, etc.) owes no tests for those artifacts; omitting tests for those artifacts passes this check
-   - Classify a unit as executable only when a user of this product can observe the behavior breaking. An agent or a developer tool invoking it is not enough. The plan's "executable" label is not decisive when it contradicts that test.
-   - For each implementable unit of executable work (function, slice, milestone — whatever granularity the plan uses), confirm the ordered substeps place test-writing before production code, explicitly enough that a reasonable implementer cannot follow the plan by coding first
-   - When a numbered step is a scheduled change-detector (a test that can only go red when someone deliberately edits the artifact it asserts on — heading, phrase, link, or checklist assertions on a document), or a scheduled contract test that is not the published contract of this product, delete that step. Keep the other steps. Record the finding and continue.
-   - When a unit already has both test steps and production steps and they are in the wrong order, put the test steps first. Same steps. Record the finding and continue.
-   - Do not invent tests. Do not emit always-tdd stages.
-   - FAIL when the numbered steps for a unit that is executable under What TDD Governs have no test steps (implementation-only under a "we follow TDD" disclaimer, or TDD only in the preamble). This still applies after a strike that left such a unit with no tests. After a strike, a unit that is not executable under that rule owes no tests; omitting them passes.
-   - On FAIL: cite the executable units lacking test steps. Write `FAIL (blocking)`.
+Read `**Complexity:**`. Then take exactly one branch. Do not read the other reference. Do not load a level workflow.
 
-3. **Convention Compliance**
-   - Verify the plan's proposed file locations, naming conventions, and patterns align with established codebase conventions documented in `memory-bank/systemPatterns.md`
-   - Cross-reference proposed module structure against existing project organization
-   - Flag any deviation from established patterns with specific recommendations
+1. **Missing or unknown Complexity** — record `FAIL (blocking)`. Skip to Step 3 Write Status. Do not load a check file.
+2. **Level 1** — this skill is not used at Level 1. Record `FAIL (blocking)`. Skip to Step 3 Write Status. Do not load `default-preflight.md`.
+3. **Level 2 or Level 3** — load `.cursor/skills/shared/niko-preflight/references/default-preflight.md`. Follow **only** that file. When its checks are done, continue to Step 3.
+4. **Level 4** — load `.cursor/skills/shared/niko-preflight/references/l4-preflight.md`. Follow **only** that file. When its checks are done, continue to Step 3.
 
-4. **Dependency Impact**
-   - Trace the plan's touchpoints through the dependency graph
-   - Identify modules, consumers, or tests that will be affected but aren't accounted for in the plan
-   - Verify that all downstream impacts are documented and addressed
+## Step 3: Shared close
 
-5. **Conflict Detection**
-   - Search for existing implementations, utilities, or patterns that overlap with or contradict the plan's approach
-   - Identify duplication-in-waiting - cases where the plan proposes building something the codebase already provides
-   - Flag any proposed changes that would break public contracts or published interfaces — internal restructuring that preserves the public API surface is not a conflict
+If dispatch already recorded a terminal `FAIL (blocking)` before loading a check file, skip Radical Innovation. Otherwise run all three of the following.
 
-6. **Completeness Precheck**
-   - Verify the plan addresses all stated requirements with concrete implementation steps mapped to each one - not aspirationally, but with specific files, functions, and approaches identified
-   - Flag any requirements that are acknowledged but lack a clear implementation path
-   - Verify test coverage is planned for all new executable behavior — not for prose or policy artifacts, and not because the plan labeled a unit executable; the TDD Plan Encoding check governs that boundary
-
-7. **Radical Innovation** *(advisory - not blocking)*
-    - What's the single smartest and most radically innovative and accretive and useful and compelling change you could make to the plan at this point?
-    - Describe the change concretely - not as a vague suggestion, but as a specific structural sketch the operator can evaluate against the cost of redesign.
-    - Record that idea as an advisory finding. Do not make the change to the plan, even if the idea fits the brief.
-
-8. **Judge, Do Not Fix**
-   - Surface and judge. Never modify the plan under review, except the TDD step swap and the strike above.
+1. **Radical Innovation** *(advisory - not blocking)*
+   - What's the single smartest and most radically innovative and accretive and useful and compelling change you could make to the plan at this point?
+   - Describe the change concretely - not as a vague suggestion, but as a specific structural sketch the operator can evaluate against the cost of redesign.
+   - Record that idea as an advisory finding. Do not make the change to the plan, even if the idea fits the brief.
+2. **Judge, Do Not Fix**
+   - Surface and judge. Never modify the plan under review, except the TDD step swap and the strike performed during the loaded checks.
    - Allowed writes only: `memory-bank/active/.preflight-status`, the `**Phase:**` field in `activeContext.md` (under **End of Verification**), `progress.md`, and those two in-phase plan edits on `tasks.md`.
    - Do not rewrite Implementation Plan units, behavior lists, or other scheduled work except that swap and that strike.
    - Record every issue as a finding. FAIL when the plan must change before build (`FAIL (fixable)` or `FAIL (blocking)`); PASS only when the plan is acceptable as-is (advisories allowed).
-
-9. **Write Status**
+3. **Write Status**
    - Overwrite `memory-bank/active/.preflight-status`. First line is exactly one allowed value from `.cursor/rules/shared/niko/memory-bank/active/preflight-status.mdc`. After a blank line, write this run's findings.
 
-## Step 3: Log Progress
+## Step 4: Log Progress
 
 > 🚨 **Printing this notice is NOT the end of this phase.** After printing, continue immediately to the next step - do not stop.
 
@@ -104,6 +94,6 @@ Print the appropriate block:
 
 ~~~
 
-## Step 4: End of Verification
+## Step 5: End of Verification
 
 Update `memory-bank/active/activeContext.md` so `**Phase:**` records Preflight complete with the first line of `.preflight-status` (e.g. `**Phase:** PREFLIGHT - COMPLETE (PASS)`). Do not load a level workflow or begin another phase. Stop.

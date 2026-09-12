@@ -58,3 +58,15 @@ Give L4 `/niko-preflight` an L4-altitude bar so valid milestone one-liners are n
 * Insights
     - Advisory: `l4-preflight.md` self-verifies its Complexity predicate but `default-preflight.md` has no symmetric wrong-reference guard; one line would make a dispatcher mix-up fail loud instead of mixed-bar.
     - Advisory: `systemPatterns.md` overgeneralizes that rich-skill `references/` live under `rules/` as symlinks; the niko skill is an in-ruleset counterexample the plan correctly follows.
+
+## 2026-09-12 - BUILD - COMPLETE
+
+* Work completed
+    - Added `rulesets/niko/skills/niko-preflight/references/default-preflight.md` and `l4-preflight.md`. Rewrote `SKILL.md` as a Complexity dispatcher. Updated `milestones.mdc`, `level4-plan.md`, `complexity-analysis.md`, `level4-workflow.md`, README L4 key differences.
+    - `make test` passed.
+* Decisions made
+    - Included the Preflight advisory: `default-preflight.md` wrong-reference guard (FAIL blocking if Complexity is Level 4).
+    - Did not edit `.cursor/` or run ai-rizz sync.
+    - Left the `systemPatterns.md` references/ overgeneralization for reflect/archive.
+* Insights
+    - Runtime paths still point at `.cursor/skills/shared/niko-preflight/references/…`; live L4 dispatch waits on `chore(dev): ai-rizz sync` after this is pushed.

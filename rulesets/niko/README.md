@@ -270,6 +270,7 @@ graph TD
 2. "Reflections" accumulate after milestones are completed, and are archived once at the end ("Capstone" archive)
 3. Manual `/niko` command required to advance from one completed milestone to the next
 	- this is your chance to review Niko's work!
+4. L4 Preflight judges that decomposition (coverage, order, done, risks, refs), not per-milestone TDD or file paths. Sub-run Preflight keeps the L2/L3 implementation-plan bar.
 
 ```mermaid
 graph TD
