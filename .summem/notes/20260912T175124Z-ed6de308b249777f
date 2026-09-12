@@ -1,0 +1,1 @@
+L4 Execution Order: the checklist is always a serial-safe walk (one-at-a-time never needs a later milestone); when work is not a line, the flowchart records parallel sets. Follow the list or the DAG; they must agree so a mid-project switch does not conflict.
