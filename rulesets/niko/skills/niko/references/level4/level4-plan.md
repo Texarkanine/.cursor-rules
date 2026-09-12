@@ -26,9 +26,7 @@ Decompose the overall task into an appropriate, optimal number of milestones. Ap
 - Milestones cover the full project scope - no gaps, no overlap
 - Milestones that change documented behavior must include documentation updates in their scope (README files, doc comments, configuration docs, user-facing guides)
 - Sequence in dependency order: milestone N must not require work from milestone N+1. The checklist is always a serial-safe walk.
-- If milestones have opportunities for parallelization
-    - Add a flowchart under Execution Order in `memory-bank/active/milestones.md` that shows which milestones may run in parallel.
-    - Keep the checklist as a serial-safe walk of that same graph. One-at-a-time follows the list; parallel follows the DAG.
+- If milestones have opportunities for parallelization, add a flowchart under Execution Order in `memory-bank/active/milestones.md` that shows which milestones may run in parallel.
 
 For each milestone, estimate its complexity level (L1/L2/L3) using the decision tree in `.cursor/skills/shared/niko/references/core/complexity-analysis.md`. This estimate is advisory - the actual classification happens at the start of each sub-run - but a milestone estimated as L4 is a signal it needs to be split further.
 
