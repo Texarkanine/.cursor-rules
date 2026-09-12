@@ -36,3 +36,15 @@ Give L4 `/niko-preflight` an L4-altitude bar so valid milestone one-liners are n
 * Insights
     - Plan/build/archive/reflect: thin skill → workflow → phase mappings. Preflight/QA: fat (or dispatching) skill + `Run the /… skill`. Mixing those would fatten the subagent bootstrap.
     - File names: `references/default-preflight.md` (L2/L3) and `references/l4-preflight.md` (L4); dispatcher loads exactly one.
+
+## 2026-09-12 - PLAN - COMPLETE
+
+* Work completed
+    - Wrote the L3 implementation plan in `memory-bank/active/tasks.md`: extract default checks, write L4 checks, dispatcher SKILL.md, W4 format in milestones.mdc + level4-plan, classify/docs altitude.
+* Decisions made
+    - Per-milestone W4 surface is a table (or headings) keyed to checkbox text, not checkbox sub-bullets.
+    - Runtime load paths are `.cursor/skills/shared/niko-preflight/references/…`; source is `rulesets/`. No `.cursor/` edit and no ai-rizz sync in this task.
+    - L-estimates stay in the L4 plan-result / `progress.md`, not on checkbox lines.
+    - Missing/unknown/L1 Complexity fails blocking rather than falling through to default.
+* Insights
+    - This plan is entirely prose/policy. This task's Preflight still runs the lagging `.cursor/` copy of the current skill, which is the correct bar for an L3 `tasks.md`.
