@@ -97,3 +97,14 @@ Give L4 `/niko-preflight` an L4-altitude bar so valid milestone one-liners are n
     - Status: `PASS`. The implementation is acceptable as-is; `.cursor/` remains intentionally unsynced until the separate post-push sync task.
 * Insights
     - The corrected conditional handoff rule and Execution Order checklist guard remove the prior QA false positives without relaxing the L4 design requirements.
+
+## 2026-09-12 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `memory-bank/active/reflection/reflection-l4-preflight-altitude.md`.
+    - Surgical update to `memory-bank/systemPatterns.md` File Organization: Niko workflow `references/` live beside `SKILL.md` in the ruleset.
+* Decisions made
+    - productContext and techContext unchanged (skip receipts).
+* Insights
+    - Check-file close sentences that merge two FAILs drop the "when." Write two sentences.
+    - Spawned Preflight/QA stay one-line skills; the level split is sibling references, not a workflow load.
