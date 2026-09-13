@@ -29,3 +29,14 @@ Author a slash-invocable skill `/speedup-giesen` whose opening key is Fabian Gie
     - Do not cite sibling skills from inside the skill
 * Insights
     - daz.is decompression keys: name the framework, do not rewrite it. The quote is the payload; only the behavior-preserving hunt is novel enough to spell out.
+
+## 2026-09-13 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Ran all seven Level 2/3 preflight checks against codebase reality (frontmatter precedent, REUSE.toml coverage, make-test script scope, skill-name conflicts, requirement mapping)
+    - Wrote `.preflight-status`: first line `PASS WITH ADVISORY`
+* Decisions made
+    - Plan is buildable as-is; no in-phase edits (no change-detector steps to strike, no TDD ordering to swap)
+* Insights
+    - Verified directly that both make-test scripts scan only `rulesets/`, so an a-la-carte `rules/` skill is invisible to the layout gate - the plan's "no new coverage" expectation is grounded, not assumed.
+    - Advisory recorded: the passover classifies cuts quantitatively (100x vs 2x) but never measures; a single before/after measurement step would make the class label evidence rather than assertion.

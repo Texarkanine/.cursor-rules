@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: speedup-giesen
-**Phase:** PLAN - COMPLETE
+**Phase:** PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
 
 ## What Was Done
 - Level 2 plan written: one prose/policy unit, `rules/speedup-giesen/SKILL.md`, a la carte (no ruleset).
