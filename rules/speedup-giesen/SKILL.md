@@ -27,5 +27,5 @@ That quote is the stance. Do not unpack it into a performance textbook. Hunt was
 Only after the operator has named which findings to cut.
 
 1. Apply only those named stupid-class cuts. Observable behavior stays. Do not add machinery to go faster.
-2. Change tests only if the speedup can be wrong in a way the old suite would still pass. Then add the smallest test that fails when that shortcut is wrong, not a test of the new internals. Reusing a result that then goes stale is one such hole.
+2. Change tests only if the speedup can be wrong in a way the old suite would still pass. Then add the smallest test that fails when that shortcut is wrong, not a test of the new internals. Reusing a result that then goes stale - where before, the result was computed fresh each time - is one such hole.
 3. Verify behavior still holds. Report what you stopped doing and which class of speedup it is. When you can time the named surface, put the observed multiplier next to the class label.
