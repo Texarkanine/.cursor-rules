@@ -1,13 +1,13 @@
 # Active Context
 
 ## Current Task: speedup-giesen
-**Phase:** PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
+**Phase:** BUILD - COMPLETE
 
 ## What Was Done
-- Level 2 plan written: one prose/policy unit, `rules/speedup-giesen/SKILL.md`, a la carte (no ruleset).
-- Opening key locked to the full Giesen tweet + attribution + confirmed X.com URL.
-- Passover distilled from coachhouse-isp-status and client-side-mdc-render: waste on named hot surfaces, behavior preserved, 100×-stupid kept / 2×-smart left unless asked.
-- No new tests; `make test` is the existing layout gate.
+- Created `/home/mobaxterm/git/.cursor-rules/rules/speedup-giesen/SKILL.md`.
+- Opening key is the full Giesen tweet, attributed, with the confirmed X.com URL.
+- Six-step passover as planned. Folded the preflight measurement advisory into step 6 (report observed multiplier when timed) instead of adding a seventh step.
+- `make test` PASS. No ruleset, no symlink, no new tests.
 
 ## Next Step
-- Preflight validation (spawn `/niko-preflight`).
+- QA review (spawn `/niko-qa`).

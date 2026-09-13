@@ -23,7 +23,7 @@ Existing `make test` (ruleset symlink + README-link checks) must still pass. It 
 
 ## Implementation Plan
 
-### 1. Author `/speedup-giesen` — prose/policy
+### 1. Author `/speedup-giesen` — prose/policy — done
 
 - Files: `rules/speedup-giesen/SKILL.md`
 - No tests: prose/policy artifact
@@ -76,6 +76,6 @@ No new technology - validation not required
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
-- [ ] Build
+- [x] Preflight
+- [x] Build
 - [ ] QA

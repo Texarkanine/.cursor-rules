@@ -40,3 +40,14 @@ Author a slash-invocable skill `/speedup-giesen` whose opening key is Fabian Gie
 * Insights
     - Verified directly that both make-test scripts scan only `rulesets/`, so an a-la-carte `rules/` skill is invisible to the layout gate - the plan's "no new coverage" expectation is grounded, not assumed.
     - Advisory recorded: the passover classifies cuts quantitatively (100x vs 2x) but never measures; a single before/after measurement step would make the class label evidence rather than assertion.
+
+## 2026-09-13 - BUILD - COMPLETE
+
+* Work completed
+    - Authored `rules/speedup-giesen/SKILL.md`
+    - Ran `make test` (PASS)
+* Decisions made
+    - Folded the preflight measurement advisory into passover step 6 rather than adding a seventh step
+    - Left the skill a la carte; no ruleset
+* Insights
+    - The quote plus six numbered steps is enough; a catalog of anti-patterns would fight the decompression key.
