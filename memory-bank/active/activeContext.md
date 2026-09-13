@@ -11,4 +11,4 @@
 - Persistent files: no updates (skip receipts in the Reflect Result).
 
 ## Next Step
-- Run `/niko-archive` to create the archive document and finalize the current project.
+- Operator recast the skill as audit-then-wait after reflect; archive still pending (`/niko-archive`).

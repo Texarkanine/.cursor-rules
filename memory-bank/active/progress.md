@@ -72,3 +72,14 @@ Author a slash-invocable skill `/speedup-giesen` whose opening key is Fabian Gie
 * Insights
     - Search sibling project paths when the operator names a prior local pass; the remembered repo may not be the one that holds the session
 
+## 2026-09-13 - POST-REFLECT - SKILL TIGHTENED
+
+* Work completed
+    - Recast `/speedup-giesen` as an audit: report stupid-class findings and wait; fix only after the operator names which items to cut
+    - Replaced the "hold" tests sentence with the general principle: change tests only if the speedup can be wrong in a way the old suite would still pass
+* Decisions made
+    - The report turn must not edit the product. "When fixing" is a later turn.
+    - Reuse-going-stale is an example of an untested shortcut, not the predicate
+* Insights
+    - An absolute "do not change tests" plus a carve-out is the wrong shape for an agent; the real rule is conditional.
+
