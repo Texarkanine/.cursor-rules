@@ -3,7 +3,7 @@ name: speedup-giesen
 description: Audit a finished, behavior-correct codebase for work you can stop doing so it gets faster without changing what it does. Report the stupid-class findings and wait; do not edit until the operator picks which items to cut. Use when the product already works and the ask is speed, a 10x or 100x win, or whether you are doing something stupid. Not for new features, a YAGNI simplification pass, or clever micro-opts that add machinery.
 ---
 
-# Speedup Giesen
+# The Giesen Speedup
 
 > look, I'm sorry, but the rule is simple:
 > if you made something 2x faster, you might have done something smart
