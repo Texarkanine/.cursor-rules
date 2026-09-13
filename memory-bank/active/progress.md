@@ -61,3 +61,14 @@ Author a slash-invocable skill `/speedup-giesen` whose opening key is Fabian Gie
     - Accepted the step 6 timing clause as a narrow resolution of the preflight measurement advisory.
 * Insights
     - The full quote, constrained trigger, and six-step pass preserve the intended "stop doing something stupid" framing without introducing a performance-engineering framework.
+
+## 2026-09-13 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `memory-bank/active/reflection/reflection-speedup-giesen.md`
+    - Reconciled persistent files (all three skipped)
+* Decisions made
+    - No persistent-file edits: a new a-la-carte skill does not change product audience, system layout, or tooling
+* Insights
+    - Search sibling project paths when the operator names a prior local pass; the remembered repo may not be the one that holds the session
+
