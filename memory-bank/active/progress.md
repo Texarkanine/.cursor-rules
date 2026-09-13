@@ -17,3 +17,15 @@ Author a slash-invocable skill `/speedup-giesen` whose opening key is Fabian Gie
     - Local template is coachhouse-isp-status plus client-side-mdc-render, not lan-isp-status
 * Insights
     - This repo already treats "decompression key" as a first-class authoring pattern (writing-styles ruleset; ISO 24495 L2 task). The new skill is that pattern aimed at a performance hunt rather than a prose style.
+
+## 2026-09-13 - PLAN - COMPLETE
+
+* Work completed
+    - Wrote Level 2 plan into `tasks.md` (one prose/policy implementation unit)
+    - Distilled the two local templates into a six-step passover
+* Decisions made
+    - A la carte under `rules/speedup-giesen/`; no ruleset, no niko symlink
+    - Composite skill: Giesen quote is personality; numbered pass is workflow
+    - Do not cite sibling skills from inside the skill
+* Insights
+    - daz.is decompression keys: name the framework, do not rewrite it. The quote is the payload; only the behavior-preserving hunt is novel enough to spell out.
