@@ -1,15 +1,13 @@
 # Active Context
 
 ## Current Task: choose-verification-model
-**Phase:** PREFLIGHT - COMPLETE (FAIL (blocking))
+**Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Revised the plan after the second Preflight `FAIL (fixable)`
-- Row effort comes from `reasoning_effort`, then from a name parenthetical
-- Pinned the SWE-bench leaderboards URL
-- Dropped the untested skipped-null warning
-- The skill tells the agent to leave `inherit` out of the enabled list
-- Declined a separate tier file and declined delaying the spawn-line edit
+- Replanned after Preflight `FAIL (blocking)` on SWE-bench coverage
+- The score is the mean of BenchLM agentic, coding, and reasoning, skipping a missing category
+- An interim score is a marked guess, kept until any of those three categories appears, then replaced
+- The nine slugs this session can spawn ship with that score and tier `general`
 
 ## Next Step
 - Preflight the revised plan

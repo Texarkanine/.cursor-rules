@@ -71,6 +71,18 @@ Ship the `choose-verification-model` skill: a stdlib Python picker and a catalog
 * Insights
     - On Verified, `Gemini 3 Pro` is effort `high` only in `reasoning_effort`
 
+## 2026-09-23 - PLAN - COMPLETE
+
+* Work completed
+    - Replaced the SWE-bench score with the mean of BenchLM agentic, coding, and reasoning
+    - Added interim scores for models that have none of those three categories
+    - Pinned the nine spawnable slugs and put them in tier `general`
+* Decisions made
+    - A missing category is left out of the mean. Composer 2.5 has no reasoning score. Grok 4.7's catalog item includes one
+    - Tests live under `tests/choose-verification-model/` so they are not copied with the skill
+* Insights
+    - BenchLM's public model pages withhold an overall rank for Muse Spark 1.3, Composer 2.5, and Grok 4.7, and still publish the category rows the mean uses
+
 ## 2026-09-23 - PREFLIGHT - COMPLETE (FAIL (blocking))
 
 * Work completed
