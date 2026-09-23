@@ -4,7 +4,7 @@
 * Complexity: Level 2
 * Type: bug fix
 
-An unmatched effort spelling (`low`, `medium`, `high`, `xhigh`) of a model whose stored catalog key already ends in an effort word gets an in-memory row: its own score, a tier taken from the score-neighbors, and the sibling's family and base price. `select` then runs the existing window and one-tier lookup. The on-disk catalog stays the hand-chosen set.
+An unmatched effort spelling (`low`, `medium`, `high`, `xhigh`) of a model whose stored catalog key already ends in an effort word gets an in-memory row: its own score, a tier taken from the score-neighbors, and the sibling's family and base price. `select` then runs the existing window and one-tier lookup. When the author spelling still cannot be placed, `select` returns that spelling and the process exits 0. The on-disk catalog stays the hand-chosen set. `SKILL.md` stays a thin caller.
 
 
 ## Test Plan (TDD)
@@ -25,6 +25,7 @@ An unmatched effort spelling (`low`, `medium`, `high`, `xhigh`) of a model whose
 - [Empty pool prints the requested spelling]: author `m-low` alone → `m-low`, not `m-medium`
 - [Fast suffix]: author ends in `-fast` and the sibling has `has_fast` → a chosen synthetic reviewer is printed with `-fast`; placement used the base price
 - [Shipped command]: `pick.py --model cursor-grok-4.6-xhigh-fast --reviewer-models claude-opus-5-5-high,gpt-5.6-terra-medium,grok-4.7-xhigh` exits 0, stdout is one of those spellings or the author, with `-fast` only as `_with_speed` already appends it, and `assets/catalog.json` bytes are unchanged
+- [Unplaceable author is printed]: `--model missing-author --reviewer-models other` → exit 0, stdout `missing-author`. The same for an author whose stem has no effort-suffixed sibling, such as `composer-2.5-high` when the catalog has only `composer-2.5`. A known author row with null tier or null score still exits 2
 - [Still unknown]: `missing-reviewer` exits 2 and names that slug (existing test)
 
 ### Test Infrastructure
@@ -59,12 +60,13 @@ An unmatched effort spelling (`low`, `medium`, `high`, `xhigh`) of a model whose
 
 - Files: `rules/choose-verification-model/scripts/modelpool.py`, `tests/choose-verification-model/test_pick.py`, `tests/choose-verification-model/test_shipped.py`
 
-1. Stub tests: empty cases for synthetic reviewer printed, higher-effort author versus the stored effort, empty-pool spelling, fast suffix, caller catalog unchanged, and the shipped command in `test_shipped.py`.
+1. Stub tests: empty cases for synthetic reviewer printed, higher-effort author versus the stored effort, empty-pool spelling, fast suffix, caller catalog unchanged, the shipped command in `test_shipped.py`, and the rewrite of `test_unknown_author_slug_exits_2` so an unplaceable author is printed.
 2. Stub interface: `_with_effort(catalog, mapping, slugs) -> tuple` in `modelpool.py`. `select` keeps its signature.
 3. Write tests and run red: the higher-effort fixture prints the tier-A model; the stored-effort author prints the tier-B peer. Shipped argv exits 0. Confirm the new cases fail.
 4. Write code and run green:
     - `_with_effort` copies `models` and mapping `models`. For each slug, if `canonical_slug` is already a key, leave it. Otherwise `place_effort` and insert the entry under the canonical key and `{family}` under the mapping copy.
-    - `select` calls `_with_effort` with the author and every enabled slug before the existing lookup. The pool is still the enabled keys only. The author row is ranked even when it is synthetic, and it is printed only by the existing empty-pool returns.
+    - `select` calls `_with_effort` with the author and every enabled slug before the existing lookup. The pool is still the enabled keys only. The author row is ranked even when it is synthetic, and it is printed by the existing empty-pool returns.
+    - When `place_effort` fails for the author, `select` returns the original `--model` string. `main` prints it and returns 0. No second `-fast` is appended. A null tier or null score on a stored author row still raises. When `place_effort` fails for an enabled slug, `select` still raises `SelectionError` naming that slug.
     - `_with_speed` still appends `-fast` from the author's original spelling and the chosen entry's `has_fast`.
     - Run `python3 -m unittest discover -s tests/choose-verification-model -p 'test_*.py'`.
 
@@ -74,8 +76,9 @@ An unmatched effort spelling (`low`, `medium`, `high`, `xhigh`) of a model whose
 - No tests: prose/policy artifact
 
 1. After the `-fast` paragraph, state that an unmatched effort spelling of a stored effort-suffixed key is placed in memory for that pick, that different efforts are different rows, and that the placement is not written to `assets/catalog.json`.
-2. Leave the `grok-4.7-medium-fast` is `grok-4.7-medium` sentence in place: it is the `-fast` rule.
-3. Leave `SKILL.md` as the short happy path.
+2. State that an author spelling the script cannot place is printed as given and the process exits 0.
+3. Leave the `grok-4.7-medium-fast` is `grok-4.7-medium` sentence in place: it is the `-fast` rule.
+4. Leave `SKILL.md` as the short happy path. Do not add a branch that tells the agent to choose a reviewer when the script exits non-zero.
 
 ## Technology Validation
 
@@ -89,9 +92,9 @@ No new technology - validation not required
 
 ## Challenges & Mitigations
 
-- BenchLM `models.json` has one row per model (`claude-opus-5-5`, `grok-4-7`) and no effort spellings. There is no published score to fetch. Placement derives the score from the stored sibling and its neighbors. A null usable sibling still exits 2 with `unknown slug`.
+- BenchLM `models.json` has one row per model (`claude-opus-5-5`, `grok-4-7`) and no effort spellings. There is no published score to fetch. Placement derives the score from the stored sibling and its neighbors. When the author still cannot be placed, the script prints that author. An unplaceable reviewer still exits 2.
 - A lower effort rarely drops a tier, because a tier change on the boundary keeps the higher letter. That is the issue's boundary rule. Fixture tests lock it.
-- `composer-2.5` has no effort suffix, so `composer-2.5-high` stays unknown. The issue's misses are all effort-suffixed stored keys.
+- `composer-2.5` has no effort suffix, so `composer-2.5-high` is not placed. As an author, that spelling is printed back. As a reviewer, it exits 2.
 - Shipped scores move on refresh. The shipped test asserts exit 0, an allowed spelling, and unchanged file bytes. Rank and tier assertions use fixture catalogs.
 - Two synthetics in one pick are placed against stored rows only, so they do not depend on each other's insertion order.
 - End-of-scale `1e-3` steps can sit past the last stored score. Nothing is beyond them to leap over. The `1e-6` nudge only breaks an exact tie with a stored score.
@@ -103,6 +106,7 @@ No new technology - validation not required
 - A synthetic spelling that was never enabled gets printed. `_with_effort` inserts only the author and the enabled slugs, and the pool stays the enabled keys.
 - High and extra-high collapse into one slot above the stored row. The fraction uses the effort index and `room`, so those two scores differ.
 - The copy is skipped and a pick retieres a stored row in the caller's dict. Step 2 tests that the caller's `models` dict is unchanged.
+- The author echo is written into `SKILL.md` as an agent policy, so the agent infers a reviewer the script refused to choose. Operator rejected that. The echo is a return value inside `select`. `SKILL.md` stays "use the slug it prints."
 
 ## Status
 

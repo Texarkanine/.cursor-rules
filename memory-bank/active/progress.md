@@ -27,3 +27,14 @@ Place an unmatched effort spelling of a catalog model on the scale so `pick.py` 
     - `catalog.json` is not given a row per effort
 * Insights
     - The issue's "known score" is not on BenchLM. Exit-2-until-a-score-appears would leave the reported command failing
+
+## 2026-09-23 - PLAN - AMENDED
+
+* Work completed
+    - Recorded the operator's author-echo rule in the brief and the plan
+* Decisions made
+    - When the author spelling cannot be placed, `select` returns that spelling and the process exits 0
+    - The skill stays a thin caller. It does not tell the agent to pick a reviewer after a non-zero exit
+    - An unplaceable reviewer slug still exits 2. A stored author row with a null tier or null score still exits 2
+* Insights
+    - The script is the whole picking policy. An agent should not finish a decision the script refused to make

@@ -22,6 +22,7 @@ As described in [issue #129](https://github.com/Texarkanine/.cursor-rules/issues
 2. An unmatched effort spelling gets a place on the scale: a tier, a rank among neighbors, a family, enough that the existing window and one-tier lookup can run.
 3. The printed reviewer still comes from a decision about who is allowed to review, not from whatever slug happened to show up.
 4. Opus at one effort is not Opus at another effort. Collapsing every effort of a model onto the one stored row would rank the author in the wrong place. The selector still has to know where that effort lands, relative to the rows we did choose.
+5. When the author spelling still cannot be placed, the script prints that spelling and exits 0. The choice stays inside the script. The skill does not grow a branch that tells the agent to pick a reviewer from a non-zero exit.
 
 ## Constraints
 
@@ -30,7 +31,7 @@ As described in [issue #129](https://github.com/Texarkanine/.cursor-rules/issues
 3. Do not store or rank on the fast price. Trailing `-fast` already means the same model, same score, same tier. Effort does not.
 4. Do not retier the rows already chosen, except as a side effect inside an in-memory catalog during one pick.
 5. Several chosen keys already end in an effort word. A blind strip of that word cannot tell the chosen row from some other effort of that model.
-6. The synthetic in-memory placement sketched in the issue is one approach to explore, not a decision.
+6. Placement and the author echo are both script behavior. `SKILL.md` stays a thin caller: run the script and use the slug it prints.
 
 ## Acceptance Criteria
 
@@ -38,3 +39,4 @@ As described in [issue #129](https://github.com/Texarkanine/.cursor-rules/issues
 2. The author is placed relative to the stored rows for that effort, not collapsed onto a different effort of the same model.
 3. The printed reviewer is a model the selector is allowed to choose, not an unmatched spelling that merely appeared in the input.
 4. `catalog.json` on disk does not gain a row for every effort spelling.
+5. `--model missing-author --reviewer-models other` prints `missing-author` and exits 0. A known row with a null tier or null score still exits 2. An unplaceable reviewer slug still exits 2 and names that slug.
