@@ -1,16 +1,18 @@
 # Active Context
 
 ## Current Task: effort-variant-slug
-**Phase:** QA - COMPLETE (PASS)
+**Phase:** REFLECT - COMPLETE
 
 ## What Was Done
 - `place_effort` places an unmatched effort spelling between the stored effort and the next stored score. A tier boundary keeps the higher tier. Rows with `score_source` `effort` are not anchors.
 - `select` ranks those in-memory rows and does not write `catalog.json`. An author spelling that cannot be placed is returned as given. An unplaceable reviewer still raises `SelectionError`.
 - `refresh.md` describes that behavior. `SKILL.md` is unchanged.
 - `make test`: 55 tests OK.
+- QA passed with one advisory: an unreachable author-key guard after a successful expand.
+- Wrote `memory-bank/active/reflection/reflection-effort-variant-slug.md`.
 
 ## Next Step
-- QA the build.
+- Run `/niko-archive` to archive this task.
 
 ## Files
 - `/home/mobaxterm/git/.cursor-rules/rules/choose-verification-model/scripts/modelpool.py`

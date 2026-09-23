@@ -78,3 +78,15 @@ Place an unmatched effort spelling of a catalog model on the scale so `pick.py` 
 * Insights
     - The unreachable guard is the only dead branch the build added; everything else is exercised by a named test behavior
 
+## 2026-09-23 - REFLECT - COMPLETE
+
+* Work completed
+    - Compared the brief and the plan with the build and the QA pass
+    - Wrote `memory-bank/active/reflection/reflection-effort-variant-slug.md`
+    - Left `productContext.md`, `systemPatterns.md`, and `techContext.md` unchanged
+* Decisions made
+    - The suffix parser stays. A stem-plus-effort catalog would be a different task
+* Insights
+    - A skill branch on exit 2 is a second picker. The script is the policy
+
+
