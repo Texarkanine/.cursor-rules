@@ -93,3 +93,15 @@ Ship the `choose-verification-model` skill: a stdlib Python picker and a catalog
     - Fixable: pin the captured slug list in `tasks.md`. Advisories: pricing cells that are Markdown links, test files shipping to consumers, the parenthetical in the spawn lines. Radical Innovation: rank by a hand-ordered list in each tier instead of external scores
 * Insights
     - A benchmark-fed picker needs a staleness check against the models it has to rank. For current frontier models, frontier rows appear only on `Verified`
+
+## 2026-09-23 - PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
+
+* Work completed
+    - Re-ran the Level 2/3 checks on the BenchLM-category revision of the plan
+    - Re-fetched the live, pinned `benchlm.ai/data/models.json` and the live pricing page; confirmed all nine spawnable slugs now score and price correctly, resolving the prior `FAIL (blocking)`
+    - Confirmed all four prior fixable findings (pinned slug list, pricing-link test behavior, tests moved out of the skill directory, parenthetical spawn-line fix) are present in this revision
+    - Independently re-verified Makefile, `.gitignore`, `REUSE.toml`, the CI workflow, all nine spawn sites, and the `illustrate-complexity` symlink/README precedent
+* Decisions made
+    - `PASS WITH ADVISORY`: two advisories recorded (an untested null-tier-author edge case; a pricing-name exactness note for multi-variant rows), plus one advisory Radical Innovation idea (an optional `--json` decision-trace flag on `pick.py`)
+* Insights
+    - BenchLM withholds `displayScore`/`overallRank`/`evidenceStatus` for some models while still publishing usable `displayCategoryScores`, which is exactly the gap the revised score formula was designed to use
