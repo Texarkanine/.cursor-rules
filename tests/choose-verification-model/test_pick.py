@@ -18,12 +18,13 @@ from modelpool import select  # noqa: E402
 from pick import main  # noqa: E402
 
 
-def _entry(tier, score, cost, source="benchlm"):
+def _entry(tier, score, cost, source="benchlm", has_fast=False):
     return {
         "tier": tier,
         "score": score,
         "score_source": source if score is not None else None,
         "output_cost_per_million": cost,
+        "has_fast": has_fast,
     }
 
 
@@ -232,8 +233,8 @@ class PickTests(unittest.TestCase):
         }
         self.assertEqual(seen, {"cheap-a", "cheap-b"})
 
-    def test_top_tier_empty_window_exits_2_with_empty_stdout(self):
-        """An author already in the top tier with an empty window prints nothing."""
+    def test_top_tier_empty_window_returns_the_author(self):
+        """Nothing else can review: print the author, not the same-family sibling."""
         models = {
             "author": _entry("high", 90, 1),
             "same": _entry("high", 80, 1),
@@ -244,8 +245,72 @@ class PickTests(unittest.TestCase):
             _mapping(families),
             ["--model", "author", "--reviewer-models", "author,same", "--seed", "1"],
         )
-        self.assertEqual(code, 2)
-        self.assertEqual(stdout.strip(), "")
+        self.assertEqual(code, 0)
+        self.assertEqual(stdout.strip(), "author")
+
+    def test_fast_author_alone_returns_the_fast_spelling(self):
+        """A fast author with no other reviewer keeps the fast spelling."""
+        models = {
+            "claude-opus-5-5-medium": _entry("S", 77, 20, has_fast=True),
+        }
+        slug = select(
+            _catalog(models, tier_order=("C", "B", "A", "S")),
+            _mapping({"claude-opus-5-5-medium": "claude"}),
+            "claude-opus-5-5-medium-fast",
+            ["claude-opus-5-5-medium"],
+            random.Random(1),
+        )
+        self.assertEqual(slug, "claude-opus-5-5-medium-fast")
+
+    def test_fast_author_appends_fast_only_when_the_chosen_model_has_it(self):
+        """Speed is applied after the base choice, and only if that row has fast."""
+        models = {
+            "grok-4.7-high": _entry("A", 70, 6, has_fast=True),
+            "gpt-5.6-sol-medium": _entry("A", 72, 20, has_fast=True),
+            "kimi-k3-high": _entry("A", 78, 15, has_fast=False),
+        }
+        families = {
+            "grok-4.7-high": "grok",
+            "gpt-5.6-sol-medium": "gpt",
+            "kimi-k3-high": "kimi",
+        }
+        catalog = _catalog(models, tier_order=("C", "B", "A", "S"))
+        mapping = _mapping(families)
+        sol_enabled = ["grok-4.7-high", "gpt-5.6-sol-medium"]
+        self.assertEqual(
+            select(catalog, mapping, "grok-4.7-high-fast", sol_enabled, random.Random(0)),
+            "gpt-5.6-sol-medium-fast",
+        )
+        self.assertEqual(
+            select(catalog, mapping, "grok-4.7-high", sol_enabled, random.Random(0)),
+            "gpt-5.6-sol-medium",
+        )
+        self.assertEqual(
+            select(
+                catalog,
+                mapping,
+                "grok-4.7-high-fast",
+                ["grok-4.7-high", "kimi-k3-high"],
+                random.Random(0),
+            ),
+            "kimi-k3-high",
+        )
+
+    def test_composer_fast_author_prints_a_fast_reviewer(self):
+        """``composer-2.5-fast`` prints ``-fast`` when the chosen row has a fast variant."""
+        models = {
+            "composer-2.5": _entry("C", 60, 2.5, has_fast=True),
+            "gpt-5.6-luna-medium": _entry("C", 58, 1.2, has_fast=True),
+        }
+        families = {"composer-2.5": "composer", "gpt-5.6-luna-medium": "gpt"}
+        slug = select(
+            _catalog(models, tier_order=("C", "B", "A", "S")),
+            _mapping(families),
+            "composer-2.5-fast",
+            list(families),
+            random.Random(0),
+        )
+        self.assertEqual(slug, "gpt-5.6-luna-medium-fast")
 
     def test_null_tier_unknown_tier_and_null_score_are_never_printed(self):
         """A slug with no usable tier or score stays out of the pool."""

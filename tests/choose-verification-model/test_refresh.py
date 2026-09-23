@@ -227,6 +227,49 @@ class RefreshTests(unittest.TestCase):
         )
         self.assertEqual(catalog["models"]["slug"]["output_cost_per_million"], 20)
 
+    def test_fast_pricing_row_marks_has_fast_and_keeps_the_base_price(self):
+        """A ``(Fast)`` row or a fast-mode note sets ``has_fast``. Cost stays base."""
+        pricing = "\n".join(
+            [
+                "| Model | Output | Notes |",
+                "| --- | --- | --- |",
+                "| Widget | $10 | - |",
+                "| Widget (Fast) | $40 | - |",
+                "| Noted | $5 | Fast mode is available at 2x pricing |",
+                "| Plain | $3 | - |",
+            ]
+        )
+        catalog, warnings = build_catalog(
+            _benchlm(
+                {
+                    "w": {"agentic": 1, "coding": 1, "reasoning": 1},
+                    "n": {"agentic": 1, "coding": 1, "reasoning": 1},
+                    "p": {"agentic": 1, "coding": 1, "reasoning": 1},
+                }
+            ),
+            pricing,
+            _mapping(
+                {
+                    "widget": {"family": "a", "pricing_name": "Widget", "benchlm_slug": "w"},
+                    "noted": {"family": "b", "pricing_name": "Noted", "benchlm_slug": "n"},
+                    "plain": {"family": "c", "pricing_name": "Plain", "benchlm_slug": "p"},
+                }
+            ),
+            _previous(
+                {
+                    "widget": {"tier": "low"},
+                    "noted": {"tier": "low"},
+                    "plain": {"tier": "low"},
+                }
+            ),
+        )
+        self.assertEqual(catalog["models"]["widget"]["output_cost_per_million"], 10)
+        self.assertTrue(catalog["models"]["widget"]["has_fast"])
+        self.assertEqual(catalog["models"]["noted"]["output_cost_per_million"], 5)
+        self.assertTrue(catalog["models"]["noted"]["has_fast"])
+        self.assertFalse(catalog["models"]["plain"]["has_fast"])
+        self.assertEqual(warnings, [])
+
     def test_missing_price_row_warns_and_stores_null(self):
         """A pricing name with no row leaves the cost null."""
         catalog, warnings = build_catalog(

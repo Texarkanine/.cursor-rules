@@ -25,8 +25,10 @@ def main(argv, *, catalog=None, mapping=None) -> int:
     and ``mapping`` are parsed JSON objects; when either is omitted it
     is loaded from ``assets/`` in this skill.
 
-    Returns 0 when a slug was printed. Returns 2 when no reviewer can
-    be chosen. On failure, stdout is empty and stderr names the slug.
+    Returns 0 when a slug was printed. Returns 2 when the author or an
+    enabled slug is unknown or unusable. On failure, stdout is empty
+    and stderr names the slug. A usable author with no other reviewer
+    is printed, not rejected.
     """
     parser = argparse.ArgumentParser(prog="pick.py")
     parser.add_argument("--model", required=True)
