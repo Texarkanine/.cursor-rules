@@ -138,10 +138,10 @@ These are the Task-tool slugs for this session. Each ships with a score and tier
 
 - Files: `rules/choose-verification-model/modelpool.py`, `rules/choose-verification-model/pick.py`, `tests/choose-verification-model/test_pick.py`, `Makefile`, `.gitignore`
 
-1. Stub tests: create `tests/choose-verification-model/test_pick.py` with empty test methods for each pick behavior above, including exit-code cases.
-2. Stub interface: `select(catalog, mapping, author, enabled, rng)` returns a slug or raises `SelectionError`. `main(argv)` on `pick.py` parses `--model`, `--reviewer-models`, and optional `--seed`. Docstrings on both.
-3. Write tests and run red: assert the behaviors against in-memory catalogs. `python3 -m unittest discover -s tests/choose-verification-model -p 'test_pick.py'` fails.
-4. Write code and run green: implement dense rank, the window, the one-tier fallback, and exit codes. Add `test-choose-verification-model` and depend on it from `test`. Add `__pycache__/` to `.gitignore`. `make test` passes the new target and the existing link checks.
+- [x] Stub tests: create `tests/choose-verification-model/test_pick.py` with empty test methods for each pick behavior above, including exit-code cases.
+- [x] Stub interface: `select(catalog, mapping, author, enabled, rng)` returns a slug or raises `SelectionError`. `main(argv)` on `pick.py` parses `--model`, `--reviewer-models`, and optional `--seed`. Docstrings on both.
+- [x] Write tests and run red: assert the behaviors against in-memory catalogs. `python3 -m unittest discover -s tests/choose-verification-model -p 'test_pick.py'` fails.
+- [x] Write code and run green: implement dense rank, the window, the one-tier fallback, and exit codes. Add `test-choose-verification-model` and depend on it from `test`. Add `__pycache__/` to `.gitignore`. `make test` passes the new target and the existing link checks.
 
 ### 2. Catalog refresh — executable
 

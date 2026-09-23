@@ -3,3 +3,6 @@ scripts/migration-audit.json
 
 # SumMem driver bytecode (the script and store stay tracked).
 **/.summem/__pycache__/
+
+# Test and tool bytecode.
+__pycache__/

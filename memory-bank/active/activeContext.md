@@ -1,12 +1,12 @@
 # Active Context
 
 ## Current Task: choose-verification-model
-**Phase:** PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
+**Phase:** BUILD - IN-PROGRESS
 
 ## What Was Done
-- Re-ran Level 2/3 Preflight on the BenchLM-category revision; the prior `FAIL (blocking)` on score availability is resolved
-- Live-verified BenchLM category scores and pricing rows for all nine spawnable slugs
-- Recorded two advisories (null-tier-author edge case, pricing-name exactness) and one advisory Radical Innovation idea (`pick.py --json` decision trace)
+- Preflight gate was `PASS WITH ADVISORY`; no creative-phase documents
+- Unit 1: `select` and `pick.py` pass 14 tests. `make test` runs the new target plus the link checks
+- A null-tier or null-score author exits 2, covering the preflight advisory
 
 ## Next Step
-- Proceed to Build
+- Unit 2: catalog refresh
