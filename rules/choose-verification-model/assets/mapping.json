@@ -1,0 +1,70 @@
+{
+  "models": {
+    "claude-opus-5-5-medium": {
+      "family": "claude",
+      "pricing_name": "Claude Opus 5.5",
+      "benchlm_slug": "claude-opus-5-5",
+      "interim_score": null
+    },
+    "claude-fable-5-1-thinking-high": {
+      "family": "claude",
+      "pricing_name": "Claude Fable 5.1",
+      "benchlm_slug": "claude-fable-5-1",
+      "interim_score": null
+    },
+    "claude-sonnet-5-thinking-high": {
+      "family": "claude",
+      "pricing_name": "Claude Sonnet 5",
+      "benchlm_slug": "claude-sonnet-5",
+      "interim_score": null
+    },
+    "composer-2.5": {
+      "family": "composer",
+      "pricing_name": "Composer 2.5",
+      "benchlm_slug": "composer-2-5",
+      "interim_score": null
+    },
+    "gemini-3.8-flash-high": {
+      "family": "gemini",
+      "pricing_name": "Gemini 3.8 Flash",
+      "benchlm_slug": "gemini-3-8-flash",
+      "interim_score": null
+    },
+    "gpt-5.6-sol-medium": {
+      "family": "gpt",
+      "pricing_name": "GPT-5.6 Sol",
+      "benchlm_slug": "gpt-5-6-sol",
+      "interim_score": null
+    },
+    "gpt-5.6-terra-medium": {
+      "family": "gpt",
+      "pricing_name": "GPT-5.6 Terra",
+      "benchlm_slug": "gpt-5-6-terra",
+      "interim_score": null
+    },
+    "gpt-5.6-luna-medium": {
+      "family": "gpt",
+      "pricing_name": "GPT-5.6 Luna",
+      "benchlm_slug": "gpt-5-6-luna",
+      "interim_score": null
+    },
+    "grok-4.7-high": {
+      "family": "grok",
+      "pricing_name": "Grok 4.7",
+      "benchlm_slug": "grok-4-7",
+      "interim_score": null
+    },
+    "kimi-k3-high": {
+      "family": "kimi",
+      "pricing_name": "Kimi K3",
+      "benchlm_slug": "kimi-k3",
+      "interim_score": null
+    },
+    "muse-spark-1.3-high": {
+      "family": "muse",
+      "pricing_name": "Muse Spark 1.3",
+      "benchlm_slug": "muse-spark-1-3",
+      "interim_score": null
+    }
+  }
+}
