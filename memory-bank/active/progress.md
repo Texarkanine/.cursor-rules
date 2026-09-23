@@ -140,4 +140,16 @@ Ship the `choose-verification-model` skill: a stdlib Python picker and a catalog
 * Insights
     - The Testing Process sentence is a claim about `make test`, so a new Make target makes it wrong until that sentence moves
 
+## 2026-09-23 - QA - COMPLETE (PASS)
+
+* Work completed
+    - Re-reviewed `select`, `build_catalog`, the shipped catalog/mapping, all nine spawn sites, the README, the CI job, `.gitignore`, executable bits, and `techContext.md` against the plan
+    - Confirmed the prior FAIL is closed: Testing Process now names the stdlib unittest suite under `tests/` and points CI's Python version at the workflow
+    - Ran `make test` (27 unit tests plus both shell-script checks, all green)
+* Decisions made
+    - `PASS`: the implementation is acceptable as-is
+    - Carried forward the empty-next-tier advisory as non-blocking
+* Insights
+    - Persistent-file update rules want a pointer, not a pinned version: naming "the Python version named in that workflow" is the right altitude for the unittest job
+
 

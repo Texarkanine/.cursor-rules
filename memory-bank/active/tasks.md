@@ -224,4 +224,4 @@ No new technology - validation not required. `python3` on this machine is 3.11.1
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [x] QA — FAIL (fixable): `memory-bank/techContext.md`'s Testing Process section is stale, does not mention the new Python 3.11 `unittest` suite now part of `make test` and PR CI. See `memory-bank/active/.qa-validation-status` for the full report.
+- [x] QA — PASS. Previous FAIL (`techContext.md` Testing Process omitted the unittest suite) is resolved. One advisory remains: empty next-tier fallback is untested. See `memory-bank/active/.qa-validation-status`.
