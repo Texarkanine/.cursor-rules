@@ -51,3 +51,18 @@ Place an unmatched effort spelling of a catalog model on the scale so `pick.py` 
     - Three advisories recorded, none blocking: sibling anchors should say "stored rows only"; `select`/`main` docstrings go stale; the both-siblings interpolation branch is unreachable with any refreshable catalog
 * Insights
     - The plan's mitigation notes can disambiguate a spec sentence that is incomplete when read alone - but the sentence an implementer codes from is still the right place for the qualifier
+
+## 2026-09-23 - BUILD - COMPLETE
+
+* Work completed
+    - Added `place_effort` and `_expand_effort` and taught `select` to rank in-memory effort rows
+    - An author spelling that cannot be placed is printed and the process exits 0
+    - Wrote the slug-identity paragraph in `references/refresh.md`
+    - `make test`: 55 tests OK
+* Decisions made
+    - Effort-source rows are not siblings or score-neighbors
+    - Kept the both-siblings interpolation and tested it
+    - `SKILL.md` gained no exit-2 branch
+* Insights
+    - A stored row inside the gap to the next model is the far neighbor, so a nudge test has to land on a row placement is not allowed to treat as a neighbor
+

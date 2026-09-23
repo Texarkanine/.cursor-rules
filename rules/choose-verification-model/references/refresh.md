@@ -14,4 +14,6 @@ Tiers run `C`, `B`, `A`, `S` from lowest to highest. Assign them by hand.
 
 A trailing `-fast` is the same model. It shares the base slug's bench score, tier, family, and output price. `composer-2.5-fast` is `composer-2.5`. `grok-4.7-medium-fast` is `grok-4.7-medium`. Refresh sets `has_fast` when the pricing page has a `{Name} (Fast)` row, or the model's notes mention a fast mode. The fast price is not stored. Pick ranks on the base price, then appends `-fast` only when the author slug ended in `-fast` and the chosen model has a fast variant.
 
+An effort word is not `-fast`. `low`, `medium`, `high`, and `xhigh` are different rows. When a spelling is not a catalog key, and it is another effort of a stored key that already ends in an effort word, pick places that spelling in memory for the one call. The place sits between the stored effort and the next stored score. A tier boundary keeps the higher tier. The row is not written to `assets/catalog.json`. When the author spelling still cannot be placed, pick prints that spelling and exits 0. An enabled spelling that cannot be placed exits 2 and names it.
+
 An interim score in `assets/mapping.json` is a guess. Refresh replaces it once BenchLM has any of agentic, coding, or reasoning for that model. `output_multiplier` is optional. When a row omits it, the base price is used as printed.

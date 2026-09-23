@@ -37,7 +37,7 @@ An unmatched effort spelling (`low`, `medium`, `high`, `xhigh`) of a model whose
 
 ## Implementation Plan
 
-### 1. place_effort — executable
+### 1. place_effort — executable [x]
 
 - Files: `rules/choose-verification-model/scripts/modelpool.py`, `tests/choose-verification-model/test_pick.py`
 
@@ -56,7 +56,7 @@ An unmatched effort spelling (`low`, `medium`, `high`, `xhigh`) of a model whose
     - Family, `output_cost_per_million`, and `has_fast` come from the nearest usable sibling by absolute effort-index distance. A tie takes the higher effort. `score_source` is `effort`.
     - Return a new dict. Do not mutate `catalog` or `mapping`.
 
-### 2. select uses the in-memory rows — executable
+### 2. select uses the in-memory rows — executable [x]
 
 - Files: `rules/choose-verification-model/scripts/modelpool.py`, `tests/choose-verification-model/test_pick.py`, `tests/choose-verification-model/test_shipped.py`
 
@@ -70,7 +70,7 @@ An unmatched effort spelling (`low`, `medium`, `high`, `xhigh`) of a model whose
     - `_with_speed` still appends `-fast` from the author's original spelling and the chosen entry's `has_fast`.
     - Run `python3 -m unittest discover -s tests/choose-verification-model -p 'test_*.py'`.
 
-### 3. Slug identity note — prose/policy
+### 3. Slug identity note — prose/policy [x]
 
 - Files: `rules/choose-verification-model/references/refresh.md`
 - No tests: prose/policy artifact
@@ -115,6 +115,6 @@ No new technology - validation not required
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
-- [ ] Build
+- [x] Preflight
+- [x] Build
 - [ ] QA
