@@ -8,6 +8,7 @@
 - Unit 1: `select` and `pick.py` pass 14 tests. `make test` runs the new target plus the link checks
 - A null-tier or null-score author exits 2, covering the preflight advisory
 - Unit 2: `build_catalog` and `refresh.py` pass 11 tests, including refresh-then-pick
+- Unit 3: shipped mapping and catalog for the nine spawnable slugs, tier `general`, scores from a live refresh
 
 ## Next Step
-- Unit 3: shipped mapping and catalog
+- Unit 4: skill text and niko symlink

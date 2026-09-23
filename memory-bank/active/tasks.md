@@ -156,10 +156,10 @@ These are the Task-tool slugs for this session. Each ships with a score and tier
 
 - Files: `rules/choose-verification-model/mapping.json`, `rules/choose-verification-model/catalog.json`, `tests/choose-verification-model/test_shipped.py`
 
-1. Stub tests: `test_catalog_and_mapping_share_slugs` and `test_catalog_entries_have_required_keys`, empty bodies.
-2. Stub interface: `mapping.json` and `catalog.json` exist with `models` set to `{}` and `tier_order` set to `[]`.
-3. Write tests and run red: required keys, shared slugs, non-empty `family`, and a non-null score plus tier `general` for each of the nine spawnable slugs. The tests fail on the empty objects.
-4. Write code and run green: fill `mapping.json` for those nine slugs, with the BenchLM slugs in the table above. `composer-2.5` and `composer-2.5-fast` share `composer-2-5`. Point `pricing_name` at a row on the pricing page, with `output_multiplier` when fast is a multiple of that row rather than its own row. Leave `interim_score` null. Run `refresh.py`, then set `tier_order` to `["general"]` and each of the nine tiers to `general`. `make test` passes.
+- [x] Stub tests: `test_catalog_and_mapping_share_slugs` and `test_catalog_entries_have_required_keys`, empty bodies.
+- [x] Stub interface: `mapping.json` and `catalog.json` exist with `models` set to `{}` and `tier_order` set to `[]`.
+- [x] Write tests and run red: required keys, shared slugs, non-empty `family`, and a non-null score plus tier `general` for each of the nine spawnable slugs. The tests fail on the empty objects.
+- [x] Write code and run green: fill `mapping.json` for those nine slugs, with the BenchLM slugs in the table above. `composer-2.5` and `composer-2.5-fast` share `composer-2-5`. Point `pricing_name` at a row on the pricing page, with `output_multiplier` when fast is a multiple of that row rather than its own row. Leave `interim_score` null. Run `refresh.py`, then set `tier_order` to `["general"]` and each of the nine tiers to `general`. `make test` passes.
 
 ### 4. Skill text — prose/policy
 
