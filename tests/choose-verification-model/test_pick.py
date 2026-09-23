@@ -233,31 +233,25 @@ class PickTests(unittest.TestCase):
         }
         self.assertEqual(seen, {"cheap-a", "cheap-b"})
 
-    def test_abandoned_family_stays_inside_the_intelligence_window(self):
-        """No different family: drop that constraint and stay within one rank.
+    def test_unresolvable_empty_pool_returns_the_author(self):
+        """Every encoded step left an empty pool: print the author.
 
-        The author is in the window, so the pick does not fail closed.
-        A same-family model two ranks below stays out. A seed repeats.
+        Same-family peers in this tier are not a substitute. There is
+        no higher tier to search.
         """
         models = {
-            "better-same": _entry("high", 90, 1),
-            "author": _entry("high", 80, 1),
-            "one-below": _entry("high", 60, 1),
-            "two-below": _entry("high", 40, 1),
+            "author": _entry("high", 90, 1),
+            "same": _entry("high", 80, 1),
         }
-        families = {slug: "grok" for slug in models}
+        families = {"author": "grok", "same": "grok"}
         catalog = _catalog(models)
         mapping = _mapping(families)
-        enabled = list(models)
-        self.assertEqual(
-            select(catalog, mapping, "author", enabled, random.Random(1)),
-            select(catalog, mapping, "author", enabled, random.Random(1)),
-        )
+        enabled = ["author", "same"]
         seen = {
             select(catalog, mapping, "author", enabled, random.Random(seed))
-            for seed in range(40)
+            for seed in range(20)
         }
-        self.assertEqual(seen, {"better-same", "author", "one-below"})
+        self.assertEqual(seen, {"author"})
 
     def test_fast_author_alone_returns_the_fast_spelling(self):
         """The window holds only this model, so the fast spelling of it is the review."""
