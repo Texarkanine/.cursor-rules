@@ -1,11 +1,12 @@
 # Active Context
 
 ## Current Task: effort-variant-slug
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Confirmed intent against [issue #129](https://github.com/Texarkanine/.cursor-rules/issues/129): an unmatched effort spelling must not make `pick.py` exit 2 before ranking.
-- Classified Level 2. The failure is one component (`pick.py`), which the decision tree would call Level 1, but the correct placement is not specified: the issue says the synthetic-row sketch is not a decision. Level 1 build assumes a known minimum fix. Scope is one subsystem, the placement rule has to be chosen before code, the risk stays inside the picker, and the effort is hours. That is Level 2.
+- Chose in-memory placement. BenchLM has no per-effort rows, so an unmatched effort spelling cannot look up a published score.
+- `place_effort` builds a row between the stored effort and its score-neighbors. A tier boundary keeps the higher tier. Family and base price come from the nearest stored effort of that stem. `select` ranks that row and does not write `catalog.json`.
+- A synthetic reviewer is printable when it was enabled. The author spelling is printed only by the existing empty-pool rule. A bare key such as `composer-2.5` is not an effort anchor.
 
 ## Next Step
-- Load the Level 2 workflow and run the plan phase.
+- Preflight the plan.

@@ -1,0 +1,1 @@
+BenchLM models.json has no effort spellings. Issue #129 places an unmatched effort in memory from the stored row and its neighbors; catalog.json stays the hand-chosen set.
