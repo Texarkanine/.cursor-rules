@@ -68,4 +68,4 @@ No new technology - validation not required
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [ ] QA
+- [x] QA — PASS 2026-09-23: no blocking findings; make test 36 OK; pick.py exits 0 for both `cursor-grok-4.6-xhigh` and `-fast` spellings.

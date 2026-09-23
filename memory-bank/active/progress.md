@@ -47,3 +47,13 @@ Add `cursor-grok-4.6-xhigh` to the choose-verification-model catalog so `pick.py
 * Insights
     - Refresh left every existing catalog row untouched. The diff is the new row only.
 
+## 2026-09-23 - QA - COMPLETE (PASS)
+
+* Work completed
+    - Reviewed the build diff against the plan on all seven semantic criteria: KISS, DRY, YAGNI, completeness, regression, integrity, documentation. No blocking findings.
+    - Re-ran `make test`: 36 tests OK. Verified `pick.py` exits 0 for both `cursor-grok-4.6-xhigh` and `cursor-grok-4.6-xhigh-fast` (fast Sol author prints `cursor-grok-4.6-xhigh-fast`).
+* Decisions made
+    - PASS as-is. No build rework, no plan revision. The preflight advisory (tier in `mapping.json`) stays a separate task.
+* Insights
+    - The diff is strictly additive: one mapping row, one catalog row, four tests reusing the existing `select`. The test import mirrors `test_pick.py` exactly.
+
