@@ -21,3 +21,14 @@ jobs:
       - uses: actions/checkout@v7
       - name: Check ruleset README internal links
         run: make test-readme-links
+
+  choose-verification-model:
+    name: "Choose Verification Model"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run picker tests
+        run: make test-choose-verification-model

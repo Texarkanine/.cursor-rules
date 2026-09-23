@@ -105,3 +105,18 @@ Ship the `choose-verification-model` skill: a stdlib Python picker and a catalog
     - `PASS WITH ADVISORY`: two advisories recorded (an untested null-tier-author edge case; a pricing-name exactness note for multi-variant rows), plus one advisory Radical Innovation idea (an optional `--json` decision-trace flag on `pick.py`)
 * Insights
     - BenchLM withholds `displayScore`/`overallRank`/`evidenceStatus` for some models while still publishing usable `displayCategoryScores`, which is exactly the gap the revised score formula was designed to use
+
+## 2026-09-23 - BUILD - COMPLETE
+
+* Work completed
+    - Shipped `select` and `pick.py`, `build_catalog` and `refresh.py`, and the nine-slug mapping and catalog in tier `general`
+    - Pointed the nine QA and Preflight spawn lines and the README at `pick.py`
+    - Added a PR job that runs `make test-choose-verification-model`
+* Decisions made
+    - A null-tier or null-score author exits 2
+    - Opus and Sonnet share family `claude`. Both Composer slugs share `composer`. Fast Composer uses its own pricing row
+    - The BenchLM fetch sends a User-Agent
+* Insights
+    - BenchLM returns 403 to urllib's default User-Agent
+    - `Composer 2.5 (Fast)` is its own pricing row, so the fast slug does not need an output multiplier
+

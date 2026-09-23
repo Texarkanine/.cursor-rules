@@ -191,8 +191,8 @@ These are the Task-tool slugs for this session. Each ships with a score and tier
 - Files: `.github/workflows/rulesets-links.yml`
 - No tests: the job invokes `make test-choose-verification-model`. A test that locks the workflow YAML would be a change-detector. The product tests are units 1–3.
 
-1. Add a job that checks out the repo, sets up Python 3.11, and runs `make test-choose-verification-model`.
-2. Leave the existing symlink and readme jobs as they are.
+- [x] Add a job that checks out the repo, sets up Python 3.11, and runs `make test-choose-verification-model`.
+- [x] Leave the existing symlink and readme jobs as they are.
 
 ## Technology Validation
 
@@ -222,6 +222,6 @@ No new technology - validation not required. `python3` on this machine is 3.11.1
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
-- [ ] Build
+- [x] Preflight
+- [x] Build
 - [ ] QA
