@@ -1,0 +1,1 @@
+Issue #129: effort-variant slugs must not make pick.py exit 2. Different efforts are not the same row. Synthetic in-memory placement is a sketch, not the decision.
