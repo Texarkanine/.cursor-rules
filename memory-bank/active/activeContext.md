@@ -1,11 +1,11 @@
 # Active Context
 
 ## Current Task: choose-verification-model
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Confirmed intent for a `choose-verification-model` skill: pick script, refresh script, catalog JSON, mapping JSON
-- Classified the task as Level 3: a complete feature across the skill, both scripts, the catalog, the mapping, and the Niko QA and Preflight selection text, with the selection rule already specified
+- Wrote the Level 3 plan: picker, refresh, shipped mapping and catalog, skill text, and the nine Niko spawn lines
+- No open questions. Tiers ship null for the operator to fill. Unknown slugs exit 2. Scores are an equal-weight mean of SWE-bench `Test`, `Verified`, and `Multimodal`
 
 ## Next Step
-- Load the Level 3 workflow and run the Plan phase
+- Preflight the plan
