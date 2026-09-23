@@ -62,6 +62,13 @@
       "output_cost_per_million": 1.2,
       "has_fast": true
     },
+    "cursor-grok-4.6-xhigh": {
+      "tier": "A",
+      "score": 76.5,
+      "score_source": "benchlm",
+      "output_cost_per_million": 6.0,
+      "has_fast": true
+    },
     "grok-4.7-high": {
       "tier": "A",
       "score": 70.10000000000001,

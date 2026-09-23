@@ -35,3 +35,15 @@ Add `cursor-grok-4.6-xhigh` to the choose-verification-model catalog so `pick.py
     - No plan edits needed; no change-detector steps to strike, no out-of-order units.
 * Insights
     - Advisory: a `tier` field in `mapping.json` consumed by `build_catalog` would make the catalog fully regenerable and remove the hand-edit-tier step for every future model. Separate task.
+
+## 2026-09-23 - BUILD - COMPLETE
+
+* Work completed
+    - Added shipped tests for the fast suffix, the non-fast author, Opus excluding tier S, and same-family exclusion. They failed on `unknown slug: cursor-grok-4.6-xhigh`.
+    - Added the mapping row, ran `refresh.py`, set tier A. Catalog: score 76.5, cost 6, `has_fast` true. Second refresh kept A.
+    - `make test` passed, 36 tests.
+* Decisions made
+    - No selector change. Family is grok.
+* Insights
+    - Refresh left every existing catalog row untouched. The diff is the new row only.
+
