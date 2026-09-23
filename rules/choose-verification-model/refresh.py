@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Catalog refresh: BenchLM category means and Cursor output prices."""
 
 import argparse

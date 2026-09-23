@@ -166,9 +166,9 @@ These are the Task-tool slugs for this session. Each ships with a score and tier
 - Files: `rules/choose-verification-model/SKILL.md`, `rulesets/niko/skills/choose-verification-model`
 - No tests: prose/policy artifact
 
-1. Write `SKILL.md` with frontmatter `name: choose-verification-model`. State that the agent runs `pick.py` beside this file with Python 3, passes its own slug and the enabled Task-tool slugs, and spawns the printed slug. The enabled list is model slugs. Leave out `inherit`. Give both invocations: Bash `python3 pick.py --model SLUG --reviewer-models a,b` and PowerShell `py -3 pick.py --model SLUG --reviewer-models a,b`. The same pair for `refresh.py`. State that a non-zero exit, including an unknown author slug, stops the agent and is reported to the operator. The agent does not guess a reviewer. State that the nine spawnable slugs start in tier `general`, that other tiers are filled by hand in `catalog.json`, and that an interim score is a guess refresh will replace once BenchLM has any of agentic, coding, or reasoning.
-2. Symlink `rulesets/niko/skills/choose-verification-model` to `../../../rules/choose-verification-model`.
-3. Mark both Python executables executable.
+- [x] Write `SKILL.md` with frontmatter `name: choose-verification-model`. State that the agent runs `pick.py` beside this file with Python 3, passes its own slug and the enabled Task-tool slugs, and spawns the printed slug. The enabled list is model slugs. Leave out `inherit`. Give both invocations: Bash `python3 pick.py --model SLUG --reviewer-models a,b` and PowerShell `py -3 pick.py --model SLUG --reviewer-models a,b`. The same pair for `refresh.py`. State that a non-zero exit, including an unknown author slug, stops the agent and is reported to the operator. The agent does not guess a reviewer. State that the nine spawnable slugs start in tier `general`, that other tiers are filled by hand in `catalog.json`, and that an interim score is a guess refresh will replace once BenchLM has any of agentic, coding, or reasoning.
+- [x] Symlink `rulesets/niko/skills/choose-verification-model` to `../../../rules/choose-verification-model`.
+- [x] Mark both Python executables executable.
 
 ### 5. Point Niko at the picker — prose/policy
 

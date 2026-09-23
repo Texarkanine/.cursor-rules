@@ -9,6 +9,7 @@
 - A null-tier or null-score author exits 2, covering the preflight advisory
 - Unit 2: `build_catalog` and `refresh.py` pass 11 tests, including refresh-then-pick
 - Unit 3: shipped mapping and catalog for the nine spawnable slugs, tier `general`, scores from a live refresh
+- Unit 4: `SKILL.md`, the niko ruleset symlink, and executable bits on both scripts
 
 ## Next Step
-- Unit 4: skill text and niko symlink
+- Unit 5: point the nine spawn lines and the README at the picker

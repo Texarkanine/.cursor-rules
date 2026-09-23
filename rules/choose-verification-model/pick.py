@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Print one QA or Preflight reviewer slug."""
 
 import argparse
