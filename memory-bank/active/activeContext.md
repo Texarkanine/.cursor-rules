@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: effort-variant-slug
-**Phase:** PLAN - COMPLETE
+**Phase:** PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
 
 ## What Was Done
 - Chose in-memory placement. BenchLM has no per-effort rows, so an unmatched effort spelling cannot look up a published score.
@@ -10,4 +10,4 @@
 - Operator: an author spelling that cannot be placed is printed by the script, exit 0. That echo is not a skill-text branch. Agents pass `--model` and `--reviewer-models` and use the slug the script prints.
 
 ## Next Step
-- Preflight the plan.
+- Build the plan. Preflight is PASS WITH ADVISORY.
