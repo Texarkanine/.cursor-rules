@@ -4,18 +4,16 @@ Numeric scores are not locked. A refresh may change them.
 """
 
 import json
-import sys
 import unittest
 from pathlib import Path
 
 SKILL_DIR = Path(__file__).resolve().parents[2] / "rules" / "choose-verification-model"
-sys.path.insert(0, str(SKILL_DIR))
+ASSETS = SKILL_DIR / "assets"
 
 SPAWNABLE = (
     "claude-opus-5-5-medium",
     "claude-sonnet-5-thinking-high",
     "composer-2.5",
-    "composer-2.5-fast",
     "gemini-3.8-flash-high",
     "gpt-5.6-terra-medium",
     "grok-4.7-high",
@@ -35,7 +33,7 @@ REQUIRED_CATALOG_KEYS = ("tier", "score", "score_source", "output_cost_per_milli
 
 
 def _load(name):
-    return json.loads((SKILL_DIR / name).read_text(encoding="utf-8"))
+    return json.loads((ASSETS / name).read_text(encoding="utf-8"))
 
 
 class ShippedTests(unittest.TestCase):

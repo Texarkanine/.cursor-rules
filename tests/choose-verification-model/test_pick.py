@@ -12,7 +12,7 @@ from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 
 SKILL_DIR = Path(__file__).resolve().parents[2] / "rules" / "choose-verification-model"
-sys.path.insert(0, str(SKILL_DIR))
+sys.path.insert(0, str(SKILL_DIR / "scripts"))
 
 from modelpool import select  # noqa: E402
 from pick import main  # noqa: E402
