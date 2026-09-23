@@ -175,7 +175,7 @@ These are the Task-tool slugs for this session. Each ships with a score and tier
 - Files: the nine spawn sites listed below, and `rulesets/niko/README.md`
 - No tests: prose/policy artifact
 
-1. Replace the parenthetical model-selection clause with a sentence that sits outside the parentheses: `Run pick.py beside the choose-verification-model SKILL.md with Python 3, passing --model set to your slug and --reviewer-models set to the enabled Task-tool slugs. Spawn a subagent on the printed slug`. Do not name a `python3` or `py` binary on these lines. The skill owns the Bash and PowerShell invocations. Leave the skill name, the "only instruction you add" clause, and any QA status-file sentence as they are. Sites:
+- [x] Replace the parenthetical model-selection clause with a sentence that sits outside the parentheses: `Run pick.py beside the choose-verification-model SKILL.md with Python 3, passing --model set to your slug and --reviewer-models set to the enabled Task-tool slugs. Spawn a subagent on the printed slug`. Do not name a `python3` or `py` binary on these lines. The skill owns the Bash and PowerShell invocations. Leave the skill name, the "only instruction you add" clause, and any QA status-file sentence as they are. Sites:
     - `rulesets/niko/skills/niko/references/level1/level1-workflow.md`
     - `rulesets/niko/skills/niko/references/level2/level2-workflow.md` (Preflight and QA)
     - `rulesets/niko/skills/niko/references/level2/level2-build.md`
@@ -183,8 +183,8 @@ These are the Task-tool slugs for this session. Each ships with a score and tier
     - `rulesets/niko/skills/niko/references/level3/level3-build.md`
     - `rulesets/niko/skills/niko/references/level4/level4-workflow.md`
     - `rulesets/niko/skills/niko/references/level4/level4-plan.md`
-2. Rewrite the Subagent Selection section of `rulesets/niko/README.md` so it describes this command, including the Bash and PowerShell invocations. Drop the two sample user-rule blocks.
-3. Add a supplementary-rules bullet linking `../../rules/choose-verification-model/SKILL.md`, same shape as the `illustrate-complexity` bullet. The readme checker must accept the link.
+- [x] Rewrite the Subagent Selection section of `rulesets/niko/README.md` so it describes this command, including the Bash and PowerShell invocations. Drop the two sample user-rule blocks.
+- [x] Add a supplementary-rules bullet linking `../../rules/choose-verification-model/SKILL.md`, same shape as the `illustrate-complexity` bullet. The readme checker must accept the link.
 
 ### 6. PR CI runs the picker tests — prose/policy
 

@@ -64,8 +64,8 @@ To execute a phase for a level 3 task:
 2. 🚨 ***CRITICAL:*** Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: saving work before [phase] phase`.
 3. Read and follow the instructions in the appropriate locations:
     - **Level 3 Plan Phase**: Load `.cursor/skills/shared/niko/references/level3/level3-plan.md`
-    - **Level 3 Preflight Phase**: Spawn a subagent (prefer smarter / different family if available); the only instruction you add is `` Run the `/niko-preflight` skill ``. Do not run the skill in this conversation.
+    - **Level 3 Preflight Phase**: Run pick.py beside the choose-verification-model SKILL.md with Python 3, passing --model set to your slug and --reviewer-models set to the enabled Task-tool slugs. Spawn a subagent on the printed slug; the only instruction you add is `` Run the `/niko-preflight` skill ``. Do not run the skill in this conversation.
     - **Level 3 Build Phase**: Load `.cursor/skills/shared/niko/references/level3/level3-build.md`
-    - **Level 3 QA Phase**: Delete `memory-bank/active/.qa-validation-status` if it exists. Spawn a subagent (prefer smarter / different family if available); the only instruction you add is `` Run the `/niko-qa` skill ``. Do not run the skill in this conversation.
+    - **Level 3 QA Phase**: Delete `memory-bank/active/.qa-validation-status` if it exists. Run pick.py beside the choose-verification-model SKILL.md with Python 3, passing --model set to your slug and --reviewer-models set to the enabled Task-tool slugs. Spawn a subagent on the printed slug; the only instruction you add is `` Run the `/niko-qa` skill ``. Do not run the skill in this conversation.
     - **Level 3 Reflect Phase**: Load `.cursor/skills/shared/niko/references/level3/level3-reflect.md`
     - **Level 3 Archive Phase**: Load `.cursor/skills/shared/niko/references/level3/level3-archive.md`

@@ -95,4 +95,4 @@ Preflight will now validate the milestone list.
 
 ## Step 7: Phase Transition
 
-Spawn a subagent (prefer smarter / different family if available); the only instruction you add is `` Run the `/niko-preflight` skill ``. Do not run the skill in this conversation.
+Run pick.py beside the choose-verification-model SKILL.md with Python 3, passing --model set to your slug and --reviewer-models set to the enabled Task-tool slugs. Spawn a subagent on the printed slug; the only instruction you add is `` Run the `/niko-preflight` skill ``. Do not run the skill in this conversation.
