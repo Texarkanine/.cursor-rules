@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: choose-verification-model
-**Phase:** PLAN - COMPLETE
+**Phase:** PREFLIGHT - COMPLETE (FAIL (blocking))
 
 ## What Was Done
 - Revised the plan after the second Preflight `FAIL (fixable)`

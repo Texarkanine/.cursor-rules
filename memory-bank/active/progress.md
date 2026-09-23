@@ -70,3 +70,14 @@ Ship the `choose-verification-model` skill: a stdlib Python picker and a catalog
     - The skill tells the agent to omit `inherit`
 * Insights
     - On Verified, `Gemini 3 Pro` is effort `high` only in `reasoning_effort`
+
+## 2026-09-23 - PREFLIGHT - COMPLETE (FAIL (blocking))
+
+* Work completed
+    - Ran the Level 2/3 checks on the third plan revision and confirmed the previous run's fixes are in it
+    - Checked the live leaderboards against the Task-tool slug list, checked pricing rows, and read the `ai-rizz` embedded-skill copy path
+* Decisions made
+    - `FAIL (blocking)`: none of the enabled Cursor models has a row on `Test`, `Verified`, or `Multimodal`. The newest row is from 2026-02-26. Every shipped slug would have a null score, and every pick would exit 2. The fix changes brief requirement 6 or 10, so the operator must choose it
+    - Fixable: pin the captured slug list in `tasks.md`. Advisories: pricing cells that are Markdown links, test files shipping to consumers, the parenthetical in the spawn lines. Radical Innovation: rank by a hand-ordered list in each tier instead of external scores
+* Insights
+    - A benchmark-fed picker needs a staleness check against the models it has to rank. For current frontier models, frontier rows appear only on `Verified`
