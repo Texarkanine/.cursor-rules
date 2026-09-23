@@ -27,8 +27,9 @@ def main(argv, *, catalog=None, mapping=None) -> int:
 
     Returns 0 when a slug was printed. Returns 2 when the author or an
     enabled slug is unknown or unusable. On failure, stdout is empty
-    and stderr names the slug. A usable author with no other reviewer
-    is printed, not rejected.
+    and stderr names the slug. A usable author is always inside the
+    intelligence window, so a missing different family does not reject
+    the run.
     """
     parser = argparse.ArgumentParser(prog="pick.py")
     parser.add_argument("--model", required=True)

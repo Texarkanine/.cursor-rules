@@ -47,10 +47,12 @@ def select(catalog, mapping, author, enabled, rng):
     spellings of one model are one candidate. Rank is dense rank by
     score inside the author's tier, best at rank 1. The window is a
     different family, from one rank below the author through the best
-    in the tier.     An empty window looks up one tier and takes the
+    in the tier. An empty window looks up one tier and takes the
     cheapest different family, then the cheapest slug in that tier.
-    Those prices are the base output prices. When that search finds
-    nobody, return the author.
+    Those prices are the base output prices. When that still finds
+    nobody, drop the family constraint and pick inside the same
+    intelligence window. The author is in that window, so the pick
+    does not fail closed.
 
     After that choice, append ``-fast`` only when the author slug ended
     in ``-fast`` and the chosen model has a fast variant.
@@ -109,9 +111,20 @@ def select(catalog, mapping, author, enabled, rng):
     if window:
         return _with_speed(rng.choice(window), author, models)
 
+    def without_family():
+        relaxed = [
+            slug
+            for slug in rank_set
+            if (slug == author_key or slug in pool)
+            and rank_of_score[models[slug]["score"]] <= window_limit
+        ]
+        if author_key not in relaxed:
+            relaxed.append(author_key)
+        return _with_speed(rng.choice(relaxed), author, models)
+
     tier_index = tier_order.index(author_tier)
     if tier_index + 1 >= len(tier_order):
-        return _with_speed(author_key, author, models)
+        return without_family()
     next_tier = tier_order[tier_index + 1]
     next_members = [slug for slug in pool if models[slug]["tier"] == next_tier]
 
@@ -136,7 +149,7 @@ def select(catalog, mapping, author, enabled, rng):
     if chosen is None:
         chosen = cheapest(next_members)
     if chosen is None:
-        return _with_speed(author_key, author, models)
+        return without_family()
     return _with_speed(chosen, author, models)
 
 

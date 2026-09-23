@@ -233,23 +233,34 @@ class PickTests(unittest.TestCase):
         }
         self.assertEqual(seen, {"cheap-a", "cheap-b"})
 
-    def test_top_tier_empty_window_returns_the_author(self):
-        """Nothing else can review: print the author, not the same-family sibling."""
+    def test_abandoned_family_stays_inside_the_intelligence_window(self):
+        """No different family: drop that constraint and stay within one rank.
+
+        The author is in the window, so the pick does not fail closed.
+        A same-family model two ranks below stays out. A seed repeats.
+        """
         models = {
-            "author": _entry("high", 90, 1),
-            "same": _entry("high", 80, 1),
+            "better-same": _entry("high", 90, 1),
+            "author": _entry("high", 80, 1),
+            "one-below": _entry("high", 60, 1),
+            "two-below": _entry("high", 40, 1),
         }
-        families = {"author": "grok", "same": "grok"}
-        code, stdout, _stderr = _run(
-            _catalog(models),
-            _mapping(families),
-            ["--model", "author", "--reviewer-models", "author,same", "--seed", "1"],
+        families = {slug: "grok" for slug in models}
+        catalog = _catalog(models)
+        mapping = _mapping(families)
+        enabled = list(models)
+        self.assertEqual(
+            select(catalog, mapping, "author", enabled, random.Random(1)),
+            select(catalog, mapping, "author", enabled, random.Random(1)),
         )
-        self.assertEqual(code, 0)
-        self.assertEqual(stdout.strip(), "author")
+        seen = {
+            select(catalog, mapping, "author", enabled, random.Random(seed))
+            for seed in range(40)
+        }
+        self.assertEqual(seen, {"better-same", "author", "one-below"})
 
     def test_fast_author_alone_returns_the_fast_spelling(self):
-        """A fast author with no other reviewer keeps the fast spelling."""
+        """The window holds only this model, so the fast spelling of it is the review."""
         models = {
             "claude-opus-5-5-medium": _entry("S", 77, 20, has_fast=True),
         }
