@@ -25,3 +25,13 @@ Add `cursor-grok-4.6-xhigh` to the choose-verification-model catalog so `pick.py
     - Do not lock the letter A or the dollar price in `test_shipped.py`. Sol printing this row, plus Opus printing itself, requires tier A.
 * Insights
     - Two usable different-family models in one tier always land in each other's window, so the sol-author assertions do not depend on the BenchLM number.
+
+## 2026-09-23 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Validated the Level 2 plan against codebase reality: TDD step ordering, conventions, dependency impact, conflicts, completeness. Result: PASS WITH ADVISORY.
+    - Verified the four selection tests against `select`'s window math and confirmed every referenced slug exists with the assumed tier.
+* Decisions made
+    - No plan edits needed; no change-detector steps to strike, no out-of-order units.
+* Insights
+    - Advisory: a `tier` field in `mapping.json` consumed by `build_catalog` would make the catalog fully regenerable and remove the hand-edit-tier step for every future model. Separate task.
