@@ -11,7 +11,7 @@
 - A trailing `-fast` is the same catalog row. Rank uses the base output price. After the choice, append `-fast` only when the author slug ended in `-fast` and the chosen model has `has_fast`.
 - Skill layout: `SKILL.md` only at the skill root; `scripts/pick.py`, `scripts/refresh.py`, `scripts/modelpool.py`; `assets/catalog.json`, `assets/mapping.json`; `references/refresh.md`. The description is not Niko-specific.
 - Shipped mapping rows omit `output_multiplier`. It was 1 because each slug already had its own pricing row.
-- Spawn lines were left as the build wrote them. The operator said not to edit anything outside the skill during the follow-up.
+- Niko workflow files and `rulesets/niko/README.md` were restored to main. The skill symlink stays in the niko ruleset. Nothing calls the picker yet.
 - `tests/choose-verification-model/` still imports from the skill root. `test_shipped.py` still requires `composer-2.5-fast` and JSON beside `SKILL.md`.
 
 ## Decisions
@@ -23,7 +23,7 @@
 ## Deviations
 - Added the null-tier author exit from the preflight advisory. It was not in the plan's behavior list
 - Shebangs on `pick.py` and `refresh.py` so the executable bit can launch them
-- Post-reflect follow-up moved the skill into `scripts/`, `assets/`, and `references/`, and collapsed fast into the base slug. Spawn lines still say `pick.py` beside `SKILL.md`
+- Post-reflect follow-up moved the skill into `scripts/`, `assets/`, and `references/`, and collapsed fast into the base slug. The operator then had the Niko workflow and README edits restored to main. The skill is unused.
 
 ## Tests
 - 27 unittest cases were green at reflect. After the follow-up they still target the old paths and `composer-2.5-fast`

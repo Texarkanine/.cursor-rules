@@ -25,7 +25,7 @@ Someone reruns the refresh executable. It pulls BenchLM category scores and Curs
 7. When all three categories are missing, refresh keeps an operator interim score and marks it as a guess. When any of the three is present, refresh replaces that interim score. A model with neither a category score nor an interim score stays `score: null`.
 8. Cost is the base output price in USD per million tokens, from https://cursor.com/docs/models-and-pricing. The mapping points each slug at a pricing row and at a BenchLM model slug. `has_fast` is set when that page has a `{Name} (Fast)` row or the model's notes mention a fast mode. The fast price is not stored.
 9. Tiers are `C`, `B`, `A`, `S` from lowest to highest, assigned by hand. Refresh keeps the existing tier. A new slug gets `tier: null` and prints `WARNING: must set tier for …`.
-10. Point the in-repo QA and Preflight selection text, including the spawn lines, at this script.
+10. Do not point Niko workflows or the Niko README at this script. The skill is one more rule in the pool. Nothing uses it yet.
 
 ## Constraints
 
@@ -38,4 +38,4 @@ Someone reruns the refresh executable. It pulls BenchLM category scores and Curs
 
 1. Given an author slug and an enabled-slug list, the pick command prints one slug that satisfies the rank, family, tier, and fallback rules, and never prints a null-tier or null-score slug. The nine spawnable slugs are selectable once that rule is applied.
 2. Refresh rewrites scores and output costs from the two upstream sources, preserves tiers, and warns on a new null tier.
-3. The QA and Preflight selection text in this repo tells the agent to run the pick command instead of choosing a model by deliberation.
+3. Niko workflows and the Niko README stay as they are on main. The skill is present and unused.

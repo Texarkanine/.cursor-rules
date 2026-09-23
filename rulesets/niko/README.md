@@ -23,7 +23,6 @@ The Niko ruleset includes other supplementary rules to give Niko the capabilitie
 
 * [always-tdd](../../rules/always-tdd.mdc) - forces test-driven development (TDD) for all code changes
 * [illustrate-complexity](../../rules/illustrate-complexity/SKILL.md) - Encourages use of `mermaid` diagrams whenever structure is easier to show than to describe.
-* [choose-verification-model](../../rules/choose-verification-model/SKILL.md) - Picks the QA or Preflight reviewer by running `pick.py` beside the skill.
 * [test-running-practices](../../rules/test-running-practices.mdc) - best-practices for using tests to guide development
 
 ## Niko's Memory Bank
@@ -381,16 +380,44 @@ A read-only, memory-bank-aware Q&A session. Loads the persistent context (and re
 
 #### Subagent Selection
 
-Niko spawns subagents for **QA** and **Preflight**. The reviewer comes from `pick.py` in [choose-verification-model](../../rules/choose-verification-model/SKILL.md). Run that script beside its `SKILL.md` with Python 3. Pass `--model` set to your slug and `--reviewer-models` set to the enabled Task-tool slugs, and spawn a subagent on the printed slug. Leave `inherit` out of the list. A non-zero exit means stop and tell the operator. Do not guess a reviewer.
+Niko will spawn subagents for verification passes - **QA** and **Preflight**, when they show up in a workflow. Its guidance is:
 
-**Bash**, from the skill directory:
+> ... Spawn a subagent (prefer smarter / different family if available) ...
+
+Depending on your harness, the models you have available, and what model you started with, this may pick some **very** expensive verifiers. You may wish to consider adding your own rule, either user-scoped or project-scoped or both, to guide selection. Here's mine:
+
+~~~markdown
+# Niko QA & Preflight Model Selection
+
+When selecting a model for Niko QA & Preflight, mix up the family - don't just always choose Claude Opus.
+This does not remove the requirement that models be AT LEAST as smart as you, if not smarter.
+It's OK to use Opus sometimes, but do NOT pick Fable - it's too expensive!
+Think carefully about model selection.
+This applies **only** when selecting a model for those two specific Niko workflow purposes.
+For other situations, defer to their own instructions, or, if absent, the defaults.
+
+A one-line shell command to give you a fairly random choice among candidate models is:
 
 ```bash
-python3 pick.py --model SLUG --reviewer-models a,b
+echo "alpha beta gamma delta" | awk 'BEGIN{srand()} {print $(int(rand()*NF)+1)}'
 ```
+~~~
 
-**PowerShell**, from the skill directory:
+In Cursor, I've actually removed `Fable` from the enabled models so it's not even on the list - I switch it back on when I actually want to use it. In Claude Code, you can't do that.
 
-```powershell
-py -3 pick.py --model SLUG --reviewer-models a,b
+In a project where I'm primarily developing with faster, cheaper models, I might use this:
+
+~~~markdown
+# Niko QA & Preflight Model Selection
+
+When selecting a model for Niko QA & Preflight, mix up the family by picking from (gemini 3.7 flash, cursor grok 4.6, gpt 5.6 terra, claude sonnet 5).
+This does not remove the requirement that models be AT LEAST as smart as you, if not smarter.
+This applies **only** when selecting a model for those two specific Niko workflow purposes.
+For other situations, defer to their own instructions, or, if absent, the defaults.
+
+A one-line shell command to give you a fairly random choice among candidate models is:
+
+```bash
+echo "alpha beta gamma delta" | awk 'BEGIN{srand()} {print $(int(rand()*NF)+1)}'
 ```
+~~~

@@ -175,5 +175,14 @@ Ship the `choose-verification-model` skill: a stdlib Python picker and a catalog
 * Insights
     - `Composer 2.5 (Fast)` is a $15 pricing row, not a multiplier on the $2.5 row. Fast cost is not used in ranking
 
+## 2026-09-23 - FOLLOW-UP - NIKO WIRING REVERTED
+
+* Work completed
+    - Restored the seven Niko workflow files and `rulesets/niko/README.md` to main
+* Decisions made
+    - The skill is in the niko ruleset via symlink and nothing calls it yet
+* Insights
+    - Pointing spawn lines at the picker was build scope that the operator pulled back out of this branch
+
 
 

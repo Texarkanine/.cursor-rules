@@ -44,5 +44,5 @@ To execute a phase for a level 4 task:
 2. 🚨 ***CRITICAL:*** Commit all changes - memory bank *and* other resources - to source control using a conventional commit in the following format: `chore: saving work before [phase] phase`.
 3. Read and follow the instructions in the appropriate locations:
     - **Level 4 Plan Phase**: Load `.cursor/skills/shared/niko/references/level4/level4-plan.md`
-    - **Level 4 Preflight Phase**: Run pick.py beside the choose-verification-model SKILL.md with Python 3, passing --model set to your slug and --reviewer-models set to the enabled Task-tool slugs. Spawn a subagent on the printed slug; the only instruction you add is `` Run the `/niko-preflight` skill ``. Do not run the skill in this conversation.
+    - **Level 4 Preflight Phase**: Spawn a subagent (prefer smarter / different family if available); the only instruction you add is `` Run the `/niko-preflight` skill ``. Do not run the skill in this conversation.
     - **Level 4 Archive Phase**: Load `.cursor/skills/shared/niko/references/level4/level4-archive.md`
