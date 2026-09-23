@@ -253,6 +253,47 @@ class PickTests(unittest.TestCase):
         }
         self.assertEqual(seen, {"author"})
 
+    def test_empty_or_unpriced_next_tier_returns_the_author(self):
+        """A non-top author prints themselves when the next tier cannot.
+
+        Terra is B and Composer is C, with nothing enabled in A.
+        A next tier whose only model has no price is the same outcome.
+        """
+        models = {
+            "gpt-5.6-terra-medium": _entry("B", 67, 12),
+            "composer-2.5": _entry("C", 60, 2.5),
+        }
+        self.assertEqual(
+            select(
+                _catalog(models, tier_order=("C", "B", "A", "S")),
+                _mapping(
+                    {
+                        "gpt-5.6-terra-medium": "gpt",
+                        "composer-2.5": "composer",
+                    }
+                ),
+                "gpt-5.6-terra-medium",
+                ["gpt-5.6-terra-medium", "composer-2.5"],
+                random.Random(1),
+            ),
+            "gpt-5.6-terra-medium",
+        )
+        unpriced = {
+            "author": _entry("mid", 50, 1),
+            "below": _entry("low", 10, 1),
+            "above": _entry("high", 90, None),
+        }
+        self.assertEqual(
+            select(
+                _catalog(unpriced),
+                _mapping({"author": "grok", "below": "composer", "above": "claude"}),
+                "author",
+                ["author", "below", "above"],
+                random.Random(1),
+            ),
+            "author",
+        )
+
     def test_fast_author_alone_returns_the_fast_spelling(self):
         """The window holds only this model, so the fast spelling of it is the review."""
         models = {
