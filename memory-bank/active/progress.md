@@ -57,3 +57,14 @@ Add `cursor-grok-4.6-xhigh` to the choose-verification-model catalog so `pick.py
 * Insights
     - The diff is strictly additive: one mapping row, one catalog row, four tests reusing the existing `select`. The test import mirrors `test_pick.py` exactly.
 
+## 2026-09-23 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `memory-bank/active/reflection/reflection-cursor-grok-4-6.md`.
+    - Persistent files left unchanged: no product, system, or tech contract moved.
+* Decisions made
+    - Tier-on-mapping stays a follow-up. Opus `high` and Grok 4.7 `xhigh` stay out of scope.
+* Insights
+    - Sol's window plus the one-tier lookup accepts tier A and tier S. Opus, with no tier above, is what excludes S.
+
+
