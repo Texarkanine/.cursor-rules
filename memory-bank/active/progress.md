@@ -66,3 +66,15 @@ Place an unmatched effort spelling of a catalog model on the scale so `pick.py` 
 * Insights
     - A stored row inside the gap to the next model is the far neighbor, so a nudge test has to land on a row placement is not allowed to treat as a neighbor
 
+## 2026-09-23 - QA - COMPLETE (PASS WITH ADVISORY)
+
+* Work completed
+    - Reviewed `place_effort`, `_expand_effort`, `select`, `main`, `refresh.md`, and both test files against the plan and brief
+    - Confirmed 55 tests OK, `SKILL.md` untouched, `catalog.json` gains no rows
+    - Wrote `.qa-validation-status`: PASS WITH ADVISORY
+* Decisions made
+    - PASS: all seven semantic checks hold; the one advisory (unreachable `author_key` guard in `select`) does not block acceptance
+    - Preflight advisories A and B verified closed in code; C kept with a test as allowed
+* Insights
+    - The unreachable guard is the only dead branch the build added; everything else is exercised by a named test behavior
+

@@ -117,4 +117,10 @@ No new technology - validation not required
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [ ] QA
+- [x] QA
+
+## QA Result
+
+- PASS WITH ADVISORY. 55 tests OK. All seven semantic checks pass: KISS, DRY, YAGNI, completeness (all 16 planned behaviors tested), regression (signature, error naming, no caller mutation, canonical trees only), integrity (`score_source: effort` marks synthetics; 1e-3/1e-6 per plan), documentation (`refresh.md` paragraph in place, `-fast` sentence intact, `SKILL.md` untouched, `select`/`main` docstrings updated).
+- Advisory (non-blocking): `select`'s `if author_key not in models: return author` guard is unreachable after a successful `_expand_effort`. Harmless; remove or leave at operator discretion.
+- Preflight advisories closed: A (stored-rows-only siblings/neighbors) is in the code and the `place_effort` docstring; B (`select`/`main` docstring updates) is done; C (both-siblings branch) was kept with a test, as allowed.

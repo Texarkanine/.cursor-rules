@@ -1,0 +1,17 @@
+PASS WITH ADVISORY
+
+QA run 2026-09-23 for task effort-variant-slug (Level 2). Build phase complete per tasks.md. No creative-phase documents required for Level 2. Reviewed modelpool.py (place_effort, _expand_effort, select), pick.py (main docstring), references/refresh.md, test_pick.py, test_shipped.py against the tasks.md plan and projectbrief.md. Suite: 55 tests OK. SKILL.md untouched; catalog.json bytes unchanged by design and by test.
+
+Findings:
+
+1. KISS: PASS. Helpers (_split_effort, _far_score, _nudge_off_stored_score, _tier_between, place_effort, _expand_effort) map 1:1 to planned formula steps. No speculative abstraction; the both-siblings branch was planned and is tested.
+2. DRY: PASS. No duplication or reinvented utilities; the above/below far-score mirror is minimal.
+3. YAGNI: PASS WITH ADVISORY (see A below). No speculative parameters or features; every branch is exercised by a named test behavior.
+4. Completeness: PASS. All 16 test-plan behaviors have tests: score separation, lower-effort placement, boundary tier, shared tier, exact key, bare key, thinking stem, null sibling score, caller-catalog immutability, synthetic reviewer, higher-effort row, empty-pool spelling, fast suffix, shipped command, unplaceable-author echo, null-tier/score exit 2, unknown-reviewer exit 2.
+5. Regression: PASS. select keeps its signature; _with_speed semantics unchanged; SelectionError names the original spelling; exact keys return the stored row by identity; synthetics are new dicts; caller catalog/mapping unmutated (tested); all edits in canonical rules/ and tests/ trees, never generated copies.
+6. Integrity: PASS. 1e-3/1e-6 are plan-specified constants, not magic; synthetic rows carry score_source "effort" so a later reader cannot mistake them for measured scores; no placeholders or debug artifacts.
+7. Documentation: PASS. refresh.md gained exactly the planned paragraph after the -fast paragraph; the grok-4.7-medium-fast sentence is intact; SKILL.md stays a thin caller with no exit-2 reviewer-picking branch; select and main docstrings were updated (preflight advisory B closed). Preflight advisory A (stored-rows-only siblings/neighbors) is in the code and the place_effort docstring; advisory C (both-siblings branch) was kept with a test, as the plan allowed.
+
+Advisory findings (do not block):
+
+A. Unreachable guard in select: `if author_key not in models: return author` cannot fire after a successful _expand_effort, which leaves exact keys in place and inserts every placed synthetic. Harmless dead defensive branch; remove or leave at operator discretion.

@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: effort-variant-slug
-**Phase:** BUILD - COMPLETE
+**Phase:** QA - COMPLETE (PASS)
 
 ## What Was Done
 - `place_effort` places an unmatched effort spelling between the stored effort and the next stored score. A tier boundary keeps the higher tier. Rows with `score_source` `effort` are not anchors.
