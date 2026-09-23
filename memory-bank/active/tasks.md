@@ -225,3 +225,5 @@ No new technology - validation not required. `python3` on this machine is 3.11.1
 - [x] Preflight
 - [x] Build
 - [x] QA — PASS. Previous FAIL (`techContext.md` Testing Process omitted the unittest suite) is resolved. One advisory remains: empty next-tier fallback is untested. See `memory-bank/active/.qa-validation-status`.
+
+Follow-up after reflect, not a plan step: tiers `C`, `B`, `A`, `S`; sometimes-enabled Fable, Sol, and Luna; a trailing `-fast` shares the base row; skill files live under `scripts/`, `assets/`, and `references/`. See `activeContext.md`.

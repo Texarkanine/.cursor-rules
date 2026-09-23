@@ -162,5 +162,18 @@ Ship the `choose-verification-model` skill: a stdlib Python picker and a catalog
 * Insights
     - A new Make target makes the Testing Process sentence in `techContext.md` wrong, and the CI-matches-Make check does not read that sentence
 
+## 2026-09-23 - FOLLOW-UP - SAVED
+
+* Work completed
+    - Operator assigned tiers `C`, `B`, `A`, `S` and added Fable, Sol, and Luna as sometimes-enabled slugs
+    - Collapsed a trailing `-fast` into the base catalog row. Ranking uses the base price. The suffix is appended only when the author was fast and the chosen model has a fast variant
+    - Moved the skill to `scripts/`, `assets/`, and `references/refresh.md`. Trimmed `SKILL.md` so it is not Niko-specific
+* Decisions made
+    - Letters stand where they disagree with BenchLM scores
+    - Do not edit spawn lines or other files outside the skill for this follow-up
+    - Shipped mapping rows omit `output_multiplier`
+* Insights
+    - `Composer 2.5 (Fast)` is a $15 pricing row, not a multiplier on the $2.5 row. Fast cost is not used in ranking
+
 
 

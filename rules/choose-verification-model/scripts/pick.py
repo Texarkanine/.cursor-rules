@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Print one QA or Preflight reviewer slug."""
+"""Print one verification-model slug."""
 
 import argparse
 import json
@@ -9,9 +9,11 @@ from pathlib import Path
 
 from modelpool import SelectionError, select
 
+_ASSETS = Path(__file__).resolve().parent.parent / "assets"
+
 
 def _read_json(name: str):
-    path = Path(__file__).resolve().parent / name
+    path = _ASSETS / name
     with path.open(encoding="utf-8") as handle:
         return json.load(handle)
 
@@ -21,7 +23,7 @@ def main(argv, *, catalog=None, mapping=None) -> int:
 
     ``argv`` is the argument list after the program name. ``catalog``
     and ``mapping`` are parsed JSON objects; when either is omitted it
-    is loaded from the file beside this script.
+    is loaded from ``assets/`` in this skill.
 
     Returns 0 when a slug was printed. Returns 2 when no reviewer can
     be chosen. On failure, stdout is empty and stderr names the slug.

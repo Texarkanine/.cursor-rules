@@ -9,6 +9,7 @@ import re
 _LINK = re.compile(r"\[(.*)\]\([^)]*\)\Z")
 _SEPARATOR = re.compile(r":?-{3,}:?\Z")
 _CATEGORIES = ("agentic", "coding", "reasoning")
+_FAST_SUFFIX = "-fast"
 
 
 class SelectionError(Exception):
@@ -23,6 +24,17 @@ class SelectionError(Exception):
         super().__init__(message)
 
 
+def canonical_slug(slug: str) -> str:
+    """Return the catalog slug for ``slug``.
+
+    A trailing ``-fast`` is the same model. Speed does not change the
+    bench score, the tier, the family, or the price used to rank.
+    """
+    if slug.endswith(_FAST_SUFFIX):
+        return slug[: -len(_FAST_SUFFIX)]
+    return slug
+
+
 def select(catalog, mapping, author, enabled, rng):
     """Return one reviewer slug, or raise ``SelectionError``.
 
@@ -31,20 +43,33 @@ def select(catalog, mapping, author, enabled, rng):
     Task-tool slug list. ``rng`` is a ``random.Random`` instance; a
     fixed seed makes the choice repeatable.
 
-    Rank is dense rank by score inside the author's tier, best at
-    rank 1. The window is a different family, from one rank below the
-    author through the best in the tier. An empty window looks up one
-    tier and takes the cheapest different family, then the cheapest
-    slug in that tier.
+    A trailing ``-fast`` is stripped before lookup. Fast and non-fast
+    spellings of one model are one candidate. Rank is dense rank by
+    score inside the author's tier, best at rank 1. The window is a
+    different family, from one rank below the author through the best
+    in the tier. An empty window looks up one tier and takes the
+    cheapest different family, then the cheapest slug in that tier.
+    Those prices are the base output prices.
+
+    After that choice, append ``-fast`` only when the author slug ended
+    in ``-fast`` and the chosen model has a fast variant.
     """
     models = catalog["models"]
     tier_order = catalog["tier_order"]
     families = mapping["models"]
-    if author not in models:
+    author_key = canonical_slug(author)
+    if author_key not in models:
         raise SelectionError(author, f"unknown slug: {author}")
+
+    enabled_keys = []
+    seen = set()
     for slug in enabled:
-        if slug not in models:
+        key = canonical_slug(slug)
+        if key not in models:
             raise SelectionError(slug, f"unknown slug: {slug}")
+        if key not in seen:
+            seen.add(key)
+            enabled_keys.append(key)
 
     def usable(slug):
         entry = models[slug]
@@ -58,19 +83,19 @@ def select(catalog, mapping, author, enabled, rng):
             raise SelectionError(slug, f"unknown slug: {slug}")
         return mapped["family"]
 
-    if not usable(author):
+    if not usable(author_key):
         raise SelectionError(author, f"unknown slug: {author}")
 
-    author_family = family(author)
-    author_tier = models[author]["tier"]
-    pool = [slug for slug in enabled if usable(slug)]
+    author_family = family(author_key)
+    author_tier = models[author_key]["tier"]
+    pool = [slug for slug in enabled_keys if usable(slug)]
     rank_set = [slug for slug in pool if models[slug]["tier"] == author_tier]
-    if author not in rank_set:
-        rank_set.append(author)
+    if author_key not in rank_set:
+        rank_set.append(author_key)
 
     distinct_scores = sorted({models[slug]["score"] for slug in rank_set}, reverse=True)
     rank_of_score = {score: index + 1 for index, score in enumerate(distinct_scores)}
-    author_rank = rank_of_score[models[author]["score"]]
+    author_rank = rank_of_score[models[author_key]["score"]]
     window_limit = author_rank + 1
     window = []
     for slug in rank_set:
@@ -81,7 +106,7 @@ def select(catalog, mapping, author, enabled, rng):
         if rank_of_score[models[slug]["score"]] <= window_limit:
             window.append(slug)
     if window:
-        return rng.choice(window)
+        return _with_speed(rng.choice(window), author, models)
 
     tier_index = tier_order.index(author_tier)
     if tier_index + 1 >= len(tier_order):
@@ -111,6 +136,18 @@ def select(catalog, mapping, author, enabled, rng):
         chosen = cheapest(next_members)
     if chosen is None:
         raise SelectionError(author, f"no reviewer for {author}")
+    return _with_speed(chosen, author, models)
+
+
+def _with_speed(chosen, author, models):
+    """Return ``chosen``, or ``chosen`` plus ``-fast``.
+
+    Cost ranking has already finished on the base price. The suffix is
+    applied only when the author was the fast half of its pair and this
+    model has a fast variant.
+    """
+    if author.endswith(_FAST_SUFFIX) and models[chosen].get("has_fast"):
+        return chosen + _FAST_SUFFIX
     return chosen
 
 
@@ -125,9 +162,14 @@ def build_catalog(benchlm, pricing_markdown, mapping, previous):
     and reasoning category scores that are present. An interim score is
     kept only when all three are missing, and replaced once any of them
     appears. ``tier_order`` and each existing tier are copied from
-    ``previous``.     A slug that was not in ``previous`` gets ``tier`` null.
+    ``previous``. A slug that was not in ``previous`` gets ``tier`` null.
+
+    ``has_fast`` is true when the pricing page has a ``(Fast)`` row for
+    that model, or the model's notes mention a fast mode. The fast price
+    is not stored. Ranking uses the base output price. ``output_multiplier``
+    scales that base price when a mapping row sets it; otherwise it is 1.
     """
-    prices = _output_prices(pricing_markdown)
+    prices, notes = _pricing_rows(pricing_markdown)
     previous_models = (previous or {}).get("models") or {}
     tier_order = list((previous or {}).get("tier_order") or [])
     models = {}
@@ -164,8 +206,19 @@ def build_catalog(benchlm, pricing_markdown, mapping, previous):
             "score": score,
             "score_source": source,
             "output_cost_per_million": cost,
+            "has_fast": _has_fast(pricing_name, prices, notes),
         }
     return {"tier_order": tier_order, "models": models}, warnings
+
+
+def _has_fast(pricing_name, prices, notes):
+    if not pricing_name:
+        return False
+    fast_name = f"{pricing_name} (Fast)"
+    if prices.get(fast_name) is not None:
+        return True
+    text = notes.get(pricing_name) or ""
+    return "fast mode" in text.lower()
 
 
 def _split_row(line):
@@ -203,8 +256,9 @@ def _parse_price(cell):
         return None
 
 
-def _output_prices(markdown):
+def _pricing_rows(markdown):
     prices = {}
+    notes = {}
     for table in _tables(markdown):
         header = _split_row(table[0])
         try:
@@ -222,7 +276,8 @@ def _output_prices(markdown):
             if not name or name in prices:
                 continue
             prices[name] = _parse_price(cells[output_at])
-    return prices
+            notes[name] = cells[-1] if cells else ""
+    return prices, notes
 
 
 def _category_values(benchlm, benchlm_slug):
