@@ -37,7 +37,9 @@ graph TD
 - `rules/choose-verification-model/`: new topic skill. Owns `SKILL.md`, `pick.py`, `refresh.py`, `modelpool.py`, `mapping.json`, `catalog.json`, and `test_*.py`.
 - `rulesets/niko/skills/choose-verification-model`: new symlink to `../../../rules/choose-verification-model`, same pattern as `illustrate-complexity`, so an install of the niko ruleset ships the script.
 - Niko spawn lines: nine sites under `rulesets/niko/skills/niko/references/` that currently say `prefer smarter / different family if available`.
-- `rulesets/niko/README.md`: the Subagent Selection tip that quotes the prose user rule.
+- `rulesets/niko/README.md`: the Subagent Selection tip that quotes the prose user rule, and the supplementary-rules list above it.
+- `.github/workflows/rulesets-links.yml`: PR CI. It runs `make test-symlinks` and `make test-readme-links` as separate jobs. It needs a job for the new Python tests.
+- `.gitignore`: ignores `**/.summem/__pycache__/` only. A test run would leave `rules/choose-verification-model/__pycache__/`.
 
 ### Cross-Module Dependencies
 
@@ -47,8 +49,8 @@ graph TD
 
 ### Boundary Changes
 
-- New CLI: `python3 pick.py --model SLUG --reviewer-models SLUG,SLUG [--seed N]`
-- New CLI: `python3 refresh.py`
+- New CLI arguments on `pick.py`: `--model SLUG`, `--reviewer-models SLUG,SLUG`, optional `--seed N`
+- New CLI: `refresh.py` with no required arguments
 - `catalog.json` schema: `tier_order` is a list of tier names from lowest intelligence to highest. `models` maps a slug to `tier` (string or null), `score` (number or null), and `output_cost_per_million` (number or null).
 - `mapping.json` schema: each slug has `family` (string), `pricing_name` (string), `output_multiplier` (number, default 1), and `swebench` (`null`, or an object with `name` and `effort`). `effort` is a string such as `high` or `medium`, or null when the model has no effort axis.
 - The nine spawn lines change their model-selection clause and keep the rest of the sentence, including which skill is named.
@@ -69,7 +71,7 @@ graph TD
 
 ## Open Questions
 
-None - implementation approach is clear
+- [x] Auto-seed tiers from score quantiles on an empty `tier_order` → Resolved: declined. Tiers stay hand-assigned, matching the brief. Preflight recorded the idea and did not apply it.
 
 ## Test Plan (TDD)
 
@@ -104,7 +106,7 @@ None - implementation approach is clear
 - Test location: `rules/choose-verification-model/test_*.py`
 - Conventions: one module per executable, fixture JSON and pricing markdown written in the test, no network.
 - New test files: `test_pick.py`, `test_refresh.py`, `test_shipped.py`
-- Makefile: `test` also depends on a target that runs `python3 -m unittest discover -s rules/choose-verification-model -p 'test_*.py'`
+- Makefile: `test` also depends on `test-choose-verification-model`, which runs `python3 -m unittest discover -s rules/choose-verification-model -p 'test_*.py'`
 
 ### Integration Tests
 
@@ -114,12 +116,12 @@ None - implementation approach is clear
 
 ### 1. Reviewer selection — executable
 
-- Files: `rules/choose-verification-model/modelpool.py`, `rules/choose-verification-model/pick.py`, `rules/choose-verification-model/test_pick.py`, `Makefile`
+- Files: `rules/choose-verification-model/modelpool.py`, `rules/choose-verification-model/pick.py`, `rules/choose-verification-model/test_pick.py`, `Makefile`, `.gitignore`
 
 1. Stub tests: create `test_pick.py` with empty test methods for each pick behavior above, including exit-code cases.
 2. Stub interface: `select(catalog, mapping, author, enabled, rng)` returns a slug or raises `SelectionError`. `main(argv)` on `pick.py` parses `--model`, `--reviewer-models`, and optional `--seed`. Docstrings on both.
 3. Write tests and run red: assert the behaviors against in-memory catalogs. `python3 -m unittest discover -s rules/choose-verification-model -p 'test_pick.py'` fails.
-4. Write code and run green: implement dense rank, the window, the one-tier fallback, stderr warnings for nulls that were skipped only when they were the reason a fallback missed, and exit codes. Add the Make target and depend on it from `test`. `make test` passes the new target and the existing link checks.
+4. Write code and run green: implement dense rank, the window, the one-tier fallback, stderr warnings for nulls that were skipped only when they were the reason a fallback missed, and exit codes. Add `test-choose-verification-model` and depend on it from `test`. Add `__pycache__/` to `.gitignore`. `make test` passes the new target and the existing link checks.
 
 ### 2. Catalog refresh — executable
 
@@ -144,7 +146,7 @@ None - implementation approach is clear
 - Files: `rules/choose-verification-model/SKILL.md`, `rulesets/niko/skills/choose-verification-model`
 - No tests: prose/policy artifact
 
-1. Write `SKILL.md` with frontmatter `name: choose-verification-model`. State that the agent runs `python3 pick.py` beside this file, passes its own slug and the enabled Task-tool slugs, and spawns the printed slug. State that a non-zero exit stops the agent and is reported to the operator. State that `python3 refresh.py` rebuilds the catalog and that null tiers are filled by hand in `catalog.json`.
+1. Write `SKILL.md` with frontmatter `name: choose-verification-model`. State that the agent runs `pick.py` beside this file with Python 3, passes its own slug and the enabled Task-tool slugs, and spawns the printed slug. Give both invocations: Bash `python3 pick.py --model SLUG --reviewer-models a,b` and PowerShell `py -3 pick.py --model SLUG --reviewer-models a,b`. The same pair for `refresh.py`. State that a non-zero exit stops the agent and is reported to the operator. State that null tiers are filled by hand in `catalog.json`.
 2. Symlink `rulesets/niko/skills/choose-verification-model` to `../../../rules/choose-verification-model`.
 3. Mark both Python executables executable.
 
@@ -153,7 +155,7 @@ None - implementation approach is clear
 - Files: the nine spawn sites listed below, and `rulesets/niko/README.md`
 - No tests: prose/policy artifact
 
-1. Replace `prefer smarter / different family if available` with `run python3 on pick.py beside the choose-verification-model SKILL.md, with --model set to your slug and --reviewer-models set to the enabled Task-tool slugs, and use the printed slug`. Leave the skill name, the "only instruction you add" clause, and any QA status-file sentence as they are. Sites:
+1. Replace `prefer smarter / different family if available` with `run pick.py beside the choose-verification-model SKILL.md with Python 3, passing --model set to your slug and --reviewer-models set to the enabled Task-tool slugs, and use the printed slug`. Do not name a `python3` or `py` binary on these lines. The skill owns the Bash and PowerShell invocations. Leave the skill name, the "only instruction you add" clause, and any QA status-file sentence as they are. Sites:
     - `rulesets/niko/skills/niko/references/level1/level1-workflow.md`
     - `rulesets/niko/skills/niko/references/level2/level2-workflow.md` (Preflight and QA)
     - `rulesets/niko/skills/niko/references/level2/level2-build.md`
@@ -161,7 +163,16 @@ None - implementation approach is clear
     - `rulesets/niko/skills/niko/references/level3/level3-build.md`
     - `rulesets/niko/skills/niko/references/level4/level4-workflow.md`
     - `rulesets/niko/skills/niko/references/level4/level4-plan.md`
-2. Rewrite the Subagent Selection section of `rulesets/niko/README.md` so it describes this command. Drop the two sample user-rule blocks. Add no link the readme checker would reject.
+2. Rewrite the Subagent Selection section of `rulesets/niko/README.md` so it describes this command, including the Bash and PowerShell invocations. Drop the two sample user-rule blocks.
+3. Add a supplementary-rules bullet linking `../../rules/choose-verification-model/SKILL.md`, same shape as the `illustrate-complexity` bullet. The readme checker must accept the link.
+
+### 6. PR CI runs the picker tests — prose/policy
+
+- Files: `.github/workflows/rulesets-links.yml`
+- No tests: the job invokes `make test-choose-verification-model`. A test that locks the workflow YAML would be a change-detector. The product tests are units 1–3.
+
+1. Add a job that checks out the repo, sets up Python 3.11, and runs `make test-choose-verification-model`.
+2. Leave the existing symlink and readme jobs as they are.
 
 ## Technology Validation
 
@@ -179,7 +190,9 @@ No new technology - validation not required. `python3` on this machine is 3.11.1
 
 - The catalog is a snapshot, and the next Cursor model makes every pick exit 2 because the agent passes the whole enabled list. Plan response: already covered by the unknown-slug challenge. The mapping step is sized to the captured slug list so the failure is a new slug, not the common case.
 - Verified plus full SWE-bench double-counts tasks and the ranking looks wrong. Plan response: the operator accepted that double-count. The score formula stays an equal-weight mean. No second weighting step.
-- Agents keep deliberating because the spawn clause is vague about argv. Plan response: the clause names `pick.py`, both flags, and "use the printed slug". The skill repeats the same command beside the script.
+- Agents keep deliberating because the spawn clause is vague about argv. Plan response: the clause names `pick.py`, both flags, and "use the printed slug". The skill gives the Bash and PowerShell commands.
+- The spawn lines name `python3` and a Windows agent cannot run them. Plan response: the nine lines say "with Python 3" and do not name an interpreter binary. `SKILL.md` gives `python3` for Bash and `py -3` for PowerShell.
+- PR CI stays green while the picker tests fail. Plan response: unit 6 adds a workflow job that runs `make test-choose-verification-model`.
 
 ## Status
 

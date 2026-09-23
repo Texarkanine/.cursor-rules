@@ -4,8 +4,11 @@
 **Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Wrote the Level 3 plan: picker, refresh, shipped mapping and catalog, skill text, and the nine Niko spawn lines
-- No open questions. Tiers ship null for the operator to fill. Unknown slugs exit 2. Scores are an equal-weight mean of SWE-bench `Test`, `Verified`, and `Multimodal`
+- Revised the plan after Preflight `FAIL (fixable)`
+- PR CI gains a job for `make test-choose-verification-model`
+- Spawn lines say Python 3 and do not name an interpreter. The skill gives Bash `python3` and PowerShell `py -3`
+- `.gitignore` will ignore `__pycache__/`. The README supplementary list will link the skill
+- Declined auto-seeding tiers. Tiers stay hand-assigned
 
 ## Next Step
-- Preflight the plan
+- Preflight the revised plan
