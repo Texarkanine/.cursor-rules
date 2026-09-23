@@ -1,0 +1,23 @@
+FAIL (fixable)
+
+## Findings
+
+1. **`memory-bank/techContext.md`'s Testing Process section is stale and must be corrected before acceptance.** It still reads "`make test` runs rulesets layout checks (symlink targets and README internal links) via scripts in `scripts/`. Pull request CI is `.github/workflows/rulesets-links.yml` and invokes the same Make targets." That is no longer complete: `make test` (and the new `choose-verification-model` CI job) now also runs a Python 3.11 stdlib `unittest` suite (`tests/choose-verification-model/`, via the `test-choose-verification-model` Make target) that is not a rulesets layout check at all — it is the first executable-behavior test suite in this repo. This is exactly the case the file's own update rule calls out ("a test process changed... and then make a surgical fix"), and Build did not make that fix. A developer working on an unrelated part of the repo would read this file and not learn that Python/`unittest` is now part of `make test`, or that CI now needs a Python 3.11 setup step. This is a one- or two-sentence addition, not a rearchitect.
+
+## Verified clean
+
+- `select()` in `modelpool.py` correctly implements dense rank, the family/tier window (`author_rank + 1` upper bound), the one-tier-up different-family-then-cheapest fallback, and every exit-2 case (unknown author, unknown reviewer slug, null-tier/null-score author, empty window at the top tier). Traced against all 12 `test_pick.py` cases and the plan's full behavior list; every behavior in the Test Plan has a corresponding, non-tautological test, and all 27 tests plus the two existing shell-script checks pass (`make test`).
+- `build_catalog()` correctly means the three BenchLM categories with a missing-category dropout, keeps/replaces the interim score per the stated rule, preserves `tier_order` and existing tiers while warning on a new slug, parses the pricing table by header (handling column reorder and `[Name](url)` link cells), and applies `output_multiplier`. Traced against all 10 `test_refresh.py` cases including the refresh-then-pick integration case.
+- Shipped `catalog.json`/`mapping.json`: all nine spawnable slugs present with `tier: "general"`, non-null `score_source: "benchlm"` (no interim scores needed), and independent output prices for `composer-2.5` vs `composer-2.5-fast`, matching the plan's Composer/Grok family decisions. `test_shipped.py` checks the right invariants without locking numeric scores.
+- All nine spawn sites (`level1..level4` workflow/build/plan references) were re-grepped fresh: each now carries the exact replacement sentence, no `python3`/`py` binary named on the shared lines, and no leftover "prefer smarter / different family" phrasing anywhere in `rulesets/`.
+- `rulesets/niko/README.md`'s Subagent Selection section and supplementary-rules bullet were rewritten as planned, at the same link depth as the `illustrate-complexity` precedent; `rulesets/niko/skills/choose-verification-model` is a symlink at the correct relative depth, not a copy.
+- `.github/workflows/rulesets-links.yml` has a new `choose-verification-model` job that checks out, sets up Python 3.11, and runs `make test-choose-verification-model`, alongside the two untouched existing jobs.
+- `pick.py`/`refresh.py` carry the executable bit and a shebang; `modelpool.py` (a library, not an entrypoint) correctly does not.
+- `.gitignore`'s new `__pycache__/` entry and `Makefile`'s new `test-choose-verification-model` target/dependency are exactly as planned; no stray `__pycache__` is tracked (`git status` is clean with the caches present on disk).
+- `reuse lint` passes with no changes to `REUSE.toml`, confirming the plan's claim that the default AGPL/PPL-S globs already cover the new `.py`/`.json`/`SKILL.md` files.
+- No debug artifacts, TODO/FIXME markers, or commented-out code in any new file.
+- Commit history for this task follows the repo's `chore: saving progress on choose-verification-model` / `chore: saving work before [phase] phase` convention throughout.
+
+## Advisory items
+
+1. **Untested (and unspecified) edge case: an empty next tier.** `select()`'s one-tier-up fallback raises `SelectionError` if the next tier has zero enabled members at all (both `cheapest(different)` and `cheapest(next_members)` return `None`). This is a sound and safe behavior (falls through to "no reviewer" the same as the top-tier case), but it is not in the plan's Test Plan and has no explicit test. Low priority: none of the nine shipped slugs can hit it today, and the fallback-to-error is the only reasonable behavior anyway.

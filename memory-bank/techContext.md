@@ -14,7 +14,7 @@ Skills follow the [Agent Skills specification](https://agentskills.io/specificat
 
 ## Testing Process
 
-`make test` runs rulesets layout checks (symlink targets and README internal links) via scripts in `scripts/`. Pull request CI is `.github/workflows/rulesets-links.yml` and invokes the same Make targets.
+`make test` runs rulesets layout checks (symlink targets and README internal links) via scripts in `scripts/`, and a stdlib `unittest` suite discovered from `tests/`. Pull request CI is `.github/workflows/rulesets-links.yml` and invokes the same Make targets. The unittest job sets up the Python version named in that workflow.
 
 ## Platform
 

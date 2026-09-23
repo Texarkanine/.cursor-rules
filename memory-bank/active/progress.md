@@ -120,3 +120,24 @@ Ship the `choose-verification-model` skill: a stdlib Python picker and a catalog
     - BenchLM returns 403 to urllib's default User-Agent
     - `Composer 2.5 (Fast)` is its own pricing row, so the fast slug does not need an output multiplier
 
+## 2026-09-23 - QA - COMPLETE (FAIL (fixable))
+
+* Work completed
+    - Reviewed `select`, `build_catalog`, the shipped catalog/mapping, all nine spawn sites, the README, the CI job, `.gitignore`, and executable bits against the plan and the Test Plan's full behavior list
+    - Ran `make test` (27 unit tests plus both shell-script checks, all green) and `reuse lint` (compliant, no `REUSE.toml` edit needed)
+* Decisions made
+    - `FAIL (fixable)`: `memory-bank/techContext.md`'s Testing Process section was not updated and now misdescribes `make test` as only rulesets layout checks, omitting the new Python 3.11 `unittest` suite
+    - One advisory recorded: the one-tier-up fallback's empty-next-tier case is sound but untested and unspecified by the plan
+* Insights
+    - This task is the first to give the repo an executable-behavior test suite (Python/`unittest`) rather than shell-script layout checks, so the doc gap was easy to miss without explicitly diffing `techContext.md`'s Testing Process claim against the new Makefile/CI content
+
+## 2026-09-23 - BUILD - COMPLETE (QA fix)
+
+* Work completed
+    - Updated the Testing Process section of `memory-bank/techContext.md` so `make test` includes the stdlib unittest suite under `tests/`, and the CI job's Python version stays a pointer at the workflow
+* Decisions made
+    - Left the empty-next-tier advisory untested. QA marked it non-blocking
+* Insights
+    - The Testing Process sentence is a claim about `make test`, so a new Make target makes it wrong until that sentence moves
+
+

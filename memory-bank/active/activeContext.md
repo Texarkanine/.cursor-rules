@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: choose-verification-model
-**Phase:** BUILD - COMPLETE
+**Phase:** BUILD - COMPLETE (QA fix)
 
 ## What Was Done
 - `rules/choose-verification-model/`: `SKILL.md`, `pick.py`, `refresh.py`, `modelpool.py`, `mapping.json`, `catalog.json`
@@ -22,4 +22,4 @@
 - 27 new unittest cases, including 1 refresh-then-pick integration case. `make test` passed
 
 ## Next Step
-- QA
+- QA rerun after the Testing Process sentence in `memory-bank/techContext.md`
