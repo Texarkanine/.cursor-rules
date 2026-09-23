@@ -1,6 +1,6 @@
 # Active Context
 
 - **Current Task:** Add `cursor-grok-4.6-xhigh` to the verification catalog
-- **Phase:** `COMPLEXITY-ANALYSIS - COMPLETE`
-- **What Was Done:** Classified as Level 2. The request adds one catalog row to one skill. `pick.py` already strips `-fast` and honors `has_fast`. No selector change.
-- **Next Step:** Load the Level 2 workflow and run Plan.
+- **Phase:** `PLAN - COMPLETE`
+- **What Was Done:** Level 2 plan. One executable step: shipped tests for the new slug, then a mapping row, `refresh.py`, and hand-set tier A. No selector change. Opus `high` and Grok 4.7 `xhigh` stay out of scope.
+- **Next Step:** Preflight.
