@@ -1,13 +1,14 @@
 # Active Context
 
 ## Current Task: choose-verification-model
-**Phase:** QA - COMPLETE (PASS)
+**Phase:** REFLECT - COMPLETE
 
 ## What Was Done
 - `rules/choose-verification-model/`: `SKILL.md`, `pick.py`, `refresh.py`, `modelpool.py`, `mapping.json`, `catalog.json`
 - `tests/choose-verification-model/`: 27 tests. `make test` passes, including the link checks
 - Symlink `rulesets/niko/skills/choose-verification-model`. Nine spawn lines and the README Subagent Selection section run `pick.py`
 - PR workflow job `choose-verification-model` runs `make test-choose-verification-model` on Python 3.11
+- Reflection: `memory-bank/active/reflection/reflection-choose-verification-model.md`
 
 ## Decisions
 - A null-tier or null-score author exits 2
@@ -22,4 +23,4 @@
 - 27 new unittest cases, including 1 refresh-then-pick integration case. `make test` passed
 
 ## Next Step
-- QA PASSED — proceed to `/niko-reflect`
+- Run `/niko-archive` to create the archive document and finalize the current project.

@@ -152,4 +152,15 @@ Ship the `choose-verification-model` skill: a stdlib Python picker and a catalog
 * Insights
     - Persistent-file update rules want a pointer, not a pinned version: naming "the Python version named in that workflow" is the right altitude for the unittest job
 
+## 2026-09-23 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `memory-bank/active/reflection/reflection-choose-verification-model.md`
+    - Checked persistent files. `techContext.md` was already corrected during the QA fix. `productContext.md` and `systemPatterns.md` did not take a standing contract from this task
+* Decisions made
+    - No further persistent-file edits in reflect
+* Insights
+    - A new Make target makes the Testing Process sentence in `techContext.md` wrong, and the CI-matches-Make check does not read that sentence
+
+
 
