@@ -1,8 +1,14 @@
 """Shared selection and catalog-refresh helpers.
 
-``select`` chooses one reviewer slug. ``build_catalog`` is added with
-the refresh executable.
+``select`` chooses one reviewer slug. ``build_catalog`` rebuilds scores
+and output prices while keeping hand-set tiers.
 """
+
+import re
+
+_LINK = re.compile(r"\[(.*)\]\([^)]*\)\Z")
+_SEPARATOR = re.compile(r":?-{3,}:?\Z")
+_CATEGORIES = ("agentic", "coding", "reasoning")
 
 
 class SelectionError(Exception):
@@ -106,3 +112,129 @@ def select(catalog, mapping, author, enabled, rng):
     if chosen is None:
         raise SelectionError(author, f"no reviewer for {author}")
     return chosen
+
+
+def build_catalog(benchlm, pricing_markdown, mapping, previous):
+    """Return a catalog and the warnings produced while building it.
+
+    ``benchlm`` is the parsed BenchLM models document. ``pricing_markdown``
+    is the Cursor pricing page. ``mapping`` and ``previous`` are the
+    parsed mapping and the catalog from the last refresh.
+
+    The score is the equal-weight mean of the BenchLM agentic, coding,
+    and reasoning category scores that are present. An interim score is
+    kept only when all three are missing, and replaced once any of them
+    appears. ``tier_order`` and each existing tier are copied from
+    ``previous``.     A slug that was not in ``previous`` gets ``tier`` null.
+    """
+    prices = _output_prices(pricing_markdown)
+    previous_models = (previous or {}).get("models") or {}
+    tier_order = list((previous or {}).get("tier_order") or [])
+    models = {}
+    warnings = []
+    for slug, row in mapping["models"].items():
+        if slug in previous_models:
+            tier = previous_models[slug].get("tier")
+        else:
+            tier = None
+            warnings.append(f"WARNING: must set tier for {slug}")
+        present = _category_values(benchlm, row.get("benchlm_slug"))
+        if present:
+            score = sum(present) / len(present)
+            source = "benchlm"
+        elif row.get("interim_score") is not None:
+            score = row["interim_score"]
+            source = "interim"
+        else:
+            score = None
+            source = None
+            warnings.append(f"WARNING: must set interim score for {slug}")
+        pricing_name = row.get("pricing_name")
+        raw_price = prices.get(pricing_name) if pricing_name in prices else None
+        if raw_price is None:
+            cost = None
+            warnings.append(f"WARNING: must set cost for {slug}")
+        else:
+            multiplier = row.get("output_multiplier")
+            if multiplier is None:
+                multiplier = 1
+            cost = raw_price * multiplier
+        models[slug] = {
+            "tier": tier,
+            "score": score,
+            "score_source": source,
+            "output_cost_per_million": cost,
+        }
+    return {"tier_order": tier_order, "models": models}, warnings
+
+
+def _split_row(line):
+    return [cell.strip() for cell in line.strip().strip("|").split("|")]
+
+
+def _tables(markdown):
+    tables = []
+    current = []
+    for line in markdown.splitlines():
+        if line.strip().startswith("|"):
+            current.append(line)
+        elif current:
+            tables.append(current)
+            current = []
+    if current:
+        tables.append(current)
+    return tables
+
+
+def _model_name(cell):
+    match = _LINK.fullmatch(cell.strip())
+    if match:
+        return match.group(1).strip()
+    return cell.strip()
+
+
+def _parse_price(cell):
+    text = cell.strip().lstrip("$").replace(",", "")
+    if not text:
+        return None
+    try:
+        return float(text)
+    except ValueError:
+        return None
+
+
+def _output_prices(markdown):
+    prices = {}
+    for table in _tables(markdown):
+        header = _split_row(table[0])
+        try:
+            model_at = header.index("Model")
+            output_at = header.index("Output")
+        except ValueError:
+            continue
+        for line in table[1:]:
+            cells = _split_row(line)
+            if cells and all(_SEPARATOR.fullmatch(cell) for cell in cells if cell):
+                continue
+            if model_at >= len(cells) or output_at >= len(cells):
+                continue
+            name = _model_name(cells[model_at])
+            if not name or name in prices:
+                continue
+            prices[name] = _parse_price(cells[output_at])
+    return prices
+
+
+def _category_values(benchlm, benchlm_slug):
+    if not benchlm_slug or not isinstance(benchlm, dict):
+        return []
+    for item in benchlm.get("items") or []:
+        if item.get("slug") != benchlm_slug:
+            continue
+        categories = (item.get("scores") or {}).get("displayCategoryScores") or {}
+        return [
+            categories[key]
+            for key in _CATEGORIES
+            if categories.get(key) is not None
+        ]
+    return []

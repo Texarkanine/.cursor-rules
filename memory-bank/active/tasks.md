@@ -147,10 +147,10 @@ These are the Task-tool slugs for this session. Each ships with a score and tier
 
 - Files: `rules/choose-verification-model/modelpool.py`, `rules/choose-verification-model/refresh.py`, `tests/choose-verification-model/test_refresh.py`
 
-1. Stub tests: empty methods for the refresh behaviors, including the refresh-then-pick case.
-2. Stub interface: `build_catalog(benchlm, pricing_markdown, mapping, previous)` returns `(catalog, warnings)`. `main(argv)` on `refresh.py` fetches and writes. Docstrings on both.
-3. Write tests and run red: a fixture BenchLM catalog and a small pricing markdown table, including a linked Model cell and two tables whose Output column is not in the same place. The new tests fail.
-4. Write code and run green: fetch `https://benchlm.ai/data/models.json` in `main` only. `build_catalog` takes the already-loaded catalog. Mean the three categories, apply interim replacement, parse the Output column by header, apply `output_multiplier`, preserve tiers, emit the tier and interim warnings. `make test` passes.
+- [x] Stub tests: empty methods for the refresh behaviors, including the refresh-then-pick case.
+- [x] Stub interface: `build_catalog(benchlm, pricing_markdown, mapping, previous)` returns `(catalog, warnings)`. `main(argv)` on `refresh.py` fetches and writes. Docstrings on both.
+- [x] Write tests and run red: a fixture BenchLM catalog and a small pricing markdown table, including a linked Model cell and two tables whose Output column is not in the same place. The new tests fail.
+- [x] Write code and run green: fetch `https://benchlm.ai/data/models.json` in `main` only. `build_catalog` takes the already-loaded catalog. Mean the three categories, apply interim replacement, parse the Output column by header, apply `output_multiplier`, preserve tiers, emit the tier and interim warnings. `make test` passes.
 
 ### 3. Shipped mapping and catalog — executable
 
