@@ -47,3 +47,26 @@ Ship the `choose-verification-model` skill: a stdlib Python picker and a catalog
     - Declined auto-seeding tiers from score quantiles
 * Insights
     - A `python3` literal in a shipped rule fails the repo's PowerShell-and-Bash rule even when this machine has `python3`
+
+## 2026-09-23 - PREFLIGHT - COMPLETE (FAIL (fixable))
+
+* Work completed
+    - Re-ran the Level 2/3 checks on the revised plan. Confirmed the previous run's four fixes are in the plan
+    - Fetched live `leaderboards.json` and the pricing page to test the parsing assumptions
+* Decisions made
+    - `FAIL (fixable)`: effort must come from the rows' `reasoning_effort` field, with the name parenthetical as fallback. Live Verified has `Gemini 3 Pro` tagged `high` only in that field. Also, the skipped-null stderr warning has no test, and the leaderboards URL is unpinned
+    - Advisories: fill tiers before the spawn lines reach `main`, and have the skill say to omit `inherit`. Radical Innovation: an operator-owned tier overlay file that refresh never writes
+* Insights
+    - SWE-bench rows record effort in a structured `reasoning_effort` field, and the row name does not always repeat it
+
+## 2026-09-23 - PLAN - COMPLETE
+
+* Work completed
+    - Pointed effort matching at `reasoning_effort`, with the name parenthetical as fallback
+    - Pinned the leaderboards URL and added the Gemini 3 Pro test case
+    - Removed the skipped-null warning that had no test
+* Decisions made
+    - Declined a separate tier file and declined holding the spawn-line edit for a later PR
+    - The skill tells the agent to omit `inherit`
+* Insights
+    - On Verified, `Gemini 3 Pro` is effort `high` only in `reasoning_effort`

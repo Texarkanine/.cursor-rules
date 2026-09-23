@@ -63,7 +63,8 @@ graph TD
 - Refresh preserves `tier_order` and each existing `tier`. A slug new to the catalog gets `tier: null` and stderr `WARNING: must set tier for <slug>`.
 - Scores are the equal-weight mean of SWE-bench boards `Test`, `Verified`, and `Multimodal`, divided by how many of those three actually matched. Verified repeating full SWE-bench tasks is accepted.
 - A mapped effort receives only rows that name that effort. Fast slugs share the scored effort and use their own output price. Thinking slugs need their own `swebench` object.
-- Match a board row by exact model name after removing one trailing date parenthetical and one effort parenthetical. An agent-prefixed row does not match a bare model name. Several matches: latest `date` wins.
+- A row's effort is its `reasoning_effort` when that field is a non-empty string. Otherwise it is the effort parenthetical in the name. Otherwise it is null. Match a board row when the model name matches and the row's effort matches the mapping's effort. An agent-prefixed row does not match a bare model name. Several matches: latest `date` wins.
+- Leaderboard URL: `https://raw.githubusercontent.com/SWE-bench/swe-bench.github.io/master/data/leaderboards.json`
 - Unknown author slug, or any `--reviewer-models` slug absent from the catalog, exits 2 and names the slug on stderr.
 - Empty pool exits 2. The skill tells the agent to stop and tell the operator. It does not choose a model by deliberation.
 - Canonical edits stay in `rules/` and `rulesets/`. This task does not edit `.cursor/` or `.claude/` and does not run `ai-rizz sync`.
@@ -71,7 +72,9 @@ graph TD
 
 ## Open Questions
 
-- [x] Auto-seed tiers from score quantiles on an empty `tier_order` → Resolved: declined. Tiers stay hand-assigned, matching the brief. Preflight recorded the idea and did not apply it.
+- [x] Auto-seed tiers from score quantiles on an empty `tier_order` → Resolved: declined. Tiers stay hand-assigned, matching the brief.
+- [x] Keep tiers in a separate file that refresh never writes → Resolved: declined. The brief puts tiers in the catalog and has refresh preserve them.
+- [x] Delay the spawn-line edit until tiers are filled → Resolved: declined. The brief includes pointing the spawn lines at the picker in this task. An empty `tier_order` exits 2 and the skill tells the operator to fill tiers.
 
 ## Test Plan (TDD)
 
@@ -92,7 +95,8 @@ graph TD
 - Author slug absent from the catalog → exit 2.
 - Refresh mean: a model on all three boards scores the arithmetic mean of the three `resolved` values.
 - Refresh renormalize: a model on only Verified scores that Verified value.
-- Effort isolation: a mapping effort of `high` does not receive a `(medium)` row, and a null-effort mapping does not receive a `(high)` row.
+- Effort isolation: a mapping effort of `high` does not receive a row whose effort is `medium`, and a null-effort mapping does not receive a row whose effort is `high`.
+- Field effort: a row named `Gemini 3 Pro` with `reasoning_effort` `high` and no parenthetical scores a `high` mapping and does not score a null-effort mapping.
 - Name match: `Sonar Foundation Agent + Claude 4.5 Opus` does not score a mapping name `Claude 4.5 Opus`.
 - Latest date: two exact matches → the newer `date` supplies `resolved`.
 - Tier preserve: an existing tier and `tier_order` survive refresh. A new slug is `tier: null` and stderr contains `WARNING: must set tier for <slug>`.
@@ -121,7 +125,7 @@ graph TD
 1. Stub tests: create `test_pick.py` with empty test methods for each pick behavior above, including exit-code cases.
 2. Stub interface: `select(catalog, mapping, author, enabled, rng)` returns a slug or raises `SelectionError`. `main(argv)` on `pick.py` parses `--model`, `--reviewer-models`, and optional `--seed`. Docstrings on both.
 3. Write tests and run red: assert the behaviors against in-memory catalogs. `python3 -m unittest discover -s rules/choose-verification-model -p 'test_pick.py'` fails.
-4. Write code and run green: implement dense rank, the window, the one-tier fallback, stderr warnings for nulls that were skipped only when they were the reason a fallback missed, and exit codes. Add `test-choose-verification-model` and depend on it from `test`. Add `__pycache__/` to `.gitignore`. `make test` passes the new target and the existing link checks.
+4. Write code and run green: implement dense rank, the window, the one-tier fallback, and exit codes. Add `test-choose-verification-model` and depend on it from `test`. Add `__pycache__/` to `.gitignore`. `make test` passes the new target and the existing link checks.
 
 ### 2. Catalog refresh — executable
 
@@ -130,7 +134,7 @@ graph TD
 1. Stub tests: empty methods for the refresh behaviors, including the refresh-then-pick case.
 2. Stub interface: `build_catalog(leaderboards, pricing_markdown, mapping, previous)` returns `(catalog, warnings)`. `main(argv)` on `refresh.py` fetches and writes. Docstrings on both.
 3. Write tests and run red: fixture leaderboard objects and a small pricing markdown table. The new tests fail.
-4. Write code and run green: parse the Output column, apply `output_multiplier`, match the three board names, preserve tiers, emit the two warning strings. `make test` passes.
+4. Write code and run green: fetch `https://raw.githubusercontent.com/SWE-bench/swe-bench.github.io/master/data/leaderboards.json` in `main` only. `build_catalog` takes already-loaded leaderboards. Parse the Output column, apply `output_multiplier`, read effort from `reasoning_effort` and otherwise from the name, match the three board names, preserve tiers, emit the two warning strings. `make test` passes.
 
 ### 3. Shipped mapping and catalog — executable
 
@@ -146,7 +150,7 @@ graph TD
 - Files: `rules/choose-verification-model/SKILL.md`, `rulesets/niko/skills/choose-verification-model`
 - No tests: prose/policy artifact
 
-1. Write `SKILL.md` with frontmatter `name: choose-verification-model`. State that the agent runs `pick.py` beside this file with Python 3, passes its own slug and the enabled Task-tool slugs, and spawns the printed slug. Give both invocations: Bash `python3 pick.py --model SLUG --reviewer-models a,b` and PowerShell `py -3 pick.py --model SLUG --reviewer-models a,b`. The same pair for `refresh.py`. State that a non-zero exit stops the agent and is reported to the operator. State that null tiers are filled by hand in `catalog.json`.
+1. Write `SKILL.md` with frontmatter `name: choose-verification-model`. State that the agent runs `pick.py` beside this file with Python 3, passes its own slug and the enabled Task-tool slugs, and spawns the printed slug. The enabled list is model slugs. Leave out `inherit`. Give both invocations: Bash `python3 pick.py --model SLUG --reviewer-models a,b` and PowerShell `py -3 pick.py --model SLUG --reviewer-models a,b`. The same pair for `refresh.py`. State that a non-zero exit, including an unknown author slug, stops the agent and is reported to the operator. The agent does not guess a reviewer. State that null tiers are filled by hand in `catalog.json`.
 2. Symlink `rulesets/niko/skills/choose-verification-model` to `../../../rules/choose-verification-model`.
 3. Mark both Python executables executable.
 
@@ -181,6 +185,7 @@ No new technology - validation not required. `python3` on this machine is 3.11.1
 ## Challenges & Mitigations
 
 - Pricing markdown or SWE-bench row names can change shape. Mitigation: parsers are tested on fixtures; a live mismatch warns and stores null rather than guessing a price or a score.
+- A row can name no effort and still carry `reasoning_effort`. Mitigation: that field wins, and `test_refresh.py` covers the `Gemini 3 Pro` shape.
 - The enabled Task-tool list will include a slug the mapping lacks, and pick will exit 2. Mitigation: step 3 covers the slug list captured for this task. The skill tells the agent to stop and name the missing slug so the operator can add a mapping row.
 - `tier_order` ships empty, so the first real pick exits 2 until the operator edits tiers. Mitigation: that is the required hand-off. The warning text from refresh lists every slug.
 - The nine spawn lines can drift. Mitigation: one replacement clause, differing only by the skill name already present on each line.

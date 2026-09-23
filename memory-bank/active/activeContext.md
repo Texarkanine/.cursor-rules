@@ -4,11 +4,12 @@
 **Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Revised the plan after Preflight `FAIL (fixable)`
-- PR CI gains a job for `make test-choose-verification-model`
-- Spawn lines say Python 3 and do not name an interpreter. The skill gives Bash `python3` and PowerShell `py -3`
-- `.gitignore` will ignore `__pycache__/`. The README supplementary list will link the skill
-- Declined auto-seeding tiers. Tiers stay hand-assigned
+- Revised the plan after the second Preflight `FAIL (fixable)`
+- Row effort comes from `reasoning_effort`, then from a name parenthetical
+- Pinned the SWE-bench leaderboards URL
+- Dropped the untested skipped-null warning
+- The skill tells the agent to leave `inherit` out of the enabled list
+- Declined a separate tier file and declined delaying the spawn-line edit
 
 ## Next Step
 - Preflight the revised plan
