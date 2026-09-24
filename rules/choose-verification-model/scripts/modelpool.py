@@ -324,14 +324,18 @@ def previous_from_tiers(doc, mapping):
     ``previous`` is ``{"tier_order": TIER_ORDER, "models": {stem:
     {"tier": tier}}}``. ``never`` is a tier value but not on the ladder.
 
-    Warnings: a key that is not a tier; a stem listed under two tiers
-    (the first listing is kept); a listed stem that ``mapping`` lacks.
+    Warnings: a key that is not a tier; a tier whose value is not a list
+    (it is skipped); a stem listed under two tiers (the first listing is
+    kept); a listed stem that ``mapping`` lacks.
     """
     tiers = {}
     warnings = []
     for tier, slugs in doc.items():
         if tier not in TIER_ORDER and tier != NEVER_TIER:
             warnings.append(f"WARNING: unknown tier {tier} in tiers.toml")
+            continue
+        if not isinstance(slugs, list):
+            warnings.append(f"WARNING: tier {tier} in tiers.toml must be a list of slugs; skipped")
             continue
         for slug in slugs:
             stem = model_key(slug)

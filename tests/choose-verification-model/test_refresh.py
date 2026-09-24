@@ -780,6 +780,16 @@ class TiersTests(unittest.TestCase):
         self.assertEqual(previous["models"], {})
         self.assertEqual(warnings, ["WARNING: unknown tier Z in tiers.toml"])
 
+    def test_non_list_tier_value_warns_and_is_skipped(self):
+        """A scalar under a tier key is not read character by character; it warns and tiers nothing."""
+        previous, warnings = previous_from_tiers(
+            {"S": "a", "A": ["b"]}, self._MAPPING
+        )
+        self.assertEqual(previous["models"], {"b": {"tier": "A"}})
+        self.assertEqual(
+            warnings, ["WARNING: tier S in tiers.toml must be a list of slugs; skipped"]
+        )
+
     def test_stem_listed_twice_warns_and_keeps_the_first(self):
         """The same stem under two tiers warns and keeps the first listing."""
         previous, warnings = previous_from_tiers(
