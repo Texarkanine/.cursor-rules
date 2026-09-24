@@ -103,7 +103,7 @@
       "has_fast": false
     },
     "gpt-5.3-codex": {
-      "tier": null,
+      "tier": "never",
       "score": 69.63333333333334,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -111,7 +111,7 @@
       "has_fast": true
     },
     "gpt-5.2": {
-      "tier": null,
+      "tier": "never",
       "score": 41.0,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -143,7 +143,7 @@
       "has_fast": false
     },
     "claude-opus-5": {
-      "tier": null,
+      "tier": "never",
       "score": 83.83333333333333,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -151,7 +151,7 @@
       "has_fast": true
     },
     "claude-opus-4-8": {
-      "tier": null,
+      "tier": "never",
       "score": 67.46666666666665,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -159,7 +159,7 @@
       "has_fast": true
     },
     "claude-opus-4-8-thinking": {
-      "tier": "A",
+      "tier": "never",
       "score": 67.46666666666665,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -167,7 +167,7 @@
       "has_fast": true
     },
     "gpt-5.5": {
-      "tier": null,
+      "tier": "never",
       "score": 65.76666666666667,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -175,7 +175,7 @@
       "has_fast": true
     },
     "claude-fable-5-1": {
-      "tier": null,
+      "tier": "never",
       "score": 76.76666666666667,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -183,7 +183,7 @@
       "has_fast": false
     },
     "claude-sonnet-5": {
-      "tier": null,
+      "tier": "never",
       "score": 71.3,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -191,7 +191,7 @@
       "has_fast": false
     },
     "claude-4.6-sonnet": {
-      "tier": null,
+      "tier": "never",
       "score": 61.800000000000004,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -199,7 +199,7 @@
       "has_fast": false
     },
     "claude-4.6-sonnet-thinking": {
-      "tier": null,
+      "tier": "never",
       "score": 61.800000000000004,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -207,7 +207,7 @@
       "has_fast": false
     },
     "claude-opus-4-7": {
-      "tier": null,
+      "tier": "never",
       "score": 52.849999999999994,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -215,7 +215,7 @@
       "has_fast": true
     },
     "claude-opus-4-7-thinking": {
-      "tier": null,
+      "tier": "never",
       "score": 52.849999999999994,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -223,7 +223,7 @@
       "has_fast": true
     },
     "gpt-5.4": {
-      "tier": null,
+      "tier": "never",
       "score": 59.70000000000001,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -231,7 +231,7 @@
       "has_fast": true
     },
     "claude-4.6-opus": {
-      "tier": null,
+      "tier": "never",
       "score": 62.1,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -239,7 +239,7 @@
       "has_fast": false
     },
     "claude-4.6-opus-thinking": {
-      "tier": null,
+      "tier": "never",
       "score": 62.1,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -247,7 +247,7 @@
       "has_fast": false
     },
     "claude-4.5-opus": {
-      "tier": null,
+      "tier": "never",
       "score": 58.26666666666666,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -255,7 +255,7 @@
       "has_fast": false
     },
     "claude-4.5-opus-thinking": {
-      "tier": null,
+      "tier": "never",
       "score": 58.26666666666666,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -263,7 +263,7 @@
       "has_fast": false
     },
     "gemini-3.6-flash": {
-      "tier": null,
+      "tier": "never",
       "score": 71.53333333333335,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -271,7 +271,7 @@
       "has_fast": false
     },
     "gemini-3.1-pro": {
-      "tier": null,
+      "tier": "never",
       "score": 65.39999999999999,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -279,7 +279,7 @@
       "has_fast": false
     },
     "gpt-5.4-mini": {
-      "tier": null,
+      "tier": "never",
       "score": 63.800000000000004,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -287,7 +287,7 @@
       "has_fast": false
     },
     "gpt-5.4-nano": {
-      "tier": null,
+      "tier": "never",
       "score": 52.833333333333336,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -295,7 +295,7 @@
       "has_fast": false
     },
     "claude-4.5-sonnet": {
-      "tier": null,
+      "tier": "never",
       "score": 38.43333333333334,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -303,7 +303,7 @@
       "has_fast": false
     },
     "claude-4.5-sonnet-thinking": {
-      "tier": null,
+      "tier": "never",
       "score": 38.43333333333334,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -311,7 +311,7 @@
       "has_fast": false
     },
     "gemini-3-flash": {
-      "tier": null,
+      "tier": "never",
       "score": 63.85,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -319,7 +319,7 @@
       "has_fast": false
     },
     "gemini-3.5-flash": {
-      "tier": null,
+      "tier": "never",
       "score": 60.06666666666667,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -327,7 +327,7 @@
       "has_fast": false
     },
     "claude-4-sonnet": {
-      "tier": null,
+      "tier": "never",
       "score": 51.8,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -335,7 +335,7 @@
       "has_fast": false
     },
     "claude-4-sonnet-thinking": {
-      "tier": null,
+      "tier": "never",
       "score": 51.8,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -343,7 +343,7 @@
       "has_fast": false
     },
     "kimi-k2.7-code": {
-      "tier": null,
+      "tier": "never",
       "score": 63.56666666666666,
       "score_source": "benchlm",
       "effort_encoded": false,
@@ -351,7 +351,7 @@
       "has_fast": false
     },
     "glm-5.2": {
-      "tier": null,
+      "tier": "never",
       "score": 61.866666666666674,
       "score_source": "benchlm",
       "effort_encoded": false,
