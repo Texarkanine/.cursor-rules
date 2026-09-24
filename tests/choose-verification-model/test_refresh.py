@@ -55,6 +55,7 @@ class RefreshTests(unittest.TestCase):
         )
         self.assertEqual(catalog["models"]["slug"]["score"], 20)
         self.assertEqual(catalog["models"]["slug"]["score_source"], "benchlm")
+        self.assertFalse(catalog["models"]["slug"]["effort_encoded"])
         self.assertEqual(warnings, [])
 
     def test_null_reasoning_is_left_out_of_the_mean(self):

@@ -15,7 +15,7 @@ SKILL_DIR = Path(__file__).resolve().parents[2] / "rules" / "choose-verification
 ASSETS = SKILL_DIR / "assets"
 sys.path.insert(0, str(SKILL_DIR / "scripts"))
 
-from modelpool import select  # noqa: E402
+from modelpool import model_key, select  # noqa: E402
 from pick import main  # noqa: E402
 
 SPAWNABLE = (
@@ -38,7 +38,13 @@ SOMETIMES = (
     "gpt-5.6-luna-medium",
 )
 
-REQUIRED_CATALOG_KEYS = ("tier", "score", "score_source", "output_cost_per_million")
+REQUIRED_CATALOG_KEYS = (
+    "tier",
+    "score",
+    "score_source",
+    "effort_encoded",
+    "output_cost_per_million",
+)
 
 
 def _load(name):
@@ -52,8 +58,10 @@ class ShippedTests(unittest.TestCase):
         catalog = _load("catalog.json")
         self.assertLessEqual(set(mapping["models"]), set(catalog["models"]))
         for slug in SPAWNABLE + SOMETIMES:
-            self.assertIn(slug, mapping["models"])
-            self.assertIn(slug, catalog["models"])
+            key = model_key(slug)
+            self.assertEqual(model_key(key), key)
+            self.assertIn(key, mapping["models"])
+            self.assertIn(key, catalog["models"])
 
     def test_catalog_entries_have_required_keys(self):
         """Catalog entries have the schema keys. Families are non-empty.
@@ -66,16 +74,18 @@ class ShippedTests(unittest.TestCase):
         catalog = _load("catalog.json")
         self.assertEqual(catalog["tier_order"], ["C", "B", "A", "S"])
         ladder = set(catalog["tier_order"])
-        for entry in catalog["models"].values():
+        for slug, entry in catalog["models"].items():
+            self.assertEqual(model_key(slug), slug)
             for key in REQUIRED_CATALOG_KEYS:
                 self.assertIn(key, entry)
             self.assertIn(entry["tier"], ladder)
+            self.assertFalse(entry["effort_encoded"])
         for entry in mapping["models"].values():
             family = entry.get("family")
             self.assertIsInstance(family, str)
             self.assertTrue(family)
         for slug in SPAWNABLE + SOMETIMES:
-            entry = catalog["models"][slug]
+            entry = catalog["models"][model_key(slug)]
             self.assertIsNotNone(entry["score"])
 
     def test_fast_sol_author_prints_cursor_grok_4_6_fast(self):
@@ -125,8 +135,8 @@ class ShippedTests(unittest.TestCase):
     def test_issue_129_command_exits_0_and_leaves_the_catalog(self):
         """An effort-variant argv exits 0 and does not rewrite the catalog.
 
-        The printed slug is one of the spellings the caller passed, plus
-        the fast suffix the picker already appends. Numeric scores are
+        The author is the fast half of cursor-grok-4.6. The reviewer
+        effort is the one on the Opus candidate. Numeric scores are
         not locked.
         """
         path = ASSETS / "catalog.json"
@@ -146,17 +156,5 @@ class ShippedTests(unittest.TestCase):
             )
         self.assertEqual(code, 0)
         self.assertEqual(stderr.getvalue().strip(), "")
-        self.assertIn(
-            stdout.getvalue().strip(),
-            {
-                "claude-opus-5-5-high",
-                "claude-opus-5-5-high-fast",
-                "gpt-5.6-terra-medium",
-                "gpt-5.6-terra-medium-fast",
-                "grok-4.7-xhigh",
-                "grok-4.7-xhigh-fast",
-                "cursor-grok-4.6-xhigh",
-                "cursor-grok-4.6-xhigh-fast",
-            },
-        )
+        self.assertEqual(stdout.getvalue().strip(), "claude-opus-5-5-high-fast")
         self.assertEqual(path.read_bytes(), before)

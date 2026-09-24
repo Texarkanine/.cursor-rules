@@ -6,24 +6,27 @@
     "S"
   ],
   "models": {
-    "claude-opus-5-5-medium": {
+    "claude-opus-5-5": {
       "tier": "S",
       "score": 77.06666666666666,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 20.0,
       "has_fast": true
     },
-    "claude-fable-5-1-thinking-high": {
+    "claude-fable-5-1-thinking": {
       "tier": "S",
       "score": 76.76666666666667,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 50.0,
       "has_fast": false
     },
-    "claude-sonnet-5-thinking-high": {
+    "claude-sonnet-5-thinking": {
       "tier": "A",
       "score": 71.3,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 10.0,
       "has_fast": false
     },
@@ -31,62 +34,71 @@
       "tier": "C",
       "score": 60.05,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 2.5,
       "has_fast": true
     },
-    "gemini-3.8-flash-high": {
+    "gemini-3.8-flash": {
       "tier": "A",
       "score": 75.33333333333333,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 3.5,
       "has_fast": false
     },
-    "gpt-5.6-sol-medium": {
+    "gpt-5.6-sol": {
       "tier": "A",
       "score": 72.53333333333333,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 20.0,
       "has_fast": true
     },
-    "gpt-5.6-terra-medium": {
+    "gpt-5.6-terra": {
       "tier": "B",
       "score": 66.86666666666666,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 12.0,
       "has_fast": true
     },
-    "gpt-5.6-luna-medium": {
+    "gpt-5.6-luna": {
       "tier": "C",
       "score": 58.06666666666666,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 1.2,
       "has_fast": true
     },
-    "cursor-grok-4.6-xhigh": {
+    "cursor-grok-4.6": {
       "tier": "A",
       "score": 76.5,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 6.0,
       "has_fast": true
     },
-    "grok-4.7-high": {
+    "grok-4.7": {
       "tier": "A",
       "score": 70.10000000000001,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 6.0,
       "has_fast": true
     },
-    "kimi-k3-high": {
+    "kimi-k3": {
       "tier": "A",
       "score": 77.86666666666666,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 15.0,
       "has_fast": false
     },
-    "muse-spark-1.3-high": {
+    "muse-spark-1.3": {
       "tier": "A",
       "score": 75.8,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 4.25,
       "has_fast": false
     }

@@ -89,4 +89,24 @@ Place an unmatched effort spelling of a catalog model on the scale so `pick.py` 
 * Insights
     - A skill branch on exit 2 is a second picker. The script is the policy
 
+## 2026-09-23 - OPERATOR CORRECTION
+
+* Work completed
+    - Removed `place_effort`. `model_key` strips effort. Catalog keys are stems. Rows set `effort_encoded` false
+    - Printed reviewer effort comes from the first enabled spelling of that model
+    - `make test`: 46 tests OK
+* Decisions made
+    - Effort is not comparable across families and is not a BenchLM score, so it is not a rank input
+    - The candidate list is where the review effort is chosen
+* Insights
+    - A universal low/medium/high/xhigh ladder invents notches some models do not have, and it invents gaps BenchLM never measured
+
+## 2026-09-23 - OPERATOR CORRECTION - CHECKPOINT
+
+* Work completed
+    - Operator asked for a replan: wide BenchLM scores, a tiered catalog of enabled reviewers, place the author on that catalog, then the existing window
+    - Checkpointed the effort-is-not-a-score correction before that plan
+* Decisions made
+    - This correction stays. The replan does not bring back invented effort scores
+
 

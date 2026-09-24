@@ -4,7 +4,7 @@
 * Complexity: Level 2
 * Type: bug fix
 
-An unmatched effort spelling (`low`, `medium`, `high`, `xhigh`) of a model whose stored catalog key already ends in an effort word gets an in-memory row: its own score, a tier taken from the score-neighbors, and the sibling's family and base price. `select` then runs the existing window and one-tier lookup. When the author spelling still cannot be placed, `select` returns that spelling and the process exits 0. The on-disk catalog stays the hand-chosen set. `SKILL.md` stays a thin caller.
+Superseded after reflect: the operator rejected in-memory effort scores. BenchLM does not encode effort, so every effort spelling of a model is that one row (`effort_encoded: false`, catalog key is the stem). The printed reviewer keeps the effort on the `--reviewer-models` spelling. The checklist below is the rejected placement plan.
 
 
 ## Test Plan (TDD)

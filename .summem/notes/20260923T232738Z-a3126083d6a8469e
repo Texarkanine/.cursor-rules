@@ -1,0 +1,1 @@
+choose-verification-model ranks the BenchLM model, not the effort. Catalog keys are stems and effort_encoded is false. The printed reviewer keeps the effort on the first --reviewer-models spelling of that model.

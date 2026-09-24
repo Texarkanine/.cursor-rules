@@ -1,18 +1,18 @@
 # Active Context
 
 ## Current Task: effort-variant-slug
-**Phase:** REFLECT - COMPLETE
+**Phase:** BUILD - operator reversed the placement rule after reflect
 
 ## What Was Done
-- `place_effort` places an unmatched effort spelling between the stored effort and the next stored score. A tier boundary keeps the higher tier. Rows with `score_source` `effort` are not anchors.
-- `select` ranks those in-memory rows and does not write `catalog.json`. An author spelling that cannot be placed is returned as given. An unplaceable reviewer still raises `SelectionError`.
-- `refresh.md` describes that behavior. `SKILL.md` is unchanged.
-- `make test`: 55 tests OK.
-- QA passed with one advisory: an unreachable author-key guard after a successful expand.
-- Wrote `memory-bank/active/reflection/reflection-effort-variant-slug.md`.
+- Effort is not a score. `model_key` strips `-fast` and one trailing effort word. `thinking` stays. Every effort of a model is that one BenchLM row.
+- Catalog and mapping keys are model stems. Each catalog row has `effort_encoded: false`.
+- The printed reviewer keeps the effort on the first `--reviewer-models` spelling of that model. The author's effort is not copied. `-fast` still follows the author when `has_fast` is true.
+- An author whose model is absent is printed, exit 0. An enabled spelling whose model is absent exits 2.
+- `make test`: 46 tests OK. `SKILL.md` is unchanged.
+- Draft PR 130 still describes the rejected in-memory interpolation. This correction is local and uncommitted.
 
 ## Next Step
-- Run `/niko-archive` to archive this task.
+- Commit and push when the operator asks, then correct the PR body. Archive stays after that.
 
 ## Files
 - `/home/mobaxterm/git/.cursor-rules/rules/choose-verification-model/scripts/modelpool.py`
@@ -22,5 +22,4 @@
 - `/home/mobaxterm/git/.cursor-rules/tests/choose-verification-model/test_shipped.py`
 
 ## Deviations
-- The nudge fixture uses an effort-source row at the landing score. A real stored row in that gap would have been the far neighbor, so the interpolated score would not have landed on it.
-- Preflight advisory A is in the code: siblings and far rows skip `score_source == effort`. Advisory B is the `select` and `main` docstring updates. Advisory C, the both-siblings branch, stayed and has a test.
+- The operator rejected score interpolation. Effort changes intelligence differently per family, and BenchLM does not encode it. The catalog key is the model. Effort is chosen only on the review candidate.

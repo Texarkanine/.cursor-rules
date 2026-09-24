@@ -14,7 +14,7 @@ from pathlib import Path
 SKILL_DIR = Path(__file__).resolve().parents[2] / "rules" / "choose-verification-model"
 sys.path.insert(0, str(SKILL_DIR / "scripts"))
 
-from modelpool import SelectionError, place_effort, select  # noqa: E402
+from modelpool import SelectionError, model_key, select  # noqa: E402
 from pick import main  # noqa: E402
 
 
@@ -454,15 +454,6 @@ class PickTests(unittest.TestCase):
         self.assertEqual(fast_stdout.strip(), "missing-author-fast")
         self.assertEqual(fast_stderr.strip(), "")
 
-        bare_code, bare_stdout, bare_stderr = _run(
-            _catalog({"composer-2.5": _entry("mid", 60, 1)}, tier_order=("C", "B", "A", "S")),
-            _mapping({"composer-2.5": "composer"}),
-            ["--model", "composer-2.5-high", "--reviewer-models", "composer-2.5"],
-        )
-        self.assertEqual(bare_code, 0)
-        self.assertEqual(bare_stdout.strip(), "composer-2.5-high")
-        self.assertEqual(bare_stderr.strip(), "")
-
     def test_null_tier_or_null_score_author_exits_2(self):
         """An author with no usable tier or score is an error, same as an unknown slug."""
         enabled = ["author", "other"]
@@ -479,86 +470,168 @@ class PickTests(unittest.TestCase):
             self.assertIn("author", stderr)
 
 
-class SelectEffortTests(unittest.TestCase):
-    def test_synthetic_reviewer_can_be_printed(self):
-        """An enabled effort spelling is a reviewer when it is the tier above."""
+class EffortIdentityTests(unittest.TestCase):
+    def test_model_key_strips_effort_and_keeps_thinking(self):
+        """Effort is not part of the model. A non-effort token stays."""
+        self.assertEqual(model_key("gemini-3.8-flash-low"), "gemini-3.8-flash")
+        self.assertEqual(model_key("gemini-3.8-flash-medium"), "gemini-3.8-flash")
+        self.assertEqual(model_key("gemini-3.8-flash-high"), "gemini-3.8-flash")
+        self.assertEqual(model_key("gemini-3.8-flash-xhigh-fast"), "gemini-3.8-flash")
+        self.assertEqual(model_key("claude-sonnet-5-thinking-high"), "claude-sonnet-5-thinking")
+        self.assertEqual(model_key("claude-sonnet-5-high"), "claude-sonnet-5")
+        self.assertEqual(model_key("composer-2.5"), "composer-2.5")
+        self.assertEqual(model_key("composer-2.5-fast"), "composer-2.5")
+
+    def test_effort_on_a_bare_key_is_that_model(self):
+        """composer-2.5-high ranks as composer-2.5 and can select a reviewer."""
         catalog = _catalog(
             {
-                "author": _entry("B", 10, 1),
-                "m-medium": _entry("A", 50, 5, has_fast=False),
+                "composer-2.5": _entry("C", 60, 2.5),
+                "luna": _entry("C", 80, 1),
             },
-            tier_order=("B", "A", "S"),
+            tier_order=("C", "B", "A", "S"),
         )
-        mapping = _mapping({"author": "grok", "m-medium": "claude"})
+        mapping = _mapping({"composer-2.5": "composer", "luna": "gpt"})
         self.assertEqual(
-            select(catalog, mapping, "author", ["m-xhigh"], random.Random(0)),
-            "m-xhigh",
+            select(catalog, mapping, "composer-2.5-high", ["luna"], random.Random(0)),
+            "luna",
+        )
+        self.assertEqual(
+            select(catalog, mapping, "composer-2.5", ["luna"], random.Random(0)),
+            "luna",
         )
 
-    def test_higher_effort_is_a_different_row(self):
-        """A higher effort ranks in the tier above; the stored effort stays below."""
-        models = {
-            "m-medium": _entry("B", 20, 9),
-            "other-b": _entry("B", 12, 1),
-            "above-high": _entry("A", 50, 100),
-        }
-        families = {"m-medium": "claude", "other-b": "gemini", "above-high": "gpt"}
-        catalog = _catalog(models, tier_order=("B", "A", "S"))
-        mapping = _mapping(families)
-        enabled = ["other-b", "above-high"]
-        self.assertEqual(
-            select(catalog, mapping, "m-high", enabled, random.Random(0)),
-            "above-high",
-        )
-        self.assertEqual(
-            select(catalog, mapping, "m-medium", enabled, random.Random(0)),
-            "other-b",
-        )
-
-    def test_empty_pool_prints_the_requested_effort(self):
-        """The empty-pool author is the requested spelling, not the stored sibling."""
-        catalog = _catalog(
-            {"m-medium": _entry("S", 50, 1)},
-            tier_order=("B", "A", "S"),
-        )
-        mapping = _mapping({"m-medium": "claude"})
-        self.assertEqual(
-            select(catalog, mapping, "m-low", ["m-low"], random.Random(0)),
-            "m-low",
-        )
-
-    def test_fast_author_appends_fast_on_a_synthetic_reviewer(self):
-        """A fast author prints -fast when the sibling row has a fast variant."""
+    def test_author_effort_does_not_change_the_reviewer(self):
+        """low and xhigh of one author select the same reviewer spelling."""
         catalog = _catalog(
             {
-                "author": _entry("B", 10, 1),
-                "m-medium": _entry("A", 50, 5, has_fast=True),
+                "grok": _entry("A", 70, 6),
+                "gemini-3.8-flash": _entry("A", 75, 3.5, has_fast=False),
             },
-            tier_order=("B", "A", "S"),
+            tier_order=("C", "B", "A", "S"),
         )
-        mapping = _mapping({"author": "grok", "m-medium": "claude"})
+        mapping = _mapping({"grok": "grok", "gemini-3.8-flash": "gemini"})
+        enabled = ["gemini-3.8-flash-high"]
+        low = select(catalog, mapping, "grok-low", enabled, random.Random(0))
+        extra = select(catalog, mapping, "grok-xhigh", enabled, random.Random(0))
+        self.assertEqual(low, "gemini-3.8-flash-high")
+        self.assertEqual(extra, low)
+
+    def test_printed_effort_is_the_candidate_not_the_author(self):
+        """The reviewer effort is the spelling on the candidate list."""
+        catalog = _catalog(
+            {
+                "gemini-3.8-flash": _entry("A", 75, 3.5),
+                "claude-opus-5-5": _entry("S", 77, 20, has_fast=True),
+            },
+            tier_order=("C", "B", "A", "S"),
+        )
+        mapping = _mapping({"gemini-3.8-flash": "gemini", "claude-opus-5-5": "claude"})
         self.assertEqual(
-            select(catalog, mapping, "author-fast", ["m-xhigh"], random.Random(0)),
-            "m-xhigh-fast",
+            select(
+                catalog,
+                mapping,
+                "gemini-3.8-flash-low",
+                ["claude-opus-5-5-high"],
+                random.Random(0),
+            ),
+            "claude-opus-5-5-high",
         )
 
-    def test_caller_catalog_is_unchanged(self):
-        """select does not insert effort rows into the caller's catalog."""
-        models = {
-            "m-medium": _entry("B", 20, 9),
-            "other-b": _entry("B", 12, 1),
-            "above-high": _entry("A", 50, 100),
-        }
-        catalog = _catalog(models, tier_order=("B", "A", "S"))
-        mapping = _mapping(
-            {"m-medium": "claude", "other-b": "gemini", "above-high": "gpt"}
+    def test_fast_appends_to_the_candidate_effort(self):
+        """-fast follows the author. The candidate's effort stays put."""
+        catalog = _catalog(
+            {
+                "grok": _entry("A", 70, 6, has_fast=True),
+                "gemini-3.8-flash": _entry("A", 75, 3.5, has_fast=True),
+            },
+            tier_order=("C", "B", "A", "S"),
         )
+        mapping = _mapping({"grok": "grok", "gemini-3.8-flash": "gemini"})
+        enabled = ["gemini-3.8-flash-high"]
+        self.assertEqual(
+            select(catalog, mapping, "grok-low-fast", enabled, random.Random(0)),
+            "gemini-3.8-flash-high-fast",
+        )
+        self.assertEqual(
+            select(catalog, mapping, "grok-low", enabled, random.Random(0)),
+            "gemini-3.8-flash-high",
+        )
+
+    def test_first_listed_effort_is_the_one_candidate(self):
+        """Two efforts of one model are one row. The first spelling is printed."""
+        catalog = _catalog(
+            {
+                "grok": _entry("A", 70, 6),
+                "gemini-3.8-flash": _entry("A", 75, 3.5),
+            },
+            tier_order=("C", "B", "A", "S"),
+        )
+        mapping = _mapping({"grok": "grok", "gemini-3.8-flash": "gemini"})
+        self.assertEqual(
+            select(
+                catalog,
+                mapping,
+                "grok-high",
+                ["gemini-3.8-flash-low", "gemini-3.8-flash-high"],
+                random.Random(0),
+            ),
+            "gemini-3.8-flash-low",
+        )
+
+    def test_empty_pool_keeps_the_author_effort(self):
+        """Returning the author prints the spelling they were invoked as."""
+        catalog = _catalog(
+            {"gemini-3.8-flash": _entry("S", 75, 3.5)},
+            tier_order=("C", "B", "A", "S"),
+        )
+        mapping = _mapping({"gemini-3.8-flash": "gemini"})
+        self.assertEqual(
+            select(
+                catalog,
+                mapping,
+                "gemini-3.8-flash-low",
+                ["gemini-3.8-flash-low"],
+                random.Random(0),
+            ),
+            "gemini-3.8-flash-low",
+        )
+
+    def test_thinking_stem_does_not_match_the_bare_model(self):
+        """claude-sonnet-5-high is not claude-sonnet-5-thinking."""
+        catalog = _catalog(
+            {"claude-sonnet-5-thinking": _entry("A", 71, 10)},
+            tier_order=("C", "B", "A", "S"),
+        )
+        mapping = _mapping({"claude-sonnet-5-thinking": "claude"})
+        code, stdout, stderr = _run(
+            catalog,
+            mapping,
+            [
+                "--model",
+                "claude-sonnet-5-thinking-high",
+                "--reviewer-models",
+                "claude-sonnet-5-high",
+            ],
+        )
+        self.assertEqual(code, 2)
+        self.assertEqual(stdout.strip(), "")
+        self.assertIn("claude-sonnet-5-high", stderr)
+
+    def test_select_does_not_mutate_the_catalog(self):
+        """Ranking an effort spelling does not add a row."""
+        models = {
+            "grok": _entry("A", 70, 6),
+            "gemini-3.8-flash": _entry("A", 75, 3.5),
+        }
+        catalog = _catalog(models, tier_order=("C", "B", "A", "S"))
+        mapping = _mapping({"grok": "grok", "gemini-3.8-flash": "gemini"})
         before = {key: dict(value) for key, value in catalog["models"].items()}
         select(
             catalog,
             mapping,
-            "m-high",
-            ["other-b", "above-high"],
+            "grok-xhigh",
+            ["gemini-3.8-flash-high"],
             random.Random(0),
         )
         self.assertIs(catalog["models"], models)
@@ -566,206 +639,3 @@ class SelectEffortTests(unittest.TestCase):
             {key: dict(value) for key, value in catalog["models"].items()},
             before,
         )
-
-
-class PlaceEffortTests(unittest.TestCase):
-    def _pair(self, models, families, tier_order=("B", "A", "S")):
-        return _catalog(models, tier_order), _mapping(families)
-
-    def test_higher_and_extra_high_scores_stay_apart(self):
-        """Two efforts above one stored row get different scores, both above it."""
-        catalog, mapping = self._pair(
-            {
-                "m-medium": _entry("A", 10, 5, has_fast=True),
-                "ceiling-high": _entry("A", 40, 1),
-            },
-            {"m-medium": "claude", "ceiling-high": "gpt"},
-        )
-        high, high_family = place_effort(catalog, mapping, "m-high")
-        extra, extra_family = place_effort(catalog, mapping, "m-xhigh")
-        self.assertAlmostEqual(high["score"], 20)
-        self.assertAlmostEqual(extra["score"], 30)
-        self.assertLess(high["score"], extra["score"])
-        self.assertGreater(high["score"], 10)
-        self.assertEqual(high["tier"], "A")
-        self.assertEqual(extra["tier"], "A")
-        self.assertEqual(high["score_source"], "effort")
-        self.assertEqual(high["output_cost_per_million"], 5)
-        self.assertTrue(high["has_fast"])
-        self.assertEqual(high_family, "claude")
-        self.assertEqual(extra_family, "claude")
-
-    def test_lower_effort_sits_below_the_stored_row(self):
-        """A lower effort is placed below the stored sibling."""
-        catalog, mapping = self._pair(
-            {
-                "m-medium": _entry("A", 10, 1),
-                "floor-low": _entry("A", 4, 1),
-            },
-            {"m-medium": "claude", "floor-low": "gpt"},
-        )
-        low, _family = place_effort(catalog, mapping, "m-low")
-        self.assertAlmostEqual(low["score"], 7)
-        self.assertLess(low["score"], 10)
-
-    def test_boundary_takes_the_higher_tier(self):
-        """Score-neighbors in B and A assign the higher tier."""
-        catalog, mapping = self._pair(
-            {
-                "m-medium": _entry("B", 10, 1),
-                "above-high": _entry("A", 40, 1),
-            },
-            {"m-medium": "claude", "above-high": "gpt"},
-        )
-        high, _family = place_effort(catalog, mapping, "m-high")
-        self.assertAlmostEqual(high["score"], 20)
-        self.assertEqual(high["tier"], "A")
-
-    def test_shared_neighbor_tier_stays(self):
-        """Score-neighbors in the same tier keep that tier."""
-        catalog, mapping = self._pair(
-            {
-                "m-medium": _entry("A", 10, 1),
-                "ceiling-high": _entry("A", 40, 1),
-            },
-            {"m-medium": "claude", "ceiling-high": "gpt"},
-        )
-        high, _family = place_effort(catalog, mapping, "m-high")
-        self.assertEqual(high["tier"], "A")
-
-    def test_exact_key_returns_the_stored_row(self):
-        """An exact catalog key is that row, including after a fast strip."""
-        catalog, mapping = self._pair(
-            {"m-medium": _entry("B", 10, 5, has_fast=True)},
-            {"m-medium": "claude"},
-        )
-        entry, family = place_effort(catalog, mapping, "m-medium")
-        fast_entry, fast_family = place_effort(catalog, mapping, "m-medium-fast")
-        self.assertIs(entry, catalog["models"]["m-medium"])
-        self.assertIs(fast_entry, entry)
-        self.assertEqual(entry["score"], 10)
-        self.assertEqual(entry["tier"], "B")
-        self.assertEqual(entry["score_source"], "benchlm")
-        self.assertEqual(family, "claude")
-        self.assertEqual(fast_family, "claude")
-
-    def test_bare_key_is_not_an_effort_anchor(self):
-        """A stored key with no effort suffix does not anchor an effort spelling."""
-        catalog, mapping = self._pair(
-            {"composer-2.5": _entry("C", 60, 1)},
-            {"composer-2.5": "composer"},
-            tier_order=("C", "B", "A", "S"),
-        )
-        with self.assertRaises(SelectionError) as caught:
-            place_effort(catalog, mapping, "composer-2.5-high")
-        self.assertIn("composer-2.5-high", str(caught.exception))
-
-    def test_thinking_stays_in_the_stem(self):
-        """Stripping an effort word does not drop a non-effort token."""
-        catalog, mapping = self._pair(
-            {"claude-sonnet-5-thinking-high": _entry("A", 71, 1)},
-            {"claude-sonnet-5-thinking-high": "claude"},
-        )
-        with self.assertRaises(SelectionError) as caught:
-            place_effort(catalog, mapping, "claude-sonnet-5-high")
-        self.assertIn("claude-sonnet-5-high", str(caught.exception))
-
-    def test_null_sibling_score_is_unknown(self):
-        """A sibling with no score cannot place an effort spelling."""
-        catalog, mapping = self._pair(
-            {"m-medium": _entry("A", None, 1)},
-            {"m-medium": "claude"},
-        )
-        with self.assertRaises(SelectionError) as caught:
-            place_effort(catalog, mapping, "m-high")
-        self.assertIn("m-high", str(caught.exception))
-
-    def test_between_two_siblings_interpolates_by_effort_index(self):
-        """A spelling between two stored efforts sits on the index fraction.
-
-        Equal distance to both siblings takes the higher effort's family and price.
-        """
-        catalog, mapping = self._pair(
-            {
-                "m-low": _entry("A", 10, 1, has_fast=False),
-                "m-high": _entry("A", 40, 9, has_fast=True),
-            },
-            {"m-low": "claude", "m-high": "gpt"},
-        )
-        medium, family = place_effort(catalog, mapping, "m-medium")
-        self.assertAlmostEqual(medium["score"], 25)
-        self.assertEqual(family, "gpt")
-        self.assertEqual(medium["output_cost_per_million"], 9)
-        self.assertTrue(medium["has_fast"])
-
-    def test_end_of_scale_uses_a_small_step(self):
-        """With no row beyond the anchor, efforts step by 1e-3 and stay ordered."""
-        catalog, mapping = self._pair(
-            {"m-medium": _entry("A", 10, 1)},
-            {"m-medium": "claude"},
-        )
-        high, _high_family = place_effort(catalog, mapping, "m-high")
-        extra, _extra_family = place_effort(catalog, mapping, "m-xhigh")
-        low, _low_family = place_effort(catalog, mapping, "m-low")
-        self.assertAlmostEqual(high["score"], 10.001)
-        self.assertAlmostEqual(extra["score"], 10.002)
-        self.assertAlmostEqual(low["score"], 9.999)
-        self.assertEqual(high["tier"], "A")
-
-    def test_exact_collision_nudges_toward_the_anchor(self):
-        """A score that lands on a stored row moves 1e-6 toward the anchor.
-
-        The row at 20 is an effort row, so it is not the far neighbor.
-        The far neighbor stays at 40, and the one-third step lands on 20.
-        """
-        catalog, mapping = self._pair(
-            {
-                "m-medium": _entry("A", 10, 1),
-                "ceiling-high": _entry("A", 40, 1),
-                "ghost-high": _entry("A", 20, 1, source="effort"),
-            },
-            {
-                "m-medium": "claude",
-                "ceiling-high": "gpt",
-                "ghost-high": "gemini",
-            },
-        )
-        high, _family = place_effort(catalog, mapping, "m-high")
-        self.assertAlmostEqual(high["score"], 20 - 1e-6)
-
-    def test_catalog_is_not_mutated(self):
-        """place_effort leaves the caller's catalog and mapping alone."""
-        catalog, mapping = self._pair(
-            {
-                "m-medium": _entry("A", 10, 5, has_fast=True),
-                "ceiling-high": _entry("A", 40, 1),
-            },
-            {"m-medium": "claude", "ceiling-high": "gpt"},
-        )
-        before_models = {key: dict(value) for key, value in catalog["models"].items()}
-        before_families = {
-            key: dict(value) for key, value in mapping["models"].items()
-        }
-        place_effort(catalog, mapping, "m-high")
-        self.assertEqual(
-            {key: dict(value) for key, value in catalog["models"].items()},
-            before_models,
-        )
-        self.assertEqual(set(catalog["models"]), set(before_models))
-        self.assertEqual(
-            {key: dict(value) for key, value in mapping["models"].items()},
-            before_families,
-        )
-
-    def test_effort_rows_are_not_siblings(self):
-        """A row marked effort is not an anchor, so placement ignores it."""
-        catalog, mapping = self._pair(
-            {
-                "m-medium": _entry("A", 10, 5),
-                "m-high": _entry("A", 12, 1, source="effort"),
-                "ceiling-high": _entry("A", 40, 1),
-            },
-            {"m-medium": "claude", "m-high": "claude", "ceiling-high": "gpt"},
-        )
-        extra, _family = place_effort(catalog, mapping, "m-xhigh")
-        self.assertAlmostEqual(extra["score"], 30)

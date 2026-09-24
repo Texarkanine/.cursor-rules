@@ -1,0 +1,1 @@
+choose-verification-model place_effort takes tier from score-neighbors, but hand-set tiers are not monotone in score (kimi-k3-high A 77.87 > opus S 77.07): kimi-k3-low/medium place as S above their A sibling. Interpolated score is order-identical to just-beside-sibling.

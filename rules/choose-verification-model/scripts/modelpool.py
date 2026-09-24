@@ -35,10 +35,6 @@ def canonical_slug(slug: str) -> str:
     return slug
 
 
-_EFFORTS = ("low", "medium", "high", "xhigh")
-_EFFORT_INDEX = {name: index for index, name in enumerate(_EFFORTS)}
-
-
 def _split_effort(slug: str):
     """Return ``(stem, effort)`` for a trailing effort word.
 
@@ -52,198 +48,27 @@ def _split_effort(slug: str):
     return slug, None
 
 
-def _far_score(models, anchor_score, stem, *, above: bool):
-    """Return the nearest other-stem stored score on the requested side."""
-    found = None
-    for stored, entry in models.items():
-        if entry.get("score_source") == "effort":
-            continue
-        if _split_effort(stored)[0] == stem:
-            continue
-        score = entry.get("score")
-        if score is None:
-            continue
-        if above and score <= anchor_score:
-            continue
-        if not above and score >= anchor_score:
-            continue
-        if found is None:
-            found = score
-        elif above and score < found:
-            found = score
-        elif not above and score > found:
-            found = score
-    return found
+def model_key(slug: str) -> str:
+    """Return the catalog key for ``slug``.
 
-
-def _nudge_off_stored_score(score, models, anchor_score):
-    """Move ``score`` by 1e-6 toward ``anchor_score`` when it ties a stored row."""
-    for entry in models.values():
-        stored = entry.get("score")
-        if stored is None or stored != score:
-            continue
-        if anchor_score < score:
-            return score - 1e-6
-        if anchor_score > score:
-            return score + 1e-6
-        return score + 1e-6
-    return score
-
-
-def _tier_between(score, models, tier_order):
-    """Return the tier of the score-neighbors, preferring the higher tier."""
-    lower = None
-    upper = None
-    for entry in models.values():
-        if entry.get("score_source") == "effort":
-            continue
-        stored = entry.get("score")
-        tier = entry.get("tier")
-        if stored is None or tier not in tier_order:
-            continue
-        if stored < score and (lower is None or stored > lower[0]):
-            lower = (stored, tier)
-        elif stored > score and (upper is None or stored < upper[0]):
-            upper = (stored, tier)
-    if lower and upper:
-        lower_tier = lower[1]
-        upper_tier = upper[1]
-        if tier_order.index(lower_tier) >= tier_order.index(upper_tier):
-            return lower_tier
-        return upper_tier
-    if lower:
-        return lower[1]
-    if upper:
-        return upper[1]
-    return None
-
-
-def place_effort(catalog, mapping, slug: str):
-    """Return the catalog entry and family for ``slug``.
-
-    An exact catalog key returns the stored entry and its mapping
-    family. An unmatched effort spelling of a stored effort-suffixed
-    key returns a new entry and the sibling family. The new entry is
-    not written into ``catalog``.
-
-    ``slug`` may end in ``-fast``. That suffix is stripped before
-    lookup and does not change the score, the tier, or the price.
-
-    Raises ``SelectionError`` naming ``slug`` when the spelling cannot
-    be placed. Rows whose ``score_source`` is ``effort`` are not
-    anchors and are not score-neighbors. Siblings and far rows are
-    stored rows.
+    A trailing ``-fast`` is the same model. A trailing effort word is
+    the same model too. BenchLM does not score effort, so the key is
+    the model stem. ``thinking`` stays in the stem. ``xhigh`` is
+    matched before ``high``.
     """
-    key = canonical_slug(slug)
-    models = catalog["models"]
-    families = mapping["models"]
-    tier_order = list(catalog["tier_order"])
-
-    def family_of(stored):
-        mapped = families.get(stored) or {}
-        family = mapped.get("family")
-        if isinstance(family, str) and family:
-            return family
-        return None
-
-    def stored_row(stored):
-        return models[stored].get("score_source") != "effort"
-
-    if key in models:
-        family = family_of(key)
-        if family is None:
-            raise SelectionError(slug, f"unknown slug: {slug}")
-        return models[key], family
-
-    stem, effort = _split_effort(key)
+    bare = canonical_slug(slug)
+    stem, effort = _split_effort(bare)
     if effort is None:
-        raise SelectionError(slug, f"unknown slug: {slug}")
-    requested = _EFFORT_INDEX[effort]
-    siblings = []
+        return bare
+    return stem
+
+
+def _stored_index(models):
+    """Map each model stem to the catalog key that stores its row."""
+    index = {}
     for stored in models:
-        if not stored_row(stored):
-            continue
-        stored_stem, stored_effort = _split_effort(stored)
-        if stored_stem != stem or stored_effort is None:
-            continue
-        entry = models[stored]
-        tier = entry.get("tier")
-        score = entry.get("score")
-        if tier not in tier_order or score is None or family_of(stored) is None:
-            continue
-        siblings.append((_EFFORT_INDEX[stored_effort], stored))
-    if not siblings:
-        raise SelectionError(slug, f"unknown slug: {slug}")
-
-    lower = [pair for pair in siblings if pair[0] < requested]
-    upper = [pair for pair in siblings if pair[0] > requested]
-    if lower and upper:
-        lower_index, lower_slug = max(lower)
-        upper_index, upper_slug = min(upper)
-        lower_score = models[lower_slug]["score"]
-        upper_score = models[upper_slug]["score"]
-        fraction = (requested - lower_index) / (upper_index - lower_index)
-        score = lower_score + (upper_score - lower_score) * fraction
-        anchor = min(
-            siblings, key=lambda pair: (abs(pair[0] - requested), -pair[0])
-        )[1]
-    elif lower:
-        anchor_index, anchor = max(lower)
-        anchor_score = models[anchor]["score"]
-        far = _far_score(models, anchor_score, stem, above=True)
-        steps = requested - anchor_index
-        room = 3 - anchor_index
-        if far is None:
-            score = anchor_score + steps * 1e-3
-        else:
-            score = anchor_score + (far - anchor_score) * (steps / (room + 1))
-    elif upper:
-        anchor_index, anchor = min(upper)
-        anchor_score = models[anchor]["score"]
-        far = _far_score(models, anchor_score, stem, above=False)
-        steps = anchor_index - requested
-        room = anchor_index
-        if far is None:
-            score = anchor_score - steps * 1e-3
-        else:
-            score = anchor_score - (anchor_score - far) * (steps / (room + 1))
-    else:
-        raise SelectionError(slug, f"unknown slug: {slug}")
-
-    anchor_score = models[anchor]["score"]
-    score = _nudge_off_stored_score(score, models, anchor_score)
-    tier = _tier_between(score, models, tier_order)
-    if tier is None:
-        raise SelectionError(slug, f"unknown slug: {slug}")
-    anchor_entry = models[anchor]
-    return (
-        {
-            "tier": tier,
-            "score": score,
-            "score_source": "effort",
-            "output_cost_per_million": anchor_entry.get("output_cost_per_million"),
-            "has_fast": bool(anchor_entry.get("has_fast")),
-        },
-        family_of(anchor),
-    )
-
-
-def _expand_effort(catalog, mapping, slugs):
-    """Return copies of ``catalog`` and ``mapping`` with effort rows added.
-
-    ``place_effort`` sees the original objects, so one synthetic row is
-    never the anchor for the next slug. The caller's dicts are unchanged.
-    """
-    models = dict(catalog["models"])
-    families = dict(mapping["models"])
-    for slug in slugs:
-        key = canonical_slug(slug)
-        if key in models:
-            continue
-        entry, family = place_effort(catalog, mapping, slug)
-        models[key] = entry
-        families[key] = {"family": family}
-    return {**catalog, "models": models}, {**mapping, "models": families}
+        index.setdefault(model_key(stored), stored)
+    return index
 
 
 def select(catalog, mapping, author, enabled, rng):
@@ -255,11 +80,16 @@ def select(catalog, mapping, author, enabled, rng):
     fixed seed makes the choice repeatable.
 
     A trailing ``-fast`` is stripped before lookup. Fast and non-fast
-    spellings of one model are one candidate. An unmatched effort
-    spelling of a stored effort-suffixed key is placed in memory for
-    this call and is not written back. When the author spelling cannot
-    be placed, return that spelling. An enabled spelling that cannot
-    be placed still raises ``SelectionError``.
+    spellings of one model are one candidate. A trailing effort word
+    is stripped the same way: BenchLM scored the model, not the effort.
+    Every effort of a model is that one row. When the author's model
+    is not in the catalog, return that spelling. An enabled spelling
+    whose model is not in the catalog still raises ``SelectionError``.
+
+    The printed reviewer keeps the effort from the enabled spelling.
+    Two efforts of one model are one candidate, and the first spelling
+    in ``enabled`` is the one printed. The author's effort is not
+    copied onto the reviewer.
 
     Rank is dense rank by score inside the author's tier, best at
     rank 1. The window is a different family, from one rank below the
@@ -267,112 +97,114 @@ def select(catalog, mapping, author, enabled, rng):
     tier and takes the cheapest different family, then the cheapest
     slug in that tier. Those prices are the base output prices. When
     every encoded step has left the pool empty, return the author
-    instead of failing.
+    spelling instead of failing.
 
     After that choice, append ``-fast`` only when the author slug ended
     in ``-fast`` and the chosen model has a fast variant.
     """
-    try:
-        catalog, mapping = _expand_effort(catalog, mapping, [author, *enabled])
-    except SelectionError as exc:
-        if exc.slug == author:
-            return author
-        raise
     models = catalog["models"]
     tier_order = catalog["tier_order"]
     families = mapping["models"]
-    author_key = canonical_slug(author)
-    if author_key not in models:
+    stored_of = _stored_index(models)
+    author_stored = stored_of.get(model_key(author))
+    if author_stored is None:
         return author
 
-    enabled_keys = []
+    enabled_stored = []
+    spellings = {}
     seen = set()
     for slug in enabled:
-        key = canonical_slug(slug)
-        if key not in models:
+        stored = stored_of.get(model_key(slug))
+        if stored is None:
             raise SelectionError(slug, f"unknown slug: {slug}")
-        if key not in seen:
-            seen.add(key)
-            enabled_keys.append(key)
+        if stored not in seen:
+            seen.add(stored)
+            enabled_stored.append(stored)
+            spellings[stored] = canonical_slug(slug)
 
-    def usable(slug):
-        entry = models[slug]
+    def usable(stored):
+        entry = models[stored]
         tier = entry["tier"]
         score = entry["score"]
         return tier is not None and tier in tier_order and score is not None
 
-    def family(slug):
-        mapped = families.get(slug)
+    def family(stored):
+        mapped = families.get(stored)
         if mapped is None or not mapped.get("family"):
-            raise SelectionError(slug, f"unknown slug: {slug}")
+            raise SelectionError(stored, f"unknown slug: {stored}")
         return mapped["family"]
 
-    if not usable(author_key):
+    if not usable(author_stored):
         raise SelectionError(author, f"unknown slug: {author}")
 
-    author_family = family(author_key)
-    author_tier = models[author_key]["tier"]
-    pool = [slug for slug in enabled_keys if usable(slug)]
-    rank_set = [slug for slug in pool if models[slug]["tier"] == author_tier]
-    if author_key not in rank_set:
-        rank_set.append(author_key)
+    author_family = family(author_stored)
+    author_tier = models[author_stored]["tier"]
+    pool = [stored for stored in enabled_stored if usable(stored)]
+    rank_set = [stored for stored in pool if models[stored]["tier"] == author_tier]
+    if author_stored not in rank_set:
+        rank_set.append(author_stored)
 
-    distinct_scores = sorted({models[slug]["score"] for slug in rank_set}, reverse=True)
+    distinct_scores = sorted(
+        {models[stored]["score"] for stored in rank_set}, reverse=True
+    )
     rank_of_score = {score: index + 1 for index, score in enumerate(distinct_scores)}
-    author_rank = rank_of_score[models[author_key]["score"]]
+    author_rank = rank_of_score[models[author_stored]["score"]]
     window_limit = author_rank + 1
     window = []
-    for slug in rank_set:
-        if slug not in pool:
+    for stored in rank_set:
+        if stored not in pool:
             continue
-        if family(slug) == author_family:
+        if family(stored) == author_family:
             continue
-        if rank_of_score[models[slug]["score"]] <= window_limit:
-            window.append(slug)
+        if rank_of_score[models[stored]["score"]] <= window_limit:
+            window.append(stored)
     if window:
-        return _with_speed(rng.choice(window), author, models)
+        chosen = rng.choice(window)
+        return _with_speed(spellings[chosen], author, models[chosen].get("has_fast"))
 
     tier_index = tier_order.index(author_tier)
     if tier_index + 1 >= len(tier_order):
-        return _with_speed(author_key, author, models)
+        return author
     next_tier = tier_order[tier_index + 1]
-    next_members = [slug for slug in pool if models[slug]["tier"] == next_tier]
+    next_members = [stored for stored in pool if models[stored]["tier"] == next_tier]
 
     def cheapest(candidates):
         priced = [
-            slug
-            for slug in candidates
-            if models[slug]["output_cost_per_million"] is not None
+            stored
+            for stored in candidates
+            if models[stored]["output_cost_per_million"] is not None
         ]
         if not priced:
             return None
-        lowest = min(models[slug]["output_cost_per_million"] for slug in priced)
+        lowest = min(models[stored]["output_cost_per_million"] for stored in priced)
         tied = [
-            slug
-            for slug in priced
-            if models[slug]["output_cost_per_million"] == lowest
+            stored
+            for stored in priced
+            if models[stored]["output_cost_per_million"] == lowest
         ]
         return rng.choice(tied)
 
-    different = [slug for slug in next_members if family(slug) != author_family]
+    different = [stored for stored in next_members if family(stored) != author_family]
     chosen = cheapest(different)
     if chosen is None:
         chosen = cheapest(next_members)
     if chosen is None:
-        return _with_speed(author_key, author, models)
-    return _with_speed(chosen, author, models)
+        return author
+    return _with_speed(spellings[chosen], author, models[chosen].get("has_fast"))
 
 
-def _with_speed(chosen, author, models):
-    """Return ``chosen``, or ``chosen`` plus ``-fast``.
+def _with_speed(display, author, has_fast):
+    """Return ``display``, or ``display`` plus ``-fast``.
 
     Cost ranking has already finished on the base price. The suffix is
     applied only when the author was the fast half of its pair and this
-    model has a fast variant.
+    model has a fast variant. ``display`` already carries the effort
+    from the review candidate.
     """
-    if author.endswith(_FAST_SUFFIX) and models[chosen].get("has_fast"):
-        return chosen + _FAST_SUFFIX
-    return chosen
+    if author.endswith(_FAST_SUFFIX) and has_fast:
+        return display + _FAST_SUFFIX
+    return display
+
 
 
 def build_catalog(benchlm, pricing_markdown, mapping, previous):
@@ -383,9 +215,11 @@ def build_catalog(benchlm, pricing_markdown, mapping, previous):
     parsed mapping and the catalog from the last refresh.
 
     The score is the equal-weight mean of the BenchLM agentic, coding,
-    and reasoning category scores that are present. An interim score is
-    kept only when all three are missing, and replaced once any of them
-    appears. ``tier_order`` and each existing tier are copied from
+    and reasoning category scores that are present. That mean is the
+    model. BenchLM does not encode effort, so ``effort_encoded`` is
+    false. An interim score is kept only when all three are missing,
+    and replaced once any of them appears. It does not encode effort
+    either. ``tier_order`` and each existing tier are copied from
     ``previous``. A slug that was not in ``previous`` gets ``tier`` null.
 
     ``has_fast`` is true when the pricing page has a ``(Fast)`` row for
@@ -429,6 +263,7 @@ def build_catalog(benchlm, pricing_markdown, mapping, previous):
             "tier": tier,
             "score": score,
             "score_source": source,
+            "effort_encoded": False,
             "output_cost_per_million": cost,
             "has_fast": _has_fast(pricing_name, prices, notes),
         }
