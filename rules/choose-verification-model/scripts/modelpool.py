@@ -98,8 +98,10 @@ def select(catalog, mapping, author, enabled, rng):
     spellings of one model are one candidate. A trailing effort word
     is stripped the same way: BenchLM scored the model, not the effort.
     Every effort of a model is that one row. When the author's model
-    is not in the catalog, return that spelling. An enabled spelling
-    whose model is not in the catalog still raises ``SelectionError``.
+    is not in the catalog, or its tier is ``never``, return that
+    spelling. An enabled spelling whose tier is ``never`` is skipped.
+    An enabled spelling whose model is not in the catalog still raises
+    ``SelectionError``.
 
     The printed reviewer keeps the effort from the enabled spelling.
     Two efforts of one model are one candidate, and the first spelling
@@ -359,9 +361,9 @@ def build_catalog(benchlm, pricing_markdown, mapping, previous, listing=None):
     false. An interim score is kept only when all three are missing,
     and replaced once any of them appears. It does not encode effort
     either. ``tier_order`` and each existing tier are copied from
-    ``previous``. A slug that was not in ``previous`` gets ``tier`` null.
-    Every row whose tier is null gets a ``must set tier`` warning, on
-    every run.
+    ``previous``. A slug that was not in ``previous`` gets ``tier``
+    null. Every row whose tier is null gets a ``must set tier``
+    warning, on every run.
 
     ``listing`` is ``agent --list-models`` output, or ``None``. For a
     stem the listing names, ``has_fast`` is whether any listed slug for

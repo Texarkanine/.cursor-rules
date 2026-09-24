@@ -194,3 +194,14 @@ Place an unmatched effort spelling of a catalog model on the scale so `pick.py` 
 * Insights
     - The pain the operator hit was hand data mixed into generated data, not JSON syntax; separating the two files fixed it
     - A per-effort `-fast` gap was not real: speed is a model parameter, valid at every effort
+
+## 2026-09-24 - QA - COMPLETE (PASS WITH ADVISORY)
+
+* Work completed
+    - Reviewed the build diff (`modelpool.py`, `refresh.py`, `refresh.md`, the three assets, and the three test files) against the amended plan and brief
+    - Confirmed 78 tests OK; acceptance commands 1, 2, and 6 re-run; shipped tiers match `tiers.toml`; mapping and catalog diffs are pure additions
+    - Wrote `.qa-validation-status`: PASS WITH ADVISORY
+* Decisions made
+    - PASS: all seven semantic checks hold. Four advisories (stale `select` docstring on `never`, scalar TOML values, brief criterion 5 wording, one unwrapped docstring line) do not block
+* Insights
+    - Operator-directed mid-build units (2b, 2c, 2d) were each built test-first, so QA could check them against recorded behaviors like planned units

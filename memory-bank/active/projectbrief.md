@@ -46,5 +46,5 @@ As described in [issue #129](https://github.com/Texarkanine/.cursor-rules/issues
 2. The same reviewer list with `--model cursor-grok-4.6-xhigh` prints `claude-opus-5-5-high`.
 3. `model_key` maps `claude-opus-5-5-max-fast` to `claude-opus-5-5`, `claude-4.6-opus-high-thinking` to `claude-4.6-opus-thinking`, `gpt-5.5-extra-high` to `gpt-5.5`, `gpt-5.6-sol-none` to `gpt-5.6-sol`, and `muse-spark-1.3-minimal` to `muse-spark-1.3`.
 4. Refresh against an injected listing appends a mapping row and a null-tier catalog row for each matchable unmapped stem, warns `must set tier` for it, and warns `unrecognized model {stem}` with the missing source for each stem it cannot match. Existing mapping rows are byte-for-byte unchanged.
-5. After refresh and the operator's tiers, every stem in the operator's listing is a catalog key with a tier on the ladder, or is recorded in `tasks.md` as unrecognized.
+5. After refresh and the operator's tiers, every stem in the operator's listing is a catalog key with a tier on the ladder or `never` (set in `assets/tiers.toml`), or is recorded in `tasks.md` as unrecognized.
 6. `--model missing-author --reviewer-models other` prints `missing-author` and exits 0. A known row with a null tier or null score still exits 2. An enabled spelling whose model is absent still exits 2 and names that slug.

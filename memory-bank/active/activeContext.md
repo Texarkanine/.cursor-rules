@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: effort-variant-slug
-**Phase:** BUILD - COMPLETE
+**Phase:** QA - COMPLETE (PASS)
 
 ## What Was Done
 - Unit 1: `model_key` reads the CLI effort vocabulary (`none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `extra-high`, `max`) and an effort before `-thinking`.

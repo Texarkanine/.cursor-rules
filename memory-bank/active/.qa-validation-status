@@ -1,17 +1,20 @@
 PASS WITH ADVISORY
 
-QA run 2026-09-23 for task effort-variant-slug (Level 2). Build phase complete per tasks.md. No creative-phase documents required for Level 2. Reviewed modelpool.py (place_effort, _expand_effort, select), pick.py (main docstring), references/refresh.md, test_pick.py, test_shipped.py against the tasks.md plan and projectbrief.md. Suite: 55 tests OK. SKILL.md untouched; catalog.json bytes unchanged by design and by test.
+QA run 2026-09-24 for task effort-variant-slug (Level 2), amended plan (units 1, 2, 2b, 2c, 2d, 3, 4). Build phase complete per tasks.md. Creative decision record (onboard, don't place) read for intent. Reviewed the diff 7bd0798..HEAD: modelpool.py (_EFFORTS, model_key, select, parse_listing, _listing_rows, fill_mapping, previous_from_tiers, build_catalog), refresh.py (main, _list_models), references/refresh.md, assets/tiers.toml, mapping.json, catalog.json, and all three test files, against tasks.md and projectbrief.md. Suite: 78 tests OK on Python 3.11.11. CI job `choose-verification-model` pins Python 3.11, so the tomllib dependency is satisfied.
 
 Findings:
 
-1. KISS: PASS. Helpers (_split_effort, _far_score, _nudge_off_stored_score, _tier_between, place_effort, _expand_effort) map 1:1 to planned formula steps. No speculative abstraction; the both-siblings branch was planned and is tested.
-2. DRY: PASS. No duplication or reinvented utilities; the above/below far-score mirror is minimal.
-3. YAGNI: PASS WITH ADVISORY (see A below). No speculative parameters or features; every branch is exercised by a named test behavior.
-4. Completeness: PASS. All 16 test-plan behaviors have tests: score separation, lower-effort placement, boundary tier, shared tier, exact key, bare key, thinking stem, null sibling score, caller-catalog immutability, synthetic reviewer, higher-effort row, empty-pool spelling, fast suffix, shipped command, unplaceable-author echo, null-tier/score exit 2, unknown-reviewer exit 2.
-5. Regression: PASS. select keeps its signature; _with_speed semantics unchanged; SelectionError names the original spelling; exact keys return the stored row by identity; synthetics are new dicts; caller catalog/mapping unmutated (tested); all edits in canonical rules/ and tests/ trees, never generated copies.
-6. Integrity: PASS. 1e-3/1e-6 are plan-specified constants, not magic; synthetic rows carry score_source "effort" so a later reader cannot mistake them for measured scores; no placeholders or debug artifacts.
-7. Documentation: PASS. refresh.md gained exactly the planned paragraph after the -fast paragraph; the grok-4.7-medium-fast sentence is intact; SKILL.md stays a thin caller with no exit-2 reviewer-picking branch; select and main docstrings were updated (preflight advisory B closed). Preflight advisory A (stored-rows-only siblings/neighbors) is in the code and the place_effort docstring; advisory C (both-siblings branch) was kept with a test, as the plan allowed.
+1. KISS: PASS. Each helper maps to one planned rule: _split_effort (longest effort first via tuple order), _listing_rows (shared by parse_listing and build_catalog), _words/_slug_words/_family (the stated matching rule), previous_from_tiers (TOML to the existing `previous` shape, so build_catalog kept its contract).
+2. DRY: PASS. fill_mapping reuses _pricing_rows and _category_values as planned; the listing iterator is shared rather than duplicated for has_fast.
+3. YAGNI: PASS. No unused parameters or speculative features. TIER_ORDER and NEVER_TIER are each used by select, previous_from_tiers, and the tests.
+4. Completeness: PASS. Every test-plan behavior across units 1, 2, 2b, 2c, and 2d has a named test (32 new tests). Every refresh.main test injects agent_models and a temp dest, so no test spawns `agent` or writes shipped assets. Acceptance commands 1, 2, and 6 re-run: `claude-opus-5-5-high-fast`, `claude-opus-5-5-high`, `missing-author`, all exit 0. Unrecognized stems are recorded in tasks.md.
+5. Regression: PASS. mapping.json and catalog.json diffs are pure additions (0 deleted lines), so existing rows are byte-for-byte unchanged (acceptance 4). pick.py untouched; SKILL.md stays a thin caller. Edits are in canonical rules/ and tests/ trees.
+6. Integrity: PASS. Shipped data is consistent: tiers.toml parses with no warnings, every catalog tier equals what previous_from_tiers derives from tiers.toml (refresh was re-run after the last tier edit), mapping keys equal catalog keys, no null scores, no null tiers. No debug artifacts, TODOs, or placeholders.
+7. Documentation: PASS WITH ADVISORY (see A). refresh.md covers tiers, onboarding, slugs, fast, and overrides as planned; tiers.toml carries its own usage header.
 
 Advisory findings (do not block):
 
-A. Unreachable guard in select: `if author_key not in models: return author` cannot fire after a successful _expand_effort, which leaves exact keys in place and inserts every placed synthetic. Harmless dead defensive branch; remove or leave at operator discretion.
+A. select docstring does not mention the `never` tier: a `never` author is printed back, and a `never` reviewer is skipped (via usable). Behavior is tested and documented in refresh.md; only the docstring lags.
+B. previous_from_tiers assumes every TOML value is a list. A scalar (`S = "a"`) would be iterated per character and yield confusing "not in mapping" warnings. Operator-only input; low risk.
+C. Acceptance criterion 5 in projectbrief.md says "a tier on the ladder"; the operator-directed `never` tier (unit 2d) superseded that. tasks.md and activeContext.md record the change; the brief text was not amended.
+D. Cosmetic: one line in the build_catalog docstring (the has_fast paragraph) is not wrapped like its neighbors.

@@ -192,4 +192,13 @@ Refresh on 2026-09-24 could not match these listed stems; they have no rows:
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [ ] QA
+- [x] QA
+
+## QA Results
+
+PASS WITH ADVISORY (2026-09-24). All seven semantic checks hold; 78 tests OK; shipped `tiers.toml`, `mapping.json`, and `catalog.json` are consistent; existing mapping and catalog rows are unchanged. Advisories, none blocking:
+
+- `select` docstring does not mention the `never` tier (author printed back, reviewer skipped).
+- `previous_from_tiers` assumes each TOML value is a list; a scalar would be iterated per character.
+- Acceptance criterion 5 says "tier on the ladder"; unit 2d's `never` tier superseded it without a brief amendment.
+- One unwrapped line in the `build_catalog` docstring.
