@@ -143,4 +143,16 @@ Place an unmatched effort spelling of a catalog model on the scale so `pick.py` 
 * Insights
     - Preflight checks plan shape, not premise: it passed a plan whose tier rule contradicted what tiers mean
 
+## 2026-09-24 - PLAN - COMPLETE
+
+* Work completed
+    - Ran `agent --list-models`: 240 slugs collapse to 48 stems, 12 already mapped
+    - Rewrote `projectbrief.md` for a superset catalog and `tasks.md` as four units: CLI effort vocabulary, refresh coverage warnings, onboarding data with an operator tier gate, refresh.md policy
+* Decisions made
+    - Effort vocabulary is the CLI's: `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `extra-high`, `max`; an effort may precede `-thinking`
+    - Coverage is a refresh warning, not a shipped test, because the listing is per account
+    - `pick.py` never calls the `agent` CLI
+* Insights
+    - The shipped `model_key` already misses live slugs such as `claude-opus-5-5-max` and `gpt-5.6-sol-none`, so an enabled max-effort reviewer exits 2 today
+
 

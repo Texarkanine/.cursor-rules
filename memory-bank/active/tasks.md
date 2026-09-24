@@ -4,83 +4,97 @@
 * Complexity: Level 2
 * Type: bug fix
 
-Place an author who is not a catalog row by their real BenchLM score, then run the existing reviewer window. The catalog stays the hand-tiered enabled set. Effort stays one row per model. No invented effort score.
-
+Make every slug `agent --list-models` reports resolve to a hand-tiered catalog model. The effort collapse already shipped in `5f4b940` (stem keys, printed effort from the candidate spelling, author echo). This plan widens the effort vocabulary to the CLI's, has refresh name listed models that lack a mapping row, and onboards the missing models as mapping and catalog rows that the operator tiers. No tier or score is derived. Decision record: `memory-bank/active/creative/creative-outside-author-placement.md`.
 
 ## Test Plan (TDD)
 
 ### Behaviors to Verify
 
-- [Wide mean]: a BenchLM item with agentic, coding, and reasoning → `benchlm_scores` stores their mean under that item's slug. An item with no category scores is absent. A mapped catalog row's `score` equals that mean for its `benchlm_slug`.
-- [Wide table stays out of the catalog]: an item that mapping does not name → it is in `benchlm_scores` and not in `catalog["models"]`. Existing mapped tiers are copied. `effort_encoded` stays false.
-- [Catalog author is unchanged]: author `grok-4.7-high` with that stem in the catalog → the printed reviewer is the one the existing window already prints. The wide table is not consulted for their tier.
-- [Outside author is placed]: catalog has tier B score 10 and tier A score 40. Wide score for `outsider` is 20. Author `outsider`, enabled the A-tier model → `select` prints that model. The same author with wide score 5 (below B) stays in B's neighbor tier and does not jump to A.
-- [Boundary keeps the higher tier]: wide score sits on the gap between a B row and an A row → the author's tier for the window is A.
-- [No BenchLM score echoes]: author `missing-author` with no wide score → `select` returns `missing-author`. `--model missing-author` exits 0 and prints it.
-- [Unknown reviewer still exits 2]: enabled `missing-reviewer` → exit 2, stderr names it. A wide score for that slug does not make it a reviewer.
-- [Effort spelling of an outside model]: author `outsider-high-fast` uses the wide score of `outsider`. A fast author appends `-fast` only when the chosen catalog row has `has_fast`. The printed effort is the enabled spelling's effort.
-- [Unknown family does not empty the window]: an outside author with a score and no mapping family can still print a different-family catalog reviewer.
-- [Caller data unchanged]: `select` does not insert the outside author into the caller's catalog or scores.
-- [Regression]: null tier or null score on a catalog author still exits 2. `thinking` stays in the stem. `composer-2.5-high` ranks as `composer-2.5`. Issue command with seed 0 still prints `claude-opus-5-5-high-fast`.
+- [New efforts]: `model_key` on `claude-opus-5-5-max`, `gpt-5.6-sol-none`, `muse-spark-1.3-minimal`, `gpt-5.5-extra-high` → `claude-opus-5-5`, `gpt-5.6-sol`, `muse-spark-1.3`, `gpt-5.5`
+- [Effort before thinking]: `claude-4.6-opus-high-thinking`, `claude-4.6-sonnet-medium-thinking`, `claude-4.6-opus-max-thinking` → `claude-4.6-opus-thinking`, `claude-4.6-sonnet-thinking`, `claude-4.6-opus-thinking`
+- [Fast is stripped first]: `claude-opus-5-5-max-fast` → `claude-opus-5-5`; `gpt-5.5-extra-high-fast` → `gpt-5.5`
+- [Longest effort wins]: `gpt-5.5-extra-high` is not read as effort `high` on stem `gpt-5.5-extra`; `grok-4.7-xhigh` is not `high` on `grok-4.7-x`
+- [No effort is unchanged]: `gpt-5.2`, `gemini-3.1-pro`, `kimi-k2.7-code`, `gpt-5-mini`, `claude-sonnet-5-thinking` → themselves
+- [Idempotent]: `model_key(model_key(s)) == model_key(s)` for each case above
+- [Existing cases hold]: the current `test_model_key_strips_effort_and_keeps_thinking` assertions still pass
+- [Max reviewer resolves]: `select` with enabled `claude-opus-5-5-max` and a stored `claude-opus-5-5` row → that spelling can be printed; no exit 2
+- [Listing parse]: listing text with a header line, `auto - Auto (default)`, blank lines, a trailing tip line, and `slug - Name` rows → the set of `model_key` stems of the rows, without `auto`
+- [Unmapped stems]: listing stems `{a, b}` with mapping `{a}` → `["b"]`; all mapped → `[]`; efforts and `-fast` of a mapped stem are not reported
+- [Refresh warns unmapped]: `refresh.main(..., agent_models=listing)` → stderr has `WARNING: unmapped model b` and no line for `a`; the catalog is still written
+- [No agent CLI]: `refresh.main` with the listing unavailable → one `WARNING:` line saying the model listing was skipped; catalog still written; exit 0
+- [Regression]: issue command with seed 0 still prints `claude-opus-5-5-high-fast`; missing author still echoes; null-tier or null-score author still exits 2; unknown reviewer still exits 2
 
 ### Test Infrastructure
 
-- Framework: stdlib `unittest`
+- Framework: stdlib `unittest`, run by `make test`
 - Test location: `tests/choose-verification-model/`
-- Conventions: `_entry`, `_catalog`, `_mapping`, `_run` in `test_pick.py`. Refresh fixtures build a BenchLM document and pricing markdown in `test_refresh.py`. Shipped invariants in `test_shipped.py`.
+- Conventions: `model_key` cases in `test_pick.py`; `_entry`, `_catalog`, `_mapping`, `_run` helpers in `test_pick.py`; refresh inputs injected through `refresh.main` keyword arguments in `test_refresh.py`; shipped-asset invariants in `test_shipped.py`
 - New test files: none
 
 ## Implementation Plan
 
-### 1. benchlm_scores — executable
+### 1. CLI effort vocabulary in `model_key` — executable
+
+- Files: `rules/choose-verification-model/scripts/modelpool.py`, `tests/choose-verification-model/test_pick.py`
+
+1. Stub tests: in `test_pick.py`, add empty `test_model_key_reads_cli_efforts`, `test_model_key_reads_effort_before_thinking`, `test_model_key_leaves_non_effort_suffixes`, and `test_max_effort_reviewer_resolves`.
+2. Stub interface: no new public names. Update the `_split_effort` and `model_key` docstrings: efforts are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `extra-high`, `max`, longest match first; an effort directly before `-thinking` is removed and `-thinking` is kept.
+3. Write tests and run red: the New efforts, Effort before thinking, Fast is stripped first, Longest effort wins, No effort is unchanged, Idempotent, and Max reviewer resolves behaviors. Run `make test`; the new cases fail on the four-word vocabulary.
+4. Write code and run green: extend the effort tuple, match longest first, and in `model_key` handle `<stem>-<effort>-thinking` → `<stem>-thinking` after stripping `-fast`. Run `make test`.
+
+### 2. Refresh names unmapped listed models — executable
 
 - Files: `rules/choose-verification-model/scripts/modelpool.py`, `rules/choose-verification-model/scripts/refresh.py`, `tests/choose-verification-model/test_refresh.py`
 
-1. Stub tests: `test_wide_mean_is_stored_under_the_benchlm_slug`, `test_unmapped_model_stays_out_of_the_catalog`, empty bodies, in `test_refresh.py`.
-2. Stub interface: `benchlm_scores(benchlm) -> dict` in `modelpool.py`. Docstring: equal-weight mean of present agentic, coding, and reasoning scores, keyed by BenchLM slug. Missing categories are skipped. No category scores → omit the slug. `build_catalog` keeps its signature and reads this dict for a mapped `benchlm_slug`. `refresh.main` writes the dict to `assets/scores.json`.
-3. Write tests and run red: assert the mean, the omission, catalog equality with the wide mean, and that an unmapped slug is absent from `catalog["models"]`.
-4. Write code and run green: implement `benchlm_scores`, call it from `build_catalog`, write `assets/scores.json` from `refresh.main`.
+1. Stub tests: in `test_refresh.py`, add empty `test_listing_parses_to_stems`, `test_unmapped_listed_stems_are_reported`, `test_refresh_warns_for_unmapped_listed_models`, and `test_refresh_without_agent_listing_warns_once`.
+2. Stub interface: `listed_stems(listing: str) -> set[str]` and `unmapped_stems(listing: str, mapping) -> list[str]` in `modelpool.py`, each with a docstring: a listing row is `slug - Name`; `auto` is not a model; the result is `model_key` stems; `unmapped_stems` is sorted. `refresh.main` gains keyword `agent_models=None`; docstring: a string is the listing; `False` means no listing is available; `None` runs `agent --list-models`, and a missing or failing command is treated as `False`. No listing → one skip warning, coverage skipped.
+3. Write tests and run red: the Listing parse, Unmapped stems, Refresh warns unmapped, and No agent CLI behaviors. Inject the listing as a string, and the unavailable case as `agent_models=False`, so no test spawns a process. Tests pass `dest` to a temp path so the working tree is not written. Run `make test`; the new cases fail.
+4. Write code and run green: implement both helpers. In `refresh.main`, obtain the listing (injected, else `subprocess.run(["agent", "--list-models"], capture_output=True, text=True, timeout=60)` after `shutil.which("agent")`), append `WARNING: unmapped model {stem}` for each unmapped stem to the existing warnings, or one skip warning when there is no listing. Run `make test`.
 
-### 2. place the author, then the existing window — executable
+### 3. Onboard the listed models — data, with an operator gate
 
-- Files: `rules/choose-verification-model/scripts/modelpool.py`, `rules/choose-verification-model/scripts/pick.py`, `tests/choose-verification-model/test_pick.py`, `tests/choose-verification-model/test_shipped.py`
+- Files: `rules/choose-verification-model/assets/mapping.json`, `rules/choose-verification-model/assets/catalog.json`
+- No new tests: the existing `test_shipped.py` invariants (`model_key(slug) == slug`, every tier on the ladder, mapping keys in the catalog, non-empty families) cover the rows
 
-1. Stub tests: the outside-author, boundary, echo, unknown-reviewer, effort-spelling, unknown-family, and caller-unchanged cases in `test_pick.py`, empty bodies.
-2. Stub interface: `select(catalog, mapping, author, enabled, rng, scores=None)`. Docstring: a catalog author uses that row. An author absent from the catalog uses `scores[model_key(author)]` when present. Tier comes from the catalog score-neighbors; a boundary keeps the higher tier. No score → return the author spelling. An enabled model absent from the catalog raises `SelectionError` even if `scores` has it. A missing mapping family does not exclude candidates. The window, the one-tier lookup, the effort spelling, and `-fast` stay as they are.
-3. Write tests and run red: the assertions in Behaviors to Verify for `select` and `main`.
-4. Write code and run green: place the author in memory for the call, then the existing window. `pick.main` loads `assets/scores.json` when `scores` is omitted. Shipped issue command stays `claude-opus-5-5-high-fast`.
+1. Run `python3 scripts/refresh.py` from the skill directory. The unmapped warnings are the onboarding list (36 stems on the operator's account on 2026-09-24).
+2. For each unmapped stem, add a `mapping.json` row: `family`, `pricing_name` (a Model cell on the Cursor pricing page), `benchlm_slug` (a BenchLM `models.json` slug), `interim_score: null`. Thinking and non-thinking stems of one model may share `benchlm_slug` and `pricing_name`. Do not guess a BenchLM or pricing match; a stem with neither is unrecognized.
+3. Re-run refresh. New rows get `tier: null` and `must set tier` warnings. Rows with no score or no price are unrecognized: remove them from `mapping.json` and `catalog.json`, and list them under an `## Unrecognized` heading in this file.
+4. **Operator gate.** Stop and give the operator the list of rows with `tier: null`. `make test` stays red on `test_catalog_entries_have_required_keys` until every tier is set. Do not propose or fill tiers. Build continues when the operator has set them.
+5. Run `make test` green. Re-run refresh once more; no `unmapped model` warnings remain except the unrecognized stems.
 
-### 3. refresh.md — prose/policy
+### 4. Onboarding and tier policy — prose/policy
 
 - Files: `rules/choose-verification-model/references/refresh.md`
 - No tests: prose/policy artifact
 
-1. State that `assets/scores.json` is the wide BenchLM mean, one number per model, and that `catalog.json` is only the tiered enabled subset.
-2. State that an author missing from the catalog is placed from `scores.json` among the catalog neighbors, and that no wide score still prints the author and exits 0.
-3. State that the operator keeps one effort of a model in the candidate list. The bottom and the top effort of one model are not both enabled.
+1. Replace the effort paragraph: an effort word, from the CLI's vocabulary, is the same model as its stem, and the printed reviewer keeps the enabled spelling's effort.
+2. State that tiers are the operator's trust calibration, set by hand, and never derived from score.
+3. State onboarding: refresh names listed models without a mapping row; add the row, refresh, set the tier. Refresh reads `agent --list-models`; without the CLI it skips that check.
+4. State that the catalog is a superset: a row is a reviewer only when its slug is enabled.
 
 ## Technology Validation
 
-No new technology - validation not required. Refresh already fetches BenchLM.
+No new technology - validation not required. `agent --list-models` exists in the installed Cursor CLI (verified 2026-09-24, `2026.08.25-3e8eec8`); `--models` is not a valid flag.
 
 ## Dependencies
 
-- BenchLM `models.json`, already fetched by `refresh.py`
-- Existing `select` window, one-tier lookup, `model_key`, and `_with_speed`
-- `assets/catalog.json` tiers and `assets/mapping.json` families for the enabled subset
+- `model_key`, `canonical_slug`, `select`, and `build_catalog` in `modelpool.py` as shipped in `5f4b940`
+- Cursor CLI `agent --list-models` (refresh only; optional)
+- BenchLM `models.json` and the Cursor pricing page, already fetched by refresh
+- Operator tier assignments for the new rows
 
 ## Challenges & Mitigations
 
-- A Cursor slug that is not a BenchLM slug has no wide score: `model_key` is the lookup. `cursor-grok-4.6` is in the catalog, so it does not need the wide table. An unmapped author whose stem is not a BenchLM slug is printed, exit 0.
-- An outside author has no family: a missing family does not drop candidates for being the same family.
-- A wide score must not become a reviewer: enabled slugs still have to be catalog keys. Exit 2 names the slug.
-- `build_catalog`'s return value stays `(catalog, warnings)` so the existing refresh tests keep their call shape. The wide dict is a separate function.
+- Stems that differ from BenchLM or pricing names (`claude-4.6-opus` vs `claude-opus-4-6`, dots vs dashes): step 3 matches each stem by hand against the fetched sources, never by transform. Unmatched stems go to the Unrecognized list.
+- A future model whose real name ends in an effort word would be split wrongly: the idempotence test catches this for shipped keys; `test_shipped.py` already asserts `model_key(slug) == slug` for every catalog key.
+- The listing is per account: the coverage check is a refresh warning, not a shipped test, so another operator's account cannot turn the suite red.
+- `agent` is a `.cmd` shim on some Windows installs: `shutil.which` resolves it; a failure is a warning, not an error.
 
 ## Pre-Mortem
 
-- The outside author's tier is invented the way effort scores were: the score is the BenchLM mean only. The tier is the catalog neighbor's tier. No new number is written into `catalog.json`.
-- The window returns the author because the placed tier has no other family, and the run looks dead in the water: that is the existing empty-pool rule. The plan does not add a second search.
-- `scores.json` and the catalog row disagree for one BenchLM slug: `build_catalog` reads `benchlm_scores` for the mapped row, and the wide-mean test locks that equality.
+- The plan fails because build fills tiers to get `make test` green: step 3 forbids proposing tiers, and the operator gate is a hard stop.
+- The plan fails because rows are onboarded with a fabricated BenchLM match: step 3 requires the match to exist in the fetched sources; otherwise the stem is unrecognized.
+- The plan fails because the catalog is only complete for this account: accepted. The listing is the operator's; other operators' extra models echo their author or exit 2 on an unknown reviewer, and refresh's warnings show the operator what to onboard.
 
 ## Status
 

@@ -2,50 +2,48 @@
 
 ## User Story
 
-As an operator running `choose-verification-model`, I want an effort spelling of a known model to rank as that model, so that `pick.py` does not invent an intelligence for an effort BenchLM did not score.
+As an operator running `choose-verification-model`, I want every slug `agent --list-models` reports to resolve to a hand-tiered catalog model, so that whatever subset a worker passes as `--reviewer-models`, and whichever model is the author, `pick.py` makes a correct selection instead of exiting 2 or inventing an intelligence.
 
 ## Use-Case(s)
 
 ### Author effort differs from the stored row
 
-The live author slug differs from the catalog key by an effort word (`low`, `medium`, `high`, `xhigh`), with or without a trailing `-fast`. That author is the catalog model. The effort does not move their tier or their score.
+The live author slug differs from the catalog key by an effort word, with or without a trailing `-fast`. That author is the catalog model. The effort does not move their tier or their score.
 
-### Reviewer list contains an unmatched effort spelling
+### Reviewer list is someone else's subset
 
-A slug in `--reviewer-models` names the model and the effort to spawn if that model is chosen. The effort is not a second score. The printed reviewer keeps that spelling's effort.
+Other operators enable a different set of models. The catalog is a superset: every model the Cursor CLI lists that refresh can recognize. A catalog row is a candidate only when a slug for it is in `--reviewer-models`.
+
+### A new model ships
+
+The operator onboards it in the release hour: a mapping row, a refresh, and a hand-set tier. Refresh names listed models that have no mapping row, so onboarding is not missed. Until then, an author on that model is printed back with exit 0.
 
 ## Requirements
 
-As described in [issue #129](https://github.com/Texarkanine/.cursor-rules/issues/129):
+As described in [issue #129](https://github.com/Texarkanine/.cursor-rules/issues/129), extended by operator direction on 2026-09-24:
 
-1. An effort word must not make `pick.py` give up, and it must not create a score. BenchLM has one number per model. `effort_encoded` is false. The catalog key is the model stem.
-2. `gemini-3.8-flash-low` is `gemini-3.8-flash`. The same is true for `medium`, `high`, and `xhigh`, and for a trailing `-fast`. `thinking` stays in the stem.
-3. The printed reviewer keeps the effort written on the `--reviewer-models` spelling. The author's effort is not copied onto the reviewer. Two efforts of one model are one candidate; the first spelling is the one printed.
-4. `-fast` is still appended only when the author slug ended in `-fast` and the chosen model has a fast variant.
-5. When the author's model is not in the catalog, the script prints that spelling and exits 0. The choice stays inside the script. The skill does not grow a branch that tells the agent to pick a reviewer from a non-zero exit.
+1. An effort word must not make `pick.py` give up, and it must not create a score. BenchLM has one number per model. The catalog key is the model stem. `effort_encoded` is false.
+2. The effort vocabulary is the one `agent --list-models` uses: `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `extra-high`, `max`. The effort may come before `-thinking` (`claude-4.6-opus-high-thinking`). `thinking` stays in the stem. A trailing `-fast` is stripped first.
+3. The printed reviewer keeps the effort written on the `--reviewer-models` spelling. Two efforts of one model are one candidate; the first spelling is the one printed.
+4. `-fast` is appended only when the author slug ended in `-fast` and the chosen model has a fast variant.
+5. The catalog covers every model stem in the operator's `agent --list-models` listing that refresh can recognize: a BenchLM score or an interim score, and a price.
+6. Tiers are the operator's trust calibration, set by hand. No tier is derived from a score.
+7. Refresh warns about each stem in the `agent --list-models` listing that has no mapping row. When the `agent` CLI is not available, refresh warns once and still writes the catalog.
+8. When the author's model is not in the catalog, the script prints that spelling and exits 0. The skill does not grow a branch that tells the agent to pick a reviewer from a non-zero exit.
 
 ## Constraints
 
-1. The hand-chosen catalog stays the set of reviewers we decided to keep. Writing every effort spelling into `catalog.json` is not the goal.
-2. Different efforts of one model are the same row. There is no per-effort score to store.
-3. Do not store or rank on the fast price. Trailing `-fast` means the same model, same score, same tier.
-4. Do not retier the rows already chosen. Effort is not a reason to.
-5. `SKILL.md` stays a thin caller: run the script and use the slug it prints.
+1. Different efforts of one model are the same row. There is no per-effort score to store.
+2. Do not store or rank on the fast price.
+3. Do not derive, infer, or retier from scores. The operator sets every tier.
+4. `SKILL.md` stays a thin caller: run the script and use the slug it prints.
+5. `pick.py` does not call the `agent` CLI. Only refresh, which the operator runs, reads the listing.
 
 ## Acceptance Criteria
 
-1. `python3 scripts/pick.py --model cursor-grok-4.6-xhigh-fast --reviewer-models claude-opus-5-5-high,gpt-5.6-terra-medium,grok-4.7-xhigh --seed 0` prints `claude-opus-5-5-high-fast` and exits 0. The `high` is the Opus candidate's effort. The `-fast` is the author's.
+1. `python3 scripts/pick.py --model cursor-grok-4.6-xhigh-fast --reviewer-models claude-opus-5-5-high,gpt-5.6-terra-medium,grok-4.7-xhigh --seed 0` prints `claude-opus-5-5-high-fast` and exits 0.
 2. The same reviewer list with `--model cursor-grok-4.6-xhigh` prints `claude-opus-5-5-high`.
-3. `gemini-3.8-flash-low` and `gemini-3.8-flash-xhigh` rank as `gemini-3.8-flash`.
-4. `catalog.json` keys have no effort suffix, and every row has `effort_encoded` false.
-5. `--model missing-author --reviewer-models other` prints `missing-author` and exits 0. A known row with a null tier or null score still exits 2. An enabled spelling whose model is absent still exits 2 and names that slug.
-
-## Rework
-
-The operator's placement rule, after the effort correction:
-
-1. Refresh ingests a wide BenchLM score table. One mean per BenchLM model. Effort is not in it.
-2. The catalog stays the hand-tiered subset enabled as reviewers. It does not gain a row per BenchLM model.
-3. An author who is not a catalog row is placed by their BenchLM score among the catalog's score-neighbors. A tier boundary keeps the higher tier. Then the existing window runs.
-4. An author with no BenchLM score is still printed, exit 0. An enabled slug whose model is not in the catalog still exits 2.
-5. One score per model. The operator does not enable both the bottom and the top effort of the same model. The printed effort stays the first `--reviewer-models` spelling.
+3. `model_key` maps `claude-opus-5-5-max-fast` to `claude-opus-5-5`, `claude-4.6-opus-high-thinking` to `claude-4.6-opus-thinking`, `gpt-5.5-extra-high` to `gpt-5.5`, `gpt-5.6-sol-none` to `gpt-5.6-sol`, and `muse-spark-1.3-minimal` to `muse-spark-1.3`.
+4. Refresh against an injected listing warns `WARNING: unmapped model {stem}` for each listed stem that mapping lacks, and nothing for mapped stems.
+5. After onboarding, every stem in the operator's listing is a catalog key with a tier on the ladder, or is recorded in `tasks.md` as unrecognized.
+6. `--model missing-author --reviewer-models other` prints `missing-author` and exits 0. A known row with a null tier or null score still exits 2. An enabled spelling whose model is absent still exits 2 and names that slug.
