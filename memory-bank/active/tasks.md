@@ -125,7 +125,7 @@ Behaviors:
 3. Write tests and run red.
 4. Write code and run green; write `assets/tiers.toml` from the current tiers (including the operator's uncommitted edits) with the untiered stems in a comment; re-run refresh.
 
-### 3. Onboard the listed models — data, with an operator gate
+### 3. Onboard the listed models — data, with an operator gate [x]
 
 - Files: `rules/choose-verification-model/assets/mapping.json`, `rules/choose-verification-model/assets/catalog.json`
 - No new tests: the existing `test_shipped.py` invariants (`model_key(slug) == slug`, every tier on the ladder, mapping keys in the catalog, non-empty families) cover the rows
@@ -136,7 +136,7 @@ Behaviors:
 4. **Operator gate.** Stop and give the operator the list of rows with `tier: null`. `make test` stays red on `test_catalog_entries_have_required_keys` until every tier is set. Do not propose or fill tiers. Build continues when the operator has set them.
 5. Run `make test` green.
 
-### 4. Onboarding and tier policy — prose/policy
+### 4. Onboarding and tier policy — prose/policy [x]
 
 - Files: `rules/choose-verification-model/references/refresh.md`
 - No tests: prose/policy artifact
@@ -190,6 +190,6 @@ Refresh on 2026-09-24 could not match these listed stems; they have no rows:
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
-- [ ] Build
+- [x] Preflight
+- [x] Build
 - [ ] QA

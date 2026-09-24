@@ -181,3 +181,16 @@ Place an unmatched effort spelling of a catalog model on the scale so `pick.py` 
     - Units 1-2 test-first; unit 3 covered by shipped invariants; unit 4 prose. No plan edits
     - Confirmed `refresh.py` JSON format matches shipped `mapping.json`, so appended rows keep existing bytes; no existing test calls `refresh.main`
     - Advisories: always pass `dest` when injecting `mapping`; red suite during the tier gate; effort-suffix mis-split risk; interim-score wording. Radical sketch: check in the listing as an asset instead of spawning `agent`
+
+## 2026-09-24 - BUILD - COMPLETE
+
+* Work completed
+    - Units 1-4 built test-first; units 2b (`has_fast` from the listing), 2c (tier reminder every run), and 2d (`tiers.toml` with a `never` tier) added at the operator's direction during build
+    - Real refresh added 32 rows; 4 stems unrecognized. Operator tiered every listed model in `tiers.toml` (15 on the ladder, 29 `never`)
+    - `make test`: 78 tests OK; acceptance commands re-run on the tiered catalog
+* Decisions made
+    - Tiers are hand-edited TOML read by refresh; machine data stays JSON, so pick needs no TOML
+    - `-fast` stays appended from the author's speed and the chosen model's `has_fast`, even off the caller's list
+* Insights
+    - The pain the operator hit was hand data mixed into generated data, not JSON syntax; separating the two files fixed it
+    - A per-effort `-fast` gap was not real: speed is a model parameter, valid at every effort
