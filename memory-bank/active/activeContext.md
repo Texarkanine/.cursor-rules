@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: effort-variant-slug
-**Phase:** PLAN - COMPLETE
+**Phase:** PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
 
 ## What Was Done
 - Checkpointed the effort-is-not-a-score correction (`5f4b940`).

@@ -120,4 +120,16 @@ Place an unmatched effort spelling of a catalog model on the scale so `pick.py` 
 * Insights
     - The dead-in-the-water case that remains is an author whose stem is not a BenchLM slug and not a catalog key
 
+## 2026-09-23 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Ran the seven Level 2 default-preflight checks against `modelpool.py`, `pick.py`, `refresh.py`, the shipped catalog and mapping, and all three test files
+    - Verified both executable units already order stub-tests before code and no change-detectors were scheduled, so neither the swap nor the strike applied
+    - Wrote `.preflight-status`: PASS WITH ADVISORY
+* Decisions made
+    - No in-phase plan edits: TDD ordering was already correct and no change-detectors were scheduled
+    - Three advisories recorded, none blocking: main/refresh test hermeticity for the new scores input; placement distance pinned by example rather than a one-sentence rule; stem-versus-BenchLM-slug punctuation misses echo safely
+* Insights
+    - The radical sketch (precompute placement.json at refresh so pick is a dict lookup) is a judgment call against the smaller scores.json diff; recorded as advisory only
+
 
