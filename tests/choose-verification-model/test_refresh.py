@@ -638,6 +638,16 @@ class FillTests(unittest.TestCase):
         self.assertIn("WARNING: must set tier for gpt-5.2", lines)
         self.assertIn("WARNING: unrecognized model gpt-5.1: no pricing row", lines)
 
+    def test_null_tier_in_previous_still_warns(self):
+        """A row whose previous tier is null gets the tier warning again, once."""
+        _catalog, warnings = build_catalog(
+            _benchlm({"m": _SCORED}),
+            _pricing(["Row"]),
+            _mapping({"m": {"family": "a", "pricing_name": "Row", "benchlm_slug": "m"}}),
+            _previous({"m": {"tier": None}}),
+        )
+        self.assertEqual(warnings, ["WARNING: must set tier for m"])
+
     def test_listing_fast_spelling_sets_has_fast(self):
         """No (Fast) pricing row, but the listing has a -fast spelling: has_fast is true."""
         catalog, _warnings = build_catalog(

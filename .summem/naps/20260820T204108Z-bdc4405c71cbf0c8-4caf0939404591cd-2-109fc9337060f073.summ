@@ -1,0 +1,1 @@
+always-tdd scope (#116): the product's executable behavior, judged by whether a product user would observe the break. No excluded-tool or category lists (they get relabeled, lint is a CLI); no second definition echoed into preflight.

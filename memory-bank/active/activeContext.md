@@ -21,8 +21,9 @@
 - Unit 2 (`1e6472c`): `parse_listing`, `fill_mapping`, and `refresh.main(agent_models=...)`; refresh writes `mapping.json` next to the catalog. 65 tests green at that commit.
 - Unit 3: real refresh added 32 rows with `tier: null`; 4 stems unrecognized (listed in `tasks.md`). Existing mapping and catalog rows unchanged. `make test` is red only on `test_catalog_entries_have_required_keys` until tiers are set.
 - Unit 2b (operator-directed): with a listing, a listed stem's `has_fast` is whether the listing has a `-fast` spelling for it; unlisted stems and no-listing refreshes keep the pricing rule. Re-ran refresh: exactly `gpt-5.3-codex`, `gpt-5.2`, `claude-opus-4-7`, `claude-opus-4-7-thinking` flipped to true. 69 tests; only the tier gate is red.
-- Known gap, not fixed: `has_fast` is per stem, but `gpt-5.4-low` has no `-fast` spelling while other `gpt-5.4` efforts do, so a fast author choosing `gpt-5.4-low` would print a slug that does not exist.
-- Known gap, not fixed (pre-existing): `build_catalog` warns `must set tier` only for a slug new to the previous catalog, so a second refresh before tiering prints no tier reminders.
+- Operator (2026-09-24): models are parameterized by effort, speed, and context window; Cursor bakes effort and speed into the slug. If fast is valid for a model it is valid at every effort. `has_fast` stays per model; the listing not showing `gpt-5.4-low-fast` is not a per-effort limit.
+- Operator (2026-09-24): refresh warns `must set tier` for every null-tier row on every run, not only for rows new to the previous catalog. Added as unit 2c.
+- Operator (2026-09-24): `-fast` rule unchanged. Append `-fast` when the author slug was fast and the chosen model has fast, even if that fast spelling is not in `--reviewer-models`. In Cursor a model's parameters cannot be disabled, so the fast spelling is always usable.
 
 ## Next Step
 - Operator sets `tier` on the 32 null-tier rows in `rules/choose-verification-model/assets/catalog.json`. Then: `make test` green, unit 4 prose, finish Build.

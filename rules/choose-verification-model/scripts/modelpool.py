@@ -323,6 +323,8 @@ def build_catalog(benchlm, pricing_markdown, mapping, previous, listing=None):
     and replaced once any of them appears. It does not encode effort
     either. ``tier_order`` and each existing tier are copied from
     ``previous``. A slug that was not in ``previous`` gets ``tier`` null.
+    Every row whose tier is null gets a ``must set tier`` warning, on
+    every run.
 
     ``listing`` is ``agent --list-models`` output, or ``None``. For a
     stem the listing names, ``has_fast`` is whether any listed slug for
@@ -345,10 +347,8 @@ def build_catalog(benchlm, pricing_markdown, mapping, previous, listing=None):
     models = {}
     warnings = []
     for slug, row in mapping["models"].items():
-        if slug in previous_models:
-            tier = previous_models[slug].get("tier")
-        else:
-            tier = None
+        tier = (previous_models.get(slug) or {}).get("tier")
+        if tier is None:
             warnings.append(f"WARNING: must set tier for {slug}")
         present = _category_values(benchlm, row.get("benchlm_slug"))
         if present:

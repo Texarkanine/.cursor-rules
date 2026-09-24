@@ -88,6 +88,21 @@ Behaviors:
 3. Write tests and run red.
 4. Write code and run green: a private listing-row iterator shared with `parse_listing`; `build_catalog` computes listed and fast stems once; `refresh.main` passes `agent_models` unless it is `False`. Re-run refresh so the shipped catalog picks it up; tiers are copied, so null tiers stay null.
 
+### 2c. Tier reminder on every refresh — executable [operator-directed during build, 2026-09-24] [x]
+
+- Files: `rules/choose-verification-model/scripts/modelpool.py`, `tests/choose-verification-model/test_refresh.py`
+- Why: `build_catalog` warned `must set tier` only for a slug absent from the previous catalog, so a second refresh before tiering went silent.
+
+Behaviors:
+
+- [Null tier in previous still warns]: previous has the slug with `tier: null` → `WARNING: must set tier for {slug}`, once
+- [Set tier does not warn]: previous has a tier on the ladder → no tier warning (existing tests hold)
+
+1. Stub test: `test_null_tier_in_previous_still_warns` in `test_refresh.py`, empty.
+2. Stub interface: `build_catalog` docstring says every row whose tier is null gets the warning on every run.
+3. Write the test and run red.
+4. Write code and run green: warn when the copied or new tier is `None`.
+
 ### 3. Onboard the listed models — data, with an operator gate
 
 - Files: `rules/choose-verification-model/assets/mapping.json`, `rules/choose-verification-model/assets/catalog.json`
