@@ -132,4 +132,15 @@ Place an unmatched effort spelling of a catalog model on the scale so `pick.py` 
 * Insights
     - The radical sketch (precompute placement.json at refresh so pick is a dict lookup) is a judgment call against the smaller scores.json diff; recorded as advisory only
 
+## 2026-09-24 - BUILD - ABANDONED
+
+* Work completed
+    - Creative exploration `memory-bank/active/creative/creative-outside-author-placement.md` resolved to "onboard, don't place"
+    - Stopped the build of the placement plan after step 1. Reverted its uncommitted `benchlm_scores` / `scores.json` edits; the patch is kept outside the repo
+* Decisions made
+    - Tiers are the operator's trust calibration, not a function of score. No tier is ever derived from score neighbors
+    - Outside authors are brand-new models, onboarded with a hand tier the hour they ship. The existing author echo covers the gap
+* Insights
+    - Preflight checks plan shape, not premise: it passed a plan whose tier rule contradicted what tiers mean
+
 
