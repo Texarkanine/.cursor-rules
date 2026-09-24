@@ -1,0 +1,1 @@
+choose-verification-model: Cursor CLI, pricing page, and BenchLM order a model's words differently (Claude Opus 4.6 / Claude 4.6 Opus / claude-opus-4-6). Match by word sets, not string transforms. The CLI command is agent --list-models.

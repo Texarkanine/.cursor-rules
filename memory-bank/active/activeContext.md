@@ -5,7 +5,8 @@
 
 ## What Was Done
 - Abandoned the outside-author placement plan after its build step 1; reverted the uncommitted `benchlm_scores` / `scores.json` edits (`1ca0157`). Decision: `memory-bank/active/creative/creative-outside-author-placement.md`.
-- Replanned for a superset catalog: widen `model_key` to the CLI effort vocabulary (`none`, `minimal`, `extra-high`, `max`, effort before `-thinking`), have refresh warn about `agent --list-models` stems with no mapping row, onboard the 36 missing stems, and document tiers-as-trust onboarding.
+- Replanned for a superset catalog: widen `model_key` to the CLI effort vocabulary (`none`, `minimal`, `extra-high`, `max`, effort before `-thinking`), make refresh fill in mapping and catalog rows for `agent --list-models` stems with no mapping row (null tier), onboard by running it, and document tiers-as-trust onboarding.
+- Validated the fill-in matching rule on live data: 44 of 48 stems resolve; all 12 existing rows are reproduced exactly.
 
 ## Decisions
 - Operator (2026-09-24): tiers are trust calibration, never derived from score. Kimi K3 at A above Opus at S is intended.
@@ -13,6 +14,7 @@
 - Operator (2026-09-24): the catalog is a superset of every available, recognized model `agent --list-models` reports, because each worker passes in its own enabled set.
 - The listing command is `agent --list-models`; `--models` does not exist.
 - Build stops at an operator gate for tiers on the new rows. The agent does not propose tiers.
+- Operator (2026-09-24): refresh fills in catalog rows, not just warns. Refresh runs from this repository and writes the skill's `assets/`. A catalog outside the skill, refreshed per user, is a later maybe and out of scope.
 
 ## Next Step
 - Preflight this plan.

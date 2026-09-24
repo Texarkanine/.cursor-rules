@@ -155,6 +155,18 @@ Place an unmatched effort spelling of a catalog model on the scale so `pick.py` 
 * Insights
     - The shipped `model_key` already misses live slugs such as `claude-opus-5-5-max` and `gpt-5.6-sol-none`, so an enabled max-effort reviewer exits 2 today
 
+## 2026-09-24 - PLAN - AMENDED
+
+* Work completed
+    - Operator directed that refresh fill in catalog rows. Rewrote unit 2 as `parse_listing` + `fill_mapping` and unit 3 as run-refresh-then-review with the tier gate
+    - Validated the matching rule against live BenchLM, the pricing page, and the CLI listing: 44 of 48 stems resolve, 12 of 12 existing rows reproduced, 4 real gaps
+* Decisions made
+    - Price match: pricing-row words (no parentheses) are a subset of display-name words plus family; most words wins. BenchLM match: the one scored slug with the same sorted words
+    - Existing mapping rows are never rewritten; unmatched stems are warned, not added
+    - A catalog outside the skill is out of scope
+* Insights
+    - Cursor, the pricing page, and BenchLM order the same model's words differently (`Claude Opus 4.6`, `Claude 4.6 Opus`, `claude-opus-4-6`); word sets match where string transforms do not
+
 
 
 ## 2026-09-24 - PREFLIGHT - COMPLETE
