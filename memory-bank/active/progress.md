@@ -174,3 +174,10 @@ Place an unmatched effort spelling of a catalog model on the scale so `pick.py` 
 * Result: `PASS WITH ADVISORY`
     - TDD ordering correct for units 1-2; unit 3 data covered by shipped invariants; unit 4 prose. No plan edits
     - Advisories: refresh.main test hermeticity, interim-score wording, effort-suffix mis-split risk for future stems; radical sketch: refresh prints suggested BenchLM/pricing matches for unmapped stems
+
+## 2026-09-24 - PREFLIGHT - COMPLETE (RERUN)
+
+* Result: `PASS WITH ADVISORY`
+    - Units 1-2 test-first; unit 3 covered by shipped invariants; unit 4 prose. No plan edits
+    - Confirmed `refresh.py` JSON format matches shipped `mapping.json`, so appended rows keep existing bytes; no existing test calls `refresh.main`
+    - Advisories: always pass `dest` when injecting `mapping`; red suite during the tier gate; effort-suffix mis-split risk; interim-score wording. Radical sketch: check in the listing as an asset instead of spawning `agent`

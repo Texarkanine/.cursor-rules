@@ -1,18 +1,23 @@
 PASS WITH ADVISORY
 
-Prerequisites: Level 2 plan complete; creative doc present and its decision (E, onboard don't place) is what the plan implements. No in-phase plan edits.
+Plan under review: the amended Level 2 plan (refresh fills in mapping and catalog rows from `agent --list-models`). No in-phase plan edits: TDD order is already correct and no change-detectors are scheduled.
 
-TDD encoding: units 1 and 2 are executable (a user sees `pick.py` exit 2 on `claude-opus-5-5-max`; refresh output is operator-visible) and both stub tests, write tests, run red, then code. Unit 3 is data covered by existing `test_shipped.py` invariants. Unit 4 is prose/policy and owes no tests. No change-detectors scheduled.
+Prerequisites: planning complete; creative decision E (onboard, don't place) is what the plan implements.
 
-Conventions: edits land in canonical `rules/choose-verification-model/` and `tests/choose-verification-model/`, not generated `.cursor/`. No new files, so no REUSE entries needed. Keyword-injection into `refresh.main` matches its existing `benchlm=`/`pricing_markdown=`/`dest=` pattern.
+TDD encoding: units 1 and 2 are executable (an enabled `-max` reviewer exits 2 today; refresh output and written assets are operator-visible). Both stub tests, write tests, run red, then code. Unit 3 is data covered by the `test_shipped.py` invariants. Unit 4 is prose/policy and owes no tests.
 
-Dependency impact: no existing test calls `refresh.main`, so the new `agent_models=None` default (spawn `agent`) touches no current test. `pick.py` is unaffected apart from `model_key`, per constraint 5.
+Conventions: edits land in canonical `rules/choose-verification-model/` and `tests/choose-verification-model/`. No new files, so no REUSE entries. The `agent_models=` keyword matches the existing `benchlm=`/`pricing_markdown=`/`mapping=`/`dest=` injection pattern on `refresh.main`.
 
-Completeness: requirements 1-8 each map to a unit; acceptance 1-6 map to behaviors or unit 3 step 5.
+Dependency impact: no existing test calls `refresh.main`, so the new default (spawn `agent`) touches no current test, and the plan requires every new `main` test to pass `agent_models` and a temp `dest` (closes the earlier hermeticity advisory). `refresh.py` already writes JSON as `indent=2` plus a trailing newline, and the shipped `mapping.json` is in that exact format, so appending rows keeps existing rows byte-for-byte. `pick.py` is only affected through `model_key` (constraint 5 holds).
+
+Conflict detection: `fill_mapping` reuses `_pricing_rows` and `_category_values`; no duplication. The earlier radical-innovation sketch (suggest matches) is now subsumed by the fill-in design.
+
+Completeness: requirements 1-8 and acceptance 1-6 each map to a behavior or to unit 3 step 5.
 
 Advisory findings:
-1. Hermeticity: any future `refresh.main` test that omits `agent_models` will spawn the real CLI (60 s timeout). Consider telling build to pass `agent_models` in every `main` test, or to default tests through a helper.
-2. Unit 3 step 3 says rows with "no score" are unrecognized, while requirement 5 accepts an interim score. Step 2 fixes `interim_score: null`, so the two agree today. If build sets an interim score by hand, that row counts as recognized.
-3. Vocabulary risk: a future stem whose real name ends in `-none`, `-max`, or `-minimal` would be split. The idempotence test and `test_shipped` guard shipped keys only, not listed stems. Refresh's unmapped warning would surface a mis-split stem, so the risk is visible, not silent.
+1. Mapping write when `mapping` is injected and `dest` is omitted: the plan says `mapping.json` goes "next to the catalog target", which is the skill's `assets/`. A test that injects `mapping` without `dest` would overwrite the shipped mapping. The plan already mandates `dest` in every `main` test; build should keep that strict.
+2. Operator gate leaves `make test` red on `test_catalog_entries_have_required_keys` between unit 3 steps 1 and 4. Build should not commit the null-tier state as a finished unit, or should commit it labeled as work in progress.
+3. Vocabulary risk carried forward: a future stem whose real name ends in `-none`, `-max`, or `-minimal` would be split. Fill-in would add a mis-split stem as a new row, visible in unit 3 step 2 review, not silent.
+4. "No BenchLM score" wording in the unrecognized warning vs requirement 5's interim-score allowance: fill-in writes `interim_score: null`, so they agree; an operator-set interim score later would make the row recognized.
 
-Radical innovation (advisory, not applied): have refresh print a *suggested* mapping row for each unmapped stem. It would take the stem, normalize dots and dashes and word order (e.g. `claude-4.6-opus` → `claude-opus-4-6`), and look for exact candidates in the BenchLM slugs and pricing Model cells it already fetched. It would print candidates and write nothing. This turns 36 hand searches into 36 confirmations and keeps the no-fabrication rule, because the operator or build still accepts each match. Cost: one pure helper plus tests in unit 2.
+Radical innovation (advisory, not applied): make the `agent --list-models` listing a checked-in, operator-refreshed asset (`assets/listing.txt`) instead of a live spawn. Refresh would read the file, and a separate `--update-listing` flag would regenerate it. That makes fill-in reproducible in review (the diff shows which listing produced which rows), removes the subprocess path from `main` entirely, and lets CI run a real-data fill-in test with no account. Cost: one asset, one flag; the `agent_models=None` spawn branch goes away.
