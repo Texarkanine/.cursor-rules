@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: effort-variant-slug
-**Phase:** PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
+**Phase:** BUILD - IN-PROGRESS (waiting at the unit 3 operator tier gate)
 
 ## What Was Done
 - Abandoned the outside-author placement plan after its build step 1; reverted the uncommitted `benchlm_scores` / `scores.json` edits (`1ca0157`). Decision: `memory-bank/active/creative/creative-outside-author-placement.md`.
@@ -16,8 +16,14 @@
 - Build stops at an operator gate for tiers on the new rows. The agent does not propose tiers.
 - Operator (2026-09-24): refresh fills in catalog rows, not just warns. Refresh runs from this repository and writes the skill's `assets/`. A catalog outside the skill, refreshed per user, is a later maybe and out of scope.
 
+## Build So Far
+- Unit 1 (`1e6472c`): `model_key` reads `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `extra-high`, `max`, and an effort before `-thinking`.
+- Unit 2 (`1e6472c`): `parse_listing`, `fill_mapping`, and `refresh.main(agent_models=...)`; refresh writes `mapping.json` next to the catalog. 65 tests green at that commit.
+- Unit 3: real refresh added 32 rows with `tier: null`; 4 stems unrecognized (listed in `tasks.md`). Existing mapping and catalog rows unchanged. `make test` is red only on `test_catalog_entries_have_required_keys` until tiers are set.
+- Observation, not fixed: `has_fast` comes from the pricing page, so `claude-opus-4-7`, `gpt-5.3-codex`, and `gpt-5.2` show `has_fast: false` although the CLI lists `-fast` spellings for them. The listing could be the `has_fast` source in a follow-up.
+
 ## Next Step
-- Preflight this plan.
+- Operator sets `tier` on the 32 null-tier rows in `rules/choose-verification-model/assets/catalog.json`. Then: `make test` green, unit 4 prose, finish Build.
 
 ## Files
 - `rules/choose-verification-model/scripts/modelpool.py`

@@ -119,6 +119,15 @@ No new technology - validation not required. Verified 2026-09-24 against live so
 - The plan fails because build hand-fixes a bad auto-match: unit 3 step 2 sends a bad match back to unit 2 as a failing test.
 - The plan fails because the fill-in rewrites the operator's hand-edited mapping rows: the Existing rows untouched behavior locks that.
 
+## Unrecognized
+
+Refresh on 2026-09-24 could not match these listed stems; they have no rows:
+
+- `claude-fable-5`: no BenchLM score (pricing row `Claude Fable 5` exists)
+- `claude-fable-5-thinking`: no BenchLM score (pricing row `Claude Fable 5` exists)
+- `gpt-5-mini`: no BenchLM score (pricing row `GPT-5 Mini` exists)
+- `gpt-5.1`: no pricing row (only `GPT-5.1 Codex` variants are priced)
+
 ## Status
 
 - [x] Initialization complete
