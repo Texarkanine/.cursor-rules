@@ -1,0 +1,1 @@
+BenchLM items have reasoningType. Newer Claude (Opus 5.5, Fable 5.1, Sonnet 5) have one Reasoning entry; older (Opus 4.5/4.6, Sonnet 4.5) have a Non-Reasoning base plus a -thinking Reasoning entry, often unscored. Cursor lists both plain and -thinking Claude slugs.

@@ -14,7 +14,7 @@ from pathlib import Path
 SKILL_DIR = Path(__file__).resolve().parents[2] / "rules" / "choose-verification-model"
 sys.path.insert(0, str(SKILL_DIR / "scripts"))
 
-from modelpool import select  # noqa: E402
+from modelpool import SelectionError, model_key, select  # noqa: E402
 from pick import main  # noqa: E402
 
 
@@ -434,16 +434,54 @@ class PickTests(unittest.TestCase):
         self.assertEqual(stdout.strip(), "")
         self.assertIn("missing-reviewer", stderr)
 
-    def test_unknown_author_slug_exits_2(self):
-        """An author slug missing from the catalog is an error."""
+    def test_unknown_author_slug_is_printed(self):
+        """An author the script cannot place is printed, and the process exits 0."""
         code, stdout, stderr = _run(
             _catalog({"other": _entry("mid", 80, 1)}),
             _mapping({"other": "claude"}),
             ["--model", "missing-author", "--reviewer-models", "other"],
         )
-        self.assertEqual(code, 2)
-        self.assertEqual(stdout.strip(), "")
-        self.assertIn("missing-author", stderr)
+        self.assertEqual(code, 0)
+        self.assertEqual(stdout.strip(), "missing-author")
+        self.assertEqual(stderr.strip(), "")
+
+        fast_code, fast_stdout, fast_stderr = _run(
+            _catalog({"other": _entry("mid", 80, 1)}),
+            _mapping({"other": "claude"}),
+            ["--model", "missing-author-fast", "--reviewer-models", "other"],
+        )
+        self.assertEqual(fast_code, 0)
+        self.assertEqual(fast_stdout.strip(), "missing-author-fast")
+        self.assertEqual(fast_stderr.strip(), "")
+
+    def test_never_author_is_printed(self):
+        """An author whose tier is never is printed back and main exits 0."""
+        catalog = _catalog(
+            {"old-high": _entry("never", 50, 15), "peer": _entry("A", 70, 5)},
+            tier_order=("C", "B", "A", "S"),
+        )
+        mapping = _mapping({"old-high": "claude", "peer": "gpt"})
+        code, stdout, stderr = _run(
+            catalog, mapping, ["--model", "old-high-fast", "--reviewer-models", "peer"]
+        )
+        self.assertEqual((code, stdout.strip(), stderr), (0, "old-high-fast", ""))
+
+    def test_never_reviewer_is_skipped(self):
+        """An enabled slug whose tier is never is not chosen and is not an error."""
+        catalog = _catalog(
+            {
+                "author": _entry("A", 70, 5),
+                "old": _entry("never", 71, 1),
+                "peer": _entry("A", 69, 5),
+            },
+            tier_order=("C", "B", "A", "S"),
+        )
+        mapping = _mapping({"author": "a", "old": "b", "peer": "c"})
+        for seed in range(5):
+            self.assertEqual(
+                select(catalog, mapping, "author", ["old", "peer"], random.Random(seed)),
+                "peer",
+            )
 
     def test_null_tier_or_null_score_author_exits_2(self):
         """An author with no usable tier or score is an error, same as an unknown slug."""
@@ -459,3 +497,235 @@ class PickTests(unittest.TestCase):
             self.assertEqual(code, 2)
             self.assertEqual(stdout.strip(), "")
             self.assertIn("author", stderr)
+
+
+class EffortIdentityTests(unittest.TestCase):
+    def test_model_key_strips_effort_and_keeps_thinking(self):
+        """Effort is not part of the model. A non-effort token stays."""
+        self.assertEqual(model_key("gemini-3.8-flash-low"), "gemini-3.8-flash")
+        self.assertEqual(model_key("gemini-3.8-flash-medium"), "gemini-3.8-flash")
+        self.assertEqual(model_key("gemini-3.8-flash-high"), "gemini-3.8-flash")
+        self.assertEqual(model_key("gemini-3.8-flash-xhigh-fast"), "gemini-3.8-flash")
+        self.assertEqual(model_key("claude-sonnet-5-thinking-high"), "claude-sonnet-5-thinking")
+        self.assertEqual(model_key("claude-sonnet-5-high"), "claude-sonnet-5")
+        self.assertEqual(model_key("composer-2.5"), "composer-2.5")
+        self.assertEqual(model_key("composer-2.5-fast"), "composer-2.5")
+
+    def test_model_key_reads_cli_efforts(self):
+        """Every effort word agent --list-models uses is stripped, longest first."""
+        cases = {
+            "claude-opus-5-5-max": "claude-opus-5-5",
+            "gpt-5.6-sol-none": "gpt-5.6-sol",
+            "muse-spark-1.3-minimal": "muse-spark-1.3",
+            "gpt-5.5-extra-high": "gpt-5.5",
+            "grok-4.7-xhigh": "grok-4.7",
+            "claude-opus-5-5-max-fast": "claude-opus-5-5",
+            "gpt-5.5-extra-high-fast": "gpt-5.5",
+        }
+        for slug, key in cases.items():
+            with self.subTest(slug=slug):
+                self.assertEqual(model_key(slug), key)
+                self.assertEqual(model_key(key), key)
+
+    def test_model_key_reads_effort_before_thinking(self):
+        """An effort directly before -thinking is removed; -thinking stays."""
+        cases = {
+            "claude-4.6-opus-high-thinking": "claude-4.6-opus-thinking",
+            "claude-4.6-sonnet-medium-thinking": "claude-4.6-sonnet-thinking",
+            "claude-4.6-opus-max-thinking": "claude-4.6-opus-thinking",
+        }
+        for slug, key in cases.items():
+            with self.subTest(slug=slug):
+                self.assertEqual(model_key(slug), key)
+                self.assertEqual(model_key(key), key)
+
+    def test_model_key_leaves_non_effort_suffixes(self):
+        """Slugs with no effort word are their own key, and keys are idempotent."""
+        for slug in (
+            "gpt-5.2",
+            "gemini-3.1-pro",
+            "kimi-k2.7-code",
+            "gpt-5-mini",
+            "claude-sonnet-5-thinking",
+        ):
+            with self.subTest(slug=slug):
+                self.assertEqual(model_key(slug), slug)
+
+    def test_max_effort_reviewer_resolves(self):
+        """An enabled max-effort spelling is the stored model and can be printed."""
+        catalog = _catalog(
+            {
+                "gemini-3.8-flash": _entry("S", 70, 3.5),
+                "claude-opus-5-5": _entry("S", 77, 20),
+            },
+            tier_order=("C", "B", "A", "S"),
+        )
+        mapping = _mapping({"gemini-3.8-flash": "gemini", "claude-opus-5-5": "claude"})
+        self.assertEqual(
+            select(
+                catalog,
+                mapping,
+                "gemini-3.8-flash-low",
+                ["claude-opus-5-5-max"],
+                random.Random(0),
+            ),
+            "claude-opus-5-5-max",
+        )
+
+    def test_effort_on_a_bare_key_is_that_model(self):
+        """composer-2.5-high ranks as composer-2.5 and can select a reviewer."""
+        catalog = _catalog(
+            {
+                "composer-2.5": _entry("C", 60, 2.5),
+                "luna": _entry("C", 80, 1),
+            },
+            tier_order=("C", "B", "A", "S"),
+        )
+        mapping = _mapping({"composer-2.5": "composer", "luna": "gpt"})
+        self.assertEqual(
+            select(catalog, mapping, "composer-2.5-high", ["luna"], random.Random(0)),
+            "luna",
+        )
+        self.assertEqual(
+            select(catalog, mapping, "composer-2.5", ["luna"], random.Random(0)),
+            "luna",
+        )
+
+    def test_author_effort_does_not_change_the_reviewer(self):
+        """low and xhigh of one author select the same reviewer spelling."""
+        catalog = _catalog(
+            {
+                "grok": _entry("A", 70, 6),
+                "gemini-3.8-flash": _entry("A", 75, 3.5, has_fast=False),
+            },
+            tier_order=("C", "B", "A", "S"),
+        )
+        mapping = _mapping({"grok": "grok", "gemini-3.8-flash": "gemini"})
+        enabled = ["gemini-3.8-flash-high"]
+        low = select(catalog, mapping, "grok-low", enabled, random.Random(0))
+        extra = select(catalog, mapping, "grok-xhigh", enabled, random.Random(0))
+        self.assertEqual(low, "gemini-3.8-flash-high")
+        self.assertEqual(extra, low)
+
+    def test_printed_effort_is_the_candidate_not_the_author(self):
+        """The reviewer effort is the spelling on the candidate list."""
+        catalog = _catalog(
+            {
+                "gemini-3.8-flash": _entry("A", 75, 3.5),
+                "claude-opus-5-5": _entry("S", 77, 20, has_fast=True),
+            },
+            tier_order=("C", "B", "A", "S"),
+        )
+        mapping = _mapping({"gemini-3.8-flash": "gemini", "claude-opus-5-5": "claude"})
+        self.assertEqual(
+            select(
+                catalog,
+                mapping,
+                "gemini-3.8-flash-low",
+                ["claude-opus-5-5-high"],
+                random.Random(0),
+            ),
+            "claude-opus-5-5-high",
+        )
+
+    def test_fast_appends_to_the_candidate_effort(self):
+        """-fast follows the author. The candidate's effort stays put."""
+        catalog = _catalog(
+            {
+                "grok": _entry("A", 70, 6, has_fast=True),
+                "gemini-3.8-flash": _entry("A", 75, 3.5, has_fast=True),
+            },
+            tier_order=("C", "B", "A", "S"),
+        )
+        mapping = _mapping({"grok": "grok", "gemini-3.8-flash": "gemini"})
+        enabled = ["gemini-3.8-flash-high"]
+        self.assertEqual(
+            select(catalog, mapping, "grok-low-fast", enabled, random.Random(0)),
+            "gemini-3.8-flash-high-fast",
+        )
+        self.assertEqual(
+            select(catalog, mapping, "grok-low", enabled, random.Random(0)),
+            "gemini-3.8-flash-high",
+        )
+
+    def test_first_listed_effort_is_the_one_candidate(self):
+        """Two efforts of one model are one row. The first spelling is printed."""
+        catalog = _catalog(
+            {
+                "grok": _entry("A", 70, 6),
+                "gemini-3.8-flash": _entry("A", 75, 3.5),
+            },
+            tier_order=("C", "B", "A", "S"),
+        )
+        mapping = _mapping({"grok": "grok", "gemini-3.8-flash": "gemini"})
+        self.assertEqual(
+            select(
+                catalog,
+                mapping,
+                "grok-high",
+                ["gemini-3.8-flash-low", "gemini-3.8-flash-high"],
+                random.Random(0),
+            ),
+            "gemini-3.8-flash-low",
+        )
+
+    def test_empty_pool_keeps_the_author_effort(self):
+        """Returning the author prints the spelling they were invoked as."""
+        catalog = _catalog(
+            {"gemini-3.8-flash": _entry("S", 75, 3.5)},
+            tier_order=("C", "B", "A", "S"),
+        )
+        mapping = _mapping({"gemini-3.8-flash": "gemini"})
+        self.assertEqual(
+            select(
+                catalog,
+                mapping,
+                "gemini-3.8-flash-low",
+                ["gemini-3.8-flash-low"],
+                random.Random(0),
+            ),
+            "gemini-3.8-flash-low",
+        )
+
+    def test_thinking_stem_does_not_match_the_bare_model(self):
+        """claude-sonnet-5-high is not claude-sonnet-5-thinking."""
+        catalog = _catalog(
+            {"claude-sonnet-5-thinking": _entry("A", 71, 10)},
+            tier_order=("C", "B", "A", "S"),
+        )
+        mapping = _mapping({"claude-sonnet-5-thinking": "claude"})
+        code, stdout, stderr = _run(
+            catalog,
+            mapping,
+            [
+                "--model",
+                "claude-sonnet-5-thinking-high",
+                "--reviewer-models",
+                "claude-sonnet-5-high",
+            ],
+        )
+        self.assertEqual(code, 2)
+        self.assertEqual(stdout.strip(), "")
+        self.assertIn("claude-sonnet-5-high", stderr)
+
+    def test_select_does_not_mutate_the_catalog(self):
+        """Ranking an effort spelling does not add a row."""
+        models = {
+            "grok": _entry("A", 70, 6),
+            "gemini-3.8-flash": _entry("A", 75, 3.5),
+        }
+        catalog = _catalog(models, tier_order=("C", "B", "A", "S"))
+        mapping = _mapping({"grok": "grok", "gemini-3.8-flash": "gemini"})
+        before = {key: dict(value) for key, value in catalog["models"].items()}
+        select(
+            catalog,
+            mapping,
+            "grok-xhigh",
+            ["gemini-3.8-flash-high"],
+            random.Random(0),
+        )
+        self.assertIs(catalog["models"], models)
+        self.assertEqual(
+            {key: dict(value) for key, value in catalog["models"].items()},
+            before,
+        )

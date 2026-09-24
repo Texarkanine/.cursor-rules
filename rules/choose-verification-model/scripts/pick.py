@@ -25,10 +25,13 @@ def main(argv, *, catalog=None, mapping=None) -> int:
     and ``mapping`` are parsed JSON objects; when either is omitted it
     is loaded from ``assets/`` in this skill.
 
-    Returns 0 when a slug was printed. Returns 2 when the author or an
-    enabled slug is unknown or unusable. On failure, stdout is empty
-    and stderr names the slug. When the encoded search leaves an empty
-    pool, the author is printed instead of rejected.
+    Returns 0 when a slug was printed. That includes an author whose
+    model is not in the catalog: stdout is that spelling. An effort
+    word on a known model is that model. Returns 2 when an enabled
+    slug's model is not in the catalog, or the author row has a null
+    tier or null score. On failure, stdout is empty and stderr names
+    the slug. When the encoded search leaves an empty pool, the author
+    spelling is printed instead of rejected.
     """
     parser = argparse.ArgumentParser(prog="pick.py")
     parser.add_argument("--model", required=True)

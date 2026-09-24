@@ -6,24 +6,27 @@
     "S"
   ],
   "models": {
-    "claude-opus-5-5-medium": {
+    "claude-opus-5-5": {
       "tier": "S",
       "score": 77.06666666666666,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 20.0,
       "has_fast": true
     },
-    "claude-fable-5-1-thinking-high": {
+    "claude-fable-5-1-thinking": {
       "tier": "S",
       "score": 76.76666666666667,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 50.0,
       "has_fast": false
     },
-    "claude-sonnet-5-thinking-high": {
+    "claude-sonnet-5-thinking": {
       "tier": "A",
       "score": 71.3,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 10.0,
       "has_fast": false
     },
@@ -31,63 +34,328 @@
       "tier": "C",
       "score": 60.05,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 2.5,
       "has_fast": true
     },
-    "gemini-3.8-flash-high": {
+    "gemini-3.8-flash": {
       "tier": "A",
       "score": 75.33333333333333,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 3.5,
       "has_fast": false
     },
-    "gpt-5.6-sol-medium": {
+    "gpt-5.6-sol": {
       "tier": "A",
       "score": 72.53333333333333,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 20.0,
       "has_fast": true
     },
-    "gpt-5.6-terra-medium": {
+    "gpt-5.6-terra": {
       "tier": "B",
       "score": 66.86666666666666,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 12.0,
       "has_fast": true
     },
-    "gpt-5.6-luna-medium": {
+    "gpt-5.6-luna": {
       "tier": "C",
       "score": 58.06666666666666,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 1.2,
       "has_fast": true
     },
-    "cursor-grok-4.6-xhigh": {
+    "cursor-grok-4.6": {
       "tier": "A",
       "score": 76.5,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 6.0,
       "has_fast": true
     },
-    "grok-4.7-high": {
+    "grok-4.7": {
       "tier": "A",
       "score": 70.10000000000001,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 6.0,
       "has_fast": true
     },
-    "kimi-k3-high": {
+    "kimi-k3": {
       "tier": "A",
       "score": 77.86666666666666,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 15.0,
       "has_fast": false
     },
-    "muse-spark-1.3-high": {
+    "muse-spark-1.3": {
       "tier": "A",
       "score": 75.8,
       "score_source": "benchlm",
+      "effort_encoded": false,
       "output_cost_per_million": 4.25,
+      "has_fast": false
+    },
+    "gpt-5.3-codex": {
+      "tier": "never",
+      "score": 69.63333333333334,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 14.0,
+      "has_fast": true
+    },
+    "gpt-5.2": {
+      "tier": "never",
+      "score": 41.0,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 14.0,
+      "has_fast": true
+    },
+    "claude-opus-5-thinking": {
+      "tier": "A",
+      "score": 83.83333333333333,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 25.0,
+      "has_fast": true
+    },
+    "cursor-grok-4.5": {
+      "tier": "B",
+      "score": 61.666666666666664,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 6.0,
+      "has_fast": true
+    },
+    "gemini-3.7-flash": {
+      "tier": "B",
+      "score": 73.2,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 3.5,
+      "has_fast": false
+    },
+    "claude-opus-5": {
+      "tier": "never",
+      "score": 83.83333333333333,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 25.0,
+      "has_fast": true
+    },
+    "claude-opus-4-8": {
+      "tier": "never",
+      "score": 67.46666666666665,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 25.0,
+      "has_fast": true
+    },
+    "claude-opus-4-8-thinking": {
+      "tier": "never",
+      "score": 67.46666666666665,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 25.0,
+      "has_fast": true
+    },
+    "gpt-5.5": {
+      "tier": "never",
+      "score": 65.76666666666667,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 30.0,
+      "has_fast": true
+    },
+    "claude-fable-5-1": {
+      "tier": "never",
+      "score": 76.76666666666667,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 50.0,
+      "has_fast": false
+    },
+    "claude-sonnet-5": {
+      "tier": "never",
+      "score": 71.3,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 10.0,
+      "has_fast": false
+    },
+    "claude-4.6-sonnet": {
+      "tier": "never",
+      "score": 61.800000000000004,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 15.0,
+      "has_fast": false
+    },
+    "claude-4.6-sonnet-thinking": {
+      "tier": "never",
+      "score": 61.800000000000004,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 15.0,
+      "has_fast": false
+    },
+    "claude-opus-4-7": {
+      "tier": "never",
+      "score": 52.849999999999994,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 25.0,
+      "has_fast": true
+    },
+    "claude-opus-4-7-thinking": {
+      "tier": "never",
+      "score": 52.849999999999994,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 25.0,
+      "has_fast": true
+    },
+    "gpt-5.4": {
+      "tier": "never",
+      "score": 59.70000000000001,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 15.0,
+      "has_fast": true
+    },
+    "claude-4.6-opus": {
+      "tier": "never",
+      "score": 62.1,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 25.0,
+      "has_fast": false
+    },
+    "claude-4.6-opus-thinking": {
+      "tier": "never",
+      "score": 62.1,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 25.0,
+      "has_fast": false
+    },
+    "claude-4.5-opus": {
+      "tier": "never",
+      "score": 58.26666666666666,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 25.0,
+      "has_fast": false
+    },
+    "claude-4.5-opus-thinking": {
+      "tier": "never",
+      "score": 58.26666666666666,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 25.0,
+      "has_fast": false
+    },
+    "gemini-3.6-flash": {
+      "tier": "never",
+      "score": 71.53333333333335,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 7.5,
+      "has_fast": false
+    },
+    "gemini-3.1-pro": {
+      "tier": "never",
+      "score": 65.39999999999999,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 12.0,
+      "has_fast": false
+    },
+    "gpt-5.4-mini": {
+      "tier": "never",
+      "score": 63.800000000000004,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 4.5,
+      "has_fast": false
+    },
+    "gpt-5.4-nano": {
+      "tier": "never",
+      "score": 52.833333333333336,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 1.25,
+      "has_fast": false
+    },
+    "claude-4.5-sonnet": {
+      "tier": "never",
+      "score": 38.43333333333334,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 15.0,
+      "has_fast": false
+    },
+    "claude-4.5-sonnet-thinking": {
+      "tier": "never",
+      "score": 38.43333333333334,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 15.0,
+      "has_fast": false
+    },
+    "gemini-3-flash": {
+      "tier": "never",
+      "score": 63.85,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 3.0,
+      "has_fast": false
+    },
+    "gemini-3.5-flash": {
+      "tier": "never",
+      "score": 60.06666666666667,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 9.0,
+      "has_fast": false
+    },
+    "claude-4-sonnet": {
+      "tier": "never",
+      "score": 51.8,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 15.0,
+      "has_fast": false
+    },
+    "claude-4-sonnet-thinking": {
+      "tier": "never",
+      "score": 51.8,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 15.0,
+      "has_fast": false
+    },
+    "kimi-k2.7-code": {
+      "tier": "never",
+      "score": 63.56666666666666,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 4.0,
+      "has_fast": false
+    },
+    "glm-5.2": {
+      "tier": "never",
+      "score": 61.866666666666674,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 4.4,
       "has_fast": false
     }
   }

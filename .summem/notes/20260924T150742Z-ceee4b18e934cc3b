@@ -1,0 +1,1 @@
+Models are parameterized (effort, speed, context window); Cursor bakes effort and speed into slugs. The real model is the stem (grok-4.7). If fast is valid for a model it is valid at every effort, so has_fast is per model, never per effort.

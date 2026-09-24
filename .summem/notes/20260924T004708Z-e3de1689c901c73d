@@ -1,0 +1,1 @@
+BenchLM slugs use dashes (gpt-5-6-sol); Cursor stems use dots (gpt-5.6-sol), cursor- prefixes, and -thinking. Direct scores[model_key(slug)] hits 2 of 12 live Task slugs; dots-to-dashes hits 9. BenchLM also has real -thinking slugs (claude-opus-4-5-thinking).
