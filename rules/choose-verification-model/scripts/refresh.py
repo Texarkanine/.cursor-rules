@@ -6,10 +6,11 @@ import json
 import shutil
 import subprocess
 import sys
+import tomllib
 import urllib.request
 from pathlib import Path
 
-from modelpool import build_catalog, fill_mapping
+from modelpool import build_catalog, fill_mapping, previous_from_tiers
 
 BENCHLM_URL = "https://benchlm.ai/data/models.json"
 PRICING_URL = "https://cursor.com/docs/models-and-pricing.md"
@@ -22,7 +23,7 @@ def main(
     benchlm=None,
     pricing_markdown=None,
     mapping=None,
-    previous=None,
+    tiers=None,
     dest=None,
     agent_models=None,
 ) -> int:
@@ -30,9 +31,13 @@ def main(
 
     ``argv`` has no required arguments. The keyword arguments inject
     already-loaded inputs for tests. When they are omitted, this
-    function reads ``assets/mapping.json`` and ``assets/catalog.json``,
+    function reads ``assets/mapping.json`` and ``assets/tiers.toml``,
     fetches the BenchLM and pricing URLs, and writes the catalog back
     to ``assets/``. Warnings go to stderr.
+
+    ``tiers`` is the parsed ``tiers.toml``: the operator's hand-set
+    tiers, and the only source of catalog tiers. Refresh never writes
+    that file. Reading it needs Python 3.11 or later (``tomllib``).
 
     ``agent_models`` is the ``agent --list-models`` output. A string is
     that listing. ``False`` means no listing is available. ``None``
@@ -50,12 +55,8 @@ def main(
     argparse.ArgumentParser(prog="refresh.py").parse_args(argv)
     if mapping is None:
         mapping = json.loads((_ASSETS / "mapping.json").read_text(encoding="utf-8"))
-    if previous is None:
-        previous_path = _ASSETS / "catalog.json"
-        if previous_path.exists():
-            previous = json.loads(previous_path.read_text(encoding="utf-8"))
-        else:
-            previous = {"tier_order": [], "models": {}}
+    if tiers is None:
+        tiers = tomllib.loads((_ASSETS / "tiers.toml").read_text(encoding="utf-8"))
     if benchlm is None:
         benchlm = json.loads(_fetch(BENCHLM_URL))
     if pricing_markdown is None:
@@ -68,13 +69,14 @@ def main(
     else:
         listing = agent_models
         mapping, fill_warnings = fill_mapping(listing, mapping, pricing_markdown, benchlm)
+    previous, tier_warnings = previous_from_tiers(tiers, mapping)
     catalog, warnings = build_catalog(benchlm, pricing_markdown, mapping, previous, listing=listing)
     target = Path(dest) if dest is not None else _ASSETS / "catalog.json"
     target.write_text(json.dumps(catalog, indent=2) + "\n", encoding="utf-8")
     target.with_name("mapping.json").write_text(
         json.dumps(mapping, indent=2) + "\n", encoding="utf-8"
     )
-    for warning in fill_warnings + warnings:
+    for warning in fill_warnings + tier_warnings + warnings:
         print(warning, file=sys.stderr)
     return 0
 

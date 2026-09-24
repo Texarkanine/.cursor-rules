@@ -67,13 +67,13 @@ class ShippedTests(unittest.TestCase):
         """Catalog entries have the schema keys. Families are non-empty.
 
         The ladder is C, B, A, S from lowest to highest. Each shipped
-        slug has a score and a tier on that ladder. The letters
-        themselves are hand-assigned and are not locked.
+        slug has a score and a tier on that ladder, or the tier never.
+        The letters themselves are hand-assigned and are not locked.
         """
         mapping = _load("mapping.json")
         catalog = _load("catalog.json")
         self.assertEqual(catalog["tier_order"], ["C", "B", "A", "S"])
-        ladder = set(catalog["tier_order"])
+        ladder = set(catalog["tier_order"]) | {"never"}
         for slug, entry in catalog["models"].items():
             self.assertEqual(model_key(slug), slug)
             for key in REQUIRED_CATALOG_KEYS:

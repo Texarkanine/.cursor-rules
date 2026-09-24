@@ -1,0 +1,1 @@
+choose-verification-model tiers live only in hand-edited assets/tiers.toml (slug lists under S A B C never). Refresh reads it via tomllib (Python 3.11+) and never writes it; catalog.json and mapping.json are machine-written. never: skipped as reviewer, author echoed.

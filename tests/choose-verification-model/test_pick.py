@@ -454,6 +454,35 @@ class PickTests(unittest.TestCase):
         self.assertEqual(fast_stdout.strip(), "missing-author-fast")
         self.assertEqual(fast_stderr.strip(), "")
 
+    def test_never_author_is_printed(self):
+        """An author whose tier is never is printed back and main exits 0."""
+        catalog = _catalog(
+            {"old-high": _entry("never", 50, 15), "peer": _entry("A", 70, 5)},
+            tier_order=("C", "B", "A", "S"),
+        )
+        mapping = _mapping({"old-high": "claude", "peer": "gpt"})
+        code, stdout, stderr = _run(
+            catalog, mapping, ["--model", "old-high-fast", "--reviewer-models", "peer"]
+        )
+        self.assertEqual((code, stdout.strip(), stderr), (0, "old-high-fast", ""))
+
+    def test_never_reviewer_is_skipped(self):
+        """An enabled slug whose tier is never is not chosen and is not an error."""
+        catalog = _catalog(
+            {
+                "author": _entry("A", 70, 5),
+                "old": _entry("never", 71, 1),
+                "peer": _entry("A", 69, 5),
+            },
+            tier_order=("C", "B", "A", "S"),
+        )
+        mapping = _mapping({"author": "a", "old": "b", "peer": "c"})
+        for seed in range(5):
+            self.assertEqual(
+                select(catalog, mapping, "author", ["old", "peer"], random.Random(seed)),
+                "peer",
+            )
+
     def test_null_tier_or_null_score_author_exits_2(self):
         """An author with no usable tier or score is an error, same as an unknown slug."""
         enabled = ["author", "other"]

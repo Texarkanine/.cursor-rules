@@ -103,6 +103,28 @@ Behaviors:
 3. Write the test and run red.
 4. Write code and run green: warn when the copied or new tier is `None`.
 
+### 2d. Hand-edited `tiers.toml` and the `never` tier — executable [operator-directed during build, 2026-09-24] [x]
+
+- Files: `rules/choose-verification-model/scripts/modelpool.py`, `rules/choose-verification-model/scripts/refresh.py`, `rules/choose-verification-model/assets/tiers.toml` (new), `tests/choose-verification-model/test_refresh.py`, `tests/choose-verification-model/test_pick.py`, `tests/choose-verification-model/test_shipped.py`
+- Why: tiers are the only hand-set data, and editing them among generated fields is painful. The operator lists slugs under `S`, `A`, `B`, `C`, and `never` in one TOML file. Refresh reads it (stdlib `tomllib`, Python 3.11+) and never writes it. `catalog.json` and `mapping.json` stay machine-written JSON; `pick` reads only JSON.
+
+Behaviors:
+
+- [Tiers from TOML]: `{"S": ["a"], "A": ["b-high-fast"]}` → previous tiers `a: S`, `b: A` (listed spellings go through `model_key`); `tier_order` is `C`, `B`, `A`, `S`
+- [Never is a tier value]: `{"never": ["c"]}` → `c: never`; `never` is not in `tier_order`
+- [Unknown key warns]: `{"Z": ["a"]}` → `WARNING: unknown tier Z in tiers.toml`; `a` untiered
+- [Listed twice warns]: `a` under `S` and `A` → `WARNING: a is listed under S and A in tiers.toml; using S`
+- [Unmapped listed stem warns]: a listed stem that mapping lacks → `WARNING: tiers.toml lists x, which is not in mapping`
+- [Refresh reads tiers]: `refresh.main(..., tiers=doc)` → catalog tiers follow `doc`; an unlisted mapped stem gets `tier: null` and `must set tier`; a `never` stem gets `tier: never` and no tier warning; `tiers.toml` is not written
+- [Never author echoes]: author row with tier `never` → `select` returns the author spelling; `main` exits 0
+- [Never reviewer is skipped]: enabled slug with tier `never` → not chosen, no error
+- [Shipped tiers are valid]: every shipped catalog tier is on the ladder or `never`
+
+1. Stub tests in `test_refresh.py` and `test_pick.py`; update `test_shipped.py` to accept `never`.
+2. Stub interface: `TIER_ORDER = ("C", "B", "A", "S")` and `NEVER_TIER = "never"` in `modelpool.py`; `previous_from_tiers(doc, mapping) -> tuple[dict, list]` with a docstring; `refresh.main` keyword `tiers=None` replaces `previous=` (parsed TOML dict; `None` reads `assets/tiers.toml` with `tomllib`). `build_catalog` keeps its signature.
+3. Write tests and run red.
+4. Write code and run green; write `assets/tiers.toml` from the current tiers (including the operator's uncommitted edits) with the untiered stems in a comment; re-run refresh.
+
 ### 3. Onboard the listed models — data, with an operator gate
 
 - Files: `rules/choose-verification-model/assets/mapping.json`, `rules/choose-verification-model/assets/catalog.json`

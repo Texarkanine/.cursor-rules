@@ -25,8 +25,11 @@
 - Operator (2026-09-24): refresh warns `must set tier` for every null-tier row on every run, not only for rows new to the previous catalog. Added as unit 2c.
 - Operator (2026-09-24): `-fast` rule unchanged. Append `-fast` when the author slug was fast and the chosen model has fast, even if that fast spelling is not in `--reviewer-models`. In Cursor a model's parameters cannot be disabled, so the fast spelling is always usable.
 
+- Unit 2c: `must set tier` on every refresh for every null tier.
+- Unit 2d (operator-directed): tiers live in hand-edited `assets/tiers.toml` (lists of slugs under `S`, `A`, `B`, `C`, `never`), read by refresh with `tomllib` and never written. `refresh.main(tiers=...)` replaced `previous=`. `never` rows stay in the catalog; pick skips them as reviewers and prints a `never` author back. `tiers.toml` was generated from the catalog including the operator's 4 uncommitted tier edits; the 28 untiered stems are listed in a comment at its end. 78 tests; only the tier gate is red.
+
 ## Next Step
-- Operator sets `tier` on the 32 null-tier rows in `rules/choose-verification-model/assets/catalog.json`. Then: `make test` green, unit 4 prose, finish Build.
+- Operator tiers the 28 untiered stems in `rules/choose-verification-model/assets/tiers.toml` (or marks them `never`), then runs refresh. Then: `make test` green, unit 4 prose (including `tiers.toml` and Python 3.11 for refresh), finish Build.
 
 ## Files
 - `rules/choose-verification-model/scripts/modelpool.py`

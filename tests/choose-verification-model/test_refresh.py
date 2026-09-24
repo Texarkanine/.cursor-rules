@@ -16,7 +16,13 @@ from pathlib import Path
 SKILL_DIR = Path(__file__).resolve().parents[2] / "rules" / "choose-verification-model"
 sys.path.insert(0, str(SKILL_DIR / "scripts"))
 
-from modelpool import build_catalog, fill_mapping, parse_listing, select  # noqa: E402
+from modelpool import (  # noqa: E402
+    build_catalog,
+    fill_mapping,
+    parse_listing,
+    previous_from_tiers,
+    select,
+)
 from refresh import main as refresh_main  # noqa: E402
 
 
@@ -622,7 +628,7 @@ class FillTests(unittest.TestCase):
                     benchlm=_benchlm({"grok-4-7": _SCORED, "gpt-5-2": _SCORED}),
                     pricing_markdown=_pricing(["Grok 4.7", "GPT-5.2"]),
                     mapping=existing,
-                    previous=_previous({"grok-4.7": {"tier": "high"}}),
+                    tiers={"A": ["grok-4.7"]},
                     dest=dest,
                     agent_models=_listing(
                         [("grok-4.7-low", "Grok 4.7  Low"), ("gpt-5.2", "GPT-5.2"), ("gpt-5.1", "GPT-5.1")]
@@ -633,7 +639,7 @@ class FillTests(unittest.TestCase):
         self.assertEqual(code, 0)
         self.assertEqual(list(written_mapping["models"]), ["grok-4.7", "gpt-5.2"])
         self.assertIsNone(written_catalog["models"]["gpt-5.2"]["tier"])
-        self.assertEqual(written_catalog["models"]["grok-4.7"]["tier"], "high")
+        self.assertEqual(written_catalog["models"]["grok-4.7"]["tier"], "A")
         lines = stderr.getvalue().splitlines()
         self.assertIn("WARNING: must set tier for gpt-5.2", lines)
         self.assertIn("WARNING: unrecognized model gpt-5.1: no pricing row", lines)
@@ -704,7 +710,7 @@ class FillTests(unittest.TestCase):
                         mapping=_mapping(
                             {"m": {"family": "a", "pricing_name": "Row", "benchlm_slug": "m"}}
                         ),
-                        previous=_previous({"m": {"tier": "low"}}),
+                        tiers={"C": ["m"]},
                         dest=dest,
                         agent_models=agent_models,
                     )
@@ -727,7 +733,7 @@ class FillTests(unittest.TestCase):
                     benchlm=_benchlm({"grok-4-7": _SCORED}),
                     pricing_markdown=_pricing(["Grok 4.7"]),
                     mapping=existing,
-                    previous=_previous({"grok-4.7": {"tier": "high"}}),
+                    tiers={"A": ["grok-4.7"]},
                     dest=dest,
                     agent_models=False,
                 )
@@ -740,3 +746,77 @@ class FillTests(unittest.TestCase):
             stderr.getvalue().splitlines(),
             ["WARNING: agent --list-models unavailable; skipped model fill-in"],
         )
+
+
+class TiersTests(unittest.TestCase):
+    """Tiers come from the hand-edited tiers.toml, parsed by refresh."""
+
+    _MAPPING = _mapping(
+        {
+            stem: {"family": "f", "pricing_name": "Row", "benchlm_slug": "m"}
+            for stem in ("a", "b", "c")
+        }
+    )
+
+    def test_tiers_from_toml_use_model_key_and_the_fixed_order(self):
+        """Listed spellings collapse to stems; tier_order is C, B, A, S."""
+        previous, warnings = previous_from_tiers(
+            {"S": ["a"], "A": ["b-high-fast"]}, self._MAPPING
+        )
+        self.assertEqual(warnings, [])
+        self.assertEqual(previous["tier_order"], ["C", "B", "A", "S"])
+        self.assertEqual(previous["models"], {"a": {"tier": "S"}, "b": {"tier": "A"}})
+
+    def test_never_is_a_tier_value_outside_the_order(self):
+        """A stem under never gets tier never, which is not on the ladder."""
+        previous, warnings = previous_from_tiers({"never": ["c"]}, self._MAPPING)
+        self.assertEqual(warnings, [])
+        self.assertEqual(previous["models"], {"c": {"tier": "never"}})
+        self.assertNotIn("never", previous["tier_order"])
+
+    def test_unknown_tier_key_warns(self):
+        """A key that is not S, A, B, C, or never warns and tiers nothing."""
+        previous, warnings = previous_from_tiers({"Z": ["a"]}, self._MAPPING)
+        self.assertEqual(previous["models"], {})
+        self.assertEqual(warnings, ["WARNING: unknown tier Z in tiers.toml"])
+
+    def test_stem_listed_twice_warns_and_keeps_the_first(self):
+        """The same stem under two tiers warns and keeps the first listing."""
+        previous, warnings = previous_from_tiers(
+            {"S": ["a"], "A": ["a-low"]}, self._MAPPING
+        )
+        self.assertEqual(previous["models"], {"a": {"tier": "S"}})
+        self.assertEqual(
+            warnings, ["WARNING: a is listed under S and A in tiers.toml; using S"]
+        )
+
+    def test_listed_stem_missing_from_mapping_warns(self):
+        """A listed stem that mapping lacks warns."""
+        _previous_doc, warnings = previous_from_tiers({"B": ["x"]}, self._MAPPING)
+        self.assertEqual(
+            warnings, ["WARNING: tiers.toml lists x, which is not in mapping"]
+        )
+
+    def test_refresh_reads_tiers_and_never_writes_them(self):
+        """refresh.main tiers the catalog from tiers; never rows do not warn; no tiers.toml is written."""
+        with tempfile.TemporaryDirectory() as tmp:
+            dest = Path(tmp) / "catalog.json"
+            stderr = io.StringIO()
+            with redirect_stderr(stderr):
+                code = refresh_main(
+                    [],
+                    benchlm=_benchlm({"m": _SCORED}),
+                    pricing_markdown=_pricing(["Row"]),
+                    mapping=self._MAPPING,
+                    tiers={"S": ["a"], "never": ["c"]},
+                    dest=dest,
+                    agent_models=_listing([]),
+                )
+            catalog = json.loads(dest.read_text(encoding="utf-8"))
+            wrote_tiers = (Path(tmp) / "tiers.toml").exists()
+        self.assertEqual(code, 0)
+        self.assertFalse(wrote_tiers)
+        self.assertEqual(catalog["tier_order"], ["C", "B", "A", "S"])
+        tiers = {stem: entry["tier"] for stem, entry in catalog["models"].items()}
+        self.assertEqual(tiers, {"a": "S", "b": None, "c": "never"})
+        self.assertEqual(stderr.getvalue().splitlines(), ["WARNING: must set tier for b"])

@@ -14,6 +14,8 @@ _THINKING_SUFFIX = "-thinking"
 _CURSOR_PREFIX = "cursor-"
 _LISTING_ROW = re.compile(r"([a-z0-9][a-z0-9.\-]*) - (.+)")
 _EFFORTS = ("extra-high", "minimal", "medium", "xhigh", "none", "high", "low", "max")
+TIER_ORDER = ("C", "B", "A", "S")
+NEVER_TIER = "never"
 
 
 class SelectionError(Exception):
@@ -147,6 +149,8 @@ def select(catalog, mapping, author, enabled, rng):
             raise SelectionError(stored, f"unknown slug: {stored}")
         return mapped["family"]
 
+    if models[author_stored]["tier"] == NEVER_TIER:
+        return author
     if not usable(author_stored):
         raise SelectionError(author, f"unknown slug: {author}")
 
@@ -307,6 +311,39 @@ def _family(stem):
     if stem.startswith(_CURSOR_PREFIX):
         stem = stem[len(_CURSOR_PREFIX) :]
     return stem.split("-")[0]
+
+
+def previous_from_tiers(doc, mapping):
+    """Return ``(previous, warnings)`` for ``build_catalog`` from ``tiers.toml``.
+
+    ``doc`` is the parsed TOML: keys ``S``, ``A``, ``B``, ``C``, and
+    ``never``, each a list of slugs. A listed slug goes through
+    ``model_key``, so any Cursor spelling of a model names that model.
+    ``previous`` is ``{"tier_order": TIER_ORDER, "models": {stem:
+    {"tier": tier}}}``. ``never`` is a tier value but not on the ladder.
+
+    Warnings: a key that is not a tier; a stem listed under two tiers
+    (the first listing is kept); a listed stem that ``mapping`` lacks.
+    """
+    tiers = {}
+    warnings = []
+    for tier, slugs in doc.items():
+        if tier not in TIER_ORDER and tier != NEVER_TIER:
+            warnings.append(f"WARNING: unknown tier {tier} in tiers.toml")
+            continue
+        for slug in slugs:
+            stem = model_key(slug)
+            if stem in tiers:
+                kept = tiers[stem]
+                warnings.append(
+                    f"WARNING: {stem} is listed under {kept} and {tier} in tiers.toml; using {kept}"
+                )
+                continue
+            tiers[stem] = tier
+            if stem not in mapping["models"]:
+                warnings.append(f"WARNING: tiers.toml lists {stem}, which is not in mapping")
+    models = {stem: {"tier": tier} for stem, tier in tiers.items()}
+    return {"tier_order": list(TIER_ORDER), "models": models}, warnings
 
 
 def build_catalog(benchlm, pricing_markdown, mapping, previous, listing=None):

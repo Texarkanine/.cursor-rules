@@ -1,0 +1,68 @@
+# Hand-set reviewer tiers: how much you trust each model with your work.
+# Not derived from benchmark scores. Refresh reads this file and never writes it.
+#
+# List slugs under a tier. Any Cursor spelling works; effort and -fast are
+# ignored, so "claude-opus-5-5-high" means claude-opus-5-5.
+# never: never picked as a reviewer, printed back as an author, no warnings.
+# After editing, run scripts/refresh.py to copy the tiers into catalog.json.
+
+S = [
+  "claude-fable-5-1-thinking",
+  "claude-opus-5-5",
+]
+
+A = [
+  "claude-opus-4-8-thinking",
+  "claude-opus-5-thinking",
+  "claude-sonnet-5-thinking",
+  "cursor-grok-4.6",
+  "gemini-3.8-flash",
+  "gpt-5.6-sol",
+  "grok-4.7",
+  "kimi-k3",
+  "muse-spark-1.3",
+]
+
+B = [
+  "cursor-grok-4.5",
+  "gemini-3.7-flash",
+  "gpt-5.6-terra",
+]
+
+C = [
+  "composer-2.5",
+  "gpt-5.6-luna",
+]
+
+never = []
+
+# Untiered after the 2026-09-24 onboarding. Move each into a list above;
+# refresh warns about every untiered model until you do.
+# claude-4-sonnet
+# claude-4-sonnet-thinking
+# claude-4.5-opus
+# claude-4.5-opus-thinking
+# claude-4.5-sonnet
+# claude-4.5-sonnet-thinking
+# claude-4.6-opus
+# claude-4.6-opus-thinking
+# claude-4.6-sonnet
+# claude-4.6-sonnet-thinking
+# claude-fable-5-1
+# claude-opus-4-7
+# claude-opus-4-7-thinking
+# claude-opus-4-8
+# claude-opus-5
+# claude-sonnet-5
+# gemini-3-flash
+# gemini-3.1-pro
+# gemini-3.5-flash
+# gemini-3.6-flash
+# glm-5.2
+# gpt-5.2
+# gpt-5.3-codex
+# gpt-5.4
+# gpt-5.4-mini
+# gpt-5.4-nano
+# gpt-5.5
+# kimi-k2.7-code
