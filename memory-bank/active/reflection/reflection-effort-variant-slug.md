@@ -1,6 +1,6 @@
 ---
 task_id: effort-variant-slug
-date: 2026-09-23
+date: 2026-09-24
 complexity_level: 2
 ---
 
@@ -8,30 +8,32 @@ complexity_level: 2
 
 ## Summary
 
-`pick.py` places an unmatched effort spelling in memory and ranks it with the existing window. When the author spelling still cannot be placed, the script prints that spelling and exits 0. QA passed with one advisory.
+Issue #129 asked that an effort spelling not make `pick.py` exit 2. What shipped is a stem-keyed superset catalog covering every model `agent --list-models` reports, filled in by refresh, with tiers in a hand-edited `tiers.toml` (including `never`). QA passed with advisory; 78 tests.
 
 ## Requirements vs Outcome
 
-The brief's five requirements shipped. Different efforts stay different rows, the printed reviewer is an enabled spelling or the author, and `catalog.json` is not given a row per effort. The author echo was added after planning, at the operator's request, and it lives in `select` rather than in `SKILL.md`.
+The final brief's requirements shipped: CLI effort vocabulary, stem keys with no per-effort score, refresh fill-in, author echo, and operator-set tiers. The brief itself moved three times. First build: an interpolated per-effort score (shipped, then removed as invented precision). Second plan: place outside authors by score-neighbor tier (abandoned mid-build; tiers are trust, not score). Final plan: superset catalog plus onboarding. Three units were added during build at the operator's direction: `has_fast` from the listing, a tier reminder on every refresh, and `tiers.toml` with `never`. Advisory B (a scalar value in `tiers.toml` is read character by character) is open.
 
 ## Plan Accuracy
 
-The three-step sequence held. BenchLM having no per-effort scores was confirmed before the plan, so the derived score was not a surprise during build. The surprise was the nudge fixture: a real stored row inside the gap is the far neighbor, so the interpolated score does not land on it. The test had to use an effort-source row, which placement ignores.
+The final plan's sequence held, and its live-data validation paid off: the matching rule's 44/48 and 32-row predictions were exact. The surprises were premises, not steps. Each replan came from a fact only the operator had: tiers encode trust, outside authors are brand-new models, the catalog must be a superset, and speed is a model parameter. None were in the code or the issue.
 
 ## Build & QA Observations
 
-The new tests failed on the stub, then passed. `make test` ended at 55 tests. QA found one unreachable guard after a successful expand and did not block. Preflight's "stored rows only" and docstring advisories were taken during build. The both-siblings branch stayed, with a test.
+Test-first worked cleanly for every unit, including the three added mid-build. The tier gate (a shipped test red until tiers are set) did its job: build stopped for the operator without anyone proposing tiers. QA found only documentation and input-validation advisories. Two earlier Preflights passed plans whose premises were later abandoned.
 
 ## Insights
 
 ### Technical
 
-- A stored score strictly between the anchor and the model you thought was next is the far neighbor. A formula test that wants to land on an existing score has to use a row the search is not allowed to treat as a neighbor.
+- Cursor, the pricing page, and BenchLM order a model's words differently (`Claude Opus 4.6`, `Claude 4.6 Opus`, `claude-opus-4-6`). Word-set matching reproduced every hand-written mapping row; string transforms did not.
+- Keep hand-set judgment out of generated files. The friction the operator hit was editing tiers among generated fields, not JSON syntax; a read-only `tiers.toml` also sidestepped `tomllib` having no writer.
 
 ### Process
 
-- Picking policy belongs in the script. A skill sentence that tells the agent what to do on exit 2 is a second picker.
+- Preflight and QA check a plan's shape and its fidelity to the brief, not whether the brief's premise matches what the operator means. Two plans passed Preflight and were then abandoned. On a picker or policy task, asking the operator what the judgment fields mean (here, tiers) before planning would have saved two cycles.
+- When the operator says "this is getting heinous," a quick read-only check (the interpolated score was order-identical to "just beside its sibling") was a stronger argument than a design debate.
 
 ### Million-Dollar Question
 
-If effort had been a column from the start, the catalog key would be the model stem and the stored effort would be a field. Placement would compare effort indexes without parsing suffixes, and `xhigh` would not have to be matched before `high`. The keys we already ship encode effort in the slug, so the suffix parser is the fit for this catalog. A stem migration was not this task.
+With the stem as the model and tiers as hand-set trust from the start, the catalog would always have been generated from the CLI listing plus `tiers.toml`, and `pick` would only rank. That is roughly what shipped. The remaining difference is `mapping.json`: now that refresh fills it in, it is mostly machine-written, but hand overrides (interim scores, unmatched models) still live in it. A cleaner split would put overrides in `tiers.toml`'s neighbor and let refresh own `mapping.json` entirely.

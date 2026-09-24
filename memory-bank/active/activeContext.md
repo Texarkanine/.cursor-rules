@@ -30,8 +30,13 @@
 ## Known Gaps
 - For older Claude models, BenchLM has a Non-Reasoning base and a `-thinking` Reasoning entry; refresh maps Cursor `-thinking` stems to the base entry. Moot for rows tiered `never`.
 
+## QA and Reflect
+- QA: PASS WITH ADVISORY. Advisories A (select docstring), C (brief AC5 wording), D (docstring wrap) folded in at `7a6a679`. B open: a scalar value in `tiers.toml` (e.g. `S = "a"`) is iterated character by character.
+- Reflection rewritten for the whole task arc: `memory-bank/active/reflection/reflection-effort-variant-slug.md`.
+- `techContext.md`: the suite needs Python 3.11+ (`tomllib`). `productContext.md` and `systemPatterns.md` unchanged.
+
 ## Next Step
-- QA.
+- Operator runs `/niko-archive`.
 
 ## Files
 - `/home/mobaxterm/git/.cursor-rules/rules/choose-verification-model/scripts/modelpool.py`

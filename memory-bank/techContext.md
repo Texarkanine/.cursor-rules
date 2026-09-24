@@ -14,7 +14,7 @@ Skills follow the [Agent Skills specification](https://agentskills.io/specificat
 
 ## Testing Process
 
-`make test` runs rulesets layout checks (symlink targets and README internal links) via scripts in `scripts/`, and a stdlib `unittest` suite discovered from `tests/`. Pull request CI is `.github/workflows/rulesets-links.yml` and invokes the same Make targets. The unittest job sets up the Python version named in that workflow.
+`make test` runs rulesets layout checks (symlink targets and README internal links) via scripts in `scripts/`, and a stdlib `unittest` suite discovered from `tests/`. Pull request CI is `.github/workflows/rulesets-links.yml` and invokes the same Make targets. The unittest job sets up the Python version named in that workflow. The suite needs Python 3.11 or later, because `choose-verification-model`'s refresh script reads TOML with stdlib `tomllib`.
 
 ## Platform
 

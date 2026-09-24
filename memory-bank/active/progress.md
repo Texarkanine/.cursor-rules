@@ -205,3 +205,13 @@ Place an unmatched effort spelling of a catalog model on the scale so `pick.py` 
     - PASS: all seven semantic checks hold. Four advisories (stale `select` docstring on `never`, scalar TOML values, brief criterion 5 wording, one unwrapped docstring line) do not block
 * Insights
     - Operator-directed mid-build units (2b, 2c, 2d) were each built test-first, so QA could check them against recorded behaviors like planned units
+
+## 2026-09-24 - REFLECT - COMPLETE
+
+* Work completed
+    - Rewrote the reflection for the whole arc: interpolated effort scores, abandoned score placement, superset catalog with `tiers.toml`
+    - Reconciled persistent files: `techContext.md` now says the suite needs Python 3.11+; product and system patterns unchanged
+* Decisions made
+    - QA advisory B (scalar values in `tiers.toml`) left open for the operator
+* Insights
+    - Plans passed Preflight twice with premises the operator later rejected; for policy tasks, ask what the judgment fields mean before planning
