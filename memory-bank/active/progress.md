@@ -215,3 +215,9 @@ Place an unmatched effort spelling of a catalog model on the scale so `pick.py` 
     - QA advisory B (scalar values in `tiers.toml`) left open for the operator
 * Insights
     - Plans passed Preflight twice with premises the operator later rejected; for policy tasks, ask what the judgment fields mean before planning
+
+## 2026-09-24 - ARCHIVE - IN-PROGRESS
+
+* Work completed
+    - PR #130 review: non-list `tiers.toml` values now warn and skip (`a20f4cd`); 79 tests
+    - Leaving Reflect for Archive
