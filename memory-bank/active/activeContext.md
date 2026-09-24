@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: effort-variant-slug
-**Phase:** PLAN - COMPLETE
+**Phase:** PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
 
 ## What Was Done
 - Abandoned the outside-author placement plan after its build step 1; reverted the uncommitted `benchlm_scores` / `scores.json` edits (`1ca0157`). Decision: `memory-bank/active/creative/creative-outside-author-placement.md`.

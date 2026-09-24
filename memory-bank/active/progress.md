@@ -156,3 +156,9 @@ Place an unmatched effort spelling of a catalog model on the scale so `pick.py` 
     - The shipped `model_key` already misses live slugs such as `claude-opus-5-5-max` and `gpt-5.6-sol-none`, so an enabled max-effort reviewer exits 2 today
 
 
+
+## 2026-09-24 - PREFLIGHT - COMPLETE
+
+* Result: `PASS WITH ADVISORY`
+    - TDD ordering correct for units 1-2; unit 3 data covered by shipped invariants; unit 4 prose. No plan edits
+    - Advisories: refresh.main test hermeticity, interim-score wording, effort-suffix mis-split risk for future stems; radical sketch: refresh prints suggested BenchLM/pricing matches for unmapped stems
