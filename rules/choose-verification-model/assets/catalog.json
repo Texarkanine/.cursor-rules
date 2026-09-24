@@ -108,7 +108,7 @@
       "score_source": "benchlm",
       "effort_encoded": false,
       "output_cost_per_million": 14.0,
-      "has_fast": false
+      "has_fast": true
     },
     "gpt-5.2": {
       "tier": null,
@@ -116,7 +116,7 @@
       "score_source": "benchlm",
       "effort_encoded": false,
       "output_cost_per_million": 14.0,
-      "has_fast": false
+      "has_fast": true
     },
     "claude-opus-5-thinking": {
       "tier": null,
@@ -212,7 +212,7 @@
       "score_source": "benchlm",
       "effort_encoded": false,
       "output_cost_per_million": 25.0,
-      "has_fast": false
+      "has_fast": true
     },
     "claude-opus-4-7-thinking": {
       "tier": null,
@@ -220,7 +220,7 @@
       "score_source": "benchlm",
       "effort_encoded": false,
       "output_cost_per_million": 25.0,
-      "has_fast": false
+      "has_fast": true
     },
     "gpt-5.4": {
       "tier": null,

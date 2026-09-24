@@ -38,9 +38,11 @@ def main(
     that listing. ``False`` means no listing is available. ``None``
     runs ``agent --list-models``; a missing or failing command is
     treated as ``False``. With a listing, rows for listed models that
-    mapping lacks are filled in. Without one, refresh warns once and
-    skips the fill-in. The mapping is written as ``mapping.json`` next
-    to the catalog.
+    mapping lacks are filled in, and a listed model's ``has_fast``
+    follows its listed ``-fast`` spellings. Without one, refresh warns
+    once, skips the fill-in, and takes ``has_fast`` from the pricing
+    page. The mapping is written as ``mapping.json`` next to the
+    catalog.
 
     BenchLM rejects the default urllib user agent, so the request
     names this tool.
@@ -61,10 +63,12 @@ def main(
     if agent_models is None:
         agent_models = _list_models()
     if agent_models is False:
+        listing = None
         fill_warnings = ["WARNING: agent --list-models unavailable; skipped model fill-in"]
     else:
-        mapping, fill_warnings = fill_mapping(agent_models, mapping, pricing_markdown, benchlm)
-    catalog, warnings = build_catalog(benchlm, pricing_markdown, mapping, previous)
+        listing = agent_models
+        mapping, fill_warnings = fill_mapping(listing, mapping, pricing_markdown, benchlm)
+    catalog, warnings = build_catalog(benchlm, pricing_markdown, mapping, previous, listing=listing)
     target = Path(dest) if dest is not None else _ASSETS / "catalog.json"
     target.write_text(json.dumps(catalog, indent=2) + "\n", encoding="utf-8")
     target.with_name("mapping.json").write_text(

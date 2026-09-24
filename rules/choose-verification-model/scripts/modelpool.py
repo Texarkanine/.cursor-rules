@@ -227,12 +227,16 @@ def parse_listing(listing: str) -> dict:
     value is the display name of that stem's first row.
     """
     stems = {}
+    for slug, name in _listing_rows(listing):
+        stems.setdefault(model_key(slug), name)
+    return stems
+
+
+def _listing_rows(listing):
     for line in listing.splitlines():
         match = _LISTING_ROW.fullmatch(line.strip())
-        if not match or match.group(1) == "auto":
-            continue
-        stems.setdefault(model_key(match.group(1)), match.group(2).strip())
-    return stems
+        if match and match.group(1) != "auto":
+            yield match.group(1), match.group(2).strip()
 
 
 def fill_mapping(listing: str, mapping, pricing_markdown: str, benchlm):
@@ -305,7 +309,7 @@ def _family(stem):
     return stem.split("-")[0]
 
 
-def build_catalog(benchlm, pricing_markdown, mapping, previous):
+def build_catalog(benchlm, pricing_markdown, mapping, previous, listing=None):
     """Return a catalog and the warnings produced while building it.
 
     ``benchlm`` is the parsed BenchLM models document. ``pricing_markdown``
@@ -320,12 +324,22 @@ def build_catalog(benchlm, pricing_markdown, mapping, previous):
     either. ``tier_order`` and each existing tier are copied from
     ``previous``. A slug that was not in ``previous`` gets ``tier`` null.
 
-    ``has_fast`` is true when the pricing page has a ``(Fast)`` row for
-    that model, or the model's notes mention a fast mode. The fast price
-    is not stored. Ranking uses the base output price. ``output_multiplier``
+    ``listing`` is ``agent --list-models`` output, or ``None``. For a
+    stem the listing names, ``has_fast`` is whether any listed slug for
+    that stem ends in ``-fast``: that is the spelling ``pick`` appends.
+    For an unlisted stem, or with no listing, ``has_fast`` is true when
+    the pricing page has a ``(Fast)`` row for that model, or the
+    model's notes mention a fast mode. The fast price is not stored. Ranking uses the base output price. ``output_multiplier``
     scales that base price when a mapping row sets it; otherwise it is 1.
     """
     prices, notes = _pricing_rows(pricing_markdown)
+    listed = set()
+    listed_fast = set()
+    for listed_slug, _name in _listing_rows(listing or ""):
+        stem = model_key(listed_slug)
+        listed.add(stem)
+        if listed_slug.endswith(_FAST_SUFFIX):
+            listed_fast.add(stem)
     previous_models = (previous or {}).get("models") or {}
     tier_order = list((previous or {}).get("tier_order") or [])
     models = {}
@@ -357,13 +371,17 @@ def build_catalog(benchlm, pricing_markdown, mapping, previous):
             if multiplier is None:
                 multiplier = 1
             cost = raw_price * multiplier
+        if slug in listed:
+            has_fast = slug in listed_fast
+        else:
+            has_fast = _has_fast(pricing_name, prices, notes)
         models[slug] = {
             "tier": tier,
             "score": score,
             "score_source": source,
             "effort_encoded": False,
             "output_cost_per_million": cost,
-            "has_fast": _has_fast(pricing_name, prices, notes),
+            "has_fast": has_fast,
         }
     return {"tier_order": tier_order, "models": models}, warnings
 

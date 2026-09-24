@@ -70,6 +70,24 @@ Listing and fill-in (`parse_listing`, `fill_mapping`):
 3. Write tests and run red: the listing and fill-in behaviors. Inject the listing as a string and the unavailable case as `agent_models=False`, so no test spawns a process. Every `refresh.main` test passes `agent_models` and a temp `dest`. Run `make test`; the new cases fail.
 4. Write code and run green: implement `parse_listing`, `fill_mapping` (reusing `_pricing_rows` and `_category_values`), and in `refresh.main`: get the listing (injected, else `shutil.which("agent")` then `subprocess.run(["agent", "--list-models"], capture_output=True, text=True, timeout=60)`), call `fill_mapping` or add one skip warning, write `mapping.json` next to the target, then call `build_catalog` with the filled mapping. Run `make test`.
 
+### 2b. `has_fast` from the listing — executable [operator-directed during build, 2026-09-24] [x]
+
+- Files: `rules/choose-verification-model/scripts/modelpool.py`, `rules/choose-verification-model/scripts/refresh.py`, `tests/choose-verification-model/test_refresh.py`
+- Why: the pricing page misses fast variants the CLI lists (`claude-opus-4-7`, `claude-opus-4-7-thinking`, `gpt-5.2`, `gpt-5.3-codex`). `pick` appends `-fast` from `has_fast`, so the listing is the source of truth for whether a `-fast` spelling exists.
+
+Behaviors:
+
+- [Listing sets fast]: pricing has no `(Fast)` row; listing has `m-high` and `m-high-fast` → `has_fast` true
+- [Listing clears fast]: pricing has a `(Fast)` row; listing lists stem `m` with no `-fast` spelling → `has_fast` false
+- [Unlisted keeps pricing]: listing given; stem absent from it → the pricing rule decides
+- [No listing keeps pricing]: `listing=None` → the pricing rule (the existing `test_fast_pricing_row_marks_has_fast_and_keeps_the_base_price` holds)
+- [Refresh passes the listing]: `refresh.main(..., agent_models=listing)` → the written catalog's `has_fast` follows the listing; `agent_models=False` → pricing rule
+
+1. Stub tests: in `test_refresh.py`, add empty `test_listing_fast_spelling_sets_has_fast`, `test_listing_without_fast_spelling_clears_has_fast`, `test_unlisted_stem_keeps_pricing_has_fast`, `test_refresh_uses_the_listing_for_has_fast`.
+2. Stub interface: `build_catalog(benchlm, pricing_markdown, mapping, previous, listing=None)`; docstring: with a listing, a listed stem's `has_fast` is whether any listed slug for it ends in `-fast`; an unlisted stem, or no listing, uses the pricing rule. `refresh.main` passes the listing when it has one.
+3. Write tests and run red.
+4. Write code and run green: a private listing-row iterator shared with `parse_listing`; `build_catalog` computes listed and fast stems once; `refresh.main` passes `agent_models` unless it is `False`. Re-run refresh so the shipped catalog picks it up; tiers are copied, so null tiers stay null.
+
 ### 3. Onboard the listed models — data, with an operator gate
 
 - Files: `rules/choose-verification-model/assets/mapping.json`, `rules/choose-verification-model/assets/catalog.json`

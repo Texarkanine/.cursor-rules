@@ -638,6 +638,70 @@ class FillTests(unittest.TestCase):
         self.assertIn("WARNING: must set tier for gpt-5.2", lines)
         self.assertIn("WARNING: unrecognized model gpt-5.1: no pricing row", lines)
 
+    def test_listing_fast_spelling_sets_has_fast(self):
+        """No (Fast) pricing row, but the listing has a -fast spelling: has_fast is true."""
+        catalog, _warnings = build_catalog(
+            _benchlm({"m": _SCORED}),
+            _pricing(["Row"]),
+            _mapping({"m": {"family": "a", "pricing_name": "Row", "benchlm_slug": "m"}}),
+            _previous({"m": {"tier": "low"}}),
+            listing=_listing([("m-high", "Row High"), ("m-high-fast", "Row High Fast")]),
+        )
+        self.assertTrue(catalog["models"]["m"]["has_fast"])
+
+    def test_listing_without_fast_spelling_clears_has_fast(self):
+        """A (Fast) pricing row, but the listing has no -fast spelling: has_fast is false."""
+        catalog, _warnings = build_catalog(
+            _benchlm({"m": _SCORED}),
+            _pricing(["Row", "Row (Fast)"]),
+            _mapping({"m": {"family": "a", "pricing_name": "Row", "benchlm_slug": "m"}}),
+            _previous({"m": {"tier": "low"}}),
+            listing=_listing([("m-high", "Row High")]),
+        )
+        self.assertFalse(catalog["models"]["m"]["has_fast"])
+
+    def test_unlisted_stem_keeps_pricing_has_fast(self):
+        """A stem absent from the listing is decided by the pricing page."""
+        catalog, _warnings = build_catalog(
+            _benchlm({"m": _SCORED, "n": _SCORED}),
+            _pricing(["Row", "Row (Fast)", "Other"]),
+            _mapping(
+                {
+                    "m": {"family": "a", "pricing_name": "Row", "benchlm_slug": "m"},
+                    "n": {"family": "b", "pricing_name": "Other", "benchlm_slug": "n"},
+                }
+            ),
+            _previous({"m": {"tier": "low"}, "n": {"tier": "low"}}),
+            listing=_listing([("x-high-fast", "X Fast")]),
+        )
+        self.assertTrue(catalog["models"]["m"]["has_fast"])
+        self.assertFalse(catalog["models"]["n"]["has_fast"])
+
+    def test_refresh_uses_the_listing_for_has_fast(self):
+        """refresh.main passes its listing to the catalog build; False falls back to pricing."""
+        written = {}
+        for label, agent_models in (
+            ("listing", _listing([("m-high", "Row High"), ("m-high-fast", "Row High Fast")])),
+            ("none", False),
+        ):
+            with tempfile.TemporaryDirectory() as tmp:
+                dest = Path(tmp) / "catalog.json"
+                with redirect_stderr(io.StringIO()):
+                    refresh_main(
+                        [],
+                        benchlm=_benchlm({"m": _SCORED}),
+                        pricing_markdown=_pricing(["Row"]),
+                        mapping=_mapping(
+                            {"m": {"family": "a", "pricing_name": "Row", "benchlm_slug": "m"}}
+                        ),
+                        previous=_previous({"m": {"tier": "low"}}),
+                        dest=dest,
+                        agent_models=agent_models,
+                    )
+                written[label] = json.loads(dest.read_text(encoding="utf-8"))
+        self.assertTrue(written["listing"]["models"]["m"]["has_fast"])
+        self.assertFalse(written["none"]["models"]["m"]["has_fast"])
+
     def test_refresh_without_agent_listing_warns_once(self):
         """agent_models=False: one skip warning, mapping unchanged, catalog written."""
         existing = _mapping(

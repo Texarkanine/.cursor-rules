@@ -20,7 +20,9 @@
 - Unit 1 (`1e6472c`): `model_key` reads `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `extra-high`, `max`, and an effort before `-thinking`.
 - Unit 2 (`1e6472c`): `parse_listing`, `fill_mapping`, and `refresh.main(agent_models=...)`; refresh writes `mapping.json` next to the catalog. 65 tests green at that commit.
 - Unit 3: real refresh added 32 rows with `tier: null`; 4 stems unrecognized (listed in `tasks.md`). Existing mapping and catalog rows unchanged. `make test` is red only on `test_catalog_entries_have_required_keys` until tiers are set.
-- Observation, not fixed: `has_fast` comes from the pricing page, so `claude-opus-4-7`, `gpt-5.3-codex`, and `gpt-5.2` show `has_fast: false` although the CLI lists `-fast` spellings for them. The listing could be the `has_fast` source in a follow-up.
+- Unit 2b (operator-directed): with a listing, a listed stem's `has_fast` is whether the listing has a `-fast` spelling for it; unlisted stems and no-listing refreshes keep the pricing rule. Re-ran refresh: exactly `gpt-5.3-codex`, `gpt-5.2`, `claude-opus-4-7`, `claude-opus-4-7-thinking` flipped to true. 69 tests; only the tier gate is red.
+- Known gap, not fixed: `has_fast` is per stem, but `gpt-5.4-low` has no `-fast` spelling while other `gpt-5.4` efforts do, so a fast author choosing `gpt-5.4-low` would print a slug that does not exist.
+- Known gap, not fixed (pre-existing): `build_catalog` warns `must set tier` only for a slug new to the previous catalog, so a second refresh before tiering prints no tier reminders.
 
 ## Next Step
 - Operator sets `tier` on the 32 null-tier rows in `rules/choose-verification-model/assets/catalog.json`. Then: `make test` green, unit 4 prose, finish Build.
