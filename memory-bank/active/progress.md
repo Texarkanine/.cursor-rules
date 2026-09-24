@@ -109,4 +109,15 @@ Place an unmatched effort spelling of a catalog model on the scale so `pick.py` 
 * Decisions made
     - This correction stays. The replan does not bring back invented effort scores
 
+## 2026-09-23 - PLAN - COMPLETE
+
+* Work completed
+    - Wrote the rework plan in `tasks.md` and the Rework section of `projectbrief.md`
+* Decisions made
+    - `assets/scores.json` holds one BenchLM mean per model. `catalog.json` stays the tiered enabled subset
+    - An outside author is placed by that mean among catalog score-neighbors. A boundary keeps the higher tier. The existing window then runs
+    - No wide score prints the author and exits 0. A wide score does not make a non-catalog slug a reviewer
+* Insights
+    - The dead-in-the-water case that remains is an author whose stem is not a BenchLM slug and not a catalog key
+
 

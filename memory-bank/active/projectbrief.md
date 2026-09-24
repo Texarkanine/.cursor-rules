@@ -39,3 +39,13 @@ As described in [issue #129](https://github.com/Texarkanine/.cursor-rules/issues
 3. `gemini-3.8-flash-low` and `gemini-3.8-flash-xhigh` rank as `gemini-3.8-flash`.
 4. `catalog.json` keys have no effort suffix, and every row has `effort_encoded` false.
 5. `--model missing-author --reviewer-models other` prints `missing-author` and exits 0. A known row with a null tier or null score still exits 2. An enabled spelling whose model is absent still exits 2 and names that slug.
+
+## Rework
+
+The operator's placement rule, after the effort correction:
+
+1. Refresh ingests a wide BenchLM score table. One mean per BenchLM model. Effort is not in it.
+2. The catalog stays the hand-tiered subset enabled as reviewers. It does not gain a row per BenchLM model.
+3. An author who is not a catalog row is placed by their BenchLM score among the catalog's score-neighbors. A tier boundary keeps the higher tier. Then the existing window runs.
+4. An author with no BenchLM score is still printed, exit 0. An enabled slug whose model is not in the catalog still exits 2.
+5. One score per model. The operator does not enable both the bottom and the top effort of the same model. The printed effort stays the first `--reviewer-models` spelling.

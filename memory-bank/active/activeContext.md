@@ -1,25 +1,24 @@
 # Active Context
 
 ## Current Task: effort-variant-slug
-**Phase:** BUILD - operator reversed the placement rule after reflect
+**Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Effort is not a score. `model_key` strips `-fast` and one trailing effort word. `thinking` stays. Every effort of a model is that one BenchLM row.
-- Catalog and mapping keys are model stems. Each catalog row has `effort_encoded: false`.
-- The printed reviewer keeps the effort on the first `--reviewer-models` spelling of that model. The author's effort is not copied. `-fast` still follows the author when `has_fast` is true.
-- An author whose model is absent is printed, exit 0. An enabled spelling whose model is absent exits 2.
-- `make test`: 46 tests OK. `SKILL.md` is unchanged.
-- Draft PR 130 still describes the rejected in-memory interpolation. This correction is local and uncommitted.
+- Checkpointed the effort-is-not-a-score correction (`5f4b940`).
+- Planned the rework: `benchlm_scores` writes `assets/scores.json` for every BenchLM model. The catalog stays the tiered enabled subset. An author missing from the catalog is placed by that score among catalog neighbors, higher tier on a boundary, then the existing window. No wide score still prints the author. An enabled non-catalog slug still exits 2.
 
 ## Next Step
-- Commit and push when the operator asks, then correct the PR body. Archive stays after that.
+- Preflight this plan.
 
 ## Files
-- `/home/mobaxterm/git/.cursor-rules/rules/choose-verification-model/scripts/modelpool.py`
-- `/home/mobaxterm/git/.cursor-rules/rules/choose-verification-model/scripts/pick.py`
-- `/home/mobaxterm/git/.cursor-rules/rules/choose-verification-model/references/refresh.md`
-- `/home/mobaxterm/git/.cursor-rules/tests/choose-verification-model/test_pick.py`
-- `/home/mobaxterm/git/.cursor-rules/tests/choose-verification-model/test_shipped.py`
+- `rules/choose-verification-model/scripts/modelpool.py`
+- `rules/choose-verification-model/scripts/refresh.py`
+- `rules/choose-verification-model/scripts/pick.py`
+- `rules/choose-verification-model/assets/scores.json`
+- `rules/choose-verification-model/references/refresh.md`
+- `tests/choose-verification-model/test_refresh.py`
+- `tests/choose-verification-model/test_pick.py`
+- `tests/choose-verification-model/test_shipped.py`
 
 ## Deviations
-- The operator rejected score interpolation. Effort changes intelligence differently per family, and BenchLM does not encode it. The catalog key is the model. Effort is chosen only on the review candidate.
+- The operator rejected invented effort scores. This plan places a real BenchLM mean. It does not restore `place_effort`.

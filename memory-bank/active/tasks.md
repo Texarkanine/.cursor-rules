@@ -4,109 +4,83 @@
 * Complexity: Level 2
 * Type: bug fix
 
-Superseded after reflect: the operator rejected in-memory effort scores. BenchLM does not encode effort, so every effort spelling of a model is that one row (`effort_encoded: false`, catalog key is the stem). The printed reviewer keeps the effort on the `--reviewer-models` spelling. The checklist below is the rejected placement plan.
+Place an author who is not a catalog row by their real BenchLM score, then run the existing reviewer window. The catalog stays the hand-tiered enabled set. Effort stays one row per model. No invented effort score.
 
 
 ## Test Plan (TDD)
 
 ### Behaviors to Verify
 
-- [Higher and extra-high stay apart]: catalog has `m-medium` only → `place_effort` on `m-high` and `m-xhigh` returns two scores, both above `m-medium`, and `m-high` < `m-xhigh`
-- [Lower effort sits below the stored row]: `place_effort` on `m-low` returns a score below `m-medium`
-- [Boundary takes the higher tier]: stored `m-medium` is tier B and the next higher score is tier A → `m-high` is tier A
-- [Shared neighbor tier stays]: both score-neighbors are tier A → the synthetic tier is A
-- [Exact key stays the stored row]: `place_effort` on `m-medium` returns that row's score and tier
-- [Bare key is not an effort anchor]: catalog has `composer-2.5` and no effort-suffixed sibling → `composer-2.5-high` raises `SelectionError` naming that slug
-- [Thinking stays in the stem]: catalog has `claude-sonnet-5-thinking-high` → `claude-sonnet-5-high` raises `SelectionError`
-- [Null sibling score]: the only sibling has `score: null` → `SelectionError` naming the unmatched slug
-- [Caller catalog is unchanged]: `select` returns and `catalog["models"]` is still the dict the caller passed, with the same tiers
-- [Synthetic reviewer can be printed]: author is an exact low-tier row; the only eligible reviewer is `m-xhigh` → `select` returns `m-xhigh`
-- [Higher effort is a different row]: author `m-high` with a tier-B peer and a tier-A model enabled prints the tier-A model; the same pool with author `m-medium` prints the tier-B peer
-- [Empty pool prints the requested spelling]: author `m-low` alone → `m-low`, not `m-medium`
-- [Fast suffix]: author ends in `-fast` and the sibling has `has_fast` → a chosen synthetic reviewer is printed with `-fast`; placement used the base price
-- [Shipped command]: `pick.py --model cursor-grok-4.6-xhigh-fast --reviewer-models claude-opus-5-5-high,gpt-5.6-terra-medium,grok-4.7-xhigh` exits 0, stdout is one of those spellings or the author, with `-fast` only as `_with_speed` already appends it, and `assets/catalog.json` bytes are unchanged
-- [Unplaceable author is printed]: `--model missing-author --reviewer-models other` → exit 0, stdout `missing-author`. The same for an author whose stem has no effort-suffixed sibling, such as `composer-2.5-high` when the catalog has only `composer-2.5`. A known author row with null tier or null score still exits 2
-- [Still unknown]: `missing-reviewer` exits 2 and names that slug (existing test)
+- [Wide mean]: a BenchLM item with agentic, coding, and reasoning → `benchlm_scores` stores their mean under that item's slug. An item with no category scores is absent. A mapped catalog row's `score` equals that mean for its `benchlm_slug`.
+- [Wide table stays out of the catalog]: an item that mapping does not name → it is in `benchlm_scores` and not in `catalog["models"]`. Existing mapped tiers are copied. `effort_encoded` stays false.
+- [Catalog author is unchanged]: author `grok-4.7-high` with that stem in the catalog → the printed reviewer is the one the existing window already prints. The wide table is not consulted for their tier.
+- [Outside author is placed]: catalog has tier B score 10 and tier A score 40. Wide score for `outsider` is 20. Author `outsider`, enabled the A-tier model → `select` prints that model. The same author with wide score 5 (below B) stays in B's neighbor tier and does not jump to A.
+- [Boundary keeps the higher tier]: wide score sits on the gap between a B row and an A row → the author's tier for the window is A.
+- [No BenchLM score echoes]: author `missing-author` with no wide score → `select` returns `missing-author`. `--model missing-author` exits 0 and prints it.
+- [Unknown reviewer still exits 2]: enabled `missing-reviewer` → exit 2, stderr names it. A wide score for that slug does not make it a reviewer.
+- [Effort spelling of an outside model]: author `outsider-high-fast` uses the wide score of `outsider`. A fast author appends `-fast` only when the chosen catalog row has `has_fast`. The printed effort is the enabled spelling's effort.
+- [Unknown family does not empty the window]: an outside author with a score and no mapping family can still print a different-family catalog reviewer.
+- [Caller data unchanged]: `select` does not insert the outside author into the caller's catalog or scores.
+- [Regression]: null tier or null score on a catalog author still exits 2. `thinking` stays in the stem. `composer-2.5-high` ranks as `composer-2.5`. Issue command with seed 0 still prints `claude-opus-5-5-high-fast`.
 
 ### Test Infrastructure
 
-- Framework: stdlib `unittest`, `python3 -m unittest discover -s tests/choose-verification-model -p 'test_*.py'`
+- Framework: stdlib `unittest`
 - Test location: `tests/choose-verification-model/`
-- Conventions: in-memory catalogs via `_entry`, `_catalog`, `_mapping`, `_run`; shipped invariants in `test_shipped.py`. Fixture tiers in the new cases are `B`/`A`, so they do not collide with the suite's default tier names `low`/`mid`/`high`.
+- Conventions: `_entry`, `_catalog`, `_mapping`, `_run` in `test_pick.py`. Refresh fixtures build a BenchLM document and pricing markdown in `test_refresh.py`. Shipped invariants in `test_shipped.py`.
 - New test files: none
 
 ## Implementation Plan
 
-### 1. place_effort — executable [x]
+### 1. benchlm_scores — executable
 
-- Files: `rules/choose-verification-model/scripts/modelpool.py`, `tests/choose-verification-model/test_pick.py`
+- Files: `rules/choose-verification-model/scripts/modelpool.py`, `rules/choose-verification-model/scripts/refresh.py`, `tests/choose-verification-model/test_refresh.py`
 
-1. Stub tests: in `test_pick.py`, add empty cases for the `place_effort` behaviors (scores apart, lower effort below, boundary tier, shared tier, exact key, bare key, thinking stem, null score).
-2. Stub interface: `place_effort(catalog, mapping, slug) -> tuple[dict, str]` in `modelpool.py`. Returns `(entry, family)`. Docstring: exact key returns the stored entry and its family; an unmatched effort spelling returns a new entry and the sibling family. Raises `SelectionError` naming `slug`.
-3. Write tests and run red: assert the formula below. Run those cases and confirm they fail.
-4. Write code and run green:
-    - Effort order is `low`, `medium`, `high`, `xhigh` (indexes 0–3). Strip a trailing `-fast` with `canonical_slug` first. Split a trailing effort word, matching `xhigh` before `high`.
-    - Exact catalog key: return that entry and its mapping family.
-    - Otherwise the slug must end in an effort word. Siblings are catalog keys with the same stem that themselves end in an effort word. A sibling counts only when its tier is in `tier_order`, its score is not null, and its mapping family is a non-empty string. No such sibling → `SelectionError`.
-    - Both a lower and an upper sibling: score interpolates by effort index between those two stored scores.
-    - Only a lower sibling: anchor is that sibling. Far is the other-stem stored row with the smallest score strictly above the anchor. `room` is `3 - anchor_index`. Fraction is `(requested - anchor_index) / (room + 1)`. Score sits that fraction of the way from the anchor to the far score. No far row: `anchor_score + (requested - anchor_index) * 1e-3`.
-    - Only an upper sibling: mirror. `room` is `anchor_index`. Fraction is `(anchor_index - requested) / (room + 1)`. No far row: `anchor_score - (anchor_index - requested) * 1e-3`.
-    - If that score equals a stored score, nudge `1e-6` toward the anchor.
-    - Tier comes from stored score-neighbors of that score (other synthetics are not neighbors). Different tiers → the higher `tier_order` index. Same tier → that tier. One neighbor → that tier.
-    - Family, `output_cost_per_million`, and `has_fast` come from the nearest usable sibling by absolute effort-index distance. A tie takes the higher effort. `score_source` is `effort`.
-    - Return a new dict. Do not mutate `catalog` or `mapping`.
+1. Stub tests: `test_wide_mean_is_stored_under_the_benchlm_slug`, `test_unmapped_model_stays_out_of_the_catalog`, empty bodies, in `test_refresh.py`.
+2. Stub interface: `benchlm_scores(benchlm) -> dict` in `modelpool.py`. Docstring: equal-weight mean of present agentic, coding, and reasoning scores, keyed by BenchLM slug. Missing categories are skipped. No category scores → omit the slug. `build_catalog` keeps its signature and reads this dict for a mapped `benchlm_slug`. `refresh.main` writes the dict to `assets/scores.json`.
+3. Write tests and run red: assert the mean, the omission, catalog equality with the wide mean, and that an unmapped slug is absent from `catalog["models"]`.
+4. Write code and run green: implement `benchlm_scores`, call it from `build_catalog`, write `assets/scores.json` from `refresh.main`.
 
-### 2. select uses the in-memory rows — executable [x]
+### 2. place the author, then the existing window — executable
 
-- Files: `rules/choose-verification-model/scripts/modelpool.py`, `tests/choose-verification-model/test_pick.py`, `tests/choose-verification-model/test_shipped.py`
+- Files: `rules/choose-verification-model/scripts/modelpool.py`, `rules/choose-verification-model/scripts/pick.py`, `tests/choose-verification-model/test_pick.py`, `tests/choose-verification-model/test_shipped.py`
 
-1. Stub tests: empty cases for synthetic reviewer printed, higher-effort author versus the stored effort, empty-pool spelling, fast suffix, caller catalog unchanged, the shipped command in `test_shipped.py`, and the rewrite of `test_unknown_author_slug_exits_2` so an unplaceable author is printed.
-2. Stub interface: `_with_effort(catalog, mapping, slugs) -> tuple` in `modelpool.py`. `select` keeps its signature.
-3. Write tests and run red: the higher-effort fixture prints the tier-A model; the stored-effort author prints the tier-B peer. Shipped argv exits 0. Confirm the new cases fail.
-4. Write code and run green:
-    - `_with_effort` copies `models` and mapping `models`. For each slug, if `canonical_slug` is already a key, leave it. Otherwise `place_effort` and insert the entry under the canonical key and `{family}` under the mapping copy.
-    - `select` calls `_with_effort` with the author and every enabled slug before the existing lookup. The pool is still the enabled keys only. The author row is ranked even when it is synthetic, and it is printed by the existing empty-pool returns.
-    - When `place_effort` fails for the author, `select` returns the original `--model` string. `main` prints it and returns 0. No second `-fast` is appended. A null tier or null score on a stored author row still raises. When `place_effort` fails for an enabled slug, `select` still raises `SelectionError` naming that slug.
-    - `_with_speed` still appends `-fast` from the author's original spelling and the chosen entry's `has_fast`.
-    - Run `python3 -m unittest discover -s tests/choose-verification-model -p 'test_*.py'`.
+1. Stub tests: the outside-author, boundary, echo, unknown-reviewer, effort-spelling, unknown-family, and caller-unchanged cases in `test_pick.py`, empty bodies.
+2. Stub interface: `select(catalog, mapping, author, enabled, rng, scores=None)`. Docstring: a catalog author uses that row. An author absent from the catalog uses `scores[model_key(author)]` when present. Tier comes from the catalog score-neighbors; a boundary keeps the higher tier. No score → return the author spelling. An enabled model absent from the catalog raises `SelectionError` even if `scores` has it. A missing mapping family does not exclude candidates. The window, the one-tier lookup, the effort spelling, and `-fast` stay as they are.
+3. Write tests and run red: the assertions in Behaviors to Verify for `select` and `main`.
+4. Write code and run green: place the author in memory for the call, then the existing window. `pick.main` loads `assets/scores.json` when `scores` is omitted. Shipped issue command stays `claude-opus-5-5-high-fast`.
 
-### 3. Slug identity note — prose/policy [x]
+### 3. refresh.md — prose/policy
 
 - Files: `rules/choose-verification-model/references/refresh.md`
 - No tests: prose/policy artifact
 
-1. After the `-fast` paragraph, state that an unmatched effort spelling of a stored effort-suffixed key is placed in memory for that pick, that different efforts are different rows, and that the placement is not written to `assets/catalog.json`.
-2. State that an author spelling the script cannot place is printed as given and the process exits 0.
-3. Leave the `grok-4.7-medium-fast` is `grok-4.7-medium` sentence in place: it is the `-fast` rule.
-4. Leave `SKILL.md` as the short happy path. Do not add a branch that tells the agent to choose a reviewer when the script exits non-zero.
+1. State that `assets/scores.json` is the wide BenchLM mean, one number per model, and that `catalog.json` is only the tiered enabled subset.
+2. State that an author missing from the catalog is placed from `scores.json` among the catalog neighbors, and that no wide score still prints the author and exits 0.
+3. State that the operator keeps one effort of a model in the candidate list. The bottom and the top effort of one model are not both enabled.
 
 ## Technology Validation
 
-No new technology - validation not required
+No new technology - validation not required. Refresh already fetches BenchLM.
 
 ## Dependencies
 
-- `rules/choose-verification-model/scripts/modelpool.py` (`canonical_slug`, `select`, `SelectionError`, `_with_speed`)
-- `rules/choose-verification-model/assets/catalog.json` and `mapping.json` (read-only during a pick)
-- stdlib `unittest`
+- BenchLM `models.json`, already fetched by `refresh.py`
+- Existing `select` window, one-tier lookup, `model_key`, and `_with_speed`
+- `assets/catalog.json` tiers and `assets/mapping.json` families for the enabled subset
 
 ## Challenges & Mitigations
 
-- BenchLM `models.json` has one row per model (`claude-opus-5-5`, `grok-4-7`) and no effort spellings. There is no published score to fetch. Placement derives the score from the stored sibling and its neighbors. When the author still cannot be placed, the script prints that author. An unplaceable reviewer still exits 2.
-- A lower effort rarely drops a tier, because a tier change on the boundary keeps the higher letter. That is the issue's boundary rule. Fixture tests lock it.
-- `composer-2.5` has no effort suffix, so `composer-2.5-high` is not placed. As an author, that spelling is printed back. As a reviewer, it exits 2.
-- Shipped scores move on refresh. The shipped test asserts exit 0, an allowed spelling, and unchanged file bytes. Rank and tier assertions use fixture catalogs.
-- Two synthetics in one pick are placed against stored rows only, so they do not depend on each other's insertion order.
-- End-of-scale `1e-3` steps can sit past the last stored score. Nothing is beyond them to leap over. The `1e-6` nudge only breaks an exact tie with a stored score.
+- A Cursor slug that is not a BenchLM slug has no wide score: `model_key` is the lookup. `cursor-grok-4.6` is in the catalog, so it does not need the wide table. An unmapped author whose stem is not a BenchLM slug is printed, exit 0.
+- An outside author has no family: a missing family does not drop candidates for being the same family.
+- A wide score must not become a reviewer: enabled slugs still have to be catalog keys. Exit 2 names the slug.
+- `build_catalog`'s return value stays `(catalog, warnings)` so the existing refresh tests keep their call shape. The wide dict is a separate function.
 
 ## Pre-Mortem
 
-- The derived score is treated as if BenchLM had measured that effort, and a later reader retieres the catalog from it. The plan answers this by keeping `score_source` as `effort`, leaving disk rows alone, and saying so in `refresh.md`.
-- Placement is implemented only in `pick.py`, so `select` callers still exit 2. Step 2 puts `_with_effort` inside `select`.
-- A synthetic spelling that was never enabled gets printed. `_with_effort` inserts only the author and the enabled slugs, and the pool stays the enabled keys.
-- High and extra-high collapse into one slot above the stored row. The fraction uses the effort index and `room`, so those two scores differ.
-- The copy is skipped and a pick retieres a stored row in the caller's dict. Step 2 tests that the caller's `models` dict is unchanged.
-- The author echo is written into `SKILL.md` as an agent policy, so the agent infers a reviewer the script refused to choose. Operator rejected that. The echo is a return value inside `select`. `SKILL.md` stays "use the slug it prints."
+- The outside author's tier is invented the way effort scores were: the score is the BenchLM mean only. The tier is the catalog neighbor's tier. No new number is written into `catalog.json`.
+- The window returns the author because the placed tier has no other family, and the run looks dead in the water: that is the existing empty-pool rule. The plan does not add a second search.
+- `scores.json` and the catalog row disagree for one BenchLM slug: `build_catalog` reads `benchlm_scores` for the mapped row, and the wide-mean test locks that equality.
 
 ## Status
 
@@ -115,12 +89,6 @@ No new technology - validation not required
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [x] Preflight
-- [x] Build
-- [x] QA
-
-## QA Result
-
-- PASS WITH ADVISORY. 55 tests OK. All seven semantic checks pass: KISS, DRY, YAGNI, completeness (all 16 planned behaviors tested), regression (signature, error naming, no caller mutation, canonical trees only), integrity (`score_source: effort` marks synthetics; 1e-3/1e-6 per plan), documentation (`refresh.md` paragraph in place, `-fast` sentence intact, `SKILL.md` untouched, `select`/`main` docstrings updated).
-- Advisory (non-blocking): `select`'s `if author_key not in models: return author` guard is unreachable after a successful `_expand_effort`. Harmless; remove or leave at operator discretion.
-- Preflight advisories closed: A (stored-rows-only siblings/neighbors) is in the code and the `place_effort` docstring; B (`select`/`main` docstring updates) is done; C (both-siblings branch) was kept with a test, as allowed.
+- [ ] Preflight
+- [ ] Build
+- [ ] QA
