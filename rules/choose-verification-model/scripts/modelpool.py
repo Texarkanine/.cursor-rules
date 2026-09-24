@@ -10,6 +10,10 @@ _LINK = re.compile(r"\[(.*)\]\([^)]*\)\Z")
 _SEPARATOR = re.compile(r":?-{3,}:?\Z")
 _CATEGORIES = ("agentic", "coding", "reasoning")
 _FAST_SUFFIX = "-fast"
+_THINKING_SUFFIX = "-thinking"
+_CURSOR_PREFIX = "cursor-"
+_LISTING_ROW = re.compile(r"([a-z0-9][a-z0-9.\-]*) - (.+)")
+_EFFORTS = ("extra-high", "minimal", "medium", "xhigh", "none", "high", "low", "max")
 
 
 class SelectionError(Exception):
@@ -38,10 +42,13 @@ def canonical_slug(slug: str) -> str:
 def _split_effort(slug: str):
     """Return ``(stem, effort)`` for a trailing effort word.
 
-    ``xhigh`` is matched before ``high``. A slug with no effort word
-    returns ``(slug, None)``.
+    The effort words are the ones ``agent --list-models`` uses:
+    ``none``, ``minimal``, ``low``, ``medium``, ``high``, ``xhigh``,
+    ``extra-high``, and ``max``. The longest match wins, so
+    ``extra-high`` and ``xhigh`` are not read as ``high``. A slug with
+    no effort word returns ``(slug, None)``.
     """
-    for name in ("xhigh", "high", "medium", "low"):
+    for name in _EFFORTS:
         suffix = f"-{name}"
         if slug.endswith(suffix):
             return slug[: -len(suffix)], name
@@ -53,10 +60,16 @@ def model_key(slug: str) -> str:
 
     A trailing ``-fast`` is the same model. A trailing effort word is
     the same model too. BenchLM does not score effort, so the key is
-    the model stem. ``thinking`` stays in the stem. ``xhigh`` is
-    matched before ``high``.
+    the model stem. ``thinking`` stays in the stem. An effort directly
+    before ``-thinking`` is removed and ``-thinking`` is kept:
+    ``claude-4.6-opus-high-thinking`` is ``claude-4.6-opus-thinking``.
     """
     bare = canonical_slug(slug)
+    if bare.endswith(_THINKING_SUFFIX):
+        stem, effort = _split_effort(bare[: -len(_THINKING_SUFFIX)])
+        if effort is None:
+            return bare
+        return stem + _THINKING_SUFFIX
     stem, effort = _split_effort(bare)
     if effort is None:
         return bare
@@ -205,6 +218,91 @@ def _with_speed(display, author, has_fast):
         return display + _FAST_SUFFIX
     return display
 
+
+def parse_listing(listing: str) -> dict:
+    """Return ``{stem: display name}`` from ``agent --list-models`` output.
+
+    A row is ``slug - Name``. Other lines are not rows. ``auto`` is not
+    a model. Keys are ``model_key`` stems in first-seen order; the
+    value is the display name of that stem's first row.
+    """
+    stems = {}
+    for line in listing.splitlines():
+        match = _LISTING_ROW.fullmatch(line.strip())
+        if not match or match.group(1) == "auto":
+            continue
+        stems.setdefault(model_key(match.group(1)), match.group(2).strip())
+    return stems
+
+
+def fill_mapping(listing: str, mapping, pricing_markdown: str, benchlm):
+    """Return ``(mapping, warnings)`` with rows added for listed models.
+
+    ``listing`` is ``agent --list-models`` output. For each listed stem
+    that ``mapping`` lacks, a row ``{family, pricing_name,
+    benchlm_slug, interim_score}`` is appended to a copy of the
+    mapping. Existing rows are never changed.
+
+    Words are lowercased text split on spaces and hyphens. A pricing
+    row matches when its name has no ``(`` and all its words are among
+    the display name's words plus the stem's family. The match with
+    the most words wins; a longer name breaks a tie. The BenchLM match
+    is the single scored item whose slug, split on non-alphanumerics,
+    has the same sorted words as the pricing name with dots read as
+    separators. The family is the stem's first hyphen word after a
+    leading ``cursor-``.
+
+    A stem with no pricing match, no scored BenchLM match, or more than
+    one is not added, and a warning names it and the missing source.
+    """
+    models = dict(mapping["models"])
+    prices, _notes = _pricing_rows(pricing_markdown)
+    names = [name for name in prices if "(" not in name]
+    scored = {}
+    items = benchlm.get("items") if isinstance(benchlm, dict) else None
+    for item in items or []:
+        slug = item.get("slug")
+        if isinstance(slug, str) and _category_values(benchlm, slug):
+            scored.setdefault(_slug_words(slug), []).append(slug)
+    warnings = []
+    for stem, display in parse_listing(listing).items():
+        if stem in models:
+            continue
+        family = _family(stem)
+        have = set(_words(display)) | {family}
+        candidates = [name for name in names if set(_words(name)) <= have]
+        if not candidates:
+            warnings.append(f"WARNING: unrecognized model {stem}: no pricing row")
+            continue
+        pricing_name = max(candidates, key=lambda name: (len(_words(name)), len(name)))
+        matches = scored.get(_slug_words(pricing_name), [])
+        if not matches:
+            warnings.append(f"WARNING: unrecognized model {stem}: no BenchLM score")
+            continue
+        if len(matches) > 1:
+            warnings.append(f"WARNING: unrecognized model {stem}: ambiguous BenchLM match")
+            continue
+        models[stem] = {
+            "family": family,
+            "pricing_name": pricing_name,
+            "benchlm_slug": matches[0],
+            "interim_score": None,
+        }
+    return {**mapping, "models": models}, warnings
+
+
+def _words(text):
+    return [word for word in re.split(r"[\s\-]+", text.lower()) if word]
+
+
+def _slug_words(text):
+    return tuple(sorted(word for word in re.split(r"[^a-z0-9]+", text.lower()) if word))
+
+
+def _family(stem):
+    if stem.startswith(_CURSOR_PREFIX):
+        stem = stem[len(_CURSOR_PREFIX) :]
+    return stem.split("-")[0]
 
 
 def build_catalog(benchlm, pricing_markdown, mapping, previous):

@@ -49,7 +49,7 @@ Listing and fill-in (`parse_listing`, `fill_mapping`):
 
 ## Implementation Plan
 
-### 1. CLI effort vocabulary in `model_key` — executable
+### 1. CLI effort vocabulary in `model_key` — executable [x]
 
 - Files: `rules/choose-verification-model/scripts/modelpool.py`, `tests/choose-verification-model/test_pick.py`
 
@@ -58,7 +58,7 @@ Listing and fill-in (`parse_listing`, `fill_mapping`):
 3. Write tests and run red: the effort-vocabulary behaviors above. Run `make test`; the new cases fail on the four-word vocabulary.
 4. Write code and run green: extend the effort tuple, match longest first, and in `model_key` turn `<stem>-<effort>-thinking` into `<stem>-thinking` after stripping `-fast`. Run `make test`.
 
-### 2. Refresh fills in listed models — executable
+### 2. Refresh fills in listed models — executable [x]
 
 - Files: `rules/choose-verification-model/scripts/modelpool.py`, `rules/choose-verification-model/scripts/refresh.py`, `tests/choose-verification-model/test_refresh.py`
 

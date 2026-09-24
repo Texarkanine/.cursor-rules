@@ -482,6 +482,67 @@ class EffortIdentityTests(unittest.TestCase):
         self.assertEqual(model_key("composer-2.5"), "composer-2.5")
         self.assertEqual(model_key("composer-2.5-fast"), "composer-2.5")
 
+    def test_model_key_reads_cli_efforts(self):
+        """Every effort word agent --list-models uses is stripped, longest first."""
+        cases = {
+            "claude-opus-5-5-max": "claude-opus-5-5",
+            "gpt-5.6-sol-none": "gpt-5.6-sol",
+            "muse-spark-1.3-minimal": "muse-spark-1.3",
+            "gpt-5.5-extra-high": "gpt-5.5",
+            "grok-4.7-xhigh": "grok-4.7",
+            "claude-opus-5-5-max-fast": "claude-opus-5-5",
+            "gpt-5.5-extra-high-fast": "gpt-5.5",
+        }
+        for slug, key in cases.items():
+            with self.subTest(slug=slug):
+                self.assertEqual(model_key(slug), key)
+                self.assertEqual(model_key(key), key)
+
+    def test_model_key_reads_effort_before_thinking(self):
+        """An effort directly before -thinking is removed; -thinking stays."""
+        cases = {
+            "claude-4.6-opus-high-thinking": "claude-4.6-opus-thinking",
+            "claude-4.6-sonnet-medium-thinking": "claude-4.6-sonnet-thinking",
+            "claude-4.6-opus-max-thinking": "claude-4.6-opus-thinking",
+        }
+        for slug, key in cases.items():
+            with self.subTest(slug=slug):
+                self.assertEqual(model_key(slug), key)
+                self.assertEqual(model_key(key), key)
+
+    def test_model_key_leaves_non_effort_suffixes(self):
+        """Slugs with no effort word are their own key, and keys are idempotent."""
+        for slug in (
+            "gpt-5.2",
+            "gemini-3.1-pro",
+            "kimi-k2.7-code",
+            "gpt-5-mini",
+            "claude-sonnet-5-thinking",
+        ):
+            with self.subTest(slug=slug):
+                self.assertEqual(model_key(slug), slug)
+
+    def test_max_effort_reviewer_resolves(self):
+        """An enabled max-effort spelling is the stored model and can be printed."""
+        catalog = _catalog(
+            {
+                "gemini-3.8-flash": _entry("S", 70, 3.5),
+                "claude-opus-5-5": _entry("S", 77, 20),
+            },
+            tier_order=("C", "B", "A", "S"),
+        )
+        mapping = _mapping({"gemini-3.8-flash": "gemini", "claude-opus-5-5": "claude"})
+        self.assertEqual(
+            select(
+                catalog,
+                mapping,
+                "gemini-3.8-flash-low",
+                ["claude-opus-5-5-max"],
+                random.Random(0),
+            ),
+            "claude-opus-5-5-max",
+        )
+
     def test_effort_on_a_bare_key_is_that_model(self):
         """composer-2.5-high ranks as composer-2.5 and can select a reviewer."""
         catalog = _catalog(
