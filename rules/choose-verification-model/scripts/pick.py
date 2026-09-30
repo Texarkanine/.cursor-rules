@@ -2,28 +2,25 @@
 """Print one verification-model slug."""
 
 import argparse
-import json
 import random
 import sys
 from pathlib import Path
 
+from homeassets import load_effective, user_assets_dir
 from modelpool import SelectionError, select
 
 _ASSETS = Path(__file__).resolve().parent.parent / "assets"
 
 
-def _read_json(name: str):
-    path = _ASSETS / name
-    with path.open(encoding="utf-8") as handle:
-        return json.load(handle)
-
-
-def main(argv, *, catalog=None, mapping=None) -> int:
+def main(argv, *, catalog=None, mapping=None, assets_dir=None, user_dir=None) -> int:
     """Parse arguments and print the chosen slug.
 
     ``argv`` is the argument list after the program name. ``catalog``
-    and ``mapping`` are parsed JSON objects; when either is omitted it
-    is loaded from ``assets/`` in this skill.
+    and ``mapping`` are parsed JSON objects. When both are passed, no
+    asset file is read. When either is omitted, that document is the
+    merge of ``assets_dir`` with ``user_dir``. ``assets_dir`` defaults
+    to ``assets/`` in this skill. ``user_dir`` defaults to
+    ``user_assets_dir()``.
 
     Returns 0 when a slug was printed. That includes an author whose
     model is not in the catalog: stdout is that spelling. An effort
@@ -38,10 +35,15 @@ def main(argv, *, catalog=None, mapping=None) -> int:
     parser.add_argument("--reviewer-models", required=True)
     parser.add_argument("--seed", type=int)
     args = parser.parse_args(argv)
-    if catalog is None:
-        catalog = _read_json("catalog.json")
-    if mapping is None:
-        mapping = _read_json("mapping.json")
+    if catalog is None or mapping is None:
+        loaded_catalog, loaded_mapping = load_effective(
+            assets_dir if assets_dir is not None else _ASSETS,
+            user_dir if user_dir is not None else user_assets_dir(),
+        )
+        if catalog is None:
+            catalog = loaded_catalog
+        if mapping is None:
+            mapping = loaded_mapping
     enabled = [part.strip() for part in args.reviewer_models.split(",") if part.strip()]
     rng = random.Random(args.seed) if args.seed is not None else random.Random()
     try:

@@ -361,10 +361,11 @@ def build_catalog(benchlm, pricing_markdown, mapping, previous, listing=None):
 
     The score is the equal-weight mean of the BenchLM agentic, coding,
     and reasoning category scores that are present. That mean is the
-    model. BenchLM does not encode effort, so ``effort_encoded`` is
-    false. An interim score is kept only when all three are missing,
-    and replaced once any of them appears. It does not encode effort
-    either. ``tier_order`` and each existing tier are copied from
+    model, stored to two decimal places. BenchLM does not encode
+    effort, so ``effort_encoded`` is false. An interim score is kept
+    only when all three are missing, and replaced once any of them
+    appears. It does not encode effort either, and it is stored to
+    two decimal places too. ``tier_order`` and each existing tier are copied from
     ``previous``. A slug that was not in ``previous`` gets ``tier``
     null. Every row whose tier is null gets a ``must set tier``
     warning, on every run.
@@ -395,10 +396,10 @@ def build_catalog(benchlm, pricing_markdown, mapping, previous, listing=None):
             warnings.append(f"WARNING: must set tier for {slug}")
         present = _category_values(benchlm, row.get("benchlm_slug"))
         if present:
-            score = sum(present) / len(present)
+            score = round(sum(present) / len(present), 2)
             source = "benchlm"
         elif row.get("interim_score") is not None:
-            score = row["interim_score"]
+            score = round(row["interim_score"], 2)
             source = "interim"
         else:
             score = None

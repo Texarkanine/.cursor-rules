@@ -13,6 +13,7 @@ S = [
 
 A = [
   "claude-opus-5-thinking",
+  "claude-sonnet-5-5",
   "claude-sonnet-5-thinking",
   "cursor-grok-4.6",
   "gemini-3.8-flash",

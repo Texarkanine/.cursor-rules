@@ -263,6 +263,12 @@
       "pricing_name": "GLM 5.2",
       "benchlm_slug": "glm-5-2",
       "interim_score": null
+    },
+    "claude-sonnet-5-5": {
+      "family": "claude",
+      "pricing_name": "Claude Sonnet 5.5",
+      "benchlm_slug": "claude-sonnet-5-5",
+      "interim_score": null
     }
   }
 }

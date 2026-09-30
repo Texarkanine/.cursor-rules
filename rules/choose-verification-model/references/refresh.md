@@ -1,6 +1,6 @@
 # Refresh the Catalog
 
-Run `scripts/refresh.py` from this skill's directory, in the repository that ships the skill. It needs Python 3.11 or later. Pick does not.
+Run `scripts/refresh.py` from this skill's directory. It needs Python 3.11 or later. Pick does not.
 
 ```bash
 python3 scripts/refresh.py
@@ -10,11 +10,17 @@ python3 scripts/refresh.py
 py -3 scripts/refresh.py
 ```
 
-Refresh reads `agent --list-models`, BenchLM category scores, the Cursor pricing page, and `assets/tiers.toml`. It writes `assets/mapping.json` and `assets/catalog.json`. It never writes `assets/tiers.toml`. Warnings go to stderr. Without the `agent` CLI, refresh warns once, skips the fill-in, and still writes the catalog.
+## Where Refresh Writes
+
+A run from `rules/choose-verification-model` reads and writes that tree's `assets/`. A run from an install writes `catalog.json` and `mapping.json` under `$XDG_DATA_HOME/choose-verification-model`. When `XDG_DATA_HOME` is unset or empty, the directory is `~/.local/share/choose-verification-model`. On Windows, when that variable is unset, the directory is `%LOCALAPPDATA%/choose-verification-model`. Refresh does not write `tiers.toml`.
+
+Pick merges the home directory on its own. A home `tiers.toml` overrides the tier of each model it lists. A model the file does not list keeps the shipped tier.
+
+Refresh reads `agent --list-models`, BenchLM category scores, the Cursor pricing page, and `tiers.toml`. Warnings go to stderr. Without the `agent` CLI, refresh warns once, skips the fill-in, and still writes the catalog.
 
 ## Tiers
 
-Tiers are your trust in a model for the work you ask of it. They are set by hand in `assets/tiers.toml` and are never derived from a score. List slugs under `C`, `B`, `A`, and `S`, lowest to highest, or under `never`. Any Cursor spelling names its model: effort and `-fast` are ignored. A `never` model is not chosen as a reviewer. As the author, pick prints it back. Refresh does not warn about it.
+Tiers are your trust in a model for the work you ask of it. They are set by hand in `tiers.toml` and are never derived from a score. The source tree keeps that file at `assets/tiers.toml`. A home directory may keep its own. List slugs under `C`, `B`, `A`, and `S`, lowest to highest, or under `never`. Any Cursor spelling names its model: effort and `-fast` are ignored. A `never` model is not chosen as a reviewer. As the author, pick prints it back. Refresh does not warn about it.
 
 Refresh warns about every model with no tier, on every run, and about a model listed twice or not in the mapping. After editing `tiers.toml`, run refresh so the catalog picks up the change.
 
