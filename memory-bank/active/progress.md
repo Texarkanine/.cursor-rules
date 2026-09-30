@@ -81,3 +81,14 @@ Let consumers of `choose-verification-model` store the skill's assets in an XDG 
     - The publish check stays the parent directory name `rules`
 * Insights
     - QA was not started. `pick.py` exited 2 with `unknown slug: claude-sonnet-5-5-high`. That spelling is on the Task model list. The catalog has no `claude-sonnet-5-5` stem. The picker skill says not to guess a reviewer
+
+## 2026-09-30 - CATALOG - COMPLETE
+
+* Work completed
+    - Ran source-tree refresh after the operator asked for Claude Sonnet 5.5 at tier A
+    - `claude-sonnet-5-5` is in the mapping, the catalog at tier A, and `tiers.toml`
+* Decisions made
+    - The stem matches Opus 5.5: `claude-sonnet-5-5`, from the listing slug `claude-sonnet-5-5-high`
+    - Tier A, as the operator set. Sonnet 5 without thinking stays `never`
+* Insights
+    - Refresh also rewrote BenchLM scores. The unittest suite still passed, 99 tests
