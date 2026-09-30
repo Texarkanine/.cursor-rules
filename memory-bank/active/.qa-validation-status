@@ -1,0 +1,19 @@
+PASS
+
+QA run 2026-09-30, task xdg-user-assets (Level 3). Semantic review of the build against the plan in `memory-bank/active/tasks.md` and the design in `memory-bank/active/creative/creative-asset-overlay.md`. Suite green: `make test-choose-verification-model` ran 99 tests, OK.
+
+Findings:
+
+1. Completeness: every behavior in the plan's Test Plan has a matching test, and all four implementation units are present as specified. `homeassets.py` provides `user_assets_dir`, `is_source_tree`, `overlay_tiers`, `merge_documents`, and `load_effective` with the contracted semantics: XDG/LOCALAPPDATA resolution, home-wins mapping union, shipped-tier restoration on both-sides catalog rows, home `tiers.toml` as the only local tier authority with first-listing-wins, shipped `tier_order`, missing home files contributing nothing, invalid JSON raising. `pick.main` merges unless both documents are injected; `refresh.main` keeps the `dest` branch, keeps the source-tree branch ignoring the home directory, and writes only `catalog.json`/`mapping.json` to the home directory on the consumer branch. `references/refresh.md` documents the split; `SKILL.md` is untouched. No stubs, TODOs, or pseudocode remain.
+
+2. KISS/YAGNI: no speculative abstraction. The merge is one module with five functions; pick and refresh keep their command lines; the publish check stays the planned parent-directory-name heuristic.
+
+3. Regression: `tomllib` is imported lazily inside the tiers read in `homeassets.py`, so `pick.py` still imports on Python older than 3.11. The issue-129 invocation is isolated from a developer's home directory via `XDG_DATA_HOME` in `test_shipped.py`. Existing `dest` callers keep the old read/write path byte-for-byte.
+
+4. Integrity: no hardcoded shortcuts, magic values, or debug artifacts. The catalog/mapping/tiers changes in the diff are the operator-requested `claude-sonnet-5-5` addition recorded in progress.md, not implementation debris.
+
+Advisories (non-blocking):
+
+1. Minor DRY: `refresh.py` defines `_read_json_if_present`/`_read_tiers_if_present`, duplicating `homeassets._read_optional_json`/`_read_optional_tiers`. Three-line private helpers; importing private names across modules would be worse than the duplication. Leave as-is.
+
+2. Consumer refresh reuses `merge_documents` with an empty shipped catalog purely to union mappings, discarding the catalog half. Slightly awkward call shape, but it reuses the tested merge instead of inventing a second one. Leave as-is.

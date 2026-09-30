@@ -92,3 +92,15 @@ Let consumers of `choose-verification-model` store the skill's assets in an XDG 
     - Tier A, as the operator set. Sonnet 5 without thinking stays `never`
 * Insights
     - Refresh also rewrote BenchLM scores. The unittest suite still passed, 99 tests
+
+## 2026-09-30 - QA - COMPLETE
+
+* Work completed
+    - Reviewed the build semantically against the plan and the creative decision; judged only, no edits to the implementation
+    - Re-ran `make test-choose-verification-model`: 99 tests, OK
+    - Wrote `memory-bank/active/.qa-validation-status` with first line `PASS`; recorded QA results in `tasks.md`
+* Decisions made
+    - PASS: the implementation is acceptable as-is; both findings are advisory and do not gate reflect
+* Insights
+    - `refresh.py` carries three-line private read helpers that duplicate `homeassets.py`'s; importing private names across modules would be worse, so the duplication stands
+    - Consumer refresh unions mappings by calling `merge_documents` with an empty shipped catalog; awkward call shape, but it reuses the tested merge instead of adding a second one
