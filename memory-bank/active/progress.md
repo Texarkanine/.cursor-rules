@@ -104,3 +104,14 @@ Let consumers of `choose-verification-model` store the skill's assets in an XDG 
 * Insights
     - `refresh.py` carries three-line private read helpers that duplicate `homeassets.py`'s; importing private names across modules would be worse, so the duplication stands
     - Consumer refresh unions mappings by calling `merge_documents` with an empty shipped catalog; awkward call shape, but it reuses the tested merge instead of adding a second one
+
+## 2026-09-30 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `memory-bank/active/reflection/reflection-xdg-user-assets.md`
+    - Checked productContext, systemPatterns, and techContext; none needed an edit
+* Decisions made
+    - The Sonnet 5.5 catalog row stays recorded as an operator request after the build, not as part of the XDG plan
+* Insights
+    - A catalog `tier` is generated. The user setting is `tiers.toml`
+    - A file under `assets/` is copied into every install, so a publish marker cannot live there
