@@ -69,6 +69,16 @@ class RefreshTests(unittest.TestCase):
         self.assertFalse(catalog["models"]["slug"]["effort_encoded"])
         self.assertEqual(warnings, [])
 
+    def test_repeating_mean_is_stored_to_two_decimal_places(self):
+        """70, 74, and 73.9 average to 72.6333... and are stored as 72.63."""
+        catalog, _warnings = build_catalog(
+            _benchlm({"m": {"agentic": 70, "coding": 74, "reasoning": 73.9}}),
+            "| Model | Output |\n| --- | --- |\n| Row | $5 |\n",
+            _mapping({"slug": {"family": "a", "pricing_name": "Row", "benchlm_slug": "m"}}),
+            _previous({"slug": {"tier": "low"}}),
+        )
+        self.assertEqual(catalog["models"]["slug"]["score"], 72.63)
+
     def test_null_reasoning_is_left_out_of_the_mean(self):
         """A null category is skipped. The other two are averaged."""
         catalog, _warnings = build_catalog(
