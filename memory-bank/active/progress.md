@@ -33,3 +33,15 @@ Let consumers of `choose-verification-model` store the skill's assets in an XDG 
 * Insights
     - The installed skill is a real copy at `~/.cursor/skills/ai-rizz/choose-verification-model`, so a parent named `rules` distinguishes the source tree
     - The five-new-models case only works if pick unions the files; a refresh snapshot alone hides a later skill update
+
+## 2026-09-30 - PLAN - COMPLETE
+
+* Work completed
+    - Wrote the Level 3 plan to `memory-bank/active/tasks.md`
+    - Mapped tests onto `tests/choose-verification-model/` and the new `homeassets.py`
+* Decisions made
+    - Four implementation units: merge module, pick load, refresh write target, refresh.md
+    - `SKILL.md` is not edited
+    - `pick.main` and `refresh.main` grow optional `assets_dir` and `user_dir` keyword arguments for tests; a passed `dest` keeps today's refresh write
+* Insights
+    - `test_issue_129_command_exits_0_and_leaves_the_catalog` calls `pick.main` without an injected catalog, so it has to point `XDG_DATA_HOME` at an empty directory
