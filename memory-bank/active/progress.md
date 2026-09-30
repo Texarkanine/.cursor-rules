@@ -45,3 +45,24 @@ Let consumers of `choose-verification-model` store the skill's assets in an XDG 
     - `pick.main` and `refresh.main` grow optional `assets_dir` and `user_dir` keyword arguments for tests; a passed `dest` keeps today's refresh write
 * Insights
     - `test_issue_129_command_exits_0_and_leaves_the_catalog` calls `pick.main` without an injected catalog, so it has to point `XDG_DATA_HOME` at an empty directory
+
+## 2026-09-30 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Ran all seven Level 2/3 preflight checks against the codebase; none failed
+    - Wrote `memory-bank/active/.preflight-status` with first line `PASS WITH ADVISORY`
+* Decisions made
+    - Plan is build-ready as-is; both findings are advisory and do not gate the build
+* Insights
+    - `user_assets_dir` is stubbed with all-required parameters but called with none in unit 2; the build should give it None-sentinel defaults
+    - A committed marker file beside `assets/` would be a more robust publish-mode signal than the parent-directory-name heuristic; recorded as a radical-innovation candidate for the operator to weigh
+
+## 2026-09-30 - HANDOFF
+
+* Work completed
+    - Told the operator the build needs no design decision
+    - Explained the marker-file advisory
+* Decisions made
+    - Keep the directory-name publish check. The operator did not ask to switch
+* Insights
+    - ai-rizz copies the `assets/` directory, so a marker inside it would make every install look like the source tree
