@@ -129,6 +129,8 @@ graph TD
 3. Write tests and run red: implement the cases. `user_assets_dir` takes the environ mapping and the platform string so Windows is tested without a Windows host. Run `python3 -m unittest tests.choose-verification-model.test_homeassets`.
 4. Write code and run green: implement the functions. `XDG_DATA_HOME` set and non-empty wins. Empty or unset uses `home / ".local" / "share"` except platform `nt`, which uses `LOCALAPPDATA`. Append `choose-verification-model`. `is_source_tree` is true only when the directory is named `choose-verification-model` and its parent is named `rules`. `overlay_tiers` copies shipped lists, then for each home stem removes it from every shipped tier and places it on the home tier. `merge_documents` deep-copies, unions mapping rows with home winning, unions catalog rows with home score and `has_fast` winning, then restores the shipped `tier` when both catalogs have the stem. Apply home tiers through `previous_from_tiers` and `model_key`, first listing wins, and discard the warnings. `tier_order` is the shipped list. `load_effective` treats a missing home file as `None` and lets invalid JSON raise. Import `tomllib` only inside the tiers read. Run the same unittest module.
 
+**Status:** complete. `user_assets_dir` arguments default to `None` and resolve to `os.environ`, `Path.home()`, and `sys.platform`.
+
 ### 2. Pick loads the merge — executable
 
 - Files: `rules/choose-verification-model/scripts/pick.py`, `tests/choose-verification-model/test_homeassets.py`, `tests/choose-verification-model/test_shipped.py`
