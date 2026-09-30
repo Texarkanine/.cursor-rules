@@ -141,6 +141,8 @@ graph TD
 3. Write tests and run red: the new case builds a two-model catalog where the shipped tiers pick one slug and the home tier list picks the other. Point `user_dir` at that home directory. The issue 129 case sets `XDG_DATA_HOME` to an empty temp directory for the duration of the call and restores the environment. Run `python3 -m unittest tests.choose-verification-model.test_homeassets tests.choose-verification-model.test_shipped`.
 4. Write code and run green: when a document was not injected, call `load_effective(assets_dir or _ASSETS, user_dir or user_assets_dir())`. Run the same modules.
 
+**Status:** complete. A passed `catalog` and `mapping` still skip the filesystem. Either omitted document comes from the merge.
+
 ### 3. Refresh write target — executable
 
 - Files: `rules/choose-verification-model/scripts/refresh.py`, `tests/choose-verification-model/test_homeassets.py`

@@ -5,8 +5,10 @@ Numeric scores are not locked. A refresh may change them.
 
 import io
 import json
+import os
 import random
 import sys
+import tempfile
 import unittest
 from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
@@ -143,17 +145,26 @@ class ShippedTests(unittest.TestCase):
         before = path.read_bytes()
         stdout = io.StringIO()
         stderr = io.StringIO()
-        with redirect_stdout(stdout), redirect_stderr(stderr):
-            code = main(
-                [
-                    "--model",
-                    "cursor-grok-4.6-xhigh-fast",
-                    "--reviewer-models",
-                    "claude-opus-5-5-high,gpt-5.6-terra-medium,grok-4.7-xhigh",
-                    "--seed",
-                    "0",
-                ]
-            )
+        with tempfile.TemporaryDirectory() as empty_home:
+            previous = os.environ.get("XDG_DATA_HOME")
+            os.environ["XDG_DATA_HOME"] = empty_home
+            try:
+                with redirect_stdout(stdout), redirect_stderr(stderr):
+                    code = main(
+                        [
+                            "--model",
+                            "cursor-grok-4.6-xhigh-fast",
+                            "--reviewer-models",
+                            "claude-opus-5-5-high,gpt-5.6-terra-medium,grok-4.7-xhigh",
+                            "--seed",
+                            "0",
+                        ]
+                    )
+            finally:
+                if previous is None:
+                    os.environ.pop("XDG_DATA_HOME", None)
+                else:
+                    os.environ["XDG_DATA_HOME"] = previous
         self.assertEqual(code, 0)
         self.assertEqual(stderr.getvalue().strip(), "")
         self.assertEqual(stdout.getvalue().strip(), "claude-opus-5-5-high-fast")

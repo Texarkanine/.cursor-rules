@@ -4,10 +4,12 @@ Directory resolution, the source-tree check, and the per-model merge.
 Nothing in this module opens a network connection.
 """
 
+import io
 import json
 import sys
 import tempfile
 import unittest
+from contextlib import redirect_stdout
 from pathlib import Path
 
 SKILL_DIR = Path(__file__).resolve().parents[2] / "rules" / "choose-verification-model"
@@ -19,6 +21,7 @@ from homeassets import (  # noqa: E402
     merge_documents,
     user_assets_dir,
 )
+from pick import main as pick_main  # noqa: E402
 
 
 def _row(tier, score=1, has_fast=False, cost=1):
@@ -172,6 +175,44 @@ class MergeTests(unittest.TestCase):
             None,
         )
         self.assertEqual(catalog["tier_order"], ["C", "B", "A", "S"])
+
+
+class PickOverlayTests(unittest.TestCase):
+    def test_home_tier_changes_the_printed_slug(self):
+        """A home tiers.toml moves one stem onto the tier that changes the winner."""
+        catalog = _catalog(
+            {
+                "gamma": _row("C", score=10, cost=10),
+                "beta": _row("B", score=50, cost=1),
+                "delta": _row("B", score=50, cost=9),
+            }
+        )
+        mapping = _mapping({"gamma": "gamma", "beta": "beta", "delta": "delta"})
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            assets = root / "assets"
+            home = root / "home"
+            assets.mkdir()
+            home.mkdir()
+            (assets / "catalog.json").write_text(json.dumps(catalog), encoding="utf-8")
+            (assets / "mapping.json").write_text(json.dumps(mapping), encoding="utf-8")
+            (home / "tiers.toml").write_text('S = ["beta"]\n', encoding="utf-8")
+            stdout = io.StringIO()
+            with redirect_stdout(stdout):
+                code = pick_main(
+                    [
+                        "--model",
+                        "gamma",
+                        "--reviewer-models",
+                        "gamma,beta,delta",
+                        "--seed",
+                        "0",
+                    ],
+                    assets_dir=assets,
+                    user_dir=home,
+                )
+        self.assertEqual(code, 0)
+        self.assertEqual(stdout.getvalue().strip(), "delta")
 
 
 class LoadEffectiveTests(unittest.TestCase):
