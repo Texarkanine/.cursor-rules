@@ -4,12 +4,13 @@ Directory resolution, the source-tree check, and the per-model merge.
 Nothing in this module opens a network connection.
 """
 
+import importlib
 import io
 import json
 import sys
 import tempfile
 import unittest
-from contextlib import redirect_stdout
+from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 
 SKILL_DIR = Path(__file__).resolve().parents[2] / "rules" / "choose-verification-model"
@@ -22,6 +23,13 @@ from homeassets import (  # noqa: E402
     user_assets_dir,
 )
 from pick import main as pick_main  # noqa: E402
+
+_fixtures = importlib.import_module("tests.choose-verification-model.test_refresh")  # noqa: E402
+_benchlm = _fixtures._benchlm
+_asset_mapping = _fixtures._mapping
+_pricing = _fixtures._pricing
+_SCORED = _fixtures._SCORED
+refresh_main = _fixtures.refresh_main
 
 
 def _row(tier, score=1, has_fast=False, cost=1):
@@ -248,3 +256,142 @@ class LoadEffectiveTests(unittest.TestCase):
             (home / "catalog.json").write_text("{", encoding="utf-8")
             with self.assertRaises(json.JSONDecodeError):
                 load_effective(shipped, home)
+
+
+def _skill_assets(root, parent_name):
+    assets = root / parent_name / "choose-verification-model" / "assets"
+    assets.mkdir(parents=True)
+    return assets
+
+
+def _write_json(path, document):
+    path.write_text(json.dumps(document), encoding="utf-8")
+
+
+def _snapshot(directory):
+    files = {}
+    if directory.exists():
+        for path in directory.rglob("*"):
+            if path.is_file():
+                files[path.relative_to(directory).as_posix()] = path.read_bytes()
+    return files
+
+
+def _run_refresh(assets, home, bench_slugs, pricing_names):
+    stderr = io.StringIO()
+    with redirect_stderr(stderr):
+        code = refresh_main(
+            [],
+            benchlm=_benchlm({slug: _SCORED for slug in bench_slugs}),
+            pricing_markdown=_pricing(pricing_names),
+            assets_dir=assets,
+            user_dir=home,
+            agent_models=False,
+        )
+    return code
+
+
+class RefreshWriteTests(unittest.TestCase):
+    def test_consumer_refresh_writes_home_catalog_and_mapping(self):
+        """An install writes the home catalog and mapping, and leaves the skill catalog alone."""
+        mapping = _asset_mapping(
+            {"kept": {"family": "k", "pricing_name": "Kept", "benchlm_slug": "kept"}}
+        )
+        shipped_catalog = b'{"untouched": true}\n'
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            assets = _skill_assets(root, "ai-rizz")
+            home = root / "home"
+            _write_json(assets / "mapping.json", mapping)
+            (assets / "tiers.toml").write_text('A = ["kept"]\n', encoding="utf-8")
+            (assets / "catalog.json").write_bytes(shipped_catalog)
+            code = _run_refresh(assets, home, ["kept"], ["Kept"])
+            self.assertEqual(code, 0)
+            self.assertTrue((home / "catalog.json").is_file())
+            self.assertTrue((home / "mapping.json").is_file())
+            self.assertFalse((home / "tiers.toml").exists())
+            self.assertEqual((assets / "catalog.json").read_bytes(), shipped_catalog)
+
+    def test_consumer_refresh_unions_mapping_stems(self):
+        """Home-only and shipped-only mapping stems are both written."""
+        shipped = _asset_mapping(
+            {
+                "shipped": {
+                    "family": "s",
+                    "pricing_name": "Shipped",
+                    "benchlm_slug": "shipped",
+                }
+            }
+        )
+        home_mapping = _asset_mapping(
+            {"added": {"family": "a", "pricing_name": "Added", "benchlm_slug": "added"}}
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            assets = _skill_assets(root, "ai-rizz")
+            home = root / "home"
+            home.mkdir()
+            _write_json(assets / "mapping.json", shipped)
+            (assets / "tiers.toml").write_text('A = ["shipped"]\n', encoding="utf-8")
+            _write_json(home / "mapping.json", home_mapping)
+            code = _run_refresh(assets, home, ["shipped", "added"], ["Shipped", "Added"])
+            written = json.loads((home / "mapping.json").read_text(encoding="utf-8"))
+        self.assertEqual(code, 0)
+        self.assertEqual(set(written["models"]), {"shipped", "added"})
+
+    def test_consumer_refresh_applies_the_home_tier_list(self):
+        """The written catalog uses the home tier for a listed stem and the shipped tier otherwise."""
+        shipped = _asset_mapping(
+            {
+                "moved": {
+                    "family": "m",
+                    "pricing_name": "Moved",
+                    "benchlm_slug": "moved",
+                },
+                "stays": {
+                    "family": "s",
+                    "pricing_name": "Stays",
+                    "benchlm_slug": "stays",
+                },
+            }
+        )
+        home_tiers = 'S = ["moved"]\n'
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            assets = _skill_assets(root, "ai-rizz")
+            home = root / "home"
+            home.mkdir()
+            _write_json(assets / "mapping.json", shipped)
+            (assets / "tiers.toml").write_text(
+                'A = ["moved"]\nB = ["stays"]\n', encoding="utf-8"
+            )
+            (home / "tiers.toml").write_text(home_tiers, encoding="utf-8")
+            code = _run_refresh(assets, home, ["moved", "stays"], ["Moved", "Stays"])
+            catalog = json.loads((home / "catalog.json").read_text(encoding="utf-8"))
+            kept_tiers = (home / "tiers.toml").read_text(encoding="utf-8")
+        self.assertEqual(code, 0)
+        self.assertEqual(catalog["models"]["moved"]["tier"], "S")
+        self.assertEqual(catalog["models"]["stays"]["tier"], "B")
+        self.assertEqual(kept_tiers, home_tiers)
+
+    def test_source_tree_refresh_ignores_the_home_tier(self):
+        """A rules/ tree writes the shipped tier and does not change the home directory."""
+        shipped = _asset_mapping(
+            {"stem": {"family": "s", "pricing_name": "Stem", "benchlm_slug": "stem"}}
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            assets = _skill_assets(root, "rules")
+            home = root / "home"
+            home.mkdir()
+            _write_json(assets / "mapping.json", shipped)
+            (assets / "tiers.toml").write_text('A = ["stem"]\n', encoding="utf-8")
+            (home / "tiers.toml").write_text('S = ["stem"]\n', encoding="utf-8")
+            (home / "catalog.json").write_text('{"local": true}\n', encoding="utf-8")
+            before = _snapshot(home)
+            code = _run_refresh(assets, home, ["stem"], ["Stem"])
+            catalog = json.loads((assets / "catalog.json").read_text(encoding="utf-8"))
+            after = _snapshot(home)
+        self.assertEqual(code, 0)
+        self.assertEqual(catalog["models"]["stem"]["tier"], "A")
+        self.assertEqual(after, before)

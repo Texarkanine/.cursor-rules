@@ -153,6 +153,8 @@ graph TD
 3. Write tests and run red: consumer cases use a temp directory whose parent is not `rules`, omit `dest`, write shipped `mapping.json` and `tiers.toml` plus a home mapping and tier list, and inject `benchlm`, `pricing_markdown`, and `agent_models=False` using the fixtures already in `test_refresh.py`. Source-tree case uses `tmp/rules/choose-verification-model/assets` and a home tier that would change the written tier if it were consulted. Run `python3 -m unittest tests.choose-verification-model.test_homeassets tests.choose-verification-model.test_refresh`.
 4. Write code and run green: `dest` set keeps today's body. `dest` omitted and `is_source_tree` reads `assets_dir` and writes there, without reading `user_dir`. Otherwise load shipped and home files, `overlay_tiers` the TOML, `fill_mapping` and `build_catalog` as today, create the home directory, and write `catalog.json` and `mapping.json` there. Do not write `tiers.toml`. Do not modify the skill assets. Run the same modules, then `make test-choose-verification-model`.
 
+**Status:** complete. A passed `dest` still writes beside that path.
+
 ### 4. Refresh write-up — prose/policy
 
 - Files: `rules/choose-verification-model/references/refresh.md`
@@ -162,6 +164,8 @@ graph TD
 1. State that a run from `rules/choose-verification-model` still reads and writes that tree's `assets/`, and that a run from an install writes `catalog.json` and `mapping.json` under the XDG data directory named in the creative decision.
 2. State that pick merges the home directory on its own, that a home `tiers.toml` overrides per model, and that models the file does not list keep the shipped tier.
 3. Leave the `python3` and `py -3` commands unchanged. Do not edit `SKILL.md`.
+
+**Status:** complete.
 
 ## Technology Validation
 
@@ -189,6 +193,6 @@ No new technology - validation not required. Paths use `pathlib` and `os.environ
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
-- [ ] Build
+- [x] Preflight
+- [x] Build
 - [ ] QA

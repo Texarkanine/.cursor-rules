@@ -66,3 +66,18 @@ Let consumers of `choose-verification-model` store the skill's assets in an XDG 
     - Keep the directory-name publish check. The operator did not ask to switch
 * Insights
     - ai-rizz copies the `assets/` directory, so a marker inside it would make every install look like the source tree
+
+## 2026-09-30 - BUILD - COMPLETE
+
+* Work completed
+    - Added `homeassets.py` and merged shipped assets with the XDG home directory on read
+    - `pick.py` loads that merge unless both documents are injected
+    - Install refresh writes the home catalog and mapping; source-tree refresh still rewrites the skill assets and ignores the home directory
+    - Updated `references/refresh.md`. `SKILL.md` is unchanged
+    - `make test` passed: 99 choose-verification-model tests, plus the symlink and README link checks
+* Decisions made
+    - `user_assets_dir` can be called with no arguments. Omitted values use `os.environ`, `Path.home()`, and `sys.platform`
+    - When `pick.main` receives only one of `catalog` or `mapping`, the other document comes from the merge
+    - The publish check stays the parent directory name `rules`
+* Insights
+    - QA was not started. `pick.py` exited 2 with `unknown slug: claude-sonnet-5-5-high`. That spelling is on the Task model list. The catalog has no `claude-sonnet-5-5` stem. The picker skill says not to guess a reviewer
