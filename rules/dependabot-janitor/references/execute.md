@@ -34,13 +34,7 @@ Do this once per repository you will modify. Do not assume the current directory
 2. Apply every version from the PRs you are combining, in the same manifest files those PRs changed. A subdirectory bump stays in that subdirectory.
 3. Refresh the lockfile with the package manager that owns it. The lockfile and the repository's CI config identify that manager. Do not assume npm.
 4. Run the checks that gate pull requests on this repository. If you cannot run them, stop before opening the PR and name the check you could not run.
-5. Commit in the style already used on the base branch. When that history has no clear style, use Dependabot's own subject for this bump (`fix(deps):`, `chore(deps):`, or `fix(deps-dev):`).
-6. Push and open the pull request:
-   ```bash
-   gh pr create --repo <owner>/<repo>
-   ```
-   `gh` picks up the repository's pull request template when one exists.
-7. If `.github/dependabot.yml` or `.github/dependabot.yaml` already exists, keep that filename and add a `groups` entry on the matching `updates` item (same ecosystem and directory) so the next bump arrives as one pull request. Patterns are the packages you just combined:
+5. If `.github/dependabot.yml` or `.github/dependabot.yaml` already exists, keep that filename and add a `groups` entry on the matching `updates` item (same ecosystem and directory) so the next bump arrives as one pull request. Patterns are the packages you just combined:
    ```yaml
    groups:
      <group-name>:
@@ -48,7 +42,14 @@ Do this once per repository you will modify. Do not assume the current directory
          - "<package>"
          - "<scope>/*"
    ```
-   If neither config file exists, do not create one. Say that in the new PR body.
+   If neither config file exists, do not create one. The pull request body in step 7 must say that.
+6. Commit in the style already used on the base branch. The commit includes the `groups` edit from step 5 when that edit happened. When that history has no clear style, use Dependabot's own subject for this bump (`fix(deps):`, `chore(deps):`, or `fix(deps-dev):`).
+7. Push the branch, then open the pull request. `gh pr create` with no title and body exits when it cannot prompt, and with no `--base` it targets the repository's default branch.
+   ```bash
+   git push -u origin <new-branch>
+   gh pr create --repo <owner>/<repo> --base <base-branch> --title "<subject>" --body-file <body-file>
+   ```
+   Start `<body-file>` from the repository's pull request template when it has one. When step 5 found no Dependabot config file, say that in the body. `<base-branch>` is the `baseRefName` from triage. If the upstream remote is not named `origin`, use that name in `git push` too.
 8. Close each superseded PR:
    ```bash
    gh pr close <original_number> --repo <owner>/<repo> --comment "Superseded by #<new_number>, which bumps <packages> together so their peer requirements resolve."
@@ -79,7 +80,12 @@ Do this once per repository you will modify. Do not assume the current directory
          - "version-update:semver-major"
    ```
 4. Commit in the repository's existing style. A sound default when history has no clear style: `chore(deps): ignore <package> <constraint> in Dependabot`.
-5. Push and open the pull request with `gh pr create --repo <owner>/<repo>`.
+5. Push the branch, then open the pull request. Use the same non-interactive push and create as Combining Interdependent Bumps. `<base-branch>` is the `baseRefName` from triage:
+   ```bash
+   git push -u origin <new-branch>
+   gh pr create --repo <owner>/<repo> --base <base-branch> --title "<subject>" --body-file <body-file>
+   ```
+   Start `<body-file>` from the repository's pull request template when it has one.
 6. Close the original PR. The comment must contain both why and when. This quoting is bash; another shell must pass the same comment text:
    ```bash
    gh pr close <original_number> --repo <owner>/<repo> --comment "$(cat <<'EOF'

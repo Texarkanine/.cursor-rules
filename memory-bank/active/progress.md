@@ -10,7 +10,7 @@
 - **Core capabilities codified**:
   - Triage rubric for routine patch bumps vs breaking majors vs peer dependency splits.
   - Disposition index grouping items clearly before writing changes.
-  - Remediations via isolated git worktrees (`git wt`), lockstep package manifests, and `.github/dependabot.yaml` ignores.
+  - Remediations via isolated `git worktree` checkouts, lockstep package manifests, and `.github/dependabot.yaml` ignores.
   - Receipted PR closure comments explaining why excluding is correct now and when adoption will become appropriate.
   - Invariant adhered to: no external blog URLs or company references.
 - **Verification completed**: `make test` all green.
@@ -37,3 +37,14 @@
 * Decisions made
     - One execution reference. The rubric stays in `SKILL.md` because classification needs the whole table.
     - `SKILL.md` does not summarize the procedure, so an agent cannot execute from the gate line.
+
+## 2026-10-02 - BUILD - Review rework
+
+* Work completed
+    - `references/execute.md` pushes with `git push -u`, then `gh pr create --base --title --body-file`.
+    - The `groups` edit is committed before the pull request is opened.
+    - The triage index template includes a Hold / Blocked section.
+    - The draft milestone no longer names a local worktree alias.
+    - The brief no longer names the external source it forbids. That name is gone from `memory-bank/`.
+* Decisions made
+    - `--body-file` rather than `--fill`, so a missing Dependabot config can be stated in the body, and a repository template can be the starting text.

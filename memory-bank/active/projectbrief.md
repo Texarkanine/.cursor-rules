@@ -29,7 +29,7 @@ When a major bump is premature or incompatible with project architecture (e.g. T
 
 ## Constraints
 
-1. **Strict constraint**: Do NOT link to or reference external blog posts or company names (`tech.zenbusiness.com` or ZenBusiness) anywhere in the final content. All triage and remediation patterns must be internalized as native principles.
+1. **Strict constraint**: Do not link to or name the external write-up this skill was distilled from, or its publisher, anywhere in the skill. Triage and remediation patterns must stand as native principles.
 2. Canonical `rules/dependabot-janitor/SKILL.md` file layout under 500 lines.
 3. `make test` must pass (valid ruleset symlinks, no broken README links, verification tests green).
 4. No change-detector tests for prose wording per `always-tdd` carve-out.

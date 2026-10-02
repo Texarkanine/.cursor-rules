@@ -61,4 +61,5 @@ Per the repository's `always-tdd` rule, rule and skill wording is carved out fro
 - [x] Memory bank active state populated
 - [x] Portability revision applied
 - [x] Execution split into `references/execute.md`
+- [x] Review rework: non-interactive `gh pr create`, `groups` before commit, Hold section, no local alias in the milestone, no external source name in `memory-bank/`
 - [ ] Review & PR creation

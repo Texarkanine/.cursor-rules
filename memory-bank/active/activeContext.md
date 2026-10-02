@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: dependabot-janitor
-**Phase:** BUILD - IN-PROGRESS (execution split out)
+**Phase:** BUILD - IN-PROGRESS (review rework)
 
 ## What Was Done
 - Branched `feat/dependabot-janitor` from clean `origin/main` in `.cursor-rules`.
@@ -13,7 +13,8 @@
   - No operator-specific commit trailer.
   - Do not create a Dependabot config that the repository does not already have. When the config exists, group a recurring peer split so the next bump is one PR.
 - `gh pr view` and `gh search prs` field lists were checked against `gh` help on this machine.
+- Review on PR 132: `gh pr create` had no `--title`, `--body-file`, or `--base`, and no `git push`. The `groups` edit ran after the pull request was opened. The triage index had no Hold / Blocked section. The draft milestone named a local worktree alias. The brief quoted the external source it forbids.
+- Rework: push, then `gh pr create --base --title --body-file`, on both create paths. `groups` is committed before the pull request. The index template includes Hold / Blocked. The alias and the external source name are gone from `memory-bank/`.
 
 ## Next Step
-- Execution lives in `rules/dependabot-janitor/references/execute.md`. `SKILL.md` loads it only when explicitly asked to execute.
-- Opening the draft pull request for `feat/dependabot-janitor`.
+- Commit and push the rework onto `feat/dependabot-janitor` so PR 132 updates.

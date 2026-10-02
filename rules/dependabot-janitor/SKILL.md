@@ -137,8 +137,13 @@ Print the full index before any write: branch, config edit, push, or close. Grou
 - **[owner/repo#127](url)**: `chore(deps-dev): bump tool from 3.0.0 to 4.0.0`
   - **Diagnosis**: Checks passed. The bump also raises the runtime floor and changes credential handling.
 
-## 5. Non-Dependabot / Operational PRs
-- **[owner/repo#128](url)**: `fix(rc): internal feature branch` (not Dependabot; left out of dependency triage).
+## 5. Hold / Blocked
+- **[owner/repo#128](url)**: `fix(deps): bump pkg from 1.2.3 to 2.0.0`
+  - **Diagnosis**: Tests failed on a real regression. <the blocker>
+  - **Action**: Leave the PR open. Comment the blocker. Do not merge.
+
+## 6. Non-Dependabot / Operational PRs
+- **[owner/repo#129](url)**: `fix(rc): internal feature branch` (not Dependabot; left out of dependency triage).
 ~~~
 
 ## Step 4: Execution
