@@ -48,3 +48,11 @@
     - The brief no longer names the external source it forbids. That name is gone from `memory-bank/`.
 * Decisions made
     - `--body-file` rather than `--fill`, so a missing Dependabot config can be stated in the body, and a repository template can be the starting text.
+
+## 2026-10-05 - BUILD - Stop a failed combine
+
+* Work completed
+    - Combining Interdependent Bumps step 4 stops before the commit when a gating check cannot be run or exits non-zero.
+    - The split pull requests stay open, and the worktree stays in place for inspection.
+* Decisions made
+    - A non-zero exit is a stop, not only an inability to run the check.

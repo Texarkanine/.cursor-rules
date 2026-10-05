@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: dependabot-janitor
-**Phase:** BUILD - IN-PROGRESS (review rework)
+**Phase:** BUILD - IN-PROGRESS (failed-check stop)
 
 ## What Was Done
 - Branched `feat/dependabot-janitor` from clean `origin/main` in `.cursor-rules`.
@@ -17,4 +17,5 @@
 - Rework: push, then `gh pr create --base --title --body-file`, on both create paths. `groups` is committed before the pull request. The index template includes Hold / Blocked. The alias and the external source name are gone from `memory-bank/`.
 
 ## Next Step
-- Commit and push the rework onto `feat/dependabot-janitor` so PR 132 updates.
+- A combine whose gating checks cannot be run, or exit non-zero, stops before the commit. The split pull requests stay open.
+- Push that stop onto PR 132.

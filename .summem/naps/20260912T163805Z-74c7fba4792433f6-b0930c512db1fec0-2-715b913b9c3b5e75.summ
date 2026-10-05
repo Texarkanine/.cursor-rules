@@ -1,0 +1,1 @@
+L4 done, risks, and ticket refs live in milestones.md or projectbrief.md: Step 2a deletes tasks.md and progress.md. Preflight and QA are spawnable, one-line bootstrap, not routers. L2 and L3 share one preflight bar; L4 is a sibling reference in niko-preflight.

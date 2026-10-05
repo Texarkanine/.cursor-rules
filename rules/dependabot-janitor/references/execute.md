@@ -33,7 +33,10 @@ Do this once per repository you will modify. Do not assume the current directory
 1. Create the isolated checkout above, one worktree for the whole set.
 2. Apply every version from the PRs you are combining, in the same manifest files those PRs changed. A subdirectory bump stays in that subdirectory.
 3. Refresh the lockfile with the package manager that owns it. The lockfile and the repository's CI config identify that manager. Do not assume npm.
-4. Run the checks that gate pull requests on this repository. If you cannot run them, stop before opening the PR and name the check you could not run.
+4. Run the checks that gate pull requests on this repository. Stop before the commit in either of these cases, and do not continue to the `groups` edit, push, pull request, or close:
+   - You cannot run a check. Name the check you could not run.
+   - A check runs and exits non-zero. Report the failing command and its exit status.
+   Leave the split pull requests open. Leave the worktree in place so the failed bump can be inspected.
 5. If `.github/dependabot.yml` or `.github/dependabot.yaml` already exists, keep that filename and add a `groups` entry on the matching `updates` item (same ecosystem and directory) so the next bump arrives as one pull request. Patterns are the packages you just combined:
    ```yaml
    groups:
