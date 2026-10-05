@@ -1,1 +1,0 @@
-niko-core stays when a workflow restates it. Progress Tracking stays out of niko-core; task lists are Niko-workflow only. L4 preflight dispatches on progress.md Complexity Level 4, not milestones.md: sub-runs keep milestones.md and still need the L2/L3 TDD bar.

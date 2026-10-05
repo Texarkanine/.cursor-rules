@@ -37,13 +37,12 @@ Do this once per repository you will modify. Do not assume the current directory
    - You cannot run a check. Name the check you could not run.
    - A check runs and exits non-zero. Report the failing command and its exit status.
    Leave the split pull requests open. Leave the worktree in place so the failed bump can be inspected.
-5. If `.github/dependabot.yml` or `.github/dependabot.yaml` already exists, keep that filename and add a `groups` entry on the matching `updates` item (same ecosystem and directory) so the next bump arrives as one pull request. Patterns are the packages you just combined:
+5. If `.github/dependabot.yml` or `.github/dependabot.yaml` already exists, keep that filename. On the matching `updates` item, add one named group for the packages you just combined. If that item already has `groups`, add the named group under that map. If it does not, add `groups` once. Do not write a second `groups:` key. A later duplicate key replaces the earlier map.
    ```yaml
-   groups:
-     <group-name>:
-       patterns:
-         - "<package>"
-         - "<scope>/*"
+   <group-name>:
+     patterns:
+       - "<package>"
+       - "<scope>/*"
    ```
    If neither config file exists, do not create one. The pull request body in step 7 must say that.
 6. Commit in the style already used on the base branch. The commit includes the `groups` edit from step 5 when that edit happened. When that history has no clear style, use Dependabot's own subject for this bump (`fix(deps):`, `chore(deps):`, or `fix(deps-dev):`).
@@ -52,7 +51,7 @@ Do this once per repository you will modify. Do not assume the current directory
    git push -u origin <new-branch>
    gh pr create --repo <owner>/<repo> --base <base-branch> --title "<subject>" --body-file <body-file>
    ```
-   Start `<body-file>` from the repository's pull request template when it has one. When step 5 found no Dependabot config file, say that in the body. `<base-branch>` is the `baseRefName` from triage. If the upstream remote is not named `origin`, use that name in `git push` too.
+   Create `<body-file>` outside `<path>` and pass that path to `--body-file`. A file inside the worktree is still untracked at step 9, and `git worktree remove` then refuses the tree. Start the file from the repository's pull request template when it has one. When step 5 found no Dependabot config file, say that in the body. `<base-branch>` is the `baseRefName` from triage. If the upstream remote is not named `origin`, use that name in `git push` too.
 8. Close each superseded PR:
    ```bash
    gh pr close <original_number> --repo <owner>/<repo> --comment "Superseded by #<new_number>, which bumps <packages> together so their peer requirements resolve."
@@ -63,24 +62,22 @@ Do this once per repository you will modify. Do not assume the current directory
 
 1. Create the isolated checkout above.
 2. Edit the existing `.github/dependabot.yml` or `.github/dependabot.yaml`. Keep the filename the repository already uses. If neither file exists, stop and report that; do not create a Dependabot config from scratch.
-3. Add one `ignore` rule under the `updates` entry for that ecosystem and directory. Pick the shape that matches the reason.
+3. Add one ignore item under the `updates` entry for that ecosystem and directory. If that entry already has `ignore`, append the item to that list. If it does not, add `ignore` once. Do not write a second `ignore:` key. A later duplicate key replaces the earlier list, and step 6 would still close the original pull request. Pick the shape that matches the reason.
 
    Version floor, when everything at or above a release is wrong:
 
    ```yaml
-   ignore:
-     - dependency-name: "<package>"
-       versions:
-         - ">=<major>.0.0"
+   - dependency-name: "<package>"
+     versions:
+       - ">=<major>.0.0"
    ```
 
    Update type, when every major bump is wrong:
 
    ```yaml
-   ignore:
-     - dependency-name: "<package>"
-       update-types:
-         - "version-update:semver-major"
+   - dependency-name: "<package>"
+     update-types:
+       - "version-update:semver-major"
    ```
 4. Commit in the repository's existing style. A sound default when history has no clear style: `chore(deps): ignore <package> <constraint> in Dependabot`.
 5. Push the branch, then open the pull request. Use the same non-interactive push and create as Combining Interdependent Bumps. `<base-branch>` is the `baseRefName` from triage:
@@ -88,7 +85,7 @@ Do this once per repository you will modify. Do not assume the current directory
    git push -u origin <new-branch>
    gh pr create --repo <owner>/<repo> --base <base-branch> --title "<subject>" --body-file <body-file>
    ```
-   Start `<body-file>` from the repository's pull request template when it has one.
+   Create `<body-file>` outside `<path>` and pass that path to `--body-file`. Start it from the repository's pull request template when it has one.
 6. Close the original PR. The comment must contain both why and when. This quoting is bash; another shell must pass the same comment text:
    ```bash
    gh pr close <original_number> --repo <owner>/<repo> --comment "$(cat <<'EOF'

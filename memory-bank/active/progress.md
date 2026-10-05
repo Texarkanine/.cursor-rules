@@ -56,3 +56,11 @@
     - The split pull requests stay open, and the worktree stays in place for inspection.
 * Decisions made
     - A non-zero exit is a stop, not only an inability to run the check.
+
+## 2026-10-05 - BUILD - Append config keys
+
+* Work completed
+    - A named group is added under an existing `groups` map, and an ignore item is appended to an existing `ignore` list.
+    - `<body-file>` is created outside the worktree on both create paths.
+* Decisions made
+    - A second `groups:` or `ignore:` key replaces the earlier map or list, so the examples no longer start with that key.
