@@ -64,3 +64,9 @@
     - `<body-file>` is created outside the worktree on both create paths.
 * Decisions made
     - A second `groups:` or `ignore:` key replaces the earlier map or list, so the examples no longer start with that key.
+
+## 2026-10-05 - BUILD - Saved
+
+* Work completed
+    - Pushed `2bde729` to PR 132.
+    - Recorded that the pull request is open and the ruleset link is still a follow-up.

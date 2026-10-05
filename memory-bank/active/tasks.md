@@ -52,7 +52,7 @@ Per the repository's `always-tdd` rule, rule and skill wording is carved out fro
 8. [x] Move execution into `references/execute.md`
    - `SKILL.md` keeps triage and loads the reference only when explicitly asked to execute
    - The reference is the only copy of the checkout, combine, and exclude procedure
-9. [ ] Commit and open PR on `.cursor-rules`
+9. [x] Commit and open PR on `.cursor-rules`
 
 ## Status
 
@@ -62,4 +62,4 @@ Per the repository's `always-tdd` rule, rule and skill wording is carved out fro
 - [x] Portability revision applied
 - [x] Execution split into `references/execute.md`
 - [x] Review rework: non-interactive `gh pr create`, `groups` before commit, Hold section, no local alias in the milestone, no external source name in `memory-bank/`
-- [ ] Review & PR creation
+- [ ] Review & PR creation ← in progress (PR 132 open at `2bde729`)

@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: dependabot-janitor
-**Phase:** BUILD - IN-PROGRESS (config append and body file)
+**Phase:** BUILD - IN-PROGRESS (PR 132 at 2bde729)
 
 ## What Was Done
 - Branched `feat/dependabot-janitor` from clean `origin/main` in `.cursor-rules`.
@@ -15,8 +15,9 @@
 - `gh pr view` and `gh search prs` field lists were checked against `gh` help on this machine.
 - Review on PR 132: `gh pr create` had no `--title`, `--body-file`, or `--base`, and no `git push`. The `groups` edit ran after the pull request was opened. The triage index had no Hold / Blocked section. The draft milestone named a local worktree alias. The brief quoted the external source it forbids.
 - Rework: push, then `gh pr create --base --title --body-file`, on both create paths. `groups` is committed before the pull request. The index template includes Hold / Blocked. The alias and the external source name are gone from `memory-bank/`.
+- A combine stops before the commit when a gating check cannot be run or exits non-zero. Pushed as `828e5cd`.
+- `groups` and `ignore` are appended under an existing key. `<body-file>` is created outside the worktree. Pushed as `2bde729` on [PR 132](https://github.com/Texarkanine/.cursor-rules/pull/132).
 
 ## Next Step
-- `groups` and `ignore` are appended under an existing key. A second key is not written.
-- `<body-file>` is created outside the worktree on both create paths.
-- Push that onto PR 132.
+- Resume with `/niko` on `feat/dependabot-janitor`. PR 132 is open and includes `2bde729`.
+- If a new review arrives, judge it before editing. The skill is not linked from a ruleset; that install path is a follow-up.
