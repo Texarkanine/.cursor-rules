@@ -80,3 +80,12 @@
 * Decisions made
     - Do not add `<host>` to `--repo <owner>/<repo>`. That keeps a parser the prompt does not need.
     - Leave the Supported Inputs URL shapes and the index examples as they are. They describe a URL; they are not commands.
+
+## 2026-10-06 - BUILD - Pin create, drop hostless forms
+
+* Work completed
+    - Both `gh pr create` commands pass `--repo <repository-url>`.
+    - Pasted `owner/repo#123`, `owner/repo 123`, and default `gh pr list` / `gh search prs` output are no longer inputs.
+* Decisions made
+    - `--repo` takes the repository URL already computed for clone. It does not rebuild `owner/repo`.
+    - Drop the hostless forms. A recipe that builds a URL from owner, repository, and number is the parser this fix is avoiding.

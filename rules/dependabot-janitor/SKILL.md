@@ -20,10 +20,7 @@ Accept a dependency queue in any of these forms:
 1. **GitHub URLs** on `github.com` or on a GitHub Enterprise host `gh` is already authenticated for:
    - Queue URLs: `https://<host>/pulls/assigned`, `https://<host>/pulls`, `https://<host>/orgs/<org>/pulls`, or `https://<host>/<owner>/<repo>/pulls`
    - Individual PR URLs: `https://<host>/<owner>/<repo>/pull/<number>`
-2. **Pasted lists**:
-   - Markdown links: `- [repo#123](https://<host>/<owner>/<repo>/pull/123)`
-   - Plain text: `owner/repo#123`, `owner/repo 123`
-   - Terminal output from `gh search prs` or `gh pr list`
+2. **Pasted lists** of markdown links: `- [repo#123](https://<host>/<owner>/<repo>/pull/123)`
 3. **Implicit discovery**, when no URL or list is given. The default `--limit` is 30. Raise it until the number of results comes back smaller than the limit you asked for:
    ```bash
    gh search prs --state open --assignee @me --limit 100 --json repository,number,title,author,url

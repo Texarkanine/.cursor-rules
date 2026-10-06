@@ -46,10 +46,10 @@ Do this once per repository you will modify. Do not assume the current directory
    ```
    If neither config file exists, do not create one. The pull request body in step 7 must say that.
 6. Commit in the style already used on the base branch. The commit includes the `groups` edit from step 5 when that edit happened. When that history has no clear style, use Dependabot's own subject for this bump (`fix(deps):`, `chore(deps):`, or `fix(deps-dev):`).
-7. Push the branch, then open the pull request. `gh pr create` with no title and body exits when it cannot prompt, and with no `--base` it targets the repository's default branch.
+7. Push the branch, then open the pull request. `gh pr create` with no title and body exits when it cannot prompt, and with no `--base` it targets the repository's default branch. With no `--repo`, a fork clone targets the parent, because `gh repo clone` of a fork sets the parent as the default remote. `<repository-url>` is the one from Isolated Checkout.
    ```bash
    git push -u origin <new-branch>
-   gh pr create --base <base-branch> --title "<subject>" --body-file <body-file>
+   gh pr create --repo <repository-url> --base <base-branch> --title "<subject>" --body-file <body-file>
    ```
    Create `<body-file>` outside `<path>` and pass that path to `--body-file`. A file inside the worktree is still untracked at step 9, and `git worktree remove` then refuses the tree. Start the file from the repository's pull request template when it has one. When step 5 found no Dependabot config file, say that in the body. `<base-branch>` is the `baseRefName` from triage. If the upstream remote is not named `origin`, use that name in `git push` too.
 8. Close each superseded PR:
@@ -83,7 +83,7 @@ Do this once per repository you will modify. Do not assume the current directory
 5. Push the branch, then open the pull request. Use the same non-interactive push and create as Combining Interdependent Bumps. `<base-branch>` is the `baseRefName` from triage:
    ```bash
    git push -u origin <new-branch>
-   gh pr create --base <base-branch> --title "<subject>" --body-file <body-file>
+   gh pr create --repo <repository-url> --base <base-branch> --title "<subject>" --body-file <body-file>
    ```
    Create `<body-file>` outside `<path>` and pass that path to `--body-file`. Start it from the repository's pull request template when it has one.
 6. Close the original PR. The comment must contain both why and when. This quoting is bash; another shell must pass the same comment text:

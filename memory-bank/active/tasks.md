@@ -57,6 +57,9 @@ Per the repository's `always-tdd` rule, rule and skill wording is carved out fro
     - `gh pr view`, `gh pr diff`, and `gh pr close` take `<url>`
     - `gh repo clone` takes the repository URL: the pull request URL with `/pull/<number>` removed
     - `gh pr create` runs in the worktree and has no `--repo`
+11. [x] Pin create to the repository URL, and drop hostless pasted forms
+    - Both `gh pr create` commands pass `--repo <repository-url>`
+    - Pasted `owner/repo#123`, `owner/repo 123`, and default `gh pr list` / `gh search prs` output are not inputs
 
 ## Status
 
@@ -67,4 +70,5 @@ Per the repository's `always-tdd` rule, rule and skill wording is carved out fro
 - [x] Execution split into `references/execute.md`
 - [x] Review rework: non-interactive `gh pr create`, `groups` before commit, Hold section, no local alias in the milestone, no external source name in `memory-bank/`
 - [x] Pass pull request URLs through; do not rebuild `owner/repo`
-- [ ] Review & PR creation ← in progress (PR 132 open at `2bde729`; this fix is local until pushed)
+- [x] Pin `gh pr create` with `--repo <repository-url>`; drop hostless pasted forms
+- [ ] Review & PR creation ← in progress ([PR 132](https://github.com/Texarkanine/.cursor-rules/pull/132))
