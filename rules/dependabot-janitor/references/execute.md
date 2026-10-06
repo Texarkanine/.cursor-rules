@@ -10,11 +10,11 @@ Use stock `git` and stock `gh` only. Every command below is upstream git or GitH
 
 Do this once per repository you will modify. Do not assume the current directory is that repository.
 
-1. Use a local clone of `<owner>/<repo>` when you already have one. Otherwise:
+1. Use a local clone of the repository you will modify when you already have one. Otherwise clone it from its URL. The repository URL is the pull request URL with the `/pull/<number>` suffix removed:
    ```bash
-   gh repo clone <owner>/<repo>
+   gh repo clone <repository-url>
    ```
-2. Use the `baseRefName` recorded while triaging. If you do not have it, read it with `gh pr view`. That is the branch to build on. For a combine, every included PR must share that base; if they do not, stop and leave them in Caution.
+2. Use the `baseRefName` recorded while triaging. If you do not have it, read it with `gh pr view <url>`. That is the branch to build on. For a combine, every included PR must share that base; if they do not, stop and leave them in Caution.
 3. From inside the clone, fetch that base and add a linked worktree on a **new** branch. The branch name must not already exist. `<path>` is a new directory outside the clone's current checkout (a sibling directory is enough).
    ```bash
    git fetch origin <base-branch>
@@ -49,12 +49,12 @@ Do this once per repository you will modify. Do not assume the current directory
 7. Push the branch, then open the pull request. `gh pr create` with no title and body exits when it cannot prompt, and with no `--base` it targets the repository's default branch.
    ```bash
    git push -u origin <new-branch>
-   gh pr create --repo <owner>/<repo> --base <base-branch> --title "<subject>" --body-file <body-file>
+   gh pr create --base <base-branch> --title "<subject>" --body-file <body-file>
    ```
    Create `<body-file>` outside `<path>` and pass that path to `--body-file`. A file inside the worktree is still untracked at step 9, and `git worktree remove` then refuses the tree. Start the file from the repository's pull request template when it has one. When step 5 found no Dependabot config file, say that in the body. `<base-branch>` is the `baseRefName` from triage. If the upstream remote is not named `origin`, use that name in `git push` too.
 8. Close each superseded PR:
    ```bash
-   gh pr close <original_number> --repo <owner>/<repo> --comment "Superseded by #<new_number>, which bumps <packages> together so their peer requirements resolve."
+   gh pr close <url> --comment "Superseded by #<new_number>, which bumps <packages> together so their peer requirements resolve."
    ```
 9. Remove the worktree as in Isolated Checkout.
 
@@ -83,12 +83,12 @@ Do this once per repository you will modify. Do not assume the current directory
 5. Push the branch, then open the pull request. Use the same non-interactive push and create as Combining Interdependent Bumps. `<base-branch>` is the `baseRefName` from triage:
    ```bash
    git push -u origin <new-branch>
-   gh pr create --repo <owner>/<repo> --base <base-branch> --title "<subject>" --body-file <body-file>
+   gh pr create --base <base-branch> --title "<subject>" --body-file <body-file>
    ```
    Create `<body-file>` outside `<path>` and pass that path to `--body-file`. Start it from the repository's pull request template when it has one.
 6. Close the original PR. The comment must contain both why and when. This quoting is bash; another shell must pass the same comment text:
    ```bash
-   gh pr close <original_number> --repo <owner>/<repo> --comment "$(cat <<'EOF'
+   gh pr close <url> --comment "$(cat <<'EOF'
    Closing in favor of #<new_number>, which tells Dependabot to ignore <package> <constraint>.
 
    ### Why excluding is correct

@@ -40,14 +40,14 @@ Accept a dependency queue in any of these forms:
 
 For each PR:
 
-1. **Resolve owner, repository, and number.**
+1. **Pass the pull request URL through.** That URL is the `gh` argument. Do not split it into owner, repository, and number.
 2. **Keep Dependabot, set the rest aside.** The author login is `dependabot[bot]` (app slug `dependabot`). A PR from a person or from any other bot is **Manual / Operational**. Do not run dependency triage on it.
 3. **Read state, checks, and the diff.**
    ```bash
-   gh pr view <number> --repo <owner>/<repo> --json number,title,author,mergeable,statusCheckRollup,headRefName,baseRefName,files
+   gh pr view <url> --json number,title,author,mergeable,statusCheckRollup,headRefName,baseRefName,files
    ```
    ```bash
-   gh pr diff <number> --repo <owner>/<repo>
+   gh pr diff <url>
    ```
 4. **Classify the bump** from the manifest diff: `patch`, `minor`, or `major`, and runtime versus development. The manifest is whatever that ecosystem uses (`package.json`, `pyproject.toml`, `Cargo.toml`, `go.mod`, `Gemfile`, `pom.xml`, and their lockfiles).
 

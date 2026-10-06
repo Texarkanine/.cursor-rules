@@ -1,0 +1,1 @@
+dependabot-janitor passes the pull request URL to gh and does not rebuild owner/repo, which dropped the host.

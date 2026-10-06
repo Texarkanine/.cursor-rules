@@ -53,6 +53,10 @@ Per the repository's `always-tdd` rule, rule and skill wording is carved out fro
    - `SKILL.md` keeps triage and loads the reference only when explicitly asked to execute
    - The reference is the only copy of the checkout, combine, and exclude procedure
 9. [x] Commit and open PR on `.cursor-rules`
+10. [x] Pass the pull request URL through to `gh`
+    - `gh pr view`, `gh pr diff`, and `gh pr close` take `<url>`
+    - `gh repo clone` takes the repository URL: the pull request URL with `/pull/<number>` removed
+    - `gh pr create` runs in the worktree and has no `--repo`
 
 ## Status
 
@@ -62,4 +66,5 @@ Per the repository's `always-tdd` rule, rule and skill wording is carved out fro
 - [x] Portability revision applied
 - [x] Execution split into `references/execute.md`
 - [x] Review rework: non-interactive `gh pr create`, `groups` before commit, Hold section, no local alias in the milestone, no external source name in `memory-bank/`
-- [ ] Review & PR creation ← in progress (PR 132 open at `2bde729`)
+- [x] Pass pull request URLs through; do not rebuild `owner/repo`
+- [ ] Review & PR creation ← in progress (PR 132 open at `2bde729`; this fix is local until pushed)

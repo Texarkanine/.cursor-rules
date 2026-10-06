@@ -70,3 +70,13 @@
 * Work completed
     - Pushed `2bde729` to PR 132.
     - Recorded that the pull request is open and the ruleset link is still a follow-up.
+
+## 2026-10-06 - BUILD - Pass the pull request URL through
+
+* Work completed
+    - `gh pr view`, `gh pr diff`, and `gh pr close` take `<url>`.
+    - `gh repo clone` takes the repository URL, the pull request URL with `/pull/<number>` removed.
+    - `gh pr create` has no `--repo`. It runs in the worktree, whose remote already carries the host.
+* Decisions made
+    - Do not add `<host>` to `--repo <owner>/<repo>`. That keeps a parser the prompt does not need.
+    - Leave the Supported Inputs URL shapes and the index examples as they are. They describe a URL; they are not commands.
