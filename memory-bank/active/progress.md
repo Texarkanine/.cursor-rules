@@ -96,3 +96,12 @@
     - `/niko-archive` stopped. No `memory-bank/active/reflection/reflection-dependabot-janitor.md`.
 * Decisions made
     - Do not write the archive without a reflection. The level-2 archive step requires that file so its content can be inlined.
+
+## 2026-10-07 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `memory-bank/active/reflection/reflection-dependabot-janitor.md`.
+* Decisions made
+    - Reflect without a QA PASS file. The operator directed `/niko-reflect` after archive had stopped on the missing reflection. The reflection records that `/niko-qa` was not run.
+* Insights
+    - Pass the pull request URL through. `gh pr create --repo` takes the repository URL because a fork clone defaults to the parent.
