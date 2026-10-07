@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: dependabot-janitor
-**Phase:** BUILD - IN-PROGRESS (PR 132 at 2bde729)
+**Phase:** BUILD - IN-PROGRESS (PR 132 at 84a1bb2; archive blocked, no reflection)
 
 ## What Was Done
 - Branched `feat/dependabot-janitor` from clean `origin/main` in `.cursor-rules`.
@@ -21,5 +21,6 @@
 - Review on `2516f0a`: `gh pr create` with no `--repo` opens on the parent of a fork, and hostless pasted forms have no URL to pass through. Operator: fix and push.
 
 ## Next Step
-- Create is pinned to `<repository-url>`, and hostless pasted forms are dropped, on [PR 132](https://github.com/Texarkanine/.cursor-rules/pull/132).
+- `/niko-archive` on 2026-10-07 stopped: `memory-bank/active/reflection/reflection-dependabot-janitor.md` does not exist. Reflect, then archive.
+- Create is pinned to `<repository-url>`, and hostless pasted forms are dropped, on [PR 132](https://github.com/Texarkanine/.cursor-rules/pull/132) at `84a1bb2`.
 - The skill is not linked from a ruleset; that install path is a follow-up.

@@ -89,3 +89,10 @@
 * Decisions made
     - `--repo` takes the repository URL already computed for clone. It does not rebuild `owner/repo`.
     - Drop the hostless forms. A recipe that builds a URL from owner, repository, and number is the parser this fix is avoiding.
+
+## 2026-10-07 - ARCHIVE - Blocked
+
+* Work completed
+    - `/niko-archive` stopped. No `memory-bank/active/reflection/reflection-dependabot-janitor.md`.
+* Decisions made
+    - Do not write the archive without a reflection. The level-2 archive step requires that file so its content can be inlined.
