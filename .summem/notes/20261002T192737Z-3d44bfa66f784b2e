@@ -1,0 +1,1 @@
+dependabot-janitor must run on stock git and gh only; git wt is a local alias and must not be required, and shared skills must not hardcode a Co-authored-by trailer.

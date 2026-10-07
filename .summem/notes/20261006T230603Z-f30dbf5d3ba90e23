@@ -1,0 +1,1 @@
+dependabot-janitor gh pr create passes --repo with the repository URL so a fork clone does not open on the parent. Hostless pasted forms are not inputs.

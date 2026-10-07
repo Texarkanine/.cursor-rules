@@ -1,0 +1,1 @@
+dependabot-janitor combine stops before commit when a gating check cannot run or exits non-zero; split PRs stay open.
