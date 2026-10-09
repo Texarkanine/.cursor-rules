@@ -37,3 +37,13 @@ Make a plain `/niko-archive` archive the whole task at its highest classified le
     - Advisories: (1) word the Step 3b record as the header's value at rework time, not as "the task's level". (2) Keep the router phrase "the task's complexity level" so `complexity_level` follows it. (3) Radical idea, not applied: a running-peak `**Task complexity:**` line in Step 3b
 * Insights
     - The Step 3b line records the outgoing cycle's level. That is the task's level only until a lowered rework is itself reworked. The plan's rule (take the highest level over all cycles) still routes correctly
+
+## 2026-10-09 - BUILD - COMPLETE
+
+* Work completed
+    - Made the three planned edits; `make test` green (symlinks, README links, 100 unittest cases)
+    - Traced termeleon `ea8b52c` (classified L2, L2, L1; header L1) and inquirerjs-checkbox-search `1d65046` (L2, L1; header L1) against the new router: both route to the Level 2 archive
+* Decisions made
+    - Took preflight advisory 1 (record the current header value, not "the task's level") and advisory 2 (router names the routed value "the task's complexity level"); declined advisory 3 (running-peak line) per the operator's precision-strike steer
+* Insights
+    - None beyond the plan
