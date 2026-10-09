@@ -14,3 +14,14 @@ Make a plain `/niko-archive` archive the whole task at its highest classified le
     - Rule and skill wording is out of `always-tdd` scope; verification is `make test` plus traces of the acceptance cases
 * Insights
     - Both acceptance files already record "Classified ... as Level 2" in their first entry, so the router must read every entry, not only a Step 3b line those files predate
+
+## 2026-10-09 - PLAN - COMPLETE
+
+* Work completed
+    - Wrote the Level 2 plan: three prose/policy steps, one or two sentences each, in three files
+* Decisions made
+    - Route on the level a cycle was *classified at*, not any level the entries mention ("Level 1 skips plan" appears in the acceptance files)
+    - Level 1 Wrap-Up keeps the `milestones.md` check first, because L4 sub-runs keep `reflection/`
+    - Leave `complexity-analysis.md` "system of record" wording, README, archive format, and level archives unchanged
+* Insights
+    - The rework lines plus the header together hold every cycle's classification: each Step 3b line keeps the header value that the next classification overwrites

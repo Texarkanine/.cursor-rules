@@ -1,6 +1,6 @@
 # Active Context
 
 - **Current Task:** archive-whole-task (issue #133)
-- **Phase:** COMPLEXITY-ANALYSIS - COMPLETE
-- **What Was Done:** Classified as Level 2: a bug fix across three separate Niko sites (archive router, rework entry, Level 1 wrap-up); no architecture change; design already settled in the issue.
-- **Next Step:** Load the Level 2 workflow and run the Plan phase.
+- **Phase:** PLAN - COMPLETE
+- **What Was Done:** Wrote the Level 2 plan in `tasks.md`: three prose edits (archive router, `/niko` Step 3b item 1, Level 1 Wrap-Up item 3), verified by `make test` and traces against the two acceptance-case `progress.md` files.
+- **Next Step:** Preflight (subagent).
