@@ -1,1 +1,0 @@
-always-tdd in-scope is user-observable breakage; preflight FAILs on that test, not the plan label (#123). Niko workflow skills keep references/ beside SKILL.md under rulesets/niko/skills/; topic skills live under rules/ and symlink into a ruleset.

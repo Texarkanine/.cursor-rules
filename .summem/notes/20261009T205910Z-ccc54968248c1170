@@ -1,0 +1,1 @@
+Rule wording: code-format a field name (e.g. `**Complexity:**`) only when the agent should write that field. Agents copy it literally, creating a duplicate line that by-name readers can misread.

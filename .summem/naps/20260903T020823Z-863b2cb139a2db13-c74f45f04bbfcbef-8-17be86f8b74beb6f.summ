@@ -1,0 +1,1 @@
+L4 preflight keys on progress.md Level 4, not milestones.md; sub-runs keep the L2/L3 bar; Step 2a deletes tasks.md+progress.md. always-tdd: in=user-observable breakage (preflight FAILs on it); out=repo bootstrap; eval rules stay TDD (#123). Niko refs in rulesets/niko/skills/.
