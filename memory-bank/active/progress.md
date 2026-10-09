@@ -47,3 +47,26 @@ Make a plain `/niko-archive` archive the whole task at its highest classified le
     - Took preflight advisory 1 (record the current header value, not "the task's level") and advisory 2 (router names the routed value "the task's complexity level"); declined advisory 3 (running-peak line) per the operator's precision-strike steer
 * Insights
     - None beyond the plan
+
+## 2026-10-09 - QA - COMPLETE
+
+* Work completed
+    - Reviewed the three prose edits (+15/-3 lines) against the plan, the brief, and issue #133, using KISS, DRY, YAGNI, Completeness, Regression, Integrity, and Documentation
+    - Re-traced termeleon `ea8b52c` (classified Level 2, Level 2, Level 1; header Level 1) and inquirerjs-checkbox-search `1d65046` (Level 2, Level 1; header Level 1): both route to the Level 2 archive
+    - `make test` is green: symlink and README link checks pass, and 100 unittest cases pass
+    - Wrote `memory-bank/active/.qa-validation-status`: PASS
+* Decisions made
+    - PASS: accepted as-is. Advisories: (1) Step 3b's code-formatted `**Complexity:**` may be written as a second field line in the rework entry; (2) "the task's complexity level" has different meanings across the router, complexity-analysis.md, and `/niko` Step 3; (3) level1-workflow.md line 26 still says Level 1 has no `/niko-archive`
+* Insights
+    - The router routes on every recorded classification, not only on the Step 3b line. That is what makes the two acceptance states work, because both were written before that line existed
+
+## 2026-10-09 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `memory-bank/active/reflection/reflection-archive-whole-task.md`
+    - Took QA advisory 1 after PASS: Step 3b now says "the current complexity level" with no code formatting, so agents don't copy a second `**Complexity:**` line into the rework entry. Formatting-only edit; `make test` green; QA not re-run
+    - Persistent files reconciled: all three skipped
+* Decisions made
+    - Left QA advisories 2 (two meanings of "the task's complexity level") and 3 (`level1-workflow.md` line 26) as is, per the precision-strike steer
+* Insights
+    - A field name in code format inside an instruction gets copied as a literal field line
