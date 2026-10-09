@@ -25,3 +25,15 @@ Make a plain `/niko-archive` archive the whole task at its highest classified le
     - Leave `complexity-analysis.md` "system of record" wording, README, archive format, and level archives unchanged
 * Insights
     - The rework lines plus the header together hold every cycle's classification: each Step 3b line keeps the header value that the next classification overwrites
+
+## 2026-10-09 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Checked the Level 2 plan against default-preflight checks 1-7. No plan edits: no TDD swap, no strike
+    - Traced both acceptance states against their real `progress.md`, `tasks.md`, and `reflection/` files
+    - Wrote `memory-bank/active/.preflight-status` with first line `PASS WITH ADVISORY`
+* Decisions made
+    - PASS WITH ADVISORY: all three units are skill wording, so no tests are owed. Requirements and acceptance map to plan steps. The Level 2 archive's `reflection-<task-id>.md` gate passes, because the Task ID survives reworks in both states
+    - Advisories: (1) word the Step 3b record as the header's value at rework time, not as "the task's level". (2) Keep the router phrase "the task's complexity level" so `complexity_level` follows it. (3) Radical idea, not applied: a running-peak `**Task complexity:**` line in Step 3b
+* Insights
+    - The Step 3b line records the outgoing cycle's level. That is the task's level only until a lowered rework is itself reworked. The plan's rule (take the highest level over all cycles) still routes correctly
