@@ -86,3 +86,13 @@ Make a plain `/niko-archive` archive the whole task at its highest classified le
     - Classified the rework as Level 1: a bug fix to one condition in one file
 * Decisions made
     - The original Level 2 cycle stays on record above, so `/niko-archive` still routes this task to the Level 2 archive
+
+## 2026-10-09 - BUILD - COMPLETE
+
+* Work completed
+    - Level 1 Wrap-Up: the handoff to `/niko-archive` now fires when `progress.md` records an earlier cycle classified above Level 1. This replaces the `reflection/` check
+    - `make test` green. Re-traced termeleon `ea8b52c` and inquirerjs-checkbox-search `1d65046` from their real `progress.md` files: both still get the handoff
+* Decisions made
+    - The condition says "earlier cycle", so an agent looks past the header, which is Level 1 during any Level 1 cycle
+* Insights
+    - A handoff that sends the operator to another step should use that step's own test. When two steps test different things, they agree only in normal states
