@@ -2,7 +2,7 @@
 
 Make a plain `/niko-archive` archive the whole task at its highest classified level after a lower-level rework, per issue #133: edit the archive router, the `/niko` Step 3b rework entry, and the Level 1 Wrap-Up.
 
-**Complexity:** Level 2
+**Complexity:** Level 1
 
 ## 2026-10-09 - COMPLEXITY-ANALYSIS - COMPLETE
 
@@ -79,3 +79,10 @@ Make a plain `/niko-archive` archive the whole task at its highest classified le
     - Fix CodeRabbit finding [r4235005318](https://github.com/Texarkanine/.cursor-rules/pull/134#discussion_r4235005318). Level 1 Wrap-Up sends a task to `/niko-archive` whenever `reflection/` has files. A reflection left over from an earlier task can send a plain Level 1 task to an archive that cannot run. Gate the handoff on the router's own rule instead
 * Decisions made
     - Fix only this finding. The other two CodeRabbit claims (task level unrecorded; `.summem/naps` deletions out of scope) were judged invalid and dismissed
+
+## 2026-10-09 - COMPLEXITY-ANALYSIS - COMPLETE
+
+* Work completed
+    - Classified the rework as Level 1: a bug fix to one condition in one file
+* Decisions made
+    - The original Level 2 cycle stays on record above, so `/niko-archive` still routes this task to the Level 2 archive
