@@ -108,3 +108,12 @@ Make a plain `/niko-archive` archive the whole task at its highest classified le
     - PASS: accepted as-is. Advisories: (1) Wrap-Up restates the router's rule instead of pointing to it; (2) carried, out of scope: line 26 still says Level 1 has no `/niko-archive`
 * Insights
     - Rework starts only from a Complete task, and Level 2+ is Complete only after REFLECT. So the new check still guarantees the reflection file the Level 2 and Level 3 archives require
+
+## 2026-10-09 - WRAP-UP - COMPLETE
+
+* Work completed
+    - Persistent files reconciled: all three skipped
+    - Two SumMem notes: the Wrap-Up and router coupling, and CodeRabbit misreading nap merges as deletions
+    - Committed `chore: completed archive-whole-task` and pushed `archive-better` (PR #134)
+* Decisions made
+    - Wrap-Up check: no `milestones.md`, and an earlier cycle was classified Level 2, so the next step is `/niko-archive`
