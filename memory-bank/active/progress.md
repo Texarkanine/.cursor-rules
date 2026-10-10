@@ -70,3 +70,12 @@ Make a plain `/niko-archive` archive the whole task at its highest classified le
     - Left QA advisories 2 (two meanings of "the task's complexity level") and 3 (`level1-workflow.md` line 26) as is, per the precision-strike steer
 * Insights
     - A field name in code format inside an instruction gets copied as a literal field line
+
+## 2026-10-09 - REWORK - INITIATED
+
+* Work completed
+    - Rework started from review feedback on PR #134. Complexity level at rework time: Level 2
+* Operator feedback
+    - Fix CodeRabbit finding [r4235005318](https://github.com/Texarkanine/.cursor-rules/pull/134#discussion_r4235005318). Level 1 Wrap-Up sends a task to `/niko-archive` whenever `reflection/` has files. A reflection left over from an earlier task can send a plain Level 1 task to an archive that cannot run. Gate the handoff on the router's own rule instead
+* Decisions made
+    - Fix only this finding. The other two CodeRabbit claims (task level unrecorded; `.summem/naps` deletions out of scope) were judged invalid and dismissed
