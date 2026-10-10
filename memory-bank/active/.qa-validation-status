@@ -1,0 +1,36 @@
+PASS
+
+QA run 2026-10-09, task archive-whole-task, Level 1 rework for PR #134 (CodeRabbit r4235005318). Semantic review of the rework build (`git diff e3c2ba7..HEAD -- rulesets/`, +2/-2 in `rulesets/niko/skills/niko/references/level1/level1-workflow.md`) against the rework requirement in `projectbrief.md`, the fix in `tasks.md`, and the review comment. Suite green: `make test` ran the symlink check, the README link check, and 100 unittest cases, OK.
+
+Findings:
+
+1. Completeness: the requirement is built as written. Wrap-Up item 3 now checks `milestones.md` first, then whether `progress.md` records an earlier cycle classified above Level 1. The branch label changed to match. The `reflection/` check is gone.
+
+2. Router agreement: the router (`niko-archive/SKILL.md` Step 2) routes on the highest level any cycle was classified at. Wrap-Up runs only during a Level 1 cycle, so "an earlier cycle classified above Level 1" is true exactly when that highest level is above Level 1. The two steps now give the same answer in every state, which is what the review comment asked for.
+
+3. Acceptance, re-traced on the real files:
+   - termeleon `ea8b52c`: classified Level 2, Level 2, Level 1; header Level 1. The handoff fires, and the router picks the Level 2 archive.
+   - inquirerjs-checkbox-search `1d65046`: classified Level 2, Level 1; header Level 1. The handoff fires, and the router picks the Level 2 archive.
+   - Plain Level 1 task with a stale reflection file (the CodeRabbit case): `/niko` sees a Fresh state, and complexity analysis creates a new `progress.md` with one Level 1 cycle. No earlier cycle exists, so the delete instructions print.
+   - Level 1 L4 sub-run: the `milestones.md` check runs first, so the sub-run message prints.
+   - Level 1 rework of a Level 1 task: the earlier cycle is Level 1, so the delete instructions print. The router would also find no archive.
+
+4. Archive gate still holds: a rework starts only from `/niko` Step 3a (Complete). For Level 2 and above, Complete means REFLECT COMPLETE, so `reflection-<task-id>.md` exists whenever the handoff fires. The Level 2 and Level 3 archive prerequisite therefore still passes. The old `reflection/` check gave this for free; the new check keeps it.
+
+5. KISS/DRY/YAGNI: one condition and one label changed. Nothing speculative.
+
+6. Regression: the branch keeps the shape of its siblings (bold condition, label in parentheses, "Print the following, then STOP", ~~~markdown block). The `milestones.md` check stays first. The generated `.cursor/` and `.claude/` trees were not edited; they lag until `chore(dev): ai-rizz sync`, as for the first cycle.
+
+7. Integrity: no placeholders and no debug artifacts.
+
+8. Documentation: no README or other doc describes the Level 1 Wrap-Up checks. No doc update is owed.
+
+Advisories (non-blocking):
+
+1. DRY: Wrap-Up restates the router's rule in its own words instead of pointing to it. The two are equivalent today. If the router's rule changes, this condition must change with it, or the original bug comes back.
+
+2. Carried from the first QA, out of scope by the brief: level1-workflow.md line 26 still says Level 1 tasks have no `/niko-archive`, while Wrap-Up can now point to it.
+
+Observed, no action:
+
+- A `progress.md` that survives into a Fresh state is kept as rework history by complexity-analysis.md Step 4. The handoff now reads that history the same way the router does. That is the intended agreement and adds no new risk. A stale `progress.md` from an unrelated task would need a manual partial delete, since every archive and the Level 1 cleanup remove it.

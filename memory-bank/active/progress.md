@@ -96,3 +96,15 @@ Make a plain `/niko-archive` archive the whole task at its highest classified le
     - The condition says "earlier cycle", so an agent looks past the header, which is Level 1 during any Level 1 cycle
 * Insights
     - A handoff that sends the operator to another step should use that step's own test. When two steps test different things, they agree only in normal states
+
+## 2026-10-09 - QA - COMPLETE
+
+* Work completed
+    - Reviewed the rework edit (+2/-2 in `level1-workflow.md`) against the rework requirement and CodeRabbit r4235005318, using KISS, DRY, YAGNI, Completeness, Regression, Integrity, and Documentation
+    - Re-traced termeleon `ea8b52c` (classified Level 2, Level 2, Level 1) and inquirerjs-checkbox-search `1d65046` (Level 2, Level 1): both get the handoff. A plain Level 1 task with a stale reflection file gets the delete instructions
+    - `make test` is green: symlink and README link checks pass, and 100 unittest cases pass
+    - Wrote `memory-bank/active/.qa-validation-status`: PASS
+* Decisions made
+    - PASS: accepted as-is. Advisories: (1) Wrap-Up restates the router's rule instead of pointing to it; (2) carried, out of scope: line 26 still says Level 1 has no `/niko-archive`
+* Insights
+    - Rework starts only from a Complete task, and Level 2+ is Complete only after REFLECT. So the new check still guarantees the reflection file the Level 2 and Level 3 archives require

@@ -1,0 +1,1 @@
+CodeRabbit's Out of Scope Changes check reads .summem/naps deletions as removed knowledge. They are SumMem nap merges: the old nodes sit verbatim inside the new nap. Dismiss it; never restore nap files by hand.
