@@ -1,1 +1,0 @@
-always-tdd out-of-scope is repository bootstrap (AGENTS.md, CLAUDE.md, copied init), not agent-facing prompts; rules with evals stay TDD (#123). L4 Execution Order is a serial-safe list; a flowchart's parallel sets must agree with it.
