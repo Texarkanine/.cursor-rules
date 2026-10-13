@@ -76,4 +76,16 @@ No new technology - validation not required
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [ ] QA
+- [x] QA
+
+## QA Results
+
+PASS. Reviewed `main...HEAD` against this plan, using the canonical `rulesets/` files.
+
+- Completeness: Unit 1 steps 1–9 and Unit 2 step 1 are done as written. The `AGENTS.md` template text and the line-28 scan are unchanged. AC 1–5 are met; `make test` is green (symlinks, README links, 100 unittest).
+- KISS/DRY/YAGNI: the change only removes text. Nothing new was added except the planned "never creates `CLAUDE.md`" sentence.
+- Regression: no links point to the renamed `Root bootstrap file(s)` heading. Only `rulesets/` and `memory-bank/active/` changed; the generated `.cursor/` and `.claude/` trees wait for the ai-rizz sync.
+- Integrity: no leftover scaffolding, placeholders, or stray pair wording in `rulesets/niko`.
+- Documentation: the README line 36 is updated. No other Niko doc describes the pair.
+- Advisory (non-blocking): "Do not follow symlinks to edit through them" now repeats the "do not … symlink-replace it" rule, because init never edits an existing `AGENTS.md`. Requirement 3 keeps it on purpose.
+- Advisory (non-blocking): AC 6 (non-draft PR and `/handoff` note) is still open. No L2 phase step does it, so the orchestrating session must.

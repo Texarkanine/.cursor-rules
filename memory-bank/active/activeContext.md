@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: mb-init-agents-only
-**Phase:** BUILD - COMPLETE
+**Phase:** QA - COMPLETE (PASS)
 
 ## What Was Done
 - Operator decisions: drop `CLAUDE.md` from Niko's root bootstrap (Claude Code reads repo-root `AGENTS.md`); gate `AGENTS.md` creation on `AGENTS.md` alone; `CLAUDE.md` plays no part.

@@ -44,3 +44,12 @@ Remove `CLAUDE.md` from Niko's first-init root bootstrap so init writes only a t
     - Preflight advisory 3 (paste-in pointer on skip) left for the operator; not in the brief.
 * Insights
     - The plan's own grep expectation forgot the sentence the plan added; verify expectations should be derived from the planned text, not the pre-edit state.
+
+## 2026-10-12 - QA - COMPLETE
+
+* Work completed
+    - Semantic review of `main...HEAD` against the plan: all planned steps done; AC 1–5 met; `make test` green. Result `PASS` in `.qa-validation-status`; findings in `tasks.md`.
+* Decisions made
+    - Two non-blocking advisories: the kept symlink sentence is now redundant (Requirement 3 keeps it); AC 6 (PR and `/handoff`) is still for the orchestrating session.
+* Insights
+    - No other canonical Niko file describes the pair, so the two-file edit is complete.
