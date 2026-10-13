@@ -53,3 +53,12 @@ Remove `CLAUDE.md` from Niko's first-init root bootstrap so init writes only a t
     - Two non-blocking advisories: the kept symlink sentence is now redundant (Requirement 3 keeps it); AC 6 (PR and `/handoff`) is still for the orchestrating session.
 * Insights
     - No other canonical Niko file describes the pair, so the two-file edit is complete.
+
+## 2026-10-12 - REFLECT - COMPLETE
+
+* Work completed
+    - Reflection written; persistent-file reconciliation skipped all three (receipts in session output).
+* Decisions made
+    - Preflight advisory 3 recorded as a separate product question for the operator.
+* Insights
+    - A compatibility rule can state the harness behavior it depends on; issue #101's "both absent" gate did not.
