@@ -38,3 +38,15 @@ Onboard Gemini 4 Argon at tier A and Claude Haiku 5.5 at tier C in the choose-ve
 * Insights
     - The live refresh moves nearly every existing catalog score, so the `catalog.json` diff will be large; mapping rows stay unchanged
     - BenchLM gives Haiku 5.5 only a reasoning score (82.7)
+
+## 2026-10-13 - BUILD - COMPLETE
+
+* Work completed
+    - Added shipped `select` tests, watched them fail on unknown slugs, then set tiers and ran `refresh.py`
+    - `make test`: 110 tests OK
+* Decisions made
+    - No deviation from the plan. The thinking stem shipped at tier C
+    - Catalog score churn from BenchLM drift stays in the diff. Mapping rows for existing models were not rewritten
+* Insights
+    - Argon stored score is 78.43 (category mean), output price $10, `has_fast` false
+    - Both Haiku stems store score 82.7, output price $0.50, `has_fast` false

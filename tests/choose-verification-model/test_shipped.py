@@ -30,6 +30,7 @@ SPAWNABLE = (
     "grok-4.7-high",
     "kimi-k3-high",
     "muse-spark-1.3-high",
+    "gemini-4-argon-medium",
 )
 
 # Enabled only some of the time. They still have to be in the catalog
@@ -38,6 +39,8 @@ SOMETIMES = (
     "claude-fable-5-1-thinking-high",
     "gpt-5.6-sol-medium",
     "gpt-5.6-luna-medium",
+    "claude-haiku-5-5-low",
+    "claude-haiku-5-5-thinking-low",
 )
 
 REQUIRED_CATALOG_KEYS = (
@@ -169,3 +172,113 @@ class ShippedTests(unittest.TestCase):
         self.assertEqual(stderr.getvalue().strip(), "")
         self.assertEqual(stdout.getvalue().strip(), "claude-opus-5-5-high-fast")
         self.assertEqual(path.read_bytes(), before)
+
+    def test_sol_author_prints_gemini_4_argon(self):
+        """A Sol author prints Argon, so this row is tier A."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "gpt-5.6-sol-medium",
+            ["gpt-5.6-sol-medium", "gemini-4-argon-medium"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "gemini-4-argon-medium")
+
+    def test_opus_author_does_not_select_gemini_4_argon(self):
+        """Opus stays Opus, so Argon is not tier S."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "claude-opus-5-5-medium",
+            ["claude-opus-5-5-medium", "gemini-4-argon-medium"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "claude-opus-5-5-medium")
+
+    def test_gemini_3_8_flash_does_not_select_gemini_4_argon(self):
+        """Two Gemini rows do not review each other."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "gemini-3.8-flash-high",
+            ["gemini-3.8-flash-high", "gemini-4-argon-medium"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "gemini-3.8-flash-high")
+
+    def test_fast_sol_author_prints_gemini_4_argon_without_fast(self):
+        """A fast Sol author prints Argon without -fast."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "gpt-5.6-sol-medium-fast",
+            ["gpt-5.6-sol-medium", "gemini-4-argon-medium"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "gemini-4-argon-medium")
+
+    def test_composer_author_prints_claude_haiku_5_5(self):
+        """A Composer author prints Haiku 5.5, so this row is tier C."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "composer-2.5",
+            ["composer-2.5", "claude-haiku-5-5-low"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "claude-haiku-5-5-low")
+
+    def test_terra_author_does_not_select_claude_haiku_5_5(self):
+        """Terra stays Terra, so Haiku 5.5 is not tier B or A."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "gpt-5.6-terra-medium",
+            ["gpt-5.6-terra-medium", "claude-haiku-5-5-low"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "gpt-5.6-terra-medium")
+
+    def test_fast_composer_author_prints_claude_haiku_5_5_without_fast(self):
+        """A fast Composer author prints Haiku 5.5 without -fast."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "composer-2.5-fast",
+            ["composer-2.5", "claude-haiku-5-5-low"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "claude-haiku-5-5-low")
+
+    def test_composer_author_prints_claude_haiku_5_5_thinking(self):
+        """A Composer author prints thinking Haiku 5.5, so this row is tier C."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "composer-2.5",
+            ["composer-2.5", "claude-haiku-5-5-thinking-low"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "claude-haiku-5-5-thinking-low")
+
+    def test_terra_author_does_not_select_claude_haiku_5_5_thinking(self):
+        """Terra stays Terra, so thinking Haiku 5.5 is not tier B or A."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "gpt-5.6-terra-medium",
+            ["gpt-5.6-terra-medium", "claude-haiku-5-5-thinking-low"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "gpt-5.6-terra-medium")
+
+    def test_fast_composer_author_prints_claude_haiku_5_5_thinking_without_fast(self):
+        """A fast Composer author prints thinking Haiku 5.5 without -fast."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "composer-2.5-fast",
+            ["composer-2.5", "claude-haiku-5-5-thinking-low"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "claude-haiku-5-5-thinking-low")
