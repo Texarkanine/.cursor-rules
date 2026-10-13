@@ -62,3 +62,14 @@ Onboard Gemini 4 Argon at tier A and Claude Haiku 5.5 at tier C in the choose-ve
     - QA passed without blocking findings; implementation meets all acceptance criteria cleanly
 * Insights
     - Clean extension of the catalog following the Sonnet 5.5 precedent
+
+## 2026-10-13 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `memory-bank/active/reflection/reflection-onboard-argon-haiku.md`
+    - Left `productContext.md`, `systemPatterns.md`, and `techContext.md` unchanged
+* Decisions made
+    - The data-driven tier-pin helper stays an advisory. This task shipped the three rows
+* Insights
+    - Haiku 5.5 is two catalog keys that share one BenchLM slug
+    - Refresh rewrites catalog scores and leaves mapping rows alone
