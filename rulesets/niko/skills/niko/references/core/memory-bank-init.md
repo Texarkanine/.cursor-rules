@@ -29,11 +29,9 @@ If the memory bank is completely uninitialized, the following persistent files m
 
 ### Root bootstrap file
 
-After the persistent files exist, install a thin root `AGENTS.md` from the template below **only when** repo-root `AGENTS.md` is absent. Presence means the path exists at the repo root (regular file or symlink). Do not follow symlinks to edit through them. Init never creates `CLAUDE.md`, and an existing one does not affect this step.
+After the persistent files exist, install a thin root `AGENTS.md` from the template below **only when** repo-root `AGENTS.md` is absent. Presence means the path exists at the repo root (regular file or symlink). Do not follow symlinks to edit through them.
 
-When `AGENTS.md` is already present: create nothing; do not append to, rewrite, or symlink-replace it; print a brief advisory that an existing `AGENTS.md` was found and left alone, that `memory-bank/` is the preferred GlobalPrompt, and that cleaning house is the operator's choice — do not invoke a migration skill.
-
-Do not inline or `@`-import persistent file bodies into `AGENTS.md`. Keep the template generic (roles and backtick paths only) so it survives rare layout changes.
+When `AGENTS.md` is already present: create nothing; do not append to, rewrite, or symlink-replace it; print a brief advisory that an existing `AGENTS.md` was found and left alone.
 
 #### `AGENTS.md` template
 
