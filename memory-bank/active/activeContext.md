@@ -1,7 +1,7 @@
 # Active Context
 
 ## Current Task: mb-init-agents-only
-**Phase:** PLAN - COMPLETE
+**Phase:** PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
 
 ## What Was Done
 - Intent confirmed by operator: drop `CLAUDE.md` from Niko's root bootstrap; Claude Code reads repo-root `AGENTS.md`.

@@ -23,3 +23,13 @@ Remove `CLAUDE.md` from Niko's first-init root bootstrap so init writes only a t
     - Add one explicit "init never creates `CLAUDE.md`" sentence against habit-driven shims.
 * Insights
     - No executable behavior changes; `always-tdd` names repository bootstrap and skill wording as out of scope.
+
+## 2026-10-12 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Preflight ran the L2/L3 checks against the canonical `rulesets/` files. First line of `.preflight-status`: `PASS WITH ADVISORY`.
+* Decisions made
+    - No in-phase plan edits (no TDD step swap, no change-detector strike).
+* Insights
+    - AC 6 (non-draft PR, `/handoff` note) has no tasks.md step; the orchestrating session must do it after QA.
+    - `grep -R`/`git grep` also show `always-tdd.mdc:14` (symlinked into `rulesets/niko/`); that hit is expected, not a missed reference.
