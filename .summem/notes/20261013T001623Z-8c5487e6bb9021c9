@@ -1,0 +1,1 @@
+Niko memory-bank init writes only root AGENTS.md, gated on AGENTS.md presence alone; it never creates CLAUDE.md (Claude Code reads AGENTS.md). Replaces #101's both-absent pair (PR #135).
