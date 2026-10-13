@@ -269,6 +269,24 @@
       "pricing_name": "Claude Sonnet 5.5",
       "benchlm_slug": "claude-sonnet-5-5",
       "interim_score": null
+    },
+    "gemini-4-argon": {
+      "family": "gemini",
+      "pricing_name": "Gemini 4 Argon",
+      "benchlm_slug": "gemini-4-argon",
+      "interim_score": null
+    },
+    "claude-haiku-5-5": {
+      "family": "claude",
+      "pricing_name": "Claude Haiku 5.5",
+      "benchlm_slug": "claude-haiku-5-5",
+      "interim_score": null
+    },
+    "claude-haiku-5-5-thinking": {
+      "family": "claude",
+      "pricing_name": "Claude Haiku 5.5",
+      "benchlm_slug": "claude-haiku-5-5",
+      "interim_score": null
     }
   }
 }

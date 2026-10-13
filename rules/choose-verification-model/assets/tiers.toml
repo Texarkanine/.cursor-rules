@@ -17,6 +17,7 @@ A = [
   "claude-sonnet-5-thinking",
   "cursor-grok-4.6",
   "gemini-3.8-flash",
+  "gemini-4-argon",
   "gpt-5.6-sol",
   "grok-4.7",
   "kimi-k3",
@@ -30,6 +31,8 @@ B = [
 ]
 
 C = [
+  "claude-haiku-5-5",
+  "claude-haiku-5-5-thinking",
   "composer-2.5",
   "gpt-5.6-luna",
 ]
