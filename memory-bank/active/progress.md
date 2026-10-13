@@ -50,3 +50,15 @@ Onboard Gemini 4 Argon at tier A and Claude Haiku 5.5 at tier C in the choose-ve
 * Insights
     - Argon stored score is 78.43 (category mean), output price $10, `has_fast` false
     - Both Haiku stems store score 82.7, output price $0.50, `has_fast` false
+
+## 2026-10-13 - QA - COMPLETE
+
+* Work completed
+    - Ran semantic review of implementation against project brief and implementation plan
+    - Verified all 13 test plan behaviors pass across the full test suite (110 tests OK)
+    - Confirmed pick.py accepts and accurately chooses new Cursor model spellings
+    - Verified no existing mapping rows were modified
+* Decisions made
+    - QA passed without blocking findings; implementation meets all acceptance criteria cleanly
+* Insights
+    - Clean extension of the catalog following the Sonnet 5.5 precedent
