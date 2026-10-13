@@ -4,6 +4,7 @@
 **Phase:** REFLECT - COMPLETE
 
 ## What Was Done
+- Non-draft PR #135 opened (https://github.com/Texarkanine/.cursor-rules/pull/135); SumMem note recorded; `/handoff` baton written.
 - QA PASS (Opus). Reflection at `memory-bank/active/reflection/reflection-mb-init-agents-only.md`; persistent files all skipped (no system-shape change).
 - Operator decisions: drop `CLAUDE.md` from Niko's root bootstrap (Claude Code reads repo-root `AGENTS.md`); gate `AGENTS.md` creation on `AGENTS.md` alone; `CLAUDE.md` plays no part.
 - Preflight PASS WITH ADVISORY (Opus; Fable 5.1 was out of credits). Advisory 3 (paste-in pointer when an existing `AGENTS.md` lacks `memory-bank/`) not applied: outside the operator's request; surfaced for the operator.
@@ -14,4 +15,4 @@
 - Deviation: plan's verify expectation listed only line 28; corrected in `tasks.md` to include the planned line-32 sentence. No change to built content.
 
 ## Next Step
-- Open non-draft PR and leave `/handoff` note (operator request); then operator runs `/niko-archive`.
+- Operator runs `/niko-archive`, then merges PR #135 and runs the `chore(dev): ai-rizz sync`.

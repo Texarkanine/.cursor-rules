@@ -62,3 +62,12 @@ Remove `CLAUDE.md` from Niko's first-init root bootstrap so init writes only a t
     - Preflight advisory 3 recorded as a separate product question for the operator.
 * Insights
     - A compatibility rule can state the harness behavior it depends on; issue #101's "both absent" gate did not.
+
+## 2026-10-12 - POST-REFLECT - PR OPENED
+
+* Work completed
+    - Non-draft PR #135 opened on `niko-no-CLAUDE.md` (AC 6); `/handoff` baton written.
+* Decisions made
+    - None.
+* Insights
+    - None.
