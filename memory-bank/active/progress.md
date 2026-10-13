@@ -33,3 +33,14 @@ Remove `CLAUDE.md` from Niko's first-init root bootstrap so init writes only a t
 * Insights
     - AC 6 (non-draft PR, `/handoff` note) has no tasks.md step; the orchestrating session must do it after QA.
     - `grep -R`/`git grep` also show `always-tdd.mdc:14` (symlinked into `rulesets/niko/`); that hit is expected, not a missed reference.
+
+## 2026-10-12 - BUILD - COMPLETE
+
+* Work completed
+    - Rewrote the `memory-bank-init.md` bootstrap section for `AGENTS.md` only; removed the four-row table and the `CLAUDE.md` template.
+    - Updated `rulesets/niko/README.md` line 36.
+    - `make test` green; grep over `rulesets/` shows only the scan line and the new "never creates `CLAUDE.md`" sentence.
+* Decisions made
+    - Preflight advisory 3 (paste-in pointer on skip) left for the operator; not in the brief.
+* Insights
+    - The plan's own grep expectation forgot the sentence the plan added; verify expectations should be derived from the planned text, not the pre-edit state.

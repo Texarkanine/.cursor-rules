@@ -45,7 +45,7 @@ No new executable behavior. Both edits are Niko skill/reference wording and READ
 
 ### 3. Verify
 
-1. `grep -rn "CLAUDE" rulesets/` shows only the line-28 anti-duplication scan.
+1. `grep -rn "CLAUDE" rulesets/` shows only the line-28 anti-duplication scan and the new step-2 "never creates `CLAUDE.md`" sentence.
 2. Run `make test`; read the full output; all green.
 
 ## Technology Validation
@@ -74,6 +74,6 @@ No new technology - validation not required
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
-- [ ] Build
+- [x] Preflight
+- [x] Build
 - [ ] QA
