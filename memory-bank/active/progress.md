@@ -13,3 +13,13 @@ Remove `CLAUDE.md` from Niko's first-init root bootstrap so init writes only a t
     - Level 2: one subsystem, two canonical files.
 * Insights
     - Issue #101 set the both-absent pair; its "CLAUDE.md only" rationale assumed Claude Code ignored `AGENTS.md`, which no longer holds.
+
+## 2026-10-12 - PLAN - COMPLETE
+
+* Work completed
+    - Plan in `tasks.md`: rewrite `memory-bank-init.md` bootstrap section for `AGENTS.md` only (drop decision table and `CLAUDE.md` template), update README line 36, verify by grep and `make test`.
+* Decisions made
+    - Keep the line-28 read-only anti-duplication scan listing `CLAUDE.md` (consumer repos still have them).
+    - Add one explicit "init never creates `CLAUDE.md`" sentence against habit-driven shims.
+* Insights
+    - No executable behavior changes; `always-tdd` names repository bootstrap and skill wording as out of scope.
