@@ -2,8 +2,8 @@
 
 **Current Task:** skip-unknown-reviewer-slugs
 
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** BUILD - COMPLETE
 
-**What Was Done:** Classified as Level 1. The failure is one behavior in the verification-model picker: an enabled reviewer slug missing from the catalog aborts selection.
+**What Was Done:** Unknown enabled reviewer slugs are skipped in silence. A placeable slug is still printed and the process exits 0. The reported command prints `gemini-4-argon-medium`. `make test` is 110 tests OK.
 
-**Next Step:** Load the Level 1 workflow and build.
+**Next Step:** Level 1 QA.

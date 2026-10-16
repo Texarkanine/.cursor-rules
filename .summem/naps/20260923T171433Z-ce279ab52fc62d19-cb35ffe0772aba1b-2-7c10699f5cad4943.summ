@@ -1,0 +1,1 @@
+BenchLM models.json returns 403 without a User-Agent; refresh.py sends choose-verification-model. Tiers are C B A S, lowest to highest. Fable 5.1 high, Sol medium, and Luna medium stay mapped until enabled.

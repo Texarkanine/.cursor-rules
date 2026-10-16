@@ -1,0 +1,1 @@
+{"c":[{"name":"20260923T171433Z-ce279ab52fc62d19","text":"BenchLM models.json returns 403 without a User-Agent; refresh.py sends choose-verification-model.","type":"note"},{"name":"20260923T174149Z-3e9915921a090194","text":"Catalog tiers are C B A S lowest to highest. Fable 5.1 high, Sol medium, and Luna medium stay mapped for when they are enabled.","type":"note"}]}

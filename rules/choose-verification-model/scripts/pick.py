@@ -24,11 +24,12 @@ def main(argv, *, catalog=None, mapping=None, assets_dir=None, user_dir=None) ->
 
     Returns 0 when a slug was printed. That includes an author whose
     model is not in the catalog: stdout is that spelling. An effort
-    word on a known model is that model. Returns 2 when an enabled
-    slug's model is not in the catalog, or the author row has a null
-    tier or null score. On failure, stdout is empty and stderr names
-    the slug. When the encoded search leaves an empty pool, the author
-    spelling is printed instead of rejected.
+    word on a known model is that model. An enabled slug whose model
+    is not in the catalog is skipped, and nothing is written about it.
+    Returns 2 when the author row has a null tier or null score. On
+    failure, stdout is empty and stderr names the slug. When the
+    encoded search leaves an empty pool, the author spelling is
+    printed instead of rejected.
     """
     parser = argparse.ArgumentParser(prog="pick.py")
     parser.add_argument("--model", required=True)

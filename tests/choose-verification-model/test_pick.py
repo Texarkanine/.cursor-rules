@@ -422,17 +422,43 @@ class PickTests(unittest.TestCase):
             "priced",
         )
 
-    def test_unknown_reviewer_slug_exits_2_and_names_the_slug(self):
-        """A ``--reviewer-models`` slug missing from the catalog is an error."""
-        models = {"author": _entry("mid", 80, 1)}
+    def test_unknown_reviewer_slug_is_skipped(self):
+        """An enabled slug missing from the catalog is ignored.
+
+        A placeable reviewer is still printed. Nothing is written to
+        stderr, and the process exits 0. A list of only unknown slugs
+        prints the author.
+        """
+        models = {
+            "author": _entry("mid", 80, 10),
+            "peer": _entry("mid", 90, 5),
+        }
+        catalog = _catalog(models)
+        mapping = _mapping({"author": "grok", "peer": "claude"})
         code, stdout, stderr = _run(
-            _catalog(models),
-            _mapping({"author": "grok"}),
-            ["--model", "author", "--reviewer-models", "author,missing-reviewer"],
+            catalog,
+            mapping,
+            [
+                "--model",
+                "author",
+                "--reviewer-models",
+                "author,missing-reviewer,peer",
+                "--seed",
+                "0",
+            ],
         )
-        self.assertEqual(code, 2)
-        self.assertEqual(stdout.strip(), "")
-        self.assertIn("missing-reviewer", stderr)
+        self.assertEqual(code, 0)
+        self.assertEqual(stdout.strip(), "peer")
+        self.assertEqual(stderr, "")
+
+        only_code, only_stdout, only_stderr = _run(
+            catalog,
+            mapping,
+            ["--model", "author", "--reviewer-models", "missing-reviewer,also-missing"],
+        )
+        self.assertEqual(only_code, 0)
+        self.assertEqual(only_stdout.strip(), "author")
+        self.assertEqual(only_stderr, "")
 
     def test_unknown_author_slug_is_printed(self):
         """An author the script cannot place is printed, and the process exits 0."""
@@ -484,7 +510,7 @@ class PickTests(unittest.TestCase):
             )
 
     def test_null_tier_or_null_score_author_exits_2(self):
-        """An author with no usable tier or score is an error, same as an unknown slug."""
+        """An author with no usable tier or score is an error."""
         enabled = ["author", "other"]
         families = {"author": "grok", "other": "claude"}
         other = _entry("mid", 80, 1)
@@ -688,25 +714,34 @@ class EffortIdentityTests(unittest.TestCase):
         )
 
     def test_thinking_stem_does_not_match_the_bare_model(self):
-        """claude-sonnet-5-high is not claude-sonnet-5-thinking."""
+        """claude-sonnet-5-high is not claude-sonnet-5-thinking.
+
+        The bare slug is not placed on the thinking row. With only that
+        slug enabled, the author is printed.
+        """
         catalog = _catalog(
-            {"claude-sonnet-5-thinking": _entry("A", 71, 10)},
+            {
+                "grok": _entry("A", 70, 6),
+                "claude-sonnet-5-thinking": _entry("A", 71, 10),
+            },
             tier_order=("C", "B", "A", "S"),
         )
-        mapping = _mapping({"claude-sonnet-5-thinking": "claude"})
+        mapping = _mapping({"grok": "grok", "claude-sonnet-5-thinking": "claude"})
         code, stdout, stderr = _run(
             catalog,
             mapping,
             [
                 "--model",
-                "claude-sonnet-5-thinking-high",
+                "grok-high",
                 "--reviewer-models",
                 "claude-sonnet-5-high",
+                "--seed",
+                "0",
             ],
         )
-        self.assertEqual(code, 2)
-        self.assertEqual(stdout.strip(), "")
-        self.assertIn("claude-sonnet-5-high", stderr)
+        self.assertEqual(code, 0)
+        self.assertEqual(stdout.strip(), "grok-high")
+        self.assertEqual(stderr, "")
 
     def test_select_does_not_mutate_the_catalog(self):
         """Ranking an effort spelling does not add a row."""

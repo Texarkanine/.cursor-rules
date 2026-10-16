@@ -34,7 +34,7 @@ SPAWNABLE = (
 )
 
 # Enabled only some of the time. They still have to be in the catalog
-# so a reviewer list that includes them does not exit 2.
+# so a reviewer list that includes them can place them.
 SOMETIMES = (
     "claude-fable-5-1-thinking-high",
     "gpt-5.6-sol-medium",
