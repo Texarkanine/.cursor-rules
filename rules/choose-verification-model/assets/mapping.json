@@ -287,6 +287,12 @@
       "pricing_name": "Claude Haiku 5.5",
       "benchlm_slug": "claude-haiku-5-5",
       "interim_score": null
+    },
+    "muse-wonder-1.0": {
+      "family": "muse",
+      "pricing_name": "Muse Wonder",
+      "benchlm_slug": "muse-wonder",
+      "interim_score": null
     }
   }
 }
