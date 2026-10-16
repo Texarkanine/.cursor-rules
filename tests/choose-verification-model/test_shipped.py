@@ -31,10 +31,11 @@ SPAWNABLE = (
     "kimi-k3-high",
     "muse-spark-1.3-high",
     "gemini-4-argon-medium",
+    "muse-wonder-1.0-high",
 )
 
 # Enabled only some of the time. They still have to be in the catalog
-# so a reviewer list that includes them does not exit 2.
+# so a reviewer list that includes them can place them.
 SOMETIMES = (
     "claude-fable-5-1-thinking-high",
     "gpt-5.6-sol-medium",
@@ -271,6 +272,50 @@ class ShippedTests(unittest.TestCase):
             random.Random(0),
         )
         self.assertEqual(slug, "gpt-5.6-terra-medium")
+
+    def test_sol_author_prints_muse_wonder(self):
+        """A Sol author prints Muse Wonder, so this row is tier A."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "gpt-5.6-sol-medium",
+            ["gpt-5.6-sol-medium", "muse-wonder-1.0-high"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "muse-wonder-1.0-high")
+
+    def test_opus_author_does_not_select_muse_wonder(self):
+        """Opus stays Opus, so Muse Wonder is not tier S."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "claude-opus-5-5-medium",
+            ["claude-opus-5-5-medium", "muse-wonder-1.0-high"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "claude-opus-5-5-medium")
+
+    def test_muse_spark_does_not_select_muse_wonder(self):
+        """Two Muse rows do not review each other."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "muse-spark-1.3-high",
+            ["muse-spark-1.3-high", "muse-wonder-1.0-high"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "muse-spark-1.3-high")
+
+    def test_fast_sol_author_prints_muse_wonder_without_fast(self):
+        """A fast Sol author prints Muse Wonder without -fast."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "gpt-5.6-sol-medium-fast",
+            ["gpt-5.6-sol-medium", "muse-wonder-1.0-high"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "muse-wonder-1.0-high")
 
     def test_fast_composer_author_prints_claude_haiku_5_5_thinking_without_fast(self):
         """A fast Composer author prints thinking Haiku 5.5 without -fast."""

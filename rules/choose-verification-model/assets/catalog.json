@@ -43,12 +43,12 @@
       "score": 74.83,
       "score_source": "benchlm",
       "effort_encoded": false,
-      "output_cost_per_million": 3.5,
+      "output_cost_per_million": 3.75,
       "has_fast": false
     },
     "gpt-5.6-sol": {
       "tier": "A",
-      "score": 74.93,
+      "score": 74.97,
       "score_source": "benchlm",
       "effort_encoded": false,
       "output_cost_per_million": 20.0,
@@ -139,7 +139,7 @@
       "score": 74.97,
       "score_source": "benchlm",
       "effort_encoded": false,
-      "output_cost_per_million": 3.5,
+      "output_cost_per_million": 3.75,
       "has_fast": false
     },
     "claude-opus-5": {
@@ -376,7 +376,7 @@
     },
     "claude-haiku-5-5": {
       "tier": "C",
-      "score": 82.7,
+      "score": 73.75,
       "score_source": "benchlm",
       "effort_encoded": false,
       "output_cost_per_million": 0.5,
@@ -384,10 +384,18 @@
     },
     "claude-haiku-5-5-thinking": {
       "tier": "C",
-      "score": 82.7,
+      "score": 73.75,
       "score_source": "benchlm",
       "effort_encoded": false,
       "output_cost_per_million": 0.5,
+      "has_fast": false
+    },
+    "muse-wonder-1.0": {
+      "tier": "A",
+      "score": 81.3,
+      "score_source": "benchlm",
+      "effort_encoded": false,
+      "output_cost_per_million": 20.0,
       "has_fast": false
     }
   }

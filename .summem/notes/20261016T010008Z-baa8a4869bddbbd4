@@ -1,0 +1,1 @@
+choose-verification-model: an enabled reviewer slug missing from the catalog is skipped in silence. The pick still prints a placeable slug and exits 0.

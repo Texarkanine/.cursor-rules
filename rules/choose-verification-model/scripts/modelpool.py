@@ -100,8 +100,8 @@ def select(catalog, mapping, author, enabled, rng):
     Every effort of a model is that one row. When the author's model
     is not in the catalog, or its tier is ``never``, return that
     spelling. An enabled spelling whose tier is ``never`` is skipped.
-    An enabled spelling whose model is not in the catalog still raises
-    ``SelectionError``.
+    An enabled spelling whose model is not in the catalog is skipped
+    the same way, with nothing printed.
 
     The printed reviewer keeps the effort from the enabled spelling.
     Two efforts of one model are one candidate, and the first spelling
@@ -133,7 +133,7 @@ def select(catalog, mapping, author, enabled, rng):
     for slug in enabled:
         stored = stored_of.get(model_key(slug))
         if stored is None:
-            raise SelectionError(slug, f"unknown slug: {slug}")
+            continue
         if stored not in seen:
             seen.add(stored)
             enabled_stored.append(stored)
