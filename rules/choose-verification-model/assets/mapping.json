@@ -293,6 +293,24 @@
       "pricing_name": "Muse Wonder",
       "benchlm_slug": "muse-wonder",
       "interim_score": null
+    },
+    "gemini-4-carbon": {
+      "family": "gemini",
+      "pricing_name": "Gemini 4 Carbon",
+      "benchlm_slug": "gemini-4-carbon",
+      "interim_score": null
+    },
+    "claude-fable-5-2": {
+      "family": "claude",
+      "pricing_name": "Claude Fable 5.2",
+      "benchlm_slug": "claude-fable-5-2",
+      "interim_score": null
+    },
+    "gpt-5-mini": {
+      "family": "gpt",
+      "pricing_name": "GPT-5 Mini",
+      "benchlm_slug": "gpt-5-mini",
+      "interim_score": null
     }
   }
 }

@@ -1,0 +1,1 @@
+choose-verification-model catalog score is the mean of whichever of agentic, coding, and reasoning BenchLM has. A reasoning-only row can look like a full score.
