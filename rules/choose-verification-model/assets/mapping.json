@@ -311,6 +311,24 @@
       "pricing_name": "GPT-5 Mini",
       "benchlm_slug": "gpt-5-mini",
       "interim_score": null
+    },
+    "claude-fable-5": {
+      "family": "claude",
+      "pricing_name": "Claude Fable 5",
+      "benchlm_slug": "claude-fable",
+      "interim_score": null
+    },
+    "claude-fable-5-thinking": {
+      "family": "claude",
+      "pricing_name": "Claude Fable 5",
+      "benchlm_slug": "claude-fable",
+      "interim_score": null
+    },
+    "deepseek-v41-flash-1017": {
+      "family": "deepseek",
+      "pricing_name": "DeepSeek V4.1 Flash 1017",
+      "benchlm_slug": "deepseek-v4-1-flash",
+      "interim_score": null
     }
   }
 }
