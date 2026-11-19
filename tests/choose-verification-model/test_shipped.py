@@ -327,3 +327,32 @@ class ShippedTests(unittest.TestCase):
             random.Random(0),
         )
         self.assertEqual(slug, "claude-haiku-5-5-thinking-low")
+
+    def test_grok_4_6_does_not_select_claude_fable_5_2(self):
+        """An A author is not reviewed by Fable 5.2, so this row is never."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "cursor-grok-4.6-xhigh",
+            ["cursor-grok-4.6-xhigh", "claude-fable-5-2-high"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "cursor-grok-4.6-xhigh")
+
+    def test_fable_5_and_deepseek_v41_flash_are_never(self):
+        """Fable 5, its thinking stem, and DeepSeek V4.1 Flash are filed and not reviewers.
+
+        Each row has a BenchLM category score. The tier is never.
+        """
+        catalog = _load("catalog.json")
+        mapping = _load("mapping.json")
+        for stem in (
+            "claude-fable-5",
+            "claude-fable-5-thinking",
+            "deepseek-v41-flash-1017",
+        ):
+            self.assertIn(stem, mapping["models"])
+            entry = catalog["models"][stem]
+            self.assertEqual(entry["tier"], "never")
+            self.assertIsNotNone(entry["score"])
+            self.assertEqual(entry["score_source"], "benchlm")
