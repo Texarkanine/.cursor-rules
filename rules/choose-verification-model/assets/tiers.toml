@@ -6,9 +6,13 @@
 # never: never picked as a reviewer, printed back as an author, no warnings.
 # After editing, run scripts/refresh.py to copy the tiers into catalog.json.
 
+# gemini-4-neon and gemini-4-hydrogen are tier A, with gemini-3.8-flash
+# and the other Gemini 4 rows. They are not listed yet. On 2026-11-19
+# BenchLM had no agentic, coding, or reasoning category score for either.
+# A catalog row with a null score makes that author exit 2.
+
 S = [
   "claude-fable-5-1-thinking",
-  "claude-fable-5-2",
   "claude-opus-5-5",
 ]
 
@@ -52,7 +56,10 @@ never = [
   "claude-4.6-opus-thinking",
   "claude-4.6-sonnet",
   "claude-4.6-sonnet-thinking",
+  "claude-fable-5",
+  "claude-fable-5-thinking",
   "claude-fable-5-1",
+  "claude-fable-5-2",
   "claude-opus-4-7",
   "claude-opus-4-7-thinking",
   "claude-opus-4-8",
@@ -62,6 +69,7 @@ never = [
   "gemini-3.1-pro",
   "gemini-3.5-flash",
   "gemini-3.6-flash",
+  "deepseek-v41-flash-1017",
   "glm-5.2",
   "gpt-5-mini",
   "gpt-5.2",
