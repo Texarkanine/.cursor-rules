@@ -42,4 +42,6 @@ If a model has fast, it has it at every effort. For a model in the `agent --list
 
 ## Mapping Overrides
 
-An interim score in `assets/mapping.json` is a guess. Refresh replaces it once BenchLM has any of agentic, coding, or reasoning for that model. To onboard a model refresh cannot match, add its mapping row by hand, with an interim score when BenchLM has none. `output_multiplier` is optional. When a row omits it, the base price is used as printed.
+The catalog score is the BenchLM published overall, the top-level `displayScore` on the model. When that overall is missing, the score is the equal-weight mean of the agentic, coding, and reasoning category scores that are present. The nested `scores.displayScore` is a legacy field and is not read.
+
+An interim score in `assets/mapping.json` is a guess. Refresh replaces it once BenchLM has a published overall or any of agentic, coding, or reasoning for that model. To onboard a model refresh cannot match, add its mapping row by hand, with an interim score when BenchLM has neither. `output_multiplier` is optional. When a row omits it, the base price is used as printed.

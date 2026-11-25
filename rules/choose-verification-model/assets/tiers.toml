@@ -6,14 +6,14 @@
 # never: never picked as a reviewer, printed back as an author, no warnings.
 # After editing, run scripts/refresh.py to copy the tiers into catalog.json.
 
-# gemini-4-neon and gemini-4-hydrogen are tier A, with gemini-3.8-flash
-# and the other Gemini 4 rows. They are not listed yet. On 2026-11-19
-# BenchLM had no agentic, coding, or reasoning category score for either.
-# A catalog row with a null score makes that author exit 2.
+# gemini-4-argon stays in A while it is being sunset.
+# Scores are the BenchLM published overall. A model with no overall
+# keeps the mean of its agentic, coding, and reasoning cells.
 
 S = [
   "claude-fable-5-1-thinking",
   "claude-opus-5-5",
+  "gemini-4-carbon",
 ]
 
 A = [
@@ -23,7 +23,7 @@ A = [
   "cursor-grok-4.6",
   "gemini-3.8-flash",
   "gemini-4-argon",
-  "gemini-4-carbon",
+  "gemini-4-neon",
   "gpt-5.6-sol",
   "grok-4.7",
   "kimi-k3",
@@ -34,6 +34,7 @@ A = [
 B = [
   "cursor-grok-4.5",
   "gemini-3.7-flash",
+  "gemini-4-hydrogen",
   "gpt-5.6-terra",
 ]
 

@@ -1,0 +1,1 @@
+Issue #129: BenchLM has no effort spellings. An unmatched effort is placed in memory from the stored row and neighbors; catalog.json stays hand-chosen. pick.py prints an author it cannot place and exits 0. SKILL.md is a thin caller. That placement is a sketch.

@@ -262,8 +262,10 @@ def fill_mapping(listing: str, mapping, pricing_markdown: str, benchlm):
     separators. The family is the stem's first hyphen word after a
     leading ``cursor-``.
 
-    A stem with no pricing match, no scored BenchLM match, or more than
-    one is not added, and a warning names it and the missing source.
+    A BenchLM item is scored when it has a published overall or any of
+    the agentic, coding, and reasoning category scores. A stem with no
+    pricing match, no scored BenchLM match, or more than one is not
+    added, and a warning names it and the missing source.
     """
     models = dict(mapping["models"])
     prices, _notes = _pricing_rows(pricing_markdown)
@@ -272,7 +274,7 @@ def fill_mapping(listing: str, mapping, pricing_markdown: str, benchlm):
     items = benchlm.get("items") if isinstance(benchlm, dict) else None
     for item in items or []:
         slug = item.get("slug")
-        if isinstance(slug, str) and _category_values(benchlm, slug):
+        if isinstance(slug, str) and _is_scored(benchlm, slug):
             scored.setdefault(_slug_words(slug), []).append(slug)
     warnings = []
     for stem, display in parse_listing(listing).items():
@@ -359,13 +361,17 @@ def build_catalog(benchlm, pricing_markdown, mapping, previous, listing=None):
     is the Cursor pricing page. ``mapping`` and ``previous`` are the
     parsed mapping and the catalog from the last refresh.
 
-    The score is the equal-weight mean of the BenchLM agentic, coding,
-    and reasoning category scores that are present. That mean is the
-    model, stored to two decimal places. BenchLM does not encode
+    The score is the BenchLM published overall, the top-level
+    ``displayScore``, stored to two decimal places. When that overall
+    is missing, the score is the equal-weight mean of the agentic,
+    coding, and reasoning category scores that are present, stored to
+    two decimal places the same way. The nested ``scores.displayScore``
+    is a legacy field and is not read. BenchLM does not encode
     effort, so ``effort_encoded`` is false. An interim score is kept
-    only when all three are missing, and replaced once any of them
-    appears. It does not encode effort either, and it is stored to
-    two decimal places too. ``tier_order`` and each existing tier are copied from
+    only when the overall and all three categories are missing, and
+    replaced once an overall or any category appears. It does not
+    encode effort either, and it is stored to two decimal places too.
+    ``tier_order`` and each existing tier are copied from
     ``previous``. A slug that was not in ``previous`` gets ``tier``
     null. Every row whose tier is null gets a ``must set tier``
     warning, on every run.
@@ -394,8 +400,12 @@ def build_catalog(benchlm, pricing_markdown, mapping, previous, listing=None):
         tier = (previous_models.get(slug) or {}).get("tier")
         if tier is None:
             warnings.append(f"WARNING: must set tier for {slug}")
+        overall = _published_overall(benchlm, row.get("benchlm_slug"))
         present = _category_values(benchlm, row.get("benchlm_slug"))
-        if present:
+        if overall is not None:
+            score = overall
+            source = "benchlm"
+        elif present:
             score = round(sum(present) / len(present), 2)
             source = "benchlm"
         elif row.get("interim_score") is not None:
@@ -499,16 +509,44 @@ def _pricing_rows(markdown):
     return prices, notes
 
 
-def _category_values(benchlm, benchlm_slug):
+def _item(benchlm, benchlm_slug):
     if not benchlm_slug or not isinstance(benchlm, dict):
-        return []
+        return None
     for item in benchlm.get("items") or []:
-        if item.get("slug") != benchlm_slug:
-            continue
-        categories = (item.get("scores") or {}).get("displayCategoryScores") or {}
-        return [
-            categories[key]
-            for key in _CATEGORIES
-            if categories.get(key) is not None
-        ]
-    return []
+        if item.get("slug") == benchlm_slug:
+            return item
+    return None
+
+
+def _is_scored(benchlm, benchlm_slug):
+    return _published_overall(benchlm, benchlm_slug) is not None or bool(
+        _category_values(benchlm, benchlm_slug)
+    )
+
+
+def _published_overall(benchlm, benchlm_slug):
+    """Return the published overall, or ``None`` when BenchLM has none.
+
+    The published overall is the top-level ``displayScore``. The nested
+    ``scores.displayScore`` is a legacy compatibility value and is not
+    this number. A non-numeric value is treated as missing.
+    """
+    item = _item(benchlm, benchlm_slug)
+    if item is None:
+        return None
+    score = item.get("displayScore")
+    if isinstance(score, bool) or not isinstance(score, (int, float)):
+        return None
+    return round(float(score), 2)
+
+
+def _category_values(benchlm, benchlm_slug):
+    item = _item(benchlm, benchlm_slug)
+    if item is None:
+        return []
+    categories = (item.get("scores") or {}).get("displayCategoryScores") or {}
+    return [
+        categories[key]
+        for key in _CATEGORIES
+        if categories.get(key) is not None
+    ]

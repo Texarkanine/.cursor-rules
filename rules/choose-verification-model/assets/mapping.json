@@ -329,6 +329,18 @@
       "pricing_name": "DeepSeek V4.1 Flash 1017",
       "benchlm_slug": "deepseek-v4-1-flash",
       "interim_score": null
+    },
+    "gemini-4-neon": {
+      "family": "gemini",
+      "pricing_name": "Gemini 4 Neon",
+      "benchlm_slug": "gemini-4-neon",
+      "interim_score": null
+    },
+    "gemini-4-hydrogen": {
+      "family": "gemini",
+      "pricing_name": "Gemini 4 Hydrogen",
+      "benchlm_slug": "gemini-4-hydrogen",
+      "interim_score": null
     }
   }
 }

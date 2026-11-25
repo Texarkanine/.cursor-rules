@@ -356,3 +356,110 @@ class ShippedTests(unittest.TestCase):
             self.assertEqual(entry["tier"], "never")
             self.assertIsNotNone(entry["score"])
             self.assertEqual(entry["score_source"], "benchlm")
+
+    def test_opus_author_prints_gemini_4_carbon(self):
+        """Opus prints Carbon, so this row is tier S."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "claude-opus-5-5-medium",
+            ["claude-opus-5-5-medium", "gemini-4-carbon-low"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "gemini-4-carbon-low")
+
+    def test_sol_author_prints_gemini_4_neon(self):
+        """A Sol author prints Neon, so this row is tier A."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "gpt-5.6-sol-medium",
+            ["gpt-5.6-sol-medium", "gemini-4-neon-high"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "gemini-4-neon-high")
+
+    def test_opus_author_does_not_select_gemini_4_neon(self):
+        """Opus stays Opus, so Neon is not tier S."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "claude-opus-5-5-medium",
+            ["claude-opus-5-5-medium", "gemini-4-neon-high"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "claude-opus-5-5-medium")
+
+    def test_terra_author_prints_gemini_4_hydrogen(self):
+        """Terra prints Hydrogen, so this row is tier B or A."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "gpt-5.6-terra-medium",
+            ["gpt-5.6-terra-medium", "gemini-4-hydrogen-high"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "gemini-4-hydrogen-high")
+
+    def test_sol_author_does_not_select_gemini_4_hydrogen(self):
+        """Sol stays Sol, so Hydrogen is not tier A or S."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "gpt-5.6-sol-medium",
+            ["gpt-5.6-sol-medium", "gemini-4-hydrogen-high"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "gpt-5.6-sol-medium")
+
+    def test_gemini_3_8_flash_does_not_select_gemini_4_neon(self):
+        """Two Gemini rows do not review each other."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "gemini-3.8-flash-high",
+            ["gemini-3.8-flash-high", "gemini-4-neon-high"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "gemini-3.8-flash-high")
+
+    def test_gemini_3_8_flash_does_not_select_gemini_4_hydrogen(self):
+        """Two Gemini rows do not review each other."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "gemini-3.8-flash-high",
+            ["gemini-3.8-flash-high", "gemini-4-hydrogen-high"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "gemini-3.8-flash-high")
+
+    def test_gas_rows_are_placeable(self):
+        """Carbon is S, Neon and Argon are A, and Hydrogen is B.
+
+        Each row has a BenchLM score, so that author does not exit 2.
+        The numeric score is not locked.
+        """
+        catalog = _load("catalog.json")
+        expected = {
+            "gemini-4-carbon": "S",
+            "gemini-4-neon": "A",
+            "gemini-4-argon": "A",
+            "gemini-4-hydrogen": "B",
+        }
+        for stem, tier in expected.items():
+            entry = catalog["models"][stem]
+            self.assertEqual(entry["tier"], tier)
+            self.assertIsNotNone(entry["score"])
+            self.assertEqual(entry["score_source"], "benchlm")
+
+    def test_fast_sol_author_prints_gemini_4_neon_without_fast(self):
+        """A fast Sol author prints Neon without -fast."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "gpt-5.6-sol-medium-fast",
+            ["gpt-5.6-sol-medium", "gemini-4-neon-high"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "gemini-4-neon-high")
