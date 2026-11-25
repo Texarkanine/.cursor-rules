@@ -6,10 +6,6 @@
 # never: never picked as a reviewer, printed back as an author, no warnings.
 # After editing, run scripts/refresh.py to copy the tiers into catalog.json.
 
-# gemini-4-argon stays in A while it is being sunset.
-# Scores are the BenchLM published overall. A model with no overall
-# keeps the mean of its agentic, coding, and reasoning cells.
-
 S = [
   "claude-fable-5-1-thinking",
   "claude-opus-5-5",
