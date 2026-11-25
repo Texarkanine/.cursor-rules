@@ -9,6 +9,7 @@ import os
 import random
 import sys
 import tempfile
+import tomllib
 import unittest
 from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
@@ -94,8 +95,18 @@ class ShippedTests(unittest.TestCase):
             entry = catalog["models"][model_key(slug)]
             self.assertIsNotNone(entry["score"])
 
-    def test_fast_sol_author_prints_cursor_grok_4_6_fast(self):
-        """A fast Sol author prints this row with -fast."""
+    def test_catalog_tiers_match_tiers_toml(self):
+        """A catalog tier is the hand-set tier. Pick reads the catalog."""
+        assigned = {}
+        document = tomllib.loads((ASSETS / "tiers.toml").read_text(encoding="utf-8"))
+        for tier, slugs in document.items():
+            for slug in slugs:
+                assigned[model_key(slug)] = tier
+        for stem, entry in _load("catalog.json")["models"].items():
+            self.assertEqual(entry["tier"], assigned[stem])
+
+    def test_fast_sol_author_does_not_select_never_cursor_grok_4_6(self):
+        """A never row is not a reviewer, so a fast Sol author is printed back."""
         slug = select(
             _load("catalog.json"),
             _load("mapping.json"),
@@ -103,10 +114,10 @@ class ShippedTests(unittest.TestCase):
             ["gpt-5.6-sol-medium", "cursor-grok-4.6-xhigh"],
             random.Random(0),
         )
-        self.assertEqual(slug, "cursor-grok-4.6-xhigh-fast")
+        self.assertEqual(slug, "gpt-5.6-sol-medium-fast")
 
-    def test_sol_author_prints_cursor_grok_4_6_without_fast(self):
-        """A non-fast Sol author prints this row without -fast."""
+    def test_sol_author_does_not_select_never_cursor_grok_4_6(self):
+        """A never row is not a reviewer, so Sol is printed back."""
         slug = select(
             _load("catalog.json"),
             _load("mapping.json"),
@@ -114,7 +125,7 @@ class ShippedTests(unittest.TestCase):
             ["gpt-5.6-sol-medium", "cursor-grok-4.6-xhigh"],
             random.Random(0),
         )
-        self.assertEqual(slug, "cursor-grok-4.6-xhigh")
+        self.assertEqual(slug, "gpt-5.6-sol-medium")
 
     def test_opus_author_does_not_select_cursor_grok_4_6(self):
         """Opus stays Opus, so this row is not tier S."""
@@ -141,9 +152,8 @@ class ShippedTests(unittest.TestCase):
     def test_issue_129_command_exits_0_and_leaves_the_catalog(self):
         """An effort-variant argv exits 0 and does not rewrite the catalog.
 
-        The author is the fast half of cursor-grok-4.6. The reviewer
-        effort is the one on the Opus candidate. Numeric scores are
-        not locked.
+        The author is the fast half of grok-4.7. The reviewer effort is
+        the one on the Opus candidate. Numeric scores are not locked.
         """
         path = ASSETS / "catalog.json"
         before = path.read_bytes()
@@ -157,7 +167,7 @@ class ShippedTests(unittest.TestCase):
                     code = main(
                         [
                             "--model",
-                            "cursor-grok-4.6-xhigh-fast",
+                            "grok-4.7-high-fast",
                             "--reviewer-models",
                             "claude-opus-5-5-high,gpt-5.6-terra-medium,grok-4.7-xhigh",
                             "--seed",
@@ -329,7 +339,7 @@ class ShippedTests(unittest.TestCase):
         self.assertEqual(slug, "claude-haiku-5-5-thinking-low")
 
     def test_grok_4_6_does_not_select_claude_fable_5_2(self):
-        """An A author is not reviewed by Fable 5.2, so this row is never."""
+        """A never author is printed back, and Fable 5.2 is never."""
         slug = select(
             _load("catalog.json"),
             _load("mapping.json"),
