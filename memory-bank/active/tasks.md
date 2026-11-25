@@ -92,6 +92,6 @@ No new technology - validation not required
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
-- [ ] Build
+- [ ] Preflight ← FAIL (blocking) on the category-mean plan; the operator then chose the published overall
+- [ ] Build ← in progress; the score rule and the gas tiers are on the branch
 - [ ] QA

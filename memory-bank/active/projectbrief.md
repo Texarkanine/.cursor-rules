@@ -8,7 +8,7 @@ As the operator of choose-verification-model, I want the catalog refreshed from 
 
 ## Requirements
 
-1. Refresh choose-verification-model from BenchLM.
+1. Refresh choose-verification-model from BenchLM. The catalog score is the published overall. The three-category mean remains only when that overall is missing.
 2. Set tiers by hand:
    - `gemini-4-carbon` moves from A to S
    - `gemini-4-neon` is listed in A

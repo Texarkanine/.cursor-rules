@@ -41,3 +41,15 @@ Refresh choose-verification-model from current BenchLM scores, place Carbon in S
 * Insights
     - The documented onboarding path in `references/refresh.md` (hand-written mapping row with an interim score) is the one the plan forbids
     - Four of the nine new tests pass vacuously before the change, so "all new tests fail" is inaccurate
+
+## 2026-11-25 - BUILD - IN PROGRESS
+
+* Work completed
+    - Catalog score is the BenchLM published overall. The three-category mean remains only when that overall is missing
+    - Carbon is S, Neon is A, Hydrogen is B, Argon stays A. Refresh wrote those rows
+    - `make test` passed: 131 tests
+* Decisions made
+    - The operator accepted the published overall and said Carbon belongs at the top of S
+    - The one-rank window stays as it is. It steps by distinct score among enabled models, not by points
+* Insights
+    - Neon 91.8, Hydrogen 78.8, and Sonnet 5 thinking 61.2 sit 8 or more points from their tier medians. No tier was moved for that

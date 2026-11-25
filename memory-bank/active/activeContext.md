@@ -1,6 +1,6 @@
 # Active Context
 
 - **Current Task:** Place the Gemini 4 gas models and refresh BenchLM scores
-- **Phase:** PREFLIGHT - COMPLETE (FAIL (blocking))
-- **What Was Done:** Level 2 plan for task `google-gas-tiers`. Tests in `test_shipped.py` prove Carbon is S, Neon is A, and Hydrogen is B by two-candidate `select` results. Refresh from `rules/choose-verification-model` writes the catalog. A null BenchLM category score stops the listing. Score flags use an 8-point gap from the tier median, plus one-category means, and do not change tiers. PR 141's Hold section is replaced and the branch is pushed; the PR stays draft.
-- **Next Step:** Operator decides how to place Neon and Hydrogen with no BenchLM category score, then re-run `/niko-plan`.
+- **Phase:** BUILD - IN PROGRESS
+- **What Was Done:** The operator chose the published overall as the catalog score, with the three-category mean only when that overall is missing. That change is in `modelpool.py`, and refresh has written the catalog. Carbon is S at 88.2, Neon is A at 91.8, Hydrogen is B at 78.8, Argon stays A at 79.1. The old preflight FAIL was about the category-mean plan and is stale.
+- **Next Step:** Review the score flags. The rank window is one distinct score step among enabled same-tier models, so a Neon author draws the next enabled model when Argon is not in that list.
