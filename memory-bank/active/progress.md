@@ -97,3 +97,15 @@ Refresh choose-verification-model from current BenchLM scores, place Carbon in S
     - Green tests mean the published-overall rule and the gas tiers stay as committed. No second scorer, no refresh
 * Insights
     - A refresh on this working tree would write the grok and thinking edits into `catalog.json`. The gas task does not own those edits
+
+## 2026-11-25 - QA - COMPLETE
+
+* Work completed
+    - Reviewed `modelpool.py`, `refresh.py`, `tiers.toml`, `mapping.json`, `catalog.json`, `refresh.md`, `test_refresh.py`, `test_shipped.py`, and PR 141 against `tasks.md` and `projectbrief.md`
+    - Verified `make test` passes (symlink check, README link check, 131 unit tests) and confirmed the tier-median outlier math on `catalog.json`
+    - Wrote `PASS` to `memory-bank/active/.qa-validation-status` and recorded QA results in `tasks.md`
+* Decisions made
+    - QA PASS: implementation satisfies KISS, DRY, YAGNI, Completeness, Regression, Integrity, and Documentation criteria with two non-blocking advisories
+* Insights
+    - Committed `HEAD` cleanly isolates the gas placements and published-overall scoring rule from the unstaged working-tree edits in `tiers.toml`
+

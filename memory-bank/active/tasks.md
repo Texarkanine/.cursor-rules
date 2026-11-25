@@ -102,4 +102,12 @@ No new technology - validation not required
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [ ] QA
+- [x] QA
+
+## QA Results
+
+- **Status:** PASS
+- **Completeness & Correctness:** `modelpool.py` (`_published_overall`, `_is_scored`, `build_catalog`, `fill_mapping`), `tiers.toml`, `mapping.json`, `catalog.json`, `test_refresh.py`, and `test_shipped.py` match all plan units and `projectbrief.md` requirements. All 131 unit tests and ruleset checks pass via `make test`.
+- **Advisories (non-blocking):**
+  - Unstaged working-tree edits in `rules/choose-verification-model/assets/tiers.toml` (`claude-opus-5-thinking` and `claude-sonnet-5-thinking` moved to `never`, `cursor-grok-4.6` moved to `B`, `cursor-grok-4.7` added to `A`) remain outside this task and unstaged, as planned.
+  - Line 19 of `rules/choose-verification-model/references/refresh.md` still summarizes the input as "BenchLM category scores", whereas the "Mapping Overrides" section at line 45 states the full published-overall rule with category-mean fallback.
