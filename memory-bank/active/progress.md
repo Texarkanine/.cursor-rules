@@ -73,3 +73,16 @@ Refresh choose-verification-model from current BenchLM scores, place Carbon in S
     - The unstaged move of `claude-opus-5-thinking` and `claude-sonnet-5-thinking` to `never` stays outside this task
 * Insights
     - The blocked plan was the text in `tasks.md`. The brief and the code had already left it
+
+## 2026-11-25 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Ran the Level 2 preflight against `tasks.md`, the shipped catalog, `modelpool.py`, `refresh.py`, and the committed tree on `google-gasses`
+    - `.preflight-status` first line: `PASS WITH ADVISORY`
+    - `make test` green: 131 tests, including the 5 published-overall and 9 gas shipped tests
+* Decisions made
+    - The plan is acceptable as-is; build confirms it and adds no second scorer
+    - The working-tree `tiers.toml` dirt (thinking stems plus an unmentioned `cursor-grok-4.6` A-to-B move) is advisory: isolate to gas-only hunks before any refresh
+* Insights
+    - The prior FAIL (blocking) is resolved: the top-level `displayScore` onboards Neon (91.8) and Hydrogen (78.8) despite null category cells
+    - Outlier flags confirmed against the committed catalog: Neon +19.6 above the A median, Hydrogen +12.5 above the B median, Sonnet 5 thinking -11.0 below A
