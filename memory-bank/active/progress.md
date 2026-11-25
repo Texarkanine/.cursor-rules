@@ -30,3 +30,14 @@ Refresh choose-verification-model from current BenchLM scores, place Carbon in S
 * Insights
     - A two-candidate pool selects the other model whenever it shares the tier, at any score gap. Tier is what those tests lock
     - Carbon in S can review an A Gemini author when the same-tier window is empty. That is the existing next-tier fallback. The plan does not change it
+
+## 2026-11-25 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Ran the Level 2 preflight against `tasks.md`, the shipped catalog, `modelpool.select`, `refresh.py`, live BenchLM data, and `agent --list-models`
+    - `.preflight-status` first line: `FAIL (blocking)`
+* Decisions made
+    - The plan is blocked, not edited: Neon and Hydrogen have no BenchLM agentic, coding, or reasoning score, so refresh adds neither row and the plan's own stop condition fires. Operator guidance on interim scores (or holding them out) is needed, then `/niko-plan`
+* Insights
+    - The documented onboarding path in `references/refresh.md` (hand-written mapping row with an interim score) is the one the plan forbids
+    - Four of the nine new tests pass vacuously before the change, so "all new tests fail" is inaccurate

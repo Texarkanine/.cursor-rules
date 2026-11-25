@@ -1,0 +1,23 @@
+FAIL (blocking)
+
+Live data (checked 2026-11-25 against https://benchlm.ai/data/models.json and `agent --list-models`) makes the plan's own stop condition fire at Build step 4, so the plan cannot deliver Requirement 2 as written.
+
+1. BLOCKING - Neon and Hydrogen still have no BenchLM agentic, coding, or reasoning score. BenchLM `displayCategoryScores` for `gemini-4-neon` and `gemini-4-hydrogen` is null for all three; only knowledge (Neon 83.1, Hydrogen 71.6) and math (92.5, 88.7) exist. Consequences:
+   - `fill_mapping` only adds a stem when `_category_values` is non-empty, so `refresh.py` will warn "no BenchLM score" and add no mapping or catalog row for either model. Tiers.toml would then warn "lists ..., which is not in mapping".
+   - The plan's Challenges section says to stop and report, with no interim score and no listing. The brief (Requirement 2) requires both to be listed, and the placeable-row test (score non-null, `score_source` `benchlm`) can never go green. The plan has no path to done.
+   - The documented onboarding route (`references/refresh.md` line 45: hand-written mapping row with `interim_score` when BenchLM has none) is what the plan forbids. Choosing between (a) an operator-supplied interim score for Neon and Hydrogen (then `score_source` is `interim`, and the placeable-row test and the `output_cost`/`has_fast` expectations must change), (b) holding Neon and Hydrogen out of this PR, or (c) another score source, is a policy call for the operator, not a re-plan detail. Operator guidance is required, then `/niko-plan`.
+
+2. Advisory (follows from 1) - The Flash/Neon, Flash/Hydrogen, Opus/Neon, and Sol/Hydrogen tests also depend on Neon and Hydrogen having usable rows. Today they pass vacuously: a missing stem returns the author. Step 3's "all new tests should fail" is wrong for these four; only Carbon, Sol/Neon, Terra/Hydrogen, placeable-row, and fast-Sol/Neon go red. When re-planned, state which tests are expected red.
+
+3. Advisory - Carbon's mean is one category. Live BenchLM shows Carbon reasoning 88.2, agentic and coding null (an older `scores` block shows agentic 81.1 only under `verifiedDisplayCategoryScores`; refresh reads `displayCategoryScores`). Step 2's one-category flag will fire for Carbon. That is review-only, and the plan already forbids acting on it.
+
+4. Advisory - The fast-Sol/Neon test is named `..._without_fast`, but the plan says the suffix follows `has_fast`. Neon is listed by `agent --list-models` with no `-fast` spelling (neon-low/medium/high/xhigh only), so `has_fast` from the listing is false and the expected value is `gemini-4-neon-high` with no suffix. The plan can state that now instead of deferring it until after refresh. Same for Hydrogen (no `-fast` listing).
+
+5. Advisory - Pricing note: Carbon's pricing row is introductory ($10 output) through 2026-11-30, then $20. Output price only breaks next-tier fallback ties, so no test is affected, but a refresh after 2026-12-01 will move Carbon's price.
+
+Passing checks:
+- TDD Plan Encoding: PASS. Unit 1 orders stub tests, red run, then `tiers.toml` and refresh. Unit 2 and 3 are prose/policy and owe no tests. No change-detectors scheduled (the placeable-row test locks catalog schema/data, the same shape as the existing `test_fable_5_and_deepseek_v41_flash_are_never`).
+- Convention compliance: PASS. Source edits are under `rules/` and `tests/`, nothing under `.cursor/`; `ShippedTests` naming matches; no `modelpool.py` change.
+- Dependency impact: PASS. `tiers.toml` is read by refresh only; the other test files use injected data. Existing Argon, Opus, Sol, Fable tests are tier-based. Carbon moving to S does not affect `test_shipped` SPAWNABLE or `test_issue_129` (no Carbon in its reviewer list).
+- Conflict detection: PASS. No duplicate machinery. `select` semantics verified by reading `modelpool.py`: Opus/Carbon picks Carbon (S, different family); Terra/Hydrogen and Sol/Neon pick the Gemini row; Flash cases return the author when Carbon is not enabled.
+- Radical innovation (advisory): add a `tiers.toml`-only placement path for rows without a BenchLM score. Let a stem listed in `tiers.toml` and carrying an operator-set `interim_score` in the mapping be placeable, with a catalog `score_source` of `interim` the picker ignores for ranking inside a tier (ties) and prints a single stderr note. That removes the need to choose between guessing a number and leaving a model the operator already trusts unlisted. Cost: a ranking-semantics change in `modelpool.select`, which this plan deliberately leaves alone. Not recommended inside this PR.
