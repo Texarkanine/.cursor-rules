@@ -109,3 +109,13 @@ Refresh choose-verification-model from current BenchLM scores, place Carbon in S
 * Insights
     - Committed `HEAD` cleanly isolates the gas placements and published-overall scoring rule from the unstaged working-tree edits in `tiers.toml`
 
+## 2026-11-25 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `memory-bank/active/reflection/reflection-google-gas-tiers.md`
+    - Left `productContext.md`, `systemPatterns.md`, and `techContext.md` unchanged
+* Decisions made
+    - The line 19 summary in `refresh.md` stays an advisory. It was not a reflect edit
+* Insights
+    - The blocked preflight file outlived the decision that resolved it. The plan text had to be rewritten before build would run
+
