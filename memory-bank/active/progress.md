@@ -86,3 +86,14 @@ Refresh choose-verification-model from current BenchLM scores, place Carbon in S
 * Insights
     - The prior FAIL (blocking) is resolved: the top-level `displayScore` onboards Neon (91.8) and Hydrogen (78.8) despite null category cells
     - Outlier flags confirmed against the committed catalog: Neon +19.6 above the A median, Hydrogen +12.5 above the B median, Sonnet 5 thinking -11.0 below A
+
+## 2026-11-25 - BUILD - COMPLETE
+
+* Work completed
+    - Confirmed the named tests and `make test`: 131 OK
+    - Reported the three catalog flags. Each `score_source` is `benchlm`. No category unpack. No tier edit
+    - Left the working-tree `tiers.toml` unstaged. It moves the two thinking stems to `never`, moves `cursor-grok-4.6` to B, and adds `cursor-grok-4.7` to A
+* Decisions made
+    - Green tests mean the published-overall rule and the gas tiers stay as committed. No second scorer, no refresh
+* Insights
+    - A refresh on this working tree would write the grok and thinking edits into `catalog.json`. The gas task does not own those edits
