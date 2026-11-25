@@ -1,0 +1,1 @@
+cursor-grok-4.7 is tier A in tiers.toml. agent --list-models does not list it, so refresh leaves it out of mapping and catalog and pick skips that spelling.

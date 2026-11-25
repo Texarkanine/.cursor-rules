@@ -142,6 +142,80 @@ class RefreshTests(unittest.TestCase):
         self.assertEqual(second["models"]["slug"]["score_source"], "benchlm")
         self.assertNotIn("interim", " ".join(warnings))
 
+    def test_published_overall_replaces_the_category_mean(self):
+        """A published overall is the score. Category cells are not averaged in."""
+        bench = _benchlm({"m": {"agentic": 10, "coding": 20, "reasoning": 30}})
+        bench["items"][0]["displayScore"] = 91.8
+        catalog, warnings = build_catalog(
+            bench,
+            "| Model | Output |\n| --- | --- |\n| Row | $5 |\n",
+            _mapping({"slug": {"family": "a", "pricing_name": "Row", "benchlm_slug": "m"}}),
+            _previous({"slug": {"tier": "low"}}),
+        )
+        self.assertEqual(catalog["models"]["slug"]["score"], 91.8)
+        self.assertEqual(catalog["models"]["slug"]["score_source"], "benchlm")
+        self.assertEqual(warnings, [])
+
+    def test_published_overall_is_stored_to_two_decimal_places(self):
+        """82.715 is stored as 82.72."""
+        bench = _benchlm({"m": {"agentic": 1, "coding": 1, "reasoning": 1}})
+        bench["items"][0]["displayScore"] = 82.715
+        catalog, _warnings = build_catalog(
+            bench,
+            "| Model | Output |\n| --- | --- |\n| Row | $5 |\n",
+            _mapping({"slug": {"family": "a", "pricing_name": "Row", "benchlm_slug": "m"}}),
+            _previous({"slug": {"tier": "low"}}),
+        )
+        self.assertEqual(catalog["models"]["slug"]["score"], 82.72)
+
+    def test_null_overall_keeps_the_category_mean(self):
+        """A null published overall leaves the three-category mean in place."""
+        bench = _benchlm({"m": {"agentic": 10, "coding": 20, "reasoning": 30}})
+        bench["items"][0]["displayScore"] = None
+        catalog, _warnings = build_catalog(
+            bench,
+            "| Model | Output |\n| --- | --- |\n| Row | $5 |\n",
+            _mapping({"slug": {"family": "a", "pricing_name": "Row", "benchlm_slug": "m"}}),
+            _previous({"slug": {"tier": "low"}}),
+        )
+        self.assertEqual(catalog["models"]["slug"]["score"], 20)
+        self.assertEqual(catalog["models"]["slug"]["score_source"], "benchlm")
+
+    def test_legacy_nested_display_score_is_not_the_overall(self):
+        """scores.displayScore is the legacy field. The mean still applies."""
+        bench = _benchlm({"m": {"agentic": 10, "coding": 20, "reasoning": 30}})
+        bench["items"][0]["scores"]["displayScore"] = 77
+        catalog, _warnings = build_catalog(
+            bench,
+            "| Model | Output |\n| --- | --- |\n| Row | $5 |\n",
+            _mapping({"slug": {"family": "a", "pricing_name": "Row", "benchlm_slug": "m"}}),
+            _previous({"slug": {"tier": "low"}}),
+        )
+        self.assertEqual(catalog["models"]["slug"]["score"], 20)
+
+    def test_published_overall_beats_interim_when_categories_are_null(self):
+        """An overall with no category cells replaces an interim score."""
+        bench = _benchlm({"m": {"agentic": None, "coding": None, "reasoning": None}})
+        bench["items"][0]["displayScore"] = 78.8
+        catalog, warnings = build_catalog(
+            bench,
+            "| Model | Output |\n| --- | --- |\n| Row | $5 |\n",
+            _mapping(
+                {
+                    "slug": {
+                        "family": "a",
+                        "pricing_name": "Row",
+                        "benchlm_slug": "m",
+                        "interim_score": 7,
+                    }
+                }
+            ),
+            _previous({"slug": {"tier": "low"}}),
+        )
+        self.assertEqual(catalog["models"]["slug"]["score"], 78.8)
+        self.assertEqual(catalog["models"]["slug"]["score_source"], "benchlm")
+        self.assertNotIn("interim", " ".join(warnings))
+
     def test_missing_category_and_interim_warns(self):
         """Neither a category nor an interim score: score stays null."""
         catalog, warnings = build_catalog(
@@ -509,7 +583,7 @@ class FillTests(unittest.TestCase):
         )
 
     def test_unscored_benchlm_item_is_not_a_match(self):
-        """A BenchLM item with no category scores is ignored."""
+        """No category scores and no published overall: the item is ignored."""
         mapping, warnings = _fill(
             [("claude-fable-5-low", "Claude Fable 5 1M Low (NO ZDR)")],
             ["Claude Fable 5"],
@@ -519,6 +593,19 @@ class FillTests(unittest.TestCase):
         self.assertEqual(
             warnings, ["WARNING: unrecognized model claude-fable-5: no BenchLM score"]
         )
+
+    def test_published_overall_without_categories_is_a_match(self):
+        """A published overall with null category cells is a scored BenchLM item."""
+        bench = _benchlm({"gemini-4-neon": _UNSCORED})
+        bench["items"][0]["displayScore"] = 91.8
+        mapping, warnings = fill_mapping(
+            _listing([("gemini-4-neon-high", "Gemini 4 Neon")]),
+            {"models": {}},
+            _pricing(["Gemini 4 Neon"]),
+            bench,
+        )
+        self.assertEqual(warnings, [])
+        self.assertEqual(mapping["models"]["gemini-4-neon"]["benchlm_slug"], "gemini-4-neon")
 
     def test_ambiguous_benchlm_match_is_not_added(self):
         """Two scored slugs with the same words: no row, a warning naming the stem."""

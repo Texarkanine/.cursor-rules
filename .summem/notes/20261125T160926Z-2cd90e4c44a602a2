@@ -1,0 +1,1 @@
+Catalog score is the BenchLM published overall (top-level displayScore). The agentic/coding/reasoning mean is used only when that overall is missing. scores.displayScore is legacy and unread.

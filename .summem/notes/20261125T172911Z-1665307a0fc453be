@@ -1,0 +1,1 @@
+Niko build keeps the first line of memory-bank/active/.preflight-status until a new preflight overwrites it. Rewriting the plan leaves FAIL (blocking) in force.

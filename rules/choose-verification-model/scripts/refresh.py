@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Catalog refresh: BenchLM category means and Cursor output prices."""
+"""Catalog refresh: BenchLM published overalls and Cursor output prices."""
 
 import argparse
 import json

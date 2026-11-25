@@ -8,18 +8,16 @@
 
 S = [
   "claude-fable-5-1-thinking",
-  "claude-fable-5-2",
   "claude-opus-5-5",
+  "gemini-4-carbon",
 ]
 
 A = [
-  "claude-opus-5-thinking",
   "claude-sonnet-5-5",
-  "claude-sonnet-5-thinking",
-  "cursor-grok-4.6",
+  "cursor-grok-4.7",
   "gemini-3.8-flash",
   "gemini-4-argon",
-  "gemini-4-carbon",
+  "gemini-4-neon",
   "gpt-5.6-sol",
   "grok-4.7",
   "kimi-k3",
@@ -28,8 +26,7 @@ A = [
 ]
 
 B = [
-  "cursor-grok-4.5",
-  "gemini-3.7-flash",
+  "gemini-4-hydrogen",
   "gpt-5.6-terra",
 ]
 
@@ -41,6 +38,7 @@ C = [
 ]
 
 never = [
+  "claude-sonnet-5-thinking",
   "claude-opus-4-8-thinking",
   "claude-4-sonnet",
   "claude-4-sonnet-thinking",
@@ -52,16 +50,24 @@ never = [
   "claude-4.6-opus-thinking",
   "claude-4.6-sonnet",
   "claude-4.6-sonnet-thinking",
+  "claude-fable-5",
+  "claude-fable-5-thinking",
   "claude-fable-5-1",
+  "claude-fable-5-2",
   "claude-opus-4-7",
   "claude-opus-4-7-thinking",
   "claude-opus-4-8",
   "claude-opus-5",
+  "claude-opus-5-thinking",
   "claude-sonnet-5",
+  "cursor-grok-4.6",
+  "cursor-grok-4.5",
   "gemini-3-flash",
   "gemini-3.1-pro",
   "gemini-3.5-flash",
   "gemini-3.6-flash",
+  "gemini-3.7-flash",
+  "deepseek-v41-flash-1017",
   "glm-5.2",
   "gpt-5-mini",
   "gpt-5.2",

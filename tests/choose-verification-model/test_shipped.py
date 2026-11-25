@@ -9,6 +9,7 @@ import os
 import random
 import sys
 import tempfile
+import tomllib
 import unittest
 from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
@@ -94,8 +95,18 @@ class ShippedTests(unittest.TestCase):
             entry = catalog["models"][model_key(slug)]
             self.assertIsNotNone(entry["score"])
 
-    def test_fast_sol_author_prints_cursor_grok_4_6_fast(self):
-        """A fast Sol author prints this row with -fast."""
+    def test_catalog_tiers_match_tiers_toml(self):
+        """A catalog tier is the hand-set tier. Pick reads the catalog."""
+        assigned = {}
+        document = tomllib.loads((ASSETS / "tiers.toml").read_text(encoding="utf-8"))
+        for tier, slugs in document.items():
+            for slug in slugs:
+                assigned[model_key(slug)] = tier
+        for stem, entry in _load("catalog.json")["models"].items():
+            self.assertEqual(entry["tier"], assigned[stem])
+
+    def test_fast_sol_author_does_not_select_never_cursor_grok_4_6(self):
+        """A never row is not a reviewer, so a fast Sol author is printed back."""
         slug = select(
             _load("catalog.json"),
             _load("mapping.json"),
@@ -103,10 +114,10 @@ class ShippedTests(unittest.TestCase):
             ["gpt-5.6-sol-medium", "cursor-grok-4.6-xhigh"],
             random.Random(0),
         )
-        self.assertEqual(slug, "cursor-grok-4.6-xhigh-fast")
+        self.assertEqual(slug, "gpt-5.6-sol-medium-fast")
 
-    def test_sol_author_prints_cursor_grok_4_6_without_fast(self):
-        """A non-fast Sol author prints this row without -fast."""
+    def test_sol_author_does_not_select_never_cursor_grok_4_6(self):
+        """A never row is not a reviewer, so Sol is printed back."""
         slug = select(
             _load("catalog.json"),
             _load("mapping.json"),
@@ -114,7 +125,7 @@ class ShippedTests(unittest.TestCase):
             ["gpt-5.6-sol-medium", "cursor-grok-4.6-xhigh"],
             random.Random(0),
         )
-        self.assertEqual(slug, "cursor-grok-4.6-xhigh")
+        self.assertEqual(slug, "gpt-5.6-sol-medium")
 
     def test_opus_author_does_not_select_cursor_grok_4_6(self):
         """Opus stays Opus, so this row is not tier S."""
@@ -141,9 +152,8 @@ class ShippedTests(unittest.TestCase):
     def test_issue_129_command_exits_0_and_leaves_the_catalog(self):
         """An effort-variant argv exits 0 and does not rewrite the catalog.
 
-        The author is the fast half of cursor-grok-4.6. The reviewer
-        effort is the one on the Opus candidate. Numeric scores are
-        not locked.
+        The author is the fast half of grok-4.7. The reviewer effort is
+        the one on the Opus candidate. Numeric scores are not locked.
         """
         path = ASSETS / "catalog.json"
         before = path.read_bytes()
@@ -157,7 +167,7 @@ class ShippedTests(unittest.TestCase):
                     code = main(
                         [
                             "--model",
-                            "cursor-grok-4.6-xhigh-fast",
+                            "grok-4.7-high-fast",
                             "--reviewer-models",
                             "claude-opus-5-5-high,gpt-5.6-terra-medium,grok-4.7-xhigh",
                             "--seed",
@@ -327,3 +337,139 @@ class ShippedTests(unittest.TestCase):
             random.Random(0),
         )
         self.assertEqual(slug, "claude-haiku-5-5-thinking-low")
+
+    def test_grok_4_6_does_not_select_claude_fable_5_2(self):
+        """A never author is printed back, and Fable 5.2 is never."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "cursor-grok-4.6-xhigh",
+            ["cursor-grok-4.6-xhigh", "claude-fable-5-2-high"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "cursor-grok-4.6-xhigh")
+
+    def test_fable_5_and_deepseek_v41_flash_are_never(self):
+        """Fable 5, its thinking stem, and DeepSeek V4.1 Flash are filed and not reviewers.
+
+        Each row has a BenchLM category score. The tier is never.
+        """
+        catalog = _load("catalog.json")
+        mapping = _load("mapping.json")
+        for stem in (
+            "claude-fable-5",
+            "claude-fable-5-thinking",
+            "deepseek-v41-flash-1017",
+        ):
+            self.assertIn(stem, mapping["models"])
+            entry = catalog["models"][stem]
+            self.assertEqual(entry["tier"], "never")
+            self.assertIsNotNone(entry["score"])
+            self.assertEqual(entry["score_source"], "benchlm")
+
+    def test_opus_author_prints_gemini_4_carbon(self):
+        """Opus prints Carbon, so this row is tier S."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "claude-opus-5-5-medium",
+            ["claude-opus-5-5-medium", "gemini-4-carbon-low"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "gemini-4-carbon-low")
+
+    def test_sol_author_prints_gemini_4_neon(self):
+        """A Sol author prints Neon, so this row is tier A."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "gpt-5.6-sol-medium",
+            ["gpt-5.6-sol-medium", "gemini-4-neon-high"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "gemini-4-neon-high")
+
+    def test_opus_author_does_not_select_gemini_4_neon(self):
+        """Opus stays Opus, so Neon is not tier S."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "claude-opus-5-5-medium",
+            ["claude-opus-5-5-medium", "gemini-4-neon-high"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "claude-opus-5-5-medium")
+
+    def test_terra_author_prints_gemini_4_hydrogen(self):
+        """Terra prints Hydrogen, so this row is tier B or A."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "gpt-5.6-terra-medium",
+            ["gpt-5.6-terra-medium", "gemini-4-hydrogen-high"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "gemini-4-hydrogen-high")
+
+    def test_sol_author_does_not_select_gemini_4_hydrogen(self):
+        """Sol stays Sol, so Hydrogen is not tier A or S."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "gpt-5.6-sol-medium",
+            ["gpt-5.6-sol-medium", "gemini-4-hydrogen-high"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "gpt-5.6-sol-medium")
+
+    def test_gemini_3_8_flash_does_not_select_gemini_4_neon(self):
+        """Two Gemini rows do not review each other."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "gemini-3.8-flash-high",
+            ["gemini-3.8-flash-high", "gemini-4-neon-high"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "gemini-3.8-flash-high")
+
+    def test_gemini_3_8_flash_does_not_select_gemini_4_hydrogen(self):
+        """Two Gemini rows do not review each other."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "gemini-3.8-flash-high",
+            ["gemini-3.8-flash-high", "gemini-4-hydrogen-high"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "gemini-3.8-flash-high")
+
+    def test_gas_rows_are_placeable(self):
+        """Carbon is S, Neon and Argon are A, and Hydrogen is B.
+
+        Each row has a BenchLM score, so that author does not exit 2.
+        The numeric score is not locked.
+        """
+        catalog = _load("catalog.json")
+        expected = {
+            "gemini-4-carbon": "S",
+            "gemini-4-neon": "A",
+            "gemini-4-argon": "A",
+            "gemini-4-hydrogen": "B",
+        }
+        for stem, tier in expected.items():
+            entry = catalog["models"][stem]
+            self.assertEqual(entry["tier"], tier)
+            self.assertIsNotNone(entry["score"])
+            self.assertEqual(entry["score_source"], "benchlm")
+
+    def test_fast_sol_author_prints_gemini_4_neon_without_fast(self):
+        """A fast Sol author prints Neon without -fast."""
+        slug = select(
+            _load("catalog.json"),
+            _load("mapping.json"),
+            "gpt-5.6-sol-medium-fast",
+            ["gpt-5.6-sol-medium", "gemini-4-neon-high"],
+            random.Random(0),
+        )
+        self.assertEqual(slug, "gemini-4-neon-high")
