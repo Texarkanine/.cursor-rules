@@ -1,6 +1,6 @@
 # Active Context
 
 - **Current Task:** Place the Gemini 4 gas models and refresh BenchLM scores
-- **Phase:** PLAN - IN PROGRESS
-- **What Was Done:** Build stopped because `.preflight-status` was still `FAIL (blocking)` on the category-mean plan. The brief, `build_catalog`, the shipped tests, and PR 141 already use the published overall.
-- **Next Step:** Revise `tasks.md` so it states that score rule, then preflight.
+- **Phase:** PLAN - COMPLETE
+- **What Was Done:** Revised `tasks.md` so the plan matches the published-overall rule already in the brief, `build_catalog`, the tests, and PR 141. Gas tiers stay Carbon S, Neon A, Hydrogen B, Argon A. A null category cell is not a stop. The unstaged thinking-stem edit stays out of the task.
+- **Next Step:** Preflight this plan.
