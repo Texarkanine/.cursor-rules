@@ -53,3 +53,12 @@ Refresh choose-verification-model from current BenchLM scores, place Carbon in S
     - The one-rank window stays as it is. It steps by distinct score among enabled models, not by points
 * Insights
     - Neon 91.8, Hydrogen 78.8, and Sonnet 5 thinking 61.2 sit 8 or more points from their tier medians. No tier was moved for that
+
+## 2026-11-25 - BUILD - STOPPED
+
+* Work completed
+    - Stopped at the Level 2 build gate. The first line of `.preflight-status` was still `FAIL (blocking)` from the category-mean plan
+* Decisions made
+    - The operator invoked `/niko-plan`. The published-overall rule in the brief is the guidance for the replan
+* Insights
+    - The gas tiers, `build_catalog`, the shipped tests, and the PR 141 body already follow that rule. `tasks.md` still told the build to refresh from category means
