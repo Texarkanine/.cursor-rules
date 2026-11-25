@@ -1,6 +1,6 @@
 # Active Context
 
 - **Current Task:** Place the Gemini 4 gas models and refresh BenchLM scores
-- **Phase:** COMPLEXITY-ANALYSIS - COMPLETE
-- **What Was Done:** Classified as Level 2. This updates one subsystem, choose-verification-model. The operator already chose the four gas tiers. Draft PR 141 is the vehicle; Hydrogen and Neon were left unlisted on 2026-11-19.
-- **Next Step:** Load the Level 2 workflow and run the plan phase.
+- **Phase:** PLAN - COMPLETE
+- **What Was Done:** Level 2 plan for task `google-gas-tiers`. Tests in `test_shipped.py` prove Carbon is S, Neon is A, and Hydrogen is B by two-candidate `select` results. Refresh from `rules/choose-verification-model` writes the catalog. A null BenchLM category score stops the listing. Score flags use an 8-point gap from the tier median, plus one-category means, and do not change tiers. PR 141's Hold section is replaced and the branch is pushed; the PR stays draft.
+- **Next Step:** Run Level 2 preflight in a subagent.
