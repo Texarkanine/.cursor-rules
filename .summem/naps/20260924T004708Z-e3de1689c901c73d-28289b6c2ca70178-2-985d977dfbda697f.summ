@@ -1,1 +1,0 @@
-BenchLM slugs use dashes; Cursor stems use dots, cursor- prefixes, and -thinking. Match by word sets. Tiers are hand-set trust, not score order (kimi-k3 A above opus S). New models get a hand tier; do not derive a tier from score neighbors.
